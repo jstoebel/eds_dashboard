@@ -1,0 +1,38 @@
+<% @page_title = "Students" %>
+
+
+
+<div class="students index">
+  <h2>Students</h2>
+
+  <div> <%= pluralize(@students.size, 'student') %>  found </div>
+
+  <table class="listing" summary="Student list">
+    <tr class="header">
+      <th>Bnum</th>
+      <th>First Name</th>
+      <th>Middle Name</th>
+      <th>Last Name</th>
+      <th>Program Status</th>
+    </tr>
+    <% @students.each do |student| %>
+    <tr class "<%= cycle('odd', 'even') %>">
+	  <td><%= student.Bnum %></td>
+	  <td><%= student.FirstName %></td>
+	  <td><%= student.MiddleName %></td>
+	  <td><%= student.LastName %></td>
+	  <td><%= student.ProgStatus %></td>	  
+
+
+	  <!-- action buttons to do more with an individual student:
+	  		see praxis scores
+	  		file an issue
+	  		see documents
+	  		key assessments
+	  		what else? -->
+
+      </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
