@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715133214) do
+ActiveRecord::Schema.define(version: 20150716145436) do
 
   create_table "adm_st", primary_key: "AppID", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,  null: false
