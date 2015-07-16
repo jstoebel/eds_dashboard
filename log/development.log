@@ -122,3 +122,108 @@ Started GET "/" for 127.0.0.1 at 2015-06-25 17:24:27 -0400
 Processing by Rails::WelcomeController#index as HTML
   Rendered /home/stoebelj/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/railties-4.1.10/lib/rails/templates/rails/welcome/index.html.erb (3.3ms)
 Completed 200 OK in 44ms (Views: 17.7ms | ActiveRecord: 0.0ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mStudent Load (0.7ms)[0m  [1mSELECT `students`.* FROM `students`[0m
+Mysql2::Error: Table 'eds.students' doesn't exist: SELECT `students`.* FROM `students`
+
+
+Started GET "/" for 127.0.0.1 at 2015-07-16 10:26:22 -0400
+
+ActiveRecord::PendingMigrationError (
+
+Migrations are pending. To resolve this issue, run:
+
+	bin/rake db:migrate RAILS_ENV=development
+
+):
+  activerecord (4.1.10) lib/active_record/migration.rb:389:in `check_pending!'
+  activerecord (4.1.10) lib/active_record/migration.rb:377:in `call'
+  actionpack (4.1.10) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.1.10) lib/active_support/callbacks.rb:82:in `run_callbacks'
+  actionpack (4.1.10) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.1.10) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.1.10) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.1.10) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.1.10) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.10) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.10) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.10) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.10) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.10) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.10) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.10) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.5) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.5) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.10) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.5) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.10) lib/action_dispatch/middleware/static.rb:84:in `call'
+  rack (1.5.5) lib/rack/sendfile.rb:112:in `call'
+  railties (4.1.10) lib/rails/engine.rb:514:in `call'
+  railties (4.1.10) lib/rails/application.rb:144:in `call'
+  rack (1.5.5) lib/rack/lock.rb:17:in `call'
+  rack (1.5.5) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.5) lib/rack/handler/webrick.rb:60:in `service'
+  /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (35.7ms)
+  [1m[36m (236.3ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (290.0ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations`  ON `schema_migrations` (`version`) 
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateStudents (20150715133214)
+  [1m[35m (0.8ms)[0m  CREATE TABLE `students` (`id` int(11) auto_increment PRIMARY KEY, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+Mysql2::Error: Table 'students' already exists: CREATE TABLE `students` (`id` int(11) auto_increment PRIMARY KEY, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateStudents (20150715133214)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20150715133214')[0m
+  [1m[35m (111.5ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+
+
+Started GET "/" for 127.0.0.1 at 2015-07-16 10:30:11 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/railties-4.1.10/lib/rails/templates/rails/welcome/index.html.erb (1.3ms)
+Completed 200 OK in 52ms (Views: 30.5ms | ActiveRecord: 0.0ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mStudent Load (3.1ms)[0m  [1mSELECT `students`.* FROM `students`[0m
+  [1m[35m (29.9ms)[0m  SELECT COUNT(*) FROM `students`
+  [1m[36mProgram Load (0.3ms)[0m  [1mSELECT `programs`.* FROM `programs`[0m
+  [1m[36mBannerUpdate Load (0.4ms)[0m  [1mSELECT `banner_updates`.* FROM `banner_updates`[0m
+  [1m[36mPraxisPrep Load (1.3ms)[0m  [1mSELECT `praxis_prep`.* FROM `praxis_prep`[0m
+  [1m[35m (0.6ms)[0m  SELECT COUNT(*) FROM `praxis_prep`
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT `users`.* FROM `users`[0m
+  [1m[36mTepAdvisor Load (0.5ms)[0m  [1mSELECT `tep_advisors`.* FROM `tep_advisors`[0m
+  [1m[36mTEPAdvisor Load (0.2ms)[0m  [1mSELECT `tep_advisors`.* FROM `tep_advisors`[0m
+  [1m[36mPraxisPrep Load (0.3ms)[0m  [1mSELECT `praxis_prep`.* FROM `praxis_prep`[0m
+  [1m[35mPraxisUpdate Load (0.6ms)[0m  SELECT `praxis_updates`.* FROM `praxis_updates`
+  [1m[36mPraxisTest Load (1.2ms)[0m  [1mSELECT `praxis_tests`.* FROM `praxis_tests`[0m
+  [1m[35mPraxisSubtestResult Load (20.4ms)[0m  SELECT `praxis_subtest_results`.* FROM `praxis_subtest_results`
+  [1m[36mPraxisResult Load (5.4ms)[0m  [1mSELECT `praxis_results`.* FROM `praxis_results`[0m
+  [1m[35mProgram Load (0.4ms)[0m  SELECT `programs`.* FROM `programs`
+  [1m[36mBannerUpdate Load (0.4ms)[0m  [1mSELECT `banner_updates`.* FROM `banner_updates`[0m
+  [1m[35mStudent Load (0.5ms)[0m  SELECT `students`.* FROM `students`
+  [1m[36mBannerTerm Load (1.5ms)[0m  [1mSELECT `banner_terms`.* FROM `banner_terms`[0m
+  [1m[36mStudent Load (0.4ms)[0m  [1mSELECT `students`.* FROM `students`[0m
+  [1m[36mExitCode Load (0.6ms)[0m  [1mSELECT `exit_codes`.* FROM `exit_codes`[0m
+  [1m[36mStudent Load (0.2ms)[0m  [1mSELECT `students`.* FROM `students`[0m
+  [1m[36mFOI Load (0.6ms)[0m  [1mSELECT `forms_of_intention`.* FROM `forms_of_intention`[0m
+  [1m[36mFOI Load (0.1ms)[0m  [1mSELECT `forms_of_intention`.* FROM `forms_of_intention`[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT `users`.* FROM `users`
+  [1m[36mTEPAdvisor Load (0.3ms)[0m  [1mSELECT `tep_advisors`.* FROM `tep_advisors`[0m
+  [1m[35mClinicalAssignment Load (0.7ms)[0m  SELECT `clinical_assignments`.* FROM `clinical_assignments`
+  [1m[36mClinicalTeacher Load (0.6ms)[0m  [1mSELECT `clinical_teachers`.* FROM `clinical_teachers`[0m
+  [1m[35mClinicalSite Load (0.6ms)[0m  SELECT `clinical_sites`.* FROM `clinical_sites`
+  [1m[36mAdmST Load (0.9ms)[0m  [1mSELECT `adm_st`.* FROM `adm_st`[0m
+  [1m[35mAdmST Load (0.5ms)[0m  SELECT `adm_st`.* FROM `adm_st`
+  [1m[36m (1.0ms)[0m  [1mSELECT COUNT(*) FROM `adm_st`[0m
+  [1m[35mExitCode Load (0.3ms)[0m  SELECT `exit_codes`.* FROM `exit_codes`
+  [1m[36mEmployment Load (0.6ms)[0m  [1mSELECT `employment`.* FROM `employment`[0m
+  [1m[35mAlumniInfo Load (0.6ms)[0m  SELECT `alumni_info`.* FROM `alumni_info`
+  [1m[36mProgExit Load (1.6ms)[0m  [1mSELECT `prog_exits`.* FROM `prog_exits`[0m
