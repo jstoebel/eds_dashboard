@@ -1,5 +1,5 @@
 class PraxisResult < ActiveRecord::Base
 
 	belongs_to :student
-	hsa_many :praxis_subtest_result
+	has_many :praxis_subtest_results, {:foreign_key => 'praxis_results_TestID'}
 end

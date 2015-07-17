@@ -6098,3 +6098,541 @@ Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-07-17 13:39:5
   [1m[36mStudent Load (0.5ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1[0m
   [1m[35mStudent Load (0.5ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1
   [1m[36mStudent Load (0.4ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1[0m
+
+
+Started GET "/students" for 127.0.0.1 at 2015-07-17 14:38:48 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by StudentsController#index as HTML
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')
+  [1m[36mStudent Load (0.4ms)[0m  [1mSELECT `students`.* FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')  ORDER BY `students`.`LastName` ASC[0m
+  Rendered students/index.html.erb within layouts/application (62.8ms)
+Completed 500 Internal Server Error in 111ms (ActiveRecord: 5.8ms)
+
+ActionView::Template::Error (undefined method `hsa_many' for #<Class:0x007ff934f53a68>):
+    24: 	  <td><%= student.ProgStatus %></td>
+    25:     <td class="actions">
+    26:         <%= link_to("Details", {:action => 'show', :id=> student.Bnum}, :class => 'action show') %>
+    27:         <% if student.praxis_results.size > 0%>
+    28:         <%= link_to("Praxis History", {:action => 'show_praxis', :id=> student.Bnum}, :class => 'action show_praxis') %>   	  
+    29:         <% end %>
+    30: 
+  app/models/praxis_result.rb:4:in `<class:PraxisResult>'
+  app/models/praxis_result.rb:1:in `<top (required)>'
+  app/views/students/index.html.erb:27:in `block in _app_views_students_index_html_erb__1116096728636055412_70354157443040'
+  app/views/students/index.html.erb:18:in `_app_views_students_index_html_erb__1116096728636055412_70354157443040'
+
+
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.1ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.7ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (27.0ms)
+
+
+Started GET "/students" for 127.0.0.1 at 2015-07-17 14:49:29 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by StudentsController#index as HTML
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')
+  [1m[36mStudent Load (0.2ms)[0m  [1mSELECT `students`.* FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')  ORDER BY `students`.`LastName` ASC[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651430'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681229'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00696325'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654694'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669960'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678390'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681503'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661696'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00648171'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00567641'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680513'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654365'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682903'
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653957'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684665'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00648534'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00685339'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00637081'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651257'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660597'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00601808'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652987'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680747'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682295'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00657024'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653851'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683448'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683004'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672541'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652842'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677397'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651431'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00657707'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682141'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654360'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661452'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00662967'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684977'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669568'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678351'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00627020'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00671555'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683114'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682559'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00625235'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680512'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653945'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682727'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00639961'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00685124'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681213'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660893'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681170'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00679958'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00692036'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680007'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681517'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00679950'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660549'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660510'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670771'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677605'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00634197'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678573'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00668190'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680861'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682393'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660780'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672617'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681222'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681745'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00609674'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680478'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655337'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655999'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653174'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684816'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677695'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682208'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00671130'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00663640'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00673957'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00668337'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00673552'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672758'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672337'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651609'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655492'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680702'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670474'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680546'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00659025'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660005'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661668'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660712'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678371'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00658671'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00697981'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653676'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672011'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680436'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652248'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682062'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672193'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681506'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669283'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00690431'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660099'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652038'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682259'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670327'
+  Rendered students/index.html.erb within layouts/application (290.8ms)
+Completed 200 OK in 539ms (Views: 426.7ms | ActiveRecord: 60.9ms)
+
+
+Started GET "/assets/public.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:31 -0400
+
+
+Started GET "/assets/students.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:31 -0400
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:32 -0400
+
+
+Started GET "/students/B00651430" for 127.0.0.1 at 2015-07-17 14:49:38 -0400
+Processing by StudentsController#show as HTML
+  Parameters: {"id"=>"B00651430"}
+  [1m[36mStudent Load (0.1ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1[0m
+  Rendered students/show.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 27ms (Views: 23.8ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/assets/public.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:38 -0400
+
+
+Started GET "/assets/students.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:38 -0400
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:38 -0400
+
+
+Started GET "/students" for 127.0.0.1 at 2015-07-17 14:49:39 -0400
+Processing by StudentsController#index as HTML
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')
+  [1m[36mStudent Load (0.2ms)[0m  [1mSELECT `students`.* FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')  ORDER BY `students`.`LastName` ASC[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651430'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681229'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00696325'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654694'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669960'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678390'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681503'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661696'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00648171'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00567641'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680513'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654365'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682903'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653957'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684665'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00648534'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00685339'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00637081'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651257'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660597'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00601808'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652987'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680747'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682295'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00657024'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653851'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683448'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683004'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672541'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652842'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677397'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651431'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00657707'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682141'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654360'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661452'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00662967'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684977'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669568'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678351'[0m
+  [1m[35m (0.4ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00627020'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00671555'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683114'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682559'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00625235'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680512'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653945'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682727'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00639961'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00685124'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681213'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660893'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681170'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00679958'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00692036'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680007'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681517'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00679950'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660549'
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660510'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670771'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677605'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00634197'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678573'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00668190'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680861'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682393'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660780'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672617'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681222'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681745'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00609674'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680478'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655337'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655999'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653174'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684816'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677695'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682208'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00671130'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00663640'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00673957'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00668337'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00673552'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672758'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672337'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651609'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655492'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680702'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670474'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680546'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00659025'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660005'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661668'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660712'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678371'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00658671'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00697981'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653676'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672011'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680436'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652248'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682062'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672193'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681506'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669283'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00690431'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660099'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652038'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682259'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670327'
+  Rendered students/index.html.erb within layouts/application (178.4ms)
+Completed 200 OK in 193ms (Views: 180.0ms | ActiveRecord: 12.6ms)
+
+
+Started GET "/assets/public.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:39 -0400
+
+
+Started GET "/assets/students.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:39 -0400
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-07-17 14:49:39 -0400
+
+
+Started GET "/students/B00651430/show_praxis" for 127.0.0.1 at 2015-07-17 14:49:41 -0400
+Processing by StudentsController#show_praxis as HTML
+  Parameters: {"id"=>"B00651430"}
+  [1m[36mStudent Load (0.2ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1[0m
+  Rendered students/show_praxis.html.erb within layouts/application (1.7ms)
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.2ms)
+
+SyntaxError (/home/stoebelj/Sites/eds_dashboard/app/views/students/show_praxis.html.erb:32: syntax error, unexpected '<'
+          </table>
+           ^
+/home/stoebelj/Sites/eds_dashboard/app/views/students/show_praxis.html.erb:33: unknown regexp options - td
+/home/stoebelj/Sites/eds_dashboard/app/views/students/show_praxis.html.erb:34: syntax error, unexpected '<'
+    <% end );@output_buffer.safe_append='
+     ^
+/home/stoebelj/Sites/eds_dashboard/app/views/students/show_praxis.html.erb:38: syntax error, unexpected keyword_ensure, expecting keyword_end
+/home/stoebelj/Sites/eds_dashboard/app/views/students/show_praxis.html.erb:40: syntax error, unexpected end-of-input, expecting keyword_end):
+  app/views/students/show_praxis.html.erb:32: syntax error, unexpected '<'
+  app/views/students/show_praxis.html.erb:33: unknown regexp options - td
+  app/views/students/show_praxis.html.erb:34: syntax error, unexpected '<'
+  app/views/students/show_praxis.html.erb:38: syntax error, unexpected keyword_ensure, expecting keyword_end
+  app/views/students/show_praxis.html.erb:40: syntax error, unexpected end-of-input, expecting keyword_end
+
+
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.8ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.6ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.1ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (37.7ms)
+
+
+Started GET "/students" for 127.0.0.1 at 2015-07-17 14:51:29 -0400
+Processing by StudentsController#index as HTML
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')
+  [1m[36mStudent Load (0.1ms)[0m  [1mSELECT `students`.* FROM `students`  WHERE (ProgStatus in ('Candidate','Prospective') and EnrollmentStatus='Active Student')  ORDER BY `students`.`LastName` ASC[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651430'
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681229'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00696325'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654694'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669960'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678390'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681503'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661696'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00648171'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00567641'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680513'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654365'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682903'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653957'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684665'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00648534'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00685339'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00637081'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651257'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660597'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00601808'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652987'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680747'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682295'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00657024'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653851'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683448'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683004'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672541'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652842'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677397'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651431'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00657707'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682141'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00654360'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661452'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00662967'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684977'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669568'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678351'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00627020'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00671555'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00683114'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682559'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00625235'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680512'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653945'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682727'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00639961'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00685124'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681213'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660893'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681170'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00679958'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00692036'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680007'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681517'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00679950'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660549'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660510'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670771'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677605'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00634197'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678573'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00668190'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680861'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682393'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660780'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672617'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681222'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681745'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00609674'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680478'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655337'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655999'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653174'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00684816'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00677695'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682208'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00671130'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00663640'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00673957'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00668337'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00673552'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672758'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672337'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651609'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00655492'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680702'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670474'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680546'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00659025'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660005'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00661668'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660712'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00678371'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00658671'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00697981'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653676'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672011'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00680436'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652248'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682062'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00672193'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00681506'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00669283'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00690431'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00660099'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00652038'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00682259'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00670327'
+  Rendered students/index.html.erb within layouts/application (197.7ms)
+Completed 200 OK in 215ms (Views: 199.4ms | ActiveRecord: 14.6ms)
+
+
+Started GET "/assets/public.css?body=1" for 127.0.0.1 at 2015-07-17 14:51:29 -0400
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-07-17 14:51:29 -0400
+
+
+Started GET "/assets/students.css?body=1" for 127.0.0.1 at 2015-07-17 14:51:29 -0400
+
+
+Started GET "/students/B00651430/show_praxis" for 127.0.0.1 at 2015-07-17 14:51:30 -0400
+Processing by StudentsController#show_praxis as HTML
+  Parameters: {"id"=>"B00651430"}
+  [1m[36mStudent Load (0.2ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1[0m
+  Rendered students/show_praxis.html.erb within layouts/application (1.6ms)
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.2ms)
+
+SyntaxError (/home/stoebelj/Sites/eds_dashboard/app/views/students/show_praxis.html.erb:40: syntax error, unexpected keyword_ensure, expecting keyword_end
+/home/stoebelj/Sites/eds_dashboard/app/views/students/show_praxis.html.erb:42: syntax error, unexpected end-of-input, expecting keyword_end):
+  app/views/students/show_praxis.html.erb:40: syntax error, unexpected keyword_ensure, expecting keyword_end
+  app/views/students/show_praxis.html.erb:42: syntax error, unexpected end-of-input, expecting keyword_end
+
+
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.1ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.6ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.1ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (17.9ms)
+
+
+Started GET "/students/B00651430/show_praxis" for 127.0.0.1 at 2015-07-17 14:52:13 -0400
+Processing by StudentsController#show_praxis as HTML
+  Parameters: {"id"=>"B00651430"}
+  [1m[35mStudent Load (0.1ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651430'[0m
+  [1m[35mPraxisResult Load (0.2ms)[0m  SELECT `praxis_results`.* FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651430'
+  Rendered students/show_praxis.html.erb within layouts/application (18.6ms)
+Completed 500 Internal Server Error in 22ms (ActiveRecord: 0.6ms)
+
+ActionView::Template::Error (undefined method `praxis_subtest_results' for #<PraxisResult:0x007f4ba0a733f0>):
+    28:         <td>
+    29:           <!-- table for subtests -->
+    30:           <table>
+    31:             <%=result.praxis_subtest_results.each do |sub| %>
+    32: 
+    33:           <% end %>            
+    34:           </table>
+  app/views/students/show_praxis.html.erb:31:in `block in _app_views_students_show_praxis_html_erb___4016998879094598692_69981397608540'
+  app/views/students/show_praxis.html.erb:16:in `_app_views_students_show_praxis_html_erb___4016998879094598692_69981397608540'
+
+
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.9ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.4ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (18.3ms)
+
+
+Started GET "/students/B00651430/show_praxis" for 127.0.0.1 at 2015-07-17 14:53:58 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by StudentsController#show_praxis as HTML
+  Parameters: {"id"=>"B00651430"}
+  [1m[35mStudent Load (0.1ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00651430' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651430'[0m
+  [1m[35mPraxisResult Load (0.1ms)[0m  SELECT `praxis_results`.* FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00651430'
+  Rendered students/show_praxis.html.erb within layouts/application (26.5ms)
+Completed 500 Internal Server Error in 58ms (ActiveRecord: 3.1ms)
+
+ActionView::Template::Error (undefined method `praxis_subtest_results' for #<PraxisResult:0x007fa05b53eaa0>):
+    28:         <td>
+    29:           <!-- table for subtests -->
+    30:           <table>
+    31:             <%=result.praxis_subtest_results.each do |sub| %>
+    32: 
+    33:           <% end %>            
+    34:           </table>
+  app/views/students/show_praxis.html.erb:31:in `block in _app_views_students_show_praxis_html_erb__2557170798830422888_70163352679660'
+  app/views/students/show_praxis.html.erb:16:in `_app_views_students_show_praxis_html_erb__2557170798830422888_70163352679660'
+
+
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.3ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.1ms)
+  Rendered /home/stoebelj/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/actionpack-4.1.10/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (10.4ms)
+  [1m[36mStudent Load (0.5ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (27.9ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00653945' LIMIT 1
+  [1m[36mPraxisResult Load (22.0ms)[0m  [1mSELECT `praxis_results`.* FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653945'[0m
+  [1m[36mStudent Load (0.3ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'B00653945' LIMIT 1[0m
+  [1m[35mPraxisResult Load (0.3ms)[0m  SELECT `praxis_results`.* FROM `praxis_results`  WHERE `praxis_results`.`Bnum` = 'B00653945'
+  [1m[36mPraxisSubtestResult Load (0.7ms)[0m  [1mSELECT `praxis_subtest_results`.* FROM `praxis_subtest_results`  WHERE `praxis_subtest_results`.`praxis_results_TestID` = 'B00653945-5039-3/20/2015'[0m
+  [1m[35mPraxisSubtestResult Load (0.5ms)[0m  SELECT  `praxis_subtest_results`.* FROM `praxis_subtest_results`  WHERE `praxis_subtest_results`.`SubTestID` = 'B00653945-5039-3/20/2015' LIMIT 1
+  [1m[36mPraxisSubtestResult Load (0.4ms)[0m  [1mSELECT `praxis_subtest_results`.* FROM `praxis_subtest_results`  WHERE `praxis_subtest_results`.`praxis_results_TestID` = 'B00653945-5039-3/20/2015'[0m
