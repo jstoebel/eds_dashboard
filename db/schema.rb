@@ -217,15 +217,23 @@ ActiveRecord::Schema.define(version: 20150716145436) do
   end
 
   create_table "students", primary_key: "Bnum", force: true do |t|
-    t.string "FirstName",      limit: 45,                         null: false
-    t.string "PreferredFirst", limit: 45
-    t.string "MiddleName",     limit: 45
-    t.string "LastName",       limit: 45,                         null: false
-    t.string "PrevLast",       limit: 45
-    t.string "ProgStatus",     limit: 45, default: "Prospective"
-    t.string "PraxisICohort",  limit: 45
-    t.string "PraxisIICohort", limit: 45
-    t.string "CellPhone",      limit: 45
+    t.string  "FirstName",        limit: 45,                          null: false
+    t.string  "PreferredFirst",   limit: 45
+    t.string  "MiddleName",       limit: 45
+    t.string  "LastName",         limit: 45,                          null: false
+    t.string  "PrevLast",         limit: 45
+    t.string  "ProgStatus",       limit: 45,  default: "Prospective"
+    t.string  "EnrollmentStatus", limit: 45
+    t.string  "Classification",   limit: 45
+    t.string  "CurrentMajor1",    limit: 45
+    t.string  "CurrentMajor2",    limit: 45
+    t.integer "TermMajor"
+    t.string  "PraxisICohort",    limit: 45
+    t.string  "PraxisIICohort",   limit: 45
+    t.string  "CellPhone",        limit: 45
+    t.string  "CurrentMinors",    limit: 45
+    t.string  "Email",            limit: 100
+    t.string  "CPO",              limit: 45
   end
 
   create_table "tep_advisors", primary_key: "AdvisorBnum", force: true do |t|

@@ -1,0 +1,37 @@
+
+<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+<div class="students show">
+  <h2>Praxis Results for <%= "#{@student.FirstName} #{@student.LastName}"%></h2>
+
+  <div> <%= pluralize(@student.praxis_results.size, 'result') %>  found </div>
+
+  <table class="listing" summary="Student list">
+    <tr class="header">
+      <th>Test Name</th>
+      <th>Date Taken</th>
+      <th>Score</th>
+      <th>Best Score as of Test Date</th>      
+      <th>Cut Score</th>
+    </tr>
+    <% @student.praxis_results.each do |result| %>
+    <tr class "<%= cycle('odd', 'even') %>">
+	  <td><%= result.TestCode %></td>
+	  <td><%= result.TestDate.strftime("%m/%d/%Y") %> </td>
+	  <td><%= result.TestScore %></td>
+    <td><%= result.BestScore %></td>   
+	  <td><%= result.CutScore %></td>
+ 
+    	  <!-- display subtests below  -->
+
+    </tr>
+
+        <td>
+          <table>
+            <%=
+
+          </table>
+        </td>
+    <% end %>
+
+  </table>
+</div>

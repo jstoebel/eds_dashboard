@@ -16,7 +16,11 @@ Rails.application.routes.draw do
 
   # match ':controller(/:action(/:id))', :via => [:get, :post]
 
-  resources :students
+  resources :students do
+    member do
+      get 'show_praxis'
+    end
+  end
 
   
 

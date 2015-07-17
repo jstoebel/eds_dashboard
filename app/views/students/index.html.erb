@@ -18,18 +18,22 @@
     <% @students.each do |student| %>
     <tr class "<%= cycle('odd', 'even') %>">
 	  <td><%= student.Bnum %></td>
-	  <td><%= student.FirstName %></td>
+	  <td><%= student.FirstName %> <%= student.PreferredFirst ? "(#{student.PreferredFirst})" : nil %></td>
 	  <td><%= student.MiddleName %></td>
 	  <td><%= student.LastName %></td>
-	  <td><%= student.ProgStatus %></td>	  
+	  <td><%= student.ProgStatus %></td>
+    <td class="actions">
+        <%= link_to("Details", {:action => 'show', :id=> student.Bnum}, :class => 'action show') %>
+        <% if student.praxis_results.size > 0%>
+        <%= link_to("Praxis History", {:action => 'show_praxis', :id=> student.Bnum}, :class => 'action show_praxis') %>   	  
+        <% end %>
 
-
-	  <!-- action buttons to do more with an individual student:
-	  		see praxis scores
-	  		file an issue
-	  		see documents
-	  		key assessments
-	  		what else? -->
+    	  <!-- action buttons to do more with an individual student:
+    	  		see praxis scores
+    	  		file an issue
+    	  		see documents
+    	  		key assessments
+    	  		what else? -->
 
       </td>
     </tr>

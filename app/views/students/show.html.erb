@@ -1,2 +1,72 @@
-<h1>Students#show</h1>
-<p>Find me in app/views/students/show.html.erb</p>
+<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+
+<div class="students show">
+  <h2>Student Details</h2>
+
+  <table summary="Student detail view">
+
+    <tr>
+      <th>B#</th>
+      <td><%= @student.Bnum %></td>
+    </tr>
+    <tr>
+
+    <tr>
+      <th>Frist Name</th>
+      <td><%= @student.FirstName %> <%= @student.PreferredFirst ? "(#{@student.PreferredFirst})" : nil %></td>
+    </tr>
+
+    <tr>
+      <th>Middle Name</th>
+      <td><%= @student.MiddleName %></td>
+    </tr>
+
+    <tr>
+      <th>Last Name</th>
+      <td><%= @student.LastName %> <%= @student.PrevLast ? "(#{@student.PrevLast})" : nil %></td>
+    </tr>
+
+    <tr>
+      <th>Status in Program</th>
+      <td><%= @student.ProgStatus %> </td>
+    </tr>
+
+    <tr>
+      <th>Berea College Enrollment Status</th>
+      <td><%= @student.EnrollmentStatus %> </td>
+    </tr>
+
+    <tr>
+      <th>Classification</th>
+      <td><%= @student.Classification %> </td>
+    </tr>
+
+    <tr>
+      <th>Current Majors</th>   	
+      <td><%= [@student.CurrentMajor1, @student.CurrentMajor2].select{|m| (m !="" and m != nil)}.join(", ") %> </td>
+    </tr>
+
+    <tr>
+      <th>Current Minors</th>   	
+      <td><%=@student.CurrentMinors %> </td>
+    </tr>
+
+    <tr>
+      <th>Email</th>   	
+      <td><%= mail_to @student.Email%> </td>
+    </tr>
+
+    <tr>
+      <th>Cell Phone</th>   	
+      <td><%= @student.CellPhone%> </td>
+    </tr>
+
+
+    <tr>
+      <th>CPO</th>   	
+      <td><%= @student.CPO%> </td>
+    </tr>
+
+  </table>
+
+</div>

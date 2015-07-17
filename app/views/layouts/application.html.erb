@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Eds</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+	<head>
+	  <title>Education Studies Dashboard</title>
+	  <%= stylesheet_link_tag('application') %>
+	</head>
+	<body>
 
-<%= yield %>
+		<!--Before yield -->
 
-</body>
+	<%= yield %>
+	
+		<!--After yield -->
+
+	</body>
 </html>
