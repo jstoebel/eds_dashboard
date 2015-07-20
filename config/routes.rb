@@ -1,24 +1,21 @@
 Rails.application.routes.draw do
 
-  # get 'students/index'
+  # get 'praxis_results/index'
 
-  # get 'students/show'
+  # get 'praxis_results/show'
 
-  # get 'students/edit'
+  # get 'praxis_results/new'
 
-  # get 'students/update'
-
-  # get 'index/show'
-
-  # get 'index/edit'
-
-  # get 'index/update'
+  # get 'praxis_results/create'
 
   # match ':controller(/:action(/:id))', :via => [:get, :post]
 
-  resources :students do
-    member do
-      get 'show_praxis'
+  resources :students
+
+
+  resources :praxis_results do
+    collection do
+      get 'test_details'
     end
   end
 

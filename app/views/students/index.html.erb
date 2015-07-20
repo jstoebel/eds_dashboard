@@ -9,7 +9,7 @@
 
   <table class="listing" summary="Student list">
     <tr class="header">
-      <th>Bnum</th>
+      <th>B#</th>
       <th>First Name</th>
       <th>Middle Name</th>
       <th>Last Name</th>
@@ -20,12 +20,13 @@
 	  <td><%= student.Bnum %></td>
 	  <td><%= student.FirstName %> <%= student.PreferredFirst ? "(#{student.PreferredFirst})" : nil %></td>
 	  <td><%= student.MiddleName %></td>
-	  <td><%= student.LastName %></td>
+	  <td><%= student.LastName %> <%= student.PrevLast ? "(#{student.PrevLast})" : nil %></td>
 	  <td><%= student.ProgStatus %></td>
     <td class="actions">
-        <%= link_to("Details", {:action => 'show', :id=> student.Bnum}, :class => 'action show') %>
-        <% if student.praxis_results.size > 0%>
-        <%= link_to("Praxis History", {:action => 'show_praxis', :id=> student.Bnum}, :class => 'action show_praxis') %>   	  
+
+        <%= link_to("Details", student_path(student.Bnum), :class => 'action show') %>
+        <% if student.praxis_results.size > 0 %>
+        <%= link_to("Praxis History", praxis_result_path(student.Bnum),  :class => 'action show_praxis') %>
         <% end %>
 
     	  <!-- action buttons to do more with an individual student:

@@ -16,10 +16,4 @@ class StudentsController < ApplicationController
   def update
   end
 
-  def show_praxis
-    @student = Student.find(params[:id])
-    
-  end
-
-
 end

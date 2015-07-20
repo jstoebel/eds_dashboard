@@ -1,0 +1,23 @@
+<div class="praxis new">
+  <h2>New Praxis Registration</h2>
+
+
+
+    <%= form_for @test do |f| %>
+      <table summary="Praxis form fields">
+
+        <tr>
+          <th> <%= f.label(:Bnum, "Name")%> </th>
+          <td> <%= f.select(:Bnum, @students.map {|s| [name_details(s), s.Bnum]}) %></td>
+        </tr>
+
+        <tr>
+          <th> <%= f.label(:TestCode, "Test Name")%> </th>
+          <td> <%= f.select(:Bnum, @test_options.map {|t| [ t.TestName+"(#{t.PraxisTest_TestCode})", t.PraxisTest_TestCode]}) %></td>
+        </tr>
+
+      </table>
+
+
+    <% end %>
+</div>

@@ -1,0 +1,35 @@
+
+<%= link_to("<< Back to List", {:controller => 'students', :action => 'index', :id => params[:id], :class => 'back-link'}) %>
+<div class="index">
+
+  <table class="listing" summary="praxis list">
+    <caption>   
+      <h2>Praxis Results for <%= "#{@student.FirstName} #{@student.LastName}"%></h2>
+
+      <div> <%= pluralize(@student.praxis_results.size, 'result') %>  found </div>
+
+    </caption>
+
+    <tr class="header">
+      <th>Test Name</th>
+      <th>Date Taken</th>
+      <th>Score</th>
+      <th>Best Score as of Test Date</th>      
+      <th>Cut Score</th>
+    </tr>
+    <% @student.praxis_results.each do |result| %>
+    <tr class "<%= cycle('odd', 'even') %>">
+	  <td><%= PraxisTest.find(result.TestCode).TestName %></td>
+	  <td><%= result.TestDate.strftime("%m/%d/%Y")%> </td>
+	  <td><%= result.TestScore %></td>
+    <td><%= result.BestScore %></td>   
+	  <td><%= result.CutScore %></td>
+     <td class="actions">
+            <%= link_to("Details", {:action => 'test_details', :id => result.TestID}, :class => 'action show') %>
+
+    </tr>
+
+    <% end %>
+
+  </table>
+</div>

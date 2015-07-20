@@ -16,6 +16,92 @@
  /* Admin stylesheet       */
 /* load after public.css */
 
+/* Public stylesheet */
+
+/* Colors
+red:          #993120
+green:        #94B26F
+light green:  #B6D491
+yellow:       #F2DC87
+dark brown:   #332318
+light brown:  #4C2516
+*/
+
+
+html { height: 100%; width: 100%; }
+body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
+  font: 14px Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F2DC87;  }
+p, td, ul, ol, li, dl, dt, dd { 
+  font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
+img { border: none; }
+table { border-collapse: collapse; }
+table tr th, table tr td { vertical-align: top; text-align: left; 
+  padding: 3px; white-space: nowrap; }
+a, a:visited { color: #993120; }
+a:hover {}
+
+
+.clear { clear: both; }
+.center { text-align: center; }
+
+/* Structure */
+#header { height: 4em; padding-top: 1em; text-align: center; 
+  background: #993120; color: #FFFFFF; }
+#header h1 { margin: 0; padding: 0; }
+
+
+
+#main { min-height: 500px; background: #F2DC87; }
+#navigation { float: left; width: 180px; min-height: 480px; padding: 10px; 
+  background: #94B26F; color: #4C2516; }
+#content { padding: 10px; }
+#footer { clear: both; height: 2.5em; text-align: right;
+  background: #4C2516 url('/assets/footer_gradient.png') repeat-y 0 0; color: #F2DC87; }
+#footer p { margin: 0; padding: 0.5em 1em; }
+
+/* Navigation */
+.navigation{
+	margin:0px 0px 25px;
+	border-bottom:#adb1b2 solid 1px;
+	padding:15px 5px;
+	background: #B6D491;
+}
+
+.navigation ul{
+	margin:0px;
+	padding:0px;
+}
+
+.navigation ul li{
+	margin:0px;
+	padding:0px 32px;
+	display:inline;
+	font-size:15px;
+	list-style-type:none;
+	border-right:#868B8F dotted 2px;
+}
+
+.navigation ul li a{
+	color:#03314b;
+	text-decoration:none;
+}
+
+.navigation ul li a:hover{
+	text-decoration:underline;
+}
+
+.navigation ul li:last-child {
+	border-right:none;
+}
+
+/* Content */
+#content h2 { color: #4C2516; }
+sup {
+    vertical-align: super;
+    font-size: 6pt;
+} 
+
+
 
 /* Structure */
 #content { padding-left: 100px; padding-right: 100px; }
@@ -46,9 +132,12 @@ a.action:hover { background: #B6D491; }
 .back-link { font-size: 0.8em; margin-bottom: 1em; }
 .form-buttons { text-align: center; margin: 1em 0; }
 
-.index table { clear: both; width: 100%; }
-.index table tr td { border: 1px solid #666666; }
-.show table { clear: both; margin: 0 200px; width: 300px; }
+table caption {font-size: 14pt; font-weight: bold; margin-bottom: 10px}
+
+.index {margin-left: 50px; margin-bottom: 50px}
+.index table { clear: both; white-space: nowrap;}     /*width: 90%;*/
+.index table tr td { border: 1px solid #666666; white-space: nowrap; }
+.show table { clear: both; margin: 0 200px 50px; width: 300px; }
 .show table.wide { width: 600px; margin: 0 50px; }
 .show table tr th { white-space: nowrap; padding-right: 5px;}
 .show table tr td { border: 1px solid #666666; }
@@ -57,11 +146,18 @@ a.action:hover { background: #B6D491; }
 .section + .section { padding-top: 0.5em; margin-top: 0.5em;
   border-top: 1px dotted #666666; }
 
-/* zebra striping for table rows */
-.odd { background: #E5CE69; }
-.even { background: none; }
 
-/* status_tag */
+
+ /*row highlighting */
+
+   /*for zebra stripping*/
+  .odd { background: #E5CE69; }
+  .even { background: none; }
+
+  /*test result formatting*/
+  .test-fail {color: red; font-weight: bold;}
+
+/* status_tag 
 span.status { display: block; width: 10px; height: 10px;
   margin: 0.25em auto; padding: 0; border: 1px solid #000000; }
 span.status.true  { background: green; color: green; }
@@ -80,3 +176,4 @@ span.status.false { background: red; color: red; }
 #errorExplanation ul { margin-top: 0; }
 #errorExplanation ul li { list-style: square; }
 .spam { background-color: blue;}
+
