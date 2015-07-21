@@ -1,0 +1,37 @@
+
+
+<%= link_to("<< Back to List", {:controller => 'students', :action => 'index', :id => params[:id], :class => 'back-link'}) %>
+<div class="index">
+
+  <table class="listing" summary="issues list">
+    <caption>   
+      <h2>Issues for <%= "#{@first_name} #{@last_name}"%></h2>
+
+      <div> <%= pluralize(@student.issues.size, 'issue') %>  found </div>
+
+    </caption>
+
+    <tr class="header">
+      <th>Issue Name</th>
+      <th>Date Opened</th>
+      <th>Status</th>
+    </tr>
+    <% @student.issues.each do |issue| %>
+    <tr class "<%= cycle('odd', 'even') %>">
+	  <td><%= issue.Name %></td>
+	  <td><%= issue.CreateDate.strftime("%m/%d/%Y")%> </td>
+	  <td><%= issue.Open %></td>
+     <td class="actions">
+            <%= link_to("Updates", "http://www.berea.edu", :class => 'action show') %>
+
+    </tr>
+
+    <tr>
+    	<td class="full_span"><%= issue.Description %> </td>
+
+    </tr>
+
+    <% end %>
+
+  </table>
+</div>

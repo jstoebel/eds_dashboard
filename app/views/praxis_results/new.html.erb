@@ -1,23 +1,41 @@
 <div class="praxis new">
-  <h2>New Praxis Registration</h2>
 
 
-
-    <%= form_for @test do |f| %>
+    <%= form_for @test, url: {action: 'create'}, html: {:onsubmit => "return confirm('Are you sure?');"} do |f| %>
       <table summary="Praxis form fields">
+
+        <caption>New Praxis Registration</caption>
 
         <tr>
           <th> <%= f.label(:Bnum, "Name")%> </th>
-          <td> <%= f.select(:Bnum, @students.map {|s| [name_details(s), s.Bnum]}) %></td>
+          <td> <%= f.select(:Bnum, @students.map {|s| [name_details(s), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
         </tr>
 
         <tr>
           <th> <%= f.label(:TestCode, "Test Name")%> </th>
-          <td> <%= f.select(:Bnum, @test_options.map {|t| [ t.TestName+"(#{t.PraxisTest_TestCode})", t.PraxisTest_TestCode]}) %></td>
+          <td> <%= f.select(:TestCode,  @test_options.map {|t| [ [t.PraxisTest_TestCode, t.TestName].join(' - '), t.PraxisTest_TestCode]}, 
+          {:prompt => 'Select a test'}) %></td>
+        </tr>
+
+        <tr>
+          <th> <%= f.label(:TestDate, "Test Date")%> </th>
+          <td> <%= f.datetime_select(:TestDate, {:order => [:month, :day, :year, :hour, :minute ], :minute_step => 5})  %></td>
+        </tr>
+
+        <tr>
+          <th> <%= f.label(:RegDate, "Regsitration Date")%> </th>
+          <td> <%= f.date_select(:RegDate, {:order => [:month, :day, :year], default: Date.today})  %></td>
+        </tr>
+
+        <tr>
+          <th> <%= f.label(:PaidBy, "Paid By")%> </th>
+          <td> <%= f.select(:PaidBy, ['EDS', 'ETS (fee waiver)', 'Student'], {prompt: 'Paid By'})  %></td>
         </tr>
 
       </table>
 
+    <div class="form-buttons">
+      <%= submit_tag("Submit") %>
 
     <% end %>
 </div>

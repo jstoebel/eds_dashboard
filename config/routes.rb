@@ -1,14 +1,10 @@
 Rails.application.routes.draw do
 
-  # get 'praxis_results/index'
+  get 'issues/new'
 
-  # get 'praxis_results/show'
+  get 'issues/create'
 
-  # get 'praxis_results/new'
-
-  # get 'praxis_results/create'
-
-  # match ':controller(/:action(/:id))', :via => [:get, :post]
+  get 'issues/show'
 
   resources :students
 
@@ -16,8 +12,11 @@ Rails.application.routes.draw do
   resources :praxis_results do
     collection do
       get 'test_details'
+      post 'confirm_new'
     end
   end
+
+  resources :issues
 
   
 

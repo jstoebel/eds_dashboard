@@ -1,4 +1,4 @@
-/*
+
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
@@ -126,6 +126,27 @@ a.action:hover { background: #B6D491; }
 .actions a.action { float: left; min-width: 3.5em;
   padding: 1px 2px; margin: 2px 5px; font-size: 0.7em; }
 
+td.actions table {table-layout: fixed; width: 200pt; border: 0px; }
+
+td.actions table tbody tr td {border-style: none;}
+
+td.actions td { text-align: right; width: 33%; border: 0px;}
+
+td.full_span {column-span: all;}
+
+
+
+/*no link*/
+.no_link {
+    font-size: 0.7em;
+    margin: 2px 5px;
+    min-width: 3.5em;
+    padding: 1px 2px;
+    color: gray;
+    text-align: left;
+    padding: 1px 2px;
+}
+
 /* CRUD */
 .notice { height: 1.25em; padding: 0.5em; text-align: center;
   background: #B6D491; color: #4C2516; }
@@ -177,3 +198,44 @@ span.status.false { background: red; color: red; }
 #errorExplanation ul li { list-style: square; }
 .spam { background-color: blue;}
 
+
+
+
+
+/*a.action {
+    background: #94b26f none repeat scroll 0 0;
+    border: 1px solid #4c2516;
+    color: #4c2516;
+    float: right;
+    font-size: 0.8em;
+    margin: 0 0 1em 1em;
+    padding: 2px 5px;
+    text-align: center;
+    text-decoration: none;
+}
+a {
+    text-decoration: none;
+}
+a, a:visited {
+    color: #993120;
+}
+.index table tr td {
+    white-space: nowrap;
+}
+table tr th, table tr td {
+    text-align: left;
+    white-space: nowrap;
+}
+p, td, ul, ol, li, dl, dt, dd {
+    font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;
+}
+.index table {
+    white-space: nowrap;
+}
+table {
+    border-collapse: collapse;
+}
+body {
+    color: #332318;
+    font: 14px Verdana,Lucida,Arial,Helvetica,sans-serif;
+}

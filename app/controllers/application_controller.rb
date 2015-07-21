@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 		if student.PreferredFirst
 			@first_name = student.PreferredFirst + " (#{student.FirstName})"
 		else
-			@first_name = @student.FirstName
+			@first_name = student.FirstName
 		end
 
 		if student.PrevLast
