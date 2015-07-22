@@ -1,0 +1,19 @@
+<!-- General error message here
+
+Here's how this gets displayed.
+
+	The method error_messages_for(object) is defined in the application helper. Its recieves an error messages hash as its object.
+	This method renders a partial in (app/views/)  application/(_)error_messages.html.erb pathenthesies denote the literal path. But they must be exluded when called in Ruby
+	-->
+
+<% if object && object.errors.size > 0 %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(object.errors.size, "error") %> prohibited this record from being saved</h2>
+    <p>There were problems with the following fields:</p>
+    <ul>
+    <% object.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

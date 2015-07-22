@@ -23,28 +23,10 @@
 	  <td><%= student.LastName %> <%= student.PrevLast ? "(#{student.PrevLast})" : nil %></td>
 	  <td><%= student.ProgStatus %></td>
     <td class="actions">
-
-      <table>
-          <tr>
-          <td>
-
               <%= link_to("Details", student_path(student.Bnum), :class => 'action show') %>
-          </td>
+              <%= link_to("Praxis History (#{student.praxis_results.size})", praxis_result_path(student.Bnum),  :class => 'action show_praxis') %>
+              <%= link_to("Issues", issue_path(student.Bnum),  :class => 'action show_issues') %>
 
-          <td>
-            <% if student.praxis_results.size > 0 %>
-            <%= link_to("Praxis History", praxis_result_path(student.Bnum),  :class => 'action show_praxis') %>
-            <% else %>
-            <div class="no_link"> No Praxis history</div>
-            <% end %>
-          </td>
-
-          <td>
-        <%= link_to("Issues", issue_path(student.Bnum),  :class => 'action show_issues') %>
-
-          </td>
-        </tr>
-      </table>
 
     	  <!-- action buttons to do more with an individual student:
     	  		see praxis scores

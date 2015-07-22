@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
 
-  get 'issues/new'
 
-  get 'issues/create'
+  # get 'issue_updates/new'
 
-  get 'issues/show'
+  # get 'issue_updates/create'
+
+  # get 'issue_updates/show'
 
   resources :students
-
 
   resources :praxis_results do
     collection do
@@ -16,7 +16,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :issues
+  resources :issues do
+    resources :issue_updates do
+      collection do
+        get "resolve_issue"
+        post "close_issue"
+      end
+    end
+  end
+
 
   
 

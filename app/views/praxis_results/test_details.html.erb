@@ -1,5 +1,5 @@
 
-<%= link_to("<< Back to List", students_path(@student.Bnum), :class => 'back-link') %>
+<%= link_to("<< Back", students_path(@student.Bnum), :class => 'back-link') %>
 
 <div class="test details show">
 
@@ -31,7 +31,7 @@
     </tr>
 
     <tr>
-      <th>Test Name</th>		<!-- test name should go here not test code -->
+      <th>Test Name</th>
       <td><%= @test.TestCode %></td>
     </tr>
 
@@ -52,7 +52,7 @@
 
     <tr>
       <th>Score</th>
-      <td class="<%= (@test.TestScore and @test.TestScore >= @test.CutScore) ? 'test-pass' : 'test-fail' %>"><%= @test.TestScore%></td>
+      <td <%= (@test.TestScore and @test.TestScore >= @test.CutScore) ? nil : "class=bad_text" %>><%= @test.TestScore%></td>
     </tr>
 
     <tr>

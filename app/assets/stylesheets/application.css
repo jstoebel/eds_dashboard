@@ -30,7 +30,7 @@ light brown:  #4C2516
 
 html { height: 100%; width: 100%; }
 body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
-  font: 14px Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F2DC87;  }
+  font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F2DC87;  }
 p, td, ul, ol, li, dl, dt, dd { 
   font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
 img { border: none; }
@@ -40,6 +40,7 @@ table tr th, table tr td { vertical-align: top; text-align: left;
 a, a:visited { color: #993120; }
 a:hover {}
 
+h2 {margin-left: 50px}    /*page headers*/
 
 .clear { clear: both; }
 .center { text-align: center; }
@@ -94,13 +95,14 @@ a:hover {}
 	border-right:none;
 }
 
+
+
 /* Content */
 #content h2 { color: #4C2516; }
 sup {
     vertical-align: super;
     font-size: 6pt;
 } 
-
 
 
 /* Structure */
@@ -116,24 +118,27 @@ a { text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* large action buttons */
-a.action { float: right; padding: 2px 5px; margin: 0 0 1em 1em;
+a.action {  padding: 2px 5px; 
   background: #94B26F; color: #4C2516;  border: 1px solid #4C2516;
   text-decoration: none; font-size: 0.8em; text-align: center; }
 a.action:hover { background: #B6D491; }
 
+a.large_action {padding: 2px 5px; 
+  background: #94B26F; color: #4C2516;  border: 1px solid #4C2516;
+  text-decoration: none; font-size: 1.2em; text-align: center;
+}
+
 /* small action buttons */
-.actions { width: 230px; }
 .actions a.action { float: left; min-width: 3.5em;
-  padding: 1px 2px; margin: 2px 5px; font-size: 0.7em; }
+  padding: 1px 2px; margin: 2px 5px; font-size: 12pt; }
 
-td.actions table {table-layout: fixed; width: 200pt; border: 0px; }
 
-td.actions table tbody tr td {border-style: none;}
 
-td.actions td { text-align: right; width: 33%; border: 0px;}
+
+
+.actions a.show_praxis {min-width: 9em;}
 
 td.full_span {column-span: all;}
-
 
 
 /*no link*/
@@ -150,33 +155,43 @@ td.full_span {column-span: all;}
 /* CRUD */
 .notice { height: 1.25em; padding: 0.5em; text-align: center;
   background: #B6D491; color: #4C2516; }
-.back-link { font-size: 0.8em; margin-bottom: 1em; }
+.back-link { font-size: 1em; margin-bottom: 1em; }
 .form-buttons { text-align: center; margin: 1em 0; }
 
 table caption {font-size: 14pt; font-weight: bold; margin-bottom: 10px}
 
-.index {margin-left: 50px; margin-bottom: 50px}
+.index {width: 100%; margin-left: 50px; margin-bottom: 50px}
 .index table { clear: both; white-space: nowrap;}     /*width: 90%;*/
 .index table tr td { border: 1px solid #666666; white-space: nowrap; }
-.show table { clear: both; margin: 0 200px 50px; width: 300px; }
+.show table { clear: both; margin: 0 100px 50px; width: 300px; }
 .show table.wide { width: 600px; margin: 0 50px; }
 .show table tr th { white-space: nowrap; padding-right: 5px;}
 .show table tr td { border: 1px solid #666666; }
-.edit table, .new table { margin: 0 auto; }
+/*.edit table, .new table { margin: 0 auto; }*/
+.new table, .edit table {margin: 0 100px 50px; }
 
 .section + .section { padding-top: 0.5em; margin-top: 0.5em;
   border-top: 1px dotted #666666; }
 
 
 
+/*Issues*/
+
+p.issue_discrip { width: 90%;}
+div.issue_header {width: 40%;}
+.issue_new {float: right;}
+
  /*row highlighting */
 
-   /*for zebra stripping*/
-  .odd { background: #E5CE69; }
-  .even { background: none; }
+ /*for zebra stripping*/
+.odd { background: #E5CE69; }
+.even { background: none; }
 
-  /*test result formatting*/
-  .test-fail {color: red; font-weight: bold;}
+/*test result formatting*/
+/*.test-fail {color: red; font-weight: bold;}*/
+
+.good_text {color: green; font-weight: bold;}
+.bad_text {color: red; font-weight: bold;}
 
 /* status_tag 
 span.status { display: block; width: 10px; height: 10px;
@@ -197,45 +212,3 @@ span.status.false { background: red; color: red; }
 #errorExplanation ul { margin-top: 0; }
 #errorExplanation ul li { list-style: square; }
 .spam { background-color: blue;}
-
-
-
-
-
-/*a.action {
-    background: #94b26f none repeat scroll 0 0;
-    border: 1px solid #4c2516;
-    color: #4c2516;
-    float: right;
-    font-size: 0.8em;
-    margin: 0 0 1em 1em;
-    padding: 2px 5px;
-    text-align: center;
-    text-decoration: none;
-}
-a {
-    text-decoration: none;
-}
-a, a:visited {
-    color: #993120;
-}
-.index table tr td {
-    white-space: nowrap;
-}
-table tr th, table tr td {
-    text-align: left;
-    white-space: nowrap;
-}
-p, td, ul, ol, li, dl, dt, dd {
-    font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;
-}
-.index table {
-    white-space: nowrap;
-}
-table {
-    border-collapse: collapse;
-}
-body {
-    color: #332318;
-    font: 14px Verdana,Lucida,Arial,Helvetica,sans-serif;
-}

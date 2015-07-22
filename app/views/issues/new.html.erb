@@ -1,2 +1,37 @@
-<h1>Issues#new</h1>
-<p>Find me in app/views/issues/new.html.erb</p>
+<%= link_to("<< Back", {:action => 'show', :id => @student.Bnum}, :class => 'back-link') %>
+
+<div class="issue new">
+
+
+  <%= form_for(:issue, :url => {:action => 'create', :id => @student.Bnum}) do |f| %>
+	<h2>Open New Issue for <%=[@first_name, @last_name].join(' ')%></h2>
+  	<%= error_messages_for(@issue) %>
+
+	<table summary="Issue form fields">
+
+	  <tr>
+	    <th><%= f.label(:Name, "Name") %> </th>
+	    <td><%= f.text_field(:Name) %></td>
+	  </tr>
+
+	  <tr>
+	    <th><%= f.label(:Description, "Description") %></th>
+	    <td> <%= f.text_area(:Description, :size => '30x10') %> </td>
+	  </tr>
+
+  	<tr>
+	<th></th>
+	<td>
+    <div class="form-buttons">
+      <%= submit_tag("Open Issue") %>
+
+
+	</td>
+	</tr>
+    </div>	
+	</table>
+
+
+
+  <% end %>
+</div>

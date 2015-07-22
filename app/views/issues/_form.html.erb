@@ -1,0 +1,21 @@
+<%=# error_messages_for(@subject) %>
+
+<table summary="Issue form fields">
+  <tr>
+    <th><%= f.label(:name, "Name") %> </th>
+    <td><%= f.text_field(:name) %></td>
+  </tr>
+  <tr>
+    <th><%= f.label(:position, "Position") %></th>
+    <td> <%= f.select(:position, 1..@subject_count) %> </td>
+  </tr>
+  <tr>
+    <th><%= f.label(:visable, "Visible") %></th>
+    <td><%= f.check_box(:visable) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label(:created_at, "Created At") %></th>
+    <td><%= f.datetime_select(:created_at, :order => [:month, :day, :year]) %></td>
+  </tr>
+</table>

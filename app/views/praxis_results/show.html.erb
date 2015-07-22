@@ -1,5 +1,5 @@
 
-<%= link_to("<< Back to List", {:controller => 'students', :action => 'index', :id => params[:id], :class => 'back-link'}) %>
+<%= link_to("<< Back", {:controller => 'students', :action => 'index', :id => params[:id], :class => 'back-link'}) %>
 <div class="index">
 
   <table class="listing" summary="praxis list">
@@ -10,25 +10,29 @@
 
     </caption>
 
-    <tr class="header">
-      <th>Test Name</th>
-      <th>Date Taken</th>
-      <th>Score</th>
-      <th>Best Score as of Test Date</th>      
-      <th>Cut Score</th>
-    </tr>
-    <% @student.praxis_results.each do |result| %>
-    <tr class "<%= cycle('odd', 'even') %>">
-	  <td><%= PraxisTest.find(result.TestCode).TestName %></td>
-	  <td><%= result.TestDate.strftime("%m/%d/%Y")%> </td>
-	  <td><%= result.TestScore %></td>
-    <td><%= result.BestScore %></td>   
-	  <td><%= result.CutScore %></td>
-     <td class="actions">
-            <%= link_to("Details", {:action => 'test_details', :id => result.TestID}, :class => 'action show') %>
+    <% if @student.praxis_results.size > 0  %>
 
-    </tr>
+          <tr class="header">
+            <th>Test Name</th>
+            <th>Date Taken</th>
+            <th>Score</th>
+            <th>Best Score as of Test Date</th>      
+            <th>Cut Score</th>
+          </tr>
+          <% @student.praxis_results.each do |result| %>
+          <tr class "<%= cycle('odd', 'even') %>">
+      	  <td><%= PraxisTest.find(result.TestCode).TestName %></td>
+      	  <td><%= result.TestDate.strftime("%m/%d/%Y")%> </td>
+      	  <td><%= result.TestScore %></td>
+          <td><%= result.BestScore %></td>   
+      	  <td><%= result.CutScore %></td>
+           <td class="actions">
+                  <%= link_to("Details", {:action => 'test_details', :id => result.TestID}, :class => 'action show') %>
 
+          </tr>
+
+          <% end %>
+          
     <% end %>
 
   </table>
