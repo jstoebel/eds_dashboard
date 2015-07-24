@@ -1,1 +1,30 @@
-here is resolve_issue!
+here is issues#resolve_issue!
+<%= params %>
+
+<%= link_to("<< Back", student_issues_path(@student.Bnum), :class => 'back-link') %>
+
+<div class="issue_update edit">
+
+	<%= form_for(:issue_update, :url => issue_close_issue_path(@issue.IssueID)) do |f| %>
+	<h2>Close Issue for <%=[@first_name, @last_name].join(' ')%></h2>
+  	<%= error_messages_for(@update) %>
+
+	<table summary="Issue form fields">
+
+	  <tr>
+	    <th><%= f.label(:Description, "Please provide informtation on why this issue is being closed.") %> </th>
+	    <td><%= f.text_area(:Description, :size => '30x10') %></td>
+	  </tr>
+
+	<tr>
+	<th></th>
+	<td>
+    <div class="form-buttons">
+      <%= submit_tag("Close Issue") %>
+	</td>
+	</tr>
+    </div>	
+	</table>
+	<% end %>
+
+</div>

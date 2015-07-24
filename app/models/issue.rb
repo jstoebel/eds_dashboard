@@ -5,5 +5,5 @@ class Issue < ActiveRecord::Base
 
 	validates :Name, :length => { maximum: 100}
 
-	scope :sorted, lambda {order(Open: :desc)}
+	scope :sorted, lambda {order(:Open => :desc, :CreateDate => :desc)}
 end

@@ -1,0 +1,105 @@
+
+<%= link_to("<< Back", students_path(@student.Bnum), :class => 'back-link') %>
+
+<div class="test details show">
+
+  <table summary="Student detail view">
+
+  	<caption>  
+  		Test Details
+  	</caption>
+
+    <tr>
+      <th>B#</th>
+      <td><%= @student.Bnum %></td>
+    </tr>
+
+
+    <tr>
+      <th>Frist Name</th>
+      <td><%= @first_name %></td>
+    </tr>
+
+    <tr>
+      <th>Middle Name</th>
+      <td><%= @student.MiddleName %></td>
+    </tr>
+
+    <tr>
+      <th>Last Name</th>
+      <td><%= @last_name %></td>
+    </tr>
+
+    <tr>
+      <th>Test Name</th>
+      <td><%= @test.TestCode %></td>
+    </tr>
+
+    <tr>
+      <th>Test Date</th>
+      <td><%= @test.TestDate ?  @test.TestDate.strftime("%m/%d/%Y") : nil%></td>
+    </tr>
+
+    <tr>
+      <th>Registration Date</th>
+      <td><%= @test.RegDate ? @test.RegDate.strftime("%m/%d/%Y") : nil%></td>
+    </tr>
+
+    <tr>
+      <th>Paid By</th>
+      <td><%= @test.PaidBy%></td>
+    </tr>
+
+    <tr>
+      <th>Score</th>
+      <td <%= (@test.TestScore and @test.TestScore >= @test.CutScore) ? nil : "class=bad_text" %>><%= @test.TestScore%></td>
+    </tr>
+
+    <tr>
+      <th>Best Score as of Test Date</th>
+      <td><%= @test.BestScore%></td>
+    </tr>
+
+    <tr>
+      <th>Cut Score</th>
+      <td><%= @test.CutScore%></td>
+    </tr>
+
+
+
+  </table>
+
+	<div class="test sections show">
+
+
+
+      <% if @test.praxis_subtest_results.size > 0 %>
+
+        <table>
+        <caption>
+          Sub-tests
+        </caption>
+    	  	<tr class="header">
+    	      <th>Section Name</th>
+    	      <th>Points Earned</th>
+    	      <th>Points Available</th>
+    	      <th>Performance of Middle 50%</th>      
+
+    	  	</tr>
+      		<tr>
+    	  		<% @test.praxis_subtest_results.each do |sub| %>
+    	  			<td> <%= sub.Name %></td>
+    	  			<td class="<%= (sub.PtsEarned and sub.AvgLow and sub.PtsEarned < sub.AvgLow) ? "test-fail" : "test-pass" %>"> <%= sub.PtsEarned %></td>
+    	  			<td> <%= sub.PtsAval %></td>
+    	  			<td> <%= "#{sub.AvgLow}-#{sub.AvgHigh}"%></td>
+    		</tr>
+    	  		<% end %>
+        </table>
+      <% else %>
+      <p align="center">Test section data were not found for this exam.</p>
+      <% end %>
+
+
+
+</div>
+

@@ -5,6 +5,15 @@ class IssueUpdatesController < ApplicationController
   def create
   end
 
+  def index
+    @issue = Issue.find(params[:issue_id])
+    @student = Student.find(@issue.students_Bnum)
+    name_details(@student)
+    @updates = @issue.issue_updates    
+
+    
+  end
+
   def show
   end
 
@@ -27,7 +36,8 @@ class IssueUpdatesController < ApplicationController
     @update.save
 
     flash[:notice] = "Issue resolved!"
-    redirect_to({:controller => "issues", :action => "show", :id => @issue.students_Bnum})
+    # redirect_to(student_issues_path(@issue.students_Bnum))
+    redirect_to({action: "index", id: @issue.students_Bnum})
   	
   end
 

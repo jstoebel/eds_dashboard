@@ -1,7 +1,7 @@
 <div class="praxis new">
 
 
-    <%= form_for @test, url: {action: 'create'}, html: {:onsubmit => "return confirm('Are you sure?');"} do |f| %>
+    <%= form_for @test, url: praxis_results_path, html: {:onsubmit => "return confirm('Are you sure?');"} do |f| %>
       <table summary="Praxis form fields">
 
         <caption>New Praxis Registration</caption>
@@ -13,7 +13,7 @@
 
         <tr>
           <th> <%= f.label(:TestCode, "Test Name")%> </th>
-          <td> <%= f.select(:TestCode,  @test_options.map {|t| [ [t.PraxisTest_TestCode, t.TestName].join(' - '), t.PraxisTest_TestCode]}, 
+          <td> <%= f.select(:TestCode,  @test_options.map {|t| [t.TestName, t.TestCode]}, 
           {:prompt => 'Select a test'}) %></td>
         </tr>
 

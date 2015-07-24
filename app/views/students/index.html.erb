@@ -1,7 +1,6 @@
 <% @page_title = "Students" %>
 
 
-
 <div class="students index">
   <h2>Students</h2>
 
@@ -23,9 +22,12 @@
 	  <td><%= student.LastName %> <%= student.PrevLast ? "(#{student.PrevLast})" : nil %></td>
 	  <td><%= student.ProgStatus %></td>
     <td class="actions">
-              <%= link_to("Details", student_path(student.Bnum), :class => 'action show') %>
-              <%= link_to("Praxis History (#{student.praxis_results.size})", praxis_result_path(student.Bnum),  :class => 'action show_praxis') %>
-              <%= link_to("Issues", issue_path(student.Bnum),  :class => 'action show_issues') %>
+
+            <%= form_tag() %>
+
+              <%= link_to("Details", student_path(student.Bnum), :via => :post, :class => 'action show') %>
+              <%= link_to("Praxis History (#{student.praxis_results.size})", student_praxis_results_path(student.Bnum),  :class => 'action show_praxis') %>
+              <%= link_to("Issues", student_issues_path(student.Bnum),  :class => 'action show_issues') %>
 
 
     	  <!-- action buttons to do more with an individual student:

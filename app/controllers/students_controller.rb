@@ -4,6 +4,7 @@ class StudentsController < ApplicationController
 
   def index
   	@students = Student.all.current.by_last    #also need to filter for students who are activley enrolled.
+
   end
 
   def show
