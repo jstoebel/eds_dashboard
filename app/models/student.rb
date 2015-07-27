@@ -5,4 +5,5 @@ class Student < ActiveRecord::Base
 
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}		#also need to know if student is activly enrolled
 	scope :by_last, lambda {order(LastName: :asc)}
+
 end

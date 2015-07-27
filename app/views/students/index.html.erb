@@ -23,12 +23,11 @@
 	  <td><%= student.ProgStatus %></td>
     <td class="actions">
 
-            <%= form_tag() %>
+        <%= link_to("Details", student_path(student.AltID), {:class => "action details"}) %>
 
-              <%= link_to("Details", student_path(student.Bnum), :via => :post, :class => 'action show') %>
-              <%= link_to("Praxis History (#{student.praxis_results.size})", student_praxis_results_path(student.Bnum),  :class => 'action show_praxis') %>
-              <%= link_to("Issues", student_issues_path(student.Bnum),  :class => 'action show_issues') %>
+        <%= link_to("Praxis Results (#{student.praxis_results.size})", student_praxis_results_path(student.AltID), {:class => "action praxis_results"}) %>
 
+        <%= link_to("Issues (#{student.issues.size})", student_issues_path(student.AltID), {:class => "action issues"}) %>
 
     	  <!-- action buttons to do more with an individual student:
     	  		see praxis scores

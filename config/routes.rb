@@ -1,14 +1,15 @@
 Rails.application.routes.draw do
 
   #A resource must be top level before it can be nested in another resource (I think)
+  
+  # match ':controller(/:action(/:id))', :via => [:get, :post]
+
   resources :praxis_results, only: [:new, :create]   
 
-  resources :students, shallow: true do
+  resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show]
     resources :issues
   end
-
-  # resources :issues
 
   resources :issues, shallow: true do
     resources :issue_updates

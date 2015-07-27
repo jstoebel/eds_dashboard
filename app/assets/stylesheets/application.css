@@ -129,14 +129,28 @@ a.large_action {padding: 2px 5px;
 }
 
 /* small action buttons */
-.actions a.action { float: left; min-width: 3.5em;
+.actions a.action { float: left; 
   padding: 1px 2px; margin: 2px 5px; font-size: 12pt; }
 
+.actions a.praxis_results  {min-width: 140px }
+.actions a.issues  {min-width: 90px }
 
+/*input[type=submit].action {float: left; color: #4C2516; background:#94B26F; border: 1px solid #4C2516;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;}*/
 
+/*input.details {min-width: 50px}
+input.praxis_history {min-width: 150px}
+input.issues {min-width: 40px}
 
+form.form_link {
+    display: inline-block;
+}
+*/
+div.form_link {font-size: 0pt;}
 
-.actions a.show_praxis {min-width: 9em;}
+.actions a.show_pr  axis {min-width: 9em;}
 
 td.full_span {column-span: all;}
 

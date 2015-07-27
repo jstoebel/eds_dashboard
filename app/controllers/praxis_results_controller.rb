@@ -4,13 +4,12 @@ class PraxisResultsController < ApplicationController
 
   def index
     #showing all Praxis results for a single student
-    @student = Student.find(params[:student_id])
+    @student = find_student(params[:student_id])
     
   end
-
   def show
     #show details on test including subtests
-    @test = PraxisResult.find(params[:id])
+    @test = find_praxis_result(params[:id])
     @student = Student.find(@test.Bnum)
     @test_score = @test.TestScore
     name_details(@student)

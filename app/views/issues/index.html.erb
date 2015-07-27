@@ -1,4 +1,4 @@
-<%= link_to("<< Back", {:controller => 'students', :action => 'index', :id => params[:id]}, :class => 'back-link') %>
+<%= link_to("<< Back", students_path, :class => 'back-link') %>
 <div class="index">
       <h2>Issues for <%= "#{@first_name} #{@last_name}"%></h2>
 
@@ -28,14 +28,17 @@
             <tr>
               <th>Date Opened</th>
               <td><%= issue.CreateDate.strftime("%m/%d/%Y")%> </td>
-            </tr>
 
+            </tr>
+            <!-- Action buttons if issue is open -->
+            <% if issue.Open %>   
             <tr>
               <th></th>
-              <td><%= link_to("Updates (#{issue.issue_updates.size})", issue_issue_updates_path(issue.IssueID), :class => 'action show') %> 
-              <% if issue.Open %>
+
+              <td><%= link_to("Add an update", new_issue_issue_update_path(issue.IssueID), :class => 'action new') %> 
+
                   <%= link_to("Close issue", issue_resolve_issue_path(issue.IssueID), :class => "action edit") %>
-              <% end %>
+            <% end %>
               </td>
 
             </tr>
@@ -43,17 +46,25 @@
 
           <p class="issue_discrip">
 
-          <%= issue.Description %><br/>
+          <%= issue.Description %>
 
-          <!-- updates go here! -->
+            <!-- updates go here! -->
+            <% if issue.issue_updates.sorted.size > 0 %>
+            <p><u>Updates</u></p>
+            <ul>
+            <% end %>
 
             <% issue.issue_updates.sorted.each do |update| %> 
-                <em><%= [update.CreateDate.strftime("%m/%d/%Y"), update.UpdateName].join(" ") %></em>
+
+                <strong><li><%= [update.CreateDate.strftime("%m/%d/%Y"), update.UpdateName].join(" ") %></li></strong>
                 <br/>
                 <%= update.Description %>
+              </p>
 
             <% end %>
             </p>
+
+
 
         <% end %>
 

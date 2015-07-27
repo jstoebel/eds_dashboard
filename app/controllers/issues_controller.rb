@@ -1,8 +1,10 @@
 class IssuesController < ApplicationController
   def new
   	@issue = Issue.new
-  	@student = Student.find(params[:id])
-    name_details(@student)
+
+    #TODO FIX THIS!
+  	# @student = Student.find(@issue.students_Bnum)
+   #  name_details(@student)
   end
 
   def create
@@ -23,7 +25,7 @@ class IssuesController < ApplicationController
   end
 
   def index
-    @student = Student.find(params[:student_id])
+    @student = find_student(params[:student_id])
     name_details(@student)    
   end
 

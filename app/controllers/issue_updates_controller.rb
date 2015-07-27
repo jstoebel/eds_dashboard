@@ -1,5 +1,8 @@
 class IssueUpdatesController < ApplicationController
   def new
+    @issue = Issue.find(params[:issue_id])
+
+    @student = Student.find(@issue.students_Bnum)
   end
 
   def create
