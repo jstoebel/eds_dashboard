@@ -5,7 +5,7 @@
       <table summary="Praxis form fields">
 
         <caption>New Praxis Registration</caption>
-
+        <%= error_messages_for(@test) %>
         <tr>
           <th> <%= f.label(:Bnum, "Name")%> </th>
           <td> <%= f.select(:Bnum, @students.map {|s| [name_details(s), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
@@ -19,7 +19,7 @@
 
         <tr>
           <th> <%= f.label(:TestDate, "Test Date")%> </th>
-          <td> <%= f.datetime_select(:TestDate, {:order => [:month, :day, :year, :hour, :minute ], :minute_step => 5})  %></td>
+          <td> <%= f.datetime_select(:TestDate, {:include_blank => true, :default => nil, :order => [:month, :day, :year, :hour, :minute ], :minute_step => 5})  %></td>
         </tr>
 
         <tr>

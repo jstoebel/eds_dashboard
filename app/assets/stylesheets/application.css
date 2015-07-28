@@ -40,7 +40,11 @@ table tr th, table tr td { vertical-align: top; text-align: left;
 a, a:visited { color: #993120; }
 a:hover {}
 
-h2 {margin-left: 50px}    /*page headers*/
+h2, h3 {margin-left: 50px}    /*page headers*/
+
+/*hr{ border: 0; height: 1px; background: #ccc; background-image: linear-gradient(to right, #ccc, #333, #ccc); }*/
+
+hr {background-color: black; border: 0; height: 1px;}
 
 .clear { clear: both; }
 .center { text-align: center; }
@@ -95,7 +99,7 @@ h2 {margin-left: 50px}    /*page headers*/
 	border-right:none;
 }
 
-
+ul {list-style-type:none;}
 
 /* Content */
 #content h2 { color: #4C2516; }
@@ -134,6 +138,7 @@ a.large_action {padding: 2px 5px;
 
 .actions a.praxis_results  {min-width: 140px }
 .actions a.issues  {min-width: 90px }
+
 
 /*input[type=submit].action {float: left; color: #4C2516; background:#94B26F; border: 1px solid #4C2516;
     cursor:pointer;

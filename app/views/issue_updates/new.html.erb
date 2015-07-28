@@ -3,15 +3,17 @@
 <div class="issue new">
 
 
-  <%= form_for(:issue, :url => {:action => 'create', :id => @student.Bnum}) do |f| %>
-	<h2>Open New Issue for <%=[@first_name, @last_name].join(' ')%></h2>
-  	<%= error_messages_for(@issue) %>
+  <%= form_for(:issue_updates, :url => issue_issue_updates_path(@issue.IssueID)) do |f| %>
+	<h2>New Update for <%=@issue.Name%></br></h2>
+
+	 <h3><%=[@first_name, @last_name].join(' ')%></h3>
+  	<%= error_messages_for(@update) %>
 
 	<table summary="Issue form fields">
 
 	  <tr>
-	    <th><%= f.label(:Name, "Name") %> </th>
-	    <td><%= f.text_field(:Name) %></td>
+	    <th><%= f.label(:UpdateName, "Name") %> </th>
+	    <td><%= f.text_field(:UpdateName) %></td>
 	  </tr>
 
 	  <tr>
@@ -23,7 +25,7 @@
 	<th></th>
 	<td>
     <div class="form-buttons">
-      <%= submit_tag("Open Issue") %>
+      <%= submit_tag("Submit Issue") %>
 
 
 	</td>

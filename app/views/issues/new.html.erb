@@ -1,9 +1,9 @@
-<%= link_to("<< Back", {:action => 'show', :id => @student.Bnum}, :class => 'back-link') %>
+<%= link_to("<< Back", student_issues_path(@student.AltID), :class => 'back-link') %>
 
 <div class="issue new">
 
 
-  <%= form_for(:issue, :url => {:action => 'create', :id => @student.Bnum}) do |f| %>
+  <%= form_for(:issue, :url => student_issues_path(@student.AltID) ) do |f| %>
 	<h2>Open New Issue for <%=[@first_name, @last_name].join(' ')%></h2>
   	<%= error_messages_for(@issue) %>
 

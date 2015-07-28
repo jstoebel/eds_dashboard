@@ -28,24 +28,35 @@ class PraxisResultsController < ApplicationController
     @test = PraxisResult.new
     @students = Student.all.current.by_last
     @test_options = PraxisTest.all.current
-    puts "HERE IS @test_options", @test_options
+    # puts "HERE IS @test_options", @test_options
   end
 
   def create
     @test = PraxisResult.new(new_test_params)
-
     @test.TestID = get_testid(params)
 
-      begin
-        name_details(Student.find(@test.Bnum))
-        @test.save
-        flash[:notice] = "Registration successful: #{@first_name}, #{@last_name}, #{@test.TestCode}, #{@test.TestDate}"
-        redirect_to(action: 'new')        
-      rescue ActiveRecord::RecordNotFound
-        create_error
-      rescue ActiveRecord::InvalidForeignKey 
-        create_error
-      end
+
+    if @test.save
+      @student = Student.find(params[:praxis_result][:Bnum])
+      name_details(@student)
+      flash[:notice] = "Registration successful: #{@first_name}, #{@last_name}, #{@test.TestCode}, #{@test.TestDate}"
+      redirect_to(action: 'new')
+    else
+      create_error
+      
+    end
+
+
+      # begin
+      #   name_details(Student.find(@test.Bnum))
+      #   @test.save
+      #   flash[:notice] = "Registration successful: #{@first_name}, #{@last_name}, #{@test.TestCode}, #{@test.TestDate}"
+      #   redirect_to(action: 'new')        
+      # rescue ActiveRecord::RecordNotFound
+      #   create_error
+      # rescue ActiveRecord::InvalidForeignKey 
+      #   create_error
+      # end
 
   end
 
@@ -74,7 +85,7 @@ class PraxisResultsController < ApplicationController
 
   def create_error
     #handles rerendernig of new page.
-    flash[:notice] = "Error in creating registration. Please review this form and try again."
+    # flash[:notice] = "Error in creating registration. Please review this form and try again."
     @students = Student.all.current.by_last
     @test_options = PraxisTest.all.current
     render('new')

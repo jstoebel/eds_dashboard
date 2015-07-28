@@ -2,22 +2,21 @@ class IssuesController < ApplicationController
   def new
   	@issue = Issue.new
 
-    #TODO FIX THIS!
-  	# @student = Student.find(@issue.students_Bnum)
-   #  name_details(@student)
+  	@student = find_student(params[:student_id])
+    name_details(@student)
   end
 
   def create
-    @student = Student.find(params[:id])
+    @student = find_student(params[:student_id])
     name_details(@student)
     @issue = Issue.new(new_issue_params)
-    @issue.students_Bnum = params[:id]
+    @issue.students_Bnum = @student.Bnum
     @issue.tep_advisors_AdvisorBnum = "123456"    #FIX THIS! fake B# for development only. 
 
-    if @issue.valid?
-      @issue.save
+    puts @issue.inspect
+    if @issue.save
       flash[:notice] = "New issue opened for: #{@first_name}, #{@last_name}"
-      redirect_to(action: 'show', id: params[:id]) 
+      redirect_to(student_issues_path(@student.AltID)) 
     else
       render('new')
     end
@@ -67,7 +66,9 @@ class IssuesController < ApplicationController
     @update.save
 
     flash[:notice] = "Issue resolved!"
-    redirect_to(student_issues_path(@issue.students_Bnum))
+
+    @student = Student.find(@issue.students_Bnum)
+    redirect_to(student_issues_path(@student.AltID))
 
   end
 
@@ -84,7 +85,7 @@ class IssuesController < ApplicationController
   private
   #white lists params for a new update
   def new_update_params
-    params.require(:issue_update).permit(:Name, :Description)
+    params.require(:issue_id).permit(:Name, :Description)
   end
 
   def close_issue_params

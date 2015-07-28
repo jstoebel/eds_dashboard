@@ -4,7 +4,7 @@
 
 
       <div class="issue_header"> <%= pluralize(@student.issues.size, 'issue') %>  found
-      <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Open New Issue", {:action => 'new', :id => @student.Bnum}, :class => 'large_action issue_new new') %>
+      <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Open New Issue", new_student_issue_path(@student.AltID), :class => 'large_action issue_new new') %>
       </div>
 
     </br>
@@ -50,19 +50,21 @@
 
             <!-- updates go here! -->
             <% if issue.issue_updates.sorted.size > 0 %>
-            <p><u>Updates</u></p>
-            <ul>
-            <% end %>
 
-            <% issue.issue_updates.sorted.each do |update| %> 
+              <% issue.issue_updates.sorted.each do |update| %> 
 
+                <div class="issue_updates">
+                <ul>                
                 <strong><li><%= [update.CreateDate.strftime("%m/%d/%Y"), update.UpdateName].join(" ") %></li></strong>
-                <br/>
                 <%= update.Description %>
-              </p>
+                </p>
+                </ul></div>
+                <% end %>
+
 
             <% end %>
-            </p>
+            <hr>
+
 
 
 
