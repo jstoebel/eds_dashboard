@@ -1,0 +1,2 @@
+module AdmTepHelper
+end
