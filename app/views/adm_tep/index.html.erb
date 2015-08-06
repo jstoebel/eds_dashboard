@@ -33,14 +33,18 @@
 			<tr class "<%= cycle('odd', 'even') %>">
 			<td><%= Student.find(app.Student_Bnum).FirstName %></td>
 			<td><%= Student.find(app.Student_Bnum).LastName %></td>
-			<td><%=#program goes here%> </td>
-			<td><%=#GPA %></td>
-			<td><%=#GPA last 30 %></td>   
-			<td><%=#Praxis pass (ugg)%></td>
-			<td><%=#TEPAdmit%></td>		
-			<td><%=#TEPAdmitDate%></td>				
+      <td><%= Program.find(app.Program_ProgCode).EDSProgName%> </td>
+      <td><%=app.GPA %></td>
+      <td><%=app.GPA_last30%></td>
+      <td><%=%></td>   
+      <td><%= app.PortfolioPass ? "Passing" : "Not Passing" %></td>
+      <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td>   
+
+			
 			<td class="actions">
-              <%= link_to("Details", praxis_result_path(result.AltID), :class => "action details") %>
+            <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details")%>
+              <!-- actions:
+                  make admission decision -->
 
           </tr>
 

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
 
 resources :praxis_results, only: [:new, :create]   
-resources :adm_tep, only: [:new, :create, :edit, :update]
+resources :adm_tep#, only: [:new, :create, :edit, :update]
 
 
   resources :students, only: [:index, :show], shallow: true do
@@ -25,9 +25,11 @@ resources :adm_tep, only: [:new, :create, :edit, :update]
 
   end
 
-  resources :banner_terms, shallow: true do
-    resources :adm_tep, only: [:index]
-  end
+  # resources :banner_terms, shallow: true do
+  #   resources :adm_tep, only: [:index], shallow: true do
+  #     get "decide"
+  #   end
+  # end
 
 
   # resources :praxis_results do

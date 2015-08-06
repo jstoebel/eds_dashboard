@@ -1,2 +1,37 @@
-<h1>AdmTep#edit</h1>
-<p>Find me in app/views/adm_tep/edit.html.erb</p>
+<div class="adm_tep edit">
+
+
+  <%= form_for(:adm_tep, :url => adm_tep_path(@application.AltID), method: :patch ) do |f| %>
+
+
+	<h2>Edit TEP Application for <%=[@first_name, @last_name].join(' ') + " (" + @term.PlainTerm + ")" %></h2>
+  	<%= error_messages_for(@issue) %>
+
+	<table summary="Issue form fields">
+
+	  <tr>
+	    <th><%= f.label(:TEPAdmit, "Admission Decision") %> </th>
+	    <td><%= f.select(:TEPAdmit, ["Admitted", "Not Admited"]) %></td>
+	  </tr>
+
+	  <tr>
+	    <th><%= f.label(:TEPAdmitDate, "Admit Date") %></th>
+	    <td> <%= f.date_select(:RegDate, {:order => [:month, :day, :year], default: Date.today}) %> </td>
+	  </tr>
+
+  	<tr>
+	<th></th>
+	<td>
+    <div class="form-buttons">
+      <%= submit_tag("Submit") %>
+
+
+	</td>
+	</tr>
+    </div>	
+	</table>
+
+
+
+  <% end %>
+</div>

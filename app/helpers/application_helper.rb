@@ -23,5 +23,6 @@ module ApplicationHelper
 		render(:partial => 'application/error_messages', :locals => {:object => object})
 	end
 	
+	
 
 end

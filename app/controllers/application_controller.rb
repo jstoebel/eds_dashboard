@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+
+  private
   	def find_student(alt_id)
   		return Student.where(AltID: alt_id).first
   		
@@ -34,7 +36,15 @@ class ApplicationController < ActionController::Base
 		end
 
 		
-	end
+	 end
+
+
+   #methods for working with terms
+
+   def current_term
+    return BannerTerm.where("StartDate < :today and EndDate > :today", {today: Date.today}).first
+     
+   end
 
 
 
