@@ -1,14 +1,15 @@
 Rails.application.routes.draw do
 
 
+
   #A resource must be top level before it can be nested in another resource (I think)
   
   # match ':controller(/:action(/:id))', :via => [:get, :post]
 
 
-
+resources :access, only: [:index]
 resources :praxis_results, only: [:new, :create]   
-resources :adm_tep#, only: [:new, :create, :edit, :update]
+resources :adm_tep, only: [:new, :create, :edit, :update]
 
 
   resources :students, only: [:index, :show], shallow: true do
@@ -21,15 +22,11 @@ resources :adm_tep#, only: [:new, :create, :edit, :update]
     get "resolve_issue"
     post "close_issue"
     resources :issue_updates
-    resources :adm_tep, only: [:show]
-
   end
 
-  # resources :banner_terms, shallow: true do
-  #   resources :adm_tep, only: [:index], shallow: true do
-  #     get "decide"
-  #   end
-  # end
+  resources :banner_terms, shallow: true do
+    resources :adm_tep, only: [:index]
+  end
 
 
   # resources :praxis_results do

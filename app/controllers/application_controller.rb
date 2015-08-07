@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
 
+
   private
   	def find_student(alt_id)
   		return Student.where(AltID: alt_id).first
@@ -37,15 +38,13 @@ class ApplicationController < ActionController::Base
 
 		
 	 end
-
-
+   
    #methods for working with terms
 
-   def current_term
-    return BannerTerm.where("StartDate < :today and EndDate > :today", {today: Date.today}).first
-     
+   def to_console(object)
+    puts "*"*100
+    puts object
+    puts "*"*100
    end
-
-
 
 end

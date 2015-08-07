@@ -8,7 +8,7 @@ class AdmTepController < ApplicationController
   def edit
     #TODO 
       #make sure user has permission to do this!
-      #term must be current.
+      #can't edit past term
 
     @application = AdmTep.where(AltID: params[:id]).first
 
@@ -32,8 +32,8 @@ class AdmTepController < ApplicationController
   def index
 
     #get the current term
-    @term = current_term
-    @applications = AdmTep.all.by_term(@term.BannerTerm)
+    @term = params[:banner_term_id]   #ex: 201412
+    @applications = AdmTep.all.by_term(@term)
 
   end
 

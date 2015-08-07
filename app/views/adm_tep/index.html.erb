@@ -1,15 +1,10 @@
-<h1>AdmTep#index</h1>
-<p>Find me in app/views/adm_tep/index.html.erb</p>
-<%= params %>
-
-
 <!-- TODO Implement back link...once we know what we are going back to! -->
-
+<%= params %>
 <div class="index">
 
   <table class="listing" summary="adm_tep list">
     <caption>   
-      <h2>Applications to TEP <%= @term.PlainTerm%></h2>
+      <h2>Applications to TEP: <%= @term%></h2>
 
       <div> <%= pluralize(@applications.size, 'applications') %>  found </div>
 
@@ -25,8 +20,7 @@
             <th>Program</th>
             <th>GPA</th>
             <th>GPA (Last 30 Credit Hours)</th>      
-            <th>Praxis Pass</th>
-            <th>Status of Application</th>            
+            <th>Praxis Pass</th>       
             <th>Admit Date</th>            
           </tr>
       	<% @applications.each do |app|%>
@@ -37,7 +31,6 @@
       <td><%=app.GPA %></td>
       <td><%=app.GPA_last30%></td>
       <td><%=%></td>   
-      <td><%= app.PortfolioPass ? "Passing" : "Not Passing" %></td>
       <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td>   
 
 			
