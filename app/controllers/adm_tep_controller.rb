@@ -31,18 +31,30 @@ class AdmTepController < ApplicationController
 
   def index
 
+    @current_term = current_term
+    puts "*"*50
+    puts @current_term
     #get the current term
-    @term = params[:banner_term_id]   #ex: 201412
+    @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412
     @applications = AdmTep.all.by_term(@term)
 
+    @menu_terms = BannerTerm.joins(:adm_tep).group(:BannerTerm).where("StartDate > ? and StartDate < ?", Date.today-730, Date.today)
+    
+    if (@curent_term) and not (@menu_terms.include? @current_term)
+      @menu_terms << @current_term    #add the current term if its not there already.
+      
+    end
+  end
+
+  def choose
+    @term = params[:banner_term][:menu_terms]
+    redirect_to(banner_term_adm_tep_index_path(@term))
+    
   end
 
   def show
   end
 
-  def decide
-
-  end
 
   private
   def adm_params

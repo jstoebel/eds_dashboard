@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
 resources :access, only: [:index]
 resources :praxis_results, only: [:new, :create]   
-resources :adm_tep, only: [:new, :create, :edit, :update]
+resources :adm_tep, only: [:index, :new, :create, :edit, :update] do
+  post "choose"
+end
 
 
   resources :students, only: [:index, :show], shallow: true do

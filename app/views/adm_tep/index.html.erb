@@ -1,18 +1,27 @@
 <!-- TODO Implement back link...once we know what we are going back to! -->
-<%= params %>
 <div class="index">
+
+
+  <!-- drop down menu for all terms. Reload page on change -->
+
+  <%= form_for(:banner_term, :url => adm_tep_choose_path('pick')) do |f| %>
+
+    <%= f.select( :menu_terms,  @menu_terms.map { |t| [t.PlainTerm, t.BannerTerm]},
+          {prompt: "Select a term"}, 
+          {:onchange => "this.form.submit()"}) %>
+      <%# submit_tag("Submit") %>
+  <% end %>
+
 
   <table class="listing" summary="adm_tep list">
     <caption>   
-      <h2>Applications to TEP: <%= @term%></h2>
+      <h2>Applications to TEP: <%= @term.PlainTerm%></h2>
 
       <div> <%= pluralize(@applications.size, 'applications') %>  found </div>
 
     </caption>
 
     <% if @applications.size > 0  %>
-
-
 
           <tr class="header">
             <th>First Name</th>
@@ -35,7 +44,18 @@
 
 			
 			<td class="actions">
-            <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details")%>
+        <!-- display decision or link to make decision if none made -->
+
+            <% if app.TEPAdmit == nil %>
+
+              <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details")%>
+
+            <% else %>
+
+              <%= app.TEPAdmit ? "Admitted" : "Not Admitted" %>
+
+            <% end %>
+            
               <!-- actions:
                   make admission decision -->
 
