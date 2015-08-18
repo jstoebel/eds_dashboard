@@ -2,8 +2,10 @@
 <div class="index">
 
 
-  <!-- drop down menu for all terms. Reload page on change -->
 
+
+  
+  <!-- drop down menu for all terms. Reload page on change -->
   <%= form_for(:banner_term, :url => adm_tep_choose_path('pick')) do |f| %>
 
     <%= f.select( :menu_terms,  @menu_terms.map { |t| [t.PlainTerm, t.BannerTerm]},
@@ -16,8 +18,9 @@
   <table class="listing" summary="adm_tep list">
     <caption>   
       <h2>Applications to TEP: <%= @term.PlainTerm%></h2>
-
-      <div> <%= pluralize(@applications.size, 'applications') %>  found </div>
+      
+  <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Add New Student", new_adm_tep_path, :class => 'large_action issue_new new') %>
+       <%= pluralize(@applications.size, 'applications') %>  found 
 
     </caption>
 
@@ -33,13 +36,16 @@
             <th>Admit Date</th>            
           </tr>
       	<% @applications.each do |app|%>
+        <% student = Student.find(app.Student_Bnum) %>
+
+
 			<tr class "<%= cycle('odd', 'even') %>">
-			<td><%= Student.find(app.Student_Bnum).FirstName %></td>
-			<td><%= Student.find(app.Student_Bnum).LastName %></td>
+			<td><%= student.FirstName %></td>
+			<td><%= student.LastName %></td>
       <td><%= Program.find(app.Program_ProgCode).EDSProgName%> </td>
       <td><%=app.GPA %></td>
       <td><%=app.GPA_last30%></td>
-      <td><%=%></td>   
+      <td><span class="glyphicon glyphicon-search" aria-hidden="true"></span></td>
       <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td>   
 
 			

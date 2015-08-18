@@ -46,6 +46,22 @@ module ApplicationHelper
 
    end
 
+   def praxisI_pass(student)
+   	#input a Student instance
+   	#output if student has passed all praxis I exams.
+   	
+	   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.TestCode}
+	   	passings = PraxisResult.where(Bnum: student.Bnum, Pass: 1).map{ |p| p.TestCode}
 
+	   	req_tests.each do |requirement|
+	   		if not passings.include? requirement
+	   			return false	#found a required test student hasn't passed
+   			end
+
+	   	end
+
+	   	return true		#failed to find a required test student hasn't passed.
+
+   end
 
 end

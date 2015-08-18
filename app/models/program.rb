@@ -1,3 +1,3 @@
 class Program < ActiveRecord::Base
-	has_one :adm_tep
+	has_many :adm_tep
 end

@@ -1,19 +1,21 @@
 <%= link_to("<< Back", students_path, :class => 'back-link') %>
 <div class="index">
-      <h2>Issues for <%= "#{@first_name} #{@last_name}"%></h2>
-
-
-      <div class="issue_header"> <%= pluralize(@student.issues.size, 'issue') %>  found
-      <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Open New Issue", new_student_issue_path(@student.AltID), :class => 'large_action issue_new new') %>
-      </div>
-
+      
     </br>
 
+
+          <table summary="Student detail view">
+            <caption>
+
+              <h2>Issues for <%= "#{@first_name} #{@last_name}"%></h2>
+              <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Open New Issue", new_student_issue_path(@student.AltID), :class => 'large_action issue_new new') %>
+              <div class="issue_header"> <%= pluralize(@student.issues.size, 'issue') %>  found
+
+              </div>
+            </caption>
     <% if @student.issues.size > 0 %>
 
         <% @student.issues.sorted.each do |issue| %>
-          <table summary="Student detail view">
-
             <tr>
               <th>Issue Name</th>
               <td><%= issue.Name %></td>

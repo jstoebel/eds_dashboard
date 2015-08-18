@@ -1,2 +1,37 @@
-<h1>AdmTep#new</h1>
-<p>Find me in app/views/adm_tep/new.html.erb</p>
+<%= link_to("<< Back", adm_tep_index_path, :class => 'back-link') %>
+
+<div class="issue new">
+
+  <%= form_for(:adm_tep, :url => adm_tep_index_path) do |f| %>
+
+	<table summary="adm_tep form fields">
+
+	    <caption>New Application</caption>
+	    <%= error_messages_for(@app) %>
+
+    <tr>
+      <th> <%= f.label(:Student_Bnum, "Name")%> </th>
+      <td> <%= f.select(:Student_Bnum, @students.map {|s| [name_details(s), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:Program_ProgCode, "Program")%> </th>
+      <td> <%= f.select(:Program_ProgCode, @programs.map {|p| [p.EDSProgName, p.ProgCode]}, {:prompt => 'Select a Program'}) %></td>
+    </tr>
+
+  	<tr>
+	<th></th>
+	<td>
+    <div class="form-buttons">
+      <%= submit_tag("Submit") %>
+
+
+	</td>
+	</tr>
+    </div>	
+	</table>
+
+
+
+  <% end %>
+</div>

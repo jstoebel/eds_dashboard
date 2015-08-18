@@ -11,6 +11,7 @@ resources :access, only: [:index]
 resources :praxis_results, only: [:new, :create]   
 resources :adm_tep, only: [:index, :new, :create, :edit, :update] do
   post "choose"
+  get "admit"
 end
 
 

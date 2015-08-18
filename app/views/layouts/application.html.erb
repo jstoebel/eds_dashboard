@@ -2,8 +2,10 @@
 <html>
 	<head>
 	  <title>Education Studies Dashboard</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 	  <%= stylesheet_link_tag('application') %>
     <%= javascript_include_tag :defaults %>
+
 	</head>
 	<body>
 
@@ -38,9 +40,8 @@
           <%= flash[:notice] %>
         </div>
       <% end %>
-	<%= yield %>
+<div class="yield">  <%= yield %> </div>
 	
 		<!--After yield -->
 
-	</body>
 </html>

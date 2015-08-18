@@ -1,5 +1,4 @@
-
- * This is a manifest file that'll be compiled into application.css, which will include all the files
+/* * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
  * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
@@ -9,10 +8,12 @@
  * compiled file so the styles you add here take precedence over styles defined in any styles
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
- *
- *= require_tree .
+
+ *= require_tree
  *= require_self
- */
+
+ 
+ 
  /* Admin stylesheet       */
 /* load after public.css */
 
@@ -29,18 +30,29 @@ light brown:  #4C2516
 
 
 html { height: 100%; width: 100%; }
+
+.yield {background-color: #F2DC87; 
+  padding-top: 50px;
+  height: 100%; 
+  width: 100%;
+  color: black;
+
+  }
+
 body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
   font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F2DC87;  }
 p, td, ul, ol, li, dl, dt, dd { 
   font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
 img { border: none; }
-table { border-collapse: collapse; }
+table { border-collapse: collapse; color: black; }
 table tr th, table tr td { vertical-align: top; text-align: left; 
   padding: 3px; white-space: nowrap; }
 a, a:visited { color: #993120; }
 a:hover {}
 
-h2, h3 {margin-left: 50px}    /*page headers*/
+h2, h3 {margin-left: 50px;
+  color: black;
+  }    /*page headers*/
 
 /*hr{ border: 0; height: 1px; background: #ccc; background-image: linear-gradient(to right, #ccc, #333, #ccc); }*/
 
@@ -66,10 +78,10 @@ hr {background-color: black; border: 0; height: 1px;}
 
 /* Navigation */
 .navigation{
-	margin:0px 0px 25px;
 	border-bottom:#adb1b2 solid 1px;
 	padding:15px 5px;
 	background: #B6D491;
+
 }
 
 .navigation ul{
@@ -129,7 +141,7 @@ a.action:hover { background: #B6D491; }
 
 a.large_action {padding: 2px 5px; 
   background: #94B26F; color: #4C2516;  border: 1px solid #4C2516;
-  text-decoration: none; font-size: 1.2em; text-align: center;
+  text-decoration: none; font-size: 14pt; text-align: center; font-weight: normal;
 }
 
 /* small action buttons */
