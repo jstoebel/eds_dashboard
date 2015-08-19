@@ -39,16 +39,41 @@ html { height: 100%; width: 100%; }
 
   }
 
+caption {color: black;}
+
 body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
   font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F2DC87;  }
 p, td, ul, ol, li, dl, dt, dd { 
   font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
 img { border: none; }
-table { border-collapse: collapse; color: black; }
+table { border-collapse: collapse; }
 table tr th, table tr td { vertical-align: top; text-align: left; 
   padding: 3px; white-space: nowrap; }
 a, a:visited { color: #993120; }
 a:hover {}
+
+/*
+Style for Glyphicons*/
+
+.glyphicon {
+  margin: 0;
+
+  position: relative;
+  vertical-align: middle;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, 0%);
+  font-size: 1.5em;
+}
+
+
+.glyphicon-ok {  
+  color: green;
+}
+
+.glyphicon-remove {  
+  color: red;
+}
 
 h2, h3 {margin-left: 50px;
   color: black;

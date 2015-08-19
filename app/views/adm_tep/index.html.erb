@@ -3,8 +3,6 @@
 
 
 
-
-  
   <!-- drop down menu for all terms. Reload page on change -->
   <%= form_for(:banner_term, :url => adm_tep_choose_path('pick')) do |f| %>
 
@@ -45,25 +43,47 @@
       <td><%= Program.find(app.Program_ProgCode).EDSProgName%> </td>
       <td><%=app.GPA %></td>
       <td><%=app.GPA_last30%></td>
-      <td><span class="glyphicon glyphicon-search" aria-hidden="true"></span></td>
+      <td>
+        <% if praxisI_pass(student) %> 
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+
+        <% else %>
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+
+        <% end %>
+
+        </td>
       <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td>   
 
 			
 			<td class="actions">
-        <!-- display decision or link to make decision if none made -->
-
-            <% if app.TEPAdmit == nil %>
+            <!-- Display button for admission decision if
+                1) Student has no admission decision
+                2) we are currently inside a term
+                3) the term displayed is a current term.-->
+            <% if app.TEPAdmit == nil  %>    
 
               <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details")%>
 
             <% else %>
 
-              <%= app.TEPAdmit ? "Admitted" : "Not Admitted" %>
+              <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
+            <!-- TODO uncomment this for production! -->
 
+<!--                 <%# if app.TEPAdmit == true %>
+                    Admitted
+                <%# elsif app.TEPAdmit == false %>
+                    Not Admitted
+                <%# elsif app.TEPAdmit == nil %>
+                    Not Admitted (no decision made)
+
+                <%# else %>
+                    Error
+
+                <%# end %>
+ -->
             <% end %>
             
-              <!-- actions:
-                  make admission decision -->
 
           </tr>
 

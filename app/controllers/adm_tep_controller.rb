@@ -25,7 +25,7 @@ class AdmTepController < ApplicationController
     #   redirect_to(adm_tep_index_path)
     # end
 
-    @app = AdmTep.new(adm_params)
+    @app = AdmTep.new(new_adm_params)
     @current_term = current_term(exact=true)    #we have already validated that we are inside a current term
     @bnum =  params[:adm_tep][:Student_Bnum]
     @prog_code = params[:adm_tep][:Program_ProgCode]
@@ -45,26 +45,68 @@ class AdmTepController < ApplicationController
       redirect_to(action: 'index')
     else
       flash[:notice] = "Application not saved."
-      create_error
+      error_new
       
     end
 
   end
 
   def edit
-
+      @application = AdmTep.where("AltID = ?", params[:id]).first
+      @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
+      @student = Student.find(@application.Student_Bnum)
+      name_details(@student)
 
   end
 
   def update
 
+    @application = AdmTep.where("AltID = ?", params[:id]).first
+    @application.TEPAdmit = params[:adm_tep][:TEPAdmit]
 
+    #if admitted, an admit date must be given
+    if params[:adm_tep]["RegDate(1i)"] and params[:adm_tep]["RegDate(2i)"] and params[:adm_tep]["RegDate(3i)"]
+        #date given!
+
+            #was it inside the current term?
+                #yes
+                    #assign date and move on
+                #no
+                    #raise error
+        #date wasn't given
+            #raise error
+
+    end
+
+
+
+    #validations:
+
+      #needs GPA
+      if @application.GPA < 2.75 and @application.GPA < 3.0
+          @application.errors.base("Student does not have sufficent GPA to be admitted")
+      end
+
+      #needs Praxis pass
+
+      if not praxisI_pass(Student.find(@application.Student_Bnum))
+        @application.errors.base("Student must pass the Praxis I exam in order to be admitted.")
+      end
+
+
+
+      if @application.save
+          flash[:notice] = "Student application successfully updated"
+          redirect_to(adm_tep_index_path)
+      else
+          error_update
+      end
   end
 
   def index
 
-
-
+    #@current_term: the current term in time
+    #@term: the term displayed
     #get the requseted term, or the current term
 
     @current_term = current_term(exact_term=false)
@@ -109,17 +151,28 @@ class AdmTepController < ApplicationController
 
 
   private
-  def adm_params
+  def new_adm_params
     params.require(:adm_tep).permit(:Student_Bnum, :Program_ProgCode)
-    
   end
 
-  def create_error
+  def edit_adm_params
+    params.require(:adm_tep).permit(:TEPAdmit, :TEPAdmitDate)
+  end
+
+  def error_new
     #sends user back to new form
 
     @students = Student.where("ProgStatus <> 'Candidate' and EnrollmentStatus='Active Student' and Classification <> 'Senior'")
     @programs = Program.where("Current = 1")
     render('new')
+  end
+
+  def error_update
+    @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
+    @student = Student.find(@application.Student_Bnum)
+    name_details(@student)
+    render('edit')
+    
   end
 
 end

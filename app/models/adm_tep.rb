@@ -6,7 +6,7 @@ class AdmTep < ActiveRecord::Base
 
 	validate do |app|
 		app.errors.add(:base, "Please select a student to apply.") if app.Student_Bnum.blank?
-		app.errors.add(:base, "Please select a program.") if app.Program_ProgCode.blank?		
+		app.errors.add(:base, "Please select a program.") if app.Program_ProgCode.blank?
 	end
 
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
