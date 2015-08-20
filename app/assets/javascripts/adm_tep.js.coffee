@@ -6,9 +6,12 @@ $j = jQuery
 $j ->
 		$('.date-admit').hide()
 		$(".admit-choice").on("change", ->
+			# alert(choice = $(".admit-choice").val())
 			choice = $(".admit-choice").val()
-			if choice == "Admitted"
+			if choice == "true"
 				$(".date-admit").show()
 			else
 				$(".date-admit").hide()
 		)
+
+		$('[data-behaviour~=datepicker]').datepicker()

@@ -12,8 +12,10 @@
 //
 
 //jquery.turbolinks makes the coffeescript run the first time a page is loaded (no refresh needed)
+
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap-datepicker
 //= require_tree .

@@ -8,10 +8,11 @@
  * compiled file so the styles you add here take precedence over styles defined in any styles
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
-
+ 
+ *= require bootstrap-datepicker
  *= require_tree
  *= require_self
-
+ 
  
  
  /* Admin stylesheet       */
@@ -209,8 +210,8 @@ td.full_span {column-span: all;}
 }
 
 /* CRUD */
-.notice { height: 1.25em; padding: 0.5em; text-align: center;
-  background: #B6D491; color: #4C2516; }
+.notice { height: 2.5em; padding: 0.5em; text-align: center;
+  background: #B6D491; color: #4C2516; font-size: 16pt;}
 .back-link { font-size: 1em; margin-bottom: 1em; }
 .form-buttons { text-align: center; margin: 1em 0; }
 
@@ -262,7 +263,7 @@ span.status.false { background: red; color: red; }
 #errorExplanation { width: 400px; padding: 0; margin: 0 auto 1.5em;
   border: 1px solid #AA0000; background-color: #FFFFFF; font-size: 12px; }
 #errorExplanation h2 { font-weight: bold; font-size: 12px;
-  padding: 5px 5px 5px 15px; margin: 0; width: 380px;
+  padding: 5px 5px 5px 15px; margin: 0; width: 400px; text-align: center;
   background-color: #AA0000; color: #FFFFFF; }
 #errorExplanation p { color: #333333; margin: 0; padding: 3px 0.5em; }
 #errorExplanation ul { margin-top: 0; }

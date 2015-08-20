@@ -53,7 +53,7 @@ class AdmTepController < ApplicationController
 
   def edit
       @application = AdmTep.where("AltID = ?", params[:id]).first
-      @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
+      @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
       @student = Student.find(@application.Student_Bnum)
       name_details(@student)
 
@@ -61,55 +61,57 @@ class AdmTepController < ApplicationController
 
   def update
 
+    #process admission decision for student
+
     @application = AdmTep.where("AltID = ?", params[:id]).first
-    @application.TEPAdmit = params[:adm_tep][:TEPAdmit]
 
-    #if admitted, an admit date must be given
-    if params[:adm_tep]["RegDate(1i)"] and params[:adm_tep]["RegDate(2i)"] and params[:adm_tep]["RegDate(3i)"]
-        #date given!
+    @current_term = current_term(exact=false)
 
-            #was it inside the current term?
-                #yes
-                    #assign date and move on
-                #no
-                    #raise error
-        #date wasn't given
-            #raise error
+    #application must be processed in its own term
+    if @application.BannerTerm_BannerTerm != @current_term.BannerTerm
+        flash[:notice] = "Application must be processed in its own term."
+        error_update
+        return
+    end
+
+    @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
+
+    if @application.TEPAdmit == true
+        begin
+            admit_date = DateTime.strptime(params[:adm_tep][:TEPAdmitDate])
+            @application.TEPAdmitDate = DateTime.strptime(admit_date, '%m/%d/%Y') #load in the date if student was admited           
+        rescue ArgumentError => e
+            @application.TEPAdmitDate = nil
+        end
+        
+
+    elsif @application.TEPAdmit.nil?
+        flash[:notice] = "Please make an admission decision for this student."
+        error_update
+        return
+    end
+
+    if @application.save
+        flash[:notice] = "Student application successfully updated"
+        redirect_to(adm_tep_index_path)
+        return
+
+    else
+        flash[:notice] = "Error in saving application."
+        error_update
+        return
 
     end
 
-
-
-    #validations:
-
-      #needs GPA
-      if @application.GPA < 2.75 and @application.GPA < 3.0
-          @application.errors.base("Student does not have sufficent GPA to be admitted")
-      end
-
-      #needs Praxis pass
-
-      if not praxisI_pass(Student.find(@application.Student_Bnum))
-        @application.errors.base("Student must pass the Praxis I exam in order to be admitted.")
-      end
-
-
-
-      if @application.save
-          flash[:notice] = "Student application successfully updated"
-          redirect_to(adm_tep_index_path)
-      else
-          error_update
-      end
   end
 
   def index
 
     #@current_term: the current term in time
     #@term: the term displayed
-    #get the requseted term, or the current term
 
     @current_term = current_term(exact_term=false)
+
     if params[:banner_term_id]
       @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412
 
@@ -122,11 +124,9 @@ class AdmTepController < ApplicationController
     #assemble possible terms for select menu 
 
     @menu_terms = BannerTerm.joins(:adm_tep).group(:BannerTerm).where("StartDate > ? and StartDate < ?", Date.today-730, Date.today)
-    
     if (@current_term) and not (@menu_terms.include? @current_term)
       @menu_terms << @current_term    #add the current term if its not there already.
     end
-
 
   end
 
@@ -168,6 +168,7 @@ class AdmTepController < ApplicationController
   end
 
   def error_update
+    #sends user back to edit
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
     @student = Student.find(@application.Student_Bnum)
     name_details(@student)

@@ -64,4 +64,15 @@ module ApplicationHelper
 
    end
 
+   def string_to_bool(i)
+   		if i.downcase=="true"
+   			return true
+		else if i.downcase=="false"
+			return false
+		else
+			return nil
+		end
+   end
+
+end
 end

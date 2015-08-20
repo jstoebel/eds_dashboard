@@ -2,7 +2,7 @@
     <%= form_for(:adm_tep, :url => adm_tep_path(@application.AltID), method: :patch ) do |f| %>
 
     <h2>Edit TEP Application for <%=[@first_name, @last_name].join(' ') + " (" + @term.PlainTerm + ")" %></h2>
-    <%= error_messages_for(@issue) %> 
+    <%= error_messages_for(@application) %> 
 
     <table summary="adm_tep form fields">
 
@@ -10,16 +10,23 @@
             <th><%= f.label(:TEPAdmit, "Admission Decision", ) %></th>
 
             <td><%= f.select(:TEPAdmit, 
-                        ["Admitted", "Not Admited"],
+                        {"Admitted" =>  true, "Not Admitted" => false},
                         {prompt: "Admission Decision"}, :class => "admit-choice") %></td>
         </tr>
 
 
-        <tr class="date-admit">            
-        <th><%= f.label(:TEPAdmitDate, "Admit Date") %></th>
+        <tr>            
+        <th class="date-admit"><%= f.label(:TEPAdmitDate, "Admit Date") %></th>
 
-            <td>
-            <%= f.date_select(:RegDate, {:order => [:month, :day, :year], :include_blank => true, :default => nil}) %></td>
+            <td class="date-admit">
+                <%= f.text_field :TEPAdmitDate, 'data-behaviour' => 'datepicker' %>
+            <script type="text/javascript">
+                $('[data-behaviour~=datepicker]').datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: <%=@term.StartDate.strftime("%m/%d/%Y")  %>,
+                    endDate: <%=@term.EndDate.strftime("%m/%d/%Y")  %>
+                });
+            </script></td>
         </tr>
 
 
