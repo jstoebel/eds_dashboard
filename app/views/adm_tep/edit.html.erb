@@ -1,4 +1,6 @@
 <div class="adm_tep edit">
+    <%= link_to("<< Back", adm_tep_index_path, html: {multipart: true},  :class => 'back-link') %>
+    
     <%= form_for(:adm_tep, :url => adm_tep_path(@application.AltID), method: :patch ) do |f| %>
 
     <h2>Edit TEP Application for <%=[@first_name, @last_name].join(' ') + " (" + @term.PlainTerm + ")" %></h2>
@@ -27,6 +29,12 @@
                     endDate: <%=@term.EndDate.strftime("%m/%d/%Y")  %>
                 });
             </script></td>
+
+            <td class="letter-attach">
+                <%= f.file_field :letter %>
+
+
+            </td>
         </tr>
 
 

@@ -1,15 +1,13 @@
 <!-- TODO Implement back link...once we know what we are going back to! -->
 <div class="index">
 
-
-
   <!-- drop down menu for all terms. Reload page on change -->
   <%= form_for(:banner_term, :url => adm_tep_choose_path('pick')) do |f| %>
 
-    <%# f.select( :menu_terms,  @menu_terms.map { |t| [t.PlainTerm, t.BannerTerm]},
+    <%= f.select( :menu_terms,  @menu_terms.map { |t| [t.PlainTerm, t.BannerTerm]},
           {prompt: "Select a term"}, 
           {:onchange => "this.form.submit()"}) %>
-      <%# submit_tag("Submit") %>
+
   <% end %>
 
 
@@ -61,27 +59,14 @@
                 1) Student has no admission decision
                 2) we are currently inside a term
                 3) the term displayed is a current term.-->
-            <% if app.TEPAdmit == nil  %>    
+            <% if app.TEPAdmit == nil and @term = current_term(exact=false)%>    
 
               <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details")%>
 
             <% else %>
 
               <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
-            <!-- TODO uncomment this for production! -->
 
-<!--                 <%# if app.TEPAdmit == true %>
-                    Admitted
-                <%# elsif app.TEPAdmit == false %>
-                    Not Admitted
-                <%# elsif app.TEPAdmit == nil %>
-                    Not Admitted (no decision made)
-
-                <%# else %>
-                    Error
-
-                <%# end %>
- -->
             <% end %>
             
 

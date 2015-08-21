@@ -3,6 +3,13 @@ class AdmTep < ActiveRecord::Base
 
   include ApplicationHelper
 
+	
+  has_attached_file :letter, 
+  :url => "/adm_tep_letters/:id/:basename.:extension",
+  :path => ":rails_root/app/assets/:id/:basename.:extension"
+
+	validates_attachment_content_type :letter, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
   has_one :program
   belongs_to :student, foreign_key: "Student_Bnum"
 

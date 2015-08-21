@@ -2,13 +2,11 @@ class AdmTepController < ApplicationController
   def new
     #display menu for possible names and possible programs
 
-
-    #UNCOMMENT THIS!!
-    # if current_term(exact=true) == nil
-    #   flash[:notice] = "No Berea term is currently not in session. You may not add a new studnet to apply."
-    #   redirect_to(adm_tep_index_path)
-    # end
-
+    if current_term(exact=true) == nil
+      flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
+      redirect_to(adm_tep_index_path)
+      return
+    end
 
     @students = Student.where("ProgStatus <> 'Candidate' and EnrollmentStatus='Active Student' and Classification <> 'Senior'")
     @programs = Program.where("Current = 1")
@@ -18,20 +16,18 @@ class AdmTepController < ApplicationController
 
   def create
  
-
-    #UNCOMMENT THIS!!
-    # if current_term(exact=true) == nil
-    #   flash[:notice] = "No Berea term is currently not in session. You may not add a new studnet to apply."
-    #   redirect_to(adm_tep_index_path)
-    # end
+    if current_term(exact=true) == nil
+      flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
+      redirect_to(adm_tep_index_path)
+    end
 
     @app = AdmTep.new(new_adm_params)
     @current_term = current_term(exact=true)    #we have already validated that we are inside a current term
     @bnum =  params[:adm_tep][:Student_Bnum]
     @prog_code = params[:adm_tep][:Program_ProgCode]
 
-    @app.BannerTerm_BannerTerm =  201415  #TODO go back to this! -> @curent_term.BannerTerm
-    @app.AppID = [@bnum, "201415", @prog_code].join('-')   #TODO go back to this! -> @curent_term.BannerTerm
+    @app.BannerTerm_BannerTerm =  @curent_term.BannerTerm
+    @app.AppID = [@bnum, @curent_term.BannerTerm.to_s, @prog_code].join('-')
 
     #TODO fetch GPA,  GPA last 30, earned credits. Add to @app
 
@@ -67,7 +63,7 @@ class AdmTepController < ApplicationController
 
     @current_term = current_term(exact=false)
 
-    #application must be processed in its own term
+    #application must be processed in its own term or the break following.
     if @application.BannerTerm_BannerTerm != @current_term.BannerTerm
         flash[:notice] = "Application must be processed in its own term."
         error_update
@@ -75,6 +71,7 @@ class AdmTepController < ApplicationController
     end
 
     @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
+    @application.letter = params[:adm_tep][:letter]
 
     if @application.TEPAdmit == true
         begin
@@ -93,7 +90,7 @@ class AdmTepController < ApplicationController
 
     if @application.save
         flash[:notice] = "Student application successfully updated"
-        redirect_to(adm_tep_index_path)
+        # redirect_to(adm_tep_index_path)
         return
 
     else
