@@ -3,12 +3,11 @@ class AdmTep < ActiveRecord::Base
 
   include ApplicationHelper
 
-	
   has_attached_file :letter, 
   :url => "/adm_tep_letters/:id/:basename.:extension",
-  :path => ":rails_root/app/assets/:id/:basename.:extension"
+  :path => ":rails_root/app/assets/student_files/:bnum/admission_letters/:term/:basename.:extension"
 
-	validates_attachment_content_type :letter, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
 
   has_one :program
   belongs_to :student, foreign_key: "Student_Bnum"
@@ -24,8 +23,6 @@ class AdmTep < ActiveRecord::Base
 		app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
 		app.errors.add(:base, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
 	end
-
-
 
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 
