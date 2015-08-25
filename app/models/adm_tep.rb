@@ -4,8 +4,8 @@ class AdmTep < ActiveRecord::Base
   include ApplicationHelper
 
   has_attached_file :letter, 
-  :url => "/adm_tep_letters/:id/:basename.:extension",
-  :path => ":rails_root/app/assets/student_files/:bnum/admission_letters/:term/:basename.:extension"
+  :url => "/adm_tep/:altid/download",		#passes AltID 
+  :path => ":rails_root/public/admission_letters/:bnum/:basename.:extension"
 
 	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
 

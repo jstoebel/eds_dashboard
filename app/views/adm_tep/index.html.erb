@@ -11,7 +11,7 @@
   <% end %>
 
 
-  <table class="listing" summary="adm_tep list">
+  <table class="listing summary adm_tep list">
     <caption>   
       <h2>Applications to TEP: <%= @term.PlainTerm%></h2>
       
@@ -29,7 +29,10 @@
             <th>GPA</th>
             <th>GPA (Last 30 Credit Hours)</th>      
             <th>Praxis Pass</th>       
-            <th>Admit Date</th>            
+            <th>Admit Date</th>
+            <th>Admission Decision</th>
+<!--             <th>Decision Letter</th>     -->
+
           </tr>
       	<% @applications.each do |app|%>
         <% student = Student.find(app.Student_Bnum) %>
@@ -51,9 +54,8 @@
         <% end %>
 
         </td>
-      <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td>   
+      <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td> 
 
-			
 			<td class="actions">
             <!-- Display button for admission decision if
                 1) Student has no admission decision
@@ -68,13 +70,25 @@
               <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
 
             <% end %>
-            
+      </td>
+<!-- <button type="button" class="btn btn-default btn-lg text-center"><span class="glyphicon glyphicon-share"></span><br>Resend</button> -->
+      <td class="doc-download"> 
+          <% if app.letter_file_name %>
+            <%= link_to app.letter.url, 
+            class: "glyphicon glyphicon-file" do %>
+
+          <% end %>
+              </br><small>Letter</small>
+          <% end %>
+
+      </td>
 
           </tr>
-
+        <!-- end of if statement for content-->
       	<% end %>
           
-    <% end %>
+    <!-- end of main loop -->
+    <% end %>   
 
   </table>
 </div>

@@ -48,8 +48,9 @@ p, td, ul, ol, li, dl, dt, dd {
   font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
 img { border: none; }
 table { border-collapse: collapse; }
-table tr th, table tr td { vertical-align: top; text-align: left; 
-  padding: 3px; white-space: nowrap; }
+
+table tr th, table tr td { vertical-align: middle; text-align: left; 
+  padding: 10px; white-space: nowrap; }
 a, a:visited { color: #993120; }
 a:hover {}
 
@@ -58,7 +59,6 @@ Style for Glyphicons*/
 
 .glyphicon {
   margin: 0;
-
   position: relative;
   vertical-align: middle;
   left: 50%;
@@ -66,7 +66,6 @@ Style for Glyphicons*/
   transform: translate(-50%, 0%);
   font-size: 1.5em;
 }
-
 
 .glyphicon-ok {  
   color: green;
@@ -177,20 +176,14 @@ a.large_action {padding: 2px 5px;
 .actions a.praxis_results  {min-width: 140px }
 .actions a.issues  {min-width: 90px }
 
+/*file download button*/
 
-/*input[type=submit].action {float: left; color: #4C2516; background:#94B26F; border: 1px solid #4C2516;
-    cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;}*/
-
-/*input.details {min-width: 50px}
-input.praxis_history {min-width: 150px}
-input.issues {min-width: 40px}
-
-form.form_link {
-    display: inline-block;
+td.doc-download {
+  border: 0px !important;
 }
-*/
+
+
+
 div.form_link {font-size: 0pt;}
 
 .actions a.show_pr  axis {min-width: 9em;}
@@ -229,8 +222,6 @@ table caption {font-size: 14pt; font-weight: bold; margin-bottom: 10px}
 
 .section + .section { padding-top: 0.5em; margin-top: 0.5em;
   border-top: 1px dotted #666666; }
-
-
 
 /*Issues*/
 

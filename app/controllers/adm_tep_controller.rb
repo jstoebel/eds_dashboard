@@ -138,12 +138,10 @@ class AdmTepController < ApplicationController
   def show
   end
 
-  def admit
-
-    #validate student has passed Praxis
-
-
-    #enter date student was admitted
+  def download
+    #download an admission letter
+    app = AdmTep.where("AltId=?", params[:adm_tep_id]).first
+    send_file app.letter.path
     
   end
 

@@ -2,16 +2,6 @@ Rails.application.routes.draw do
 
 
 
-  get 'adm_st/index'
-
-  get 'adm_st/new'
-
-  get 'adm_st/create'
-
-  get 'adm_st/edit'
-
-  get 'adm_st/update'
-
   #A resource must be top level before it can be nested in another resource (I think)
   
   # match ':controller(/:action(/:id))', :via => [:get, :post]
@@ -22,6 +12,7 @@ resources :praxis_results, only: [:new, :create]
 resources :adm_tep, only: [:index, :new, :create, :edit, :update] do
   post "choose"
   get "admit"
+  get "download"
 end
 
 
@@ -115,4 +106,6 @@ end
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  root 'students#index'
 end
