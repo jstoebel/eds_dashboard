@@ -72,6 +72,7 @@ class AdmTepController < ApplicationController
 
     @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
     @application.letter = params[:adm_tep][:letter]
+    @application.Notes = params[:adm_tep][:Notes]
 
     if @application.TEPAdmit == true
         begin
@@ -90,7 +91,7 @@ class AdmTepController < ApplicationController
 
     if @application.save
         flash[:notice] = "Student application successfully updated"
-        # redirect_to(adm_tep_index_path)
+        redirect_to(adm_tep_index_path)
         return
 
     else

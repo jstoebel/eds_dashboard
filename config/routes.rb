@@ -2,6 +2,16 @@ Rails.application.routes.draw do
 
 
 
+  get 'adm_st/index'
+
+  get 'adm_st/new'
+
+  get 'adm_st/create'
+
+  get 'adm_st/edit'
+
+  get 'adm_st/update'
+
   #A resource must be top level before it can be nested in another resource (I think)
   
   # match ':controller(/:action(/:id))', :via => [:get, :post]
