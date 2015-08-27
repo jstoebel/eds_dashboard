@@ -2,11 +2,11 @@
 
 
 <div class="students index">
-  <h2>Students</h2>
 
-  <div> <%= pluralize(@students.size, 'student') %>  found </div>
-
-  <table class="listing" summary="Student list">
+  <table class="listing table table-striped" summary="Student list">
+    <caption>
+      <h2>Students (<%= @students.size %> found) </div> </h2>     
+    </caption>
     <tr class="header">
       <th>B#</th>
       <th>First Name</th>

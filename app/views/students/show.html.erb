@@ -1,10 +1,10 @@
 <%= link_to("<< Back", students_path, :class => 'back-link') %>
 
 <div class="students show">
-  <h2>Student Details</h2>
 
-  <table summary="Student detail view">
 
+  <table class="vertical-table" summary="Student detail view">
+  <caption> Student Details</caption>
     <tr>
       <th>B#</th>
       <td><%= @student.Bnum %></td>

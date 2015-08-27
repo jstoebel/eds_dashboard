@@ -22,17 +22,30 @@
 
 /* Colors
 red:          #993120
-green:        #94B26F
+green:        #94B26F 
 light green:  #B6D491
-yellow:       #F2DC87
-dark brown:   #332318
-light brown:  #4C2516
+yellow:       #F2DC87 -> light blue: #0DC9F7 (zebra strip: #0AA1C6)
+dark brown:   #332318 -> light red: #ED1C24
+light brown:  #4C2516 -> salmon: #F05B47
+
+new colors:
+Source: http://www.dtelepathy.com/blog/inspiration/beautiful-color-palettes-for-your-next-web-project
+number 15 Nicholas Jackson Design
+
+light green: #B6D491 (table header)
+light blue: #0DC9F7 (body background)
+lighter blue: #B6EFFD (zebra stripe 1)
+bluish white: #E7FAFE (zebra stripe 2) 
+gray: #7F7F7F 
+salmon: #F05B47
+light red: #ED1C24
+
 */
 
 
 html { height: 100%; width: 100%; }
 
-.yield {background-color: #F2DC87; 
+.yield {background-color: white; 
   padding-top: 50px;
   height: 100%; 
   width: 100%;
@@ -40,10 +53,10 @@ html { height: 100%; width: 100%; }
 
   }
 
-caption {color: black;}
+caption {}
 
 body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
-  font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F2DC87;  }
+  font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: white;  }
 p, td, ul, ol, li, dl, dt, dd { 
   font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
 img { border: none; }
@@ -93,12 +106,12 @@ hr {background-color: black; border: 0; height: 1px;}
 
 
 
-#main { min-height: 500px; background: #F2DC87; }
+#main { min-height: 500px; background: white; }
 #navigation { float: left; width: 180px; min-height: 480px; padding: 10px; 
   background: #94B26F; color: #4C2516; }
 #content { padding: 10px; }
 #footer { clear: both; height: 2.5em; text-align: right;
-  background: #4C2516 url('/assets/footer_gradient.png') repeat-y 0 0; color: #F2DC87; }
+  background: #4C2516 url('/assets/footer_gradient.png') repeat-y 0 0; color: white; }
 #footer p { margin: 0; padding: 0.5em 1em; }
 
 /* Navigation */
@@ -208,16 +221,56 @@ td.full_span {column-span: all;}
 .back-link { font-size: 1em; margin-bottom: 1em; }
 .form-buttons { text-align: center; margin: 1em 0; }
 
-table caption {font-size: 14pt; font-weight: bold; margin-bottom: 10px}
+table caption {font-size: 20pt; font-weight: bold; margin-bottom: 10px; color: black;}
 
+/*Tables*/
+
+/*zebra stripping for bootstrap table
+lighter blue: #B6EFFD (zebra stripe 1)
+bluish white: #E7FAFE (zebra stripe 2) */
+
+table {
+  margin-left: 50px;
+}
+.table-striped > tbody > tr:nth-child(2n+1) > td {
+   background-color: #B6EFFD;
+   border-style: 0px;
+}
+
+.table-striped > tbody > tr:nth-child(2n) > td {
+   background-color: #E7FAFE;
+   border-style: 0px;
+}
+
+/*table header*/
+.table-striped > tbody > tr > th {
+   background-color: #B6D491;
+   border-style: 0px;
+}
+
+/*no coloring for action buttons*/
+.table-striped > tbody > tr > td.actions {
+  background-color: white;
+  border-style: 0px;
+}
+
+/*no bordering*/
+.table-striped > tbody > tr > td, .table-striped > tbody > tr > th {
+  border-style: none;
+}
+
+
+/*styling for old school tables.
 .index {width: 100%; margin-left: 50px; margin-bottom: 50px}
 .index table { clear: both; white-space: nowrap;}     /*width: 90%;*/
-.index table tr td { border: 1px solid #666666; white-space: nowrap; }
-.show table { clear: both; margin: 0 100px 50px; width: 300px; }
+.index table tr td {white-space: nowrap; }
+.show table { clear: both; margin: 0 100px 50px; width: 300px; 
+  }
+.show table tr td, .show table th {border-style: solid; border-width: 1px;}
 .show table.wide { width: 600px; margin: 0 50px; }
 .show table tr th { white-space: nowrap; padding-right: 5px;}
-.show table tr td { border: 1px solid #666666; }
-/*.edit table, .new table { margin: 0 auto; }*/
+.show table tr td { }
+
 .new table, .edit table {margin: 0 100px 50px; }
 
 .section + .section { padding-top: 0.5em; margin-top: 0.5em;
@@ -238,8 +291,8 @@ div.issue_header {width: 40%;}
 /*test result formatting*/
 /*.test-fail {color: red; font-weight: bold;}*/
 
-.good_text {color: green; font-weight: bold;}
-.bad_text {color: red; font-weight: bold;}
+.good_text {background-color: green; font-weight: bold;}
+.bad_text {background-color: red; font-weight: bold;}
 
 /* status_tag 
 span.status { display: block; width: 10px; height: 10px;
