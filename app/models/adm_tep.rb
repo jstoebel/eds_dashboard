@@ -22,6 +22,7 @@ class AdmTep < ActiveRecord::Base
 		app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
 		app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
 		app.errors.add(:base, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
+		app.errors.add(:base, "Please attach an admission letter.") if app.letter == nil
 	end
 
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}

@@ -46,9 +46,9 @@
             </tr>
           </table>
 
-          <p class="issue_discrip">
-
-          <%= issue.Description %>
+          <div class="issue_discrip">
+            <%=issue.Description%>
+          </div>
 
             <!-- updates go here! -->
             <% if issue.issue_updates.sorted.size > 0 %>
@@ -66,9 +66,6 @@
 
             <% end %>
             <hr>
-
-
-
 
         <% end %>
 

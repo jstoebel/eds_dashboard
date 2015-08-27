@@ -62,7 +62,7 @@ class IssuesController < ApplicationController
     @update = IssueUpdate.new(close_issue_params)
     @update.UpdateName = "Issue Resolved"
     @update.Issues_IssueID = @issue.IssueID
-    @update.tep_advisors_AdvisorBnum = "123456"   #FIX THIS!
+    @update.tep_advisors_AdvisorBnum = "123456"   #TODO change this to advisor Bnum
     @update.save
 
     flash[:notice] = "Issue resolved!"

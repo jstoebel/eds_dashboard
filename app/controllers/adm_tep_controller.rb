@@ -23,11 +23,13 @@ class AdmTepController < ApplicationController
 
     @app = AdmTep.new(new_adm_params)
     @current_term = current_term(exact=true)    #we have already validated that we are inside a current term
+    puts "*"*50
+    puts @current_term
     @bnum =  params[:adm_tep][:Student_Bnum]
     @prog_code = params[:adm_tep][:Program_ProgCode]
 
-    @app.BannerTerm_BannerTerm =  @curent_term.BannerTerm
-    @app.AppID = [@bnum, @curent_term.BannerTerm.to_s, @prog_code].join('-')
+    @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
+    @app.AppID = [@bnum, @current_term.BannerTerm.to_s, @prog_code].join('-')
 
     #TODO fetch GPA,  GPA last 30, earned credits. Add to @app
 
@@ -76,7 +78,7 @@ class AdmTepController < ApplicationController
 
     if @application.TEPAdmit == true
         begin
-            admit_date = DateTime.strptime(params[:adm_tep][:TEPAdmitDate])
+            admit_date = params[:adm_tep][:TEPAdmitDate]
             @application.TEPAdmitDate = DateTime.strptime(admit_date, '%m/%d/%Y') #load in the date if student was admited           
         rescue ArgumentError => e
             @application.TEPAdmitDate = nil

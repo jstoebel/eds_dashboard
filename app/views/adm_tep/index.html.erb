@@ -11,7 +11,7 @@
   <% end %>
 
 
-  <table class="listing summary adm_tep list">
+  <table class="listing summary adm_tep list table table-striped">
     <caption>   
       <h2>Applications to TEP: <%= @term.PlainTerm%></h2>
       
@@ -69,19 +69,20 @@
 
               <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
 
-            <% end %>
+    <% end %>
       </td>
 <!-- <button type="button" class="btn btn-default btn-lg text-center"><span class="glyphicon glyphicon-share"></span><br>Resend</button> -->
-      <td class="doc-download"> 
-          <% if app.letter_file_name %>
-            <%= link_to app.letter.url, 
-            class: "glyphicon glyphicon-file" do %>
+      <% if app.letter_file_name %>      
+          <td class="doc-download"> 
 
-          <% end %>
+            <%= link_to app.letter.url, :class => "glyphicon glyphicon-file" do %>
+
+            <% end %>
               </br><small>Letter</small>
-          <% end %>
+          </td>
+      <% end %>
 
-      </td>
+
 
           </tr>
         <!-- end of if statement for content-->

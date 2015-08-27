@@ -28,14 +28,14 @@ yellow:       #F2DC87 -> light blue: #0DC9F7 (zebra strip: #0AA1C6)
 dark brown:   #332318 -> light red: #ED1C24
 light brown:  #4C2516 -> salmon: #F05B47
 
-new colors:
-Source: http://www.dtelepathy.com/blog/inspiration/beautiful-color-palettes-for-your-next-web-project
-number 15 Nicholas Jackson Design
+NEW COLORS
 
-light green: #B6D491 (table header)
-light blue: #0DC9F7 (body background)
-lighter blue: #B6EFFD (zebra stripe 1)
-bluish white: #E7FAFE (zebra stripe 2) 
+light green: #B6D491 
+blue: #0DC9F7
+
+light blue: #D9EDF7 (table header)
+light gray: #F9F9F9 (body background, zebra stripe 1) (zs2 = white)
+
 gray: #7F7F7F 
 salmon: #F05B47
 light red: #ED1C24
@@ -45,8 +45,10 @@ light red: #ED1C24
 
 html { height: 100%; width: 100%; }
 
-.yield {background-color: white; 
+.yield {background-color: #F9F9F9; 
   padding-top: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
   height: 100%; 
   width: 100%;
   color: black;
@@ -56,7 +58,7 @@ html { height: 100%; width: 100%; }
 caption {}
 
 body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
-  font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: white;  }
+  font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F9F9F9;  }
 p, td, ul, ol, li, dl, dt, dd { 
   font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
 img { border: none; }
@@ -192,7 +194,7 @@ a.large_action {padding: 2px 5px;
 /*file download button*/
 
 td.doc-download {
-  border: 0px !important;
+  border: 0px;
 }
 
 
@@ -226,47 +228,67 @@ table caption {font-size: 20pt; font-weight: bold; margin-bottom: 10px; color: b
 /*Tables*/
 
 /*zebra stripping for bootstrap table
-lighter blue: #B6EFFD (zebra stripe 1)
-bluish white: #E7FAFE (zebra stripe 2) */
+light blue: #D9EDF7 (table header)
+light gray: #F9F9F9 (zebra stripe 1, zs2 = white)
+ */
 
 table {
-  margin-left: 50px;
+  margin-left: 5%;
+}
+
+.table-striped {
+  max-width: 90%;
+  min-width: 50%;
 }
 .table-striped > tbody > tr:nth-child(2n+1) > td {
-   background-color: #B6EFFD;
+   background-color: #F9F9F9;
    border-style: 0px;
 }
 
 .table-striped > tbody > tr:nth-child(2n) > td {
-   background-color: #E7FAFE;
+   background-color: white;
    border-style: 0px;
 }
 
 /*table header*/
 .table-striped > tbody > tr > th {
-   background-color: #B6D491;
+   background-color: #D9EDF7;
    border-style: 0px;
 }
 
 /*no coloring for action buttons*/
 .table-striped > tbody > tr > td.actions {
-  background-color: white;
+  background-color: #F9F9F9;
   border-style: 0px;
 }
 
 /*no bordering*/
-.table-striped > tbody > tr > td, .table-striped > tbody > tr > th {
+.table-striped > tbody > tr > td {
   border-style: none;
 }
 
 
+table.vertical-table {
+    min-width: 30%;
+    max-width: 80%
+}
+
+.vertical-table td, .vertical-table th {
+  border-style: solid;
+  border-width: 1px;
+}
+
+/*table.vertical-table td p.issue_discrip{
+    word-wrap: break-word;
+}*/
+
 /*styling for old school tables.
 .index {width: 100%; margin-left: 50px; margin-bottom: 50px}
 .index table { clear: both; white-space: nowrap;}     /*width: 90%;*/
-.index table tr td {white-space: nowrap; }
+/*.index table tr td {white-space: nowrap; }*/
 .show table { clear: both; margin: 0 100px 50px; width: 300px; 
   }
-.show table tr td, .show table th {border-style: solid; border-width: 1px;}
+.show table td, .show table th {border-style: solid; border-width: 1px;}
 .show table.wide { width: 600px; margin: 0 50px; }
 .show table tr th { white-space: nowrap; padding-right: 5px;}
 .show table tr td { }
@@ -278,9 +300,16 @@ table {
 
 /*Issues*/
 
-p.issue_discrip { width: 90%;}
+/*.issue_discrip { width: 90%; left: 10%; }*/
 div.issue_header {width: 40%;}
 .issue_new {float: right;}
+
+.issue_discrip {margin-left: 25px;}
+.issue_updates {left: 10%;}
+
+table > tr > td.issue_discrip {height: 100px;}
+
+
 
  /*row highlighting */
 
