@@ -63,7 +63,7 @@
                 3) the term displayed is a current term.-->
             <% if app.TEPAdmit == nil and @term = current_term(exact=false)%>    
 
-              <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details")%>
+              <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
 
             <% else %>
 
@@ -75,10 +75,10 @@
       <% if app.letter_file_name %>      
           <td class="doc-download"> 
 
-            <%= link_to app.letter.url, :class => "glyphicon glyphicon-file" do %>
-
+            <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+              </br><span class="small-btn-text">Letter</span>
             <% end %>
-              </br><small>Letter</small>
+
           </td>
       <% end %>
 

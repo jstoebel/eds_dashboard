@@ -28,8 +28,10 @@
           <td><%= result.BestScore %></td>   
       	  <td><%= result.CutScore %></td>
            <td class="actions">
-              <%= link_to("Details", praxis_result_path(result.AltID), :class => "action details") %>
+              <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
+                  <span class="small-btn-text">Details</span>
 
+              <% end %>
           </tr>
 
           <% end %>
