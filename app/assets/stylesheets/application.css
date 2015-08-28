@@ -220,10 +220,14 @@ td.full_span {column-span: all;}
 /* CRUD */
 .notice { height: 2.5em; padding: 0.5em; text-align: center;
   background: #B6D491; color: #4C2516; font-size: 16pt;}
-.back-link { font-size: 1em; margin-bottom: 1em; }
-.form-buttons { text-align: center; margin: 1em 0; }
+.glyphicon.back-link { font-size: 1em; margin-bottom: 1em; 
+  left: 5%; }
 
+.link-text {font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;}
+.form-buttons { text-align: center; margin: 1em 0; }
 table caption {font-size: 20pt; font-weight: bold; margin-bottom: 10px; color: black;}
+
+
 
 /*Tables*/
 

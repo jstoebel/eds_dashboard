@@ -1,8 +1,11 @@
 
+<%= link_to students_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
 
-<%= link_to("<< Back", {:controller => 'students', :action => 'index', :id => params[:id]}, :class => 'back-link') %>
 <div class="index">
       <h2>Issues for <%= "#{@first_name} #{@last_name}"%></h2>
+
 
 
       <div class="issue_header"> <%= pluralize(@student.issues.size, 'issue') %>  found
