@@ -12,12 +12,24 @@
 
 
   <table class="listing summary adm_tep list table table-striped">
-    <caption>   
-      <h2>Applications to TEP: <%= @term.PlainTerm%></h2>
+   
+    <caption>        
+        <div class="header1">Applications to TEP: <%= @term.PlainTerm%></div></br>
+        <div class="header2"><%= pluralize(@applications.size, 'application') %>  found </div>
       
-  <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Add New Student", new_adm_tep_path, :class => 'large_action issue_new new') %>
-       <%= pluralize(@applications.size, 'applications') %>  found 
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1 pull-right">
+              <%= link_to new_adm_tep_path, :class => "btn btn-default glyphicon glyphicon-plus action-large" do %>  
 
+                  <span class="large-btn-text">Add New Student</span>
+
+              <% end %>         
+
+            </div>
+          </div>
+
+      </div>
     </caption>
 
     <% if @applications.size > 0  %>
@@ -31,6 +43,7 @@
             <th>Praxis Pass</th>       
             <th>Admit Date</th>
             <th>Admission Decision</th>
+            <th>Letter</th>
 <!--             <th>Decision Letter</th>     -->
 
           </tr>
@@ -76,7 +89,6 @@
           <td class="doc-download"> 
 
             <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
-              </br><span class="small-btn-text">Letter</span>
             <% end %>
 
           </td>

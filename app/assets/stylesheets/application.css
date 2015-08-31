@@ -55,7 +55,7 @@ html { height: 100%; width: 100%; }
 
   }
 
-caption {}
+
 
 body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
   font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F9F9F9;  }
@@ -68,6 +68,8 @@ table tr th, table tr td { vertical-align: middle; text-align: left;
   padding: 10px; white-space: nowrap; }
 a, a:visited { color: #993120; }
 a:hover {}
+
+
 
 /*
 Style for Glyphicons*/
@@ -90,9 +92,9 @@ Style for Glyphicons*/
   color: red;
 }
 
-h2, h3 {margin-left: 50px;
+/*h2, h3 {margin-left: 50px;
   color: black;
-  }    /*page headers*/
+  }    /*page headers*/*/
 
 /*hr{ border: 0; height: 1px; background: #ccc; background-image: linear-gradient(to right, #ccc, #333, #ccc); }*/
 
@@ -195,6 +197,7 @@ a:hover { text-decoration: underline; }
 
 /*new action buttons*/
 
+  /*small buttons*/
     .action-small {
       font-size: 12pt;
       color: black;
@@ -214,13 +217,30 @@ a:hover { text-decoration: underline; }
       font-size: 14px;
     }
 
-
-
-
-
     .small-btn-text {
       font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; 
+      width: 100%;
     }
+
+
+  /*Large buttons*/
+
+  .action-large {
+    font-size: 14pt;
+    color: black;
+  }
+  .action-small:visited {
+    color: inherit;
+  }
+
+  .action-large.glyphicon {
+    font-size: 14px;
+  }
+
+  .large-btn-text {
+    font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; 
+    width: 100%;
+  }
 
 div.form_link {font-size: 0pt;}
 
@@ -248,7 +268,7 @@ td.full_span {column-span: all;}
 
 .link-text {font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;}
 .form-buttons { text-align: center; margin: 1em 0; }
-table caption {font-size: 20pt; font-weight: bold; margin-bottom: 10px; color: black;}
+table caption { font-weight: bold; margin-bottom: 10px; color: black;}
 
 
 
@@ -258,6 +278,28 @@ table caption {font-size: 20pt; font-weight: bold; margin-bottom: 10px; color: b
 light blue: #D9EDF7 (table header)
 light gray: #F9F9F9 (zebra stripe 1, zs2 = white)
  */
+
+/*override headers inside .table > caption*/
+
+.table caption {
+  padding-top: 25px;
+}
+
+.table > caption .header1 {
+  font-size: 24px;
+  font-style: bold;
+}
+
+.table > caption .header2 {
+  font-size: 20px;
+  font-style: italic;
+}
+
+caption .container .row {width: inherit;}
+
+.table > tbody > tr > th {
+  text-align: center;
+}
 
 table {
   margin-left: 5%;
@@ -285,7 +327,7 @@ table {
 
 /*no coloring for action buttons*/
 .table-striped > tbody > tr > td.actions {
-  background-color: #F9F9F9;
+  /*background-color: #F9F9F9; -> considering deleting this.*/    
   border-style: 0px;
 }
 

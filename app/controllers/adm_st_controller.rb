@@ -1,4 +1,7 @@
 class AdmStController < ApplicationController
+  
+  layout 'application'
+
   def index
   end
 

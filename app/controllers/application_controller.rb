@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
   
   protect_from_forgery with: :exception
 
-
-
   private
   	def find_student(alt_id)
   		return Student.where(AltID: alt_id).first

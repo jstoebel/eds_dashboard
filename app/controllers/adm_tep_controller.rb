@@ -1,4 +1,7 @@
 class AdmTepController < ApplicationController
+  
+  layout 'application'
+
   def new
     #display menu for possible names and possible programs
 

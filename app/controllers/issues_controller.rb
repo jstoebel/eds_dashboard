@@ -1,4 +1,5 @@
 class IssuesController < ApplicationController
+  layout 'application'
   def new
   	@issue = Issue.new
 

@@ -1,4 +1,7 @@
 class IssueUpdatesController < ApplicationController
+
+  layout 'application'
+  
   def new
     @issue = Issue.find(params[:issue_id])
     @update = IssueUpdate.new
