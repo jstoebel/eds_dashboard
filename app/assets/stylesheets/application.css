@@ -65,8 +65,8 @@ img { border: none; }
 table { border-collapse: collapse; }
 
 table tr th, table tr td { vertical-align: middle; text-align: left; 
-  padding: 10px; white-space: nowrap; }
-a, a:visited { color: #993120; }
+  padding: 10px; }
+/*a, a:visited { color: #993120; }*/
 a:hover {}
 
 
@@ -197,14 +197,29 @@ a:hover { text-decoration: underline; }
 
 /*new action buttons*/
 
+
+
   /*small buttons*/
     .action-small {
       font-size: 12pt;
       color: black;
+      text-decoration: none;
     }
     .action-small:visited {
-      color: inherit;
+      color: black;
+      text-decoration: none;
     }
+
+    .action-small:hover {
+      color: black;
+      text-decoration: none;
+    }
+
+    .action-small:hover:visited {
+      color: black;
+      text-decoration: none;
+    }
+
     .action-small.praxis {
       min-width: 160px;
     }    
@@ -225,12 +240,10 @@ a:hover { text-decoration: underline; }
 
   /*Large buttons*/
 
-  .action-large {
+  .action-large, .action-large:visited, .action-large:hover, 
+  .action-large:hover:visited  {
     font-size: 14pt;
     color: black;
-  }
-  .action-small:visited {
-    color: inherit;
   }
 
   .action-large.glyphicon {
@@ -244,7 +257,7 @@ a:hover { text-decoration: underline; }
 
 div.form_link {font-size: 0pt;}
 
-.actions a.show_pr  axis {min-width: 9em;}
+.actions a.show_praxis {min-width: 9em;}
 
 td.full_span {column-span: all;}
 
@@ -285,24 +298,28 @@ light gray: #F9F9F9 (zebra stripe 1, zs2 = white)
   padding-top: 25px;
 }
 
-.table > caption .header1 {
+caption .header1 {
   font-size: 24px;
   font-style: bold;
 }
 
-.table > caption .header2 {
+caption .header2 {
   font-size: 20px;
   font-style: italic;
 }
 
 caption .container .row {width: inherit;}
 
-.table > tbody > tr > th {
-  text-align: center;
+
+.table-striped tr td {
+  text-align: left;
 }
 
-table {
-  margin-left: 5%;
+.table-striped tr td .glyphicon {
+  display: block;
+  /*margin: auto;*/
+  margin: auto;
+
 }
 
 .table-striped {
@@ -319,6 +336,12 @@ table {
    border-style: 0px;
 }
 
+.table-striped tbody tr td.actions, table.vertical-table tbody tr td.actions {
+    color: black;
+    background-color: #F9F9F9
+  }
+
+
 /*table header*/
 .table-striped > tbody > tr > th {
    background-color: #D9EDF7;
@@ -326,10 +349,10 @@ table {
 }
 
 /*no coloring for action buttons*/
-.table-striped > tbody > tr > td.actions {
-  /*background-color: #F9F9F9; -> considering deleting this.*/    
+/*.table-striped > tbody > tr > td.actions {
+  background-color: #F9F9F9; -> considering deleting this.    
   border-style: 0px;
-}
+}*/
 
 /*no bordering*/
 .table-striped > tbody > tr > td {
@@ -338,19 +361,38 @@ table {
 
 
 table.vertical-table {
+
+    /*table-layout: fixed;*/
     min-width: 30%;
-    max-width: 80%
+    max-width: 90%;
+    table-layout: fixed;
+
 }
+
+td.wrap {
+  table-layout: break-word;
+}
+
 
 .vertical-table td, .vertical-table th {
   border-style: solid;
   border-width: 1px;
 }
 
-/*table.vertical-table td p.issue_discrip{
-    word-wrap: break-word;
-}*/
+.vertical-table td.actions {
+  border-width: 0px;
+}
 
+.vertical-table #glyph-no-space {
+  width: 3%;
+  margin-right: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.vertical-table #text-no-space {
+  padding-left: 0px;
+}
 /*styling for old school tables.
 .index {width: 100%; margin-left: 50px; margin-bottom: 50px}
 .index table { clear: both; white-space: nowrap;}     /*width: 90%;*/
@@ -379,18 +421,20 @@ div.issue_header {width: 40%;}
 table > tr > td.issue_discrip {height: 100px;}
 
 
-
- /*row highlighting */
-
- /*for zebra stripping*/
-.odd { background: #E5CE69; }
-.even { background: none; }
-
 /*test result formatting*/
 /*.test-fail {color: red; font-weight: bold;}*/
 
-.good_text {background-color: green; font-weight: bold;}
-.bad_text {background-color: red; font-weight: bold;}
+/*.good_text {background-color: green; font-weight: bold;}
+.bad_text {background-color: red; font-weight: bold;}*/
+
+
+good_text {
+  color: green;
+}
+
+bad_text {
+  color: red;
+}
 
 /* status_tag 
 span.status { display: block; width: 10px; height: 10px;

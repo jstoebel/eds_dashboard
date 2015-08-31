@@ -30,8 +30,9 @@ class IssuesController < ApplicationController
   end
 
   def show
-    @student = Student.find(params[:id])
-    name_details(@student)
+    @issue = Issue.find(params[:id])
+    @student = Student.find(@issue.students_Bnum)
+    name_details (@student)
 
   end
 

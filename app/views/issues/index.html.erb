@@ -4,6 +4,70 @@
 
     </br>
 
+          <table class="table table-striped">
+            <caption>
+              <div class="header1">Issues for <%= "#{@first_name} #{@last_name}"%></div>
+            </caption>
+
+            <% if @student.issues.size > 0 %>
+
+              <tr class="header">
+                <th>Issue Name</th>
+                <th>Date Opened</th>
+                <th>Status</th>
+              </tr>
+
+              <% @student.issues.sorted.each do |issue| %>
+
+              <tr>
+                <td> <%= issue.Name %></td>
+                <td> <%= issue.CreateDate.strftime("%m/%d/%Y")%> </td>
+
+                <td class="<%= issue.Open ? "bad_text" : "good_text" %>">
+                  <!-- glyh here if open -->
+                  <% if issue.Open %>
+
+                      <div class="col-md-1">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                      </div>
+
+                      <div class="col-md-1">
+                        Open
+                      </div>
+
+                  <% else %>
+                      <div class="col-md-1">
+                        <span class="glyphicon glyphicon-ok"></span>
+                      </div>
+
+                      <div class="col-md-1">
+                        Resolved
+                      </div>
+                  <% end #end of status conditional %>
+
+                </td>
+
+                <td class="actions">
+                  <!-- buttons
+                    details
+                    updates
+                    close isue -->
+
+
+               
+                    <%= link_to "Details", issue_path(issue.IssueID), class: "btn btn-info action-small"%>
+                              
+                    <%= link_to "Updates", issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small"%>   
+                              
+                    <%= link_to "Resolve Issue", issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small"%>                             
+                      
+                </td>
+              </tr>
+              <% end #end of loop iterating through records %>              
+
+            <% end #end of conditional for table. %>       
+
+          </table>
 
           <table summary="Student detail view">
             <caption>
