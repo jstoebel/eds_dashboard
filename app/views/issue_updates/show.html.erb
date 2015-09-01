@@ -1,2 +1,25 @@
-<h1>IssueUpdates#show</h1>
-<p>Find me in app/views/issue_updates/show.html.erb</p>
+<%= link_to issue_issue_updates_path(@issue.IssueID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<table class="vertical-table">
+	<caption>
+
+	    <div class="header1">
+	      <%= "#{@first_name} #{@last_name}"%>
+	    </div>
+
+	    <div class="header2">
+	      <%= @issue.Name %> : <%= @update.UpdateName %>
+	    </div>
+
+	</caption>
+
+	<tr>
+		<td class="wrap">
+			<%= @update.Description  %>
+		</td>
+	</tr>
+
+
+</table>

@@ -326,6 +326,7 @@ caption .container .row {width: inherit;}
   max-width: 90%;
   min-width: 50%;
 }
+
 .table-striped > tbody > tr:nth-child(2n+1) > td {
    background-color: #F9F9F9;
    border-style: 0px;
@@ -379,7 +380,7 @@ td.wrap {
   border-width: 1px;
 }
 
-.vertical-table td.actions {
+.vertical-table td.actions{
   border-width: 0px;
 }
 
@@ -428,11 +429,11 @@ table > tr > td.issue_discrip {height: 100px;}
 .bad_text {background-color: red; font-weight: bold;}*/
 
 
-good_text {
+.good_text {
   color: green;
 }
 
-bad_text {
+.bad_text {
   color: red;
 }
 

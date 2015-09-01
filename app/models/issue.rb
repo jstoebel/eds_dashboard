@@ -1,6 +1,6 @@
 class Issue < ActiveRecord::Base
 
-	belongs_to :student
+	belongs_to :student, foreign_key: 'students_Bnum'
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
 
 	validates :Name, :length => { maximum: 100}

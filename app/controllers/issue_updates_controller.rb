@@ -24,22 +24,22 @@ class IssueUpdatesController < ApplicationController
       render('new')
     end
 
-    
-
-
-
   end
 
   def index
     @issue = Issue.find(params[:issue_id])
     @student = Student.find(@issue.students_Bnum)
     name_details(@student)
-    @updates = @issue.issue_updates    
+    @updates = @issue.issue_updates.sorted    
 
-    
   end
 
   def show
+    @update = IssueUpdate.find(params[:id])
+    @issue = @update.issue
+    @student = @issue.student
+    name_details(@student)
+
   end
 
   def resolve_issue
@@ -50,9 +50,8 @@ class IssueUpdatesController < ApplicationController
   end
 
   def close_issue
-    @issue = Issue.find(params[:id])
-    @issue.Open = false
-    @issue.save
+    #TODO do we need error handling?
+
 
     @update = IssueUpdate.new(close_issue_params)
     @update.UpdateName = "Issue Resolved"
@@ -60,6 +59,10 @@ class IssueUpdatesController < ApplicationController
     @update.tep_advisors_AdvisorBnum = "123456"   #TODO FIX THIS!
 
     @update.save
+
+    @issue = Issue.find(params[:id])
+    @issue.Open = false
+    @issue.save
 
     flash[:notice] = "Issue resolved!"
     # redirect_to(student_issues_path(@issue.students_Bnum))

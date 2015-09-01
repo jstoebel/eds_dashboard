@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   
   # match ':controller(/:action(/:id))', :via => [:get, :post]
 
-
 resources :access, only: [:index]
 resources :praxis_results, only: [:new, :create]   
 resources :adm_tep, only: [:index, :new, :create, :edit, :update] do
@@ -18,8 +17,7 @@ end
 
   resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show]
-    resources :issues
-
+    resources :issues, only: [:index, :new]
   end
 
   resources :issues, shallow: true do
@@ -31,26 +29,6 @@ end
   resources :banner_terms, shallow: true do
     resources :adm_tep, only: [:index]
   end
-
-
-  # resources :praxis_results do
-  #   collection do
-  #     get 'test_details'
-  #     post 'confirm_new'
-  #   end
-  # end
-
-  # resources :issues do
-  #   resources :issue_updates do
-  #     collection do
-  #       get "resolve_issue"
-  #       post "close_issue"
-  #     end
-  #   end
-  # end
-
-
-  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

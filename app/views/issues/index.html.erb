@@ -7,6 +7,15 @@
           <table class="table table-striped">
             <caption>
               <div class="header1">Issues for <%= "#{@first_name} #{@last_name}"%></div>
+
+              <div class="row">
+                <div class="col-md-1 pull-right">
+                  <%= link_to new_student_issue_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %> 
+                    <span class="large-btn-text">Add New Issue</span>
+
+                  <% end %>    
+                </div>
+              </div>
             </caption>
 
             <% if @student.issues.size > 0 %>
@@ -24,7 +33,7 @@
                 <td> <%= issue.CreateDate.strftime("%m/%d/%Y")%> </td>
 
                 <td class="<%= issue.Open ? "bad_text" : "good_text" %>">
-                  <!-- glyh here if open -->
+                  <!-- glyph here if open -->
                   <% if issue.Open %>
 
                       <div class="col-md-1">
@@ -53,13 +62,13 @@
                     updates
                     close isue -->
 
-
-               
                     <%= link_to "Details", issue_path(issue.IssueID), class: "btn btn-info action-small"%>
                               
                     <%= link_to "Updates", issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small"%>   
-                              
-                    <%= link_to "Resolve Issue", issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small"%>                             
+                     
+                    <% if issue.Open %>          
+                      <%= link_to "Resolve Issue", issue_resolve_issue_path(issue.IssueID), class: "btn btn-info action-small"%>
+                    <% end %>                             
                       
                 </td>
               </tr>
@@ -69,71 +78,4 @@
 
           </table>
 
-          <table summary="Student detail view">
-            <caption>
-
-              <h2>Issues for <%= "#{@first_name} #{@last_name}"%></h2>
-              <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Open New Issue", new_student_issue_path(@student.AltID), :class => 'large_action issue_new new') %>
-              <div class="issue_header"> <%= pluralize(@student.issues.size, 'issue') %>  found
-
-              </div>
-            </caption>
-    <% if @student.issues.size > 0 %>
-
-        <% @student.issues.sorted.each do |issue| %>
-            <tr>
-              <th>Issue Name</th>
-              <td><%= issue.Name %></td>
-            </tr>
-
-            <tr>
-              <th>Status</th>
-              <td class="<%= issue.Open ? "bad_text" : "good_text" %>"><%= issue.Open ? "open" : "closed" %>
-              </td>
-            </tr>
-
-            <tr>
-              <th>Date Opened</th>
-              <td><%= issue.CreateDate.strftime("%m/%d/%Y")%> </td>
-
-            </tr>
-            <!-- Action buttons if issue is open -->
-            <% if issue.Open %>   
-            <tr>
-              <th></th>
-
-              <td><%= link_to("Add an update", new_issue_issue_update_path(issue.IssueID), :class => 'action new') %> 
-
-                  <%= link_to("Close issue", issue_resolve_issue_path(issue.IssueID), :class => "action edit") %>
-            <% end %>
-              </td>
-
-            </tr>
-          </table>
-
-          <div class="issue_discrip">
-            <%=issue.Description%>
-          </div>
-
-            <!-- updates go here! -->
-            <% if issue.issue_updates.sorted.size > 0 %>
-
-              <% issue.issue_updates.sorted.each do |update| %> 
-
-                <div class="issue_updates">
-                <ul>                
-                <strong><li><%= [update.CreateDate.strftime("%m/%d/%Y"), update.UpdateName].join(" ") %></li></strong>
-                <%= update.Description %>
-                </p>
-                </ul></div>
-                <% end %>
-
-
-            <% end %>
-            <hr>
-
-        <% end %>
-
-    <% end %>
-
-</div>
+          
