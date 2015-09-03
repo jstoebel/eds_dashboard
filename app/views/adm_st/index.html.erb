@@ -1,2 +1,13 @@
-<h1>AdmSt#index</h1>
-<p>Find me in app/views/adm_st/index.html.erb</p>
+<!-- TODO Implement back link...once we know what we are going back to! -->
+<div class="index">
+
+  <!-- drop down menu for all terms. Reload page on change -->
+  <%= form_for(:banner_term, :url => adm_st_choose_path('pick')) do |f| %>
+
+    <%= f.select( :menu_terms,  @menu_terms.map { |t| [t.PlainTerm, t.BannerTerm]},
+          {prompt: "Select a term"}, 
+          {:onchange => "this.form.submit()"}) %>
+
+  <% end %>
+
+<!-- TODO complete this page. -->

@@ -19,7 +19,7 @@ class IssueUpdatesController < ApplicationController
     if @update.save
       flash[:notice] = "New update added"
 
-      redirect_to(student_issues_path(@student.AltID))
+      redirect_to(issue_issue_updates_path(@issue.IssueID))
     else
       render('new')
     end

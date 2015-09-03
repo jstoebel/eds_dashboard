@@ -7,17 +7,25 @@ Rails.application.routes.draw do
   # match ':controller(/:action(/:id))', :via => [:get, :post]
 
 resources :access, only: [:index]
-resources :praxis_results, only: [:new, :create]   
+resources :praxis_results, only: [:new, :create] 
+
+  
 resources :adm_tep, only: [:index, :new, :create, :edit, :update] do
   post "choose"
   get "admit"
   get "download"
 end
 
+resources :adm_st, only: [:index, :new, :create, :edit, :update] do
+  post "choose"   #choose a term to display in index
+  get "admit"
+  get "download"  #download admission letter
+end
+
 
   resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show]
-    resources :issues, only: [:index, :new]
+    resources :issues, only: [:index, :new, :create]
   end
 
   resources :issues, shallow: true do

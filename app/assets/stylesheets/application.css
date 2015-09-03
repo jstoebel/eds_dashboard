@@ -366,7 +366,7 @@ table.vertical-table {
     /*table-layout: fixed;*/
     min-width: 30%;
     max-width: 90%;
-    table-layout: fixed;
+    table-layout: auto;
 
 }
 
@@ -378,6 +378,7 @@ td.wrap {
 .vertical-table td, .vertical-table th {
   border-style: solid;
   border-width: 1px;
+
 }
 
 .vertical-table td.actions{
@@ -431,10 +432,12 @@ table > tr > td.issue_discrip {height: 100px;}
 
 .good_text {
   color: green;
+  border-color: inherit;
 }
 
 .bad_text {
   color: red;
+  border-color: inherit;
 }
 
 /* status_tag 

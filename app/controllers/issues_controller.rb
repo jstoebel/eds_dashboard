@@ -16,7 +16,7 @@ class IssuesController < ApplicationController
 
     puts @issue.inspect
     if @issue.save
-      flash[:notice] = "New issue opened for: #{@first_name}, #{@last_name}"
+      flash[:notice] = "New issue opened for: #{@first_name} #{@last_name}"
       redirect_to(student_issues_path(@student.AltID)) 
     else
       render('new')
