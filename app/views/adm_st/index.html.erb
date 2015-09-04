@@ -11,3 +11,85 @@
   <% end %>
 
 <!-- TODO complete this page. -->
+
+  <table class="listing summary adm_st list table table-striped">
+   
+    <caption>        
+        <div class="header1">Applications to Student Teaching: <%= @term.PlainTerm%></div></br>
+        <div class="header2"><%= pluralize(@applications.size, 'application') %>  found </div>
+      
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1 pull-right">
+              <%= link_to new_adm_st_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+
+                  <span class="large-btn-text">Add New Student</span>
+
+              <% end %>         
+
+            </div>
+          </div>
+
+      </div>
+    </caption>
+
+    <% if @applications.size > 0  %>
+
+          <tr class="header">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>GPA</th>
+            <th>Core GPA</th>      
+            <th>Admit Date</th>
+            <th>Admission Decision</th>
+            <th>ST Term</th>
+            <th>Letter</th>
+
+          </tr>
+      	<% @applications.each do |app|%>
+        <% student = Student.find(app.Student_Bnum) %>
+
+			<tr class "<%= cycle('odd', 'even') %>">
+			<td><%= student.FirstName %></td>
+			<td><%= student.LastName %></td>
+      		<td><%=app.OverallGPA %></td>
+      		<td><%=app.CoreGPA%></td>
+
+      		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td> 
+
+			<td class="actions">
+            <!-- Display button for admission decision if
+                1) Student has no admission decision
+                2) we are currently inside a term
+                3) the term displayed is a current term.-->
+            <% if app.STAdmitted == nil and @term = current_term(exact=false)%>    
+
+              <%= link_to("ST Admission Decision", edit_adm_st_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
+
+            <% else %>
+
+              <%= app.STAdmitted ? "Admitted" : "Not admitted"%>
+
+    <% end %>
+      </td>
+<!-- <button type="button" class="btn btn-default btn-lg text-center"><span class="glyphicon glyphicon-share"></span><br>Resend</button> -->
+      <% if app.letter_file_name %>      
+          <td class="doc-download"> 
+
+            <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+            <% end %>
+
+          </td>
+      <% end %>
+
+
+
+          </tr>
+        <!-- end of if statement for content-->
+      	<% end %>
+          
+    <!-- end of main loop -->
+    <% end %>   
+
+  </table>
+</div>
