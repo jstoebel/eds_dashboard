@@ -36,7 +36,9 @@ end
 
   resources :banner_terms, shallow: true do
     resources :adm_tep, only: [:index]
+    resources :adm_st, only: [:index]
   end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

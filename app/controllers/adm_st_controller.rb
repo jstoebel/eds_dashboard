@@ -42,4 +42,11 @@ class AdmStController < ApplicationController
   def update
   end
 
+  def choose
+  #display applicants for a term
+  @term = params[:banner_term][:menu_terms]
+  redirect_to(banner_term_adm_st_index_path(@term))
+    
+  end
+
 end
