@@ -46,6 +46,12 @@ module ApplicationHelper
 
    end
 
+   def banner_to_plain(banner_term)
+   	#converts a banner term to its normal name
+   	term = BannerTerm.find(banner_term)
+   	return term.PlainTerm
+   end
+
    def praxisI_pass(student)
    	#input a Student instance
    	#output if student has passed all praxis I exams.
@@ -73,6 +79,8 @@ module ApplicationHelper
 			return nil
 		end
    end
+
+
 
 end
 end

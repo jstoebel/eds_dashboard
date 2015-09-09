@@ -53,7 +53,9 @@
       		<td><%=app.OverallGPA %></td>
       		<td><%=app.CoreGPA%></td>
 
-      		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td> 
+      		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
+
+
 
 			<td class="actions">
             <!-- Display button for admission decision if
@@ -70,7 +72,9 @@
 
     <% end %>
       </td>
-<!-- <button type="button" class="btn btn-default btn-lg text-center"><span class="glyphicon glyphicon-share"></span><br>Resend</button> -->
+
+      <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
+
       <% if app.letter_file_name %>      
           <td class="doc-download"> 
 

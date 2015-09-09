@@ -338,8 +338,10 @@ caption .container .row {width: inherit;}
 }
 
 .table-striped tbody tr td.actions, table.vertical-table tbody tr td.actions {
+    /*action buttons inside tables*/
+
     color: black;
-    background-color: #F9F9F9
+    /*background-color: #F9F9F9   */
   }
 
 
