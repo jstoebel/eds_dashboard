@@ -39,8 +39,8 @@
             <th>GPA</th>
             <th>Core GPA</th>      
             <th>Admit Date</th>
-            <th>Admission Decision</th>
             <th>ST Term</th>
+            <th>Admission Decision</th>
             <th>Letter</th>
 
           </tr>
@@ -55,7 +55,7 @@
 
       		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
 
-
+      <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
 
 			<td class="actions">
             <!-- Display button for admission decision if
@@ -73,7 +73,7 @@
     <% end %>
       </td>
 
-      <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
+      
 
       <% if app.letter_file_name %>      
           <td class="doc-download"> 

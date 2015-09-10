@@ -1,2 +1,58 @@
-<h1>AdmSt#edit</h1>
-<p>Find me in app/views/adm_st/edit.html.erb</p>
+<%= link_to adm_st_index_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+    
+    <%= form_for(:adm_st, :url => adm_st_path(@application.AltID), method: :patch ) do |f| %>
+
+    <h2>Edit Student Teaching Application for <%=[@first_name, @last_name].join(' ') + " (" + @term.PlainTerm + ")" %></h2>
+    <%= error_messages_for(@application) %> 
+
+    <table summary="adm_st form fields">
+
+        <tr>
+            <th><%= f.label(:STAdmitted, "Admission Decision", ) %></th>
+
+            <td><%= f.select(:STAdmitted, 
+                        {"Admitted" =>  true, "Not Admitted" => false},
+                        {prompt: "Admission Decision"}, :class => "admit-choice") %></td>
+        </tr>
+
+
+        <tr>            
+        <th class="date-admit"><%= f.label(:STAdmitDate, "Admit Date") %></th>
+
+            <td class="date-admit">
+                <%= f.text_field :STAdmitDate, 'data-behaviour' => 'datepicker' %>
+            <script type="text/javascript">
+                $('[data-behaviour~=datepicker]').datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: <%=@term.StartDate.strftime("%m/%d/%Y")  %>,
+                    endDate: <%=@term.EndDate.strftime("%m/%d/%Y")  %>
+                });
+            </script></td>
+
+             <tr>
+              <th><%= f.label(:Notes, "Comments") %></th>
+              <td><%= f.text_area(:Notes, :side => '40x10') %></td>
+            </tr>
+
+            <td class="letter-attach">
+                <%= f.file_field :letter %>
+
+
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td>
+                <div class="form-buttons">
+                    <%= submit_tag("Submit") %>
+                </div>
+            </td>   
+
+        </tr> 
+        </table>
+        <% end %>         
+</div>

@@ -1,2 +1,38 @@
-<h1>AdmSt#new</h1>
-<p>Find me in app/views/adm_st/new.html.erb</p>
+<%= link_to adm_st_index_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+
+<div class="adm_st new">
+
+  <%= form_for(:adm_st, :url => adm_st_index_path) do |f| %>
+
+	<table summary="adm_st form fields">
+
+	    <caption>
+      <div class='header1'>New Application to Student Teaching</div>
+
+      </caption>
+	    <%= error_messages_for(@app) %>
+
+    <tr>
+      <th> <%= f.label(:Student_Bnum, "Name")%> </th>
+      <td> <%= f.select(:Student_Bnum, @students.map {|s| [name_details(s, file_as=true), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
+    </tr>
+
+  	<tr>
+	<th></th>
+	<td>
+    <div class="form-buttons">
+      <%= submit_tag("Submit") %>
+
+
+	</td>
+	</tr>
+    </div>	
+	</table>
+
+
+
+  <% end %>
+</div>

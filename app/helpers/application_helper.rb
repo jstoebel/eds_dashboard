@@ -1,6 +1,8 @@
 module ApplicationHelper
 
-  	def name_details(student)
+	def name_details(student, file_as = false)
+
+    #if file_as, return student with last name first (Fee, Jon)
 
 		if student.PreferredFirst
 			first_name = student.PreferredFirst + " (#{student.FirstName})"
@@ -15,9 +17,18 @@ module ApplicationHelper
 
 		end
 
-		return [first_name, last_name].join(' ')
+    if file_as
+      return [last_name+',', first_name].join(' ')  #return last name first
+    
+    else
+      return [first_name, last_name].join(' ')  #return first name first
+    end
+
+
 		
 	end
+
+
 
 	def error_messages_for(object)
 		render(:partial => 'application/error_messages', :locals => {:object => object})

@@ -11,9 +11,8 @@ class AdmTepController < ApplicationController
       return
     end
 
-    @students = Student.where("ProgStatus <> 'Candidate' and EnrollmentStatus='Active Student' and Classification <> 'Senior'")
+    @students = Student.where("ProgStatus <> 'Candidate' and (EnrollmentStatus not like 'Dismissed%' and EnrollmentStatus <> 'Graduation')  and Classification <> 'Senior'")
     @programs = Program.where("Current = 1")
-
     @app = AdmTep.new
   end
 

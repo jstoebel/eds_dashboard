@@ -14,7 +14,7 @@
 
     <tr>
       <th> <%= f.label(:Student_Bnum, "Name")%> </th>
-      <td> <%= f.select(:Student_Bnum, @students.map {|s| [name_details(s), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
+      <td> <%= f.select(:Student_Bnum, @students.map {|s| [name_details(s, file_as=true), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
     </tr>
 
     <tr>
