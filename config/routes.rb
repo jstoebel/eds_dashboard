@@ -10,13 +10,13 @@ resources :access, only: [:index]
 resources :praxis_results, only: [:new, :create] 
 
   
-resources :adm_tep, only: [:index, :new, :create, :edit, :update] do
+resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update] do
   post "choose"
   get "admit"
   get "download"
 end
 
-resources :adm_st, only: [:index, :new, :create, :edit, :update] do
+resources :adm_st, only: [:index, :show, :new, :create, :edit, :update] do
   post "choose"   #choose a term to display in index
   get "admit"
   get "download"  #download admission letter
@@ -26,6 +26,8 @@ end
   resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show]
     resources :issues, only: [:index, :new, :create]
+    # resources :adm_st, only: [:show]
+    # resources :adm_tep, only: [:show]
   end
 
   resources :issues, shallow: true do

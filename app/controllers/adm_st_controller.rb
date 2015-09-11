@@ -30,6 +30,13 @@ class AdmStController < ApplicationController
     end
   end
 
+  def show
+    @app = AdmSt.where("AltID=?", params[:id]).first
+    @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
+    @student = Student.find(@app.Student_Bnum)
+    name_details(@student)
+  end
+
   def new
     #display menu for possible names and possible programs
 
@@ -131,6 +138,13 @@ class AdmStController < ApplicationController
 
     end
 
+  end
+
+  def download
+    #download an admission letter
+    app = AdmSt.where("AltId=?", params[:adm_st_id]).first
+    send_file app.letter.path
+    
   end
 
   def choose

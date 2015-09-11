@@ -41,6 +41,7 @@
             <th>Admit Date</th>
             <th>ST Term</th>
             <th>Admission Decision</th>
+            <th>Details</th>
             <th>Letter</th>
 
           </tr>
@@ -73,6 +74,10 @@
     <% end %>
       </td>
 
+      <td>
+        
+        <%= link_to("Details", adm_st_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
+      </td>
       
 
       <% if app.letter_file_name %>      
@@ -82,6 +87,11 @@
             <% end %>
 
           </td>
+      <% else %>
+
+        <td class="doc-download">
+          <!-- empty space to style is the same -->
+        </td>
       <% end %>
 
 

@@ -140,6 +140,10 @@ class AdmTepController < ApplicationController
   end
 
   def show
+    @app = AdmTep.where("AltID=?", params[:id]).first
+    @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
+    @student = Student.find(@app.Student_Bnum)
+    name_details(@student)
   end
 
   def download
