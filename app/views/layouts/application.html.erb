@@ -8,32 +8,28 @@
     <%= javascript_include_tag(:application)%>
 	</head>
 	<body>
-
-	<div id="header"> 
-
-    <div class="top_banner">
-    	Loged in as: ____
-
-
+<!-- NEW HEADER STARTS HERE -->
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">Educaiton Studies Dashboard</span>
     </div>
- 
+    <ul class="nav navbar-nav">
+      <li class="active"><%= link_to("Advisees", students_path) %></li>
+      <li class="active"><%= link_to("Praxis Registration", new_praxis_result_path) %></li>
+      <li class="active"><%= link_to("Admission to TEP", adm_tep_index_path) %></li>
+      <li class="active"><%= link_to("Admission to Student Teaching", adm_st_index_path) %></li>
+      <li class="active"><%= link_to("Field Experience", "#") %></li>
+    </ul>
+    <p class="navbar-text pull-right">logged_in_user@email.com | <a href="#">Log Out</a></p>
   </div>
+</div>
 
-    <div class="navigation">
-      <ul>
-        <li><%= link_to("Advisees", students_path) %></li>
-        <li><%= link_to("TEP Applications", 
-        banner_term_adm_tep_index_path(current_term(exact=false).BannerTerm)
-        ) %></li>
-        <li><%= link_to("Student Teaching Applications", adm_st_index_path(current_term(exact=false).BannerTerm))%></li>
-        <li><%= link_to("New Praxis Registration", new_praxis_result_path) %></li>
-        <li><a href="#">Option</a></li>
-        <li><a href="#">Option</a></li>
-        <li><a href="#">Option</a></li>
-        <li><a href="#">Option</a></li>
-        <li><a href="#">Option</a></li>
-      </ul>
-    </div>
+
+
+<!-- OLD HEADER STARTS HERE -->
+
+
 
 		<!--Before yield -->
     <%= params %>
