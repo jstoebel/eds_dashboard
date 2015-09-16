@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
 resources :access, only: [:index]
 resources :praxis_results, only: [:new, :create] 
-
+resources :clinical_sites, only: [:index, :edit, :update, :new, :create]
   
 resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update] do
   post "choose"

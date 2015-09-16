@@ -2,8 +2,13 @@
 <html>
 	<head>
 	  <title>Education Studies Dashboard</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
-	  <%= stylesheet_link_tag('application') %>
+
+    <%= stylesheet_link_tag('application') %>
     <%= javascript_include_tag :defaults %>
     <%= javascript_include_tag(:application)%>
 	</head>
@@ -19,7 +24,14 @@
       <li class="active"><%= link_to("Praxis Registration", new_praxis_result_path) %></li>
       <li class="active"><%= link_to("Admission to TEP", adm_tep_index_path) %></li>
       <li class="active"><%= link_to("Admission to Student Teaching", adm_st_index_path) %></li>
-      <li class="active"><%= link_to("Field Experience", "#") %></li>
+      <li class="dropdown active">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Field Experience <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Placements</a></li>
+          <li><a href="#">Clinical Teachers</a></li>
+          <li><%= link_to("Clinical Sites", clinical_sites_path) %></li>
+        </ul>
+      </li>
     </ul>
     <p class="navbar-text pull-right">logged_in_user@email.com | <a href="#">Log Out</a></p>
   </div>

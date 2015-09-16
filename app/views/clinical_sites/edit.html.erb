@@ -1,0 +1,18 @@
+<!-- TODO back button -->
+
+<%= form_for(@site, url: clinical_site_path(@site.id)) do |f| %>
+
+	<table summary="clinical_site form fields">
+
+    <caption>
+    	<span class="header1"> Edit Clinical Site</span>
+
+    </caption>
+
+	<%= render(partial: 'form', locals: {f: f}) %>
+
+	<tr>
+		<td><%= submit_tag("Update Site") %></td>
+	</tr>
+
+<% end %>

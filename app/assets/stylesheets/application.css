@@ -65,11 +65,10 @@ p, td, ul, ol, li, dl, dt, dd {
 img { border: none; }
 table { border-collapse: collapse; }
 
-table tr th, table tr td { vertical-align: middle; text-align: left; 
-  padding: 10px; }
+table tr th, table tr td {vertical-align: middle; text-align: left; 
+  padding: 10px;}
 /*a, a:visited { color: #993120; }*/
 a:hover {}
-
 
 
 /*
@@ -201,6 +200,7 @@ a:hover { text-decoration: underline; }
 
 
   /*small buttons*/
+
     .action-small {
       font-size: 12pt;
       color: black;
