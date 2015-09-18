@@ -31,13 +31,23 @@
 
           <!-- TODO grayed out button if no praxis results, issues -->
         <%= link_to student_praxis_results_path(student.AltID),:class => "btn btn-info action-small praxis" do %>
-                </br><span class="small-btn-text"><%="Praxis Results (#{student.praxis_results.size})"%></span>
+                </br>
+                <span class="small-btn-text"> Praxis Results 
+                  <span class="badge">
+                    <%=student.praxis_results.size%> 
+                  </span>
+              </span>
 
             <% end %>
 
 
         <%= link_to student_issues_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-              </br><span class="small-btn-text"><%="Issues (#{student.issues.size})"%></span>
+              </br><span class="small-btn-text">
+              Issues
+                <span class="badge">
+                  <%=student.issues.size%>
+                </span>
+              </span>
 
             <% end %>
 
