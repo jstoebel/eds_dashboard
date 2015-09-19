@@ -119,6 +119,12 @@ hr {background-color: black; border: 0; height: 1px;}
 #footer p { margin: 0; padding: 0.5em 1em; }
 
 /* Navigation */
+
+#username {
+  background-color: gray;
+  max-width: 200px;
+}
+
 .navigation{
 	border-bottom:#adb1b2 solid 1px;
 	padding:15px 5px;
