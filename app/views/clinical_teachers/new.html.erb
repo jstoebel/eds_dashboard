@@ -1,0 +1,18 @@
+<!-- TODO back button -->
+
+<%= form_for(@teacher, url: clinical_teachers_path) do |f| %>
+
+	<table summary="clinical_teacher form fields">
+
+    <caption>
+    	<span class="header1"> Create New Clinical Teacher</span>
+
+    </caption>
+
+	<%= render(partial: 'form', locals: {f: f}) %>
+
+	<tr>
+		<td><%= submit_tag("Create Teacher") %></td>
+	</tr>
+
+<% end %>

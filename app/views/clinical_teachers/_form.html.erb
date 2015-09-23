@@ -1,0 +1,34 @@
+ 
+    <%= error_messages_for(@teacher) %>
+    <tr>
+      <th> <%= f.label(:FirstName, "First Name")%> </th>
+      <td> <%= f.text_field(:FirstName) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:LastName, "Last Name")%> </th>
+      <td> <%= f.text_field(:LastName) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:Email, "Email")%> </th>
+      <td> <%= f.text_field(:Email) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:clinical_site_id, "Site")%> </th>
+      <td> <%= f.select(:clinical_site_id, @sites.map {|s| [s.SiteName, s.id]}, {:prompt => 'Select a clinical site'}) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:Rank, "Rank")%> </th>
+      <td> <%= f.text_field(:Rank) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:YearsExp, "Years Experience")%> </th>
+      <td> <%= f.text_field(:YearsExp) %></td>
+    </tr>
+
+  </table>
+ 

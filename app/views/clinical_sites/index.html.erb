@@ -39,8 +39,10 @@
             <% end %>
 
 	 	<!-- see teachers -->
-        <%= link_to "#", :class => "btn btn-info action-small" do %>
-              <span class="small-btn-text">Teachers</span>
+        <%= link_to clinical_site_clinical_teachers_path(site.id), :class => "btn btn-info action-small " + (site.clinical_teachers.size > 0 ? "" : " disabled") do %>
+              <span class="small-btn-text">Teachers
+                <span class="badge"> <%= site.clinical_teachers.size%></span>
+              </span>
             <% end %>
 
 
