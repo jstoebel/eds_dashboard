@@ -21,6 +21,11 @@
     </tr>
 
     <tr>
+      <th> <%= f.label(:Subject, "Subject")%> </th>
+      <td> <%= f.select(:Subject, @subjects) %></td>
+    </tr>
+
+    <tr>
       <th> <%= f.label(:Rank, "Rank")%> </th>
       <td> <%= f.text_field(:Rank) %></td>
     </tr>

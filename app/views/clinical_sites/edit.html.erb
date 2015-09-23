@@ -1,4 +1,7 @@
 <!-- TODO back button -->
+<%= link_to clinical_sites_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
 
 <%= form_for(@site, url: clinical_site_path(@site.id)) do |f| %>
 

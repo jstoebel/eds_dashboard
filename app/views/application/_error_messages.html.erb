@@ -11,8 +11,10 @@ Here's how this gets displayed.
     <h2><%= pluralize(object.errors.size, "error") %> prohibited this record from being saved</h2>
     <p>The following problems were encountered:</p>
     <ul>
-    <% object.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
+    <% object.errors.messages.values.each do |msg| %>
+      <%msg.each do |m| %>
+        <li><%= m %></li>
+      <% end %>
     <% end %>
     </ul>
   </div>
