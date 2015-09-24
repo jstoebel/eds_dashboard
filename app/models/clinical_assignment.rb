@@ -10,15 +10,15 @@ class ClinicalAssignment < ActiveRecord::Base
   		:presence => {message: "Please select a clinical teacher."}
 
 	validate do |a|
-		a.errors.add(:StartDate, "Please enter a valid start date.") unless valid_date(a.StartDate)
-		a.errors.add(:EndDate, "Please enter a valid end date.") unless valid_date(a.EndDate)
+		a.errors.add(:StartDate, "Please enter a valid start date.") unless a.StartDate.kind_of?(Date)
+		a.errors.add(:EndDate, "Please enter a valid end date.") unless a.EndDate.kind_of?(Date)
 	end
 
 	private
 	def valid_date(date_str)
 		#returns if date_str is a valid date using format mm/dd/yyyy
 		begin
-			date = Date.strptime(date_str, '%m/%d/%Y')
+			date = Date.strftime(date_str, '%m/%d/%Y')
 			return true
 		rescue ArgumentError => e
 			return false

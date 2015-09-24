@@ -16,12 +16,32 @@ class ClinicalAssignmentsController < ApplicationController
   def new
     @assignment = ClinicalAssignment.new
     form_setup
-    @term = current_term(exact=true)
-
 
   end
 
   def create
+
+    
+
+
+    @assignment = ClinicalAssignment.new
+    @assignment.assign_attributes(assignment_params)
+    start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%m/%d/%Y')
+    @assignment.StartDate = start_date
+    end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%m/%d/%Y')
+    @assignment.EndDate = end_date
+
+    @assignment.Term = current_term({exact: true, plan_b: "forward"})
+
+    if @assignment.save
+      flash[:notice] = "Created Assignment: #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
+      redirect_to(clinical_assignments_path)
+    else
+      form_setup
+      render ('new')
+    end
+      
+
   end
 
   def edit
@@ -39,7 +59,7 @@ class ClinicalAssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:clinical_site).permit(:SiteName, :City, :County, :Principal, :District)
+    params.require(:clinical_assignment).permit(:Bnum, :clinical_teacher_id, :Term, :CourseID, :Level, :StartDate, :EndDate)
     
   end
   def form_setup
