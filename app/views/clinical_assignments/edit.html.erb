@@ -1,0 +1,20 @@
+<%= link_to clinical_assignments_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+<%= form_for(@assignment, url: clinical_assignment_path(@assignment.id)) do |f| %>
+
+	<table summary="clinical_assignments form fields">
+
+    <caption>
+    	<span class="header1"> Edit Clinical Assignment</span>
+    	<span class="header2"> <%= " #{name_details(@student, file_as=true)} with #{@teacher.FirstName} #{@teacher.LastName}"  %></span>
+
+    </caption>
+
+	<%= render(partial: 'form', locals: {f: f}) %>
+
+	<tr>
+		<td><%= submit_tag("Edit Assignment") %></td>
+	</tr>
+
+<% end %>

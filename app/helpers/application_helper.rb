@@ -1,7 +1,7 @@
 module ApplicationHelper
 
 	def name_details(student, file_as = false)
-
+    #returns full student name with additional first and last names as needed
     #if file_as, return student with last name first (Fee, Jon)
 
 		if student.PreferredFirst
@@ -27,8 +27,6 @@ module ApplicationHelper
 
 		
 	end
-
-
 
 	def error_messages_for(object)
 		render(:partial => 'application/error_messages', :locals => {:object => object})
@@ -90,7 +88,6 @@ module ApplicationHelper
 			return nil
 		end
    end
-
 
 
 end

@@ -40,28 +40,51 @@ class ApplicationController < ActionController::Base
 		
 	 end
 
+   #I BELIEVE THIS IS REDUNDANT, BUT AM LEAVING IT JUST IN CASE.
+  # def current_term(exact_term=true)
+  #   # if exact match is requested, return nil if not in a curent term. 
+  #   # Otherwise, return the most recent passed turn.
 
-   def current_term(exact_term=true)
-    # if exact match is requested, return nil if not in a curent term. 
-    # Otherwise, return the most recent passed turn.
+  #   term = BannerTerm.where("StartDate<=:now and EndDate>=:now", {now: Date.today}).first
 
-    term = BannerTerm.where("StartDate<=:now and EndDate>=:now", {now: Date.today}).first
+  #   if term
+  #     return BannerTerm.find(term)
 
-    if term
-      return BannerTerm.find(term)
+  #   else
+  #     if exact_term
+  #       return nil
+
+  #     else
+  #       #give me the last term that ended before Date.today
+  #       term = BannerTerm.where("EndDate<:now", {now: Date.today}).order(EndDate: :desc).first
+  #       return BannerTerm.find(term)
+  #     end
+      
+  #   end
+  # end
+
+  def term_menu_setup
+     @current_term = current_term(exact_term=false)
+
+    if params[:banner_term_id]
+      @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412
 
     else
-      if exact_term
-        return nil
-
-      else
-        #give me the last term that ended before Date.today
-        term = BannerTerm.where("EndDate<:now", {now: Date.today}).order(EndDate: :desc).first
-        return BannerTerm.find(term)
-      end
-      
+      @term = @current_term   #if no params passed, the term to render is current term
     end
-  end
+
+    #assemble possible terms for select menu: all terms more than 
+    #2 years ago, no future terms, and only terms with at least one 
+    #application
+
+    @menu_terms = BannerTerm.joins(:adm_st).group(:BannerTerm).where("StartDate > ? and StartDate < ?", Date.today-730, Date.today)
+    # puts @menu_terms
+    # puts @current_term
+
+    if (@current_term) and not (@menu_terms.include? @current_term)
+      @menu_terms << @current_term    #add the current term if its not there already.
+    end
+   end
 
    def to_console(object)
     puts "*"*100

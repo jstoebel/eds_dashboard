@@ -1,0 +1,3 @@
+<%= f.select( :menu_terms,  @menu_terms.map { |t| [t.PlainTerm, t.BannerTerm]},
+      {prompt: "Select a term"}, 
+      {:onchange => "this.form.submit()"}) %>

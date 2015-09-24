@@ -1,0 +1,51 @@
+ 
+    <%= error_messages_for(@assignment) %>
+    <tr>
+      <th> <%= f.label(:Bnum, "Student")%> </th>
+      <td> <%= f.select(:Bnum, @students.map {|s| [name_details(s), s.Bnum]},
+      {prompt: "Select a student"}) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:clinical_teacher_id, "Teacher")%> </th>
+      <td> <%= f.select(:clinical_teacher_id, @teachers.map {|t| ["#{t.FirstName} #{t.LastName}", t.id]},
+      {prompt: "Select a clinical teacher"}) %></td>
+    </tr>
+
+    <!-- TODO menu for course ID goes here -->
+
+
+
+    <tr>
+    <th> <%= f.label(:StartDate, "Start Date") %></th>
+
+    <td>    
+      <%= f.text_field :StartDate, 'data-behaviour' => 'datepicker' %>
+      <script type="text/javascript">
+          $('[data-behaviour~=datepicker]').datepicker({
+              format: 'mm/dd/yyyy',
+              startDate: <%=@term.StartDate.strftime("%m/%d/%Y") %>,
+              endDate: <%=@term.EndDate.strftime("%m/%d/%Y") %>
+          });
+      </script>
+    </td>
+    </tr>
+
+
+    <tr>
+    <th> <%= f.label(:EndDate, "End Date") %></th>
+
+    <td>    
+      <%= f.text_field :EndDate, 'data-behaviour' => 'datepicker' %>
+      <script type="text/javascript">
+          $('[data-behaviour~=datepicker]').datepicker({
+              format: 'mm/dd/yyyy',
+              startDate: <%=@term.StartDate.strftime("%m/%d/%Y") %>,
+              endDate: <%=@term.EndDate.strftime("%m/%d/%Y") %>
+          });
+      </script>
+    </td>
+    </tr>
+
+  </table>
+ 
