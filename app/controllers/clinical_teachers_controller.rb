@@ -14,24 +14,37 @@ class ClinicalTeachersController < ApplicationController
   end
 
   def edit
-    @sites = ClinicalSite.all
+    form_details
+    @teacher = ClinicalTeacher.find(params[:id])
   end
 
   def update
+    @teacher = ClinicalTeacher.find(params[:id])
+    @teacher.update_attributes(teacher_params)
+    if @teacher.save
+      flash[:notice] = "Updated Teacher #{@teacher.FirstName} #{@teacher.LastName}."
+      redirect_to(clinical_teachers_path)
+    else
+      form_details
+      render ('new')
+    end
+
   end
 
   def new
+    form_details
     @teacher = ClinicalTeacher.new
-    @sites = ClinicalSite.all
+
   end
 
   def create
     @teacher = ClinicalTeacher.new
     @teacher.update_attributes(teacher_params)
     if @teacher.save
-      flash[:notice] = "Created new teacher #{@teacher.FirstName} + #{@teacher.LastName}."
+      flash[:notice] = "Created new teacher #{@teacher.FirstName} #{@teacher.LastName}."
+      redirect_to(clinical_teachers_path)
     else
-      @sites = ClinicalSite.all
+      form_details
       render ('new')
     end
 
@@ -39,7 +52,12 @@ class ClinicalTeachersController < ApplicationController
 
   private
 
-def teacher_params
+  def teacher_params
     params.require(:clinical_teacher).permit(:Bnum, :FirstName, :LastName, :Email, :Subject, :clinical_site_id, :Rank, :YearsExp)
+  end
+
+  def form_details
+    @sites = ClinicalSite.all
+    @subjects = Program.where(Current: true)
   end
 end

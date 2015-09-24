@@ -6,11 +6,12 @@ Rails.application.routes.draw do
 
 resources :access, only: [:index]
 resources :praxis_results, only: [:new, :create] 
+
 resources :clinical_sites, only: [:index, :edit, :update, :new, :create], shallow: true do
   resources :clinical_teachers, only: [:index]
 end
 
-resources :clinical_teachers, only: [:new, :create, :edit]
+resources :clinical_teachers, only: [:index, :new, :create, :edit, :update]
 
 
 

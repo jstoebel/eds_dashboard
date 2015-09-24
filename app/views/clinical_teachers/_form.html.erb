@@ -22,7 +22,8 @@
 
     <tr>
       <th> <%= f.label(:Subject, "Subject")%> </th>
-      <td> <%= f.select(:Subject, @subjects) %></td>
+      <td> <%= f.select(:Subject, @subjects.map {|s| [s.EDSProgName, s.EDSProgName]},
+        {:prompt => 'Select a subject'}) %></td>
     </tr>
 
     <tr>

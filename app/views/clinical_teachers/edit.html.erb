@@ -1,2 +1,19 @@
-<h1>ClinicalTeachers#edit</h1>
-<p>Find me in app/views/clinical_teachers/edit.html.erb</p>
+<!-- TODO back button -->
+
+<%= form_for(@teacher, url: clinical_teacher_path(@teacher.id)) do |f| %>
+
+	<table summary="clinical_teacher form fields">
+
+    <caption>
+    	<span class="header1"> Edit Clinical Teacher</span></br>
+    	<span class="heeader2"> <%= [@teacher.FirstName, @teacher.LastName].join(' ') %></span>
+
+    </caption>
+
+	<%= render(partial: 'form', locals: {f: f}) %>
+
+	<tr>
+		<td><%= submit_tag("Edit Teacher") %></td>
+	</tr>
+
+<% end %>
