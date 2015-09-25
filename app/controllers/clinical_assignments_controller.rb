@@ -46,6 +46,9 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.CourseID = '???'    
 
     @assignment.Term = current_term({exact: false, plan_b: "forward"}).BannerTerm
+    get_assignment_id
+  
+
 
     if @assignment.save
       flash[:notice] = "Created Assignment: #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
@@ -59,9 +62,25 @@ class ClinicalAssignmentsController < ApplicationController
   end
 
   def edit
+    form_setup
+    @assignment = ClinicalAssignment.where("AltID = ?", params[:id]).first
+    # @student = Student.find(@assignment.Bnum)
+    # @teacher = ClinicalTeacher.find(@assignment.clinical_teacher_id)
   end
 
   def update
+
+    @assignment = ClinicalAssignment.find(params[:id])
+    @assignment.update_attributes(assignment_params)
+
+    if @assignment.save
+      flash[:notice] = "Updated Assignment #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
+      redirect_to(clinical_assignments_path)
+    else
+      form_details
+      render ('new')
+    end
+
   end
 
   def choose
@@ -80,5 +99,11 @@ class ClinicalAssignmentsController < ApplicationController
     @students = Student.current.by_last
     @teachers = ClinicalTeacher.all
     @current_term = current_term exact: false, plan_b: :forward
+  end
+
+  def get_assignment_id
+    #builds an assignment's id
+    @assignment.id = [@assignment.Bnum, @assignment.Term.to_s, 
+      @assignment.clinical_teacher_id.to_s, @assignment.CourseID].join('-')
   end
 end

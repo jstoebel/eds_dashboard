@@ -7,7 +7,7 @@
 
     <caption>
     	<span class="header1"> Edit Clinical Assignment</span>
-    	<span class="header2"> <%= " #{name_details(@student, file_as=true)} with #{@teacher.FirstName} #{@teacher.LastName}"  %></span>
+    	<span class="header2"> <%= " #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}"  %></span>
 
     </caption>
 

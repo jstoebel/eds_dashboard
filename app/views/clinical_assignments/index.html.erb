@@ -39,12 +39,8 @@
     <td><%= assignment.EndDate.strftime("%m/%d/%Y") %></td>
     <td class="actions">
 
-      <!-- actions:
-        see teachers
-        edit school-->
-
-    <!-- see teachers -->
-        <%= link_to '#', :class => "btn btn-info action-small" do %>
+    <!-- edit assignment-->
+        <%= link_to edit_clinical_assignment_path(assignment.AltID), :class => "btn btn-info action-small" do %>
               <span class="small-btn-text">Edit
               </span>
             <% end %>
