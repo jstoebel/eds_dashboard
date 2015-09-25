@@ -3,6 +3,8 @@ class AdmTep < ActiveRecord::Base
 
   include ApplicationHelper
 
+  after_save :change_status
+
   has_attached_file :letter, 
   :url => "/adm_tep/:altid/download",		#passes AltID 
   :path => ":rails_root/public/admission_letters/:bnum/:basename.:extension"
@@ -30,5 +32,13 @@ class AdmTep < ActiveRecord::Base
 
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 
+  private
+
+  def change_status
+  	#if applcation was successful, change student's ProgStatus
+  	if self.TEPAdmit
+  		self.student.update_attributes :ProgStatus => "Candidate"
+  	end
+  end
 
 end
