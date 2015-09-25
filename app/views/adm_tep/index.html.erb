@@ -4,9 +4,7 @@
   <!-- drop down menu for all terms. Reload page on change -->
   <%= form_for(:banner_term, :url => adm_tep_choose_path('pick')) do |f| %>
 
-    <%= f.select( :menu_terms,  @menu_terms.map { |t| [t.PlainTerm, t.BannerTerm]},
-          {prompt: "Select a term"}, 
-          {:onchange => "this.form.submit()"}) %>
+    <%= render(partial: 'term_picker', locals: {f: f}) %>
 
   <% end %>
 

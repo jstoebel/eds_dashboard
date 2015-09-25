@@ -109,24 +109,9 @@ class AdmTepController < ApplicationController
 
     #@current_term: the current term in time
     #@term: the term displayed
-
-    @current_term = current_term(exact: false)
-
-    if params[:banner_term_id]
-      @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412
-
-    else
-      @term = @current_term   #if no params passed, the term to render is current term
-    end
+    term_menu_setup
         
     @applications = AdmTep.all.by_term(@term)   #fetch all applications for this term
-
-    #assemble possible terms for select menu 
-
-    @menu_terms = BannerTerm.joins(:adm_tep).group(:BannerTerm).where("StartDate > ? and StartDate < ?", Date.today-730, Date.today)
-    if (@current_term) and not (@menu_terms.include? @current_term)
-      @menu_terms << @current_term    #add the current term if its not there already.
-    end
 
   end
 
