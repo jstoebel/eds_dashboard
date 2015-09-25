@@ -74,7 +74,7 @@
                 1) Student has no admission decision
                 2) we are currently inside a term
                 3) the term displayed is a current term.-->
-            <% if app.TEPAdmit == nil and @term = current_term(exact=false)%>    
+            <% if app.TEPAdmit == nil and @term = current_term(exact: false)%>    
 
               <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
 

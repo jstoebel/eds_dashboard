@@ -24,8 +24,8 @@
       <script type="text/javascript">
           $('[data-behaviour~=datepicker]').datepicker({
               format: 'mm/dd/yyyy',
-              startDate: <%=@term.StartDate.strftime("%m/%d/%Y") %>,
-              endDate: <%=@term.EndDate.strftime("%m/%d/%Y") %>
+              startDate: <%=@current_term.StartDate.strftime("%m/%d/%Y") %>,
+              endDate: <%=@current_term.EndDate.strftime("%m/%d/%Y") %>
           });
       </script>
     </td>
@@ -40,8 +40,8 @@
       <script type="text/javascript">
           $('[data-behaviour~=datepicker]').datepicker({
               format: 'mm/dd/yyyy',
-              startDate: <%=@term.StartDate.strftime("%m/%d/%Y") %>,
-              endDate: <%=@term.EndDate.strftime("%m/%d/%Y") %>
+              startDate: <%=@current_term.StartDate.strftime("%m/%d/%Y") %>,
+              endDate: <%=@current_term.EndDate.strftime("%m/%d/%Y") %>
           });
       </script>
     </td>

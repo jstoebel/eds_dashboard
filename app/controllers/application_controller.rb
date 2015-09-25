@@ -22,23 +22,23 @@ class ApplicationController < ActionController::Base
   	end
 
 
-  	def name_details(student)
+	# def name_details(student)
 
-		if student.PreferredFirst
-			@first_name = student.PreferredFirst + " (#{student.FirstName})"
-		else
-			@first_name = student.FirstName
-		end
+	# 	if student.PreferredFirst
+	# 		@first_name = student.PreferredFirst + " (#{student.FirstName})"
+	# 	else
+	# 		@first_name = student.FirstName
+	# 	end
 
-		if student.PrevLast
-			@last_name = student.LastName + " (#{student.PrevLast})"
-		else
-			@last_name = student.LastName
+	# 	if student.PrevLast
+	# 		@last_name = student.LastName + " (#{student.PrevLast})"
+	# 	else
+	# 		@last_name = student.LastName
 
-		end
+	# 	end
 
 		
-	 end
+	#  end
 
    #I BELIEVE THIS IS REDUNDANT, BUT AM LEAVING IT JUST IN CASE.
   # def current_term(exact_term=true)
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   # end
 
   def term_menu_setup
-     @current_term = current_term(exact_term=false)
+     @current_term = current_term(exact: false, plan_b: :back)
 
     if params[:banner_term_id]
       @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412

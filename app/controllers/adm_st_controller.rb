@@ -6,13 +6,13 @@ class AdmStController < ApplicationController
     #@current_term: the current term in time
     #@term: the term displayed
 
-    @current_term = current_term(exact_term=false)
+    @current_term = current_term(exact: false, plan_b: :back)
 
     if params[:banner_term_id]
       @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412
 
     else
-      @term = @current_term   #if no params passed, the term to render is current term
+      @term = @current_term  #if no params passed, the term to render is current term
     end
         
     @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term
@@ -40,7 +40,7 @@ class AdmStController < ApplicationController
   def new
     #display menu for possible names and possible programs
 
-    if current_term(exact=true) == nil
+    if current_term(exact: true) == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
       redirect_to(adm_tep_index_path)
       return
@@ -55,14 +55,15 @@ class AdmStController < ApplicationController
   def create
 
     #can't add new students to apply once the term is over.
-    if current_term(exact=true) == nil
+    
+    @current_term = current_term(exact: true)
+
+    if @current_term == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
       redirect_to(adm_tep_index_path)
     end
 
     @app = AdmSt.new(new_adm_params)    #add in Bnum
-
-    @current_term = current_term(exact=true)    #we've already validated that we are inside a term.
 
     @bnum =  params[:adm_st][:Student_Bnum]
 
@@ -97,7 +98,7 @@ class AdmStController < ApplicationController
 
     @application = AdmSt.where("AltID = ?", params[:id]).first
 
-    @current_term = current_term(exact=false)
+    @current_term = current_term(exact: false, plan_b: :back)
 
     #application must be processed in its own term or the break following.
     if @application.BannerTerm_BannerTerm != @current_term.BannerTerm

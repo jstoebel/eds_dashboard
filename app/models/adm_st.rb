@@ -18,8 +18,7 @@ class AdmSt < ActiveRecord::Base
 	app.errors.add(:base, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < term.StartDate
 	app.errors.add(:base, "Admission date must be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
 	app.errors.add(:base, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
-	app.errors.add(:base, "Please attach an admission letter.") if app.letter_file_name == nil
-
+	app.errors.add(:base, "Please attach an admission letter.") if (app.letter_file_name == nil and app.STAdmitted != nil)
   end
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 end

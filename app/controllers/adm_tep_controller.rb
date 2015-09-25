@@ -5,7 +5,7 @@ class AdmTepController < ApplicationController
   def new
     #display menu for possible names and possible programs
 
-    if current_term(exact=true) == nil
+    if current_term(exact: true) == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
       redirect_to(adm_tep_index_path)
       return
@@ -17,16 +17,14 @@ class AdmTepController < ApplicationController
   end
 
   def create
- 
-    if current_term(exact=true) == nil
+    @current_term = current_term(exact=true)  
+    if @current_term == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
       redirect_to(adm_tep_index_path)
     end
 
     @app = AdmTep.new(new_adm_params)
-    @current_term = current_term(exact=true)    #we have already validated that we are inside a current term
-    puts "*"*50
-    puts @current_term
+
     @bnum =  params[:adm_tep][:Student_Bnum]
     @prog_code = params[:adm_tep][:Program_ProgCode]
 
@@ -65,7 +63,7 @@ class AdmTepController < ApplicationController
 
     @application = AdmTep.where("AltID = ?", params[:id]).first
 
-    @current_term = current_term(exact=false)
+    @current_term = current_term(exact: false)
 
     #application must be processed in its own term or the break following.
     if @application.BannerTerm_BannerTerm != @current_term.BannerTerm
@@ -112,7 +110,7 @@ class AdmTepController < ApplicationController
     #@current_term: the current term in time
     #@term: the term displayed
 
-    @current_term = current_term(exact_term=false)
+    @current_term = current_term(exact: false)
 
     if params[:banner_term_id]
       @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412

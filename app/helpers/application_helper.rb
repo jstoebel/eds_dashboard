@@ -32,14 +32,14 @@ module ApplicationHelper
 		render(:partial => 'application/error_messages', :locals => {:object => object})
 	end
 	
-   def current_term(options={})
+  def current_term(options = {})
+
 
     defaults = {
-      exact: true,
-      plan_b: :back
+      :exact => true,
+      :plan_b => :forward
     }
 
-    options = defaults.merge(options)
 
     # if exact match is requested, return nil if not in a curent term. 
     # Otherwise, return the most recent or next term, as requested.
@@ -54,10 +54,10 @@ module ApplicationHelper
         return nil
 
       else  #go to plan-b
-        if options[:plan_b] == 'back'
+        if options[:plan_b] == :back
           #give me the last term that ended before Date.today
           return BannerTerm.where("EndDate<:now", {now: Date.today}).order(EndDate: :desc).first
-        elsif options[:plan_b] == 'forward'
+        elsif options[:plan_b] == :forward
           #give me the first term that begins after today
           return BannerTerm.where("StartDate>:now", {now: Date.today}).order(StartDate: :asc).first
 
@@ -70,7 +70,7 @@ module ApplicationHelper
       
     end
 
-   end
+  end
 
    def banner_to_plain(banner_term)
    	#converts a banner term to its normal name
@@ -107,5 +107,5 @@ module ApplicationHelper
    end
 
 
-end
+  end
 end

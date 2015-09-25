@@ -9,6 +9,10 @@ class ClinicalAssignment < ActiveRecord::Base
   	validates :clinical_teacher_id,
   		:presence => {message: "Please select a clinical teacher."}
 
+
+	#date must be inside term
+	#
+
 	validate do |a|
 		a.errors.add(:StartDate, "Please enter a valid start date.") unless a.StartDate.kind_of?(Date)
 		a.errors.add(:EndDate, "Please enter a valid end date.") unless a.EndDate.kind_of?(Date)
