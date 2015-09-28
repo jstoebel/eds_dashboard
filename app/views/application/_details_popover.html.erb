@@ -1,0 +1,21 @@
+  <!-- Button trigger modal -->
+  <button class="btn btn-info" data-toggle="modal" data-target="#exit-<%= record_id %>-details">
+    <%= popover_title  %>
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exit-<%= record_id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= record_id %>-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exit-<%= record_id %>-label"> <%=popover_title %> </h4>
+        </div>
+        <div class="modal-body">
+          <%= content %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

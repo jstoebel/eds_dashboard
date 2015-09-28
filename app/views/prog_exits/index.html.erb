@@ -44,61 +44,43 @@
 
           </tr>
       	<% @exits.each do |exit|%>
-
+    <tr>
 		<td><%= exit.student.FirstName %></td>
 		<td><%= exit.student.LastName %></td>
-      <td><%= exit.program%> </td>
-      <td><%=app.GPA %></td>
-      <td><%=app.GPA_last30%></td>
-      <td>
-        <% if praxisI_pass(student) %> 
-          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
 
-        <% else %>
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+      <td><%= exit.program.EDSProgName %> </td>
 
-        <% end %>
+      <td><%=exit.GPA %></td>
+      <td><%=exit.GPA_last60%></td>
 
-        </td>
-      <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td> 
+      <td><%= exit.ExitDate ? exit.ExitDate.strftime("%m/%d/%Y") : nil %></td>
+      <td> <%= exit.program.EDSProgName %> </td>
+
+      <td> <%= exit.RecommendDate ? exit.RecommendDate.strftime("%m/%d/%Y") : nil   %> </td>
 
 			<td class="actions">
-            <!-- Display button for admission decision if
-                1) Student has no admission decision
-                2) we are currently inside a term
-                3) the term displayed is a current term.-->
-            <% if app.TEPAdmit == nil and @term = current_term(exact: false)%>    
+            <!-- Action buttons
+                1) Details of exit -->
 
-              <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
+          <% if exit.Details %>
+            <%= render(partial: 'details_popover', 
+            locals: {
+              :record_id => exit.AltID,
+              :popover_title => "Exit Details", 
+              :content => exit.Details
+            } )  %>
 
-            <% else %>
-
-              <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
-
-            <% end %>
-      </td>
-
-      <td>
-        
-        <%= link_to("Details", adm_tep_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
-      </td>
-
-      <% if app.letter_file_name %>      
-      <td class="doc-download"> 
-
-            <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
-            <% end %>
+          <% end %>
 
       </td>
-      <% end %>
 
 
 
-          </tr>
-        <!-- end of if statement for content-->
+      </tr>
+        <!-- End of loop iterating over each record -->
       	<% end %>
           
-    <!-- end of main loop -->
+    <!-- end of if statement for content-->
     <% end %>   
 
   </table>
