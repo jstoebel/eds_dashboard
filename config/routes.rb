@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   #A resource must be top level before it can be nested in another resource (I think)
   
   # match ':controller(/:action(/:id))', :via => [:get, :post]
@@ -14,8 +13,6 @@ Rails.application.routes.draw do
 
   resources :clinical_teachers, only: [:index, :new, :create, :edit, :update]
 
-
-
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update] do
@@ -28,6 +25,10 @@ Rails.application.routes.draw do
     post "choose"   #choose a term to display in index
     get "admit"
     get "download"  #download admission letter
+  end
+
+  resources :prog_exits, only: [:index, :show, :new, :create] do
+    post "choose"   #choose a term to display in index
   end
 
   resources :clinical_assignments, only: [:index, :new, :create, :edit, :update] do
@@ -50,6 +51,7 @@ Rails.application.routes.draw do
   resources :banner_terms, shallow: true do
     resources :adm_tep, only: [:index]
     resources :adm_st, only: [:index]
+    resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
   end
 

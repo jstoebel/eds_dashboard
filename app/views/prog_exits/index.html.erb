@@ -1,0 +1,105 @@
+<div class="index">
+
+  <!-- drop down menu for all terms. Reload page on change -->
+  <%= form_for(:banner_term, :url => prog_exit_choose_path('pick')) do |f| %>
+
+    <%= render(partial: 'term_picker', locals: {f: f}) %>
+
+  <% end %>
+
+
+  <table class="listing summary adm_tep list table table-striped">
+   
+    <caption>        
+        <div class="header1">Program Exits: <%= @term.PlainTerm%></div></br>
+        <div class="header2"><%= pluralize(@exits.size, 'exit') %>  found </div>
+      
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1 pull-right">
+              <%= link_to new_prog_exit_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+
+                  <span class="large-btn-text">Add New Exit</span>
+
+              <% end %>         
+
+            </div>
+          </div>
+
+      </div>
+    </caption>
+
+    <% if @exits.size > 0  %>
+
+          <tr class="header">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Program</th>
+            <th>GPA</th>
+            <th>GPA (Last 60 Credit Hours)</th>          
+            <th>Exit Date</th>
+            <th>Exit Reason</th>
+            <th>Recomend Date</th>
+            <th>Details</th>
+
+          </tr>
+      	<% @exits.each do |exit|%>
+
+		<td><%= exit.student.FirstName %></td>
+		<td><%= exit.student.LastName %></td>
+      <td><%= exit.program%> </td>
+      <td><%=app.GPA %></td>
+      <td><%=app.GPA_last30%></td>
+      <td>
+        <% if praxisI_pass(student) %> 
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+
+        <% else %>
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+
+        <% end %>
+
+        </td>
+      <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td> 
+
+			<td class="actions">
+            <!-- Display button for admission decision if
+                1) Student has no admission decision
+                2) we are currently inside a term
+                3) the term displayed is a current term.-->
+            <% if app.TEPAdmit == nil and @term = current_term(exact: false)%>    
+
+              <%= link_to("Admission Decision", edit_adm_tep_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
+
+            <% else %>
+
+              <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
+
+            <% end %>
+      </td>
+
+      <td>
+        
+        <%= link_to("Details", adm_tep_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
+      </td>
+
+      <% if app.letter_file_name %>      
+      <td class="doc-download"> 
+
+            <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+            <% end %>
+
+      </td>
+      <% end %>
+
+
+
+          </tr>
+        <!-- end of if statement for content-->
+      	<% end %>
+          
+    <!-- end of main loop -->
+    <% end %>   
+
+  </table>
+</div>
