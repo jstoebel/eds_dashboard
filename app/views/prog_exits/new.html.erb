@@ -1,2 +1,16 @@
-<h1>ProgExits#new</h1>
-<p>Find me in app/views/prog_exits/new.html.erb</p>
+<%= form_for @exit, url: prog_exits_path do |f|   %>
+
+	<table summary="prog_exit form fields">
+
+    <caption>
+    	<span class="header1"> Exit a student</span>
+    </caption>
+
+
+		<%= render partial: 'form', locals: {f: f} %>
+
+	<tr>
+		<td><%= submit_tag("Submit Exit") %></td>
+	</tr>
+
+<% end %>

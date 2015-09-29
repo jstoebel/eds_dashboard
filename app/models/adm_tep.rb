@@ -11,8 +11,8 @@ class AdmTep < ActiveRecord::Base
 
 	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
 
-  has_one :program
-  belongs_to :student, foreign_key: "Student_Bnum"
+  belongs_to :program, {foreign_key: "Program_ProgCode"}
+  belongs_to :student, {foreign_key: "Student_Bnum"}
 
 	validate do |app|
 		term = BannerTerm.find(app.BannerTerm_BannerTerm)

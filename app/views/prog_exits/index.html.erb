@@ -50,18 +50,23 @@
 
       <td><%= exit.program.EDSProgName %> </td>
 
-      <td><%=exit.GPA %></td>
-      <td><%=exit.GPA_last60%></td>
+      <td><%= exit.GPA ? exit.GPA : nil%></td>
+      <td><%=exit.GPA_last60 ? exit.GPA_last60 : nil%></td>
 
       <td><%= exit.ExitDate ? exit.ExitDate.strftime("%m/%d/%Y") : nil %></td>
-      <td> <%= exit.program.EDSProgName %> </td>
+      <td><%= exit.exit_code.ExitDiscrip  %></td>
 
       <td> <%= exit.RecommendDate ? exit.RecommendDate.strftime("%m/%d/%Y") : nil   %> </td>
 
 			<td class="actions">
             <!-- Action buttons
-                1) Details of exit -->
+                1) Details of exit 
+                2) edit exit record
+              -->
 
+
+<!-- 1) Details of exit  -->
+          
           <% if exit.Details %>
             <%= render(partial: 'details_popover', 
             locals: {
@@ -73,6 +78,8 @@
           <% end %>
 
       </td>
+<!-- Edit record -->
+
 
 
 
