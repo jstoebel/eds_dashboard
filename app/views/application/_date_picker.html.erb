@@ -1,0 +1,17 @@
+    
+<!-- render a date picker
+
+	params:
+		f: form object
+		field: filed the data is for (as symbol)
+		start_str: date picker should start (as string)
+		end_str: date picker should end (as string)		
+ -->
+    <%= f.text_field field, 'data-behaviour' => 'datepicker' %>
+<script type="text/javascript">
+    $('[data-behaviour~=datepicker]').datepicker({
+        format: 'mm/dd/yyyy',
+        startDate: <%=start_str %>,
+        endDate: <%=end_str %>
+    });
+</script>

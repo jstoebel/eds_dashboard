@@ -6,8 +6,54 @@
     	<span class="header1"> Exit a student</span>
     </caption>
 
+		<%= error_messages_for(@exit) %>
 
-		<%= render partial: 'form', locals: {f: f} %>
+		<!-- this part is to select a new student/program to exit. We won't use it for edit -->
+		<tr>  
+		    <td> <%=f.label :Student_Bnum, "Student to Exit"%> </td>
+		    <td>	
+			<%= f.select :Student_Bnum, 
+			options_for_select(@students.map { |s|
+		    [name_details(s), s.AltID] }
+		    ), 
+		    {:prompt => "Select a student to exit"},
+		      { id: 'names_select',
+		        :ajax_path => prog_exits_get_programs_path } %>
+		    </td>
+		</tr>
+
+		<tr>
+		  <td> <%= f.label :Program_ProgCode, "Program to Exit", :class => 'programs_row'  %> </td>
+		  <td>
+		  <%= f.select :Program_ProgCode, options_for_select(@programs.collect { |prog|
+		    [prog.EDSProgName, prog.ProgCode] }, 0), {}, { id: 'programs_select', :class => 'programs_row' } %>
+		  </td>
+		</tr>
+
+		<%# render partial: 'form', locals: {f: f} %>
+
+		<tr>
+			<td>
+				<%= f.label :ExitCode_ExitCode, "Exit Reason" %>
+			</td>
+			<td>
+				<%= f.select :ExitCode_ExitCode, options_for_select(@exit_reasons.collect { |er| [er.ExitDiscrip, er.ExitCode]})  %>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<%= f.label :ExitDate, "Exit Date" %>
+				<%= render (partial: 'date_picker',
+				locals: {
+					f: f,
+					field: :ExitDate
+					start_str: ""
+					end_str: ""
+				}) %>
+			</td>
+
+		</tr>
 
 	<tr>
 		<td><%= submit_tag("Submit Exit") %></td>

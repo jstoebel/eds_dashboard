@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   
   # match ':controller(/:action(/:id))', :via => [:get, :post]
 
-  get 'prog_exit/get_programs', as: 'get_programs'
+  match 'prog_exits/get_programs', via: [:post, :get]
 
   resources :access, only: [:index]
   resources :praxis_results, only: [:new, :create] 
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
   resources :prog_exits, only: [:index, :show, :new, :create] do
     post "choose"   #choose a term to display in index
-    get 'get_programs'
+    # get 'get_programs', via: :get
   end
 
   resources :clinical_assignments, only: [:index, :new, :create, :edit, :update] do

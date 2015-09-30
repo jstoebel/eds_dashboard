@@ -9,15 +9,14 @@ class ProgExitsController < ApplicationController
   end
 
   def new
-    puts "*************starting new controller!******************"
     @exit = ProgExit.new
-    form_setup
-    puts "***********here are the students!************"
-    puts @students
-
+    @students = Student.all.candidates.by_last
+    @programs = []
+    @exit_reasons = ExitCode.all
   end
 
   def create
+
   end
 
   def choose
@@ -29,11 +28,20 @@ class ProgExitsController < ApplicationController
     #gets programs for a given student's B#
     @programs = Student.where(AltID: params[:alt_id]).first.programs
     
+    response = {}
+
+    @programs.each do |p|   #build a hash with each program mapped to its id
+      response.merge!({ p.ProgCode => p.EDSProgName })
+    end
+
+    render :json => response
+
   end
 
   private
 
-  def form_setup
-    @students = Student.all.candidates.by_last
+  def exit_params
+    params.require(:prog_exits).permit(:Student_Bnum, :Program_ProgCode, :ExitCode_ExitCode)
   end
+
 end

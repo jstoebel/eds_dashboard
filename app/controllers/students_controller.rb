@@ -8,8 +8,6 @@ class StudentsController < ApplicationController
   end
 
   def show
-    puts "*"*50
-    puts "Got here!"
     @student = find_student(params[:id])
   end
 

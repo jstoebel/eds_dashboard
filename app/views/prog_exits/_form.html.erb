@@ -1,12 +1,6 @@
 
-<%= error_messages_for(@exit) %>
-
-
 <tr>  
-    <td>	
-	<%= f.select :Student_Bnum, options_for_select(@students.map { |s|
-    [name_details(s), s.Bnum] }), {},  { id: 'names_select' } %>
-    </td>
+    <td> <%= f.label :Student_Bnum, "Student to Exit"%> </td>
+    <td>	</td>
 </tr>
-  <%# f.select :Program_ProgCode, options_for_select(@cities.collect { |city|
-    [city.name.titleize, city.id] }, 0), {}, { id: 'cities_select' } %>
+
