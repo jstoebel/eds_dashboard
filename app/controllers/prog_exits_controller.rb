@@ -16,6 +16,16 @@ class ProgExitsController < ApplicationController
   end
 
   def create
+    #mass assign bnum, program code, exit code, details
+    @exit = ProgExit.new(exit_params)
+
+    #insert dates. Don't know why these can't be mass assigned
+    @exit.ExitDate = params[:prog_exit][:ExitDate]  
+    @exit.ExitDate = params[:prog_exit][:RecommendDate]
+
+    #TODO compute GPA and GPA_last60
+
+
 
   end
 
@@ -39,9 +49,8 @@ class ProgExitsController < ApplicationController
   end
 
   private
-
   def exit_params
-    params.require(:prog_exits).permit(:Student_Bnum, :Program_ProgCode, :ExitCode_ExitCode)
+    params.require(:prog_exit).permit(:Student_Bnum, :Program_ProgCode, :ExitCode_ExitCode, :Details)
   end
 
 end

@@ -2,8 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
-  $("tbody>tr:not(:first-child").hide()
+$j = jQuery
+
+$j ->
+
+  $("table.new>tbody>tr:not(:first-child").hide()
+  $('[data-behaviour~=datepicker]').datepicker()
   $(document).on 'change', '#names_select', (evt) ->
     $.ajax "get_programs",
     type: "GET"
@@ -21,3 +25,4 @@ $ ->
       console.log(data)
       for id, prog_name of data
         $("#programs_select").append('<option value="'+id+'">'+prog_name+'</option>')
+        

@@ -37,14 +37,16 @@ module ApplicationHelper
 
     defaults = {
       :exact => true,
-      :plan_b => :forward
+      :plan_b => :forward,
+      :date => DateTime.now
     }
 
+    options = options.merge(defaults)
 
     # if exact match is requested, return nil if not in a curent term. 
     # Otherwise, return the most recent or next term, as requested.
 
-    term = BannerTerm.where("StartDate<=:now and EndDate>=:now", {now: Date.today}).first
+    term = BannerTerm.where("StartDate<=? and EndDate>=?", options[:date], options[:date]).first
 
     if term
       return BannerTerm.find(term)
@@ -56,10 +58,10 @@ module ApplicationHelper
       else  #go to plan-b
         if options[:plan_b] == :back
           #give me the last term that ended before Date.today
-          return BannerTerm.where("EndDate<:now", {now: Date.today}).order(EndDate: :desc).first
+          return BannerTerm.where("EndDate<?", options[:date]).order(EndDate: :desc).first
         elsif options[:plan_b] == :forward
           #give me the first term that begins after today
-          return BannerTerm.where("StartDate>:now", {now: Date.today}).order(StartDate: :asc).first
+          return BannerTerm.where("StartDate>?", options[:date]).order(StartDate: :asc).first
 
         else
           raise "Must select forward or back for plan_b"
@@ -70,6 +72,8 @@ module ApplicationHelper
       
     end
 
+
+    
   end
 
    def banner_to_plain(banner_term)

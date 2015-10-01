@@ -1,6 +1,6 @@
 <%= form_for @exit, url: prog_exits_path do |f|   %>
 
-	<table summary="prog_exit form fields">
+	<table summary="prog_exit form fields" class="new">
 
     <caption>
     	<span class="header1"> Exit a student</span>
@@ -8,9 +8,8 @@
 
 		<%= error_messages_for(@exit) %>
 
-		<!-- this part is to select a new student/program to exit. We won't use it for edit -->
 		<tr>  
-		    <td> <%=f.label :Student_Bnum, "Student to Exit"%> </td>
+		    <th> <%=f.label :Student_Bnum, "Student to Exit"%> </th>
 		    <td>	
 			<%= f.select :Student_Bnum, 
 			options_for_select(@students.map { |s|
@@ -23,34 +22,57 @@
 		</tr>
 
 		<tr>
-		  <td> <%= f.label :Program_ProgCode, "Program to Exit", :class => 'programs_row'  %> </td>
+		  <th> <%= f.label :Program_ProgCode, "Program to Exit", :class => 'programs_row'  %> </th>
 		  <td>
 		  <%= f.select :Program_ProgCode, options_for_select(@programs.collect { |prog|
 		    [prog.EDSProgName, prog.ProgCode] }, 0), {}, { id: 'programs_select', :class => 'programs_row' } %>
 		  </td>
 		</tr>
 
-		<%# render partial: 'form', locals: {f: f} %>
-
 		<tr>
-			<td>
+			<th>
 				<%= f.label :ExitCode_ExitCode, "Exit Reason" %>
-			</td>
+			</th>
 			<td>
 				<%= f.select :ExitCode_ExitCode, options_for_select(@exit_reasons.collect { |er| [er.ExitDiscrip, er.ExitCode]})  %>
 			</td>
 		</tr>
 
 		<tr>
-			<td>
+			<th>
 				<%= f.label :ExitDate, "Exit Date" %>
-				<%= render (partial: 'date_picker',
-				locals: {
+			</th>
+
+            <td class="date-admit">
+	
+				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :ExitDate
-					start_str: ""
-					end_str: ""
-				}) %>
+				})  %>
+            </td>
+		</tr>
+
+		<tr>
+			<th>
+				<%= f.label :RecommendDate, "Date Recomend Certificaiton"  %>
+			</th>
+
+            <td class="date-admit">
+	
+				<%= render(partial: 'date_picker', :locals => {
+					f: f,
+					field: :RecommendDate
+				})  %>
+            </td>
+		</tr>
+
+		<tr>
+			<th>
+				<%= f.label :Details %>
+			</th>
+
+			<td>
+				<%= f.text_area(:Details, :side => '40x10') %>
 			</td>
 
 		</tr>
