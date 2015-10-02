@@ -19,21 +19,29 @@ class ProgExitsController < ApplicationController
     #mass assign bnum, program code, exit code, details
     @exit = ProgExit.new(exit_params)
 
-    #insert dates. Don't know why these can't be mass assigned
-    @exit.ExitDate = params[:prog_exit][:ExitDate]  
-    @exit.ExitDate = params[:prog_exit][:RecommendDate]
-    @exit.ExitTerm = current_term ({exact: false, date: @exit.ExitDate, plan_b: :back}).BannerTerm
+    exit_date = params[:prog_exit][:ExitDate]
+    if exit_date != ""
+      @exit.ExitDate = DateTime.strptime(exit_date, '%m/%d/%Y')
+    end
 
+    recommend_date = params[:prog_exit][:RecommendDate]
+    if recommend_date != ""
+      @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
+    end
     #TODO compute GPA and GPA_last60
+    @exit.GPA = 2.5
+    @exit.GPA_last60 = 3.0
 
     #get exit ID
     @exit.ExitID = [@exit.Student_Bnum, @exit.Program_ProgCode, @exit.ExitTerm].join("-")
 
-    if @exit.save
+    if @exit.save?
       flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_reason.ExitDiscrip}."
       redirect_to prog_exits_path
     else
-      render ('new')
+      new_setup
+      render('new')
+      return
         
     end
 
@@ -61,6 +69,13 @@ class ProgExitsController < ApplicationController
   private
   def exit_params
     params.require(:prog_exit).permit(:Student_Bnum, :Program_ProgCode, :ExitCode_ExitCode, :Details)
+  end
+
+  def new_setup
+    @exit = ProgExit.new
+    @students = Student.all.candidates.by_last
+    @programs = []
+    @exit_reasons = ExitCode.all
   end
 
 end
