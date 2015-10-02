@@ -41,15 +41,13 @@ module ApplicationHelper
       :date => DateTime.now
     }
 
-    options = options.merge(defaults)
+    options = defaults.merge(options)
 
-    # if exact match is requested, return nil if not in a curent term. 
-    # Otherwise, return the most recent or next term, as requested.
-
+    #try to find the exact term
     term = BannerTerm.where("StartDate<=? and EndDate>=?", options[:date], options[:date]).first
 
     if term
-      return BannerTerm.find(term)
+      return term
 
     else
       if options[:exact]

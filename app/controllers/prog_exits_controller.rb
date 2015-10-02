@@ -22,10 +22,20 @@ class ProgExitsController < ApplicationController
     #insert dates. Don't know why these can't be mass assigned
     @exit.ExitDate = params[:prog_exit][:ExitDate]  
     @exit.ExitDate = params[:prog_exit][:RecommendDate]
+    @exit.ExitTerm = current_term ({exact: false, date: @exit.ExitDate, plan_b: :back}).BannerTerm
 
     #TODO compute GPA and GPA_last60
 
+    #get exit ID
+    @exit.ExitID = [@exit.Student_Bnum, @exit.Program_ProgCode, @exit.ExitTerm].join("-")
 
+    if @exit.save
+      flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_reason.ExitDiscrip}."
+      redirect_to prog_exits_path
+    else
+      render ('new')
+        
+    end
 
   end
 
