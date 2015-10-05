@@ -19,16 +19,14 @@ class ProgExit < ActiveRecord::Base
 	validates :ExitDate,
 		:presence => {message: "Please select an exit date."}
 
-	validate do |exit|
 
-		student = Student.where("AltID = ?", exit.Student_Bnum).first
-		admitted_programs = student.adm_tep
+	validate do |e|
 
 		#GPA must be 2.5 or 3.0 in last 60 credit hours.
-		exit.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") unless (exit.GPA >= 2.5 or exit.GPA_last60 >= 3.0) 
+		e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") unless (e.GPA >= 2.5 or e.GPA_last60 >= 3.0) 
 		
 		#recommend date must be >= exit date
-		exit.errors.add(:RecommendDate, "Student may not be recommended for certification before exiting program.") unless (exit.ExitCode_ExitCode == '1849' and exit.RecommendDate and exit.ExitDate <= exit.RecommendDate)
+		e.errors.add(:RecommendDate, "Student may not be recommended for certification before exiting program.") unless ( ((e.ExitDate == nil) and (e.RecommendDate == nil)) or ((e.ExitCode_ExitCode == '1849') and (e.ExitDate <= e.RecommendDate)) )
 		
 		#TODO Can't be recomended without passing Praxis II
 			#need to know which program each PraxisII exam belongs to.
@@ -38,12 +36,17 @@ class ProgExit < ActiveRecord::Base
 		#Can't be recommended without graduating with EDS with certification
 			#The best I can do right now is make sure student has graduated.
 			#TODO Make sure the student graduated with a certification major
-		exit.errors.add(:RecommendDate, "Student must have graduated in order to be recommended for certification.") unless exit.ExitCode_ExitCode == '1849' and student.EnrollmentStatus == 'Graduation'
+		e.errors.add(:RecommendDate, "Student must have graduated in order to be recommended for certification.") unless ((e.ExitCode_ExitCode == '1849') and (student.EnrollmentStatus == 'Graduation'))
 
 		#security validations. Won't come up in typical user experience.
 
-		#make sure we are exiting a student from a program they are admitted to 
-		exit.errors.add(:Program_ProgCode, "Student may not be exited from a program they have not been admitted to.") unless (admitted_programs.map {|p| p.Program_ProgCode}).include?(exit.Program_ProgCode)
+		student = Student.where("Bnum = ?", e.Student_Bnum).first
+		if student.kind_of?(Student) and e.Program_ProgCode != "" 	#only look for admitted programs if a student was found. If no student wasn't found this isn't a threat anyway.
+			admitted_programs = student.adm_tep.admitted
+			#make sure we are exiting a student from a program they are admitted to 
+			e.errors.add(:Program_ProgCode, "Student may not be exited from a program they have not been admitted to.") unless ((admitted_programs.map {|p| p.Program_ProgCode}.include?(e.Program_ProgCode)))
+		end
 	end
+
 
 end

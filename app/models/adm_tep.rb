@@ -14,6 +14,8 @@ class AdmTep < ActiveRecord::Base
   belongs_to :program, {foreign_key: "Program_ProgCode"}
   belongs_to :student, {foreign_key: "Student_Bnum"}
 
+  scope :admitted, lambda { where("TEPAdmit = ?", true)}
+
 	validate do |app|
 		term = BannerTerm.find(app.BannerTerm_BannerTerm)
 		next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first
@@ -33,7 +35,6 @@ class AdmTep < ActiveRecord::Base
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 
   private
-
   def change_status
   	#if applcation was successful, change student's ProgStatus
   	if self.TEPAdmit

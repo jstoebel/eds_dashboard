@@ -6,10 +6,19 @@ $j = jQuery
 
 $j ->
 
-  $("table.new>tbody>tr:not(:first-child").hide()
+  #populate programs if a student is selected on load
+
+
+  $("#programs_select").empty()
+  $("#programs_select").append('<option value="">Select a Program to Exit</option>')
   $('[data-behaviour~=datepicker]').datepicker()
   $(document).on 'change', '#names_select', (evt) ->
-    $.ajax "get_programs",
+    $("#programs_select").empty()
+    $("#programs_select").append('<option value="">Select a Program to Exit</option>')
+
+    #using full path, or else ajax sends a request to the wrong place if the page was rendered from somewhere else!
+
+    $.ajax "/prog_exits/get_programs",    
     type: "GET"
     dataType: "json"
     data: {
@@ -17,11 +26,13 @@ $j ->
     }
     error: (jqXHR, textStatus, errorThrown) ->
       console.log("AJAX Error: #{textStatus}")
+      #TODO menu with just header
+
     success: (data, textStatus, jqXHR) ->
       console.log("AJAX request OK!")
-      $("tbody>tr:not(:first-child").show()
-      $("#programs_select").empty()    #clear out select box to repopulate
-      $("#programs_select").append('<option value="">Select a Program to Exit</option>')
+      #$("tbody>tr:not(:first-child").show()
+      #$("#programs_select").empty()    #clear out select box to repopulate
+      #$("#programs_select").append('<option value="">Select a Program to Exit</option>')
       console.log(data)
       for id, prog_name of data
         $("#programs_select").append('<option value="'+id+'">'+prog_name+'</option>')

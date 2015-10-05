@@ -24,8 +24,7 @@
 		<tr>
 		  <th> <%= f.label :Program_ProgCode, "Program to Exit", :class => 'programs_row'  %> </th>
 		  <td>
-		  <%= f.select :Program_ProgCode, options_for_select(@programs.collect { |prog|
-		    [prog.EDSProgName, prog.ProgCode] }, 0), {}, { id: 'programs_select', :class => 'programs_row' } %>
+		  <%= f.select :Program_ProgCode, options_for_select([]), {}, {prompt: "Select a Program to Exit", id: 'programs_select', :class => 'programs_row'} %>
 		  </td>
 		</tr>
 

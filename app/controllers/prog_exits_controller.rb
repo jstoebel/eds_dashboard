@@ -10,14 +10,17 @@ class ProgExitsController < ApplicationController
 
   def new
     @exit = ProgExit.new
-    @students = Student.all.candidates.by_last
-    @programs = []
-    @exit_reasons = ExitCode.all
+    new_setup
   end
 
   def create
+    
     #mass assign bnum, program code, exit code, details
     @exit = ProgExit.new(exit_params)
+    student = Student.from_alt_id(params[:prog_exit][:Student_Bnum])
+    if student.kind_of?(Student)
+      @exit.Student_Bnum = student.Bnum
+    end
 
     exit_date = params[:prog_exit][:ExitDate]
     if exit_date != ""
@@ -28,6 +31,7 @@ class ProgExitsController < ApplicationController
     if recommend_date != ""
       @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
     end
+
     #TODO compute GPA and GPA_last60
     @exit.GPA = 2.5
     @exit.GPA_last60 = 3.0
@@ -35,12 +39,14 @@ class ProgExitsController < ApplicationController
     #get exit ID
     @exit.ExitID = [@exit.Student_Bnum, @exit.Program_ProgCode, @exit.ExitTerm].join("-")
 
-    if @exit.save?
+    if @exit.save
       flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_reason.ExitDiscrip}."
       redirect_to prog_exits_path
     else
       new_setup
       render('new')
+      # puts "*****"
+      # puts "Couldn't save record!"
       return
         
     end
@@ -68,11 +74,10 @@ class ProgExitsController < ApplicationController
 
   private
   def exit_params
-    params.require(:prog_exit).permit(:Student_Bnum, :Program_ProgCode, :ExitCode_ExitCode, :Details)
+    params.require(:prog_exit).permit(:Program_ProgCode, :ExitCode_ExitCode, :Details)
   end
 
   def new_setup
-    @exit = ProgExit.new
     @students = Student.all.candidates.by_last
     @programs = []
     @exit_reasons = ExitCode.all

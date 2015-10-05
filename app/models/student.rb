@@ -13,5 +13,6 @@ class Student < ActiveRecord::Base
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}		#TODO also need to know if student is activly enrolled (see banner)
 	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
+	scope :from_alt_id, ->(alt_id) {where("AltID = ?", alt_id).first}		#finds a student based on AltID
 
 end
