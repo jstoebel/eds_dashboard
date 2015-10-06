@@ -4,10 +4,12 @@
 	params:
 		f: form object
 		field: filed the data is for (as symbol)
-		start_str: date picker should start (as string)
-		end_str: date picker should end (as string)		
+		default_date: the date the 
  -->
-    <%= f.text_field field, 'data-behaviour' => 'datepicker' %>
+
+ 	<%# default.strftime("%m/%d/%Y")  %>
+    <%= f.text_field field, {:value => (default != "" ? default.strftime("%m/%d/%Y") : ""), 'data-behaviour' => 'datepicker'} %>
+
 <script type="text/javascript">
     $('[data-behaviour~=datepicker]').datepicker({
         format: 'mm/dd/yyyy',

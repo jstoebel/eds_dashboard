@@ -1,3 +1,4 @@
+
 <%= form_for @exit, url: prog_exits_path do |f|   %>
 
 	<table summary="prog_exit form fields" class="new">
@@ -43,11 +44,13 @@
 			</th>
 
             <td class="date-admit">
-	
+
+
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
-					field: :ExitDate
-				})  %>
+					field: :ExitDate,
+					default: @exit.ExitDate ? (@exit.ExitDate) : ""
+				} )%>
             </td>
 		</tr>
 
@@ -60,7 +63,8 @@
 	
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
-					field: :RecommendDate
+					field: :RecommendDate,
+					default: @exit.ExitDate ? (@exit.RecommendDate) : ""
 				})  %>
             </td>
 		</tr>
