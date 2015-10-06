@@ -3,14 +3,27 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  $('[data-behaviour~=datepicker]').datepicker()
+  $("#programs_select").append('<option value="">Select a Program to Exit</option>')
   $(document).on 'change', '#names_select', (evt) ->
-    if $("#names_select option:selected").val() !== ""
-      #ajax request and build menu
+
+    #clear menu to start over.
+    $("#programs_select").empty()
+    $("#programs_select").append('<option value="">Select a Program to Exit</option>')
+
+    if $("#names_select option:selected").val() == ""
+      console.log "Its an empty string!"
     else
-      #build an empty menu
+      console.log "Not an empty string!"
+      #ajax request and build menu
+      data = get_programs()
 
 
 get_programs = ->
+  console.log "Starting AJAX request"
+  #using full path, or else ajax sends a request to the wrong place if the page was rendered from somewhere else!
+
+    
   $.ajax "/prog_exits/get_programs",    
       type: "GET"
       dataType: "json"
@@ -23,24 +36,23 @@ get_programs = ->
       success: (data, textStatus, jqXHR) ->
         console.log("AJAX request OK!")
         console.log(data)
-        return data
+
+        #build menu from data.
+        for id, prog_name of data
+          $("#programs_select").append('<option value="'+id+'">'+prog_name+'</option>')  
+
 
 build_menu = (data = null) ->
 
+  console.log "Starting build menu"
   $("#programs_select").empty()
   $("#programs_select").append('<option value="">Select a Program to Exit</option>')
   
-  if data !== null
+  if data != null
     for id, prog_name of data
       $("#programs_select").append('<option value="'+id+'">'+prog_name+'</option>')  
 
 
-  $('[data-behaviour~=datepicker]').datepicker()
-  $(document).on 'change', '#names_select', (evt) ->
-    $("#programs_select").empty()
-    $("#programs_select").append('<option value="">Select a Program to Exit</option>')
-
-    #using full path, or else ajax sends a request to the wrong place if the page was rendered from somewhere else!
 
     
         
