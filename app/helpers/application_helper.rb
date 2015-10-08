@@ -34,11 +34,10 @@ module ApplicationHelper
 	
   def current_term(options = {})
 
-
     defaults = {
-      :exact => true,
-      :plan_b => :forward,
-      :date => DateTime.now
+      :exact => true,         #bool
+      :plan_b => :forward,    #foward or back (symbol)
+      :date => DateTime.now   #datetime object
     }
 
     options = defaults.merge(options)

@@ -25,11 +25,15 @@ class ProgExitsController < ApplicationController
     exit_date = params[:prog_exit][:ExitDate]
     if exit_date != ""
       @exit.ExitDate = DateTime.strptime(exit_date, '%m/%d/%Y')
+    else
+      @exit.ExitDate = nil
     end
 
     recommend_date = params[:prog_exit][:RecommendDate]
     if recommend_date != ""
       @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
+    else
+      @exit.RecommendDate = nil
     end
 
     #TODO compute GPA and GPA_last60
@@ -40,14 +44,14 @@ class ProgExitsController < ApplicationController
     @exit.ExitID = [@exit.Student_Bnum, @exit.Program_ProgCode, @exit.ExitTerm].join("-")
 
     if @exit.save
-      flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_reason.ExitDiscrip}."
+      flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
       redirect_to prog_exits_path
     else
+      puts "*"*50
+      puts @exit.errors.messages
+      puts @exit.ExitDate
       new_setup
       render('new')
-      # puts "*****"
-      # puts "Couldn't save record!"
-      return
         
     end
 
@@ -78,7 +82,7 @@ class ProgExitsController < ApplicationController
   end
 
   def new_setup
-    @students = Student.all.candidates.by_last
+    @students = Student.all.candidates.by_last    #TODO all candidates with unexited programs
     @programs = []
     @exit_reasons = ExitCode.all
   end

@@ -17,7 +17,7 @@ class AdmTepController < ApplicationController
   end
 
   def create
-    @current_term = current_term(exact=true)  
+    @current_term = current_term({exact: true})  
     if @current_term == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
       redirect_to(adm_tep_index_path)
@@ -44,6 +44,7 @@ class AdmTepController < ApplicationController
     else
       flash[:notice] = "Application not saved."
       error_new
+      return
       
     end
 

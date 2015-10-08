@@ -1,10 +1,17 @@
 class ProgExit < ActiveRecord::Base
 
 
+	#RELATIONSHIPS
 	belongs_to :student, foreign_key: "Student_Bnum"
 	belongs_to :program, foreign_key: "Program_ProgCode"
 	belongs_to :exit_code, foreign_key: "ExitCode_ExitCode"
 
+	#CALLBACKS
+	before_save :add_term
+
+	after_save :change_status
+
+	#validations
 	scope :by_term, ->(term) {where("ExitTerm = ?", term)}
 
 	validates :Student_Bnum,
@@ -26,8 +33,13 @@ class ProgExit < ActiveRecord::Base
 		e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") unless (e.GPA >= 2.5 or e.GPA_last60 >= 3.0) 
 		
 		#recommend date must be >= exit date
-		e.errors.add(:RecommendDate, "Student may not be recommended for certification before exiting program.") unless ( ((e.ExitDate == nil) and (e.RecommendDate == nil)) or ((e.ExitCode_ExitCode == '1849') and (e.ExitDate <= e.RecommendDate)) )
+		e.errors.add(:RecommendDate, "Student may not be recommended for certification before exiting program.") if  ( (e.RecommendDate != nil) and (e.ExitDate > e.RecommendDate) )
 		
+		#can only have a recommend date if student completed program
+
+		e.errors.add(:RecommendDate, "Student may not be recommended for certificaiton unless they have sucessfully completed the program.") if ( (e.RecommendDate != nil) and (e.ExitCode_ExitCode != '1849') ) 
+
+
 		#TODO Can't be recomended without passing Praxis II
 			#need to know which program each PraxisII exam belongs to.
 
@@ -36,7 +48,7 @@ class ProgExit < ActiveRecord::Base
 		#Can't be recommended without graduating with EDS with certification
 			#The best I can do right now is make sure student has graduated.
 			#TODO Make sure the student graduated with a certification major
-		e.errors.add(:RecommendDate, "Student must have graduated in order to be recommended for certification.") unless ((e.ExitCode_ExitCode == '1849') and (student.EnrollmentStatus == 'Graduation'))
+		e.errors.add(:ExitReason, "Student must have graduated in order to complete their program.") if ( (e.ExitCode_ExitCode == '1849') and (student.EnrollmentStatus != 'Graduation'))
 
 		#security validations. Won't come up in typical user experience.
 
@@ -48,5 +60,34 @@ class ProgExit < ActiveRecord::Base
 		end
 	end
 
+	private
+	def add_term
+		if self.ExitDate
+			term = ApplicationController.helpers.current_term({:date => self.ExitDate})
+			self.ExitTerm = term.BannerTerm
+		end
+	end
+
+	def change_status
+		#program completion -> student becomes a completer
+		#non complete exit -> student becomes dropped if they have no unexited programs
+		
+		stu = self.student
+		if self.ExitCode_ExitCode == "1849"
+			
+			stu.ProgStatus = "Completer"
+			stu.save
+
+		else
+			#exit was not a completion
+			#mark student as dropped if no open programs left
+			programs = stu.adm_tep
+
+			programs.each do |p|
+				
+			end	
+		end
+
+	end
 
 end

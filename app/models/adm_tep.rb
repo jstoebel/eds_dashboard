@@ -16,6 +16,8 @@ class AdmTep < ActiveRecord::Base
 
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
 
+  
+
 	validate do |app|
 		term = BannerTerm.find(app.BannerTerm_BannerTerm)
 		next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first

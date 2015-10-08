@@ -13,11 +13,11 @@
 		    <th> <%=f.label :Student_Bnum, "Student to Exit"%> </th>
 		    <td>	
 			<%= f.select :Student_Bnum, 
-			options_for_select(@students.map { |s|
-		    [name_details(s), s.AltID] }
-		    ), 
-		    {:prompt => "Select a student to exit"},
-		      { id: 'names_select',
+			options_for_select(@students.map { |s| [name_details(s), s.AltID] }, :selected => @exit.Student_Bnum ? @exit.student.AltID : "" ), 
+
+				{:include_blank => "Select a student to exit"},
+
+		      	{id: 'names_select',
 		        :ajax_path => prog_exits_get_programs_path } %>
 		    </td>
 		</tr>
@@ -45,7 +45,7 @@
 
             <td class="date-admit">
 
-
+				
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :ExitDate,
@@ -64,7 +64,7 @@
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :RecommendDate,
-					default: @exit.ExitDate ? (@exit.RecommendDate) : ""
+					default: @exit.RecommendDate ? (@exit.RecommendDate) : ""
 				})  %>
             </td>
 		</tr>

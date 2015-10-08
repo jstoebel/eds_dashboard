@@ -8,6 +8,8 @@
  -->
 
  	<%# default.strftime("%m/%d/%Y")  %>
+ 	<% puts "default is" + "*"*50 %>
+ 	<% puts default  %>
     <%= f.text_field field, {:value => (default != "" ? default.strftime("%m/%d/%Y") : ""), 'data-behaviour' => 'datepicker'} %>
 
 <script type="text/javascript">
