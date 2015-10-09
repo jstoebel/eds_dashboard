@@ -58,6 +58,18 @@ class ProgExit < ActiveRecord::Base
 			#make sure we are exiting a student from a program they are admitted to 
 			e.errors.add(:Program_ProgCode, "Student may not be exited from a program they have not been admitted to.") unless ((admitted_programs.map {|p| p.Program_ProgCode}.include?(e.Program_ProgCode)))
 		end
+
+		#make sure that we are exiting from program that was open
+	    stu = e.student
+	    if stu
+		    open_admissions = AdmTep.open(stu.Bnum)
+		    open_programs = open_admissions.map { |i| i.program.ProgCode }
+
+		    if e.Program_ProgCode.to_s != "" and not open_programs.include?(e.Program_ProgCode)
+	    		e.errors.add(:Program_ProgCode, "Student may not be exited from a program that they are not currently enrolled in.")
+			end
+		end
+
 	end
 
 	private
