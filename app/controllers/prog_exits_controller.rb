@@ -25,6 +25,9 @@ class ProgExitsController < ApplicationController
     exit_date = params[:prog_exit][:ExitDate]
     if exit_date != ""
       @exit.ExitDate = DateTime.strptime(exit_date, '%m/%d/%Y')
+      #get term
+      term = current_term({:date => @exit.ExitDate})
+      @exit.ExitTerm = term.BannerTerm
     else
       @exit.ExitDate = nil
     end
@@ -39,6 +42,8 @@ class ProgExitsController < ApplicationController
     #TODO compute GPA and GPA_last60
     @exit.GPA = 2.5
     @exit.GPA_last60 = 3.0
+
+
 
     #get exit ID
     @exit.ExitID = [@exit.Student_Bnum, @exit.Program_ProgCode, @exit.ExitTerm].join("-")
@@ -86,11 +91,14 @@ class ProgExitsController < ApplicationController
 
   def get_programs
     #gets programs for a given student's B#
-    @programs = Student.where(AltID: params[:alt_id]).first.programs
-    
+    # @programs = Student.where(AltID: params[:alt_id]).first.programs
+    student = Student.where(AltID: params[:alt_id]).first
+    open_admissions = AdmTep.open(student.Bnum)
+    open_programs = open_admissions.map { |i| i.program }
+
     response = {}
 
-    @programs.each do |p|   #build a hash with each program mapped to its id
+    open_programs.each do |p|   #build a hash with each program mapped to its id
       response.merge!({ p.ProgCode => p.EDSProgName })
     end
 
