@@ -16,7 +16,7 @@ class ProgExitsController < ApplicationController
   def create
     
     #mass assign bnum, program code, exit code, details
-    @exit = ProgExit.new(exit_params)
+    @exit = ProgExit.new(new_exit_params)
     student = Student.from_alt_id(params[:prog_exit][:Student_Bnum])
     if student.kind_of?(Student)
       @exit.Student_Bnum = student.Bnum
@@ -57,6 +57,15 @@ class ProgExitsController < ApplicationController
 
   end
 
+  def edit
+    @exit = ProgExit.where("AltID=?", params[:id]).first
+    
+  end
+
+  def update
+    
+  end
+
   def choose
 	  @term = params[:banner_term][:menu_terms]
 	  redirect_to(banner_term_prog_exits_path(@term))
@@ -77,12 +86,16 @@ class ProgExitsController < ApplicationController
   end
 
   private
-  def exit_params
+  def new_exit_params
     params.require(:prog_exit).permit(:Program_ProgCode, :ExitCode_ExitCode, :Details)
   end
 
+  def edit_exit_params
+    params.require(:prog_exit).permit(:Details)
+  end
+
   def new_setup
-    @students = Student.all.candidates.by_last    #TODO all candidates with unexited programs
+    @students = Student.all.where("ProgStatus=?", "Candidate").by_last    #TODO all candidates with unexited programs
     @programs = []
     @exit_reasons = ExitCode.all
   end

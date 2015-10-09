@@ -16,7 +16,9 @@ class AdmTep < ActiveRecord::Base
 
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
 
-  
+  scope :open, ->(bnum) {joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)").where("prog_exits.ExitID IS NULL AND adm_tep.TEPAdmit = 1 AND adm_tep.Student_Bnum = ?", bnum)}
+  scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
+
 
 	validate do |app|
 		term = BannerTerm.find(app.BannerTerm_BannerTerm)
@@ -34,7 +36,7 @@ class AdmTep < ActiveRecord::Base
 		#TODO must have completed EDS150 with B- or better to be admitted (expecting to change this to C by vote of TEC)
 	end
 
-  scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
+  
 
   private
   def change_status

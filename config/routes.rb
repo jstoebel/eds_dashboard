@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     get "download"  #download admission letter
   end
 
-  resources :prog_exits, only: [:index, :show, :new, :create] do
+  resources :prog_exits, only: [:index, :show, :new, :create, :edit, :update] do
     post "choose"   #choose a term to display in index
     # get 'get_programs', via: :get
   end

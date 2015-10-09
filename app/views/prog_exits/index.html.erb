@@ -67,16 +67,16 @@
 
 <!-- 1) Details of exit  -->
           
-          <% if exit.Details %>
-            <%= render(partial: 'details_popover', 
-            locals: {
-              :record_id => exit.AltID,
-              :popover_title => "Exit Details", 
-              :content => exit.Details
-            } )  %>
 
-          <% end %>
+          <%= render(partial: 'details_popover', 
+          locals: {
+            :record_id => exit.AltID,
+            :popover_title => "Exit Details", 
+            :content => exit.Details
+          } )  %>
 
+
+        <%= link_to("Edit", edit_prog_exit_path(exit.AltID), :class => "action details btn btn-info action-small")%>
       </td>
 <!-- Edit record -->
 

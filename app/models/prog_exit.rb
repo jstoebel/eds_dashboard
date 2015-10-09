@@ -11,7 +11,7 @@ class ProgExit < ActiveRecord::Base
 
 	after_save :change_status
 
-	#validations
+	#VALIDATIONS
 	scope :by_term, ->(term) {where("ExitTerm = ?", term)}
 
 	validates :Student_Bnum,
@@ -73,6 +73,8 @@ class ProgExit < ActiveRecord::Base
 		#non complete exit -> student becomes dropped if they have no unexited programs
 		
 		stu = self.student
+
+
 		if self.ExitCode_ExitCode == "1849"
 			
 			stu.ProgStatus = "Completer"
@@ -81,9 +83,10 @@ class ProgExit < ActiveRecord::Base
 		else
 			#exit was not a completion
 			#mark student as dropped if no open programs left
-			programs = stu.adm_tep
-
-			programs.each do |p|
+			if AdmTep.open(stu.Bnum).size == 0
+				#no open programs left after save
+				stu.ProgStatus = "Dropped"
+				stu.save
 				
 			end	
 		end

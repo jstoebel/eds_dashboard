@@ -1,0 +1,68 @@
+<%= form_for @exit, url: prog_exit_path do |f|   %>
+
+	<table summary="prog_exit form fields" class="edit">
+
+    <caption>
+    	<span class="header1"> Edit student exit</span>
+    	<span class="header2"> <%=name_details(@exit.student, file_as=true)  %> </span>
+    </caption>
+
+		<%= error_messages_for(@exit) %>
+
+		<tr>
+		  <th> Program </th>
+		  <td>
+		  <%= @exit.program.EDSProgName %>
+		  </td>
+		</tr>
+
+		<tr>
+			<th>
+				Exit Reason
+			</th>
+			<td>
+				<%= @exit.exit_code.ExitDiscrip %>
+			</td>
+		</tr>
+
+		<tr>
+			<th>
+				Exit Date
+			</th>
+			<td>
+				<%= @exit.ExitDate.strftime("%m/%d/%Y") %>
+			</td>
+
+		</tr>
+
+		<tr>
+			<th>
+				<%= f.label :RecommendDate, "Date Recomend Certificaiton"  %>
+			</th>
+
+            <td class="date-admit">
+	
+				<%= render(partial: 'date_picker', :locals => {
+					f: f,
+					field: :RecommendDate,
+					default: @exit.RecommendDate ? (@exit.RecommendDate) : ""
+				})  %>
+            </td>
+		</tr>
+
+		<tr>
+			<th>
+				<%= f.label :Details %>
+			</th>
+
+			<td>
+				<%= f.text_area(:Details, :side => '40x10') %>
+			</td>
+
+		</tr>
+
+	<tr>
+		<td><%= submit_tag("Submit Exit") %></td>
+	</tr>
+
+<% end %>

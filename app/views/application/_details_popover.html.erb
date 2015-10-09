@@ -8,7 +8,7 @@
 
 
   <!-- Button trigger modal -->
-  <button class="btn btn-info" data-toggle="modal" data-target="#exit-<%= record_id %>-details">
+  <button class="btn btn-info action-small"+ <%= content ==nil or content == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
     <%= popover_title  %>
   </button>
 
@@ -17,7 +17,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="exit-<%= record_id %>-label"> <%=popover_title %> </h4>
+          <h4 class="modal-title" id="exit-<%= record_id %>-label"> 
+            <%=popover_title %> </h4>
         </div>
         <div class="modal-body">
           <%= content %>
