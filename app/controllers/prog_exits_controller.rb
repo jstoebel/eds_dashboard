@@ -47,9 +47,6 @@ class ProgExitsController < ApplicationController
       flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
       redirect_to prog_exits_path
     else
-      puts "*"*50
-      puts @exit.errors.messages
-      puts @exit.ExitDate
       new_setup
       render('new')
         
@@ -58,12 +55,28 @@ class ProgExitsController < ApplicationController
   end
 
   def edit
-    @exit = ProgExit.where("AltID=?", params[:id]).first
-    
+    @exit = ProgExit.where("AltID=?", params[:id]).first 
   end
 
   def update
-    
+    @exit = ProgExit.where("AltID=?", params[:id]).first    
+    @exit.assign_attributes(edit_exit_params)
+
+    recommend_date = params[:prog_exit][:RecommendDate]
+    if recommend_date != ""
+      @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
+    else
+      @exit.RecommendDate = nil
+    end
+
+    if @exit.save
+      flash[:notice] = "Edited exited record for #{name_details(@exit.student)}"
+      redirect_to prog_exits_path
+    else
+      render('edit')
+      
+    end
+
   end
 
   def choose
