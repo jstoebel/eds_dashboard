@@ -2,7 +2,6 @@ class ProgExitsController < ApplicationController
   def index
   	term_menu_setup
   	@exits = ProgExit.all.by_term(@term)   #fetch all applications for this term
-
   end
 
   def need_exit
@@ -12,24 +11,45 @@ class ProgExitsController < ApplicationController
       #...does not have a TEP major
     #or a completer with any open programs
 
-      @students = []
+      @programs = []
 
-      #graduated
-      @students < Student.where("EnrollmentStatus=? and ProgStatus=?", ['Graduation', 'Candidate'])
-      
+      #graduated but a candidate
+      graduated = Student.where("EnrollmentStatus=? and ProgStatus=?", 'Graduation', 'Candidate')
+      graduated.each do |s|
+        open_programs = AdmTep.open(s.Bnum)   #add all open programs
+        @programs += open_programs
+      end
+
+
+
       #TODO grab students with no TEP major
       
       #any open programs belonging to a completer.
 
-      exit_to_admtep = %q(LEFT JOIN prog_exits ON 
-          (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode)
-           and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)
-           )
+      join_statement = %q(
+      JOIN (
+      (SELECT `adm_tep`.* 
+        FROM `adm_tep` 
+        LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) 
+        and (adm_tep.Student_Bnum = prog_exits.Student_Bnum) 
+      
+        WHERE (prog_exits.ExitID IS NULL AND adm_tep.TEPAdmit = 1 )) as open_prog
+    ) ON students.Bnum = open_prog.Student_Bnum
+)
+      completers = Student.joins(join_statement).where(ProgStatus: 'Completer')
 
-      to_student = %q
+      completers.each do |c|
+        open_programs = AdmTep.open(c.Bnum)
+        @programs += open_programs
+      end
 
-      completers = Student.joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum")
 
+      # puts "*"*50
+      # puts @programs.size
+      # @programs.each do |i|
+      #   puts i
+      # end
+      # puts "*"*50
 
   end
 
@@ -88,6 +108,12 @@ class ProgExitsController < ApplicationController
   def new_specific
     #enter a new exit with student's name and program pre populated
     
+    # @exit = ProgExit.new
+    # alt_id = params[:prog_exit_id]
+    # student = Student.from_alt_id(alt_id)
+    # @exit.Student_Bnum = student.Bnum
+    
+
   end
 
 

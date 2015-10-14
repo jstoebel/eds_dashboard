@@ -1,0 +1,52 @@
+<table class="listing summary adm_tep list table table-striped">
+   
+    <caption>        
+        <div class="header1">Programs requring exit</div></br>
+        <div class="header2"><%= pluralize(@programs.size, 'programs') %>  found </div>
+      
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1 pull-right">
+              <%= link_to new_prog_exit_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+
+                  <span class="large-btn-text">Add New Exit</span>
+
+              <% end %>         
+
+            </div>
+          </div>
+
+      </div>
+    </caption>
+
+    <% if @programs.size > 0  %>
+
+          <tr class="header">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Program</th>
+            <th>Enrollment Status</th>
+            <th>Status in Program</th>         
+          </tr>
+      	<% @programs.each do |prog|%>
+      <tr>
+  		<td><%= prog.student.FirstName %></td>
+  		<td><%= prog.student.LastName %></td>
+      <td><%= prog.program.EDSProgName %> </td>
+      <td><%= prog.student.EnrollmentStatus %> </td>
+      <td><%= prog.student.ProgStatus %> </td>
+
+			<td class="actions">
+
+        <%= link_to("Exit", prog_exit_new_specific_path(prog.student.AltID, prog.Program_ProgCode), :class => "action details btn btn-info action-small")%>
+      </td>
+
+      </tr>
+        <!-- End of loop iterating over each record -->
+      	<% end %>
+          
+    <!-- end of if statement for content-->
+    <% end %>   
+
+  </table>
+</div>
