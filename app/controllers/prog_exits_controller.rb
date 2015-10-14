@@ -5,6 +5,34 @@ class ProgExitsController < ApplicationController
 
   end
 
+  def need_exit
+    #index all students who need exiting for any of the following 
+    #reasons. Student is a candidate and...
+      #...graduated
+      #...does not have a TEP major
+    #or a completer with any open programs
+
+      @students = []
+
+      #graduated
+      @students < Student.where("EnrollmentStatus=? and ProgStatus=?", ['Graduation', 'Candidate'])
+      
+      #TODO grab students with no TEP major
+      
+      #any open programs belonging to a completer.
+
+      exit_to_admtep = %q(LEFT JOIN prog_exits ON 
+          (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode)
+           and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)
+           )
+
+      to_student = %q
+
+      completers = Student.joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum")
+
+
+  end
+
   def show
   end
 
@@ -43,8 +71,6 @@ class ProgExitsController < ApplicationController
     @exit.GPA = 2.5
     @exit.GPA_last60 = 3.0
 
-
-
     #get exit ID
     @exit.ExitID = [@exit.Student_Bnum, @exit.Program_ProgCode, @exit.ExitTerm].join("-")
 
@@ -58,6 +84,12 @@ class ProgExitsController < ApplicationController
     end
 
   end
+
+  def new_specific
+    #enter a new exit with student's name and program pre populated
+    
+  end
+
 
   def edit
     @exit = ProgExit.where("AltID=?", params[:id]).first 
