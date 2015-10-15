@@ -1,0 +1,41 @@
+<!-- Popover to attach a file -->
+
+<!-- Button trigger modal -->
+  <button class="btn btn-info glyphicon glyphicon-plus action-large" data-toggle="modal" data-backdrop="static" data-target="#attach-file">
+    <span class="large-btn-text"> Attach New File </span>
+    
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="attach-file" tabindex="-1" role="dialog" aria-labelledby="attach-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="attach-label"> 
+            Attach New File </h4>
+        </div>
+        <div class="modal-body">
+          <%= form_for(:student_file, :url => student_student_files_path(@student.AltID), method: :post ) do |f| %>
+
+            <table>
+              </tr>
+                  <td class="letter-attach">
+                      <%= f.file_field :doc %>
+                  </td>
+              </tr>
+
+              <tr>
+                  <td>
+                      <div class="form-buttons">
+                          <%= submit_tag("Submit") %>
+                      </div>
+                  </td>   
+              </tr> 
+
+            </table>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>

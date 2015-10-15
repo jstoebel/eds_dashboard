@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show]
     resources :issues, only: [:index, :new, :create]
+    resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     # resources :adm_st, only: [:show]
     # resources :adm_tep, only: [:show]
   end

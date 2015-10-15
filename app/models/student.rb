@@ -9,7 +9,7 @@ class Student < ActiveRecord::Base
 	has_many :adm_st, {:foreign_key => 'Student_Bnum'}
 	has_many :prog_exits, {:foreign_key => 'Student_Bnum'}
 	has_many :clinical_assignments, {:foreign_key => 'Student_Bnum'}
-
+	has_many :student_files, {:foreign_key => 'Student_Bnum'}
 
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}		#TODO also need to know if student is activly enrolled (see banner)

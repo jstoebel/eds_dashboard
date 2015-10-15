@@ -51,14 +51,15 @@
 
             <% end %>
 
+        <%= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>
+              </br><span class="small-btn-text">
+              Files
+                <span class="badge">
+                  <%=student.student_files.size%>
+                </span>
+              </span>
 
-
-    	  <!-- action buttons to do more with an individual student:
-    	  		see praxis scores
-    	  		file an issue
-    	  		see documents
-    	  		key assessments
-    	  		what else? -->
+            <% end %>
 
       </td>
     </tr>

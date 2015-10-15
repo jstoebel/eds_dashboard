@@ -4,7 +4,7 @@ class AdmSt < ActiveRecord::Base
 
   has_attached_file :letter, 
 	  :url => "/adm_st/:altid/download",		#passes AltID 
-	  :path => ":rails_root/public/adm_st_letters/:bnum/:basename.:extension"
+	  :path => ":rails_root/public/:bnum/adm_st_letters/:basename.:extension"	#changed path from /adm_st_letters/:bnum
 
 	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
 

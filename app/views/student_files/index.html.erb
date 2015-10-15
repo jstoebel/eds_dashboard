@@ -1,0 +1,51 @@
+<div class="index">
+
+  <table class="listing summary student_files list table table-striped">
+   
+    <caption>        
+        <div class="header1"> <%= name_details(@student, file_as = true) %></div></br>
+        <div class="header2"><%= pluralize(@docs.size, 'file') %>  found </div>
+      
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1 pull-right">
+      		<%= render(partial: 'new') %>
+
+              <%# link_to new_student_student_file_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+
+<!--                   <span class="large-btn-text">Add New File</span> -->
+
+              <%# end %>         
+
+            </div>
+          </div>
+
+      </div>
+    </caption>
+
+    <% if @docs.size > 0  %>
+
+          <tr class="header">
+            <th>Document Name</th>
+            <th>Content Type</th>
+            <th>Size</th>
+            <th>Updated On</th>
+
+          </tr>
+      	<% @docs.each do |doc|%>
+
+			<td><%= doc.doc_file_name %></td>
+			<td><%= doc.doc_content_type %></td>
+			<td><%= doc.doc_file_size %></td>
+			<td><%= doc.doc_ypdated_at.Date.strftime("%m/%d/%Y") %></td>
+      
+          </tr>
+        <!-- end of if statement for content-->
+
+      	<% end %>
+          
+    <!-- end of main loop -->
+    <% end %>   
+
+  </table>
+</div>
