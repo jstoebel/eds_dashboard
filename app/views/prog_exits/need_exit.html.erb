@@ -38,7 +38,7 @@
 
 			<td class="actions">
 
-        <%= link_to("Exit", prog_exit_new_specific_path(prog.student.AltID, prog.Program_ProgCode), :class => "action details btn btn-info action-small")%>
+        <%= link_to("Exit", program_prog_exit_new_specific_path(prog.Program_ProgCode, prog.student.AltID, ), :class => "action details btn btn-info action-small")%>
       </td>
 
       </tr>

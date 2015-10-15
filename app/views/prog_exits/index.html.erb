@@ -16,14 +16,31 @@
       
         <div class="container">
           <div class="row">
-            <div class="col-md-1 pull-right">
+
+            <div class="col-md-1 col-md-offset-9">
+
+                  <%= link_to prog_exit_need_exit_path("get"), :class => "btn btn-info glyphicon glyphicon-plus action-large " + (@needs_exit.size > 0 ? "" : "disabled") do %>  
+                  <span class="large-btn-text">
+                    Exits Needed
+
+                      <span class="badge"> <%= @needs_exit.size %> </span>                  
+                  </span>
+
+                <% end %>
+
+
+            </div>
+
+            <div class="col-md-1 col-md-offset-1">
               <%= link_to new_prog_exit_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
 
                   <span class="large-btn-text">Add New Exit</span>
 
-              <% end %>         
+              <% end %>        
 
             </div>
+
+
           </div>
 
       </div>

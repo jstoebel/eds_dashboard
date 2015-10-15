@@ -2,54 +2,11 @@ class ProgExitsController < ApplicationController
   def index
   	term_menu_setup
   	@exits = ProgExit.all.by_term(@term)   #fetch all applications for this term
+    @needs_exit = exits_needed
   end
 
   def need_exit
-    #index all students who need exiting for any of the following 
-    #reasons. Student is a candidate and...
-      #...graduated
-      #...does not have a TEP major
-    #or a completer with any open programs
-
-      @programs = []
-
-      #graduated but a candidate
-      graduated = Student.where("EnrollmentStatus=? and ProgStatus=?", 'Graduation', 'Candidate')
-      graduated.each do |s|
-        open_programs = AdmTep.open(s.Bnum)   #add all open programs
-        @programs += open_programs
-      end
-
-
-
-      #TODO grab students with no TEP major
-      
-      #any open programs belonging to a completer.
-
-      join_statement = %q(
-      JOIN (
-      (SELECT `adm_tep`.* 
-        FROM `adm_tep` 
-        LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) 
-        and (adm_tep.Student_Bnum = prog_exits.Student_Bnum) 
-      
-        WHERE (prog_exits.ExitID IS NULL AND adm_tep.TEPAdmit = 1 )) as open_prog
-    ) ON students.Bnum = open_prog.Student_Bnum
-)
-      completers = Student.joins(join_statement).where(ProgStatus: 'Completer')
-
-      completers.each do |c|
-        open_programs = AdmTep.open(c.Bnum)
-        @programs += open_programs
-      end
-
-
-      # puts "*"*50
-      # puts @programs.size
-      # @programs.each do |i|
-      #   puts i
-      # end
-      # puts "*"*50
+    @programs = exits_needed  #gathers applications that need exiting.
 
   end
 
@@ -108,11 +65,14 @@ class ProgExitsController < ApplicationController
   def new_specific
     #enter a new exit with student's name and program pre populated
     
-    # @exit = ProgExit.new
-    # alt_id = params[:prog_exit_id]
-    # student = Student.from_alt_id(alt_id)
-    # @exit.Student_Bnum = student.Bnum
+    @exit = ProgExit.new
+    alt_id = params[:prog_exit_id]
+    student = Student.from_alt_id(alt_id)
+    @exit.Student_Bnum = student.Bnum
     
+    program = params[:program_id]
+    @exit.Program_ProgCode = program
+    new_setup
 
   end
 
@@ -164,6 +124,7 @@ class ProgExitsController < ApplicationController
 
   end
 
+  #PRIVATE METHODS
   private
   def new_exit_params
     params.require(:prog_exit).permit(:Program_ProgCode, :ExitCode_ExitCode, :Details)
@@ -174,9 +135,50 @@ class ProgExitsController < ApplicationController
   end
 
   def new_setup
-    @students = Student.all.where("ProgStatus=?", "Candidate").by_last    #TODO all candidates with unexited programs
+    @students = Student.all.where("ProgStatus in (?, ?)", "Candidate", "Completer").by_last    #TODO all candidates with unexited programs
     @programs = []
     @exit_reasons = ExitCode.all
+  end
+
+  def exits_needed
+    #index all students who need exiting for any of the following 
+    #reasons. Student is a candidate and...
+      #...graduated
+      #...does not have a TEP major
+    #or a completer with any open programs
+
+      programs = []
+
+      #graduated but a candidate
+      graduated = Student.where("EnrollmentStatus=? and ProgStatus=?", 'Graduation', 'Candidate')
+      graduated.each do |s|
+        open_programs = AdmTep.open(s.Bnum)   #add all open programs
+        programs += open_programs
+      end
+
+      #TODO grab students with no TEP major
+      
+      #any open programs belonging to a completer.
+
+      join_statement = %q(
+      JOIN (
+      (SELECT `adm_tep`.* 
+        FROM `adm_tep` 
+        LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) 
+        and (adm_tep.Student_Bnum = prog_exits.Student_Bnum) 
+      
+        WHERE (prog_exits.ExitID IS NULL AND adm_tep.TEPAdmit = 1 )) as open_prog
+    ) ON students.Bnum = open_prog.Student_Bnum
+)
+      completers = Student.joins(join_statement).where(ProgStatus: 'Completer')
+
+      completers.each do |c|
+        open_programs = AdmTep.open(c.Bnum)
+        programs += open_programs
+      end
+
+    return programs
+
   end
 
 end

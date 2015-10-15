@@ -32,13 +32,13 @@ Rails.application.routes.draw do
   resources :prog_exits, only: [:index, :show, :new, :create, :edit, :update] do
     post "choose"   #choose a term to display in index
     get "need_exit"
-    get "new_specific"
+
     # get 'get_programs', via: :get
   end
 
   resources :programs do
     resources :prog_exits do
-      get 'need_exit'
+      get "new_specific"
     end
   end
 
