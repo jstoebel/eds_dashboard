@@ -27,22 +27,19 @@ class StudentFilesController < ApplicationController
   end
 
   def destroy
-    #renders record to active=false
-    doc = StudentFile.find(params[:student_file_id])
-    doc.active = false  #not actually deleting, shhh...
-    redirect_to 
-  end
-
-  def download
-    file = StudentFile.find(params[:student_file_id])
+    file = StudentFile.find(params[:id])
     file.active = false
-    if @file.save
+    if file.save
       flash[:notice] = "File successfully removed."
       redirect_to student_student_files_path(file.student.AltID)
     else
       flash[:notice] = "Error removing file."
       redirect_to student_student_files_path(file.student.AltID)      
     end
+  end
+
+  def download
+
   end
 
 end
