@@ -19,7 +19,7 @@ class StudentFile < ActiveRecord::Base
 		#checks if file_name will not result in replacing a file.
 		#creates an available file name if it will
 
-		if has_duplicate(self.doc_file_name, self.Student_Bnum)
+		if self.new_record? and has_duplicate(self.doc_file_name, self.Student_Bnum)
 			#try alternatives by appending a number to the end of the file
 			#example file_1, file_2 etc
 
