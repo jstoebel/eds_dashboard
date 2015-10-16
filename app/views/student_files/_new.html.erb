@@ -1,6 +1,7 @@
 <!-- Popover to attach a file -->
 
 <!-- Button trigger modal -->
+
   <button class="btn btn-info glyphicon glyphicon-plus action-large" data-toggle="modal" data-backdrop="static" data-target="#attach-file">
     <span class="large-btn-text"> Attach New File </span>
     
@@ -11,8 +12,10 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="attach-label"> 
+          <h4 class="modal-title" id="attach-label">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
             Attach New File </h4>
+
         </div>
         <div class="modal-body">
           <%= form_for(:student_file, :url => student_student_files_path(@student.AltID), method: :post ) do |f| %>

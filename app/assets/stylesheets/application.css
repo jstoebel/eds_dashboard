@@ -262,6 +262,24 @@ a:hover { text-decoration: underline; }
     width: 100%;
   }
 
+  
+  .modal-title button.close {
+    font-size: 24pt;
+  }
+
+
+button.btn-danger.glyphicon.glyphicon-remove {
+  color: red;
+  font-size: 16pt;
+  background-color: transparent;
+  border-color: transparent;
+  vertical-align: top;
+}  
+
+/*html body div.yield div.index table.listing.summary.student_files.list.table.table-striped tbody tr td.actions button.btn.btn-danger.glyphicon.glyphicon-remove.action-large {
+  background-color: transparent;
+}*/
+
 div.form_link {font-size: 0pt;}
 
 .actions a.show_praxis {min-width: 9em;}

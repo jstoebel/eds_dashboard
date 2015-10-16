@@ -8,4 +8,6 @@ class StudentFile < ActiveRecord::Base
 
 	do_not_validate_attachment_file_type :doc
 
+	scope :active, lambda {where(:active => true) }
+
 end

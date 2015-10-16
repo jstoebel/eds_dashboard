@@ -27,22 +27,28 @@
 
           <tr class="header">
             <th>Document Name</th>
-            <th>Content Type</th>
             <th>Size</th>
             <th>Updated On</th>
 
-          </tr>
+          
       	<% @docs.each do |doc|%>
-
-			<td><%= doc.doc_file_name %></td>
-			<td><%= doc.doc_content_type %></td>
-			<td><%= doc.doc_file_size %></td>
-			<td><%= doc.doc_ypdated_at.Date.strftime("%m/%d/%Y") %></td>
-      
           </tr>
-        <!-- end of if statement for content-->
+    			<td><%= link_to(doc.doc_file_name, student_file_download_path(doc.id)) %></td>
+    			<td><%= number_to_human_size doc.doc_file_size %></td>
+    			<td><%= doc.doc_updated_at.strftime("%m/%d/%Y") %></td>
 
-      	<% end %>
+          <!-- end of for loop for content-->
+
+
+            <td class="actions">
+              <%= render(:partial => "delete_confirm", 
+              :locals => {
+                doc: doc
+              })  %>
+            </td>
+
+          </tr>
+  	   <% end %>
           
     <!-- end of main loop -->
     <% end %>   

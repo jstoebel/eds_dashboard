@@ -50,9 +50,13 @@ Rails.application.routes.draw do
     resources :praxis_results, only: [:index, :show]
     resources :issues, only: [:index, :new, :create]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
-    # resources :adm_st, only: [:show]
-    # resources :adm_tep, only: [:show]
   end
+
+  resources :student_files do
+    get "download"
+  end
+
+
 
   resources :issues, shallow: true do
     get "resolve_issue"
