@@ -9,7 +9,7 @@
 
     <caption>        
         <div class="header1"> <%= name_details(@student, file_as = true) %></div></br>
-        <div class="header2"><%= pluralize(@docs.size, 'file') %>  found </div>
+        <div class="header2"><%= pluralize(@adm_teps.size + @adm_sts.size + @docs.size, 'file') %>  found </div>
       
         <div class="container">
           <div class="row">
@@ -28,19 +28,40 @@
       </div>
     </caption>
 
-    <% if @docs.size > 0  %>
+    <% if @adm_teps.size + @adm_sts.size + @docs.size > 0  %>
 
           <tr class="header">
             <th>Document Name</th>
             <th>Size</th>
             <th>Updated On</th>
+            <th> Type </th>
           </tr>
 
-      	<% @docs.each do |doc|%>
 
-    			<td><%= link_to(doc.doc_file_name, student_file_download_path(doc.id)) %></td>
-    			<td><%= number_to_human_size doc.doc_file_size %></td>
-    			<td><%= doc.doc_updated_at.strftime("%m/%d/%Y") %></td>
+        <% @adm_teps.each do |adm_tep| %>
+          <tr>
+            <td><%= link_to(adm_tep.letter_file_name, adm_tep_download_path(adm_tep.AltID)) %></td>
+            <td><%= number_to_human_size adm_tep.letter_file_size %></td>
+            <td><%= adm_tep.letter_updated_at.strftime("%m/%d/%Y") %></td>   
+            <td> Admission to TEP</td>       
+          </tr>
+        <% end %>
+
+        <% @adm_sts.each do |adm_st| %>
+          <tr>
+            <td><%= link_to(adm_st.letter_file_name, adm_st_download_path(adm_st.AltID)) %></td>
+            <td><%= number_to_human_size adm_st.letter_file_size %></td>
+            <td><%= adm_st.letter_updated_at.strftime("%m/%d/%Y") %></td>   
+            <td> Admission to Student Teaching</td>
+          </tr>
+        <% end %>
+
+      	<% @docs.each do |doc|%>
+          <tr>
+      			<td><%= link_to(doc.doc_file_name, student_file_download_path(doc.id)) %></td>
+      			<td><%= number_to_human_size doc.doc_file_size %></td>
+      			<td><%= doc.doc_updated_at.strftime("%m/%d/%Y") %></td>
+            <td> Miscellaneous </td>
 
           <!-- end of for loop for content-->
 

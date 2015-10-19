@@ -47,6 +47,8 @@ class StudentFilesController < ApplicationController
 
   def index_setup
     @student = Student.from_alt_id(params[:student_id])
+    @adm_teps = AdmTep.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)
+    @adm_sts = AdmSt.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)    
     @docs = @student.student_files.active
   
     
