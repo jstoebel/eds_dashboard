@@ -134,6 +134,7 @@ class AdmTepController < ApplicationController
     #download an admission letter
     app = AdmTep.where("AltId=?", params[:adm_tep_id]).first
     send_file app.letter.path
+    #blah
     
   end
 
