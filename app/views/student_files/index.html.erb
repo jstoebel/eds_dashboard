@@ -1,7 +1,12 @@
 <div class="index">
 
+  <% if @file %>
+
+    <%= error_messages_for(@file)  %>
+  <% end  %>
+
   <table class="listing summary student_files list table table-striped">
-   
+
     <caption>        
         <div class="header1"> <%= name_details(@student, file_as = true) %></div></br>
         <div class="header2"><%= pluralize(@docs.size, 'file') %>  found </div>
@@ -29,10 +34,10 @@
             <th>Document Name</th>
             <th>Size</th>
             <th>Updated On</th>
-
-          
-      	<% @docs.each do |doc|%>
           </tr>
+
+      	<% @docs.each do |doc|%>
+
     			<td><%= link_to(doc.doc_file_name, student_file_download_path(doc.id)) %></td>
     			<td><%= number_to_human_size doc.doc_file_size %></td>
     			<td><%= doc.doc_updated_at.strftime("%m/%d/%Y") %></td>

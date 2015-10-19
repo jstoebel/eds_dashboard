@@ -12,6 +12,10 @@ class StudentFile < ActiveRecord::Base
 
 	do_not_validate_attachment_file_type :doc
 
+	validates :doc_file_name,
+		uniqueness: {scope: [:Student_Bnum, :active], 
+			message: "A file for this student already exists. Please rename the file and try again."}
+
 	scope :active, lambda {where(:active => true) }
 
 	private

@@ -1,13 +1,11 @@
 class StudentFilesController < ApplicationController
   def index
-    @student = Student.from_alt_id(params[:student_id])
-    @docs = @student.student_files.active
+    index_setup
   end
 
   def new
 
   end
-
 
   def create
     @file = StudentFile.new
@@ -18,8 +16,11 @@ class StudentFilesController < ApplicationController
       flash[:notice] = "File successfully uploaded."
       redirect_to student_student_files_path(student.AltID)
     else
+      index_setup
+      puts "*"*50
+      puts @file.errors.messages
       flash[:notice] = "Error uploading file."
-      redirect_to student_student_files_path(student.AltID)      
+      render 'index'      
     end
   end
 
@@ -40,6 +41,15 @@ class StudentFilesController < ApplicationController
 
   def download
 
+  end
+
+  private
+
+  def index_setup
+    @student = Student.from_alt_id(params[:student_id])
+    @docs = @student.student_files.active
+  
+    
   end
 
 end
