@@ -65,7 +65,7 @@ class ProgExit < ActiveRecord::Base
 		    open_admissions = AdmTep.open(stu.Bnum)
 		    open_programs = open_admissions.map { |i| i.program.ProgCode }
 
-		    if e.Program_ProgCode.to_s != "" and not open_programs.include?(e.Program_ProgCode)
+		    if e.new_record? and e.Program_ProgCode.to_s != "" and not open_programs.include?(e.Program_ProgCode)
 	    		e.errors.add(:Program_ProgCode, "Student may not be exited from a program that they are not currently enrolled in.")
 			end
 		end
@@ -104,5 +104,6 @@ class ProgExit < ActiveRecord::Base
 		end
 
 	end
+
 
 end
