@@ -3,6 +3,8 @@ class AdmTep < ActiveRecord::Base
 
   include ApplicationHelper
 
+  before_validation :check_open
+
   after_save :change_status
 
   has_attached_file :letter, 
@@ -30,7 +32,9 @@ class AdmTep < ActiveRecord::Base
 		app.errors.add(:base, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
 		app.errors.add(:base, "Admission date must be before next term begins.") if app.TEPAdmitDate and app.TEPAdmitDate >= next_term.StartDate
 		app.errors.add(:base, "Admission date must be given.") if app.TEPAdmit and app.TEPAdmitDate.blank?
-		app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
+		
+    #TODO UNCOMMENT THIS FOR PRODUCTION!
+    # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
 		app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
 		app.errors.add(:base, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
 		app.errors.add(:base, "Please attach an admission letter.") if (app.letter_file_name == nil and app.TEPAdmit != nil)
@@ -46,6 +50,16 @@ class AdmTep < ActiveRecord::Base
   	if self.TEPAdmit
   		self.student.update_attributes :ProgStatus => "Candidate"
   	end
+  end
+
+  def check_open
+    #make sure that there isn't an open program for this student.
+    open_programs = AdmTep.open(self.Student_Bnum).where(Program_ProgCode: self.Program_ProgCode)
+    if open_programs.size > 0
+      self.errors.add(:base, "Student is already enrolled in this program." )
+    end
+
+
   end
 
 end

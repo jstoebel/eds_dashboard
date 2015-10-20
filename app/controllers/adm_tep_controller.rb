@@ -29,17 +29,24 @@ class AdmTepController < ApplicationController
     @prog_code = params[:adm_tep][:Program_ProgCode]
 
     @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
-    @app.AppID = [@bnum, @current_term.BannerTerm.to_s, @prog_code].join('-')
+
+    #how many times has this student applied this term?
+    apps_this_term = AdmTep.where(Student_Bnum: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: @app.Program_ProgCode).size
+    @app.AppID = [@bnum, @current_term.BannerTerm.to_s, @prog_code, (apps_this_term + 1).to_s].join('-')
 
     #TODO fetch GPA,  GPA last 30, earned credits. Add to @app
+    @app.GPA = 3.0    #TODO FIX THIS!
+    @app.GPA_last30 = 3.0   #TODO FIX THIS!
+    @app.EarnedCredits = 45   #TODO FIX THIS!
+
 
     if @app.save
       @student = Student.find(@bnum)
-      name_details(@student)
+      name = name_details(@student)
 
       @program = Program.find(@prog_code)
 
-      flash[:notice] = "New application added: #{@first_name}, #{@last_name}, #{@program.EDSProgName}"
+      flash[:notice] = "New application added: #{name}-#{@program.EDSProgName}"
       redirect_to(action: 'index')
     else
       flash[:notice] = "Application not saved."
