@@ -145,14 +145,15 @@ class AdmStController < ApplicationController
       @app.assign_attributes({p => param_to_int(p)})
     end
 
+    if @app.STTerm == 0
+      @app.STTerm = nil
+    end
 
     @app.assign_attributes(:skip_val_letter => true)    #let's not validate for the letter.
     if @app.save
       flash[:notice] = "Record updated for #{name_details(@app.student)}"
       redirect_to adm_st_index_path
     else
-      puts @app.inspect
-      puts @app.valid?
       index_setup
       render 'index'
       # flash[:notice] = "Problem updating record for #{name_details(app.student)}"

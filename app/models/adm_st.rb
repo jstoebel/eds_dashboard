@@ -31,4 +31,5 @@ class AdmSt < ActiveRecord::Base
 		end 
 	end
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
+
 end

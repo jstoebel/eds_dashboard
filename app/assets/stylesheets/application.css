@@ -78,10 +78,11 @@ Style for Glyphicons*/
   margin: 0;
   position: relative;
   vertical-align: middle;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, 0%);
+  /*left: 50%;*/
+  /*margin-right: -50%;*/
+  /*transform: translate(-50%, 0%);*/
   font-size: 1.5em;
+
 }
 
 .glyphicon-ok {  
@@ -211,6 +212,7 @@ a:hover { text-decoration: underline; }
       font-size: 12pt;
       color: black;
       text-decoration: none;
+      /*display: inline-block;*/
     }
     .action-small:visited {
       color: black;
@@ -236,14 +238,14 @@ a:hover { text-decoration: underline; }
     }    
 
     .action-small.glyphicon {
-      font-size: 14px;
+      font-size: 12pt;
+      display: inline-block;
     }
 
     .small-btn-text {
       font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; 
       width: 100%;
     }
-
 
   /*Large buttons*/
 
@@ -253,7 +255,8 @@ a:hover { text-decoration: underline; }
     color: black;
   }
 
-  .action-large.glyphicon {
+  .action-large.
+  n {
     font-size: 14px;
   }
 
@@ -341,8 +344,7 @@ caption .container .row {width: inherit;}
 }
 
 .table-striped tr td .glyphicon {
-  display: block;
-  /*margin: auto;*/
+  /*display: block;*/
   margin: auto;
 
 }

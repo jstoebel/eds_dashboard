@@ -3,13 +3,14 @@
     arguments:
         record_id: an id for the record the popover will represent. Must be unique to the page
         popover_title: the title of the popover.
+        button_title: the name of the button
         content: the main content to be dispalyed
          -->
 
 
   <!-- Button trigger modal -->
   <button class="btn btn-info action-small"+ <%= content ==nil or content == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
-    <%= popover_title  %>
+    <%= button_title  %>
   </button>
 
   <!-- Modal -->

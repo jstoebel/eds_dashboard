@@ -43,6 +43,7 @@
             <th>GPA</th>
             <th>Core GPA</th>      
             <th>Admit Date</th>
+            <th> Admission Decision</th>
             <th>ST Term</th>
 <!--             <th>Admission Decision</th>
             <th>Details</th>
@@ -53,17 +54,28 @@
       	<% @applications.each do |app|%>
         <% student = Student.find(app.Student_Bnum) %>
 
-			<tr class "<%= cycle('odd', 'even') %>">
+			<tr>
 			<td><%= student.FirstName %></td>
 			<td><%= student.LastName %></td>
       		<td><%=app.OverallGPA %></td>
       		<td><%=app.CoreGPA%></td>
 
       		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
-
-      <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
-      
       <td>
+        <% if app.STAdmitted == nil and @term = current_term(exact: false)%>    
+
+          <%= link_to("Admission Decision", edit_adm_st_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
+
+        <% else %>
+
+          <%= app.STAdmitted ? "Admitted" : "Not admitted"%>
+
+        <% end %>
+      </td>
+      
+      <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
+
+      <td class="actions">
         
         <%# link_to("Notes", adm_st_path(app.AltID), :class => "action details btn btn-info action-small")%>
 
@@ -71,54 +83,38 @@
           locals: {
             :record_id => app.AltID,
             :popover_title => "Admission to Student Teaching Notes", 
+            :button_title => "Notes",
             :content => app.Notes
           } )  %>
-      </td>
+
 			
-      <td class="actions">
             <!-- Display button for admission decision if
                 1) Student has no admission decision
                 2) we are currently inside a term
                 3) the term displayed is a current term.-->
-            <% if app.STAdmitted == nil and @term = current_term(exact: false)%>    
-
-              <%= link_to("ST Admission Decision", edit_adm_st_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
-
-            <% else %>
-
-              <%= app.STAdmitted ? "Admitted" : "Not admitted"%>
-
-    <% end %>
-      </td>
 
 
-      <td>
 
-        <%= link_to("Edit ST Paperwork", adm_st_edit_st_paperwork_path(app.AltID) , :class => "action details btn btn-info action-small") %>
-        
-      </td>
+        <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.AltID) , :class => "action details btn btn-info action-small") %>
+              
 
-      <% if app.letter_file_name %>      
-          <td class="doc-download"> 
+          <% if app.letter_file_name %>      
 
-            <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
-            <% end %>
+              <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+              <% end %>
 
-          </td>
-      <% else %>
+          <% else %>
 
-        <td class="doc-download">
-          <!-- empty space to style is the same -->
+              <%= link_to "#", :class => "btn btn-default glyphicon glyphicon-file action-small disabled glyph-only" do %>
+              <% end %>
+
+          <% end %>
+
+          <!-- ST paperwork goes here -->
         </td>
-      <% end %>
-
-      <!-- ST paperwork goes here -->
-
-
-
-          </tr>
-        <!-- end of if statement for content-->
-      	<% end %>
+      </tr>
+      <!-- end of if statement for content-->
+    	<% end %>
           
     <!-- end of main loop -->
     <% end %>   
