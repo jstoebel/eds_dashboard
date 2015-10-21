@@ -9,7 +9,7 @@
 
 
   <!-- Button trigger modal -->
-  <button class="btn btn-info action-small"+ <%= content ==nil or content == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
+  <button class="btn btn-info action-small"+ <%= content.to_s == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
     <%= button_title  %>
   </button>
 

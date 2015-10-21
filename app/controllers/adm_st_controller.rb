@@ -56,7 +56,7 @@ class AdmStController < ApplicationController
       @student = Student.find(@bnum)
       name_details(@student)
 
-      flash[:notice] = "New application added: #{@first_name} #{@last_name}"
+      flash[:notice] = "New application added for #{name_details(@student, file_as=true)}"
       redirect_to(action: 'index')
     else
       flash[:notice] = "Application not saved."
@@ -139,11 +139,14 @@ class AdmStController < ApplicationController
     @app = AdmSt.where("AltID=?", alt_id).first
 
     #convert each param to an int and assign
-    params = [:background_check, :beh_train, :conf_train, :kfets_in, :STTerm]
+    params_to_convert = [:background_check, :beh_train, :conf_train, :kfets_in, :STTerm]
     
-    params.each do |p|
+    params_to_convert.each do |p|
       @app.assign_attributes({p => param_to_int(p)})
     end
+
+    notes = params[:adm_st][:Notes]
+    @app.Notes = notes
 
     if @app.STTerm == 0
       @app.STTerm = nil
@@ -151,7 +154,7 @@ class AdmStController < ApplicationController
 
     @app.assign_attributes(:skip_val_letter => true)    #let's not validate for the letter.
     if @app.save
-      flash[:notice] = "Record updated for #{name_details(@app.student)}"
+      flash[:notice] = "Record updated for #{name_details(@app.student, file_as=true)}"
       redirect_to adm_st_index_path
     else
       index_setup
@@ -188,16 +191,13 @@ class AdmStController < ApplicationController
     params.require(:adm_st).permit(:Student_Bnum)
   end
 
-  def st_paperwork_params
-    #safe add params for ST_paperwork
-    params.require(:adm_st).permit(:background_check, :beh_train, :conf_train, :kfets_in)
-  end
+  # def st_paperwork_params
+  #   #safe add params for ST_paperwork
+  #   params.require(:adm_st).permit(:background_check, :beh_train, :conf_train, :kfets_in)
+  # end
 
   def param_to_int(param)
-    #returns the param (inside adm_st hash) as an int
-    # value = params[:adm_st][param].to_i
-    # puts "*"*50
-    # puts "returning #{value}"
+
     return params[:adm_st][param].to_i
     
   end

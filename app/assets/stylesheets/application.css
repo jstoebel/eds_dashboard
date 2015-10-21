@@ -279,6 +279,14 @@ button.btn-danger.glyphicon.glyphicon-remove {
   vertical-align: top;
 }  
 
+.btn-default.disabled {
+  /*lighter color for disabled btn-default*/
+  background-color: #F9F9F9;
+  color: #CCCCCC;
+}
+
+
+
 /*html body div.yield div.index table.listing.summary.student_files.list.table.table-striped tbody tr td.actions button.btn.btn-danger.glyphicon.glyphicon-remove.action-large {
   background-color: transparent;
 }*/
