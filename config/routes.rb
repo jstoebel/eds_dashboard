@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     post "choose"   #choose a term to display in index
     get "admit"
     get "download"  #download admission letter
+    get "edit_st_paperwork"
+    post "update_st_paperwork"
   end
 
   resources :prog_exits, only: [:index, :show, :new, :create, :edit, :update] do

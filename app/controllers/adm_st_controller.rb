@@ -5,10 +5,8 @@ class AdmStController < ApplicationController
   def index
     #@current_term: the current term in time
     #@term: the term displayed
-
-    term_menu_setup
-        
-    @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term
+    index_setup
+    
 
   end
 
@@ -91,6 +89,9 @@ class AdmStController < ApplicationController
 
     @application.STAdmitted = string_to_bool(params[:adm_st][:STAdmitted])
     @application.letter = params[:adm_st][:letter]
+
+    #special validation 
+
     @application.Notes = params[:adm_st][:Notes]
 
     #was an admission decision made?
@@ -123,6 +124,43 @@ class AdmStController < ApplicationController
 
   end
 
+  def edit_st_paperwork
+    @app = AdmSt.where("AltID=?", params[:adm_st_id]).first
+    @student = @app.student
+    @terms = BannerTerm.where("BannerTerm > ?", @app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
+    
+  end
+
+  def update_st_paperwork
+    #update st paperwork
+
+    alt_id = params[:adm_st_id]
+
+    @app = AdmSt.where("AltID=?", alt_id).first
+
+    #convert each param to an int and assign
+    params = [:background_check, :beh_train, :conf_train, :kfets_in, :STTerm]
+    
+    params.each do |p|
+      @app.assign_attributes({p => param_to_int(p)})
+    end
+
+
+    @app.assign_attributes(:skip_val_letter => true)    #let's not validate for the letter.
+    if @app.save
+      flash[:notice] = "Record updated for #{name_details(@app.student)}"
+      redirect_to adm_st_index_path
+    else
+      puts @app.inspect
+      puts @app.valid?
+      index_setup
+      render 'index'
+      # flash[:notice] = "Problem updating record for #{name_details(app.student)}"
+      # redirect_to adm_st_index_path
+    end
+
+  end
+
   def download
     #download an admission letter
     app = AdmSt.where("AltId=?", params[:adm_st_id]).first
@@ -138,8 +176,29 @@ class AdmStController < ApplicationController
   end
 
   private
+
+  def index_setup
+    term_menu_setup
+        
+    @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term
+    
+  end
   def new_adm_params
     params.require(:adm_st).permit(:Student_Bnum)
+  end
+
+  def st_paperwork_params
+    #safe add params for ST_paperwork
+    params.require(:adm_st).permit(:background_check, :beh_train, :conf_train, :kfets_in)
+  end
+
+  def param_to_int(param)
+    #returns the param (inside adm_st hash) as an int
+    # value = params[:adm_st][param].to_i
+    # puts "*"*50
+    # puts "returning #{value}"
+    return params[:adm_st][param].to_i
+    
   end
 
   def error_new

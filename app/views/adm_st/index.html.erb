@@ -1,5 +1,11 @@
-<!-- TODO Implement back link...once we know what we are going back to! -->
+
 <div class="index">
+
+  <% if @app %>
+
+    <%= error_messages_for(@app)  %>
+  <% end  %>
+
 
   <!-- drop down menu for all terms. Reload page on change -->
   <%= form_for(:banner_term, :url => adm_st_choose_path('pick')) do |f| %>
@@ -38,9 +44,10 @@
             <th>Core GPA</th>      
             <th>Admit Date</th>
             <th>ST Term</th>
-            <th>Admission Decision</th>
+<!--             <th>Admission Decision</th>
             <th>Details</th>
-            <th>Letter</th>
+            <th>Paperwork</th>
+            <th>Letter</th> -->
 
           </tr>
       	<% @applications.each do |app|%>
@@ -55,8 +62,20 @@
       		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
 
       <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
+      
+      <td>
+        
+        <%# link_to("Notes", adm_st_path(app.AltID), :class => "action details btn btn-info action-small")%>
 
-			<td class="actions">
+          <%= render(partial: 'details_popover', 
+          locals: {
+            :record_id => app.AltID,
+            :popover_title => "Admission to Student Teaching Notes", 
+            :content => app.Notes
+          } )  %>
+      </td>
+			
+      <td class="actions">
             <!-- Display button for admission decision if
                 1) Student has no admission decision
                 2) we are currently inside a term
@@ -72,11 +91,12 @@
     <% end %>
       </td>
 
+
       <td>
+
+        <%= link_to("Edit ST Paperwork", adm_st_edit_st_paperwork_path(app.AltID) , :class => "action details btn btn-info action-small") %>
         
-        <%= link_to("Details", adm_st_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
       </td>
-      
 
       <% if app.letter_file_name %>      
           <td class="doc-download"> 
@@ -91,6 +111,8 @@
           <!-- empty space to style is the same -->
         </td>
       <% end %>
+
+      <!-- ST paperwork goes here -->
 
 
 

@@ -6,8 +6,12 @@ class AdmSt < ActiveRecord::Base
 	  :url => "/adm_st/:altid/download",		#passes AltID 
 	  :path => ":rails_root/public/:bnum/adm_st_letters/:basename.:extension"	#changed path from /adm_st_letters/:bnum
 
-	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
+	attr_accessor :skip_val_letter
 
+	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
+	
+	validate :validate_letter, unless: :skip_val_letter
+  
   belongs_to :student, foreign_key: "Student_Bnum"
 
   validate do |app|
@@ -18,7 +22,13 @@ class AdmSt < ActiveRecord::Base
 	app.errors.add(:base, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < term.StartDate
 	app.errors.add(:base, "Admission date must be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
 	app.errors.add(:base, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
-	app.errors.add(:base, "Please attach an admission letter.") if (app.letter_file_name == nil and app.STAdmitted != nil)
-  end
+	end
+
+	def validate_letter
+		#validates presence of a letter.
+		if (self.letter_file_name == nil and self.STAdmitted != nil)
+			self.errors.add(:base, "Please attach an admission letter.")
+		end 
+	end
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 end
