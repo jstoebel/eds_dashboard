@@ -7,8 +7,8 @@
 
   <table class="vertical-table" summary="adm_st detail view">
   <caption> 
- 	<div class="header1"> <%=[@first_name, @last_name].join(', ') +': ' + @term.PlainTerm%> </div>
-	<div class="header2">Application to Student Teaching Details</div>
+ 	<div class="header1"> <%= name_details(@student, file_as=true %> </div>
+	<div class="header2">Application to Student Teaching Details: <%= @term.PlainTerm %></div>
 
   </caption>
 

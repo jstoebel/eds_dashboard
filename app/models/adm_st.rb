@@ -3,7 +3,7 @@ class AdmSt < ActiveRecord::Base
   include ApplicationHelper
 
   has_attached_file :letter, 
-	  :url => "/adm_st/:altid/download",		#passes AltID 
+	  :url => "/adm_st/:id/download",		
 	  :path => ":rails_root/public/:bnum/adm_st_letters/:basename.:extension"	#changed path from /adm_st_letters/:bnum
 
 	attr_accessor :skip_val_letter

@@ -2,12 +2,13 @@
   <i class=" link-text"> Back</i>
 <% end %>
     
-    <%= form_for(:adm_st, :url => adm_st_path(@application.AltID), method: :patch ) do |f| %>
+    <%= form_for(:adm_st, :url => adm_st_path(@application.id), method: :patch ) do |f| %>
 
-    <h2>Edit Student Teaching Application for <%=[@first_name, @last_name].join(' ') + " (" + @term.PlainTerm + ")" %></h2>
     <%= error_messages_for(@application) %> 
 
     <table summary="adm_st form fields">
+        <div class="header1"> <%= "Edit Application to Student Teaching"  %> </div>
+        <div class="header2"> <%= name_details(@student, file_as=true) %> </div>
 
         <tr>
             <th><%= f.label(:STAdmitted, "Admission Decision", ) %></th>

@@ -11,7 +11,8 @@ class AdmStController < ApplicationController
   end
 
   def show
-    @app = AdmSt.where("AltID=?", params[:id]).first
+
+    @app = AdmSt.find(params[:id])   
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
     @student = Student.find(@app.Student_Bnum)
     name_details(@student)
@@ -48,7 +49,9 @@ class AdmStController < ApplicationController
     @bnum =  params[:adm_st][:Student_Bnum]
 
     @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
-    @app.AppID = [@bnum, @current_term.BannerTerm.to_s].join('-')
+
+    apps_this_term = AdmSt.where(Student_Bnum: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).size
+    @app.Attempt = apps_this_term + 1
 
     #TODO fetch overall GPA,  Core GPA, Add to @app
 
@@ -66,17 +69,16 @@ class AdmStController < ApplicationController
   end
 
   def edit
-    @application = AdmSt.where("AltID = ?", params[:id]).first
+    @application = AdmSt.find(params[:id])
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
     @student = Student.find(@application.Student_Bnum)
-    name_details(@student)
   end
 
   def update
 
     #process admission decision for student
 
-    @application = AdmSt.where("AltID = ?", params[:id]).first
+    @application = AdmSt.find(params[:id])
 
     @current_term = current_term(exact: false, plan_b: :back)
 
@@ -125,7 +127,7 @@ class AdmStController < ApplicationController
   end
 
   def edit_st_paperwork
-    @app = AdmSt.where("AltID=?", params[:adm_st_id]).first
+    @app = AdmSt.find(params[:adm_st_id])
     @student = @app.student
     @terms = BannerTerm.where("BannerTerm > ?", @app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
     
@@ -134,9 +136,8 @@ class AdmStController < ApplicationController
   def update_st_paperwork
     #update st paperwork
 
-    alt_id = params[:adm_st_id]
 
-    @app = AdmSt.where("AltID=?", alt_id).first
+    @app = AdmSt.find(params[:adm_st_id])
 
     #convert each param to an int and assign
     params_to_convert = [:background_check, :beh_train, :conf_train, :kfets_in, :STTerm]
@@ -167,7 +168,7 @@ class AdmStController < ApplicationController
 
   def download
     #download an admission letter
-    app = AdmSt.where("AltId=?", params[:adm_st_id]).first
+    app = AdmSt.find(params[:adm_st_id])
     send_file app.letter.path
     
   end
@@ -213,7 +214,6 @@ class AdmStController < ApplicationController
     #sends user back to edit
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
     @student = Student.find(@application.Student_Bnum)
-    name_details(@student)
     render('edit')
     
   end

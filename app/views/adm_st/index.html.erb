@@ -64,7 +64,7 @@
       <td>
         <% if app.STAdmitted == nil and @term = current_term(exact: false)%>    
 
-          <%= link_to("Admission Decision", edit_adm_st_path(app.AltID), :class => "action details btn btn-info action-small issues")%>
+          <%= link_to("Admission Decision", edit_adm_st_path(app.id), :class => "action details btn btn-info action-small issues")%>
 
         <% else %>
 
@@ -76,12 +76,11 @@
       <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
 
       <td class="actions">
-        
-        <%# link_to("Notes", adm_st_path(app.AltID), :class => "action details btn btn-info action-small")%>
+
 
           <%= render(partial: 'details_popover', 
           locals: {
-            :record_id => app.AltID,
+            :record_id => app.id,
             :popover_title => "Admission to Student Teaching Notes", 
             :button_title => "Notes",
             :content => app.Notes
@@ -95,7 +94,7 @@
 
 
 
-        <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.AltID) , :class => "action details btn btn-info action-small") %>
+        <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.id) , :class => "action details btn btn-info action-small") %>
               
 
           <% if app.letter_file_name %>      
