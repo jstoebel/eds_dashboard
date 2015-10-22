@@ -1,0 +1,62 @@
+<!-- Popover to update ST paperwork
+  locals:
+    app
+ -->
+
+<!-- Button trigger modal -->
+
+  <button class="action details btn btn-info action-small" data-toggle="modal" data-backdrop="static" 
+  data-target="#st-paperwork<%=app.AltID%>"
+    <span class="large-btn-text"> Update ST Paperwork </span>
+    
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="st-paperwork<%=app.AltID%>" tabindex="-1" role="dialog" aria-labelledby="st-paperwork<%=app.AltID%>" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="paperwork-label<%=app.AltID%>">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            <h4> Attach New File </h4>
+          <div>
+        </div>
+        <div class="modal-body">
+          <%= form_for(:adm_st, :url => adm_st_update_st_paperwork_path(app.AltID), method: :post ) do |f| %>
+
+            <table>
+              </tr>
+                <td> <%= f.label :background_check, "Background Check" %>   </td>
+                <td><%= f.check_box :background_check %></td>
+              </tr>
+
+              </tr>
+                <td> <%=f.label :beh_train, "Behavior Training"  %> </td>
+                <td><%= f.check_box :beh_train %></td>
+              </tr>
+
+              </tr>
+                <td> <%=f.label :conf_train, "Confidentiality Training"  %> </td>
+                <td><%= f.check_box :conf_train %></td>
+              </tr>
+
+              </tr>
+                <td> <%=f.label :kfets_in, "KFETS hours in"  %> </td>
+                <td><%= f.check_box :kfets_in %></td>
+              </tr>
+
+              <tr>
+                  <td>
+                      <div class="form-buttons">
+                          <%= submit_tag("Submit") %>
+                      </div>
+                  </td>   
+              </tr> 
+
+            </table>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
