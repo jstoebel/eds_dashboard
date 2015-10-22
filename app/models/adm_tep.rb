@@ -40,7 +40,22 @@ class AdmTep < ActiveRecord::Base
 		app.errors.add(:base, "Please attach an admission letter.") if (app.letter_file_name == nil and app.TEPAdmit != nil)
 		#TODO must have completed EDS150 with C or better to be admitted.
     #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
-	end
+	 
+    #can't create a duplicate application unless all others are denied
+    #find any apps matching student, program and term that are accepted
+    accepted_apps = AdmTep.where(Student_Bnum: app.Student_Bnum).where(Program_ProgCode: app.Program_ProgCode).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("TEPAdmit = 1 or TEPAdmit IS NULL")
+    # puts "*"*50
+    # puts "here are accepted apps"
+    # puts accepted_apps.size
+    # puts "*"*50
+    # 1/0
+
+    if accepted_apps.size > 0
+      app.errors.add(:base, "Student has already been admitted to this program in this term.")
+    end
+
+
+  end
 
   
 
