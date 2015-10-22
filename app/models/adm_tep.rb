@@ -8,7 +8,7 @@ class AdmTep < ActiveRecord::Base
   after_save :change_status
 
   has_attached_file :letter, 
-  :url => "/adm_tep/:altid/download",		#passes AltID 
+  :url => "/adm_tep/:id/download",		#passes AltID 
   :path => ":rails_root/public/:bnum/admission_letters/:basename.:extension"  #changed path from /admission_letters/:bnum
 
 	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]

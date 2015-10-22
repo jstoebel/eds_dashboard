@@ -8,8 +8,13 @@ Paperclip.interpolates('term') do |attachment, style|
   attachment.instance.BannerTerm_BannerTerm
 end
 
-Paperclip.interpolates('altid') do |attachment, style|
-	#for AltID
-  attachment.instance.AltID
+#not in use
+# Paperclip.interpolates('altid') do |attachment, style|
+# 	#for AltID
+#   attachment.instance.AltID
+
+  Paperclip.interpolates('id') do |attachment, style|
+	#for id
+  attachment.instance.id
 end
 

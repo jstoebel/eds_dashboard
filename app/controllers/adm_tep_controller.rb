@@ -32,13 +32,12 @@ class AdmTepController < ApplicationController
 
     #how many times has this student applied this term?
     apps_this_term = AdmTep.where(Student_Bnum: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: @app.Program_ProgCode).size
-    @app.AppID = [@bnum, @current_term.BannerTerm.to_s, @prog_code, (apps_this_term + 1).to_s].join('-')
+    @app.Attempt = apps_this_term + 1
 
     #TODO fetch GPA,  GPA last 30, earned credits. Add to @app
     @app.GPA = 3.0    #TODO FIX THIS!
     @app.GPA_last30 = 3.0   #TODO FIX THIS!
     @app.EarnedCredits = 45   #TODO FIX THIS!
-
 
     if @app.save
       @student = Student.find(@bnum)
@@ -58,7 +57,7 @@ class AdmTepController < ApplicationController
   end
 
   def edit
-      @application = AdmTep.where("AltID = ?", params[:id]).first
+      @application = AdmTep.find(params[:id])
       @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
       @student = Student.find(@application.Student_Bnum)
       name_details(@student)
@@ -69,8 +68,7 @@ class AdmTepController < ApplicationController
 
     #process admission decision for student
 
-    @application = AdmTep.where("AltID = ?", params[:id]).first
-
+    @application = AdmTep.find(params[:id])
     @current_term = current_term(exact: false)
 
     #application must be processed in its own term or the break following.
@@ -131,7 +129,8 @@ class AdmTepController < ApplicationController
   end
 
   def show
-    @app = AdmTep.where("AltID=?", params[:id]).first
+
+    @app = AdmTep.find(params[:id])
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
     @student = Student.find(@app.Student_Bnum)
     name_details(@student)
@@ -139,7 +138,7 @@ class AdmTepController < ApplicationController
 
   def download
     #download an admission letter
-    app = AdmTep.where("AltId=?", params[:adm_tep_id]).first
+    app = AdmTep.find(params[:adm_tep_id])
     send_file app.letter.path
     
   end
