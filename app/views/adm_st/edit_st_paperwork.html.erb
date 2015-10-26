@@ -1,14 +1,14 @@
 <%= link_to adm_st_index_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
-
+      <%= form_for(@app, :url => adm_st_update_st_paperwork_path(@app.id), method: :post ) do |f| %>
             <table>
             	<caption>
             		<div class="header1"> Edit Student Teacher Admission</div>
             		<div class="header2"> <%= name_details(@student, file_as=true)  %></div>
             	</caption>
 
-			<%= form_for(@app, :url => adm_st_update_st_paperwork_path(@app.id), method: :post ) do |f| %>
+
               <tr>
                 <td> <%= f.label :background_check, "Background Check" %>   </td>
                 <td><%= f.check_box :background_check %></td>
