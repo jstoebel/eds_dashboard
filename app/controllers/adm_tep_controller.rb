@@ -10,10 +10,8 @@ class AdmTepController < ApplicationController
       redirect_to(adm_tep_index_path)
       return
     end
-
-    @students = Student.where("ProgStatus = 'Prospective' and EnrollmentStatus not like 'Dismissed%' and EnrollmentStatus <> 'Graduation' and Classification <> 'Senior'")
-    @programs = Program.where("Current = 1")
     @app = AdmTep.new
+    new_setup
   end
 
   def create
@@ -49,8 +47,9 @@ class AdmTepController < ApplicationController
       redirect_to(action: 'index')
     else
       flash[:notice] = "Application not saved."
-      error_new
-      return
+      new_setup
+      render ('new')
+
       
     end
 
@@ -153,13 +152,18 @@ class AdmTepController < ApplicationController
     params.require(:adm_tep).permit(:TEPAdmit, :TEPAdmitDate)
   end
 
-  def error_new
-    #sends user back to new form
 
-    @students = Student.where("ProgStatus <> 'Candidate' and EnrollmentStatus='Active Student' and Classification <> 'Senior'")
-    @programs = Program.where("Current = 1")
-    render('new')
+  def new_setup
+      @students = Student.where("ProgStatus = 'Prospective' and EnrollmentStatus not like 'Dismissed%' and EnrollmentStatus <> 'Graduation' and Classification <> 'Senior'").order(LastName: :asc )
+      @programs = Program.where("Current = 1")
   end
+  # def error_new
+  #   #sends user back to new form
+
+  #   @students = Student.where("ProgStatus <> 'Candidate' and EnrollmentStatus='Active Student' and Classification <> 'Senior'")
+  #   @programs = Program.where("Current = 1")
+  #   render('new')
+  # end
 
   def error_update
     #sends user back to edit
