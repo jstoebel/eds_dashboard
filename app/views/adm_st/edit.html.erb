@@ -24,14 +24,16 @@
         <th class="date-admit"><%= f.label(:STAdmitDate, "Admit Date") %></th>
 
             <td class="date-admit">
-                <%= f.text_field :STAdmitDate, 'data-behaviour' => 'datepicker' %>
-            <script type="text/javascript">
-                $('[data-behaviour~=datepicker]').datepicker({
-                    format: 'mm/dd/yyyy',
-                    startDate: <%=@term.StartDate.strftime("%m/%d/%Y")  %>,
-                    endDate: <%=@term.EndDate.strftime("%m/%d/%Y")  %>
-                });
-            </script></td>
+
+
+            <%= render(:partial => 'date_picker', :locals => {
+                f: f,
+                field: :STAdmitDate,
+                default: ""
+            })  %>
+
+
+        </td>
 
              <tr>
               <th><%= f.label(:Notes, "Comments") %></th>

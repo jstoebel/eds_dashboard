@@ -4,12 +4,9 @@
 	params:
 		f: form object
 		field: filed the data is for (as symbol)
-		default_date: the date the 
+		default: the default date. Use "" for no default
  -->
 
- 	<%# default.strftime("%m/%d/%Y")  %>
- 	<% puts "default is" + "*"*50 %>
- 	<% puts default  %>
     <%= f.text_field field, {:value => (default != "" ? default.strftime("%m/%d/%Y") : ""), 'data-behaviour' => 'datepicker'} %>
 
 <script type="text/javascript">
