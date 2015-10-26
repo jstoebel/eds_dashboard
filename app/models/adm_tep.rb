@@ -51,7 +51,7 @@ class AdmTep < ActiveRecord::Base
     # 1/0
 
     if accepted_apps.size > 0
-      app.errors.add(:base, "Student has already been admitted to this program in this term.")
+      app.errors.add(:base, "Student has already been admitted or has an open applicaiton for this program in this term.")
     end
 
 

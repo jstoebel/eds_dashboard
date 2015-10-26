@@ -29,7 +29,7 @@ class AdmStController < ApplicationController
 
     # @students = Student.joins(:adm_tep).group(:Bnum).having(TEPAdmit: 1)
 
-    @students = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'")
+    new_setup
     @app = AdmSt.new
   end
 
@@ -63,7 +63,8 @@ class AdmStController < ApplicationController
       redirect_to(action: 'index')
     else
       flash[:notice] = "Application not saved."
-      error_new
+      new_setup
+      render 'new'
       
     end
   end
@@ -203,11 +204,8 @@ class AdmStController < ApplicationController
     
   end
 
-  def error_new
-    #sends user back to new form
-
-    @students = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'")
-    render('new')
+  def new_setup
+    @students = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'").order(LastName: :asc)
   end
 
   def error_update

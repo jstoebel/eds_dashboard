@@ -22,6 +22,13 @@ class AdmSt < ActiveRecord::Base
 	app.errors.add(:base, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < term.StartDate
 	app.errors.add(:base, "Admission date must be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
 	app.errors.add(:base, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
+    
+    accepted_apps = AdmSt.where(Student_Bnum: app.Student_Bnum).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("STAdmitted = 1 or STAdmitted IS NULL")
+
+    if accepted_apps.size > 0
+      app.errors.add(:base, "Student has already been admitted or has an open applicaiton in this term.")
+    end
+
 	end
 
 	def validate_letter
