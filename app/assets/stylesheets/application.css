@@ -358,7 +358,6 @@ caption .container .row {width: inherit;}
 }
 
 .table-striped {
-  max-width: 90%;
   min-width: 50%;
 }
 
