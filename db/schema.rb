@@ -11,25 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716145436) do
+ActiveRecord::Schema.define(version: 0) do
 
-  create_table "adm_st", primary_key: "AppID", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,  null: false
+  create_table "adm_st", force: true do |t|
+    t.string   "Student_Bnum",          limit: 9,   null: false
     t.integer  "BannerTerm_BannerTerm"
+    t.integer  "Attempt",                           null: false
     t.float    "OverallGPA",            limit: 24
     t.float    "CoreGPA",               limit: 24
     t.boolean  "STAdmitted"
     t.datetime "STAdmitDate"
     t.integer  "STTerm"
+    t.text     "Notes"
+    t.string   "letter_file_name",      limit: 100
+    t.string   "letter_content_type",   limit: 100
+    t.integer  "letter_file_size"
+    t.datetime "letter_updated_at"
+    t.boolean  "background_check"
+    t.boolean  "beh_train"
+    t.boolean  "conf_train"
+    t.boolean  "kfets_in"
   end
 
   add_index "adm_st", ["BannerTerm_BannerTerm"], name: "fk_AdmST_BannerTerm1_idx", using: :btree
   add_index "adm_st", ["Student_Bnum"], name: "fk_AdmST_Student1_idx", using: :btree
 
-  create_table "adm_tep", primary_key: "AppID", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,  null: false
-    t.string   "Program_ProgCode",      limit: 45, null: false
-    t.integer  "BannerTerm_BannerTerm",            null: false
+  create_table "adm_tep", force: true do |t|
+    t.string   "Student_Bnum",          limit: 9,   null: false
+    t.string   "Program_ProgCode",      limit: 45,  null: false
+    t.integer  "BannerTerm_BannerTerm",             null: false
+    t.integer  "Attempt",                           null: false
     t.float    "GPA",                   limit: 24
     t.float    "GPA_last30",            limit: 24
     t.integer  "EarnedCredits"
@@ -37,6 +48,10 @@ ActiveRecord::Schema.define(version: 20150716145436) do
     t.boolean  "TEPAdmit"
     t.datetime "TEPAdmitDate"
     t.text     "Notes"
+    t.string   "letter_file_name",      limit: 100
+    t.string   "letter_content_type",   limit: 500
+    t.integer  "letter_file_size"
+    t.datetime "letter_updated_at"
   end
 
   add_index "adm_tep", ["BannerTerm_BannerTerm"], name: "fk_AdmTEP_BannerTerm1_idx", using: :btree
@@ -69,18 +84,22 @@ ActiveRecord::Schema.define(version: 20150716145436) do
   create_table "banner_updates", primary_key: "UploadDate", force: true do |t|
   end
 
-  create_table "clinical_assignments", primary_key: "AssignmentID", force: true do |t|
-    t.string  "Student_Bnum",                      limit: 9,  null: false
-    t.integer "ClinicalTeacher_idClinicalTeacher",            null: false
-    t.integer "Term",                                         null: false
-    t.string  "CourseID",                          limit: 45, null: false
-    t.string  "Level",                             limit: 45
+  create_table "clinical_assignments", force: true do |t|
+    t.string  "Bnum",                limit: 9,  null: false
+    t.integer "clinical_teacher_id",            null: false
+    t.integer "Term",                           null: false
+    t.string  "CourseID",            limit: 45, null: false
+    t.string  "Level",               limit: 45
+    t.date    "StartDate"
+    t.date    "EndDate"
+    t.integer "AltID",                          null: false
   end
 
-  add_index "clinical_assignments", ["ClinicalTeacher_idClinicalTeacher"], name: "fk_ClinicalAssignments_ClinicalTeacher1_idx", using: :btree
-  add_index "clinical_assignments", ["Student_Bnum"], name: "fk_ClinicalAssignments_Student1_idx", using: :btree
+  add_index "clinical_assignments", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
+  add_index "clinical_assignments", ["Bnum"], name: "fk_ClinicalAssignments_Student1_idx", using: :btree
+  add_index "clinical_assignments", ["clinical_teacher_id"], name: "fk_ClinicalAssignments_ClinicalTeacher1_idx", using: :btree
 
-  create_table "clinical_sites", primary_key: "idClinicalSite", force: true do |t|
+  create_table "clinical_sites", force: true do |t|
     t.string "SiteName",  limit: 45, null: false
     t.string "City",      limit: 45
     t.string "County",    limit: 45
@@ -88,15 +107,18 @@ ActiveRecord::Schema.define(version: 20150716145436) do
     t.string "District",  limit: 45
   end
 
-  create_table "clinical_teachers", primary_key: "idClinicalTeacher", force: true do |t|
-    t.string  "FirstName",                   limit: 45, null: false
-    t.string  "LastName",                    limit: 45, null: false
-    t.string  "Email",                       limit: 45
-    t.string  "Subject",                     limit: 45
-    t.integer "ClinicalSite_idClinicalSite",            null: false
+  create_table "clinical_teachers", force: true do |t|
+    t.string  "Bnum",             limit: 45
+    t.string  "FirstName",        limit: 45, null: false
+    t.string  "LastName",         limit: 45, null: false
+    t.string  "Email",            limit: 45
+    t.string  "Subject",          limit: 45
+    t.integer "clinical_site_id",            null: false
+    t.integer "Rank"
+    t.integer "YearsExp"
   end
 
-  add_index "clinical_teachers", ["ClinicalSite_idClinicalSite"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
+  add_index "clinical_teachers", ["clinical_site_id"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
 
   create_table "employment", primary_key: "EmpID", force: true do |t|
     t.date   "EmpDate",                 null: false
@@ -120,6 +142,29 @@ ActiveRecord::Schema.define(version: 20150716145436) do
   end
 
   add_index "forms_of_intention", ["Student_Bnum"], name: "fk_FormofIntention_Student1_idx", using: :btree
+
+  create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
+    t.timestamp "CreateDate",                           null: false
+    t.string    "UpdateName",               limit: 100, null: false
+    t.text      "Description",                          null: false
+    t.integer   "Issues_IssueID",                       null: false
+    t.string    "tep_advisors_AdvisorBnum", limit: 45,  null: false
+  end
+
+  add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
+  add_index "issue_updates", ["tep_advisors_AdvisorBnum"], name: "fk_IssueUpdates_tep_advisors1_idx", using: :btree
+
+  create_table "issues", primary_key: "IssueID", force: true do |t|
+    t.timestamp "CreateDate",                                          null: false
+    t.string    "students_Bnum",            limit: 9,                  null: false
+    t.string    "Name",                     limit: 100,                null: false
+    t.text      "Description",                                         null: false
+    t.boolean   "Open",                                 default: true, null: false
+    t.string    "tep_advisors_AdvisorBnum", limit: 45,                 null: false
+  end
+
+  add_index "issues", ["students_Bnum"], name: "fk_Issues_students1_idx", using: :btree
+  add_index "issues", ["tep_advisors_AdvisorBnum"], name: "fk_Issues_tep_advisors1_idx", using: :btree
 
   create_table "praxis_prep", primary_key: "TestID", force: true do |t|
     t.string  "Student_Bnum",        limit: 9,          null: false
@@ -157,8 +202,10 @@ ActiveRecord::Schema.define(version: 20150716145436) do
     t.integer  "BestScore"
     t.integer  "CutScore"
     t.boolean  "Pass"
+    t.integer  "AltID",                null: false
   end
 
+  add_index "praxis_results", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "praxis_results", ["Bnum"], name: "fk_PraxisResult_Student1_idx", using: :btree
   add_index "praxis_results", ["TestCode"], name: "fk_PraxisResult_PraxisTest1_idx", using: :btree
 
@@ -174,7 +221,7 @@ ActiveRecord::Schema.define(version: 20150716145436) do
 
   add_index "praxis_subtest_results", ["praxis_results_TestID"], name: "fk_praxis_subtest_results_praxis_results1_idx", using: :btree
 
-  create_table "praxis_tests", primary_key: "PraxisTest_TestCode", force: true do |t|
+  create_table "praxis_tests", primary_key: "TestCode", force: true do |t|
     t.string  "TestName",         limit: 45
     t.integer "CutScore"
     t.string  "TestFamily",       limit: 1
@@ -200,12 +247,15 @@ ActiveRecord::Schema.define(version: 20150716145436) do
     t.string   "Program_ProgCode",  limit: 45, null: false
     t.string   "ExitCode_ExitCode", limit: 45, null: false
     t.integer  "ExitTerm"
-    t.datetime "CompleteDate"
+    t.datetime "ExitDate"
     t.float    "GPA",               limit: 24
     t.float    "GPA_last60",        limit: 24
-    t.datetime "RecomendDate"
+    t.datetime "RecommendDate"
+    t.text     "Details"
+    t.integer  "AltID",                        null: false
   end
 
+  add_index "prog_exits", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "prog_exits", ["ExitCode_ExitCode"], name: "fk_Exit_ExitCode1_idx", using: :btree
   add_index "prog_exits", ["Program_ProgCode"], name: "fk_Exit__Program_idx", using: :btree
   add_index "prog_exits", ["Student_Bnum"], name: "fk_Exit_Student1_idx", using: :btree
@@ -215,6 +265,17 @@ ActiveRecord::Schema.define(version: 20150716145436) do
     t.string  "EDSProgName",  limit: 45
     t.boolean "Current"
   end
+
+  create_table "student_files", force: true do |t|
+    t.string   "Student_Bnum",     limit: 9,                  null: false
+    t.boolean  "active",                       default: true
+    t.string   "doc_file_name",    limit: 100
+    t.string   "doc_content_type", limit: 100
+    t.integer  "doc_file_size"
+    t.datetime "doc_updated_at"
+  end
+
+  add_index "student_files", ["Student_Bnum"], name: "fk_student_files_students1_idx", using: :btree
 
   create_table "students", primary_key: "Bnum", force: true do |t|
     t.string  "FirstName",        limit: 45,                          null: false
@@ -234,7 +295,10 @@ ActiveRecord::Schema.define(version: 20150716145436) do
     t.string  "CurrentMinors",    limit: 45
     t.string  "Email",            limit: 100
     t.string  "CPO",              limit: 45
+    t.integer "AltID",                                                null: false
   end
+
+  add_index "students", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
 
   create_table "tep_advisors", primary_key: "AdvisorBnum", force: true do |t|
     t.string "FirstName",  limit: 45, null: false
