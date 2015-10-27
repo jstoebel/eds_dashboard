@@ -22,7 +22,7 @@ EDS Dashboard
 
 	1) copy to db/seed.rb parts of the development database
 
-		rake db:seed:dump MODELS="BannerTerm, ExitCode, PraxisTest, Program"
+		rake db:seed:dump MODELS="Student, BannerTerm, ExitCode, PraxisTest, Program"
 
 	2) seed the test database:
 		rake db:seed RAILS_ENV=test
