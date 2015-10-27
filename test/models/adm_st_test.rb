@@ -5,6 +5,10 @@ class AdmStTest < ActiveSupport::TestCase
   #   assert true
   # end
 
+  test "needs a student" do
+  	app = AdmSt.new {Student_Bnum: }
+
+
 
   end
 end
