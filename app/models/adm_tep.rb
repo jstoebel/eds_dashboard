@@ -15,6 +15,7 @@ class AdmTep < ActiveRecord::Base
 
   belongs_to :program, {foreign_key: "Program_ProgCode"}
   belongs_to :student, {foreign_key: "Student_Bnum"}
+  belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
 
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
 
@@ -44,11 +45,6 @@ class AdmTep < ActiveRecord::Base
     #can't create a duplicate application unless all others are denied
     #find any apps matching student, program and term that are accepted
     accepted_apps = AdmTep.where(Student_Bnum: app.Student_Bnum).where(Program_ProgCode: app.Program_ProgCode).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("TEPAdmit = 1 or TEPAdmit IS NULL")
-    # puts "*"*50
-    # puts "here are accepted apps"
-    # puts accepted_apps.size
-    # puts "*"*50
-    # 1/0
 
     if accepted_apps.size > 0
       app.errors.add(:base, "Student has already been admitted or has an open applicaiton for this program in this term.")
