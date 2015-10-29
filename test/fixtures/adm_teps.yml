@@ -5,8 +5,42 @@
 # below each fixture, per the syntax in the comments below
 #
 #
-# app_one:
-#   student: candidate
-#   program: prog
-#   banner_term: term
-#   Attempt: 1
+base_app: &base
+  student: candidate
+  program: prog
+  banner_term: term
+  Attempt: 1
+  TEPAdmit: 1
+  GPA: 2.75
+  GPA_last30: 3.0 
+  EarnedCredits: 30
+  letter_file_name: "letter.docx"
+
+# gpa_good: &gpa_good
+#   GPA: 2.75
+
+# gpa_bad: &gpa_bad
+#   GPA: 2.74
+
+# gpa_30_good: &gpa_30_good
+#   GPA_last30: 3.0
+
+# gpa_30_bad: &gpa_30_bad
+#   GPA_last30: 2.99
+
+# credits_good: &
+
+# gpa_both_good:
+#   <<: *base
+#   GPA: 2.75
+#   GPA: 3.0
+
+# gpa_overall_only:
+#   <<: *base
+#   GPA: 2.75
+#   GPA: 2.99
+
+# gpa_30_only:
+#   <<: *base
+#   GPA: 2.74
+#   GPA: 3.0
