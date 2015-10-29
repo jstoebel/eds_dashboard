@@ -5,8 +5,8 @@
 # below each fixture, per the syntax in the comments below
 #
 #
-app_one:
-  student: candidate
-  program: prog
-  banner_term: term
-  Attempt: 1
+# app_one:
+#   student: candidate
+#   program: prog
+#   banner_term: term
+#   Attempt: 1
