@@ -2,13 +2,18 @@ require 'test_helper'
 
 class AdmTepTest < ActiveSupport::TestCase
 	
-	self.set_fixture_class adm_tep: AdmTep,
-							banner_terms: BannerTerm
+	# test "data are right" do
+	# 	app = AdmTep.first
+	# 	self.my_assert(app.Student_Bnum, app.student.Bnum.to_s)
+ # 	end
 
-	test "data are right" do
-		app = AdmTep.first
-		stu = Student.first
-		assert app.Student_Bnum == stu.id
- 	end
+   test "needs a program" do
+   	#test validation: needing a program.
+   	 stu = Student.first
+     app = AdmTep.new({Student_Bnum: stu.Bnum})
+     app.valid?
+     
+   end
+
 
 end
