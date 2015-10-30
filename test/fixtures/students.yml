@@ -17,3 +17,8 @@ candidate:
   <<: *base
   ProgStatus: Candidate
   AltID: 2
+
+# prospective:
+#   <<: *base
+#   ProgStatus: Prospective
+#   AltID: 3
