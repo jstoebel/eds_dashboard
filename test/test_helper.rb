@@ -13,6 +13,6 @@ class ActiveSupport::TestCase
   def py_assert(expected, actual)
   	#an assertion in the style of python unittest. 
   	#Two arguments are compared, and the error message is automaticlaly populated
-    assert(expected==actual, "Expected value #{expected.class} does not equal #{actual.class}.")
+    assert(expected==actual, "Expected value #{expected} does not equal #{actual}.")
   end
 end

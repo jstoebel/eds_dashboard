@@ -9,8 +9,8 @@ class AdmTep < ActiveRecord::Base
   belongs_to :student, {foreign_key: "Student_Bnum"}
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
 
+  #SCOPES 
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
-
   #all of a student's open programs.
   scope :open, ->(bnum) {joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)").where("prog_exits.ExitID IS NULL AND adm_tep.TEPAdmit = 1 AND adm_tep.Student_Bnum = ?", bnum)}
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
@@ -23,7 +23,7 @@ class AdmTep < ActiveRecord::Base
 
   validate :if => :check_fks do |app|
     term = BannerTerm.find(app.BannerTerm_BannerTerm)
-    next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first
+    next_term = BannerTerm.all.where("BannerTerm >?", app.BannerTerm_BannerTerm).order(:BannerTerm).first
     student = Student.find(app.Student_Bnum)
     # app.errors.add(:base, "Please select a program.") if app.Program_ProgCode.blank?
     # app.errors.add(:base, "Please select a student to apply.") if app.Student_Bnum.blank?
