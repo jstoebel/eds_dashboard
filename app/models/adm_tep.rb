@@ -13,7 +13,7 @@ class AdmTep < ActiveRecord::Base
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
   #all of a student's open programs.
   scope :open, ->(bnum) {joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)").where("prog_exits.ExitID IS NULL AND adm_tep.TEPAdmit = 1 AND adm_tep.Student_Bnum = ?", bnum)}
-  scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
+  scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}   #all applications by term
   
   has_attached_file :letter, 
   :url => "/adm_tep/:id/download",    #passes AltID 
@@ -33,8 +33,8 @@ class AdmTep < ActiveRecord::Base
     app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate and app.TEPAdmitDate >= next_term.StartDate
     
     # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
-    app.errors.add(:GPA, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
-    app.errors.add(:GPA_last30, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
+    app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
+    app.errors.add(:EarnedCredits, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
     app.errors.add(:base, "Please attach an admission letter.") if (app.letter_file_name == nil and app.TEPAdmit != nil)
     #TODO must have completed EDS150 with C or better to be admitted.
     #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
@@ -42,19 +42,19 @@ class AdmTep < ActiveRecord::Base
     #can't create a duplicate application unless all others are denied
     #find any apps matching student, program and term that are accepted
     accepted_apps = AdmTep.where(Student_Bnum: app.Student_Bnum).where(Program_ProgCode: app.Program_ProgCode).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("TEPAdmit = 1 or TEPAdmit IS NULL")
-    if accepted_apps.size > 0
+    if accepted_apps.size > 0 and app.new_record?
       app.errors.add(:base, "Student has already been admitted or has an open applicaiton for this program in this term.")
     end
 
     #make sure that there isn't an open program for this student.
     open_programs = AdmTep.open(self.Student_Bnum).where(Program_ProgCode: self.Program_ProgCode)
-    if open_programs.size > 0
-      self.errors.add(:base, "Student is already enrolled in this program." )
-    end
+    # if open_programs.size > 0 and app.new_record?
+    #   self.errors.add(:base, "Student is already enrolled in this program." )
+    # end
 
   end
 
-  after_save :change_status
+  before_save :change_status
   
   private
 
@@ -74,9 +74,12 @@ class AdmTep < ActiveRecord::Base
 
 
   def change_status
+
     #if applcation was successfully saved, change student's ProgStatus
     if self.TEPAdmit
-      self.student.update_attributes :ProgStatus => "Candidate"
+      stu = self.student
+      stu.update_attributes :ProgStatus => "Candidate"
+      # self.student.update_attributes :ProgStatus => "Candidate"
     end
   end
 

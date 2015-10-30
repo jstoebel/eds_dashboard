@@ -10,8 +10,14 @@ base_app: &base
   program: prog
   BannerTerm_BannerTerm: 201511
   Attempt: 1
-  TEPAdmit: 1
+  TEPAdmit: true
   GPA: 2.75
   GPA_last30: 3.0 
   EarnedCredits: 30
   letter_file_name: "letter.docx"
+
+pending:
+  <<: *base
+  student: base
+  TEPAdmit: Null
+
