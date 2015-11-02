@@ -14,6 +14,7 @@ base_app: &base
   BannerTerm_BannerTerm: 201511
   Attempt: 1
   STAdmitted: true
+  STAdmitDate: <%= Date.strptime("10/1/2015", "%m/%d/%Y") %>
   OverallGPA: 2.75
   CoreGPA: 3.0 
   letter_file_name: "letter.docx"

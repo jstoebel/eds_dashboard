@@ -9,6 +9,7 @@ class AdmSt < ActiveRecord::Base
 	  :path => ":rails_root/public/:bnum/adm_st_letters/:basename.:extension"	#changed path from /adm_st_letters/:bnum
   
   belongs_to :student, foreign_key: "Student_Bnum"
+  belongs_to :banner_term, foreign_key: "BannerTerm_BannerTerm"
 
 	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
 	
@@ -17,12 +18,12 @@ class AdmSt < ActiveRecord::Base
 
 
   validate :if => :check_fks do |app|
-		term = BannerTerm.find(app.BannerTerm_BannerTerm)	#current term
+		# term = BannerTerm.find(app.BannerTerm_BannerTerm)	#current term
 		next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first		#next term in sequence
 		student = Student.find(app.Student_Bnum)
-		app.errors.add(:base, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < term.StartDate
-		app.errors.add(:base, "Admission date must be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
-		app.errors.add(:base, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
+		app.errors.add(:STAdmitDate, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < app.banner_term.StartDate
+		app.errors.add(:STAdmitDate, "Admission date may not be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
+		app.errors.add(:STAdmitDate, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
     
     accepted_apps = AdmSt.where(Student_Bnum: app.Student_Bnum).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("STAdmitted = 1 or STAdmitted IS NULL")
 
