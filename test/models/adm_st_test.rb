@@ -46,6 +46,21 @@ class AdmStTest < ActiveSupport::TestCase
 		py_assert([], app.errors[:STAdmitted])
 	end
 
+	test "has open or accepted application this term" do
+		app1 = AdmSt.first
+		app2 = AdmSt.new(app1.attributes)
+		app2.valid?
+		py_assert(["Student has already been admitted or has an open applicaiton in this term."], app2.errors[:base])
+	end
+
+	test "scope by term" do
+		expected_apps = AdmSt.by_term(201511)
+		actual_apps = AdmSt.all
+
+		py_assert(expected_apps.slice(0, expected_apps.size), actual_apps.slice(0, actual_apps.size))
+
+	end
+
 
 
 
