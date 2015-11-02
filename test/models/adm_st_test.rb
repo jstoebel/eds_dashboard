@@ -43,7 +43,7 @@ class AdmStTest < ActiveSupport::TestCase
 		app = AdmSt.first
 		app.STAdmitted = false
 		app.valid?
-		py_assert()
+		py_assert([], app.errors[:STAdmitted])
 	end
 
 
