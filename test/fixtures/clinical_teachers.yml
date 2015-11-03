@@ -9,3 +9,10 @@
 #
 #
 #  column: value
+
+base: &base
+  FirstName: Jacob
+  LastName: Stoebel
+  Email: jacob.stoebel@berea.edu
+  clinical_site: one
+  Rank: 1
