@@ -11,8 +11,11 @@
 #  column: value
 
 base: &base
+  Bnum: B00123456
   FirstName: Jacob
   LastName: Stoebel
   Email: jacob.stoebel@berea.edu
+  subject: English
   clinical_site: one
   Rank: 1
+  YearsExp: 1
