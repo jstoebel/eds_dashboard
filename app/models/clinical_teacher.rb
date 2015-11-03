@@ -3,20 +3,31 @@ class ClinicalTeacher < ActiveRecord::Base
 	has_many :clinical_assignments
 	belongs_to :clinical_site
 
-  	EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
+    BNUM_REGEX = /\AB00\d{6}\Z/i
+    validates :Bnum,
+      format: {with: BNUM_REGEX,
+        message: "Please enter a valid B#, (including the B00)",
+        allow_blank: true}
+
   	validates :FirstName,
-  		:presence => {message: "Please enter a first name."}
+  		:presence => {message: "Please enter a first name."},
+      :length => {maximum: 45, message: "First name max length is 45 characters."}
 
   	validates :LastName,
-  		:presence => {message: "Please enter a last name."}
+  		:presence => {message: "Please enter a last name."},
+      :length => {maximum: 45, message: "Last name max length is 45 characters."}
 
+    EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
     validates :Email, 
       :format => {with: EMAIL_REGEX, 
-        message: "Please enter a valid email address."},
-        allow_blank: true
+        message: "Please enter a valid email address.",
+        allow_blank: true},
+      :length => {maximum: 45, message: "Email max length is 45 characters."}
+        
         
   	validates :Subject,
-  		:presence => {message: "Please enter a subject."}
+  		:presence => {message: "Please enter a subject."},
+      :length => {maximum: 45, message: "Subject max length is 45 characters."}
 
   	validates :clinical_site_id,
   		:presence => {message: "Please enter a school."}
@@ -30,8 +41,8 @@ class ClinicalTeacher < ActiveRecord::Base
       allow_blank: true
 
   	validates :YearsExp,
-  		:numericality => {only_integer: true, 
-        message: "Years of experience must be an integer."},
+  		:numericality => {greater_than: 0, 
+        message: "Years of experience must be an positive integer."},
       allow_blank: true
 
 
