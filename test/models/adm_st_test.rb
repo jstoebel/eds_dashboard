@@ -2,6 +2,14 @@ require 'test_helper'
 
 class AdmStTest < ActiveSupport::TestCase
 
+	test "check fks" do
+		app = AdmSt.new
+		app.valid?
+		py_assert(app.errors.full_messages, ["Student bnum No student selected.", "Bannerterm bannerterm No term could be determined."]
+)
+	end
+
+
 	test "valid letter" do
 		app = AdmSt.first
 		app.letter_file_name = nil
