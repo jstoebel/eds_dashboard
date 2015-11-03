@@ -9,3 +9,16 @@
 #
 #
 #  column: value
+
+base:
+  banner_term: term
+  CourseID: EDS325 
+  Level: 1
+  student: candidate
+  clinical_teacher: base
+  StartDate: <%= Date.strptime("10/01/2015", "%m/%d/%Y") %>
+  EndDate: <%= Date.strptime("11/01/2015", "%m/%d/%Y") %>
+  AltID: 1
+
+
+
