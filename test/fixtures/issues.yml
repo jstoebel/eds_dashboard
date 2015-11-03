@@ -9,3 +9,56 @@
 #
 #
 #  column: value
+
+<% 4.times do |i| %>
+<%= "issue#{i}:" %>
+  student: candidate
+  Name: issue name
+  Description: description goes here
+  tep_advisors_AdvisorBnum: "B00123456"
+
+  <% if i < 2 %>
+  Open: true
+  <% else %>
+  Open: false
+  <% end %>
+
+  <% if i % 2 == 0 %>
+  CreateDate: <%= Date.today %>
+  <% else %>
+  CreateDate: <%= Date.today + 1 %>
+  <% end %>
+
+<% end %>
+
+# one:
+#   student: candidate
+#   Name: issue name
+#   Description: description goes here
+#   tep_advisors_AdvisorBnum: "B00123456"
+#   Open: true
+#   CreateDate: <%= Date.today %>
+
+# two:
+#   student: candidate
+#   Name: issue name
+#   Description: description goes here
+#   tep_advisors_AdvisorBnum: "B00123456"
+#   Open: true
+#   CreateDate: <%= Date.today+1 %>
+
+# two:
+#   student: candidate
+#   Name: issue name
+#   Description: description goes here
+#   tep_advisors_AdvisorBnum: "B00123456"
+#   Open: false
+#   CreateDate: <%= Date.today %>
+
+# two:
+#   student: candidate
+#   Name: issue name
+#   Description: description goes here
+#   tep_advisors_AdvisorBnum: "B00123456"
+#   Open: false
+#   CreateDate: <%= Date.today %>

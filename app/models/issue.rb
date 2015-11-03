@@ -7,18 +7,23 @@ class Issue < ActiveRecord::Base
     validates :students_Bnum,
       format: {with: BNUM_REGEX,
         message: "Please enter a valid B#, (including the B00)",
-        allow_blank: true}
+        allow_blank: false}
 
 	validates :Name, 
-		:length => { maximum: 100},
-		presence: true
-
+		:length => { 
+			maximum: 100,
+			message: "Max name length is 100 characters."},
+		presence: {message: "Please provide an issue name."}
 
 	validates :Description,
-		presence: true
+		presence: {message: "Please provide an issue description."}
 
 	validates :Open,
-		inclusion: {:in => [true, false]}
+		inclusion: {
+			:in => [true, false],
+			allow_blank: false,
+			message: "Issue may only be open or closed."
+			}
 
 	validates :tep_advisors_AdvisorBnum,
 		format: {with: BNUM_REGEX,
