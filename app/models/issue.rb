@@ -3,6 +3,8 @@ class Issue < ActiveRecord::Base
 	belongs_to :student, foreign_key: 'students_Bnum'
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
 
+	scope :sorted, lambda {order(:Open => :desc, :CreateDate => :desc)}
+
     BNUM_REGEX = /\AB00\d{6}\Z/i
     validates :students_Bnum,
       format: {with: BNUM_REGEX,
@@ -30,5 +32,5 @@ class Issue < ActiveRecord::Base
         message: "Please enter a valid B#, (including the B00)",
         allow_blank: true}
 
-	scope :sorted, lambda {order(:Open => :desc, :CreateDate => :desc)}
+
 end
