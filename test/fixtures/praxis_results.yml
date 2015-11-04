@@ -11,7 +11,7 @@
 #  column: value
 one:
   Bnum: candidate
-  praxis_test: one
+  praxis_test: current
   TestDate: <% Date.today %>
   RegDate: <% Date.today %>
   PaidBy: ETS
