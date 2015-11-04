@@ -9,3 +9,10 @@
 #
 #
 #  column: value
+
+one:
+  CreateDate: <%= Date.today %>
+  UpdateName: Update1
+  Description: Update1 Description
+  issue: one
+  tep_advisors_AdvisorBnum: "B00123456"  
