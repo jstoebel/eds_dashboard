@@ -45,4 +45,5 @@ class PraxisResultTest < ActiveSupport::TestCase
 		t.valid?
 		py_assert(["Invalid payment source."], t.errors[:PaidBy])		
 	end
+
 end

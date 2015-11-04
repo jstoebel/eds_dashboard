@@ -9,3 +9,11 @@
 #
 #
 #  column: value
+
+completion:
+  ExitCode: 1849
+  ExitDiscrip: Program completion
+
+dropped:
+  ExitCode: 1829
+  ExitDiscrip: Dropped
