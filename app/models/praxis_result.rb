@@ -4,6 +4,8 @@ class PraxisResult < ActiveRecord::Base
 	has_many :praxis_subtest_results, {:foreign_key => 'praxis_results_TestID'}
 	belongs_to :praxis_test
 
+
+
 	validate do |pr|
 		pr.errors.add(:base, "Name must be selected.") if pr.Bnum.blank?	
 		pr.errors.add(:base, "Test must be selected.") if pr.TestCode.blank?

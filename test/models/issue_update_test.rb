@@ -64,4 +64,10 @@ test "advisor bnum matches regex1" do
 		t.valid?
 		py_assert([], t.errors[:tep_advisors_AdvisorBnum])		
 	end
+
+	test "scope sorted" do
+		expected = IssueUpdate.all.order(CreateDate: :desc).to_a
+		actual = IssueUpdate.all.sorted.to_a
+		py_assert(expected, actual)
+	end
 end
