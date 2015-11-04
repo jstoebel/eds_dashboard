@@ -11,11 +11,16 @@ class ProgExit < ActiveRecord::Base
 
 	after_save :change_status
 
-	#VALIDATIONS
+	#SCOPES
 	scope :by_term, ->(term) {where("ExitTerm = ?", term)}
-
+	
+	#VALIDATIONS
+	BNUM_REGEX = /\AB00\d{6}\Z/i
 	validates :Student_Bnum,
-		:presence => {message: "Please select a student."} 
+		:presence => {message: "Please select a student."},
+		format: {with: BNUM_REGEX,
+        message: "Please enter a valid B#, (including the B00)",
+        allow_blank: true}
 
 	validates :Program_ProgCode,
 		:presence => {message: "Please select a program."}
@@ -23,8 +28,10 @@ class ProgExit < ActiveRecord::Base
 	validates :ExitCode_ExitCode,
 		:presence => {message: "Please select a reason for exiting."}
 
+
 	validates :ExitDate,
 		:presence => {message: "Please select an exit date."}
+		
 
 
 	validate do |e|

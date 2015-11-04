@@ -9,3 +9,21 @@
 #
 #
 #  column: value
+
+one:
+  student: candidate
+  program: prog
+  exit_code: completion
+  ExitTerm: 201511
+  GPA: 3.0
+  GPA_last60: 3.0
+  AltID: 1
+
+# two:
+#   student: candidate
+#   program: prog2
+#   exit_code: completion
+#   ExitTerm: 201512
+#   GPA: 3.0
+#   GPA_last60: 3.0
+#   AltID: 2
