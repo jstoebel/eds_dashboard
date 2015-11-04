@@ -30,7 +30,7 @@ class Issue < ActiveRecord::Base
 	validates :tep_advisors_AdvisorBnum,
 		format: {with: BNUM_REGEX,
         message: "Please enter a valid B#, (including the B00)",
-        allow_blank: true}
+        allow_blank: false}
 
 
 end

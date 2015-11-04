@@ -9,3 +9,10 @@
 #
 #
 #  column: value
+one:
+  Bnum: candidate
+  praxis_test: one
+  TestDate: <% Date.today %>
+  RegDate: <% Date.today %>
+  PaidBy: ETS
+  AltID: 1

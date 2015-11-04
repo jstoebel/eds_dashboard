@@ -14,10 +14,8 @@ class IssueUpdate < ActiveRecord::Base
 		presence: {message: "Please provide an update description."}
 
 	validates :tep_advisors_AdvisorBnum,
-		format: {with: BNUM_REGEX,
-        message: "Please enter a valid B#, (including the B00)",
-        allow_blank: true}
-
-
-
+		format: {
+			with: BNUM_REGEX,
+        	message: "Please enter a valid B#, (including the B00)",
+        	allow_blank: false}
 end
