@@ -9,5 +9,10 @@
 #
 #
 #  column: value
-one:
-  TestName: test praxis test
+current:
+  TestName: basket weaving
+  CurrentTest: true
+
+old:
+  TestName: old basket weaving
+  CurrentTest: false
