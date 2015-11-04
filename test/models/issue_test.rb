@@ -110,11 +110,11 @@ class IssueTest < ActiveSupport::TestCase
 		py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:tep_advisors_AdvisorBnum])
 	end
 
-	test "advisor blank bnum ok" do
+	test "advisor blank bnum bad" do
 		t = Issue.first
 		t.tep_advisors_AdvisorBnum = nil
 		t.valid?
-		py_assert([], t.errors[:tep_advisors_AdvisorBnum])		
+		py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:tep_advisors_AdvisorBnum])		
 	end
 
 	test "sorted scope" do
