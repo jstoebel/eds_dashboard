@@ -130,4 +130,11 @@ class ProgExitTest < ActiveSupport::TestCase
 		exit2.valid?
 		py_assert(["Student may not be exited from a program they are not currently enrolled in."], exit2.errors[:Program_ProgCode])
 	end
+
+	# test "add term"
+	# 	exit = ProgExit.first
+	# 	e_attrib = exit.attributes
+	# 	e_attrib.delete(nil)
+	# 	exit2 = ProgExit.new(e_attrib)
+	# 	exit2. 
 end 
