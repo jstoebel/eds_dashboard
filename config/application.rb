@@ -25,5 +25,7 @@ module Eds
     #enable asset pipeline!
     config.assets.enabled = true
 
+    config.active_record.schema_format :sql
+
   end
 end

@@ -4,8 +4,15 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+#
 # column: value
 #
-two: {}
+#
 #  column: value
+one:
+  Bnum: candidate
+  praxis_test: current
+  TestDate: <% Date.today %>
+  RegDate: <% Date.today %>
+  PaidBy: ETS
+  AltID: 1

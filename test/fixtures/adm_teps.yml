@@ -4,8 +4,20 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
 #
-two: {}
-#  column: value
+base_app: &base
+  student: candidate
+  program: prog
+  BannerTerm_BannerTerm: 201511
+  Attempt: 1
+  TEPAdmit: true
+  GPA: 2.75
+  GPA_last30: 3.0 
+  EarnedCredits: 30
+  letter_file_name: "letter.docx"
+
+pending:
+  <<: *base
+  student: base
+  TEPAdmit: Null
+

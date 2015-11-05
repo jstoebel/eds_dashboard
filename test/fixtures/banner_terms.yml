@@ -4,8 +4,22 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+#
 # column: value
 #
-two: {}
+#
 #  column: value
+
+term:
+  BannerTerm: 201511
+  PlainTerm: Fall 2015
+  StartDate: <%= Date.strptime("09/01/2015", "%m/%d/%Y") %>
+  EndDate: <%= Date.strptime("12/31/2015", "%m/%d/%Y") %>
+  AYStart: 2015
+
+next_term: 
+  BannerTerm: 201512
+  PlainTerm: Spring 2016
+  StartDate: <%= Date.strptime("01/01/2016", "%m/%d/%Y") %>
+  EndDate: <%= Date.strptime("06/01/2016", "%m/%d/%Y") %>
+  AYStart: 2015
