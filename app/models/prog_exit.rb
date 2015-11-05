@@ -110,6 +110,10 @@ class ProgExit < ActiveRecord::Base
 		end
 
 		#has the student already exited this program?
+<<<<<<< HEAD
+=======
+		if 
+>>>>>>> aa4d31785c4e18116804a1e1d9f62e248cf54933
 
 	end
 
