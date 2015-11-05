@@ -19,7 +19,7 @@ EDS Dashboard
 	store password in env variables
 
 * How to run the test suite
-	
+	to create the test data base: rake test:models
 
 * Services (job queues, cache servers, search engines, etc.)
 

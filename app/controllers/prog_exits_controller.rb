@@ -49,7 +49,7 @@ class ProgExitsController < ApplicationController
     @exit.GPA_last60 = 3.0
 
     #get exit ID
-    @exit.ExitID = [@exit.Student_Bnum, @exit.Program_ProgCode, @exit.ExitTerm].join("-")
+  
 
     if @exit.save
       flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
@@ -167,7 +167,7 @@ class ProgExitsController < ApplicationController
         LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) 
         and (adm_tep.Student_Bnum = prog_exits.Student_Bnum) 
       
-        WHERE (prog_exits.ExitID IS NULL AND adm_tep.TEPAdmit = 1 )) as open_prog
+        WHERE (prog_exits.id IS NULL AND adm_tep.TEPAdmit = 1 )) as open_prog
     ) ON students.Bnum = open_prog.Student_Bnum
 )
       completers = Student.joins(join_statement).where(ProgStatus: 'Completer')

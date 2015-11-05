@@ -242,23 +242,23 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "UploadDate", null: false
   end
 
-  create_table "prog_exits", primary_key: "ExitID", force: true do |t|
+  create_table "prog_exits", id: false, force: true do |t|
+    t.integer  "id",                           null: false
     t.string   "Student_Bnum",      limit: 9,  null: false
     t.string   "Program_ProgCode",  limit: 45, null: false
     t.string   "ExitCode_ExitCode", limit: 45, null: false
-    t.integer  "ExitTerm"
+    t.integer  "ExitTerm",                     null: false
     t.datetime "ExitDate"
     t.float    "GPA",               limit: 24
     t.float    "GPA_last60",        limit: 24
     t.datetime "RecommendDate"
     t.text     "Details"
-    t.integer  "AltID",                        null: false
   end
 
-  add_index "prog_exits", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "prog_exits", ["ExitCode_ExitCode"], name: "fk_Exit_ExitCode1_idx", using: :btree
   add_index "prog_exits", ["Program_ProgCode"], name: "fk_Exit__Program_idx", using: :btree
   add_index "prog_exits", ["Student_Bnum"], name: "fk_Exit_Student1_idx", using: :btree
+  add_index "prog_exits", ["id"], name: "id", using: :btree
 
   create_table "programs", primary_key: "ProgCode", force: true do |t|
     t.string  "EPSBProgName", limit: 45
