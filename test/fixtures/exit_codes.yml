@@ -10,10 +10,10 @@
 #
 #  column: value
 
-completion:
-  ExitCode: 1849
-  ExitDiscrip: Program completion
+# completion:
+#   ExitCode: 1849
+#   ExitDiscrip: Program completion
 
-dropped:
-  ExitCode: 1826
-  ExitDiscrip: Dropped
+# dropped:
+#   ExitCode: 1826
+#   ExitDiscrip: Dropped

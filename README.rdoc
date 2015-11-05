@@ -19,7 +19,10 @@ EDS Dashboard
 	store password in env variables
 
 * How to run the test suite
-	to create the test data base: rake test:models
+
+	to create the test database:
+		create the test database -> rake db:test:prepare
+		populate the database with seed data -> rake RAILS_ENV=test db:seed 
 
 * Services (job queues, cache servers, search engines, etc.)
 
