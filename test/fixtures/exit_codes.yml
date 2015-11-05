@@ -15,5 +15,5 @@ completion:
   ExitDiscrip: Program completion
 
 dropped:
-  ExitCode: 1829
+  ExitCode: 1826
   ExitDiscrip: Dropped

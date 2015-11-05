@@ -45,8 +45,8 @@ class AdmSt < ActiveRecord::Base
 
   def check_fks
     #validate the foreign keys and return true if all are good.
-    self.errors.add(:Student_Bnum, "No student selected.") unless self.Student_Bnum
-    self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm
+    self.errors.add(:Student_Bnum, "No student selected.") if self.Student_Bnum.blank?
+    self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") if self.BannerTerm_BannerTerm.blank?
 
     if self.errors.size == 0
 
