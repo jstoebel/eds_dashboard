@@ -60,23 +60,7 @@ class ProgExitTest < ActiveSupport::TestCase
 		exit.Program_ProgCode = nil
 		exit.valid?
 		py_assert(["Please select a program."], exit.errors[:Program_ProgCode])
-		# adm = AdmTep.where(TEPAdmit: true).first		#here is a program the student was already admitted to and exit
-		# adm.Program_ProgCode = nil
-
-
-		# adm2 = AdmTep.new(adm.attributes)
-
-		# #lets find a new program to enter
-		# new_program = Program.where.not(ProgCode: adm.Program_ProgCode)
-		# adm2.Program_ProgCode = new_program
-		# adm2.TEPAdmitDate = Date.today
-
-		# #now lets exit from this program
-		# first_exit = ProgExit.first
-		# exit2 = ProgExit.new(first_exit.attributes)
-		# exit2.Program_ProgCode = nil
-		# exit2.valid?
-		# py_assert(["Please select a program."], exit2.errors[:Program_ProgCode])		
+		
 	end
 
 	test "no exit code" do
@@ -136,13 +120,14 @@ class ProgExitTest < ActiveSupport::TestCase
 		py_assert(["Student must have graduated in order to complete their program."], exit.errors[:ExitCode_ExitCode])
 	end
 
-	test "no exit if not admitted"
-
 	test "no exit if not enrolled" do
 		exit = ProgExit.first
-		exit2 = ProgExit.new(exit.attributes)		#try to exit from the same program a second time.
+		e_attrib = exit.attributes
+		e_attrib.delete(nil)
+		exit2 = ProgExit.new(e_attrib)		#try to exit from the same program a second time.
+		# exit2.Program_ProgCode = "basket weaving"
 		# exit2.Program_ProgCode = "something else"
 		exit2.valid?
-		py_assert(["Student may not be exited from a program that they are not currently enrolled in."], exit2.errors[:Program_ProgCode])
+		py_assert(["Student may not be exited from a program they are not currently enrolled in."], exit2.errors[:Program_ProgCode])
 	end
 end 

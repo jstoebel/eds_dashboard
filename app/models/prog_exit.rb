@@ -33,7 +33,7 @@ class ProgExit < ActiveRecord::Base
 		
 
 	#ADVANCED VALIDATIONS
-	validate :if => :check_fks do |e|
+	validate :if => :check_basics do |e|
 		#GPA must be 2.5 or 3.0 in last 60 credit hours.
 		e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") if (e.GPA < 2.5 and e.GPA_last60 < 3.0) 
 		
@@ -53,34 +53,31 @@ class ProgExit < ActiveRecord::Base
 		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == '1849' and student.EnrollmentStatus != 'Graduation'
 
 		#security validations. Won't come up in typical user experience.
+		check_open if e.new_record?		#if record is new, let's make sure that we are closing an open program
 
-		#
+		# student = Student.where("Bnum = ?", e.Student_Bnum).first
+		# if student.kind_of?(Student) and not ["", nil].include?(e.Program_ProgCode) 	#only look for admitted programs if a student was found. If no student wasn't found this isn't a threat anyway.
+		# 	admitted_programs = student.adm_tep.admitted
+		# 	#make sure we are exiting a student from a program they are admitted to 
+		# 	e.errors.add(:Program_ProgCode, "Student may not be exited from a program they have not been admitted to.") unless ((admitted_programs.map {|p| p.Program_ProgCode}.include?(e.Program_ProgCode)))
+		# end
 
+		# #make sure that we are exiting from program that was open
+	 #    stu = e.student
+	 #    if stu
+		#     open_admissions = AdmTep.open(stu.Bnum)
+		#     open_programs = open_admissions.map { |i| i.program.ProgCode }
 
-
-		student = Student.where("Bnum = ?", e.Student_Bnum).first
-		if student.kind_of?(Student) and not ["", nil].include?(e.Program_ProgCode) 	#only look for admitted programs if a student was found. If no student wasn't found this isn't a threat anyway.
-			admitted_programs = student.adm_tep.admitted
-			#make sure we are exiting a student from a program they are admitted to 
-			e.errors.add(:Program_ProgCode, "Student may not be exited from a program they have not been admitted to.") unless ((admitted_programs.map {|p| p.Program_ProgCode}.include?(e.Program_ProgCode)))
-		end
-
-		#make sure that we are exiting from program that was open
-	    stu = e.student
-	    if stu
-		    open_admissions = AdmTep.open(stu.Bnum)
-		    open_programs = open_admissions.map { |i| i.program.ProgCode }
-
-		    if e.new_record? and not ["", nil].include?(e.Program_ProgCode)  and not open_programs.include?(e.Program_ProgCode)
-	    		e.errors.add(:Program_ProgCode, "Student may not be exited from a program that they are not currently enrolled in.")
-			end
-		end
+		#     if e.new_record? and not ["", nil].include?(e.Program_ProgCode)  and not open_programs.include?(e.Program_ProgCode)
+	 #    		e.errors.add(:Program_ProgCode, "Student may not be exited from a program that they are not currently enrolled in.")
+		# 	end
+		# end
 
 	end
 
 	private
 
-	def check_fks
+	def check_basics
 		#checks the presence of foreign keys before running more advanced validations.
 
     self.errors.add(:Student_Bnum, "Please select a student.") if self.Student_Bnum.blank?
@@ -96,20 +93,16 @@ class ProgExit < ActiveRecord::Base
 	end
 
 	def check_open
-		#ensures that 
-			#1) student is currently enrolled in the program they are trying to exit and 
-			#2) have already exited this program
+		#ensures that student is currently enrolled in the program they are trying to exit
 
 		stu = self.student
 		open_admissions = AdmTep.open(stu.Bnum)
-    open_programs = open_admissions.map { |i| i.program.ProgCode }
+    	open_programs = open_admissions.map { |i| i.program.ProgCode }
 
 		#does student have an admissioin to this program?
 		if not open_programs.include?(self.Program_ProgCode)
-			self.errors.add(:base, "Student may not be exited from a program they are not currently enrolled in.")
+			self.errors.add(:Program_ProgCode, "Student may not be exited from a program they are not currently enrolled in.")
 		end
-
-		#has the student already exited this program?
 
 	end
 
