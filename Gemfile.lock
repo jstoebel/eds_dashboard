@@ -48,6 +48,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    db_fixtures_dump (0.1.1)
     erubis (2.7.0)
     execjs (2.5.2)
     hike (1.2.3)
@@ -132,6 +133,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap-sass
   coffee-rails (~> 4.0.0)
+  db_fixtures_dump
   jbuilder (~> 2.0)
   jquery-rails
   mysql2
