@@ -12,14 +12,23 @@ EDS Dashboard
 
 * Database creation
 
-	create a dump.sql file from Jacob's localhost
+	Initial migration
+	In windows: create a duml.sql file from access
+
+	In Linux (localhost): 
+		1) create movedb
+		2) Create development database using the included mwb file.
+		3) run migration script to migrate data to eds on production server
+		4) if you can't figure that out: migrate data to localhost, dump sql and upload using PHPMyAdmin
 
 * Database initialization
 
-	store password in env variables
 
 * How to run the test suite
-	to create the test data base: rake test:models
+
+	to create the test database:
+		To ensure test fixtures are up to date:
+			rake db: fixtures:dump_yaml	-> this will pull data from development db and create fixtures for unit tests
 
 * Services (job queues, cache servers, search engines, etc.)
 
