@@ -1,11 +1,9 @@
-
 BannerTerm_1:
   BannerTerm: 1
   PlainTerm: Begin Time
   StartDate: 1900-01-01 00:00:00.000000000 Z
   EndDate: 1900-12-30 00:00:00.000000000 Z
   AYStart: 0
-
 
 BannerTerm_2:
   BannerTerm: 195301
@@ -14,14 +12,12 @@ BannerTerm_2:
   EndDate: 1954-01-29 00:00:00.000000000 Z
   AYStart: 1953
 
-
 BannerTerm_3:
   BannerTerm: 195303
   PlainTerm: Spring 1954
   StartDate: 1954-02-05 00:00:00.000000000 Z
   EndDate: 1954-06-04 00:00:00.000000000 Z
   AYStart: 1953
-
 
 BannerTerm_4:
   BannerTerm: 195304
@@ -30,14 +26,12 @@ BannerTerm_4:
   EndDate: 1954-08-07 00:00:00.000000000 Z
   AYStart: 1953
 
-
 BannerTerm_5:
   BannerTerm: 195401
   PlainTerm: Fall 1954
   StartDate: 1954-09-17 00:00:00.000000000 Z
   EndDate: 1955-01-28 00:00:00.000000000 Z
   AYStart: 1954
-
 
 BannerTerm_6:
   BannerTerm: 195403
@@ -46,14 +40,12 @@ BannerTerm_6:
   EndDate: 1955-06-03 00:00:00.000000000 Z
   AYStart: 1954
 
-
 BannerTerm_7:
   BannerTerm: 195404
   PlainTerm: Summer 1955
   StartDate: 1955-07-04 00:00:00.000000000 Z
   EndDate: 1955-08-13 00:00:00.000000000 Z
   AYStart: 1954
-
 
 BannerTerm_8:
   BannerTerm: 195501
@@ -62,14 +54,12 @@ BannerTerm_8:
   EndDate: 1956-01-31 00:00:00.000000000 Z
   AYStart: 1955
 
-
 BannerTerm_9:
   BannerTerm: 195503
   PlainTerm: Spring 1956
   StartDate: 1956-02-06 00:00:00.000000000 Z
   EndDate: 1956-06-01 00:00:00.000000000 Z
   AYStart: 1955
-
 
 BannerTerm_10:
   BannerTerm: 195504
@@ -78,14 +68,12 @@ BannerTerm_10:
   EndDate: 1956-08-04 00:00:00.000000000 Z
   AYStart: 1955
 
-
 BannerTerm_11:
   BannerTerm: 195601
   PlainTerm: Fall 1956
   StartDate: 1956-09-21 00:00:00.000000000 Z
   EndDate: 1957-01-26 00:00:00.000000000 Z
   AYStart: 1956
-
 
 BannerTerm_12:
   BannerTerm: 195603
@@ -94,14 +82,12 @@ BannerTerm_12:
   EndDate: 1957-05-31 00:00:00.000000000 Z
   AYStart: 1956
 
-
 BannerTerm_13:
   BannerTerm: 195604
   PlainTerm: Summer 1957
   StartDate: 1957-06-10 00:00:00.000000000 Z
   EndDate: 1957-08-03 00:00:00.000000000 Z
   AYStart: 1956
-
 
 BannerTerm_14:
   BannerTerm: 195701
@@ -110,14 +96,12 @@ BannerTerm_14:
   EndDate: 1958-01-25 00:00:00.000000000 Z
   AYStart: 1957
 
-
 BannerTerm_15:
   BannerTerm: 195703
   PlainTerm: Spring 1958
   StartDate: 1958-01-31 00:00:00.000000000 Z
   EndDate: 1958-05-30 00:00:00.000000000 Z
   AYStart: 1957
-
 
 BannerTerm_16:
   BannerTerm: 195704
@@ -126,14 +110,12 @@ BannerTerm_16:
   EndDate: 1958-08-02 00:00:00.000000000 Z
   AYStart: 1957
 
-
 BannerTerm_17:
   BannerTerm: 195801
   PlainTerm: Fall 1958
   StartDate: 1958-09-19 00:00:00.000000000 Z
   EndDate: 1959-01-23 00:00:00.000000000 Z
   AYStart: 1958
-
 
 BannerTerm_18:
   BannerTerm: 195803
@@ -142,14 +124,12 @@ BannerTerm_18:
   EndDate: 1959-05-29 00:00:00.000000000 Z
   AYStart: 1958
 
-
 BannerTerm_19:
   BannerTerm: 195804
   PlainTerm: Summer 1959
   StartDate: 1959-06-08 00:00:00.000000000 Z
   EndDate: 1959-08-01 00:00:00.000000000 Z
   AYStart: 1958
-
 
 BannerTerm_20:
   BannerTerm: 195901
@@ -158,14 +138,12 @@ BannerTerm_20:
   EndDate: 1960-01-29 00:00:00.000000000 Z
   AYStart: 1959
 
-
 BannerTerm_21:
   BannerTerm: 195903
   PlainTerm: Spring 1960
   StartDate: 1960-02-05 00:00:00.000000000 Z
   EndDate: 1960-06-03 00:00:00.000000000 Z
   AYStart: 1959
-
 
 BannerTerm_22:
   BannerTerm: 195904
@@ -174,14 +152,12 @@ BannerTerm_22:
   EndDate: 1960-08-06 00:00:00.000000000 Z
   AYStart: 1959
 
-
 BannerTerm_23:
   BannerTerm: 196001
   PlainTerm: Fall 1960
   StartDate: 1960-09-16 00:00:00.000000000 Z
   EndDate: 1961-01-27 00:00:00.000000000 Z
   AYStart: 1960
-
 
 BannerTerm_24:
   BannerTerm: 196003
@@ -190,14 +166,12 @@ BannerTerm_24:
   EndDate: 1961-06-02 00:00:00.000000000 Z
   AYStart: 1960
 
-
 BannerTerm_25:
   BannerTerm: 196004
   PlainTerm: Summer 1961
   StartDate: 1961-06-12 00:00:00.000000000 Z
   EndDate: 1961-08-05 00:00:00.000000000 Z
   AYStart: 1960
-
 
 BannerTerm_26:
   BannerTerm: 196101
@@ -206,14 +180,12 @@ BannerTerm_26:
   EndDate: 1962-01-26 00:00:00.000000000 Z
   AYStart: 1961
 
-
 BannerTerm_27:
   BannerTerm: 196103
   PlainTerm: Spring 1962
   StartDate: 1962-02-02 00:00:00.000000000 Z
   EndDate: 1962-06-01 00:00:00.000000000 Z
   AYStart: 1961
-
 
 BannerTerm_28:
   BannerTerm: 196104
@@ -222,14 +194,12 @@ BannerTerm_28:
   EndDate: 1962-08-04 00:00:00.000000000 Z
   AYStart: 1961
 
-
 BannerTerm_29:
   BannerTerm: 196201
   PlainTerm: Fall 1962
   StartDate: 1962-09-14 00:00:00.000000000 Z
   EndDate: 1963-01-25 00:00:00.000000000 Z
   AYStart: 1962
-
 
 BannerTerm_30:
   BannerTerm: 196203
@@ -238,14 +208,12 @@ BannerTerm_30:
   EndDate: 1963-05-31 00:00:00.000000000 Z
   AYStart: 1962
 
-
 BannerTerm_31:
   BannerTerm: 196204
   PlainTerm: Summer 1963
   StartDate: 1963-06-10 00:00:00.000000000 Z
   EndDate: 1963-08-03 00:00:00.000000000 Z
   AYStart: 1962
-
 
 BannerTerm_32:
   BannerTerm: 196301
@@ -254,14 +222,12 @@ BannerTerm_32:
   EndDate: 1964-01-24 00:00:00.000000000 Z
   AYStart: 1963
 
-
 BannerTerm_33:
   BannerTerm: 196303
   PlainTerm: Spring 1964
   StartDate: 1964-01-31 00:00:00.000000000 Z
   EndDate: 1964-05-29 00:00:00.000000000 Z
   AYStart: 1963
-
 
 BannerTerm_34:
   BannerTerm: 196304
@@ -270,14 +236,12 @@ BannerTerm_34:
   EndDate: 1964-08-01 00:00:00.000000000 Z
   AYStart: 1963
 
-
 BannerTerm_35:
   BannerTerm: 196401
   PlainTerm: Fall 1964
   StartDate: 1964-09-18 00:00:00.000000000 Z
   EndDate: 1964-01-29 00:00:00.000000000 Z
   AYStart: 1964
-
 
 BannerTerm_36:
   BannerTerm: 196403
@@ -286,14 +250,12 @@ BannerTerm_36:
   EndDate: 1965-06-04 00:00:00.000000000 Z
   AYStart: 1964
 
-
 BannerTerm_37:
   BannerTerm: 196404
   PlainTerm: Summer 1965
   StartDate: 1965-06-14 00:00:00.000000000 Z
   EndDate: 1965-08-07 00:00:00.000000000 Z
   AYStart: 1964
-
 
 BannerTerm_38:
   BannerTerm: 196501
@@ -302,14 +264,12 @@ BannerTerm_38:
   EndDate: 1965-01-28 00:00:00.000000000 Z
   AYStart: 1965
 
-
 BannerTerm_39:
   BannerTerm: 196503
   PlainTerm: Spring 1966
   StartDate: 1966-02-04 00:00:00.000000000 Z
   EndDate: 1966-06-03 00:00:00.000000000 Z
   AYStart: 1965
-
 
 BannerTerm_40:
   BannerTerm: 196504
@@ -318,14 +278,12 @@ BannerTerm_40:
   EndDate: 1966-08-06 00:00:00.000000000 Z
   AYStart: 1965
 
-
 BannerTerm_41:
   BannerTerm: 196601
   PlainTerm: Fall 1966
   StartDate: 1966-09-16 00:00:00.000000000 Z
   EndDate: 1967-01-27 00:00:00.000000000 Z
   AYStart: 1966
-
 
 BannerTerm_42:
   BannerTerm: 196603
@@ -334,14 +292,12 @@ BannerTerm_42:
   EndDate: 1967-06-02 00:00:00.000000000 Z
   AYStart: 1966
 
-
 BannerTerm_43:
   BannerTerm: 196604
   PlainTerm: Summer 1967
   StartDate: 1967-06-12 00:00:00.000000000 Z
   EndDate: 1967-08-05 00:00:00.000000000 Z
   AYStart: 1966
-
 
 BannerTerm_44:
   BannerTerm: 196701
@@ -350,14 +306,12 @@ BannerTerm_44:
   EndDate: 1968-01-26 00:00:00.000000000 Z
   AYStart: 1967
 
-
 BannerTerm_45:
   BannerTerm: 196703
   PlainTerm: Spring 1968
   StartDate: 1968-02-02 00:00:00.000000000 Z
   EndDate: 1968-05-31 00:00:00.000000000 Z
   AYStart: 1967
-
 
 BannerTerm_46:
   BannerTerm: 196704
@@ -366,14 +320,12 @@ BannerTerm_46:
   EndDate: 1968-08-03 00:00:00.000000000 Z
   AYStart: 1967
 
-
 BannerTerm_47:
   BannerTerm: 196801
   PlainTerm: Fall 1968
   StartDate: 1968-09-13 00:00:00.000000000 Z
   EndDate: 1969-01-24 00:00:00.000000000 Z
   AYStart: 1968
-
 
 BannerTerm_48:
   BannerTerm: 196803
@@ -382,14 +334,12 @@ BannerTerm_48:
   EndDate: 1969-05-30 00:00:00.000000000 Z
   AYStart: 1968
 
-
 BannerTerm_49:
   BannerTerm: 196804
   PlainTerm: Summer 1969
   StartDate: 1969-06-09 00:00:00.000000000 Z
   EndDate: 1969-08-02 00:00:00.000000000 Z
   AYStart: 1968
-
 
 BannerTerm_50:
   BannerTerm: 196901
@@ -398,14 +348,12 @@ BannerTerm_50:
   EndDate: 1970-01-23 00:00:00.000000000 Z
   AYStart: 1969
 
-
 BannerTerm_51:
   BannerTerm: 196902
   PlainTerm: Short Term 70
   StartDate: 1970-01-02 00:00:00.000000000 Z
   EndDate: 1970-01-31 00:00:00.000000000 Z
   AYStart: 1969
-
 
 BannerTerm_52:
   BannerTerm: 196903
@@ -414,14 +362,12 @@ BannerTerm_52:
   EndDate: 1970-05-29 00:00:00.000000000 Z
   AYStart: 1969
 
-
 BannerTerm_53:
   BannerTerm: 196904
   PlainTerm: Summer 1970
   StartDate: 1970-06-08 00:00:00.000000000 Z
   EndDate: 1970-08-01 00:00:00.000000000 Z
   AYStart: 1969
-
 
 BannerTerm_54:
   BannerTerm: 197001
@@ -430,14 +376,12 @@ BannerTerm_54:
   EndDate: 1970-12-19 00:00:00.000000000 Z
   AYStart: 1970
 
-
 BannerTerm_55:
   BannerTerm: 197002
   PlainTerm: Short Term 71
   StartDate: 1971-01-04 00:00:00.000000000 Z
   EndDate: 1971-01-30 00:00:00.000000000 Z
   AYStart: 1970
-
 
 BannerTerm_56:
   BannerTerm: 197003
@@ -446,14 +390,12 @@ BannerTerm_56:
   EndDate: 1971-05-21 00:00:00.000000000 Z
   AYStart: 1970
 
-
 BannerTerm_57:
   BannerTerm: 197004
   PlainTerm: Summer 1971
   StartDate: 1971-05-31 00:00:00.000000000 Z
   EndDate: 1971-07-23 00:00:00.000000000 Z
   AYStart: 1970
-
 
 BannerTerm_58:
   BannerTerm: 197101
@@ -462,14 +404,12 @@ BannerTerm_58:
   EndDate: 1971-12-18 00:00:00.000000000 Z
   AYStart: 1971
 
-
 BannerTerm_59:
   BannerTerm: 197102
   PlainTerm: Short Term 72
   StartDate: 1972-01-03 00:00:00.000000000 Z
   EndDate: 1972-01-29 00:00:00.000000000 Z
   AYStart: 1971
-
 
 BannerTerm_60:
   BannerTerm: 197103
@@ -478,14 +418,12 @@ BannerTerm_60:
   EndDate: 1972-05-19 00:00:00.000000000 Z
   AYStart: 1971
 
-
 BannerTerm_61:
   BannerTerm: 197104
   PlainTerm: Summer 1972
   StartDate: 1972-05-29 00:00:00.000000000 Z
   EndDate: 1972-07-22 00:00:00.000000000 Z
   AYStart: 1971
-
 
 BannerTerm_62:
   BannerTerm: 197105
@@ -494,14 +432,12 @@ BannerTerm_62:
   EndDate: 1972-07-08 00:00:00.000000000 Z
   AYStart: 1971
 
-
 BannerTerm_63:
   BannerTerm: 197201
   PlainTerm: Fall 1972
   StartDate: 1972-09-11 00:00:00.000000000 Z
   EndDate: 1972-12-22 00:00:00.000000000 Z
   AYStart: 1972
-
 
 BannerTerm_64:
   BannerTerm: 197202
@@ -510,14 +446,12 @@ BannerTerm_64:
   EndDate: 1973-02-03 00:00:00.000000000 Z
   AYStart: 1972
 
-
 BannerTerm_65:
   BannerTerm: 197203
   PlainTerm: Spring 1973
   StartDate: 1973-02-09 00:00:00.000000000 Z
   EndDate: 1973-05-25 00:00:00.000000000 Z
   AYStart: 1972
-
 
 BannerTerm_66:
   BannerTerm: 197204
@@ -526,14 +460,12 @@ BannerTerm_66:
   EndDate: 1973-07-27 00:00:00.000000000 Z
   AYStart: 1972
 
-
 BannerTerm_67:
   BannerTerm: 197205
   PlainTerm: Rising Snrs 1973
   StartDate: 1973-06-10 00:00:00.000000000 Z
   EndDate: 1973-07-07 00:00:00.000000000 Z
   AYStart: 1972
-
 
 BannerTerm_68:
   BannerTerm: 197301
@@ -542,14 +474,12 @@ BannerTerm_68:
   EndDate: 1973-12-20 00:00:00.000000000 Z
   AYStart: 1973
 
-
 BannerTerm_69:
   BannerTerm: 197302
   PlainTerm: Short Term 74
   StartDate: 1974-01-07 00:00:00.000000000 Z
   EndDate: 1974-02-02 00:00:00.000000000 Z
   AYStart: 1973
-
 
 BannerTerm_70:
   BannerTerm: 197303
@@ -558,14 +488,12 @@ BannerTerm_70:
   EndDate: 1974-05-02 00:00:00.000000000 Z
   AYStart: 1973
 
-
 BannerTerm_71:
   BannerTerm: 197304
   PlainTerm: Summer 1974
   StartDate: 1974-06-03 00:00:00.000000000 Z
   EndDate: 1974-07-26 00:00:00.000000000 Z
   AYStart: 1973
-
 
 BannerTerm_72:
   BannerTerm: 197305
@@ -574,14 +502,12 @@ BannerTerm_72:
   EndDate: 1974-07-06 00:00:00.000000000 Z
   AYStart: 1973
 
-
 BannerTerm_73:
   BannerTerm: 197401
   PlainTerm: Fall 1974
   StartDate: 1974-09-09 00:00:00.000000000 Z
   EndDate: 1974-12-19 00:00:00.000000000 Z
   AYStart: 1974
-
 
 BannerTerm_74:
   BannerTerm: 197402
@@ -590,14 +516,12 @@ BannerTerm_74:
   EndDate: 1975-02-01 00:00:00.000000000 Z
   AYStart: 1974
 
-
 BannerTerm_75:
   BannerTerm: 197403
   PlainTerm: Spring 1975
   StartDate: 1975-02-07 00:00:00.000000000 Z
   EndDate: 1975-05-23 00:00:00.000000000 Z
   AYStart: 1974
-
 
 BannerTerm_76:
   BannerTerm: 197404
@@ -606,14 +530,12 @@ BannerTerm_76:
   EndDate: 1975-07-25 00:00:00.000000000 Z
   AYStart: 1974
 
-
 BannerTerm_77:
   BannerTerm: 197405
   PlainTerm: Rising Snr 1975
   StartDate: 1975-06-08 00:00:00.000000000 Z
   EndDate: 1975-07-05 00:00:00.000000000 Z
   AYStart: 1974
-
 
 BannerTerm_78:
   BannerTerm: 197501
@@ -622,14 +544,12 @@ BannerTerm_78:
   EndDate: 1975-12-19 00:00:00.000000000 Z
   AYStart: 1975
 
-
 BannerTerm_79:
   BannerTerm: 197502
   PlainTerm: Short Term 76
   StartDate: 1976-01-05 00:00:00.000000000 Z
   EndDate: 1976-01-30 00:00:00.000000000 Z
   AYStart: 1975
-
 
 BannerTerm_80:
   BannerTerm: 197503
@@ -638,14 +558,12 @@ BannerTerm_80:
   EndDate: 1976-05-21 00:00:00.000000000 Z
   AYStart: 1975
 
-
 BannerTerm_81:
   BannerTerm: 197504
   PlainTerm: Summer 1976
   StartDate: 1976-06-07 00:00:00.000000000 Z
   EndDate: 1976-07-30 00:00:00.000000000 Z
   AYStart: 1975
-
 
 BannerTerm_82:
   BannerTerm: 197505
@@ -654,14 +572,12 @@ BannerTerm_82:
   EndDate: 1976-07-10 00:00:00.000000000 Z
   AYStart: 1975
 
-
 BannerTerm_83:
   BannerTerm: 197601
   PlainTerm: Fall 1976
   StartDate: 1976-09-09 00:00:00.000000000 Z
   EndDate: 1976-12-18 00:00:00.000000000 Z
   AYStart: 1976
-
 
 BannerTerm_84:
   BannerTerm: 197602
@@ -670,14 +586,12 @@ BannerTerm_84:
   EndDate: 1977-02-05 00:00:00.000000000 Z
   AYStart: 1976
 
-
 BannerTerm_85:
   BannerTerm: 197603
   PlainTerm: Spring 1977
   StartDate: 1977-02-11 00:00:00.000000000 Z
   EndDate: 1977-05-27 00:00:00.000000000 Z
   AYStart: 1976
-
 
 BannerTerm_86:
   BannerTerm: 197604
@@ -686,14 +600,12 @@ BannerTerm_86:
   EndDate: 1977-07-29 00:00:00.000000000 Z
   AYStart: 1976
 
-
 BannerTerm_87:
   BannerTerm: 197605
   PlainTerm: Rising Snr 1977
   StartDate: 1977-06-12 00:00:00.000000000 Z
   EndDate: 1977-07-09 00:00:00.000000000 Z
   AYStart: 1976
-
 
 BannerTerm_88:
   BannerTerm: 197701
@@ -702,14 +614,12 @@ BannerTerm_88:
   EndDate: 1977-12-16 00:00:00.000000000 Z
   AYStart: 1977
 
-
 BannerTerm_89:
   BannerTerm: 197702
   PlainTerm: Short Term 78
   StartDate: 1978-01-05 00:00:00.000000000 Z
   EndDate: 1978-02-01 00:00:00.000000000 Z
   AYStart: 1977
-
 
 BannerTerm_90:
   BannerTerm: 197703
@@ -718,14 +628,12 @@ BannerTerm_90:
   EndDate: 1978-05-26 00:00:00.000000000 Z
   AYStart: 1977
 
-
 BannerTerm_91:
   BannerTerm: 197704
   PlainTerm: Summer 1978
   StartDate: 1978-06-05 00:00:00.000000000 Z
   EndDate: 1978-07-28 00:00:00.000000000 Z
   AYStart: 1977
-
 
 BannerTerm_92:
   BannerTerm: 197705
@@ -734,14 +642,12 @@ BannerTerm_92:
   EndDate: 1978-07-08 00:00:00.000000000 Z
   AYStart: 1977
 
-
 BannerTerm_93:
   BannerTerm: 197801
   PlainTerm: Fall 1978
   StartDate: 1978-09-04 00:00:00.000000000 Z
   EndDate: 1978-12-15 00:00:00.000000000 Z
   AYStart: 1978
-
 
 BannerTerm_94:
   BannerTerm: 197802
@@ -750,14 +656,12 @@ BannerTerm_94:
   EndDate: 1979-01-31 00:00:00.000000000 Z
   AYStart: 1978
 
-
 BannerTerm_95:
   BannerTerm: 197803
   PlainTerm: Spring 1979
   StartDate: 1979-02-07 00:00:00.000000000 Z
   EndDate: 1979-05-25 00:00:00.000000000 Z
   AYStart: 1978
-
 
 BannerTerm_96:
   BannerTerm: 197804
@@ -766,14 +670,12 @@ BannerTerm_96:
   EndDate: 1979-06-27 00:00:00.000000000 Z
   AYStart: 1978
 
-
 BannerTerm_97:
   BannerTerm: 197805
   PlainTerm: Rising Snr 1979
   StartDate: 1979-06-10 00:00:00.000000000 Z
   EndDate: 1979-07-17 00:00:00.000000000 Z
   AYStart: 1978
-
 
 BannerTerm_98:
   BannerTerm: 197901
@@ -782,14 +684,12 @@ BannerTerm_98:
   EndDate: 1979-12-20 00:00:00.000000000 Z
   AYStart: 1979
 
-
 BannerTerm_99:
   BannerTerm: 197902
   PlainTerm: Short Term 80
   StartDate: 1980-01-03 00:00:00.000000000 Z
   EndDate: 1980-01-30 00:00:00.000000000 Z
   AYStart: 1979
-
 
 BannerTerm_100:
   BannerTerm: 197903
@@ -798,14 +698,12 @@ BannerTerm_100:
   EndDate: 1980-05-22 00:00:00.000000000 Z
   AYStart: 1979
 
-
 BannerTerm_101:
   BannerTerm: 197904
   PlainTerm: Summer 1980
   StartDate: 1980-06-09 00:00:00.000000000 Z
   EndDate: 1980-08-01 00:00:00.000000000 Z
   AYStart: 1979
-
 
 BannerTerm_102:
   BannerTerm: 197905
@@ -814,14 +712,12 @@ BannerTerm_102:
   EndDate: 1980-07-11 00:00:00.000000000 Z
   AYStart: 1979
 
-
 BannerTerm_103:
   BannerTerm: 198001
   PlainTerm: Fall 1980
   StartDate: 1980-09-05 00:00:00.000000000 Z
   EndDate: 1980-12-18 00:00:00.000000000 Z
   AYStart: 1980
-
 
 BannerTerm_104:
   BannerTerm: 198002
@@ -830,14 +726,12 @@ BannerTerm_104:
   EndDate: 1981-01-30 00:00:00.000000000 Z
   AYStart: 1980
 
-
 BannerTerm_105:
   BannerTerm: 198003
   PlainTerm: Spring 1981
   StartDate: 1981-02-06 00:00:00.000000000 Z
   EndDate: 1981-05-22 00:00:00.000000000 Z
   AYStart: 1980
-
 
 BannerTerm_106:
   BannerTerm: 198004
@@ -846,14 +740,12 @@ BannerTerm_106:
   EndDate: 1981-07-31 00:00:00.000000000 Z
   AYStart: 1980
 
-
 BannerTerm_107:
   BannerTerm: 198005
   PlainTerm: Rising Snr 81
   StartDate: 1981-06-14 00:00:00.000000000 Z
   EndDate: 1981-07-10 00:00:00.000000000 Z
   AYStart: 1980
-
 
 BannerTerm_108:
   BannerTerm: 198101
@@ -862,14 +754,12 @@ BannerTerm_108:
   EndDate: 1981-12-17 00:00:00.000000000 Z
   AYStart: 1981
 
-
 BannerTerm_109:
   BannerTerm: 198102
   PlainTerm: Short Term 82
   StartDate: 1982-01-04 00:00:00.000000000 Z
   EndDate: 1982-01-29 00:00:00.000000000 Z
   AYStart: 1981
-
 
 BannerTerm_110:
   BannerTerm: 198103
@@ -878,14 +768,12 @@ BannerTerm_110:
   EndDate: 1982-05-21 00:00:00.000000000 Z
   AYStart: 1981
 
-
 BannerTerm_111:
   BannerTerm: 198104
   PlainTerm: Summer 1982
   StartDate: 1982-06-07 00:00:00.000000000 Z
   EndDate: 1982-07-30 00:00:00.000000000 Z
   AYStart: 1981
-
 
 BannerTerm_112:
   BannerTerm: 198105
@@ -894,14 +782,12 @@ BannerTerm_112:
   EndDate: 1982-07-09 00:00:00.000000000 Z
   AYStart: 1981
 
-
 BannerTerm_113:
   BannerTerm: 198201
   PlainTerm: Fall 1982
   StartDate: 1982-09-03 00:00:00.000000000 Z
   EndDate: 1982-12-16 00:00:00.000000000 Z
   AYStart: 1982
-
 
 BannerTerm_114:
   BannerTerm: 198202
@@ -910,14 +796,12 @@ BannerTerm_114:
   EndDate: 1983-01-28 00:00:00.000000000 Z
   AYStart: 1982
 
-
 BannerTerm_115:
   BannerTerm: 198203
   PlainTerm: Spring 1983
   StartDate: 1983-02-04 00:00:00.000000000 Z
   EndDate: 1983-05-20 00:00:00.000000000 Z
   AYStart: 1982
-
 
 BannerTerm_116:
   BannerTerm: 198204
@@ -926,14 +810,12 @@ BannerTerm_116:
   EndDate: 1983-07-29 00:00:00.000000000 Z
   AYStart: 1982
 
-
 BannerTerm_117:
   BannerTerm: 198205
   PlainTerm: Rising Snr 83
   StartDate: 1983-06-12 00:00:00.000000000 Z
   EndDate: 1983-07-08 00:00:00.000000000 Z
   AYStart: 1982
-
 
 BannerTerm_118:
   BannerTerm: 198301
@@ -942,14 +824,12 @@ BannerTerm_118:
   EndDate: 1983-12-22 00:00:00.000000000 Z
   AYStart: 1983
 
-
 BannerTerm_119:
   BannerTerm: 198302
   PlainTerm: Short Term 84
   StartDate: 1984-01-05 00:00:00.000000000 Z
   EndDate: 1984-02-01 00:00:00.000000000 Z
   AYStart: 1983
-
 
 BannerTerm_120:
   BannerTerm: 198303
@@ -958,14 +838,12 @@ BannerTerm_120:
   EndDate: 1984-05-24 00:00:00.000000000 Z
   AYStart: 1983
 
-
 BannerTerm_121:
   BannerTerm: 198304
   PlainTerm: Summer 1984
   StartDate: 1984-06-05 00:00:00.000000000 Z
   EndDate: 1984-07-31 00:00:00.000000000 Z
   AYStart: 1983
-
 
 BannerTerm_122:
   BannerTerm: 198305
@@ -974,14 +852,12 @@ BannerTerm_122:
   EndDate: 1984-07-06 00:00:00.000000000 Z
   AYStart: 1983
 
-
 BannerTerm_123:
   BannerTerm: 198401
   PlainTerm: Fall 1984
   StartDate: 1984-09-05 00:00:00.000000000 Z
   EndDate: 1984-12-20 00:00:00.000000000 Z
   AYStart: 1984
-
 
 BannerTerm_124:
   BannerTerm: 198402
@@ -990,14 +866,12 @@ BannerTerm_124:
   EndDate: 1985-01-30 00:00:00.000000000 Z
   AYStart: 1984
 
-
 BannerTerm_125:
   BannerTerm: 198403
   PlainTerm: Spring 1985
   StartDate: 1985-02-04 00:00:00.000000000 Z
   EndDate: 1985-05-23 00:00:00.000000000 Z
   AYStart: 1984
-
 
 BannerTerm_126:
   BannerTerm: 198404
@@ -1006,14 +880,12 @@ BannerTerm_126:
   EndDate: 1985-08-01 00:00:00.000000000 Z
   AYStart: 1984
 
-
 BannerTerm_127:
   BannerTerm: 198405
   PlainTerm: Rising Snr 85
   StartDate: 1985-06-09 00:00:00.000000000 Z
   EndDate: 1985-07-03 00:00:00.000000000 Z
   AYStart: 1984
-
 
 BannerTerm_128:
   BannerTerm: 198501
@@ -1022,14 +894,12 @@ BannerTerm_128:
   EndDate: 1985-12-19 00:00:00.000000000 Z
   AYStart: 1985
 
-
 BannerTerm_129:
   BannerTerm: 198502
   PlainTerm: Short Term 86
   StartDate: 1986-01-03 00:00:00.000000000 Z
   EndDate: 1986-01-30 00:00:00.000000000 Z
   AYStart: 1985
-
 
 BannerTerm_130:
   BannerTerm: 198503
@@ -1038,14 +908,12 @@ BannerTerm_130:
   EndDate: 1986-05-22 00:00:00.000000000 Z
   AYStart: 1985
 
-
 BannerTerm_131:
   BannerTerm: 198504
   PlainTerm: Summer 1986
   StartDate: 1986-06-05 00:00:00.000000000 Z
   EndDate: 1986-08-01 00:00:00.000000000 Z
   AYStart: 1985
-
 
 BannerTerm_132:
   BannerTerm: 198505
@@ -1054,14 +922,12 @@ BannerTerm_132:
   EndDate: 1986-07-11 00:00:00.000000000 Z
   AYStart: 1985
 
-
 BannerTerm_133:
   BannerTerm: 198601
   PlainTerm: Fall 1986
   StartDate: 1986-09-05 00:00:00.000000000 Z
   EndDate: 1986-12-18 00:00:00.000000000 Z
   AYStart: 1986
-
 
 BannerTerm_134:
   BannerTerm: 198602
@@ -1070,14 +936,12 @@ BannerTerm_134:
   EndDate: 1987-01-30 00:00:00.000000000 Z
   AYStart: 1986
 
-
 BannerTerm_135:
   BannerTerm: 198603
   PlainTerm: Spring 1987
   StartDate: 1987-02-05 00:00:00.000000000 Z
   EndDate: 1987-05-21 00:00:00.000000000 Z
   AYStart: 1986
-
 
 BannerTerm_136:
   BannerTerm: 198604
@@ -1086,14 +950,12 @@ BannerTerm_136:
   EndDate: 1987-07-31 00:00:00.000000000 Z
   AYStart: 1986
 
-
 BannerTerm_137:
   BannerTerm: 198605
   PlainTerm: Challenge 1987
   StartDate: 1987-06-14 00:00:00.000000000 Z
   EndDate: 1987-07-10 00:00:00.000000000 Z
   AYStart: 1986
-
 
 BannerTerm_138:
   BannerTerm: 198701
@@ -1102,14 +964,12 @@ BannerTerm_138:
   EndDate: 1987-12-17 00:00:00.000000000 Z
   AYStart: 1987
 
-
 BannerTerm_139:
   BannerTerm: 198702
   PlainTerm: Short Term 88
   StartDate: 1988-01-04 00:00:00.000000000 Z
   EndDate: 1988-01-29 00:00:00.000000000 Z
   AYStart: 1987
-
 
 BannerTerm_140:
   BannerTerm: 198703
@@ -1118,14 +978,12 @@ BannerTerm_140:
   EndDate: 1988-05-19 00:00:00.000000000 Z
   AYStart: 1987
 
-
 BannerTerm_141:
   BannerTerm: 198704
   PlainTerm: Summer 1988
   StartDate: 1988-06-06 00:00:00.000000000 Z
   EndDate: 1988-07-29 00:00:00.000000000 Z
   AYStart: 1987
-
 
 BannerTerm_142:
   BannerTerm: 198705
@@ -1134,14 +992,12 @@ BannerTerm_142:
   EndDate: 1988-07-08 00:00:00.000000000 Z
   AYStart: 1987
 
-
 BannerTerm_143:
   BannerTerm: 198801
   PlainTerm: Fall 1988
   StartDate: 1988-09-02 00:00:00.000000000 Z
   EndDate: 1988-12-15 00:00:00.000000000 Z
   AYStart: 1988
-
 
 BannerTerm_144:
   BannerTerm: 198802
@@ -1150,14 +1006,12 @@ BannerTerm_144:
   EndDate: 1989-01-31 00:00:00.000000000 Z
   AYStart: 1988
 
-
 BannerTerm_145:
   BannerTerm: 198803
   PlainTerm: Spring 1989
   StartDate: 1989-02-06 00:00:00.000000000 Z
   EndDate: 1989-05-18 00:00:00.000000000 Z
   AYStart: 1988
-
 
 BannerTerm_146:
   BannerTerm: 198804
@@ -1166,14 +1020,12 @@ BannerTerm_146:
   EndDate: 1989-07-28 00:00:00.000000000 Z
   AYStart: 1988
 
-
 BannerTerm_147:
   BannerTerm: 198805
   PlainTerm: Challenge 1989
   StartDate: 1989-06-11 00:00:00.000000000 Z
   EndDate: 1989-07-08 00:00:00.000000000 Z
   AYStart: 1988
-
 
 BannerTerm_148:
   BannerTerm: 198901
@@ -1182,14 +1034,12 @@ BannerTerm_148:
   EndDate: 1989-12-14 00:00:00.000000000 Z
   AYStart: 1989
 
-
 BannerTerm_149:
   BannerTerm: 198902
   PlainTerm: Short Term 90
   StartDate: 1990-01-03 00:00:00.000000000 Z
   EndDate: 1990-01-30 00:00:00.000000000 Z
   AYStart: 1989
-
 
 BannerTerm_150:
   BannerTerm: 198903
@@ -1198,14 +1048,12 @@ BannerTerm_150:
   EndDate: 1990-05-24 00:00:00.000000000 Z
   AYStart: 1989
 
-
 BannerTerm_151:
   BannerTerm: 198904
   PlainTerm: Summer 1990
   StartDate: 1990-06-06 00:00:00.000000000 Z
   EndDate: 1990-07-31 00:00:00.000000000 Z
   AYStart: 1989
-
 
 BannerTerm_152:
   BannerTerm: 198905
@@ -1214,14 +1062,12 @@ BannerTerm_152:
   EndDate: 1990-07-06 00:00:00.000000000 Z
   AYStart: 1989
 
-
 BannerTerm_153:
   BannerTerm: 199001
   PlainTerm: Fall 1990
   StartDate: 1990-09-07 00:00:00.000000000 Z
   EndDate: 1990-12-20 00:00:00.000000000 Z
   AYStart: 1990
-
 
 BannerTerm_154:
   BannerTerm: 199002
@@ -1230,14 +1076,12 @@ BannerTerm_154:
   EndDate: 1991-01-30 00:00:00.000000000 Z
   AYStart: 1990
 
-
 BannerTerm_155:
   BannerTerm: 199003
   PlainTerm: Spring 1991
   StartDate: 1991-02-05 00:00:00.000000000 Z
   EndDate: 1991-05-23 00:00:00.000000000 Z
   AYStart: 1990
-
 
 BannerTerm_156:
   BannerTerm: 199004
@@ -1246,14 +1090,12 @@ BannerTerm_156:
   EndDate: 1991-08-02 00:00:00.000000000 Z
   AYStart: 1990
 
-
 BannerTerm_157:
   BannerTerm: 199005
   PlainTerm: Challenge 1991
   StartDate: 1991-06-06 00:00:00.000000000 Z
   EndDate: 1991-07-03 00:00:00.000000000 Z
   AYStart: 1990
-
 
 BannerTerm_158:
   BannerTerm: 199101
@@ -1262,14 +1104,12 @@ BannerTerm_158:
   EndDate: 1991-12-19 00:00:00.000000000 Z
   AYStart: 1991
 
-
 BannerTerm_159:
   BannerTerm: 199102
   PlainTerm: Short Term 92
   StartDate: 1992-01-03 00:00:00.000000000 Z
   EndDate: 1992-01-30 00:00:00.000000000 Z
   AYStart: 1991
-
 
 BannerTerm_160:
   BannerTerm: 199103
@@ -1278,14 +1118,12 @@ BannerTerm_160:
   EndDate: 1992-05-21 00:00:00.000000000 Z
   AYStart: 1991
 
-
 BannerTerm_161:
   BannerTerm: 199104
   PlainTerm: Summer 1992
   StartDate: 1992-06-08 00:00:00.000000000 Z
   EndDate: 1992-07-31 00:00:00.000000000 Z
   AYStart: 1991
-
 
 BannerTerm_162:
   BannerTerm: 199105
@@ -1294,14 +1132,12 @@ BannerTerm_162:
   EndDate: 1992-07-10 00:00:00.000000000 Z
   AYStart: 1991
 
-
 BannerTerm_163:
   BannerTerm: 199201
   PlainTerm: Fall 1992
   StartDate: 1992-09-04 00:00:00.000000000 Z
   EndDate: 1992-12-17 00:00:00.000000000 Z
   AYStart: 1992
-
 
 BannerTerm_164:
   BannerTerm: 199202
@@ -1310,14 +1146,12 @@ BannerTerm_164:
   EndDate: 1993-01-29 00:00:00.000000000 Z
   AYStart: 1992
 
-
 BannerTerm_165:
   BannerTerm: 199203
   PlainTerm: Spring 1993
   StartDate: 1993-02-04 00:00:00.000000000 Z
   EndDate: 1993-05-20 00:00:00.000000000 Z
   AYStart: 1992
-
 
 BannerTerm_166:
   BannerTerm: 199204
@@ -1326,14 +1160,12 @@ BannerTerm_166:
   EndDate: 1993-07-30 00:00:00.000000000 Z
   AYStart: 1992
 
-
 BannerTerm_167:
   BannerTerm: 199301
   PlainTerm: Fall 1993
   StartDate: 1993-09-03 00:00:00.000000000 Z
   EndDate: 1993-12-16 00:00:00.000000000 Z
   AYStart: 1993
-
 
 BannerTerm_168:
   BannerTerm: 199302
@@ -1342,14 +1174,12 @@ BannerTerm_168:
   EndDate: 1994-01-28 00:00:00.000000000 Z
   AYStart: 1993
 
-
 BannerTerm_169:
   BannerTerm: 199303
   PlainTerm: Spring 1994
   StartDate: 1994-02-02 00:00:00.000000000 Z
   EndDate: 1994-05-19 00:00:00.000000000 Z
   AYStart: 1993
-
 
 BannerTerm_170:
   BannerTerm: 199304
@@ -1358,14 +1188,12 @@ BannerTerm_170:
   EndDate: 1994-07-29 00:00:00.000000000 Z
   AYStart: 1993
 
-
 BannerTerm_171:
   BannerTerm: 199401
   PlainTerm: Fall 1994
   StartDate: 1994-09-01 00:00:00.000000000 Z
   EndDate: 1994-12-15 00:00:00.000000000 Z
   AYStart: 1994
-
 
 BannerTerm_172:
   BannerTerm: 199402
@@ -1374,14 +1202,12 @@ BannerTerm_172:
   EndDate: 1995-02-01 00:00:00.000000000 Z
   AYStart: 1994
 
-
 BannerTerm_173:
   BannerTerm: 199403
   PlainTerm: Spring 1995
   StartDate: 1995-02-07 00:00:00.000000000 Z
   EndDate: 1995-05-25 00:00:00.000000000 Z
   AYStart: 1994
-
 
 BannerTerm_174:
   BannerTerm: 199404
@@ -1390,14 +1216,12 @@ BannerTerm_174:
   EndDate: 1995-08-01 00:00:00.000000000 Z
   AYStart: 1994
 
-
 BannerTerm_175:
   BannerTerm: 199501
   PlainTerm: Fall 1995
   StartDate: 1995-08-31 00:00:00.000000000 Z
   EndDate: 1995-12-14 00:00:00.000000000 Z
   AYStart: 1995
-
 
 BannerTerm_176:
   BannerTerm: 199502
@@ -1406,14 +1230,12 @@ BannerTerm_176:
   EndDate: 1996-01-30 00:00:00.000000000 Z
   AYStart: 1995
 
-
 BannerTerm_177:
   BannerTerm: 199503
   PlainTerm: Spring 1996
   StartDate: 1996-02-06 00:00:00.000000000 Z
   EndDate: 1996-05-23 00:00:00.000000000 Z
   AYStart: 1995
-
 
 BannerTerm_178:
   BannerTerm: 199504
@@ -1422,14 +1244,12 @@ BannerTerm_178:
   EndDate: 1996-07-31 00:00:00.000000000 Z
   AYStart: 1995
 
-
 BannerTerm_179:
   BannerTerm: 199601
   PlainTerm: Fall 1996
   StartDate: 1996-09-05 00:00:00.000000000 Z
   EndDate: 1996-12-19 00:00:00.000000000 Z
   AYStart: 1996
-
 
 BannerTerm_180:
   BannerTerm: 199602
@@ -1438,14 +1258,12 @@ BannerTerm_180:
   EndDate: 1997-01-31 00:00:00.000000000 Z
   AYStart: 1996
 
-
 BannerTerm_181:
   BannerTerm: 199603
   PlainTerm: Spring 1997
   StartDate: 1997-02-06 00:00:00.000000000 Z
   EndDate: 1997-05-22 00:00:00.000000000 Z
   AYStart: 1996
-
 
 BannerTerm_182:
   BannerTerm: 199604
@@ -1454,14 +1272,12 @@ BannerTerm_182:
   EndDate: 1997-08-01 00:00:00.000000000 Z
   AYStart: 1996
 
-
 BannerTerm_183:
   BannerTerm: 199701
   PlainTerm: Fall 1997
   StartDate: 1997-09-01 00:00:00.000000000 Z
   EndDate: 1997-12-18 00:00:00.000000000 Z
   AYStart: 1997
-
 
 BannerTerm_184:
   BannerTerm: 199702
@@ -1470,14 +1286,12 @@ BannerTerm_184:
   EndDate: 1998-01-31 00:00:00.000000000 Z
   AYStart: 1997
 
-
 BannerTerm_185:
   BannerTerm: 199703
   PlainTerm: Spring 1998
   StartDate: 1998-02-01 00:00:00.000000000 Z
   EndDate: 1998-05-21 00:00:00.000000000 Z
   AYStart: 1997
-
 
 BannerTerm_186:
   BannerTerm: 199704
@@ -1486,14 +1300,12 @@ BannerTerm_186:
   EndDate: 1998-07-31 00:00:00.000000000 Z
   AYStart: 1997
 
-
 BannerTerm_187:
   BannerTerm: 199801
   PlainTerm: Fall 1998
   StartDate: 1998-09-01 00:00:00.000000000 Z
   EndDate: 1998-12-30 00:00:00.000000000 Z
   AYStart: 1998
-
 
 BannerTerm_188:
   BannerTerm: 199802
@@ -1502,14 +1314,12 @@ BannerTerm_188:
   EndDate: 1999-01-31 00:00:00.000000000 Z
   AYStart: 1998
 
-
 BannerTerm_189:
   BannerTerm: 199803
   PlainTerm: Spring 1999
   StartDate: 1999-01-31 00:00:00.000000000 Z
   EndDate: 1999-05-20 00:00:00.000000000 Z
   AYStart: 1998
-
 
 BannerTerm_190:
   BannerTerm: 199804
@@ -1518,14 +1328,12 @@ BannerTerm_190:
   EndDate: 1999-07-31 00:00:00.000000000 Z
   AYStart: 1998
 
-
 BannerTerm_191:
   BannerTerm: 199901
   PlainTerm: Fall 1999
   StartDate: 1999-09-01 00:00:00.000000000 Z
   EndDate: 1999-12-30 00:00:00.000000000 Z
   AYStart: 1999
-
 
 BannerTerm_192:
   BannerTerm: 199902
@@ -1534,14 +1342,12 @@ BannerTerm_192:
   EndDate: 2000-01-31 00:00:00.000000000 Z
   AYStart: 1999
 
-
 BannerTerm_193:
   BannerTerm: 199903
   PlainTerm: Spring 2000
   StartDate: 2000-02-01 00:00:00.000000000 Z
   EndDate: 2000-05-18 00:00:00.000000000 Z
   AYStart: 1999
-
 
 BannerTerm_194:
   BannerTerm: 199904
@@ -1550,14 +1356,12 @@ BannerTerm_194:
   EndDate: 2000-07-31 00:00:00.000000000 Z
   AYStart: 1999
 
-
 BannerTerm_195:
   BannerTerm: 200001
   PlainTerm: Fall 2000
   StartDate: 2000-09-01 00:00:00.000000000 Z
   EndDate: 2000-12-30 00:00:00.000000000 Z
   AYStart: 2000
-
 
 BannerTerm_196:
   BannerTerm: 200002
@@ -1566,14 +1370,12 @@ BannerTerm_196:
   EndDate: 2001-01-31 00:00:00.000000000 Z
   AYStart: 2000
 
-
 BannerTerm_197:
   BannerTerm: 200003
   PlainTerm: Spring 2001
   StartDate: 2001-02-07 00:00:00.000000000 Z
   EndDate: 2001-05-24 00:00:00.000000000 Z
   AYStart: 2000
-
 
 BannerTerm_198:
   BannerTerm: 200004
@@ -1582,14 +1384,12 @@ BannerTerm_198:
   EndDate: 2001-07-31 00:00:00.000000000 Z
   AYStart: 2000
 
-
 BannerTerm_199:
   BannerTerm: 200101
   PlainTerm: Fall 2001
   StartDate: 2001-08-30 00:00:00.000000000 Z
   EndDate: 2001-12-13 00:00:00.000000000 Z
   AYStart: 2001
-
 
 BannerTerm_200:
   BannerTerm: 200102
@@ -1598,14 +1398,12 @@ BannerTerm_200:
   EndDate: 2002-01-31 00:00:00.000000000 Z
   AYStart: 2001
 
-
 BannerTerm_201:
   BannerTerm: 200103
   PlainTerm: Spring 2002
   StartDate: 2002-02-06 00:00:00.000000000 Z
   EndDate: 2002-05-23 00:00:00.000000000 Z
   AYStart: 2001
-
 
 BannerTerm_202:
   BannerTerm: 200104
@@ -1614,14 +1412,12 @@ BannerTerm_202:
   EndDate: 2002-07-30 00:00:00.000000000 Z
   AYStart: 2001
 
-
 BannerTerm_203:
   BannerTerm: 200201
   PlainTerm: Fall 2002
   StartDate: 2002-08-28 00:00:00.000000000 Z
   EndDate: 2002-12-12 00:00:00.000000000 Z
   AYStart: 2002
-
 
 BannerTerm_204:
   BannerTerm: 200202
@@ -1630,14 +1426,12 @@ BannerTerm_204:
   EndDate: 2003-01-30 00:00:00.000000000 Z
   AYStart: 2002
 
-
 BannerTerm_205:
   BannerTerm: 200203
   PlainTerm: Spring 2003
   StartDate: 2003-02-05 00:00:00.000000000 Z
   EndDate: 2003-05-22 00:00:00.000000000 Z
   AYStart: 2002
-
 
 BannerTerm_206:
   BannerTerm: 200204
@@ -1646,14 +1440,12 @@ BannerTerm_206:
   EndDate: 2003-07-29 00:00:00.000000000 Z
   AYStart: 2002
 
-
 BannerTerm_207:
   BannerTerm: 200301
   PlainTerm: Fall 2003
   StartDate: 2003-09-03 00:00:00.000000000 Z
   EndDate: 2003-12-18 00:00:00.000000000 Z
   AYStart: 2003
-
 
 BannerTerm_208:
   BannerTerm: 200302
@@ -1662,14 +1454,12 @@ BannerTerm_208:
   EndDate: 2004-01-30 00:00:00.000000000 Z
   AYStart: 2003
 
-
 BannerTerm_209:
   BannerTerm: 200303
   PlainTerm: Spring 2004
   StartDate: 2004-02-05 00:00:00.000000000 Z
   EndDate: 2004-05-20 00:00:00.000000000 Z
   AYStart: 2003
-
 
 BannerTerm_210:
   BannerTerm: 200304
@@ -1678,14 +1468,12 @@ BannerTerm_210:
   EndDate: 2004-07-30 00:00:00.000000000 Z
   AYStart: 2003
 
-
 BannerTerm_211:
   BannerTerm: 200401
   PlainTerm: Fall 2004
   StartDate: 2004-09-01 00:00:00.000000000 Z
   EndDate: 2004-12-16 00:00:00.000000000 Z
   AYStart: 2004
-
 
 BannerTerm_212:
   BannerTerm: 200402
@@ -1694,14 +1482,12 @@ BannerTerm_212:
   EndDate: 2005-01-28 00:00:00.000000000 Z
   AYStart: 2004
 
-
 BannerTerm_213:
   BannerTerm: 200403
   PlainTerm: Spring 2005
   StartDate: 2005-02-03 00:00:00.000000000 Z
   EndDate: 2005-05-19 00:00:00.000000000 Z
   AYStart: 2004
-
 
 BannerTerm_214:
   BannerTerm: 200404
@@ -1710,14 +1496,12 @@ BannerTerm_214:
   EndDate: 2005-07-29 00:00:00.000000000 Z
   AYStart: 2004
 
-
 BannerTerm_215:
   BannerTerm: 200501
   PlainTerm: Fall 2005
   StartDate: 2005-08-31 00:00:00.000000000 Z
   EndDate: 2005-12-15 00:00:00.000000000 Z
   AYStart: 2005
-
 
 BannerTerm_216:
   BannerTerm: 200502
@@ -1726,14 +1510,12 @@ BannerTerm_216:
   EndDate: 2006-01-27 00:00:00.000000000 Z
   AYStart: 2005
 
-
 BannerTerm_217:
   BannerTerm: 200503
   PlainTerm: Spring 2006
   StartDate: 2006-02-02 00:00:00.000000000 Z
   EndDate: 2006-05-18 00:00:00.000000000 Z
   AYStart: 2005
-
 
 BannerTerm_218:
   BannerTerm: 200504
@@ -1742,14 +1524,12 @@ BannerTerm_218:
   EndDate: 2006-07-28 00:00:00.000000000 Z
   AYStart: 2005
 
-
 BannerTerm_219:
   BannerTerm: 200601
   PlainTerm: Fall 2006
   StartDate: 2006-08-30 00:00:00.000000000 Z
   EndDate: 2006-12-14 00:00:00.000000000 Z
   AYStart: 2006
-
 
 BannerTerm_220:
   BannerTerm: 200602
@@ -1758,14 +1538,12 @@ BannerTerm_220:
   EndDate: 2007-01-31 00:00:00.000000000 Z
   AYStart: 2006
 
-
 BannerTerm_221:
   BannerTerm: 200603
   PlainTerm: Spring 2007
   StartDate: 2007-02-07 00:00:00.000000000 Z
   EndDate: 2007-05-24 00:00:00.000000000 Z
   AYStart: 2006
-
 
 BannerTerm_222:
   BannerTerm: 200604
@@ -1774,14 +1552,12 @@ BannerTerm_222:
   EndDate: 2007-07-31 00:00:00.000000000 Z
   AYStart: 2006
 
-
 BannerTerm_223:
   BannerTerm: 200701
   PlainTerm: Fall 2007
   StartDate: 2007-08-29 00:00:00.000000000 Z
   EndDate: 2007-12-13 00:00:00.000000000 Z
   AYStart: 2007
-
 
 BannerTerm_224:
   BannerTerm: 200702
@@ -1790,14 +1566,12 @@ BannerTerm_224:
   EndDate: 2008-01-31 00:00:00.000000000 Z
   AYStart: 2007
 
-
 BannerTerm_225:
   BannerTerm: 200703
   PlainTerm: Spring 2008
   StartDate: 2008-02-06 00:00:00.000000000 Z
   EndDate: 2008-05-22 00:00:00.000000000 Z
   AYStart: 2007
-
 
 BannerTerm_226:
   BannerTerm: 200704
@@ -1806,14 +1580,12 @@ BannerTerm_226:
   EndDate: 2008-07-29 00:00:00.000000000 Z
   AYStart: 2007
 
-
 BannerTerm_227:
   BannerTerm: 200801
   PlainTerm: Fall 2008
   StartDate: 2008-08-27 00:00:00.000000000 Z
   EndDate: 2008-12-12 00:00:00.000000000 Z
   AYStart: 2008
-
 
 BannerTerm_228:
   BannerTerm: 200802
@@ -1822,14 +1594,12 @@ BannerTerm_228:
   EndDate: 2009-01-30 00:00:00.000000000 Z
   AYStart: 2008
 
-
 BannerTerm_229:
   BannerTerm: 200803
   PlainTerm: Spring 2009
   StartDate: 2009-02-10 00:00:00.000000000 Z
   EndDate: 2009-05-21 00:00:00.000000000 Z
   AYStart: 2008
-
 
 BannerTerm_230:
   BannerTerm: 200804
@@ -1838,14 +1608,12 @@ BannerTerm_230:
   EndDate: 2009-07-29 00:00:00.000000000 Z
   AYStart: 2008
 
-
 BannerTerm_231:
   BannerTerm: 200900
   PlainTerm: Summer Pell 09
   StartDate: 2009-06-03 00:00:00.000000000 Z
   EndDate: 2009-07-29 00:00:00.000000000 Z
   AYStart: 2009
-
 
 BannerTerm_232:
   BannerTerm: 200901
@@ -1854,14 +1622,12 @@ BannerTerm_232:
   EndDate: 2009-12-17 00:00:00.000000000 Z
   AYStart: 2009
 
-
 BannerTerm_233:
   BannerTerm: 200902
   PlainTerm: Short Term 10
   StartDate: 2010-01-04 00:00:00.000000000 Z
   EndDate: 2010-01-29 00:00:00.000000000 Z
   AYStart: 2009
-
 
 BannerTerm_234:
   BannerTerm: 200903
@@ -1870,14 +1636,12 @@ BannerTerm_234:
   EndDate: 2010-05-20 00:00:00.000000000 Z
   AYStart: 2009
 
-
 BannerTerm_235:
   BannerTerm: 200904
   PlainTerm: Summer 2010
   StartDate: 2010-06-07 00:00:00.000000000 Z
   EndDate: 2010-07-30 00:00:00.000000000 Z
   AYStart: 2009
-
 
 BannerTerm_236:
   BannerTerm: 201010
@@ -1886,14 +1650,12 @@ BannerTerm_236:
   EndDate: 2010-07-30 00:00:00.000000000 Z
   AYStart: 2010
 
-
 BannerTerm_237:
   BannerTerm: 201011
   PlainTerm: Fall 2010
   StartDate: 2010-08-26 00:00:00.000000000 Z
   EndDate: 2010-12-17 00:00:00.000000000 Z
   AYStart: 2010
-
 
 BannerTerm_238:
   BannerTerm: 201012
@@ -1902,14 +1664,12 @@ BannerTerm_238:
   EndDate: 2011-05-05 00:00:00.000000000 Z
   AYStart: 2010
 
-
 BannerTerm_239:
   BannerTerm: 201013
   PlainTerm: Sum I of 2011
   StartDate: 2011-05-11 00:00:00.000000000 Z
   EndDate: 2011-06-08 00:00:00.000000000 Z
   AYStart: 2010
-
 
 BannerTerm_240:
   BannerTerm: 201014
@@ -1918,14 +1678,12 @@ BannerTerm_240:
   EndDate: 2011-08-05 00:00:00.000000000 Z
   AYStart: 2010
 
-
 BannerTerm_241:
   BannerTerm: 201110
   PlainTerm: Sum 2011 Pell
   StartDate: 2011-05-11 00:00:00.000000000 Z
   EndDate: 2011-08-05 00:00:00.000000000 Z
   AYStart: 2011
-
 
 BannerTerm_242:
   BannerTerm: 201111
@@ -1934,14 +1692,12 @@ BannerTerm_242:
   EndDate: 2011-12-16 00:00:00.000000000 Z
   AYStart: 2011
 
-
 BannerTerm_243:
   BannerTerm: 201112
   PlainTerm: Spring 2012
   StartDate: 2012-01-10 00:00:00.000000000 Z
   EndDate: 2012-05-03 00:00:00.000000000 Z
   AYStart: 2011
-
 
 BannerTerm_244:
   BannerTerm: 201113
@@ -1950,14 +1706,12 @@ BannerTerm_244:
   EndDate: 2012-07-12 00:00:00.000000000 Z
   AYStart: 2011
 
-
 BannerTerm_245:
   BannerTerm: 201114
   PlainTerm: Sum 12-1st 4 Wk
   StartDate: 2012-05-14 00:00:00.000000000 Z
   EndDate: 2012-06-12 00:00:00.000000000 Z
   AYStart: 2011
-
 
 BannerTerm_246:
   BannerTerm: 201115
@@ -1966,14 +1720,12 @@ BannerTerm_246:
   EndDate: 2012-07-12 00:00:00.000000000 Z
   AYStart: 2011
 
-
 BannerTerm_247:
   BannerTerm: 201211
   PlainTerm: Fall 2012
   StartDate: 2012-08-22 00:00:00.000000000 Z
   EndDate: 2012-12-14 00:00:00.000000000 Z
   AYStart: 2012
-
 
 BannerTerm_248:
   BannerTerm: 201212
@@ -1982,14 +1734,12 @@ BannerTerm_248:
   EndDate: 2013-05-02 00:00:00.000000000 Z
   AYStart: 2012
 
-
 BannerTerm_249:
   BannerTerm: 201213
   PlainTerm: Sum 8 Wk-13
   StartDate: 2013-05-13 00:00:00.000000000 Z
   EndDate: 2013-07-10 00:00:00.000000000 Z
   AYStart: 2012
-
 
 BannerTerm_250:
   BannerTerm: 201214
@@ -1998,14 +1748,12 @@ BannerTerm_250:
   EndDate: 2013-06-11 00:00:00.000000000 Z
   AYStart: 2012
 
-
 BannerTerm_251:
   BannerTerm: 201215
   PlainTerm: Sum 13-2nd 4 Wk
   StartDate: 2013-06-12 00:00:00.000000000 Z
   EndDate: 2013-07-10 00:00:00.000000000 Z
   AYStart: 2012
-
 
 BannerTerm_252:
   BannerTerm: 201311
@@ -2014,14 +1762,12 @@ BannerTerm_252:
   EndDate: 2013-12-13 00:00:00.000000000 Z
   AYStart: 2013
 
-
 BannerTerm_253:
   BannerTerm: 201312
   PlainTerm: Spring 2014
   StartDate: 2014-01-07 00:00:00.000000000 Z
   EndDate: 2014-05-01 00:00:00.000000000 Z
   AYStart: 2013
-
 
 BannerTerm_254:
   BannerTerm: 201313
@@ -2030,14 +1776,12 @@ BannerTerm_254:
   EndDate: 2014-07-08 00:00:00.000000000 Z
   AYStart: 2013
 
-
 BannerTerm_255:
   BannerTerm: 201314
   PlainTerm: Sum 14-1st 4 Wk
   StartDate: 2014-05-12 00:00:00.000000000 Z
   EndDate: 2014-06-06 00:00:00.000000000 Z
   AYStart: 2013
-
 
 BannerTerm_256:
   BannerTerm: 201315
@@ -2046,14 +1790,12 @@ BannerTerm_256:
   EndDate: 2014-07-08 00:00:00.000000000 Z
   AYStart: 2013
 
-
 BannerTerm_257:
   BannerTerm: 201411
   PlainTerm: Fall 2014
   StartDate: 2014-08-20 00:00:00.000000000 Z
   EndDate: 2014-12-12 00:00:00.000000000 Z
   AYStart: 2014
-
 
 BannerTerm_258:
   BannerTerm: 201412
@@ -2062,14 +1804,12 @@ BannerTerm_258:
   EndDate: 2015-04-30 00:00:00.000000000 Z
   AYStart: 2014
 
-
 BannerTerm_259:
   BannerTerm: 201413
   PlainTerm: 8 Wk Summer Term
   StartDate: 2015-05-11 00:00:00.000000000 Z
   EndDate: 2015-07-02 00:00:00.000000000 Z
   AYStart: 2014
-
 
 BannerTerm_260:
   BannerTerm: 201414
@@ -2078,14 +1818,12 @@ BannerTerm_260:
   EndDate: 2015-06-05 00:00:00.000000000 Z
   AYStart: 2014
 
-
 BannerTerm_261:
   BannerTerm: 201415
   PlainTerm: 2nd 4 Week Summer Term
   StartDate: 2015-06-08 00:00:00.000000000 Z
   EndDate: 2015-07-02 00:00:00.000000000 Z
   AYStart: 2014
-
 
 BannerTerm_262:
   BannerTerm: 201511
@@ -2094,14 +1832,12 @@ BannerTerm_262:
   EndDate: 2015-12-17 00:00:00.000000000 Z
   AYStart: 2015
 
-
 BannerTerm_263:
   BannerTerm: 201512
   PlainTerm: Spring Term 2016
   StartDate: 2016-01-12 00:00:00.000000000 Z
   EndDate: 2016-05-05 00:00:00.000000000 Z
   AYStart: 2015
-
 
 BannerTerm_264:
   BannerTerm: 999999
