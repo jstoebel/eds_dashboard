@@ -34,6 +34,12 @@ EDS Dashboard
 
 * Deployment instructions
 
+	The following secrets need to be stored in session information:
+		--secrets_key_base under the key ENV["SECRET_KEY_BASE"]
+			--run rake secrets to generate one
+		-- database password
+		
+
 * ...
 
 
