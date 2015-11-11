@@ -12,12 +12,29 @@ EDS Dashboard
 
 * Database creation
 
-	create a dump.sql file from Jacob's localhost
+	Initial migration
+	In windows: 
+		create a dump.sql file from access using bullzip
+
+	In Linux (local machine): 
+		1) create movedb
+		2) Create development database (on development machine) using the included .mwb file.
+		3) migrate data into eds_development database using python script.
+		4) create a dump.sql file by running mysqlsump -u root -p eds_development > dump.sql
+		5) import schema and all data by copy/pasting this file in phpmyadmin 
+
+*updates the schema:
+	Because the schema for this app is complex we have opted to not use migrations and instead check in a .mwb file into the repository allowing for visual representation.  To make changes to the schema:
+
+		PLAN A:
+		1) Figure out how to connect to production db using mysql workbench.
+		2) make changes to .mwb file, run "synchonize with any source"
+
+		PLAN B (if we can't connect using mysql workbench)
+		1) update the schema using schema.rb
 
 * Database initialization
 
-	Create development database using the included mwb file.
-	store password in env variables
 
 * How to run the test suite
 
