@@ -131,10 +131,24 @@ class ProgExitTest < ActiveSupport::TestCase
 		py_assert(["Student may not be exited from a program they are not currently enrolled in."], exit2.errors[:Program_ProgCode])
 	end
 
-	# test "add term"
-	# 	exit = ProgExit.first
-	# 	e_attrib = exit.attributes
-	# 	e_attrib.delete(nil)
-	# 	exit2 = ProgExit.new(e_attrib)
-	# 	exit2. 
+	test "add term" do
+		exit = ProgExit.first
+		e_attrib = exit.attributes
+		e_attrib.delete(nil)		#there is an extra attribute laying around. don't know why.
+		exit2 = ProgExit.new(e_attrib)
+		exit2.ExitDate = Date.strptime("11/11/2015", "%m/%d/%Y")
+		exit2.save
+		py_assert(exit2.ExitTerm, 201511)
+	end
+
+	test "change status" do
+
+		stu = Student.where("ProgStatus=?", "Candidate").first
+		exit = stu.prog_exits.first		#the original exit
+		py_assert(false, exit.attributes)
+		exit2 = ProgExit.new(exit.attributes)
+
+
+	end
+
 end 

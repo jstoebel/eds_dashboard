@@ -20,6 +20,7 @@ one:
   RecommendDate: <%= Date.today + 1 %>
   GPA: 3.0
   GPA_last60: 3.0
+  
 # two:
 #   student: candidate
 #   program: prog2

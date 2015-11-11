@@ -9,6 +9,8 @@ class ProgExit < ActiveRecord::Base
 	#CALLBACKS
 	before_save :add_term
 
+	attr_accessor :spam
+
 	after_save :change_status
 
 	#SCOPES
@@ -80,16 +82,16 @@ class ProgExit < ActiveRecord::Base
 	def check_basics
 		#checks the presence of foreign keys before running more advanced validations.
 
-    self.errors.add(:Student_Bnum, "Please select a student.") if self.Student_Bnum.blank?
-    self.errors.add(:Program_ProgCode, "Please select a program.") if self.Program_ProgCode.blank?
-    self.errors.add(:ExitCode_ExitCode, "Please select an exit code.") if self.ExitCode_ExitCode.blank?
-    self.errors.add(:ExitTerm, "No exit term could be determined.") if self.ExitTerm.blank?
+	    self.errors.add(:Student_Bnum, "Please select a student.") if self.Student_Bnum.blank?
+	    self.errors.add(:Program_ProgCode, "Please select a program.") if self.Program_ProgCode.blank?
+	    self.errors.add(:ExitCode_ExitCode, "Please select an exit code.") if self.ExitCode_ExitCode.blank?
+	    self.errors.add(:ExitTerm, "No exit term could be determined.") if self.ExitTerm.blank?
 
-    if self.errors.size == 0
-      return true
-    else
-      return false
-    end
+	    if self.errors.size == 0
+	      return true
+	    else
+	      return false
+	    end
 	end
 
 	def check_open
