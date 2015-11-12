@@ -12,6 +12,8 @@ class ProgExit < ActiveRecord::Base
 	#CALLBACKS
 	before_validation :add_term
 
+	attr_accessor :spam
+
 	after_save :change_status
 
 	#SCOPES
