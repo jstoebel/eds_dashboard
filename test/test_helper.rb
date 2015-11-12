@@ -10,6 +10,8 @@ class ActiveSupport::TestCase
 							banner_terms: BannerTerm
   # Add more helper methods to be used by all tests here...
 
+  # Rails.application.load_seed   #load seed data
+
   def py_assert(expected, actual)
   	#an assertion in the style of python unittest. 
   	#Two arguments are compared, and the error message is automaticlaly populated

@@ -9,6 +9,9 @@ class AdmTep < ActiveRecord::Base
   belongs_to :student, {foreign_key: "Student_Bnum"}
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
 
+  #CALL BACKS
+  after_save :change_status
+
   #SCOPES 
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
   #all of a student's open programs.
@@ -54,7 +57,7 @@ class AdmTep < ActiveRecord::Base
 
   end
 
-  before_save :change_status
+
   
   private
 
@@ -76,9 +79,15 @@ class AdmTep < ActiveRecord::Base
   def change_status
 
     #if applcation was successfully saved, change student's ProgStatus
-    if self.TEPAdmit
+    if self.TEPAdmit == true
+
       stu = self.student
       stu.update_attributes :ProgStatus => "Candidate"
+      if stu.save
+        # puts
+        # puts "***UPDATING PROG STATUS***"
+        # puts stu.ProgStatus
+      end
       # self.student.update_attributes :ProgStatus => "Candidate"
     end
   end

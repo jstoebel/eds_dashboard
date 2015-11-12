@@ -28,14 +28,14 @@ class AdmStTest < ActiveSupport::TestCase
 
 	test "admitted too early" do
 		app = AdmSt.first
-		app.STAdmitDate = Date.strptime("8/31/2015", "%m/%d/%Y")
+		app.STAdmitDate = Date.strptime("8/25/2015", "%m/%d/%Y")
 		app.valid?
 		py_assert(["Admission date must be after term begins."], app.errors[:STAdmitDate])
 	end
 
 	test "admitted too late" do
 		app = AdmSt.first
-		app.STAdmitDate = Date.strptime("01/01/2016", "%m/%d/%Y")
+		app.STAdmitDate = Date.strptime("01/12/2016", "%m/%d/%Y")
 		app.valid?
 		py_assert(["Admission date may not be before next term begins."], app.errors[:STAdmitDate])
 	end

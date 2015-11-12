@@ -31,6 +31,8 @@ gem 'autoprefixer-rails'
 gem 'bootstrap-datepicker-rails'
 gem "paperclip", "~> 4.3"
 gem 'seed_dump'
+gem 'db_fixtures_dump'
+gem 'composite_primary_keys', '=7.0.15'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ProgExitTest < ActiveSupport::TestCase
+	fixtures :all
   # test "the truth" do
   #   assert true
   # end
@@ -10,42 +11,6 @@ class ProgExitTest < ActiveSupport::TestCase
   	actual = ProgExit.by_term(201511).to_a
   	py_assert(expected, actual)
   end
-
- #  #TESTS FOR STUDENT BNUM
-	# test "bnum matches regex1" do
-	# 	t = ProgExit.first
-	# 	t.Student_Bnum = "00123456"
-	# 	t.valid?
-	# 	py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:Student_Bnum])
-	# end
-
-	# test "bnum matches regex2" do
-	# 	t = ProgExit.first
-	# 	t.Student_Bnum = "B001234567"
-	# 	t.valid?
-	# 	py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:Student_Bnum])
-	# end
-
-	# test "bnum matches regex3" do
-	# 	t = ProgExit.first
-	# 	t.Student_Bnum = "123456"
-	# 	t.valid?
-	# 	py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:Student_Bnum])
-	# end
-
-	# test "bnum matches regex4" do
-	# 	t = ProgExit.first
-	# 	t.Student_Bnum = "B0012345"
-	# 	t.valid?
-	# 	py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:Student_Bnum])
-	# end
-
-	# test "bnum matches regex5" do
-	# 	t = ProgExit.first
-	# 	t.Student_Bnum = "completly off!"
-	# 	t.valid?
-	# 	py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:Student_Bnum])
-	# end
 
 	test "blank bnum bad" do
 		t = ProgExit.first
@@ -70,11 +35,13 @@ class ProgExitTest < ActiveSupport::TestCase
 		py_assert(["Please select an exit code."], exit.errors[:ExitCode_ExitCode])
 	end
 
-	test "no exit term" do
+	test "date out of range" do
+		#tests what happens if an out of range exit date is given 
 		exit = ProgExit.first
-		exit.ExitTerm = nil
+		exit.ExitDate = Date.strptime("01/01/3000", "%m/%d/%Y")
 		exit.valid?
-		py_assert(["No exit term could be determined."], exit.errors[:ExitTerm])
+		py_assert(["Exit date out of range."], exit.errors[:ExitDate])
+
 	end
 
 	#ADVANCED VALIDATIONS
@@ -120,14 +87,99 @@ class ProgExitTest < ActiveSupport::TestCase
 		py_assert(["Student must have graduated in order to complete their program."], exit.errors[:ExitCode_ExitCode])
 	end
 
+
 	test "no exit if not enrolled" do
+		#try to exit the prospective
+		stu = Student.where("ProgStatus=?", "Prospective").first
+		adm = stu.adm_tep.first
+		exit = ProgExit.new({
+			Student_Bnum: stu.Bnum,
+			Program_ProgCode: adm.Program_ProgCode,
+			ExitCode_ExitCode: "1849",
+			ExitTerm: 201511,
+			ExitDate: Date.today,
+			GPA: 3.0,
+			GPA_last60: 3.0
+			})
+		exit.save
+		py_assert(["Student was never admitted to this program."], exit.errors[:Program_ProgCode])
+	end
+
+	test "no exit if alread exited" do
+		exit = ProgExit.first
+		exit2 = ProgExit.new(exit.attributes.except("id"))
+		exit2.save
+		py_assert(["Student has already exited this program."], exit2.errors[:Program_ProgCode])
+	end
+
+	test "add term" do
+		exit_old = ProgExit.first
+		exit_attrs = exit_old.attributes
+		exit_old.destroy	#destroy the current record so we can recreate
+		exit_new = ProgExit.new(exit_attrs.except("id", "ExitTerm"))
+		exit_new.save
+		py_assert(exit_new.ExitTerm, 201511)
+	end
+
+	test "change status to completer" do
+
+		#admit the prospective student,
+		stu = Student.where("ProgStatus=?", "Prospective").first
+		adm_tep = AdmTep.where(Student_Bnum: stu.Bnum).first
+		adm_tep.update_attributes({:TEPAdmit => true, TEPAdmitDate: Date.today-1})
+		adm_tep.save
+
+		assert(adm_tep.student.ProgStatus=="Candidate", "Student status is not being changed to Candidate")
+
+		#change her to Graduation
+		stu.EnrollmentStatus = "Graduation"
+		stu.save
+
+		#exit as completer
+		exit = ProgExit.new
+		exit.update_attributes({Student_Bnum: stu.Bnum, Program_ProgCode: stu.programs.first.ProgCode, ExitCode_ExitCode: "1849", ExitTerm: 201511, ExitDate: Date.today, GPA: 3, GPA_last60: 3,})
+
+		py_assert("Completer", exit.student.ProgStatus)
+
+	end
+
+	test "change status to dropped" do
+		#admit the prospective student,
+		stu = Student.where("ProgStatus=?", "Prospective").first
+		adm_tep = AdmTep.where(Student_Bnum: stu.Bnum).first
+		adm_tep.update_attributes({:TEPAdmit => true, TEPAdmitDate: Date.today-1})
+		adm_tep.save
+
+		assert(adm_tep.student.ProgStatus=="Candidate", "Student status is not being changed to Candidate")
+
+		#exit as completer
+		exit = ProgExit.new
+		exit.update_attributes({Student_Bnum: stu.Bnum, Program_ProgCode: stu.programs.first.ProgCode, ExitCode_ExitCode: "1826", ExitTerm: 201511, ExitDate: Date.today, GPA: 3, GPA_last60: 3,})
+
+		py_assert("Dropped", exit.student.ProgStatus)
+	end
+
+<<<<<<< HEAD
+=======
+	test "add term" do
 		exit = ProgExit.first
 		e_attrib = exit.attributes
-		e_attrib.delete(nil)
-		exit2 = ProgExit.new(e_attrib)		#try to exit from the same program a second time.
-		# exit2.Program_ProgCode = "basket weaving"
-		# exit2.Program_ProgCode = "something else"
-		exit2.valid?
-		py_assert(["Student may not be exited from a program they are not currently enrolled in."], exit2.errors[:Program_ProgCode])
+		e_attrib.delete(nil)		#there is an extra attribute laying around. don't know why.
+		exit2 = ProgExit.new(e_attrib)
+		exit2.ExitDate = Date.strptime("11/11/2015", "%m/%d/%Y")
+		exit2.save
+		py_assert(exit2.ExitTerm, 201511)
 	end
+
+	test "change status" do
+
+		stu = Student.where("ProgStatus=?", "Candidate").first
+		exit = stu.prog_exits.first		#the original exit
+		py_assert(false, exit.attributes)
+		exit2 = ProgExit.new(exit.attributes)
+
+
+	end
+
+>>>>>>> deploy_config
 end 

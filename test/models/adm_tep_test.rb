@@ -53,7 +53,7 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "admit date too early" do
     app = AdmTep.first
-    app.TEPAdmitDate = Date.strptime("8/31/2015", "%m/%d/%Y")
+    app.TEPAdmitDate = Date.strptime("8/25/2015", "%m/%d/%Y")
     app.valid?
     py_assert(app.errors[:TEPAdmitDate], ["Admission date must be after term begins."])
 
@@ -61,7 +61,7 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "admit date too late" do
     app = AdmTep.first
-    app.TEPAdmitDate = Date.strptime("01/01/2016", "%m/%d/%Y")
+    app.TEPAdmitDate = Date.strptime("01/12/2016", "%m/%d/%Y")
     app.valid?
     py_assert(app.errors[:TEPAdmitDate], ["Admission date must be before next term begins."])
 
