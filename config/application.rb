@@ -24,7 +24,7 @@ module Eds
     
     #enable asset pipeline!
     config.assets.enabled = true
-
+    ActiveRecord::Base.schema_format = config.active_record.schema_format
     config.active_record.schema_format :sql
 
   end

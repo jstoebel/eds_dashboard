@@ -59,17 +59,17 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "adm_tep", ["Student_Bnum"], name: "fk_AdmTEP_Student1_idx", using: :btree
 
   create_table "alumni_info", primary_key: "AlumniID", force: true do |t|
-    t.string    "Student_Bnum", limit: 9,  null: false
-    t.timestamp "Date"
-    t.string    "FirstName",    limit: 45
-    t.string    "LastName",     limit: 45
-    t.string    "Email",        limit: 45
-    t.string    "Phone",        limit: 45
-    t.string    "Address1",     limit: 45
-    t.string    "Address2",     limit: 45
-    t.string    "City",         limit: 45
-    t.string    "State",        limit: 45
-    t.string    "ZIP",          limit: 45
+    t.string   "Student_Bnum", limit: 9,  null: false
+    t.datetime "Date"
+    t.string   "FirstName",    limit: 45
+    t.string   "LastName",     limit: 45
+    t.string   "Email",        limit: 45
+    t.string   "Phone",        limit: 45
+    t.string   "Address1",     limit: 45
+    t.string   "Address2",     limit: 45
+    t.string   "City",         limit: 45
+    t.string   "State",        limit: 45
+    t.string   "ZIP",          limit: 45
   end
 
   add_index "alumni_info", ["Student_Bnum"], name: "fk_AlumniInfo_Student1_idx", using: :btree
@@ -144,23 +144,23 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "forms_of_intention", ["Student_Bnum"], name: "fk_FormofIntention_Student1_idx", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
-    t.timestamp "CreateDate",                           null: false
-    t.string    "UpdateName",               limit: 100, null: false
-    t.text      "Description",                          null: false
-    t.integer   "Issues_IssueID",                       null: false
-    t.string    "tep_advisors_AdvisorBnum", limit: 45,  null: false
+    t.datetime "CreateDate",                           null: false
+    t.string   "UpdateName",               limit: 100, null: false
+    t.text     "Description",                          null: false
+    t.integer  "Issues_IssueID",                       null: false
+    t.string   "tep_advisors_AdvisorBnum", limit: 45,  null: false
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
   add_index "issue_updates", ["tep_advisors_AdvisorBnum"], name: "fk_IssueUpdates_tep_advisors1_idx", using: :btree
 
   create_table "issues", primary_key: "IssueID", force: true do |t|
-    t.timestamp "CreateDate",                                          null: false
-    t.string    "students_Bnum",            limit: 9,                  null: false
-    t.string    "Name",                     limit: 100,                null: false
-    t.text      "Description",                                         null: false
-    t.boolean   "Open",                                 default: true, null: false
-    t.string    "tep_advisors_AdvisorBnum", limit: 45,                 null: false
+    t.datetime "CreateDate",                                          null: false
+    t.string   "students_Bnum",            limit: 9,                  null: false
+    t.string   "Name",                     limit: 100,                null: false
+    t.text     "Description",                                         null: false
+    t.boolean  "Open",                                 default: true, null: false
+    t.string   "tep_advisors_AdvisorBnum", limit: 45,                 null: false
   end
 
   add_index "issues", ["students_Bnum"], name: "fk_Issues_students1_idx", using: :btree
@@ -309,11 +309,9 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "users", id: false, force: true do |t|
     t.string "UserName",               limit: 45, null: false
-    t.string "Password",               limit: 45, null: false
-    t.string "FirstName",              limit: 45, null: false
-    t.string "LastName",               limit: 45, null: false
     t.string "Email",                  limit: 45, null: false
     t.string "TEPAdvisor_AdvisorBnum", limit: 45, null: false
+    t.string "Role",                   limit: 45
   end
 
   add_index "users", ["TEPAdvisor_AdvisorBnum"], name: "fk_User_TEPAdvisor1_idx", using: :btree

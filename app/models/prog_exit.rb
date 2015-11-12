@@ -1,5 +1,8 @@
 class ProgExit < ActiveRecord::Base
 
+	#PRIMARY KEYS
+	self.primary_keys = :Student_Bnum, :Program_ProgCode, :ExitTerm
+
 
 	#RELATIONSHIPS
 	belongs_to :student, foreign_key: "Student_Bnum"
