@@ -13,7 +13,7 @@
 one:
   id: 1
   student: candidate
-  program: prog
+  Program_ProgCode: 2
   ExitCode_ExitCode: 1849
   ExitTerm: 201511
   ExitDate: <%= Date.today %>

@@ -309,9 +309,11 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "users", id: false, force: true do |t|
     t.string "UserName",               limit: 45, null: false
+    t.string "Password",               limit: 45, null: false
+    t.string "FirstName",              limit: 45, null: false
+    t.string "LastName",               limit: 45, null: false
     t.string "Email",                  limit: 45, null: false
     t.string "TEPAdvisor_AdvisorBnum", limit: 45, null: false
-    t.string "Role",                   limit: 45
   end
 
   add_index "users", ["TEPAdvisor_AdvisorBnum"], name: "fk_User_TEPAdvisor1_idx", using: :btree

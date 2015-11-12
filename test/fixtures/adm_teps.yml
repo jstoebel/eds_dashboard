@@ -7,7 +7,7 @@
 #
 base_app: &base
   student: candidate
-  program: prog
+  Program_ProgCode: 2
   BannerTerm_BannerTerm: 201511
   Attempt: 1
   TEPAdmit: true

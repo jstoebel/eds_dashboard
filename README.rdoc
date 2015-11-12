@@ -39,7 +39,9 @@ EDS Dashboard
 * How to run the test suite
 
 	to create the test database:
-		To ensure test fixtures are up to date:
+
+		1) Make sure the test schema is up to date by syncing with workbench
+		2) To ensure test fixtures are up to date:
 			rake db: fixtures:dump_yaml	-> this will pull data from development db and create fixtures for unit tests
 
 * Services (job queues, cache servers, search engines, etc.)

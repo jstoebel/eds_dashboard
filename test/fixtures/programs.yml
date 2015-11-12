@@ -1,17 +1,136 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+Program_1:
+  ProgCode: 2
+  EPSBProgName: Art-P-12
+  EDSProgName: Art
+  Current: true
 
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-#
-# column: value
-#
-#
-#  column: value
+Program_2:
+  ProgCode: 3
+  EPSBProgName: Biological Science-8-12
+  EDSProgName: Biology
+  Current: true
 
-# prog:
-#   EDSProgName: P-5
+Program_3:
+  ProgCode: 5
+  EPSBProgName: Chemistry-8-12
+  EDSProgName: Chemistry
+  Current: true
 
-# prog2:
-#   EDSProgName: Art
+Program_4:
+  ProgCode: 14
+  EPSBProgName: Elementary-P-5
+  EDSProgName: P-5
+  Current: true
+
+Program_5:
+  ProgCode: 16
+  EPSBProgName: English-8-12
+  EDSProgName: English
+  Current: true
+
+Program_6:
+  ProgCode: 19
+  EPSBProgName: Family and Consumer Science-5-12
+  EDSProgName: CFS
+
+Program_7:
+  ProgCode: 21
+  EPSBProgName: German-K-12
+  EDSProgName: German
+
+Program_8:
+  ProgCode: 23
+  EPSBProgName: Health -P-12
+  EDSProgName: Health
+  Current: true
+
+Program_9:
+  ProgCode: 28
+  EPSBProgName: Instrumental Music-P-12
+  EDSProgName: Inst Music
+  Current: true
+
+Program_10:
+  ProgCode: 29
+  EPSBProgName: Integrated Music -P-12
+  EDSProgName: Integrated Music
+
+Program_11:
+  ProgCode: 30
+  EPSBProgName: Interdisciplinary Early Childhood Education -
+  EDSProgName: IECE
+
+Program_12:
+  ProgCode: 32
+  EPSBProgName: Latin-K-12
+  EDSProgName: Latin
+
+Program_13:
+  ProgCode: 37
+  EPSBProgName: Mathematics-8-12
+  EDSProgName: Math (Secondary)
+  Current: true
+
+Program_14:
+  ProgCode: 40
+  EPSBProgName: Physical Education -P-12
+  EDSProgName: PE
+  Current: true
+
+Program_15:
+  ProgCode: 41
+  EPSBProgName: Physics
+  EDSProgName: Physics
+  Current: true
+
+Program_16:
+  ProgCode: 56
+  EPSBProgName: Social Studies-8-12
+  EDSProgName: Social Studies
+  Current: true
+
+Program_17:
+  ProgCode: 58
+  EPSBProgName: Spanish -K-12
+  EDSProgName: Spanish
+
+Program_18:
+  ProgCode: 61
+  EPSBProgName: Engineering and Technology Education-5-12
+  EDSProgName: Technology
+  Current: true
+
+Program_19:
+  ProgCode: 65
+  EPSBProgName: Vocal Music-P-12
+  EDSProgName: Vocal Music
+  Current: true
+
+Program_20:
+  ProgCode: 77
+  EPSBProgName: Industrial Technology-5-12
+  EDSProgName: Technology
+  Current: true
+
+Program_21:
+  ProgCode: 2162
+  EPSBProgName: Middle School Mathematics-5-9
+  EDSProgName: 5-9 Math
+  Current: true
+
+Program_22:
+  ProgCode: 2258
+  EPSBProgName: Middle School English-5-9
+  EDSProgName: 5-9 English
+
+Program_23:
+  ProgCode: 2354
+  EPSBProgName: Middle School Science-5-9
+  EDSProgName: 5-9 Science
+  Current: true
+
+Program_24:
+  ProgCode: 2450
+  EPSBProgName: Middle School Social Studies-5-9
+  EDSProgName: 5-9 Social Studies
+
