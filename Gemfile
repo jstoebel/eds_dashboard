@@ -34,7 +34,7 @@ gem 'seed_dump'
 gem 'db_fixtures_dump'
 gem 'composite_primary_keys', '=7.0.15'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
 # gem 'unicorn'
