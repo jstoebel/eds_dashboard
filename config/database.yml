@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  # database: eds
+  database: eds
   # username: eds
   # password: <%= ENV['EDS_DATABASE_PASSWORD'] %>
