@@ -49,5 +49,4 @@ test:
 production:
   <<: *default
   database: eds
-  password: <%= ENV['EDSACCESS_PW'] %
->
+  password: <%= ENV['EDSACCESS_PW'] %>
