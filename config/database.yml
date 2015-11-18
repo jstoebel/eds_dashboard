@@ -14,8 +14,6 @@ default: &default
   encoding: utf8
   pool: 5
   username: edsaccess
-  database: eds
-  password: <%= ENV['EDSACCESS_PW'] %>
   socket: /var/run/mysqld/mysqld.sock
 
 development:
@@ -49,3 +47,5 @@ test:
 #
 production:
   <<: *default
+  database: eds
+  password: <%= ENV['EDSACCESS_PW'] %>
