@@ -58,8 +58,6 @@ Rails.application.routes.draw do
     get "download"
   end
 
-
-
   resources :issues, shallow: true do
     get "resolve_issue"
     post "close_issue"
@@ -129,5 +127,5 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  root 'students#index'
+  root 'access#index'
 end
