@@ -6,7 +6,11 @@ Rails.application.routes.draw do
 
   match 'prog_exits/get_programs', via: [:post, :get]
 
-  resources :access, only: [:index]
+  resources :access, only: [:index] do
+    get "attempt_login"
+    get "access_denied"
+  end
+
   resources :praxis_results, only: [:new, :create] 
 
   resources :clinical_sites, only: [:index, :edit, :update, :new, :create], shallow: true do
@@ -127,5 +131,5 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  root 'access#index'
+  root 'access#attempt_login'
 end

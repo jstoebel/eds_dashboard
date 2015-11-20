@@ -27,5 +27,10 @@ module Eds
     ActiveRecord::Base.schema_format = config.active_record.schema_format
     config.active_record.schema_format :sql
 
+    config.generators do |g|
+      g.helper false
+      g.assets false
+    end
+
   end
 end
