@@ -3,7 +3,10 @@ class AccessController < ApplicationController
 
 	layout 'application'
 
+  # caches_page :attempt_login, :index
+
   def index
+    #users home page. Here they are shown options of where they can go next.
   	@current_term = current_term({exact: false, plan_b: :forward})
   	# @request = request.authorization()
   	#@info = Base64.decode64(request)
@@ -19,11 +22,13 @@ class AccessController < ApplicationController
     results = User.where(UserName: username)
     user = results.first
 
-    if results.size > 0
+    if user != nil
+      #user is recognized in this site!
+      session[:user] = user
       session[:user_name] = user.UserName
       session[:role] = user.role.RoleName
 
-      #TODO determine students user is authorized to view in advisor pages.
+      #TODO AUTHORIZATION determine students user is authorized to view in advisor pages.
 
       #redirect to their home page!
       if user.FirstName.present? and user.LastName.present?
@@ -33,6 +38,9 @@ class AccessController < ApplicationController
       end
 
       redirect_to access_index_path
+
+    else  #user not allowed in this app!
+      
 
     end
 
