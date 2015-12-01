@@ -41,11 +41,13 @@ class AccessController < ApplicationController
 
     else  #user not allowed in this app!
       
-
+      redirect_to access_access_denied_path("denied")
     end
 
 
   end
 
+  def access_denied
+  end
  
 end
