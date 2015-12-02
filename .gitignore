@@ -1,2 +1,4 @@
 public/*
 db/seeds.rb
+tmp/cache/*
+log/*
