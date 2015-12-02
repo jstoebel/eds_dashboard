@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   match 'prog_exits/get_programs', via: [:post, :get]
 
+  match "/logout" => "access#logout", :via => :get
+
   resources :access, only: [:index] do
     get "attempt_login"
     get "access_denied"

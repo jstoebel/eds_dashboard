@@ -25,8 +25,6 @@ class AccessController < ApplicationController
     if user != nil
       #user is recognized in this site!
       session[:user] = user
-      session[:user_name] = user.UserName
-      session[:role] = user.role.RoleName
 
       #TODO AUTHORIZATION determine students user is authorized to view in advisor pages.
 
@@ -49,5 +47,11 @@ class AccessController < ApplicationController
 
   def access_denied
   end
+
+  def logout
+    session[:user] = nil
+    redirect_to "https://log:out@edsdata.berea.edu"
+  end
+
  
 end
