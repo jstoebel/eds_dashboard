@@ -18,11 +18,11 @@ class AccessController < ApplicationController
     username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
     results = User.where(UserName: username)
     user = results.first
-
     if user != nil
+      session[:user] = user.UserName
+      session[:role] = user.role_name
       #user is recognized in this site!
-      session[:user] = user
-
+      
       #TODO AUTHORIZATION determine students user is authorized to view in advisor pages.
 
       #redirect to their home page!
@@ -35,7 +35,6 @@ class AccessController < ApplicationController
       redirect_to access_index_path
 
     else  #user not allowed in this app!
-      
       redirect_to access_access_denied_path("denied")
     end
 
@@ -47,6 +46,7 @@ class AccessController < ApplicationController
 
   def logout
     session[:user] = nil
+    session[:role] = nil
     redirect_to "https://log:out@edsdata.berea.edu"
   end
 

@@ -3,6 +3,10 @@ class Ability
 
   def initialize(user)
 
+    # if user == nil    #user is not recognized (at least yet). Send them to access#attempt_login.
+      
+    # end
+
     if user.is? "admin"
       can :manage, :all
     end
