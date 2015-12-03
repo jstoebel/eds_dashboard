@@ -15,15 +15,10 @@ class AccessController < ApplicationController
   	#if the user gets here they are authenticated as a Berea College user.
   	#next let's make sure they belong in this app
 
-    @spam = request
-    return
-
-    user_pass = Base64.decode64(request.authorization.split(' ')[1])
-    username = user_pass.split(':')[0]
+    username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
     results = User.where(UserName: username)
     user = results.first
 
-    return
     if user != nil
       #user is recognized in this site!
       session[:user] = user
