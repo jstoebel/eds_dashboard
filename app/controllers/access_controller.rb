@@ -3,8 +3,6 @@ class AccessController < ApplicationController
 
 	layout 'application'
 
-  # caches_page :attempt_login, :index
-
   def index
     #users home page. Here they are shown options of where they can go next.
   	@current_term = current_term({exact: false, plan_b: :forward})
@@ -17,11 +15,15 @@ class AccessController < ApplicationController
   	#if the user gets here they are authenticated as a Berea College user.
   	#next let's make sure they belong in this app
 
+    @spam = request
+    return
+
     user_pass = Base64.decode64(request.authorization.split(' ')[1])
     username = user_pass.split(':')[0]
     results = User.where(UserName: username)
     user = results.first
 
+    return
     if user != nil
       #user is recognized in this site!
       session[:user] = user

@@ -38,6 +38,7 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
     builder (3.2.2)
+    cancancan (1.13.1)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.7)
@@ -136,6 +137,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootstrap-datepicker-rails
   bootstrap-sass
+  cancancan (~> 1.13, >= 1.13.1)
   coffee-rails (~> 4.0.0)
   composite_primary_keys (= 7.0.15)
   db_fixtures_dump
@@ -151,4 +153,4 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
 
 BUNDLED WITH
-   1.10.5
+   1.10.6

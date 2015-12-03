@@ -1,4 +1,8 @@
 <h1>Access#index</h1>
 <p>Find me in app/views/access/index.html.erb</p>
-Request is <%= @request %>!!123
+
+User object <%= session[:user]  %><br>
+Role Name <%= session[:user].role_name  %><br>
+
+testing is? "admin" <%= session[:user].is? "admin"  %>
 
