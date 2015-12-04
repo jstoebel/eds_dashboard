@@ -1,5 +1,5 @@
 class PraxisResultsController < ApplicationController
-
+  load_and_authorize_resource
   layout 'application'
 
   def index

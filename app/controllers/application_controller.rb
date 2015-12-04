@@ -7,17 +7,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def current_user
-    puts "can can asked for current_user"
-    puts "username is " + session[:user]
-
-    puts "role is " + session[:role]
     return User.find(session[:user])
   end
 
   # Catch all CanCan errors and alert the user of the exception
   rescue_from CanCan::AccessDenied do | exception |
     flash[:notice] = exception.message
-    redirect_to access_access_denied_path("noauth")
+    redirect_to "/access_denied"
   end
 
 

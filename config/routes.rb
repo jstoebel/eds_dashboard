@@ -8,10 +8,9 @@ Rails.application.routes.draw do
 
   match "/logout" => "access#logout", :via => :get
 
-  resources :access, only: [:index] do
-    get "attempt_login"
-    get "access_denied"
-  end
+  match "/access_denied" => "access#access_denied", :via => :get
+
+  resources :access, only: [:index]
 
   resources :praxis_results, only: [:new, :create] 
 

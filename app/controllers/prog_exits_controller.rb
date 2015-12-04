@@ -1,4 +1,5 @@
 class ProgExitsController < ApplicationController
+  load_and_authorize_resource
   def index
   	term_menu_setup
   	@exits = ProgExit.all.by_term(@term)   #fetch all applications for this term

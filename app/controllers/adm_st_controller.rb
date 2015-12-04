@@ -1,7 +1,7 @@
 class AdmStController < ApplicationController
   
   layout 'application'
-
+  load_and_authorize_resource
   def index
     #@current_term: the current term in time
     #@term: the term displayed

@@ -1,13 +1,10 @@
 class AccessController < ApplicationController
-  require 'base64'
-
 	layout 'application'
 
   def index
     #users home page. Here they are shown options of where they can go next.
   	@current_term = current_term({exact: false, plan_b: :forward})
-  	# @request = request.authorization()
-  	#@info = Base64.decode64(request)
+    
  
   end
 
@@ -35,7 +32,7 @@ class AccessController < ApplicationController
       redirect_to access_index_path
 
     else  #user not allowed in this app!
-      redirect_to access_access_denied_path("denied")
+      redirect_to "/access_denied"
     end
 
 
