@@ -16,6 +16,17 @@ class AccessController < ApplicationController
     redirect_to "https://log:out@edsdata.berea.edu"
   end
 
+  def change_psudo_status
+    #if user is admin, change their :view_as status to the requested status
+    if session[:role] == 'admin'
+      session[:view_as] = params[:view_as]
+      response = {change: true}
+    else
+      response = {change: false}
+    end
 
+    render :json => response
+
+  end
  
 end
