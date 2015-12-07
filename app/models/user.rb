@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+	attr_accessor :view_as
+
 	#associations
 	belongs_to :role, foreign_key: "Roles_idRoles"
 
@@ -14,7 +16,23 @@ class User < ActiveRecord::Base
   Roles = [ :admin , :advisor, :staff, :stu_labor ]
 
   def is?(other)
-  	return self.role_name == other.to_s
+  	#returns what role the user is currently representing.
+  	#if user is admin and they have a :view_as in their session hash, return that psudo role
+  	#pre: 
+  		#other: role (string) we are comparing to
+  		#view_as: user's view_as value from their session hash (either an int or nil)
+  	#post: 
+
+  	if self.role_name == 'admin' and self.view_as.present?
+  		#return the psudo role
+  		psudo_role = Role.find(view_as.to_i)
+  		return psudo_role.RoleName == other.to_s
+
+		else
+  		return self.role_name == other.to_s
+
+  	end
+
   end
 
 end

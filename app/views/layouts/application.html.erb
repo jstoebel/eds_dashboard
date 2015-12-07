@@ -24,7 +24,10 @@
 
       <p class="navbar-text pull-left">
       <%= select_tag "view_as", 
-          options_for_select(Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]}),
+          options_for_select(
+              Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},   #sets the options
+              session[:view_as] #sets the default
+              ),
             {:prompt => "View Site As...",
             :class => "form-control view_as_menu"}
          %>
@@ -77,7 +80,8 @@
 </div>
 
 		<!--Before yield -->
-    <%= params %>
+    <%= params %> <br>
+    <%= session[:view_as]  %>
       <% if !flash[:notice].blank? %>
         <div class="notice">
           <%= flash[:notice] %>
