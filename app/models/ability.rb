@@ -3,10 +3,6 @@ class Ability
 
   def initialize(user)
 
-    # if user == nil    #user is not recognized (at least yet). Send them to access#attempt_login.
-      
-    # end
-
     #TODO define specific records a user has permission to 
     #https://github.com/ryanb/cancan/wiki/Defining-Abilities#hash-of-conditions
 
@@ -25,7 +21,7 @@ class Ability
       can :read, Student
 
     elsif user.is? "stu_labor"
-      can [:create, :update], [ClinicalAssignment, ClinicalTeacher, ClinicalSite]
+      can :manage, [ClinicalAssignment, ClinicalTeacher, ClinicalSite]
       can [:new, :create], PraxisResult
       can [:index, :new, :create, :delete, :destroy], StudentFile   #everything but download!
     end

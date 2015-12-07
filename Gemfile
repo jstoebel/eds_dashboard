@@ -36,6 +36,7 @@ gem 'composite_primary_keys', '=7.0.15'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
+gem 'lograge'
 # Use unicorn as the app server
 # gem 'unicorn'
 

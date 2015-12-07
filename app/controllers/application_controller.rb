@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   
   include ApplicationHelper
-  
+
+  before_filter :authorize
   protect_from_forgery with: :exception
 
   def current_user
@@ -16,6 +17,39 @@ class ApplicationController < ActionController::Base
     redirect_to "/access_denied"
   end
 
+  def authorize
+    #if the user gets here they are authenticated as a Berea College user.
+    #next let's fetch their username and role (if any)
+    unless session[:user].present?    #look up username and role if we don't have it.
+
+      username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
+      results = User.where(UserName: username)
+      user = results.first
+      if user != nil
+        session[:user] = user.UserName
+        session[:role] = user.role_name
+        #user is recognized in this site!
+        
+        #TODO AUTHORIZATION determine students user is authorized to view in advisor pages.
+
+        #redirect to their home page!
+        if user.FirstName.present? and user.LastName.present?
+          flash[:notice] = "Welcome, #{user.FirstName} #{user.LastName}!"
+        else
+          flash[:notice] = "Welcome, #{user.UserName}!"    
+        end
+
+        #done!
+        
+      else  #couldn't find user in database ->authorize failed!
+        redirect_to "/access_denied"
+      end
+
+      #user is already loaded into session data. Nothing needed.
+
+    end
+
+  end
 
   private
   	def find_student(alt_id)
@@ -31,6 +65,7 @@ class ApplicationController < ActionController::Base
   	def find_issue(alt_stuid)
   		return Issue.where(AltID: alt_stuid).first
   	end
+
 
 
 	# def name_details(student)

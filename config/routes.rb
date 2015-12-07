@@ -132,5 +132,5 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  root 'access#attempt_login'
+  root 'access#index'
 end
