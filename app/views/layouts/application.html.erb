@@ -26,7 +26,7 @@
       <%= select_tag "view_as", 
           options_for_select(Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]}),
             {:prompt => "View Site As...",
-            :class => "form-control"}
+            :class => "form-control view_as_menu"}
          %>
       </p>
 
