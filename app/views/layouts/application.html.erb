@@ -20,16 +20,16 @@
   <div class="container-fluid">
     <p class="navbar-text pull-right">
        
-            logged_in_user@email.com
+<!--             logged_in_user@email.com -->
+            Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
               
             <%= link_to "/logout", :class => "btn btn-default" do %>
               Log Out
             <% end %>
              
-<!--             <a href="#" class="btn btn-default">
-          Log Out
-            </a> -->
     </p>  
+
+    <!-- TODO Here is where we render role specific nav bar -->
 
   </div>
   <div class="container-fluid">
