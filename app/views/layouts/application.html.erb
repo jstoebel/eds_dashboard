@@ -18,9 +18,22 @@
 <!-- NEW HEADER STARTS HERE -->
 <div class="navbar navbar-default">
   <div class="container-fluid">
+
+    <!-- menu to swap psudo role if user is admin -->
+    <% if session[:role] == 'admin' %>
+
+      <p class="navbar-text pull-left">
+      <%= select_tag "view_as", 
+          options_for_select(Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]}),
+            {:prompt => "View Site As...",
+            :class => "form-control"}
+         %>
+      </p>
+
+    <% end %>
+
     <p class="navbar-text pull-right">
        
-<!--             logged_in_user@email.com -->
             Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
               
             <%= link_to "/logout", :class => "btn btn-default" do %>
@@ -29,9 +42,8 @@
              
     </p>  
 
-    <!-- TODO Here is where we render role specific nav bar -->
-
   </div>
+      <!-- TODO Here is where we render role specific nav bar -->
   <div class="container-fluid">
     <div class="navbar-header">
       <span class="navbar-brand">Educaiton Studies Dashboard</span>
