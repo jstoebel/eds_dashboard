@@ -20,7 +20,7 @@ class Ability
       can [:new, :create], PraxisResult
       can :read, Student
 
-    elsif user.is? "stu_labor"
+    elsif user.is? "student labor"
       can :manage, [ClinicalAssignment, ClinicalTeacher, ClinicalSite]
       can [:new, :create], PraxisResult
       can [:index, :new, :create, :delete, :destroy], StudentFile   #everything but download!
