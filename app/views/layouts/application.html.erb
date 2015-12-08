@@ -53,7 +53,7 @@
 
   </div>
     <!-- TODO Here is where we render role specific nav bar -->
-    <% if session[:role] == "admin" and session[:view_as].blank? %>
+    <% if session[:role] == "admin" and (session[:view_as] == 0 or session[:view_as] == Role.where(RoleName: "admin").first.idRoles) %>
       <%= render :partial => "admin_navbar" %>
 
     <% elsif session[:role] == "advisor" or session[:view_as] == Role.where(RoleName: "advisor").first.idRoles %>
