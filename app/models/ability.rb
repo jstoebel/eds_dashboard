@@ -13,7 +13,6 @@ class Ability
       can :manage, [Issue, IssueUpdate, StudentFile]
       can :read, [Student, PraxisResult, PraxisSubtestResult]
 
-
     elsif user.is? "staff"
       can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher, 
         Employment, Foi, ProgExit, StudentFile]
