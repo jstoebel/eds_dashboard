@@ -22,16 +22,22 @@
     <!-- menu to swap psudo role if user is admin -->
     <% if session[:role] == 'admin' %>
 
-      <p class="navbar-text pull-left">
-      <%= select_tag "view_as", 
-          options_for_select(
-              Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},   #sets the options
-              session[:view_as] #sets the default
-              ),
-            {:prompt => "View Site As...",
-            :class => "form-control view_as_menu"}
-         %>
-      </p>
+      <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
+        Viewing Site As:
+      <% end %>
+
+      <%= form_tag("/access/change_psudo_status") %>
+        <p class="navbar-text pull-left">
+        <%= select_tag "view_as", 
+            options_for_select(
+                Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
+                session[:view_as] #sets the default
+                ),
+              {:prompt => "View Site As...",
+              :class => "form-control",
+              :onchange => "this.form.submit()"}
+           %>
+        </p>
 
     <% end %>
 

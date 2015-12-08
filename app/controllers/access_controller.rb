@@ -20,12 +20,10 @@ class AccessController < ApplicationController
     #if user is admin, change their :view_as status to the requested status
     if session[:role] == 'admin'
       session[:view_as] = params[:view_as].to_i
-      response = {change: true}
+        redirect_to root_path
     else
-      response = {change: false}
+      redirect_to "/access_denied"
     end
-
-    render :json => response
 
   end
  

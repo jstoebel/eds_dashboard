@@ -6,12 +6,10 @@ Rails.application.routes.draw do
 
   match 'prog_exits/get_programs', via: [:post, :get]
 
-  match "/logout" => "access#logout", :via => :get
-
-  match "/access_denied" => "access#access_denied", :via => :get
-  match "/access/change_psudo_status" => "access#change_psudo_status", :via => :get
-
   resources :access, only: [:index]
+  match "/access/change_psudo_status" => "access#change_psudo_status", :via => :post
+  match "/access_denied" => "access#access_denied", :via => :get
+  match "/logout" => "access#logout", :via => :get
 
   resources :praxis_results, only: [:new, :create] 
 
