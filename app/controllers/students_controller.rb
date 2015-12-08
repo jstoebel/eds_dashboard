@@ -1,7 +1,7 @@
 class StudentsController < ApplicationController
   
   layout 'application'
-
+  load_and_authorize_resource
   def index
   	@students = Student.all.current.by_last    #also need to filter for students who are activley enrolled.
 

@@ -6,7 +6,12 @@ Rails.application.routes.draw do
 
   match 'prog_exits/get_programs', via: [:post, :get]
 
+  match "/logout" => "access#logout", :via => :get
+
+  match "/access_denied" => "access#access_denied", :via => :get
+
   resources :access, only: [:index]
+
   resources :praxis_results, only: [:new, :create] 
 
   resources :clinical_sites, only: [:index, :edit, :update, :new, :create], shallow: true do

@@ -1,4 +1,5 @@
 class IssuesController < ApplicationController
+  load_and_authorize_resource
   layout 'application'
   def new
   	@issue = Issue.new

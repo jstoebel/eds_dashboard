@@ -1,4 +1,5 @@
 class StudentFilesController < ApplicationController
+  load_and_authorize_resource
   def index
     index_setup
   end
