@@ -11,9 +11,21 @@ class Student < ActiveRecord::Base
 	has_many :clinical_assignments, {:foreign_key => 'Student_Bnum'}
 	has_many :student_files, {:foreign_key => 'Student_Bnum'}
 
+	has_many :advisor_assignments, {:foreign_key => 'Student_Bnum'}
+
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}		#TODO also need to know if student is activly enrolled (see banner)
 	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
 	scope :from_alt_id, ->(alt_id) {where("AltID = ?", alt_id).first}		#finds a student based on AltID
+
+	def is_advisee_of(prof_bnum)
+		#is this student advisee of the prof with prof_bnum?
+		advisor_assignments = self.advisor_assignments
+		bnums = advisor_assignments.map { |i| i.tep_advisors_AdvisorBnum }
+		return bnums.include?(prof_bnum)
+	end
+
+	def is_student_of(prof_bnum)
+	end
 
 end
