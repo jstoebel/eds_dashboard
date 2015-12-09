@@ -1,4 +1,5 @@
 class Student < ActiveRecord::Base
+	include ApplicationHelper
 
 	has_many :praxis_results, {:foreign_key => 'Bnum'}
 	has_many :issues, {:foreign_key => 'students_Bnum'}
@@ -12,6 +13,9 @@ class Student < ActiveRecord::Base
 	has_many :student_files, {:foreign_key => 'Student_Bnum'}
 
 	has_many :advisor_assignments, {:foreign_key => 'Student_Bnum'}
+	has_many :tep_advisors, {:foreign_key => 'Student_Bnum', :through => :advisor_assignments}
+
+	has_many :transcripts, {:foreign_key => 'Student_Bnum'}
 
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}		#TODO also need to know if student is activly enrolled (see banner)
@@ -26,6 +30,11 @@ class Student < ActiveRecord::Base
 	end
 
 	def is_student_of(prof_bnum)
+		#does this student have this prof in the current term (plan_b = forward)
+		term = current_term({:exact => false, :plan_b => :forward})
+		classes = self.transcripts.in_term(term)
+		profs = classes.map { |i| i.Inst_bnum }
+		return profs.include?(prof_bnum)
 	end
 
 end

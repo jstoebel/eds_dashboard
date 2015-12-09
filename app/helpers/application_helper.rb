@@ -35,8 +35,10 @@ module ApplicationHelper
   def current_term(options = {})
 
     defaults = {
-      :exact => true,         #bool
-      :plan_b => :forward,    #foward or back (symbol)
+      :exact => true,         #bool, does the date need to match the term perfectly 
+        #(dates outside of terms are rejected.)
+      :plan_b => :forward,    #If not nil, what direction should we look to find the nearest term 
+        #(if no exact match). Can be foward or back (symbol)
       :date => DateTime.now   #datetime object
     }
 

@@ -30256,3 +30256,107 @@ Started GET "/assets/view_as.js?body=1" for 172.16.20.112 at 2015-12-08 08:36:30
 
 
 Started GET "/assets/application.js?body=1" for 172.16.20.112 at 2015-12-08 08:36:30 -0500
+  [1m[36mStudent Load (1.6ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE (Bnum like 'Y%')  ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mAdvisorAssignment Load (12.0ms)[0m  SELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1
+  [1m[36mAdvisorAssignment Load (2.7ms)[0m  [1mSELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1[0m
+  [1m[35mAdvisorAssignment Load (0.5ms)[0m  SELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1
+  [1m[36m (25.9ms)[0m  [1mSELECT COUNT(*) FROM `advisor_assignments`[0m
+  [1m[36mAdvisorAssignment Load (0.3ms)[0m  [1mSELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1[0m
+  [1m[36mAdvisorAssignment Load (0.3ms)[0m  [1mSELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1[0m
+  [1m[36mAdvisorAssignment Load (0.3ms)[0m  [1mSELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1[0m
+  [1m[35mStudent Load (4.0ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1
+  [1m[36mTepAdvisor Load (0.8ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`AdvisorBnum` = 'AltheaBnu' LIMIT 1[0m
+  [1m[35mAdvisorAssignment Load (3.8ms)[0m  SELECT `advisor_assignments`.* FROM `advisor_assignments`  WHERE `advisor_assignments`.`Student_Bnum` = 'A_stu2_Bn'
+  [1m[36mAdvisorAssignment Load (1.0ms)[0m  [1mSELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1[0m
+  [1m[35mTepAdvisor Load (0.9ms)[0m  SELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`AdvisorBnum` = 'AltheaBnu' LIMIT 1
+  [1m[36mStudent Load (0.8ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1[0m
+  [1m[35mAdvisorAssignment Load (0.5ms)[0m  SELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1
+  [1m[36mStudent Load (0.8ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1[0m
+  [1m[35mAdvisorAssignment Load (0.7ms)[0m  SELECT `advisor_assignments`.* FROM `advisor_assignments`  WHERE `advisor_assignments`.`Student_Bnum` = 'A_stu2_Bn'
+  [1m[36mTepAdvisor Load (0.9ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`AdvisorBnum` = 'AltheaBnu' LIMIT 1[0m
+  [1m[36mAdvisorAssignment Load (0.3ms)[0m  [1mSELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1[0m
+  [1m[35mStudent Load (0.3ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1
+  [1m[36mTepAdvisor Load (0.2ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`AdvisorBnum` = 'AltheaBnu' LIMIT 1[0m
+  [1m[35mAdvisorAssignment Load (0.5ms)[0m  SELECT `advisor_assignments`.* FROM `advisor_assignments`  WHERE `advisor_assignments`.`Student_Bnum` = 'A_stu2_Bn'
+  [1m[36mTranscript Load (1.3ms)[0m  [1mSELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1[0m
+  [1m[35mTranscript Load (0.8ms)[0m  SELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1
+  [1m[36mStudent Load (0.2ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1[0m
+  [1m[36mTranscript Load (0.5ms)[0m  [1mSELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.2ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1
+  [1m[36mTranscript Load (0.4ms)[0m  [1mSELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.3ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1
+  [1m[36mStudent Load (1.9ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.6ms)[0m  SELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mAdmTep Load (12.7ms)[0m  [1mSELECT `adm_tep`.* FROM `adm_tep`  WHERE `adm_tep`.`Student_Bnum` = 'A_stu1_Bn'[0m
+  [1m[35mStudent Load (0.8ms)[0m  SELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mStudent Load (0.8ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[36mTranscript Load (1.0ms)[0m  [1mSELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.2ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1
+  [1m[36mStudent Load (0.5ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.3ms)[0m  SELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mStudent Load (0.8ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.5ms)[0m  SELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mStudent Load (0.6ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.4ms)[0m  SELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mStudent Load (0.6ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.5ms)[0m  SELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mTranscript Load (0.4ms)[0m  [1mSELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.6ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1
+  [1m[36mTranscript Load (12.2ms)[0m  [1mSELECT `transcript`.* FROM `transcript`  WHERE `transcript`.`Student_Bnum` = 'A_stu2_Bn'[0m
+  [1m[36mBannerTerm Load (2.8ms)[0m  [1mSELECT  `banner_terms`.* FROM `banner_terms`  WHERE (StartDate<='2015-12-09 20:47:37' and EndDate>='2015-12-09 20:47:37')  ORDER BY `banner_terms`.`BannerTerm` ASC LIMIT 1[0m
+  [1m[36mBannerTerm Load (1.6ms)[0m  [1mSELECT  `banner_terms`.* FROM `banner_terms`   ORDER BY `banner_terms`.`BannerTerm` DESC LIMIT 1[0m
+  [1m[35mBannerTerm Load (0.4ms)[0m  SELECT  `banner_terms`.* FROM `banner_terms`   ORDER BY `banner_terms`.`BannerTerm` DESC LIMIT 1
+  [1m[36mBannerTerm Load (0.7ms)[0m  [1mSELECT  `banner_terms`.* FROM `banner_terms`   ORDER BY `banner_terms`.`BannerTerm` DESC LIMIT 1[0m
+  [1m[35mTranscript Load (1.9ms)[0m  SELECT `transcript`.* FROM `transcript`  WHERE `transcript`.`term_taken` = 999999
+  [1m[36mTranscript Load (0.4ms)[0m  [1mSELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1[0m
+  [1m[36mTranscript Load (0.4ms)[0m  [1mSELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.6ms)[0m  SELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1
+  [1m[36mTepAdvisor Load (1.4ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[36mTepAdvisor Load (0.6ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (1.5ms)[0m  SELECT `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'
+Mysql2::Error: Table 'eds.advisor_assignments' doesn't exist: SELECT `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'
+  [1m[36mTepAdvisor Load (0.5ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (1.6ms)[0m  SELECT `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'
+  [1m[36mStudent Load (0.7ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[36mStudent Load (0.4ms)[0m  [1mSELECT  `students`.* FROM `students`   ORDER BY `students`.`Bnum` ASC LIMIT 1[0m
+  [1m[35mTepAdvisor Load (1.3ms)[0m  SELECT `tep_advisors`.* FROM `tep_advisors` INNER JOIN `advisor_assignments` ON `tep_advisors`.`AdvisorBnum` = `advisor_assignments`.`tep_advisors_AdvisorBnum` WHERE `advisor_assignments`.`Student_Bnum` = 'A_stu1_Bn'
+  [1m[36mTepAdvisor Load (0.4ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (1.5ms)[0m  SELECT  `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'  ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mStudent Load (0.8ms)[0m  [1mSELECT `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'[0m
+  [1m[35mAdvisorAssignment Load (0.6ms)[0m  SELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1
+  [1m[36mAdvisorAssignment Load (0.5ms)[0m  [1mSELECT  `advisor_assignments`.* FROM `advisor_assignments`  LIMIT 1[0m
+  [1m[35mTepAdvisor Load (1.2ms)[0m  SELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`AdvisorBnum` = 'AltheaBnu' LIMIT 1
+  [1m[36mStudent Load (0.9ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu1_Bn' LIMIT 1[0m
+  [1m[35mStudent Load (0.6ms)[0m  SELECT `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'
+  [1m[36mTepAdvisor Load (0.4ms)[0m  [1mSELECT `tep_advisors`.* FROM `tep_advisors` INNER JOIN `advisor_assignments` ON `tep_advisors`.`AdvisorBnum` = `advisor_assignments`.`tep_advisors_AdvisorBnum` WHERE `advisor_assignments`.`Student_Bnum` = 'A_stu1_Bn'[0m
+  [1m[35mTepAdvisor Load (1.2ms)[0m  SELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1
+  [1m[36mStudent Load (0.4ms)[0m  [1mSELECT `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'[0m
+  [1m[36mTepAdvisor Load (0.4ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35mAdvisorAssignment Load (1.0ms)[0m  SELECT `advisor_assignments`.* FROM `advisor_assignments`  WHERE `advisor_assignments`.`Student_Bnum` = 'AltheaBnu'
+  [1m[36mTepAdvisor Load (0.4ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (2.4ms)[0m  SELECT `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`tep_advisors_AdvisorBnum` = 'AltheaBnu'
+  [1m[36mTepAdvisor Load (0.4ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35m (10.7ms)[0m  SELECT COUNT(*) FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`tep_advisors_AdvisorBnum` = 'AltheaBnu'
+  [1m[36mTepAdvisor Load (1.0ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (1.9ms)[0m  SELECT  `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`tep_advisors_AdvisorBnum` = 'AltheaBnu'  ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mTepAdvisor Load (0.5ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`   ORDER BY `tep_advisors`.`AdvisorBnum` ASC LIMIT 1[0m
+  [1m[35mStudent Load (0.4ms)[0m  SELECT  `students`.* FROM `students` INNER JOIN `advisor_assignments` ON `students`.`Bnum` = `advisor_assignments`.`Student_Bnum` WHERE `advisor_assignments`.`tep_advisors_AdvisorBnum` = 'AltheaBnu'  ORDER BY `students`.`Bnum` ASC LIMIT 1
+  [1m[36mAdvisorAssignment Load (1.4ms)[0m  [1mSELECT `advisor_assignments`.* FROM `advisor_assignments`  WHERE `advisor_assignments`.`Student_Bnum` = 'A_stu1_Bn'[0m
+  [1m[35mTranscript Load (0.3ms)[0m  SELECT  `transcript`.* FROM `transcript`   ORDER BY `transcript`.`crn` ASC LIMIT 1
+  [1m[36mStudent Load (0.4ms)[0m  [1mSELECT  `students`.* FROM `students`  WHERE `students`.`Bnum` = 'A_stu2_Bn' LIMIT 1[0m
+  [1m[35mBannerTerm Load (1.9ms)[0m  SELECT  `banner_terms`.* FROM `banner_terms`  WHERE (StartDate<='2015-12-09 21:35:42' and EndDate>='2015-12-09 21:35:42')  ORDER BY `banner_terms`.`BannerTerm` ASC LIMIT 1
+  [1m[36mTranscript Load (1.1ms)[0m  [1mSELECT `transcript`.* FROM `transcript`  WHERE `transcript`.`Student_Bnum` = 'A_stu2_Bn' AND `transcript`.`term_taken` = 201511[0m
+  [1m[35m (0.8ms)[0m  BEGIN
+  [1m[36mSQL (1.5ms)[0m  [1mUPDATE `transcript` SET `term_taken` = 201511 WHERE `transcript`.`crn` = '1'[0m
+  [1m[35m (6.0ms)[0m  COMMIT
+  [1m[36mBannerTerm Load (1.5ms)[0m  [1mSELECT  `banner_terms`.* FROM `banner_terms`  WHERE (StartDate<='2015-12-09 21:36:45' and EndDate>='2015-12-09 21:36:45')  ORDER BY `banner_terms`.`BannerTerm` ASC LIMIT 1[0m
+  [1m[35mTranscript Load (0.7ms)[0m  SELECT `transcript`.* FROM `transcript`  WHERE `transcript`.`Student_Bnum` = 'A_stu2_Bn' AND `transcript`.`term_taken` = 201511
+  [1m[36mUser Load (1.4ms)[0m  [1mSELECT  `users`.* FROM `users`   ORDER BY `users`.`UserName` ASC LIMIT 1[0m
+  [1m[35mUser Load (0.6ms)[0m  SELECT  `users`.* FROM `users`   ORDER BY `users`.`UserName` ASC LIMIT 1
+  [1m[36mTepAdvisor Load (0.8ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`username` = 'cartery' LIMIT 1[0m
+  [1m[36mUser Load (0.7ms)[0m  [1mSELECT  `users`.* FROM `users`   ORDER BY `users`.`UserName` ASC LIMIT 1[0m
+  [1m[35mUser Load (0.9ms)[0m  SELECT  `users`.* FROM `users`   ORDER BY `users`.`UserName` ASC LIMIT 1
+  [1m[36mTepAdvisor Load (1.1ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`username` = 'cartery' LIMIT 1[0m
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  `users`.* FROM `users`  WHERE `users`.`UserName` = 'stoebelj' LIMIT 1[0m
+  [1m[35mUser Load (0.6ms)[0m  SELECT  `users`.* FROM `users`  WHERE `users`.`UserName` = 'stoebelj' LIMIT 1
+  [1m[36mTepAdvisor Load (1.6ms)[0m  [1mSELECT  `tep_advisors`.* FROM `tep_advisors`  WHERE `tep_advisors`.`username` = 'stoebelj' LIMIT 1[0m
