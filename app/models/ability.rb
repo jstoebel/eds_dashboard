@@ -3,8 +3,6 @@ class Ability
 
   def initialize(user)
 
-    #TODO define specific records a user has permission to 
-    #https://github.com/ryanb/cancan/wiki/Defining-Abilities#hash-of-conditions
 
     if user.is? "admin"
       raise "got to is admin"
@@ -20,11 +18,7 @@ class Ability
 
       end
 
-      can :read, Student do |resource|
-        advisor_check(user, resource)
-      end
-
-      can :read, [PraxisResult, PraxisSubtestResult] do |resource|
+      can :read, [Student, PraxisResult, PraxisSubtestResult] do |resource|
         advisor_check(user, resource)
       end
 
@@ -43,6 +37,7 @@ class Ability
     
   end
 
+  private
   def advisor_check(user, resource)
     advisor_profile = user.tep_advisor
 
