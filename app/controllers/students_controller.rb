@@ -8,7 +8,8 @@ class StudentsController < ApplicationController
   end
 
   def show
-    @student = find_student(params[:id])
+    1/0
+    @student = Student.from_alt_id(params[:id])
   end
 
   def edit
