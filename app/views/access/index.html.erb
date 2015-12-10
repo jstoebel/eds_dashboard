@@ -1,6 +1,13 @@
 <h1>Access#index</h1>
 <p>Find me in app/views/access/index.html.erb</p>
 
-User name <%= session[:user]  %><br>
-Role  <%= session[:role]  %><br>
-View As <%= session[:view_as]  %>
+User name <%= @user.UserName  %><br>
+Role  <%= @user.role_name %><br>
+<% if @user.view_as.present? %>
+	View As <%= Role.find(@user.view_as).RoleName  %><br>
+<% end %>
+
+Is admin <%= @user.is?"admin" %> <br>
+Is advisor <%= @user.is?"advisor" %><br>
+Is staff <%= @user.is?"staff" %><br>
+Is stu_labor <%= @user.is?"student labor" %><br>
