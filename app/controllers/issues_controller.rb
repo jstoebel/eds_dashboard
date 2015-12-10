@@ -1,5 +1,6 @@
 class IssuesController < ApplicationController
   load_and_authorize_resource
+  skip_authorize_resource :only => :new
   layout 'application'
   def new
   	@issue = Issue.new
@@ -27,11 +28,13 @@ class IssuesController < ApplicationController
 
   def index
     @student = find_student(params[:student_id])
+    authorize! :show, @student
     name_details(@student)    
   end
 
   def show
     @issue = Issue.find(params[:id])
+    authorize! :manage, @issue
     @student = Student.find(@issue.students_Bnum)
     name_details (@student)
 
