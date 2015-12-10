@@ -6,6 +6,7 @@ class AccessController < ApplicationController
   def index
     #users home page. Here they are shown options of where they can go next.
   	@current_term = current_term({exact: false, plan_b: :forward})
+    @user = current_user
   end
 
   def access_denied

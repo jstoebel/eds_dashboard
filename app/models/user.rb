@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
   	if self.role_name == 'admin' and self.view_as.present?
   		#return the psudo role
-  		psudo_role = Role.find(view_as.to_i)
+  		psudo_role = Role.find(self.view_as.to_i)
   		return psudo_role.RoleName == other.to_s
 
 		else
