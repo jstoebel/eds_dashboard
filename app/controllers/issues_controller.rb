@@ -1,10 +1,11 @@
 class IssuesController < ApplicationController
-  load_and_authorize_resource
+
+  authorize_resource
   skip_authorize_resource :only => :new
   layout 'application'
+
   def new
   	@issue = Issue.new
-
   	@student = find_student(params[:student_id])
     name_details(@student)
   end
@@ -16,7 +17,6 @@ class IssuesController < ApplicationController
     @issue.students_Bnum = @student.Bnum
     @issue.tep_advisors_AdvisorBnum = "123456"    #FIX THIS! fake B# for development only. 
 
-    puts @issue.inspect
     if @issue.save
       flash[:notice] = "New issue opened for: #{@first_name} #{@last_name}"
       redirect_to(student_issues_path(@student.AltID)) 
@@ -34,7 +34,7 @@ class IssuesController < ApplicationController
 
   def show
     @issue = Issue.find(params[:id])
-    authorize! :manage, @issue
+    authorize! :read, @issue
     @student = Student.find(@issue.students_Bnum)
     name_details (@student)
 
@@ -54,6 +54,7 @@ class IssuesController < ApplicationController
       #issue
 
     @issue = Issue.find(params[:issue_id])
+    authorize! @issue
     @student = Student.find(@issue.students_Bnum)
     name_details(@student)
     
@@ -91,7 +92,7 @@ class IssuesController < ApplicationController
   private
   #white lists params for a new update
   def new_update_params
-    params.require(:issue_id).permit(:Name, :Description)
+    params.require(:issue).permit(:Name, :Description)
   end
 
   def close_issue_params
