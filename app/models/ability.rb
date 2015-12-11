@@ -5,7 +5,6 @@ class Ability
 
 
     if user.is? "admin"
-      raise "got to is admin"
       can :manage, :all
 
     elsif user.is? "advisor"
