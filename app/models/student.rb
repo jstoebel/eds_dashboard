@@ -21,6 +21,11 @@ class Student < ActiveRecord::Base
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}		#TODO also need to know if student is activly enrolled (see banner)
 	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
 	scope :from_alt_id, ->(alt_id) {where("AltID = ?", alt_id).first}		#finds a student based on AltID
+	
+	scope :with_prof, ->(prof_bnum) {
+		joins(:advisor_assignments
+		).where("advisor_assignments.tep_advisors_AdvisorBnum=?", prof_bnum)
+		}
 
 	def is_advisee_of(prof_bnum)
 		#is this student advisee of the prof with prof_bnum?

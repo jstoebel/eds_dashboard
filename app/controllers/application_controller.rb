@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
     return user
   end
 
+  def user_bnum
+    user = current_user
+    bnum = user.tep_advisor.AdvisorBnum
+  end
+
   # Catch all CanCan errors and alert the user of the exception
   rescue_from CanCan::AccessDenied do | exception |
     flash[:notice] = exception.message
