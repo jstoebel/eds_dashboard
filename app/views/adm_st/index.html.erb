@@ -2,7 +2,6 @@
 <div class="index">
 
   <% if @app %>
-
     <%= error_messages_for(@app)  %>
   <% end  %>
 
@@ -52,71 +51,74 @@
 
           </tr>
       	<% @applications.each do |app|%>
-        <% student = Student.find(app.Student_Bnum) %>
+          <!-- currently only admin and staff have access to this resource, but if we provide access
+          to advisors, they will only be able to see their own students. -->
+          <% if can? :read, app %>    
+              <% student = Student.find(app.Student_Bnum) %>
 
-			<tr>
-			<td><%= student.FirstName %></td>
-			<td><%= student.LastName %></td>
-      		<td><%=app.OverallGPA %></td>
-      		<td><%=app.CoreGPA%></td>
+        			<tr>
+        			<td><%= student.FirstName %></td>
+        			<td><%= student.LastName %></td>
+          		<td><%=app.OverallGPA %></td>
+          		<td><%=app.CoreGPA%></td>
 
-      		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
-      <td>
-        <% if app.STAdmitted == nil and @term = current_term(exact: false)%>    
+          		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
+              <td>
 
-          <%= link_to("Admission Decision", edit_adm_st_path(app.id), :class => "action details btn btn-info action-small issues")%>
+                <% if app.STAdmitted == nil and @term = current_term(exact: false)%>    
 
-        <% else %>
+                  <%= link_to("Admission Decision", edit_adm_st_path(app.id), :class => "action details btn btn-info action-small issues")%>
 
-          <%= app.STAdmitted ? "Admitted" : "Not admitted"%>
+                <% else %>
 
-        <% end %>
-      </td>
+                  <%= app.STAdmitted ? "Admitted" : "Not admitted"%>
 
-      <td> <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> </td> 
+                <% end %>
+              </td>
 
-      <td class="actions">
+              <td> 
+                <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> 
+              </td> 
 
-
-          <%= render(partial: 'details_popover', 
-          locals: {
-            :record_id => app.id,
-            :popover_title => "Admission to Student Teaching Notes", 
-            :button_title => "Notes",
-            :content => app.Notes
-          } )  %>
-
-			
-            <!-- Display button for admission decision if
-                1) Student has no admission decision
-                2) we are currently inside a term
-                3) the term displayed is a current term.-->
+              <td class="actions">
 
 
+                <%= render(partial: 'details_popover', 
+                  locals: {
+                    :record_id => app.id,
+                    :popover_title => "Admission to Student Teaching Notes", 
+                    :button_title => "Notes",
+                    :content => app.Notes
+                  } )  %>
 
-        <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.id) , :class => "action details btn btn-info action-small") %>
-              
+                    <!-- Display button for admission decision if
+                        1) Student has no admission decision
+                        2) we are currently inside a term
+                        3) the term displayed is a current term.-->
 
-          <% if app.letter_file_name %>      
+                <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.id) , :class => "action details btn btn-info action-small") %>
+                      
+                <% if app.letter_file_name %>      
 
-              <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+                  <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+                  <% end %>
+
+                <% else %>
+
+                  <%= link_to "#", :class => "btn btn-default glyphicon glyphicon-file action-small disabled glyph-only" do %>
+                <% end %>
+
               <% end %>
 
-          <% else %>
+                  <!-- ST paperwork goes here -->
+            </td>
+          </tr>
+        <!-- end of if statement for content-->
+      	<% end %>
+                  
+      <!-- end of main loop -->
+      <% end %>   
 
-              <%= link_to "#", :class => "btn btn-default glyphicon glyphicon-file action-small disabled glyph-only" do %>
-              <% end %>
-
-          <% end %>
-
-          <!-- ST paperwork goes here -->
-        </td>
-      </tr>
-      <!-- end of if statement for content-->
-    	<% end %>
-          
-    <!-- end of main loop -->
-    <% end %>   
-
+    <% end %>  
   </table>
 </div>
