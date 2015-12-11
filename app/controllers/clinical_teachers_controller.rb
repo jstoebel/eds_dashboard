@@ -1,5 +1,5 @@
 class ClinicalTeachersController < ApplicationController
-  load_and_authorize_resource
+  authorize_resource
   def index
 
     if params["clinical_site_id"]   #we only want teachers beloning to this site
