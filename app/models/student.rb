@@ -23,6 +23,7 @@ class Student < ActiveRecord::Base
 	scope :from_alt_id, ->(alt_id) {where("AltID = ?", alt_id).first}		#finds a student based on AltID
 	
 	scope :with_prof, ->(prof_bnum) {
+
 		find(:all, 
 			joins: "LEFT JOIN advisor_assignments on advisor_assignments.Student_Bnum = students.Bnum
 			LEFT JOIN transcript on transcript.Student_Bnum = students.Bnum",
@@ -35,6 +36,9 @@ class Student < ActiveRecord::Base
 		).joins("LEFT JOIN transcript on transcript.Student_Bnum = students.Bnum"
 		).where("tep_advisors_AdvisorBnum = ? or Inst_bnum = ?", prof_bnum, prof_bnum)
 
+
+		joins(:advisor_assignments
+		).where("advisor_assignments.tep_advisors_AdvisorBnum=?", prof_bnum)
 		}
 
 	def is_advisee_of(prof_bnum)
