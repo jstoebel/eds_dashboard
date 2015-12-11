@@ -1,7 +1,8 @@
 class AdmTepController < ApplicationController
   
   layout 'application'
-  load_and_authorize_resource
+  authorize_resource
+  
   def new
     #display menu for possible names and possible programs
 
