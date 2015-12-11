@@ -31,16 +31,6 @@ class Student < ActiveRecord::Base
 
 		}
 
-	scope :with_prof, ->(prof_bnum) {
-		joins("LEFT JOIN advisor_assignments on advisor_assignments.Student_Bnum = students.Bnum"
-		).joins("LEFT JOIN transcript on transcript.Student_Bnum = students.Bnum"
-		).where("tep_advisors_AdvisorBnum = ? or Inst_bnum = ?", prof_bnum, prof_bnum)
-
-
-		joins(:advisor_assignments
-		).where("advisor_assignments.tep_advisors_AdvisorBnum=?", prof_bnum)
-		}
-
 	def is_advisee_of(prof_bnum)
 		#is this student advisee of the prof with prof_bnum?
 		advisor_assignments = self.advisor_assignments

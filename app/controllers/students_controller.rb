@@ -11,8 +11,6 @@ class StudentsController < ApplicationController
       @students = @students.with_prof(user.tep_advisor.AdvisorBnum)   #filter down to authorized advisors.
     end
   	@students = Student.all.current.by_last.with_prof(user_bnum)    #also need to filter for students who are activley enrolled.
-
-
   end
 
   def show
