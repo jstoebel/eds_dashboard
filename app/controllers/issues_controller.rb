@@ -11,11 +11,16 @@ class IssuesController < ApplicationController
   end
 
   def create
+
     @student = find_student(params[:student_id])
     name_details(@student)
     @issue = Issue.new(new_issue_params)
     @issue.students_Bnum = @student.Bnum
-    @issue.tep_advisors_AdvisorBnum = "123456"    #FIX THIS! fake B# for development only. 
+    authorize! :create, @issue   #make sure user is permitted to create issue for this student
+
+    #assign advisor's B#
+    user = current_user
+    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum   #FIX THIS! fake B# for development only. 
 
     if @issue.save
       flash[:notice] = "New issue opened for: #{@first_name} #{@last_name}"
