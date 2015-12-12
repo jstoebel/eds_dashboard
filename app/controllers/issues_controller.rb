@@ -66,14 +66,22 @@ class IssuesController < ApplicationController
   def close_issue
     #process closing the issue
 
+    #edit and authorize the issue
     @issue = Issue.find(params[:issue_id])
+    authorize! :manage, @issue
     @issue.Open = false
     @issue.save
 
+    #create an authorize the update
     @update = IssueUpdate.new(close_issue_params)
     @update.UpdateName = "Issue Resolved"
     @update.Issues_IssueID = @issue.IssueID
-    @update.tep_advisors_AdvisorBnum = "123456"   #TODO change this to advisor Bnum
+    authorize! :manage, @update
+
+    #assign advisor's B#
+    user = current_user
+    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum   #FIX THIS! fake B# for development only. 
+    
     @update.save
 
     flash[:notice] = "Issue resolved!"
