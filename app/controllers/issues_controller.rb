@@ -54,9 +54,7 @@ class IssuesController < ApplicationController
   end
 
   def resolve_issue
-    #what resources do we need to render this page?
-      #student
-      #issue
+    #opens a form to enter information to resolve the issues
 
     @issue = Issue.find(params[:issue_id])
     authorize! @issue
@@ -66,6 +64,7 @@ class IssuesController < ApplicationController
   end
 
   def close_issue
+    #process closing the issue
 
     @issue = Issue.find(params[:issue_id])
     @issue.Open = false
