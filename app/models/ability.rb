@@ -9,16 +9,18 @@ class Ability
 
     elsif user.is? "advisor"
 
-      can :manage, [Issue, IssueUpdate, StudentFile, ClinicalAssignment, ClinicalTeacher, ClinicalSite] 
-      do |resource|
+      can :manage, [Issue, IssueUpdate, StudentFile, ClinicalAssignment] do |resource|
         #map the resource to the student. If the student is assigned to the prof as an advisee or 
         #student, return true
         advisor_check(user, resource)
       end
 
+      can :manage, [ClinicalTeacher, ClinicalSite]
+
       can :read, [Student, PraxisResult, PraxisSubtestResult] do |resource|
         advisor_check(user, resource)
       end
+
 
     elsif user.is? "staff"
       can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher, 

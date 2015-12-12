@@ -5,7 +5,6 @@
 
     <%= render(partial: 'term_picker', locals: {f: f}) %>
 
-
   <% end %>
 
   <table class="listing table table-striped" summary="clinical_assignments list">
@@ -31,22 +30,23 @@
       <th>End Date</th>
     </tr>
     <% @assignments.each do |assignment| %>
-    <td><%= name_details(assignment.student, file_as=true)%></td>
-    <td><%= "#{assignment.clinical_teacher.FirstName} #{assignment.clinical_teacher.LastName}"  %></td>
-    <td><%= assignment.CourseID %></td>  <!-- needs to exist in Banner!-->
-    <td><%= assignment.Level %> </td>
-    <td><%= assignment.StartDate.strftime("%m/%d/%Y") %></td>
-    <td><%= assignment.EndDate.strftime("%m/%d/%Y") %></td>
-    <td class="actions">
+      <td><%= name_details(assignment.student, file_as=true)%></td>
+      <td><%= "#{assignment.clinical_teacher.FirstName} #{assignment.clinical_teacher.LastName}"  %></td>
+      <td><%= assignment.CourseID %></td>  <!-- needs to exist in Banner!-->
+      <td><%= assignment.Level %> </td>
+      <td><%= assignment.StartDate.strftime("%m/%d/%Y") %></td>
+      <td><%= assignment.EndDate.strftime("%m/%d/%Y") %></td>
+      <td class="actions">
 
-    <!-- edit assignment-->
-        <%= link_to edit_clinical_assignment_path(assignment.AltID), :class => "btn btn-info action-small" do %>
-              <span class="small-btn-text">Edit
-              </span>
-            <% end %>
+      <!-- edit assignment-->
+          <%= link_to edit_clinical_assignment_path(assignment.AltID), :class => "btn btn-info action-small" do %>
+                <span class="small-btn-text">Edit
+                </span>
+              <% end %>
 
 
-      </td>
-    </tr>
+        </td>
+      </tr>
+
     <% end %>
   </table>

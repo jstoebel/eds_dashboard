@@ -1,16 +1,14 @@
 class ClinicalAssignmentsController < ApplicationController
   authorize_resource
+
   def index
-    #@current_term: the current term in time
-    #@term: the term displayed
-
     term_menu_setup
-
-    @assignments = ClinicalAssignment.where(Term: @term)
+    @assignments = ClinicalAssignment.where(Term: @term).select {|a| can? :read, a }    #get records user can read
 
   end
 
   def show
+    #everything is shown in the index!
   end
 
   def new
@@ -48,7 +46,7 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.Term = current_term({exact: false, plan_b: "forward"}).BannerTerm
     get_assignment_id
   
-
+    authorize! :manage, @assignment
 
     if @assignment.save
       flash[:notice] = "Created Assignment: #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
@@ -64,6 +62,7 @@ class ClinicalAssignmentsController < ApplicationController
   def edit
     form_setup
     @assignment = ClinicalAssignment.where("AltID = ?", params[:id]).first
+    authorize! :manage, @assignment
     # @student = Student.find(@assignment.Bnum)
     # @teacher = ClinicalTeacher.find(@assignment.clinical_teacher_id)
   end
@@ -71,7 +70,9 @@ class ClinicalAssignmentsController < ApplicationController
   def update
 
     @assignment = ClinicalAssignment.find(params[:id])
+    authorize! :manage, @assignment
     @assignment.update_attributes(assignment_params)
+
 
     if @assignment.save
       flash[:notice] = "Updated Assignment #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
@@ -96,7 +97,7 @@ class ClinicalAssignmentsController < ApplicationController
     
   end
   def form_setup
-    @students = Student.current.by_last
+    @students = Student.current.by_last.select{|s| can? :read, s}
     @teachers = ClinicalTeacher.all
     @current_term = current_term exact: false, plan_b: :forward
   end
@@ -104,6 +105,6 @@ class ClinicalAssignmentsController < ApplicationController
   def get_assignment_id
     #builds an assignment's id
     @assignment.id = [@assignment.Bnum, @assignment.Term.to_s, 
-      @assignment.clinical_teacher_id.to_s, @assignment.CourseID].join('-')
+    @assignment.clinical_teacher_id.to_s, @assignment.CourseID].join('-')
   end
 end
