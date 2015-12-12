@@ -1,19 +1,26 @@
 class IssueUpdatesController < ApplicationController
-  load_and_authorize_resource
+  authorize_resource
   layout 'application'
   
   def new
     @issue = Issue.find(params[:issue_id])
     @update = IssueUpdate.new
     @student = Student.find(@issue.students_Bnum)
+    authorize! :show, @student
     name_details(@student)
   end
 
   def create
     @issue = Issue.find(params[:issue_id])
+    authorize! :manage, @issue
     @update = IssueUpdate.new(issue_update_params)
     @update.Issues_IssueID = @issue.IssueID
-    @update.tep_advisors_AdvisorBnum = "123456"   #TODO FIX THIS
+
+    #assign advisor's B#
+    user = current_user
+    @update.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum 
+    authorize! :manage, @update
+
     @student = Student.find(@issue.students_Bnum)
 
     if @update.save
