@@ -2,7 +2,9 @@ class Student < ActiveRecord::Base
 	include ApplicationHelper
 
 	has_many :praxis_results, {:foreign_key => 'Bnum'}
+	
 	has_many :issues, {:foreign_key => 'students_Bnum'}
+	has_many :issue_updates, {:foreign_key => 'students_Bnum', through: :issues}
 
 	has_many :adm_tep, {:foreign_key => 'Student_Bnum'}
 	has_many :programs, {:foreign_key => 'Student_Bnum', through: :adm_tep}
