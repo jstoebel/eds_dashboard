@@ -1,11 +1,13 @@
 class ClinicalTeachersController < ApplicationController
   authorize_resource
+  skip_authorize_resource :only => [:new]
+
   def index
 
     if params["clinical_site_id"]   #we only want teachers beloning to this site
-      @teachers = ClinicalTeacher.where(clinical_site_id: params["clinical_site_id"])
+      @teachers = ClinicalTeacher.where(clinical_site_id: params["clinical_site_id"]).select {|r| can? :read, r } 
     else
-      @teachers = ClinicalTeacher.all
+      @teachers = ClinicalTeacher.all.select {|r| can? :read, r } 
     end
 
 
@@ -17,11 +19,13 @@ class ClinicalTeachersController < ApplicationController
   def edit
     form_details
     @teacher = ClinicalTeacher.find(params[:id])
+    authorize! :manage, @teacher
   end
 
   def update
     @teacher = ClinicalTeacher.find(params[:id])
     @teacher.update_attributes(teacher_params)
+    authorize! :manage, @teacher    
     if @teacher.save
       flash[:notice] = "Updated Teacher #{@teacher.FirstName} #{@teacher.LastName}."
       redirect_to(clinical_teachers_path)
@@ -41,6 +45,7 @@ class ClinicalTeachersController < ApplicationController
   def create
     @teacher = ClinicalTeacher.new
     @teacher.update_attributes(teacher_params)
+    authorize! :manage, @teacher
     if @teacher.save
       flash[:notice] = "Created new teacher #{@teacher.FirstName} #{@teacher.LastName}."
       redirect_to(clinical_teachers_path)

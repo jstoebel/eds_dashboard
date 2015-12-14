@@ -1,5 +1,6 @@
 class ClinicalAssignmentsController < ApplicationController
   authorize_resource
+  skip_authorize_resource :only => [:new, :choose]
 
   def index
     term_menu_setup

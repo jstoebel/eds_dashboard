@@ -2,6 +2,8 @@ class AdmStController < ApplicationController
   
   layout 'application'
   authorize_resource
+  skip_authorize_resource :only => [:new, :choose]
+
   def index
     #@current_term: the current term in time
     #@term: the term displayed

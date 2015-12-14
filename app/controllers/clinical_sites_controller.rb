@@ -1,5 +1,7 @@
 class ClinicalSitesController < ApplicationController
   authorize_resource
+  skip_authorize_resource :only => [:new]
+
   def index
     @sites = ClinicalSite.all.select {|r| can? :read, r }
   end
