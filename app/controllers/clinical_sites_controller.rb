@@ -1,7 +1,7 @@
 class ClinicalSitesController < ApplicationController
   authorize_resource
   def index
-    @sites = ClinicalSite.all
+    @sites = ClinicalSite.all.select {|r| can? :read, r }
   end
 
   # def show
@@ -10,12 +10,15 @@ class ClinicalSitesController < ApplicationController
 
   def edit
     @site = ClinicalSite.find(params[:id])
+    authorize! :read, @site
 
   end
 
   def update
     @site = ClinicalSite.find(params[:id])
     @site.update_attributes(site_params)
+
+    authorize! :manage, @site
     if @site.save
       flash[:notice] = "Updated #{@site.SiteName}."
       redirect_to (clinical_sites_path)
@@ -33,6 +36,7 @@ class ClinicalSitesController < ApplicationController
   def create
     @site = ClinicalSite.new
     @site.update_attributes(site_params)
+    authorize! :manage, @site
     if @site.save
       flash[:notice] = "Created #{@site.SiteName}."
       redirect_to (clinical_sites_path)
@@ -44,7 +48,6 @@ class ClinicalSitesController < ApplicationController
   end
 
   private
-
   def site_params
     params.require(:clinical_site).permit(:SiteName, :City, :County, :Principal, :District)
     

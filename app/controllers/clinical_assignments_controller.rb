@@ -72,7 +72,7 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment = ClinicalAssignment.find(params[:id])
     authorize! :manage, @assignment
     @assignment.update_attributes(assignment_params)
-
+    
 
     if @assignment.save
       flash[:notice] = "Updated Assignment #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
