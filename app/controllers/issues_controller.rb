@@ -66,31 +66,36 @@ class IssuesController < ApplicationController
   end
 
   def close_issue
-    #process closing the issue
+    #create an update save and close the parent issue, then redirect.
 
-    #edit and authorize the issue
+    user = current_user
     @issue = Issue.find(params[:issue_id])
     authorize! :manage, @issue
-    @issue.Open = false
-    @issue.save
+
+    @student = Student.find(@issue.students_Bnum)
+    authorize! :read, @student
 
     #create and authorize the update
     @update = IssueUpdate.new(close_issue_params)
     @update.UpdateName = "Issue Resolved"
     @update.Issues_IssueID = @issue.IssueID
-    @update.save
-
-    #assign advisor's B#
-    user = current_user
-    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum   #FIX THIS! fake B# for development only. 
+    @update.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum
     authorize! :manage, @update
-    @update.save
 
-    flash[:notice] = "Issue resolved!"
+    if @update.save
+      authorize! :manage, @issue
+      @issue.Open = false
+      @issue.save
 
-    @student = Student.find(@issue.students_Bnum)
-    authorize! :read, @student
-    redirect_to(student_issues_path(@student.AltID))
+      flash[:notice] = "Issue resolved!"
+
+
+      authorize! :read, @student
+      redirect_to(student_issues_path(@student.AltID))
+
+    else
+      render('resolve_issue')
+    end
 
   end
 
