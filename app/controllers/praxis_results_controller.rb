@@ -1,34 +1,31 @@
 class PraxisResultsController < ApplicationController
-  load_and_authorize_resource
   layout 'application'
+  authorize_resource
+  skip_authorize_resource :only => [:new]
 
   def index
     #showing all Praxis results for a single student
     @student = find_student(params[:student_id])
-    
+    # authorize! :read, @student
+ 
+    @tests = @student.praxis_results  #.select {|r| can? :read, r }
   end
+
   def show
     #show details on test including subtests
     @test = find_praxis_result(params[:id])
+    # authorize! :read, @test
+
     @student = Student.find(@test.Bnum)
-    @test_score = @test.TestScore
+    # authorize! :read, @student
     name_details(@student)
   end
-
-  # def test_details
-    # #show details on test including subtests
-    # @test = PraxisResult.find(params[:id])
-    # @student = Student.find(@test.Bnum)
-    # @test_score = @test.TestScore
-    # name_details(@student)
-  # end
 
   def new
     #for clerical users to enter a new praxis exam when a student registers.
     @test = PraxisResult.new
     @students = Student.all.current.by_last
     @test_options = PraxisTest.all.current
-    # puts "HERE IS @test_options", @test_options
   end
 
   def create
