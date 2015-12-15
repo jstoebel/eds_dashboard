@@ -17,7 +17,6 @@ class IssuesController < ApplicationController
     @issue = Issue.new(new_issue_params)
     @issue.students_Bnum = @student.Bnum
     
-
     #assign advisor's B#
     user = current_user
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum
@@ -83,14 +82,11 @@ class IssuesController < ApplicationController
     authorize! :manage, @update
 
     if @update.save
-      authorize! :manage, @issue
       @issue.Open = false
       @issue.save
 
       flash[:notice] = "Issue resolved!"
 
-
-      authorize! :read, @student
       redirect_to(student_issues_path(@student.AltID))
 
     else
@@ -101,7 +97,6 @@ class IssuesController < ApplicationController
 
   private
   def new_issue_params
-
   #same as using params[:subject] except that:
     #raises an error if :praxis_result is not present
     #allows listed attributes to be mass-assigned
