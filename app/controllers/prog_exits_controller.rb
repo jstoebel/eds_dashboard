@@ -1,12 +1,15 @@
 class ProgExitsController < ApplicationController
   authorize_resource
+
   def index
+    #lists all exits for a paticular term as well as exits needed.
   	term_menu_setup
   	@exits = ProgExit.all.by_term(@term)   #fetch all applications for this term
     @needs_exit = exits_needed
   end
 
   def need_exit
+    #indexes programs that need exiting.
     @programs = exits_needed  #gathers applications that need exiting.
 
   end
@@ -15,12 +18,14 @@ class ProgExitsController < ApplicationController
   end
 
   def new
+    #create a new exit
     @exit = ProgExit.new
     new_setup
   end
 
   def create
-    
+    #create a new exit.
+
     #mass assign bnum, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
     student = Student.from_alt_id(params[:prog_exit][:Student_Bnum])
@@ -29,7 +34,7 @@ class ProgExitsController < ApplicationController
     end
 
     exit_date = params[:prog_exit][:ExitDate]
-    if exit_date != ""
+    if exit_date.present?
       @exit.ExitDate = DateTime.strptime(exit_date, '%m/%d/%Y')
       #get term
       term = current_term({:date => @exit.ExitDate})
@@ -39,19 +44,18 @@ class ProgExitsController < ApplicationController
     end
 
     recommend_date = params[:prog_exit][:RecommendDate]
-    if recommend_date != ""
+    if recommend_date.present?
       @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
     else
       @exit.RecommendDate = nil
     end
 
-    #TODO compute GPA and GPA_last60
+    #TODO CHANGE THIS! compute GPA and GPA_last60
     @exit.GPA = 2.5
     @exit.GPA_last60 = 3.0
 
     #get exit ID
   
-
     if @exit.save
       flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
       redirect_to prog_exits_path
@@ -79,22 +83,23 @@ class ProgExitsController < ApplicationController
 
 
   def edit
-    @exit = ProgExit.where("AltID=?", params[:id]).first 
+    @exit = ProgExit.find(params[:id]) 
   end
 
   def update
-    @exit = ProgExit.where("AltID=?", params[:id]).first    
+    #update exit record
+    @exit = ProgExit.find(params[:id])    
     @exit.assign_attributes(edit_exit_params)
 
     recommend_date = params[:prog_exit][:RecommendDate]
-    if recommend_date != ""
+    if recommend_date.present?
       @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
     else
       @exit.RecommendDate = nil
     end
 
     if @exit.save
-      flash[:notice] = "Edited exited record for #{name_details(@exit.student)}"
+      flash[:notice] = "Edited exit record for #{name_details(@exit.student)}"
       redirect_to prog_exits_path
     else
       render('edit')
@@ -104,13 +109,14 @@ class ProgExitsController < ApplicationController
   end
 
   def choose
+    #display exits for a new term.
 	  @term = params[:banner_term][:menu_terms]
 	  redirect_to(banner_term_prog_exits_path(@term))
   end
 
   def get_programs
-    #gets programs for a given student's B#
-    # @programs = Student.where(AltID: params[:alt_id]).first.programs
+    #gets programs for a given student's B#, respond with json of all of students opened programs 
+
     student = Student.where(AltID: params[:alt_id]).first
     open_admissions = AdmTep.open(student.Bnum)
     open_programs = open_admissions.map { |i| i.program }
