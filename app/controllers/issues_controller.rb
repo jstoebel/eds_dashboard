@@ -16,11 +16,12 @@ class IssuesController < ApplicationController
     name_details(@student)
     @issue = Issue.new(new_issue_params)
     @issue.students_Bnum = @student.Bnum
-    authorize! :create, @issue   #make sure user is permitted to create issue for this student
+    
 
     #assign advisor's B#
     user = current_user
-    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum   #FIX THIS! fake B# for development only. 
+    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum
+    authorize! :create, @issue   #make sure user is permitted to create issue for this student
 
     if @issue.save
       flash[:notice] = "New issue opened for: #{@first_name} #{@last_name}"
@@ -58,7 +59,7 @@ class IssuesController < ApplicationController
     #opens a form to enter information to resolve the issues
 
     @issue = Issue.find(params[:issue_id])
-    authorize! @issue
+    authorize! :manage, @issue
     @student = Student.find(@issue.students_Bnum)
     name_details(@student)
     
@@ -73,21 +74,22 @@ class IssuesController < ApplicationController
     @issue.Open = false
     @issue.save
 
-    #create an authorize the update
+    #create and authorize the update
     @update = IssueUpdate.new(close_issue_params)
     @update.UpdateName = "Issue Resolved"
     @update.Issues_IssueID = @issue.IssueID
-    authorize! :manage, @update
+    @update.save
 
     #assign advisor's B#
     user = current_user
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum   #FIX THIS! fake B# for development only. 
-    
+    authorize! :manage, @update
     @update.save
 
     flash[:notice] = "Issue resolved!"
 
     @student = Student.find(@issue.students_Bnum)
+    authorize! :read, @student
     redirect_to(student_issues_path(@student.AltID))
 
   end

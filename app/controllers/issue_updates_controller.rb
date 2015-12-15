@@ -3,16 +3,23 @@ class IssueUpdatesController < ApplicationController
   layout 'application'
   
   def new
+    #sets up creation of a new issue update
     @issue = Issue.find(params[:issue_id])
-    @update = IssueUpdate.new
+    authorize! :manage, @issue
+
     @student = Student.find(@issue.students_Bnum)
-    authorize! :show, @student
+    authorize! :manage, @student
+
+    @update = IssueUpdate.new
+
     name_details(@student)
+
   end
 
   def create
+    #saves a new update to the database, redirects to index if successful, rerenders page if error.
     @issue = Issue.find(params[:issue_id])
-    authorize! :manage, @issue
+
     @update = IssueUpdate.new(issue_update_params)
     @update.Issues_IssueID = @issue.IssueID
 
@@ -22,6 +29,7 @@ class IssueUpdatesController < ApplicationController
     authorize! :manage, @update
 
     @student = Student.find(@issue.students_Bnum)
+    authorize! :manage, @student
 
     if @update.save
       flash[:notice] = "New update added"
@@ -34,31 +42,47 @@ class IssueUpdatesController < ApplicationController
   end
 
   def index
+    #indexes updates for parent issue
     @issue = Issue.find(params[:issue_id])
+    authorize! :read, @issue
+
     @student = Student.find(@issue.students_Bnum)
+    authorize! :read, @student
+
     name_details(@student)
-    @updates = @issue.issue_updates.sorted    
+
+    @updates = @issue.issue_updates.sorted.select {|r| can? :read, r }    
 
   end
 
   def show
+    #shows info on this issue update
+    #TODO implement as a popover
     @update = IssueUpdate.find(params[:id])
     @issue = @update.issue
+    authorize! :read, @issue
+
     @student = @issue.student
+    authorize! :read, @student
+
     name_details(@student)
 
   end
 
   def resolve_issue
+    #begins disalogue 
     @issue = Issue.find(params[:id])
+    authorize! :manage, @issue
+
     @student = Student.find(@issue.students_Bnum)
+    authorize! :manage, @student
+
     name_details(@student)   
   	
   end
 
   def close_issue
     #TODO do we need error handling?
-
 
     @update = IssueUpdate.new(close_issue_params)
     @update.UpdateName = "Issue Resolved"
