@@ -2,15 +2,12 @@ require 'test_helper'
 
 class AdmStTest < ActiveSupport::TestCase
 
-	#test for codeship!
-
 	test "check fks" do
 		app = AdmSt.new
 		app.valid?
 		py_assert(app.errors.full_messages, ["Student bnum No student selected.", "Bannerterm bannerterm No term could be determined."]
 )
 	end
-
 
 	test "valid letter" do
 		app = AdmSt.first
@@ -70,8 +67,5 @@ class AdmStTest < ActiveSupport::TestCase
 		py_assert(expected_apps.slice(0, expected_apps.size), actual_apps.slice(0, actual_apps.size))
 
 	end
-
-
-
 
 end
