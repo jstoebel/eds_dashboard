@@ -1,7 +1,9 @@
 class AdmTepController < ApplicationController
   
   layout 'application'
-  load_and_authorize_resource
+  authorize_resource
+  skip_authorize_resource :only => [:new, :choose]
+  
   def new
     #display menu for possible names and possible programs
 

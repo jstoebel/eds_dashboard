@@ -11,7 +11,7 @@
 
     </caption>
 
-    <% if @student.praxis_results.size > 0  %>
+    <% if @tests.size > 0  %>
 
           <tr class="header">
             <th>Test Name</th>
@@ -20,7 +20,7 @@
             <th>Best Score as of Test Date</th>      
             <th>Cut Score</th>
           </tr>
-          <% @student.praxis_results.each do |result| %>
+          <% @tests.each do |result| %>
           <tr class "<%= cycle('odd', 'even') %>">
       	  <td><%= PraxisTest.find(result.TestCode).TestName %></td>
       	  <td><%= result.TestDate.strftime("%m/%d/%Y")%> </td>

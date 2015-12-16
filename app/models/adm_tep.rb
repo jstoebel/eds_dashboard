@@ -60,7 +60,6 @@ class AdmTep < ActiveRecord::Base
 
   
   private
-
   def check_fks
     #validate the foreign keys and return true if all are good
     self.errors.add(:Student_Bnum, "No student selected.") unless self.Student_Bnum

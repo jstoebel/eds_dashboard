@@ -8,7 +8,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def current_user
-    return User.find(session[:user])
+    user = User.find(session[:user])
+    user.view_as = session[:view_as]
+    return user
+  end
+
+  def user_bnum
+    user = current_user
+    bnum = user.tep_advisor.AdvisorBnum
   end
 
   # Catch all CanCan errors and alert the user of the exception

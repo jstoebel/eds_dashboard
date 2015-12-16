@@ -15,54 +15,58 @@
       <th>Program Status</th>
     </tr>
     <% @students.each do |student| %>
-    <tr class "<%= cycle('odd', 'even') %>">
-	  <td><%= student.Bnum %></td>
-	  <td><%= student.FirstName %> <%= student.PreferredFirst ? "(#{student.PreferredFirst})" : nil %></td>
-	  <td><%= student.MiddleName %></td>
-	  <td><%= student.LastName %> <%= student.PrevLast ? "(#{student.PrevLast})" : nil %></td>
-	  <td><%= student.ProgStatus %></td>
-    <td class="actions">
 
-    
-        <%= link_to student_path(student.AltID), :class => "btn btn-info action-small" do %>
-              </br><span class="small-btn-text">Details</span>
+      <% if can? :read, student %>
+
+    	  <td><%= student.Bnum %></td>
+    	  <td><%= student.FirstName %> <%= student.PreferredFirst ? "(#{student.PreferredFirst})" : nil %></td>
+    	  <td><%= student.MiddleName %></td>
+    	  <td><%= student.LastName %> <%= student.PrevLast ? "(#{student.PrevLast})" : nil %></td>
+    	  <td><%= student.ProgStatus %></td>
+        <td class="actions">
+
+        
+            <%= link_to student_path(student.AltID), :class => "btn btn-info action-small" do %>
+                  </br><span class="small-btn-text">Details</span>
             <% end %>
 
 
-          <!-- TODO grayed out button if no praxis results, issues -->
-  
-          <%= link_to student_praxis_results_path(student.AltID),:class => "btn btn-info action-small praxis" + (student.praxis_results.size > 0 ? "" : " disabled") do %>
-                  </br>
-                  <span class="small-btn-text"> Praxis Results 
-                    <span class="badge">
-                      <%=student.praxis_results.size%> 
+              <!-- TODO grayed out button if no praxis results, issues -->
+      
+              <%= link_to student_praxis_results_path(student.AltID),:class => "btn btn-info action-small praxis" + (student.praxis_results.size > 0 ? "" : " disabled") do %>
+                      </br>
+                      <span class="small-btn-text"> Praxis Results 
+                        <span class="badge">
+                          <%=student.praxis_results.size%> 
+                        </span>
                     </span>
-                </span>
 
               <% end %>
 
-        <%= link_to student_issues_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-              </br><span class="small-btn-text">
-              Issues
-                <span class="badge">
-                  <%=student.issues.size%>
-                </span>
-              </span>
+            <%= link_to student_issues_path(student.AltID),:class => "btn btn-info action-small issues" do %>
+                  </br><span class="small-btn-text">
+                  Issues
+                    <span class="badge">
+                      <%=student.issues.size%>
+                    </span>
+                  </span>
 
             <% end %>
 
-        <%= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-              </br><span class="small-btn-text">
-              Files
-                <span class="badge">
-                  <%=student.student_files.active.size%>
-                </span>
-              </span>
+            <%= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>
+                  </br><span class="small-btn-text">
+                  Files
+                    <span class="badge">
+                      <%=student.student_files.active.size%>
+                    </span>
+                  </span>
 
             <% end %>
 
-      </td>
-    </tr>
+
+        </td>
+      </tr>
+      <% end %>
     <% end %>
   </table>
 </div>

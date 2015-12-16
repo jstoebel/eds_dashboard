@@ -1,5 +1,6 @@
 class StudentFilesController < ApplicationController
-  load_and_authorize_resource
+  authorize_resource
+
   def index
     index_setup
   end
@@ -13,13 +14,14 @@ class StudentFilesController < ApplicationController
     student = Student.from_alt_id(params[:student_id])
     @file.Student_Bnum = student.Bnum
     @file.doc = params[:student_file][:doc]
+
+    authorize! :manage, @file
+
     if @file.save
       flash[:notice] = "File successfully uploaded."
       redirect_to student_student_files_path(student.AltID)
     else
       index_setup
-      puts "*"*50
-      puts @file.errors.messages
       flash[:notice] = "Error uploading file."
       render 'index'      
     end
@@ -31,6 +33,8 @@ class StudentFilesController < ApplicationController
   def destroy
     file = StudentFile.find(params[:id])
     file.active = false
+
+    authorize! :manage, file
     if file.save
       flash[:notice] = "File successfully removed."
       redirect_to student_student_files_path(file.student.AltID)
@@ -42,17 +46,19 @@ class StudentFilesController < ApplicationController
 
   def download
 
+    authorize! :read, file
   end
 
   private
 
   def index_setup
     @student = Student.from_alt_id(params[:student_id])
+    authorize! :read, @student
+
     @adm_teps = AdmTep.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)
     @adm_sts = AdmSt.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)    
-    @docs = @student.student_files.active
-  
-    
+
+    @docs = @student.student_files.active.select {|r| can? :read, r }
   end
 
 end

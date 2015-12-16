@@ -1,17 +1,16 @@
 class AdmStController < ApplicationController
   
   layout 'application'
-  load_and_authorize_resource
+  authorize_resource
+  skip_authorize_resource :only => [:new, :choose]
+
   def index
     #@current_term: the current term in time
     #@term: the term displayed
     index_setup
-    
-
   end
 
   def show
-
     @app = AdmSt.find(params[:id])   
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
     @student = Student.find(@app.Student_Bnum)
@@ -186,9 +185,9 @@ class AdmStController < ApplicationController
   def index_setup
     term_menu_setup
         
-    @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term
-    
+    @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term  
   end
+
   def new_adm_params
     params.require(:adm_st).permit(:Student_Bnum)
   end
