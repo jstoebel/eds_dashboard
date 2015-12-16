@@ -2,6 +2,8 @@ require 'test_helper'
 
 class AdmStTest < ActiveSupport::TestCase
 
+	#test for codeship!
+
 	test "check fks" do
 		app = AdmSt.new
 		app.valid?
