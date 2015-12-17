@@ -65,7 +65,13 @@
                     updates
                     close isue -->
 
-                    <%= link_to "Details", issue_path(issue.IssueID), class: "btn btn-info action-small"%>
+                    <%= render(partial: 'details_popover', 
+                    locals: {
+                      :record_id => issue.IssueID,
+                      :popover_title => "Issue Details", 
+                      :button_title => "Details",
+                      :content => exit.Details
+                    } )  %>
                               
                     <%= link_to "Updates", issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small"%>   
                      
