@@ -19,9 +19,9 @@
       <% if can? :read, student %>
 
     	  <td><%= student.Bnum %></td>
-    	  <td><%= student.FirstName %> <%= student.PreferredFirst ? "(#{student.PreferredFirst})" : nil %></td>
+    	  <td><%= student.FirstName %> <%= student.PreferredFirst.present? ? "(#{student.PreferredFirst})" : nil %></td>
     	  <td><%= student.MiddleName %></td>
-    	  <td><%= student.LastName %> <%= student.PrevLast ? "(#{student.PrevLast})" : nil %></td>
+    	  <td><%= student.LastName %> <%= student.PrevLast.present? ? "(#{student.PrevLast})" : nil %></td>
     	  <td><%= student.ProgStatus %></td>
         <td class="actions">
 
