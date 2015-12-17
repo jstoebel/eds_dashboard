@@ -21,7 +21,6 @@ class Ability
         advisor_check(user, resource)
       end
 
-
     elsif user.is? "staff"
       can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher, 
         Employment, Foi, ProgExit, StudentFile]

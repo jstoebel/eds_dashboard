@@ -10,7 +10,7 @@
  * file per style scope.
 
 
- *= require bootstrap-datepicker 
+ *= require bootstrap-datepicker
  *= require_self
  *= require nav_bar
  *= require_tree .

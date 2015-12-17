@@ -1,32 +1,47 @@
   <!-- Partial for a popover.
 
     arguments:
-        record_id: an id for the record the popover will represent. Must be unique to the page
-        popover_title: the title of the popover.
-        button_title: the name of the button
-        create_date: the date issue was filed
-        student name: student's name
-        Name: issue name
-        description: the main content to be dispalyed
-        tep_advisor: advisor's name
+      issue: the issue object being displayed
          -->
 
 
   <!-- Button trigger modal -->
-  <button class="btn btn-info action-small"+ <%= content.to_s == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
-    <%= button_title  %>
+  <button class="btn btn-info action-small" data-toggle="modal" data-target="#<%= issue.IssueID %>-details">
+    Details
   </button>
 
   <!-- Modal -->
-  <div class="modal fade" id="exit-<%= record_id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= record_id %>-label" aria-hidden="true">
+  <div class="modal fade" id="exit-<%= issue.IssueID %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= issue.IssueID %>-label" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="exit-<%= record_id %>-label"> 
-            <%=popover_title %> </h4>
+          <h4 class="modal-title" id="<%= issue.IssueID %>-label"> 
+            <div class="header1"><%= issue.Name %> </div>
+            <div class="header2"> <%= name_details (issue.student) %> </div>
+          </h4>
+
         </div>
         <div class="modal-body">
-          <%= content %>
+          <div class="table">
+            <div class="row">
+              <div class="col-md-6">Date Opened</div>
+              <div class="col-md-6"> <%= issue.CreateDate.strftime('%m/%d/%Y') %> </div>  
+            </div>
+
+            <div class="row">
+              <div class="col-md-6"> Opened By </div>
+              <% user = issue.tep_advisor.user %> 
+              <div class="col-md-6"> <%= user.FirstName + " " + user.LastName %> </div>  
+            </div>
+
+            <div class="row">
+              <div class="well">
+                issue.Description
+              </div> 
+            </div>
+
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
