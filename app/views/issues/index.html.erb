@@ -6,16 +6,19 @@
 
           <table class="table table-striped">
             <caption>
-              <div class="header1">Issues for <%= "#{@first_name} #{@last_name}"%></div>
+              <div class="header1">Issues for <%= name_details(@student)%></div></br>
 
-              <div class="row">
-                <div class="col-md-1 pull-right">
-                  <%= link_to new_student_issue_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %> 
-                    <span class="large-btn-text">Add New Issue</span>
+              <div class="header2"> <%= pluralize(@issues.size, "issue") + " found" %> </div>
 
-                  <% end %>    
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-1 pull-right">
+                    <%= link_to new_clinical_assignment_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                        <span class="large-btn-text">New Assignment</span>
+                    <% end %>         
+                  </div>
                 </div>
-              </div>
+              </div> 
             </caption>
 
             <% if @student.issues.size > 0 %>
