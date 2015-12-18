@@ -332,12 +332,12 @@ light gray: #F9F9F9 (zebra stripe 1, zs2 = white)
   padding-top: 25px;
 }
 
-caption .header1 {
+.header1 {
   font-size: 24px;
   font-style: bold;
 }
 
-caption .header2 {
+.header2 {
   font-size: 20px;
   font-style: italic;
 }

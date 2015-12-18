@@ -11,18 +11,21 @@
   </button>
 
   <!-- Modal -->
-  <div class="modal fade" id="exit-<%= issue.IssueID %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= issue.IssueID %>-label" aria-hidden="true">
+  <div class="modal fade" id="<%= issue.IssueID %>-details" tabindex="-1" role="dialog" aria-labelledby="<%= issue.IssueID %>-label" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="<%= issue.IssueID %>-label"> 
+          <div class="modal-title" id="<%= issue.IssueID %>-label"> 
             <div class="header1"><%= issue.Name %> </div>
             <div class="header2"> <%= name_details (issue.student) %> </div>
-          </h4>
+          </div>
 
         </div>
         <div class="modal-body">
           <div class="table">
+            <div class="caption">
+
+            </div>
             <div class="row">
               <div class="col-md-6">Date Opened</div>
               <div class="col-md-6"> <%= issue.CreateDate.strftime('%m/%d/%Y') %> </div>  
@@ -35,9 +38,9 @@
             </div>
 
             <div class="row">
-              <div class="well">
-                issue.Description
-              </div> 
+                <div class="col-md-12">
+                  <%= issue.Description  %>
+                </div>
             </div>
 
           </div>
