@@ -38,6 +38,7 @@ class StudentTest < ActiveSupport::TestCase
 	end
 
 	test "is student of" do
+		
 	end
 
 end
