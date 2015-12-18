@@ -10,8 +10,8 @@
 #
 #  column: value
 
-one:
+jon_snow:
   FirstName: John
   LastName: Snow
-  Email: snowj@berea.edu
-  
+  Email: snowj@thewall.org
+  role: admin

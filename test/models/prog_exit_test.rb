@@ -64,6 +64,7 @@ class ProgExitTest < ActiveSupport::TestCase
 		exit.GPA = 2.49
 		exit.GPA_last60 = 2.99
 		exit.valid?
+		# assert (exit.GPA == 2.49 and exit.GPA_last60 == 2.99)
 		py_assert(["Student must have 2.5 GPA or 3.0 in the last 60 credit hours."], exit.errors[:base])
 	end
 
@@ -92,12 +93,18 @@ class ProgExitTest < ActiveSupport::TestCase
 		#try to exit the prospective
 		stu = Student.where("ProgStatus=?", "Prospective").first
 		adm = stu.adm_tep.first
+
+		term = ApplicationController.helpers.current_term({
+			:exact => false,
+			:plan_b => :back
+		})
+
 		exit = ProgExit.new({
 			Student_Bnum: stu.Bnum,
 			Program_ProgCode: adm.Program_ProgCode,
 			ExitCode_ExitCode: "1849",
 			ExitTerm: 201511,
-			ExitDate: Date.today,
+			ExitDate: term.StartDate,
 			GPA: 3.0,
 			GPA_last60: 3.0
 			})
@@ -137,7 +144,18 @@ class ProgExitTest < ActiveSupport::TestCase
 
 		#exit as completer
 		exit = ProgExit.new
-		exit.update_attributes({Student_Bnum: stu.Bnum, Program_ProgCode: stu.programs.first.ProgCode, ExitCode_ExitCode: "1849", ExitTerm: 201511, ExitDate: Date.today, GPA: 3, GPA_last60: 3,})
+
+		exit_term = ApplicationController.helpers.current_term({
+			:exact => false,
+			:plan_b => :forward,
+			:date => adm_tep.TEPAdmitDate
+
+		})  #exit in the first term after admit date
+
+		exit.update_attributes({
+			Student_Bnum: stu.Bnum, Program_ProgCode: stu.programs.first.ProgCode, 
+			ExitCode_ExitCode: "1849", ExitTerm: 201511, 
+			ExitDate: exit_term.StartDate, GPA: 3, GPA_last60: 3,})
 
 		py_assert("Completer", exit.student.ProgStatus)
 
@@ -147,14 +165,20 @@ class ProgExitTest < ActiveSupport::TestCase
 		#admit the prospective student,
 		stu = Student.where("ProgStatus=?", "Prospective").first
 		adm_tep = AdmTep.where(Student_Bnum: stu.Bnum).first
-		adm_tep.update_attributes({:TEPAdmit => true, TEPAdmitDate: Date.today-1})
+
+		term = ApplicationController.helpers.current_term({
+			:exact => false,
+			:plan_b => :back
+		})
+
+		adm_tep.update_attributes({:TEPAdmit => true, TEPAdmitDate: term.StartDate})
 		adm_tep.save
 
 		assert(adm_tep.student.ProgStatus=="Candidate", "Student status is not being changed to Candidate")
 
 		#exit as completer
 		exit = ProgExit.new
-		exit.update_attributes({Student_Bnum: stu.Bnum, Program_ProgCode: stu.programs.first.ProgCode, ExitCode_ExitCode: "1826", ExitTerm: 201511, ExitDate: Date.today, GPA: 3, GPA_last60: 3,})
+		exit.update_attributes({Student_Bnum: stu.Bnum, Program_ProgCode: stu.programs.first.ProgCode, ExitCode_ExitCode: "1826", ExitTerm: 201511, ExitDate: term.EndDate, GPA: 3, GPA_last60: 3,})
 
 		py_assert("Dropped", exit.student.ProgStatus)
 	end

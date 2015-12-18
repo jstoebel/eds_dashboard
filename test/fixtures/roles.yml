@@ -5,5 +5,18 @@
 # below each fixture, per the syntax in the comments below
 #
 
-one:
-  
+admin:
+  idRoles: 1
+  RoleName: admin
+
+advisor:
+  idRoles: 2
+  RoleName: advisor
+
+staff:
+  idRoles: 3
+  RoleName: staff
+
+stu_labor:
+  idRoles: 4
+  RoleName: student labor

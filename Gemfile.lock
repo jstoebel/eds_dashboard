@@ -73,6 +73,8 @@ GEM
     mime-types (2.6.1)
     mimemagic (0.3.0)
     minitest (5.7.0)
+    minitest-fail-fast (0.1.0)
+      minitest (~> 5)
     multi_json (1.11.1)
     mysql2 (0.3.18)
     paperclip (4.3.0)
@@ -148,6 +150,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   lograge
+  minitest-fail-fast
   mysql2
   paperclip (~> 4.3)
   rails (= 4.1.10)

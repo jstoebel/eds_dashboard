@@ -12,13 +12,7 @@ base: &base
   LastName: Stoebel
   AltID: 1
 
-
 candidate:
   <<: *base
   ProgStatus: Candidate
   AltID: 2
-
-# prospective:
-#   <<: *base
-#   ProgStatus: Prospective
-#   AltID: 3

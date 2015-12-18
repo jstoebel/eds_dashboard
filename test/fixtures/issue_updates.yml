@@ -11,10 +11,10 @@
 #  column: value
 
 <% 2.times do |i| %>
-<%="issue_update#{i}:" %>
+<%= "issue_update#{i}:" %>
   CreateDate: <%= Date.today + i %>
   UpdateName: Update1
   Description: Update1 Description
   issue: one
-  tep_advisors_AdvisorBnum: "B00123456"
+  tep_advisors_AdvisorBnum: B00123456
 <% end %>

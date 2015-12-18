@@ -31,6 +31,10 @@ class StudentTest < ActiveSupport::TestCase
 	end
 
 	test "is advisee of" do
+		assignment = AdvisorAssignment.first
+		s = assignment.student
+		adv = assignment.tep_advisor
+		assert s.is_advisee_of(adv.AdvisorBnum)
 	end
 
 	test "is student of" do

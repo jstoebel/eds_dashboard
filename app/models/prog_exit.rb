@@ -12,7 +12,7 @@ class ProgExit < ActiveRecord::Base
 	#CALLBACKS
 	before_validation :add_term
 
-	attr_accessor :spam
+	# attr_accessor :spam
 
 	after_save :change_status
 
@@ -83,6 +83,7 @@ class ProgExit < ActiveRecord::Base
 		
 
 	def add_term
+		#adds the banner term to record based on date.
 
 		if self.ExitDate
 			term = ApplicationController.helpers.current_term({:date => self.ExitDate})
