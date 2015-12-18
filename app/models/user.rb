@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
   	#if user is admin and they have a :view_as in their session hash, return that psudo role
   	#pre: 
   		#other: role (string) we are comparing to
-  		#view_as: user's view_as value from their session hash (either an int or nil)
   	#post: 
 
   	if self.role_name == 'admin' and self.view_as.present?
