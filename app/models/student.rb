@@ -20,16 +20,10 @@ class Student < ActiveRecord::Base
 	has_many :transcripts, {:foreign_key => 'Student_Bnum'}
 
 	scope :by_last, lambda {order(LastName: :asc)}
-	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}		#TODO also need to know if student is activly enrolled (see banner)
+	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}
 	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
 	scope :from_alt_id, ->(alt_id) {where("AltID = ?", alt_id).first}		#finds a student based on AltID
 	
-	# scope :with_prof, ->(prof_bnum) {find(:all, 
-	# 		joins: "LEFT JOIN advisor_assignments on advisor_assignments.Student_Bnum = students.Bnum
-	# 		LEFT JOIN transcript on transcript.Student_Bnum = students.Bnum"
-	# 		).where("tep_advisors_AdvisorBnum = ? or Inst_bnum = ?", prof_bnum, prof_bnum)
-
-	# 	}
 
 	def is_advisee_of(prof_bnum)
 		#is this student advisee of the prof with prof_bnum?

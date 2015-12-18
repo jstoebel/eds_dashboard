@@ -4,13 +4,13 @@ module ApplicationHelper
     #returns full student name with additional first and last names as needed
     #if file_as, return student with last name first (Fee, Jon)
 
-		if student.PreferredFirst.to_s != ""
+		if student.PreferredFirst.present?
 			first_name = student.PreferredFirst + " (#{student.FirstName})"
 		else
 			first_name = student.FirstName
 		end
 
-		if student.PrevLast.to_s != ""
+		if student.PrevLast.present?
 			last_name = student.LastName + " (#{student.PrevLast})"
 		else
 			last_name = student.LastName

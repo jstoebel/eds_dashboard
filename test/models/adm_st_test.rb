@@ -9,7 +9,6 @@ class AdmStTest < ActiveSupport::TestCase
 )
 	end
 
-
 	test "valid letter" do
 		app = AdmSt.first
 		app.letter_file_name = nil
@@ -68,8 +67,5 @@ class AdmStTest < ActiveSupport::TestCase
 		py_assert(expected_apps.slice(0, expected_apps.size), actual_apps.slice(0, actual_apps.size))
 
 	end
-
-
-
 
 end

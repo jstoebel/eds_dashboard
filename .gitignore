@@ -1,5 +1,4 @@
 public/*
-db/seeds.rb
 /tmp/cache/*
 /log/*
 *.rbc
@@ -7,7 +6,6 @@ capybara-*.html
 .rspec
 /log
 /tmp
-/db
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /public/system
