@@ -6,4 +6,7 @@
 #
 
 one:
-  
+  student: base
+  course_code: EDS150
+  term_taken: BannerTerm_262
+  Inst_bnum: B00123456

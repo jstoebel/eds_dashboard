@@ -30,15 +30,57 @@ class StudentTest < ActiveSupport::TestCase
 		py_assert(s.ProgStatus, "Candidate")		#this student should be the only one with ProgStatus of "Candidate"
 	end
 
-	test "is advisee of" do
+	test "is advisee of passes" do
 		assignment = AdvisorAssignment.first
 		s = assignment.student
 		adv = assignment.tep_advisor
 		assert s.is_advisee_of(adv.AdvisorBnum)
 	end
 
-	test "is student of" do
-		
+	test "is advisee of fails" do
+		assignment = AdvisorAssignment.first
+		s = assignment.student
+		adv = assignment.tep_advisor
+		assert (s.is_advisee_of("bad bnum") == false)
 	end
 
+	test "is student of passes" do
+		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})		
+
+		#update course with the term that the model expects in order to pass
+		course = Transcript.first
+		course.term_taken = term.BannerTerm
+		assert course.valid?
+		course.save
+
+		stu = course.student
+		prof_bnum = course.Inst_bnum
+		assert stu.is_student_of(prof_bnum), "inst B# is " + prof_bnum
+	end
+
+	test "is student of fails bad term" do
+		#fails because student doesn't have professor in the current term
+
+		course = Transcript.first
+		course.term_taken = 195301
+		assert course.valid?
+		course.save
+		stu = course.student
+		prof_bnum = course.Inst_bnum
+		assert stu.is_student_of(prof_bnum) == false
+	end
+
+	test "is student of fails not student" do
+		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})		
+
+		#fails because student doesn't have this prof (in fact the Bnum is completly bogus)
+		course = Transcript.first
+		course.term_taken = term.BannerTerm
+		assert course.valid?
+		course.save
+
+		stu = course.student
+		prof_bnum = course.Inst_bnum
+		assert stu.is_student_of("bogus bnum") == false
+	end
 end

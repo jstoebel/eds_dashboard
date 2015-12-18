@@ -14,4 +14,10 @@ jon_snow:
   FirstName: John
   LastName: Snow
   Email: snowj@thewall.org
-  role: admin
+  Roles_idRoles: 1
+
+arya_stark:
+  FirstName: Arya
+  LastName: Stark
+  Email: noone@facelessmen.org
+  Roles_idRoles: 3
