@@ -2,9 +2,6 @@ require 'test_helper'
 
 class ProgExitTest < ActiveSupport::TestCase
 	fixtures :all
-  # test "the truth" do
-  #   assert true
-  # end
 
   test "scope by_term" do
   	expected = ProgExit.where("ExitTerm= ?", 201511).to_a

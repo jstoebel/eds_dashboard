@@ -10,29 +10,32 @@ class AdmStController < ApplicationController
     index_setup
   end
 
-  def show
-    @app = AdmSt.find(params[:id])   
-    @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
-    @student = Student.find(@app.Student_Bnum)
-    name_details(@student)
-  end
+  # def show
+  #   @app = AdmSt.find(params[:id])   
+  #   @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
+  #   @student = Student.find(@app.Student_Bnum)
+  #   name_details(@student)
+  # end
 
   def new
     #display menu for possible names and possible programs
 
     if current_term(exact: true) == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
-      redirect_to(adm_tep_index_path)
+      redirect_to(adm_st_index_path)
       return
     end
-
-    # @students = Student.joins(:adm_tep).group(:Bnum).having(TEPAdmit: 1)
 
     new_setup
     @app = AdmSt.new
   end
 
   def create
+    #pre: a student's Bnum
+    #post: 
+      #an application is created
+      #flash message generated
+      #redirected to index 
 
     #can't add new students to apply once the term is over.
     
@@ -40,15 +43,13 @@ class AdmStController < ApplicationController
 
     if @current_term == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
-      redirect_to(adm_tep_index_path)
+      redirect_to(adm_st_index_path)
+      return
     end
 
     @app = AdmSt.new(new_adm_params)    #add in Bnum
-
     @bnum =  params[:adm_st][:Student_Bnum]
-
     @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
-
     apps_this_term = AdmSt.where(Student_Bnum: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).size
     @app.Attempt = apps_this_term + 1
 

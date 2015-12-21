@@ -39,7 +39,7 @@ module ApplicationHelper
         #(dates outside of terms are rejected.)
       :plan_b => :forward,    #If not nil, what direction should we look to find the nearest term 
         #(if no exact match). Can be foward or back (symbol)
-      :date => DateTime.now   #datetime object
+      :date => Date.today   #Date object
     }
 
     options = defaults.merge(options)
