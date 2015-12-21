@@ -6,16 +6,19 @@
 
           <table class="table table-striped">
             <caption>
-              <div class="header1">Issues for <%= "#{@first_name} #{@last_name}"%></div>
+              <div class="header1">Issues for <%= name_details(@student)%></div></br>
 
-              <div class="row">
-                <div class="col-md-1 pull-right">
-                  <%= link_to new_student_issue_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %> 
-                    <span class="large-btn-text">Add New Issue</span>
+              <div class="header2"> <%= pluralize(@issues.size, "issue") + " found" %> </div>
 
-                  <% end %>    
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-1 pull-right">
+                    <%= link_to new_student_issue_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                        <span class="large-btn-text">New Issue</span>
+                    <% end %>         
+                  </div>
                 </div>
-              </div>
+              </div> 
             </caption>
 
             <% if @student.issues.size > 0 %>
@@ -62,7 +65,13 @@
                     updates
                     close isue -->
 
-                    <%= link_to "Details", issue_path(issue.IssueID), class: "btn btn-info action-small"%>
+                    <%= render(partial: 'details_popover', 
+                    locals: {
+                      :record_id => issue.IssueID,
+                      :popover_title => "Issue Details", 
+                      :button_title => "Details",
+                      :content => exit.Details
+                    } )  %>
                               
                     <%= link_to "Updates", issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small"%>   
                      
