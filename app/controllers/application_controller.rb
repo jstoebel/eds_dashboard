@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   def authorize
     #if the user gets here they are authenticated as a Berea College user.
-    #next let's fetch their username and role (if any)
+    #let's fetch their username and role (if any)
     unless session[:user].present?    #look up username and role if we don't have it.
 
       username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
@@ -36,8 +36,6 @@ class ApplicationController < ActionController::Base
         session[:user] = user.UserName
         session[:role] = user.role_name
         #user is recognized in this site!
-        
-        #TODO AUTHORIZATION determine students user is authorized to view in advisor pages.
 
         #redirect to their home page!
         if user.FirstName.present? and user.LastName.present?
@@ -51,9 +49,8 @@ class ApplicationController < ActionController::Base
       else  #couldn't find user in database ->authorize failed!
         redirect_to "/access_denied"
       end
-
+      
       #user is already loaded into session data. Nothing needed.
-
     end
 
   end

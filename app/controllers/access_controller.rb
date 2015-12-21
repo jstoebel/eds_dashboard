@@ -5,6 +5,7 @@ class AccessController < ApplicationController
 
   def index
     #users home page. Here they are shown options of where they can go next.
+    #post: the current term and the user
   	@current_term = current_term({exact: false, plan_b: :forward})
     @user = current_user
   end
@@ -13,7 +14,10 @@ class AccessController < ApplicationController
   end
 
   def logout
-    reset_session
+    # reset_session
+    session[:user] = nil
+    session[:role] = nil
+    session[:view_as] = nil
     redirect_to "https://log:out@edsdata.berea.edu"
   end
 
