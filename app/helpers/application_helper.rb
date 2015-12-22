@@ -24,8 +24,6 @@ module ApplicationHelper
       return [first_name, last_name].join(' ')  #return first name first
     end
 
-
-		
 	end
 
 	def error_messages_for(object)
@@ -99,16 +97,22 @@ module ApplicationHelper
 
    end
 
-   def string_to_bool(i)
-   		if i.downcase=="true"
-   			return true
-		else if i.downcase=="false"
-			return false
-		else
-			return nil
-		end
-   end
+  def string_to_bool(i)
 
+    if i == nil
+      return nil
+    else
+      return true if i =~ (/^(true|True|TRUE)$/i)
+      return false if i =~ (/^(false|False|FALSE)$/i)
+    end
 
+ 	# 	if i.downcase=="true"
+  #  			return true
+		# elsif i.downcase=="false"
+		# 	return false
+		# else
+		# 	return nil
+		# end
+  #  end
   end
 end

@@ -1,55 +1,56 @@
 require 'test_helper'
 class AdmStControllerTest < ActionController::TestCase
 
+  allowed_roles = ["admin", "staff"]    #only these roles are allowed access
+
+  #TESTS FOR PERMITTED USERS (ADMIN AND STAFF)
+
   test "should get index" do
     #should be accessible for admin and staff only
     term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
 
-    ["admin", "staff"].each do |r|
+    allowed_roles.each do |r|
       load_session(r)
       get :index
-      assert_response :success
+      assert_response :success, "unexpected http response, role=#{r}"
       py_assert assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
     end
   end
 
-  # test "should get show" do
-  #   app = AdmSt.first
-  #   ["admin", "staff"].each do |r|
-  #     load_session(r)
-  #     get :show, id: app.id
-  #     get(:show, {"id" => app.id})
-  #     assert_response :success
-  #     py_assert(assigns(:app), app)
-  #     py_assert(assigns(:term), app.BannerTerm_BannerTerm)
-  #     py_assert(assigns(:student), Student.find(app.Student_Bnum))
-  #   end
+  test "should get index with term" do
+    #should be accessible for admin and staff only
+    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
 
-  # end
+    allowed_roles.each do |r|
+      load_session(r)
+      get :index, {:banner_term_id => term.BannerTerm}
+      assert_response :success, "unexpected http response, role=#{r}"
+      py_assert assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
+    end
+  end   
+
 
   test "should get new" do
     #should be accessible for admin and staff only
     travel_to Date.new(2015, 03, 15) do
-      ["admin", "staff"].each do |r|
+      allowed_roles.each do |r|
         term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
         load_session(r)
         get :new
         expected = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'").order(LastName: :asc)
         py_assert assigns(:students).to_a, expected.to_a
-        assert_response :success
+        assert_response :success, "unexpected http response, role=#{r}"
       end
     end
   end
 
-  test "should get new outside term" do
+  test "should not get new outside term" do
     #when this method is called outside a term
     travel_to Date.new(2015, 12, 31) do
-      ["admin", "staff"].each do |r|
-        load_session(r)
-        get :new
-        assert_redirected_to adm_st_index_path
-        py_assert flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
-      end
+      load_session("admin")
+      get :new
+      assert_redirected_to adm_st_index_path
+      py_assert flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
     end 
   end
 
@@ -61,7 +62,7 @@ class AdmStControllerTest < ActionController::TestCase
       #have a flash message
 
     travel_to Date.new(2015, 03, 15) do
-      ["admin", "staff"].each do |r|
+      allowed_roles.each do |r|
         AdmSt.delete_all      #for this test, delete all applications to avoid conflicting open applications
         load_session(r)
         term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
@@ -69,7 +70,7 @@ class AdmStControllerTest < ActionController::TestCase
         post :create, {:adm_st => {
           :Student_Bnum => stu.Bnum}
         }
-        assert_redirected_to adm_st_index_path, "errors are " + assigns(:app).errors.full_messages.to_s
+        assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
         py_assert assigns(:app).Student_Bnum, stu.Bnum
         py_assert flash[:notice], "New application added for #{ApplicationController.helpers.name_details(stu, file_as=true)}"
       end
@@ -81,9 +82,8 @@ class AdmStControllerTest < ActionController::TestCase
       #we should be redirected and post a flash message
 
     travel_to Date.new(2015, 12, 31) do
-      ["admin", "staff"].each do |r|
         AdmSt.delete_all      #for this test, delete all applications to avoid conflicting open applications
-        load_session(r)
+        load_session("admin")
         # term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
         stu = Student.where(ProgStatus: "Candidate").first
         post :create, {:adm_st => {
@@ -91,7 +91,6 @@ class AdmStControllerTest < ActionController::TestCase
         }
         assert_redirected_to adm_st_index_path
         py_assert flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
-      end
     end
   end
 
@@ -102,54 +101,261 @@ class AdmStControllerTest < ActionController::TestCase
     #lets try to make a new app with a date in the same term as an existing app
     existing_app = AdmSt.first
     app_term = existing_app.BannerTerm_BannerTerm
-    date_to_use = BannerTerm.find(app_term).StartDate + 2
-
+    date_to_use = (BannerTerm.find(app_term).StartDate.to_date) + 2
 
     travel_to date_to_use do
-      ["admin", "staff"].each do |r|
-        #not deleting prior applications to prevent appication from being saved
-        load_session(r)
-        # term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
-        stu = existing_app.student
-        post :create, {:adm_st => {
-          :Student_Bnum => stu.Bnum}
-        }
+      #not deleting prior applications to prevent appication from being saved
+      load_session("admin")
+      # term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
+      stu = existing_app.student
+      post :create, {:adm_st => {
+        :Student_Bnum => stu.Bnum}
+      }
 
-        assert_redirected_to adm_st_index_path
-        py_assert assigns(:current_term), 201511
-        # assert_response :success
-        # py_assert flash[:notice], "Application not saved."
-      end
+      assert_response :success
+      py_assert flash[:notice], "Application not saved."
     end
   end
 
-  test "should not get index" do
-    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
-    (role_names - ["admin", "staff"]).each do |r|
+  test "should get edit" do
+    allowed_roles.each do |r|
       load_session(r)
-      get :index
+      app = AdmSt.first
+      get :edit, {:id => app.id}
+      assert_response :success, "unexpected http response, role=#{r}"
+      py_assert assigns(:application), app 
+      py_assert assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+      py_assert assigns(:student), Student.find(app.Student_Bnum)
+    end
+
+  end
+
+  test "should not get edit bad id" do
+    #should get an error when we pass in a bogus id
+    load_session("admin")
+    assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
+  end
+
+  test "should post update" do
+    allowed_roles.each do |r|
+      load_session(r)
+      app = AdmSt.first
+
+      #restore app to a pre decision state
+      app.STAdmitted = nil
+      app.STAdmitDate = nil
+      app.save
+
+      post :create, {
+            :id => app.id,
+            :adm_st => {
+              :STAdmitted => "true"
+              }
+          }
+      assert_redirected_to adm_st_index_path
+    end
+  end
+
+  test "should not post update bad date" do
+    app = AdmSt.first
+    app.STAdmitted = nil
+    app.STAdmitDate = nil
+    app.save
+
+    app_term = app.BannerTerm_BannerTerm
+
+    next_term = BannerTerm.where("BannerTerm > ?", app_term).order(:BannerTerm).first
+    start_date = (next_term.StartDate).to_date + 1
+
+    # assert false, "app_term is #{app_term} and next_term is #{next_term.BannerTerm}"
+
+    travel_to start_date do
+      load_session("admin")
+      #try to admit in the following term
+      post :update, {
+        :id => app.id,
+        :adm_st => {
+          :STAdmitted => "true"
+          }
+      }
+      assert_response :success
+      py_assert flash[:notice],  "Application must be processed in its own term or the break following."
+      py_assert assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+      py_assert assigns(:student), Student.find(app.Student_Bnum)
+    end
+  end
+
+  test "should not post update no decision" do
+    load_session("admin")
+    app = AdmSt.first
+    app.STAdmitted = nil
+    app.STAdmitDate = nil
+    app.save
+    post :update, {
+      :id => app.id,
+      :adm_st => {
+        }
+    }
+    assert_response :success
+    py_assert flash[:notice],  "Please make an admission decision for this student."
+    py_assert assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+    py_assert assigns(:student), Student.find(app.Student_Bnum)
+
+  end
+
+  test "should get edit_st_paperwork" do
+    allowed_roles.each do |r|
+      load_session(r)
+      app = AdmSt.first
+      get :edit_st_paperwork, {adm_st_id: app.id}
+      assert_response :success, "unexpected http response, role=#{r}"    
+      py_assert assigns(:app), app
+      py_assert assigns(:student), app.student
+      py_assert assigns(:terms), BannerTerm.where("BannerTerm > ?", app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
+    end
+  end
+
+  test "should not get edit_st_paperwork bad id" do
+    load_session("admin")
+    assert_raises(ActiveRecord::RecordNotFound) { get :edit_st_paperwork, {adm_st_id: "badid"} }
+  end
+
+  test "should post update_st_paperwork" do
+    allowed_roles.each do |r|
+      load_session(r)
+      app = AdmSt.first
+      post :update_st_paperwork, {
+        adm_st_id: app.id,
+        :adm_st => {
+          :background_check => 1
+        }
+      }
+
+      assert_redirected_to adm_st_index_path
+      py_assert flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
+    end
+  end
+
+  test "should not post update_st_paperwork bad app" do
+    #I can't think of a way to cause the record to be invalid in this method.
+    #so there may be no need for this test
+  end
+
+  test "should get download" do
+    #haven't figured out how to test this yet.
+    # load_session("admin")
+    # app = AdmSt.first
+    # app.letter = File.new("test/fixtures/test_letter.docx")
+    # app.save
+    # get :download, {adm_st_id: app.id}
+  end
+
+  test "should not get download bad id" do
+    load_session("admin")
+    assert_raises(ActiveRecord::RecordNotFound) { get :download, {adm_st_id: "badid"} }
+  end
+
+  test "should post choose" do
+    allowed_roles.each do |r|
+      load_session(r)
+      term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :back})
+      term_int = term.BannerTerm
+
+      post :choose, {
+        :adm_st_id => "pick",
+        :banner_term => {
+          :menu_terms => term_int
+        }
+      }
+
+      assert_redirected_to banner_term_adm_st_index_path(term_int)
+    end
+  end
+
+  #TESTS FOR UNPERMITTED USERS (advisor, stu_labor)
+
+  test "should not get index bad role" do
+    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :index 
       assert_redirected_to "/access_denied"
     end
   end
 
-  # test "should get new" do
-  #   get :new
-  #   assert_response :success
-  # end
+  test "should not get new bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :new 
+      assert_redirected_to "/access_denied"
+    end
+  end
 
-  # test "should get create" do
-  #   get :create
-  #   assert_response :success
-  # end
+  test "should not post create bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      stu = Student.where(ProgStatus: "Candidate").first
+      post :create, {:adm_st => {
+        :Student_Bnum => stu.Bnum}
+      }
+      assert_redirected_to "/access_denied"
+    end
+  end
 
-  # test "should get edit" do
-  #   get :edit
-  #   assert_response :success
-  # end
+  test "should not get edit bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      app = AdmSt.first
+      get :edit, {:id => app.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
 
-  # test "should get update" do
-  #   get :update
-  #   assert_response :success
-  # end
+  test "should not post update bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      app = AdmSt.first
+
+      #restore app to a pre decision state
+      app.STAdmitted = nil
+      app.STAdmitDate = nil
+      app.save
+
+      post :update, {
+            :id => app.id,
+            :adm_st => {
+              :STAdmitted => "true"
+              }
+          }
+      assert_redirected_to "/access_denied"
+
+    end
+  end
+
+  test "should not get edit_st_paperwork bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      app = AdmSt.first
+      get :edit_st_paperwork, {adm_st_id: app.id}
+      assert_redirected_to "/access_denied"
+      
+    end
+  end
+
+  test "should not post update_st_paperwork bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :update_st_paperwork, {:adm_st_id => "who_cares"}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not get download bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :download, {:adm_st_id => "who_cares"}
+      assert_redirected_to "/access_denied"
+    end
+  end
 
 end

@@ -2,7 +2,7 @@ class AdmStController < ApplicationController
   
   layout 'application'
   authorize_resource
-  skip_authorize_resource :only => [:new, :choose]
+  # skip_authorize_resource :only => [:choose]
 
   def index
     #@current_term: the current term in time
@@ -37,8 +37,6 @@ class AdmStController < ApplicationController
       #flash message generated
       #redirected to index 
 
-    #can't add new students to apply once the term is over.
-    
     @current_term = current_term(exact: true)
 
     if @current_term == nil
@@ -78,7 +76,6 @@ class AdmStController < ApplicationController
   def update
 
     #process admission decision for student
-
     @application = AdmSt.find(params[:id])
 
     @current_term = current_term(exact: false, plan_b: :back)
@@ -175,9 +172,9 @@ class AdmStController < ApplicationController
   end
 
   def choose
-  #display applicants for a term
-  @term = params[:banner_term][:menu_terms]
-  redirect_to(banner_term_adm_st_index_path(@term))
+    #display applicants for a term
+    @term = params[:banner_term][:menu_terms]
+    redirect_to(banner_term_adm_st_index_path(@term))
     
   end
 
@@ -185,7 +182,6 @@ class AdmStController < ApplicationController
 
   def index_setup
     term_menu_setup
-        
     @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term  
   end
 
