@@ -21,6 +21,7 @@ class AdmTepController < ApplicationController
     if @current_term == nil
       flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
       redirect_to(adm_tep_index_path)
+      return
     end
 
     @app = AdmTep.new(new_adm_params)
@@ -51,8 +52,6 @@ class AdmTepController < ApplicationController
       flash[:notice] = "Application not saved."
       new_setup
       render ('new')
-
-      
     end
 
   end
@@ -62,13 +61,10 @@ class AdmTepController < ApplicationController
       @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
       @student = Student.find(@application.Student_Bnum)
       name_details(@student)
-
   end
 
   def update
-
     #process admission decision for student
-
     @application = AdmTep.find(params[:id])
     @current_term = current_term(exact: false)
 
@@ -80,7 +76,11 @@ class AdmTepController < ApplicationController
     end
 
     @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
-    @application.letter = params[:adm_tep][:letter]
+
+    #assigns the letter if it was given. While this is admitadly verbose, I don't
+    #know how to pass in a letter in my test request.
+    @application.letter = params[:adm_tep][:letter] if params[:adm_tep][:letter].present?
+    
     @application.Notes = params[:adm_tep][:Notes]
 
     if @application.TEPAdmit == true
@@ -91,7 +91,6 @@ class AdmTepController < ApplicationController
             @application.TEPAdmitDate = nil
         end
         
-
     elsif @application.TEPAdmit.nil?
         flash[:notice] = "Please make an admission decision for this student."
         error_update
@@ -99,6 +98,7 @@ class AdmTepController < ApplicationController
     end
 
     if @application.save
+
         flash[:notice] = "Student application successfully updated"
         redirect_to(adm_tep_index_path)
         return
