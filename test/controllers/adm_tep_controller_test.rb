@@ -193,14 +193,158 @@ class AdmTepControllerTest < ActionController::TestCase
     end
   end
 
-  # test "should get index" do
-  #   get :index
-  #   assert_response :success
-  # end
+  test "should get index" do
+    expected_term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+    expected_date = (expected_term.StartDate.to_date) + 10
+    travel_to expected_date do
+      allowed_roles.each do |r|
+        load_session(r)
+        get :index
+        assert_response :success
+        expected_applications = AdmTep.all.by_term(expected_term)
+        py_assert assigns(:applications).to_a, expected_applications.to_a
+      end
+    end 
+  end
 
-  # test "should get show" do
-  #   get :show
-  #   assert_response :success
-  # end
+  test "should get index with term" do
+    #should be accessible for admin and staff only
+    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+
+    allowed_roles.each do |r|
+      load_session(r)
+      get :index, {:banner_term_id => term.BannerTerm}
+      assert_response :success
+      py_assert assigns(:applications).to_a, AdmTep.all.by_term(term).to_a
+    end
+  end   
+
+  test "should post choose" do
+    allowed_roles.each do |r|
+      load_session(r)
+      term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :back})
+      term_int = term.BannerTerm
+
+      post :choose, {
+        :adm_tep_id => "pick",
+        :banner_term => {
+          :menu_terms => term_int
+        }
+      }
+
+      assert_redirected_to banner_term_adm_tep_index_path(term_int)
+    end
+  end
+
+  test "should get show" do
+    allowed_roles.each do |r|
+      load_session(r)
+      app = AdmTep.first
+      get :show, {id: app.id}
+      assert_response :success
+      py_assert assigns(:app), app
+      py_assert assigns(:term), app.banner_term
+      py_assert assigns(:student), app.student
+    end
+  end
+
+  test "should not get show bad id" do
+    load_session("admin")
+    assert_raises(ActiveRecord::RecordNotFound) { get :show, {id: "badid"} }
+  end
+
+  #TODO tests for download action
+
+  #TESTS FOR UNAUTHORIZED USERS
+
+
+    #TESTS FOR UNPERMITTED USERS (advisor, stu_labor)
+
+  test "should not get new bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :new 
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not post create bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      stu = Student.where(ProgStatus: "Candidate").first
+      post :create, {:adm_tep => {
+        :Student_Bnum => stu.Bnum}
+      }
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not get edit bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      app = AdmTep.first
+      get :edit, {:id => app.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not post update bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      app = AdmTep.first
+
+      #restore app to a pre decision state
+      app.STAdmitted = nil
+      app.STAdmitDate = nil
+      app.save
+
+      post :update, {
+            :id => app.id,
+            :adm_st => {
+              :STAdmitted => "true"
+              }
+          }
+      assert_redirected_to "/access_denied"
+
+    end
+  end
+
+  test "should not get index bad role" do
+    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :index 
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+
+
+  test "should not get edit_st_paperwork bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      app = AdmSt.first
+      get :edit_st_paperwork, {adm_st_id: app.id}
+      assert_redirected_to "/access_denied"
+      
+    end
+  end
+
+  test "should not post update_st_paperwork bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :update_st_paperwork, {:adm_st_id => "who_cares"}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not get download bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :download, {:adm_st_id => "who_cares"}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
 
 end
