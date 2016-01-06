@@ -8,10 +8,6 @@ class ClinicalAssignmentsController < ApplicationController
 
   end
 
-  def show
-    #everything is shown in the index!
-  end
-
   def new
     @assignment = ClinicalAssignment.new
     form_setup
