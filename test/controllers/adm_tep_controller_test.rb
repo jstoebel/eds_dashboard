@@ -260,13 +260,6 @@ class AdmTepControllerTest < ActionController::TestCase
 
     #TESTS FOR UNPERMITTED USERS (advisor, stu_labor)
 
-  test "should not get new bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      get :new 
-      assert_redirected_to "/access_denied"
-    end
-  end
 
   test "should not post create bad role" do
     (role_names - allowed_roles).each do |r|
@@ -291,17 +284,10 @@ class AdmTepControllerTest < ActionController::TestCase
   test "should not post update bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      app = AdmTep.first
-
-      #restore app to a pre decision state
-      app.STAdmitted = nil
-      app.STAdmitDate = nil
-      app.save
 
       post :update, {
-            :id => app.id,
-            :adm_st => {
-              :STAdmitted => "true"
+            :id => "who cares",
+            :adm_tep => {
               }
           }
       assert_redirected_to "/access_denied"
@@ -318,33 +304,22 @@ class AdmTepControllerTest < ActionController::TestCase
     end
   end
 
-
-
-  test "should not get edit_st_paperwork bad role" do
+  test "should not get show bad role" do
+    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      app = AdmSt.first
-      get :edit_st_paperwork, {adm_st_id: app.id}
-      assert_redirected_to "/access_denied"
-      
-    end
-  end
-
-  test "should not post update_st_paperwork bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      post :update_st_paperwork, {:adm_st_id => "who_cares"}
+      get :show, {id: "who cares"}
       assert_redirected_to "/access_denied"
     end
   end
 
   test "should not get download bad role" do
+    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      post :download, {:adm_st_id => "who_cares"}
+      get :download, {adm_tep_id: "who cares"}
       assert_redirected_to "/access_denied"
     end
   end
-
 
 end
