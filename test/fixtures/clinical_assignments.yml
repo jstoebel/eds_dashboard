@@ -11,6 +11,7 @@
 #  column: value
 
 base:
+  id: 123
   banner_term: term
   CourseID: EDS325 
   Level: 1

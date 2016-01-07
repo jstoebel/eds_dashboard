@@ -40,7 +40,7 @@ class ClinicalAssignmentsController < ApplicationController
 
     @assignment.CourseID = '???'    
 
-    @assignment.Term = current_term({exact: false, plan_b: "forward"}).BannerTerm
+    @assignment.Term = current_term({exact: false, plan_b: :forward}).BannerTerm
     get_assignment_id
   
     authorize! :manage, @assignment
