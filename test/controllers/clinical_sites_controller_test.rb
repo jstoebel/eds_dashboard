@@ -7,14 +7,24 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       load_session(r)
       get :index
       assert_response :success
-      py_assert assigns(:sites), ClinicalAssignment.all.select {|a| can? :read, a }
+
+      #this doesn't work
+      py_assert assigns(:sites), ClinicalSite.all.select {|a| can? :read, a }
+      
+      #this does
+      # py_assert assigns(:assignments).to_a, (ClinicalAssignment.where(Term: term).select {|a| can? :read, a }).to_a
     end
   end
 
-  # test "should get show" do
-  #   get :show
-  #   assert_response :success
-  # end
+  test "should get edit" do
+    role_names.each do |r|
+      load_session(r)
+      site = ClinicalSite.first
+      get :edit, {:id => site.id}
+      assert_response :success
+      py_assert assigns(:site), site
+    end
+  end
 
   # test "should get edit" do
   #   get :edit
