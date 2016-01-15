@@ -137,7 +137,7 @@ test "should not post create bad record" do
       post :update, {:id => assignment.id, :clinical_assignment => update_params}
 
       assert_redirected_to clinical_assignments_path
-      assert assigns(:assignment), assignment
+      py_assert assigns(:assignment), assignment
     end
   end
 

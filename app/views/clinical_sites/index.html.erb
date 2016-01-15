@@ -22,31 +22,34 @@
       <th>Principal</th>
     </tr>
     <% @sites.each do |site| %>
-	  <td><%= site.SiteName%></td>
-	  <td><%= site.City %></td>
-	  <td><%= site.County %></td>
-	  <td><%= site.District %> </td>
-	  <td><%= site.Principal %></td>
-    <td class="actions">
+      <% if can? :read, site %>
+    	  <td><%= site.SiteName%></td>
+    	  <td><%= site.City %></td>
+    	  <td><%= site.County %></td>
+    	  <td><%= site.District %> </td>
+    	  <td><%= site.Principal %></td>
+        <td class="actions">
 
-    	<!-- actions:
-    	 	see teachers
-    	 	edit school-->
+        	<!-- actions:
+        	 	see teachers
+        	 	edit school-->
 
-		<!-- edit school  -->
-        <%= link_to edit_clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
-              <span class="small-btn-text">Edit</span>
-            <% end %>
+    		<!-- edit school  -->
+            <%= link_to edit_clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
+                  <span class="small-btn-text">Edit</span>
+                <% end %>
 
-	 	<!-- see teachers -->
-        <%= link_to clinical_site_clinical_teachers_path(site.id), :class => "btn btn-info action-small " + (site.clinical_teachers.size > 0 ? "" : " disabled") do %>
-              <span class="small-btn-text">Teachers
-                <span class="badge"> <%= site.clinical_teachers.size%></span>
-              </span>
-            <% end %>
+    	 	<!-- see teachers -->
+            <%= link_to clinical_site_clinical_teachers_path(site.id), :class => "btn btn-info action-small " + (site.clinical_teachers.size > 0 ? "" : " disabled") do %>
+                  <span class="small-btn-text">Teachers
+                    <span class="badge"> <%= site.clinical_teachers.size%></span>
+                  </span>
+                <% end %>
 
 
-      </td>
-    </tr>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
+
   </table>

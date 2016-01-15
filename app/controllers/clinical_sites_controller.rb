@@ -3,7 +3,7 @@ class ClinicalSitesController < ApplicationController
   skip_authorize_resource :only => [:new]
 
   def index
-    @sites = ClinicalSite.all.select {|r| can? :read, r }
+    @sites = ClinicalSite.all  #select {|r| can? :read, r }
   end
 
   # def show
