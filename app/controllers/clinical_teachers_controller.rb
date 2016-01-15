@@ -7,7 +7,7 @@ class ClinicalTeachersController < ApplicationController
     if params["clinical_site_id"]   #we only want teachers beloning to this site
       @teachers = ClinicalTeacher.where(clinical_site_id: params["clinical_site_id"]).select {|r| can? :read, r } 
     else
-      @teachers = ClinicalTeacher.all.select {|r| can? :read, r } 
+      @teachers = ClinicalTeacher.all  #.select {|r| can? :read, r } 
     end
 
 
