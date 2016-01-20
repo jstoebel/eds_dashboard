@@ -20,7 +20,8 @@ class ActiveSupport::TestCase
   end
 
   def role_names
-    return Role.all.map {|i| i.RoleName}
+    roles =  Role.all.map {|i| i.RoleName}
+    return roles.to_a
   end
 
   def set_role(role)

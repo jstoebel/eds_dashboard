@@ -31,7 +31,7 @@ class ClinicalTeachersController < ApplicationController
       redirect_to(clinical_teachers_path)
     else
       form_details
-      render ('new')
+      render ('edit')
     end
 
   end

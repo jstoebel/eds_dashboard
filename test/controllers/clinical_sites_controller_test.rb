@@ -52,9 +52,8 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     #post!
     post :update, {:id => site.id, :clinical_site => update_params}
     assert_response :success
-    py_assert assigns(:site), site
     assert_template 'edit'
-
+    assert_form_details
   end
 
   test "should get new" do
