@@ -19,6 +19,12 @@ class ActiveSupport::TestCase
     assert(expected==actual, "Expected value #{expected} does not equal #{actual}.")
   end
 
+  def get_user
+    user = User.find(session[:user])
+    user.view_as = session[:view_as]
+    return user
+  end
+
   def role_names
     roles =  Role.all.map {|i| i.RoleName}
     return roles.to_a

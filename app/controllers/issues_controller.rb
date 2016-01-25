@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
 
   def new
   	@issue = Issue.new
-  	@student = find_student(params[:student_id])
+  	@student = find_student(params[:student_id]) #AltID passed in here!
     name_details(@student)
   end
 
@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
     user = current_user
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
-
+    # 
     if @issue.save
       flash[:notice] = "New issue opened for: #{name_details(@student)}"
       redirect_to(student_issues_path(@student.AltID)) 

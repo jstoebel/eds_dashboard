@@ -5,7 +5,11 @@
 # below each fixture, per the syntax in the comments below
 #
 
-one:
+snow_assignment:
   student: base
-  tep_advisor: jon_snow
+  tep_advisor: snow_advisor
+
+arryn_assignment:
+  student: base
+  tep_advisor: arryn_advisor
 

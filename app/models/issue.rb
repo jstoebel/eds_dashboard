@@ -7,9 +7,7 @@ class Issue < ActiveRecord::Base
 
     BNUM_REGEX = /\AB00\d{6}\Z/i
     validates :students_Bnum,
-      format: {with: BNUM_REGEX,
-        message: "Please enter a valid B#, (including the B00)",
-        allow_blank: false}
+    	presence: {message: "Please provide a B"}
 
 	validates :Name, 
 		:length => { 

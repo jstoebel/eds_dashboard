@@ -13,6 +13,6 @@ base: &base
   AltID: 1
 
 candidate:
-  <<: *base
-  ProgStatus: Candidate
+  FirstName: Jacob
+  LastName: Stoebel
   AltID: 2

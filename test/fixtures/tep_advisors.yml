@@ -5,6 +5,12 @@
 # below each fixture, per the syntax in the comments below
 #
 #
-jon_snow:
+snow_advisor:
+  AdvisorBnum: B00999999
   Salutation: Lord Commander
   user: jon_snow
+
+arryn_advisor:
+  AdvisorBnum: B00888888
+  Salutation: Lord Hand
+  user: jon_arryn
