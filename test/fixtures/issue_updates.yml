@@ -15,6 +15,6 @@
   CreateDate: <%= Date.today + i %>
   UpdateName: Update1
   Description: Update1 Description
-  issue: one
+  issue: issue1
   tep_advisors_AdvisorBnum: B00123456
 <% end %>

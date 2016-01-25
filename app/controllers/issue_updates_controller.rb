@@ -1,6 +1,7 @@
 class IssueUpdatesController < ApplicationController
   authorize_resource
   layout 'application'
+
   
   def new
     #sets up creation of a new issue update
@@ -51,7 +52,7 @@ class IssueUpdatesController < ApplicationController
 
     name_details(@student)
 
-    @updates = @issue.issue_updates.sorted.select {|r| can? :read, r }    
+    @updates = @issue.issue_updates.sorted    #no additional auth needed. If you can? the issue you can? the updates
 
   end
 
@@ -69,38 +70,6 @@ class IssueUpdatesController < ApplicationController
 
   end
 
-  def resolve_issue
-    #begins disalogue 
-    @issue = Issue.find(params[:id])
-    authorize! :manage, @issue
-
-    @student = Student.find(@issue.students_Bnum)
-    authorize! :manage, @student
-
-    name_details(@student)   
-  	
-  end
-
-  def close_issue
-    #TODO do we need error handling?
-
-    @update = IssueUpdate.new(close_issue_params)
-    @update.UpdateName = "Issue Resolved"
-    @update.Issues_IssueID = @issue.IssueID
-    @update.tep_advisors_AdvisorBnum = "123456"   #TODO FIX THIS!
-
-    @update.save
-
-    @issue = Issue.find(params[:id])
-    @issue.Open = false
-    @issue.save
-
-    flash[:notice] = "Issue resolved!"
-    # redirect_to(student_issues_path(@issue.students_Bnum))
-    redirect_to({action: "index", id: @issue.students_Bnum})
-  	
-  end
-
   private
   def close_issue_params
     params.require(:issue_update).permit(:Description)
@@ -108,10 +77,6 @@ class IssueUpdatesController < ApplicationController
   end
 
   def issue_update_params
-    # puts "*" * 50
-    # puts params
-    # puts "*" * 50
-    
     params.require(:issue_updates).permit(:UpdateName, :Description)
   end
 
