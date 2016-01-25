@@ -96,9 +96,57 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  # test "should get show" do
-  #   get :show
-  #   assert_response :success
-  # end
+  test "should get show" do
+    allowed_roles.each do |r|
+      load_session(r)
+      issue = Issue.first
+      get :show, {:id => issue.id}
+      assert_response :success
+      assert_equal issue, assigns(:issue)
+      assert_equal assigns(:student), Student.find(issue.students_Bnum)
 
+    end
+  end
+
+
+  #TESTS FOR UNAUTHORIZED USERS
+
+  #new does not pass through cancancan
+
+  test "should not post create bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+
+      student = Student.first
+      create_params ={
+        :Name => "Test name",
+        :Description => "Test descrip"
+      }
+      post :create, {:student_id => student.AltID, :issue => create_params}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should get not get index bad role" do
+    #test for fetching index
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      student = Student.first
+
+      get :index, {:student_id => student.AltID}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not get show" do
+      (role_names - allowed_roles).each do |r|
+      load_session(r)
+      issue = Issue.first
+      get :show, {:id => issue.id}
+      assert_response :success
+      assert_equal issue, assigns(:issue)
+      assert_equal assigns(:student), Student.find(issue.students_Bnum)
+
+    end
+  end
 end
