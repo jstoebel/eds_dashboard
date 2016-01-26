@@ -113,7 +113,7 @@ class IssuesControllerTest < ActionController::TestCase
       load_session(r)
       iss = Issue.first
       
-      get :resolve_issue, {:id => iss.id}
+      get :resolve_issue, {:issue_id => iss.id}
 
       assert_equal iss, assigns(:issue)
       assert_equal iss.student, assigns(:student)
@@ -181,15 +181,48 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should not get show" do
-      (role_names - allowed_roles).each do |r|
+  test "should not get show bad role" do
+    (role_names - allowed_roles).each do |r|
       load_session(r)
       issue = Issue.first
       get :show, {:id => issue.id}
-      assert_response :success
-      assert_equal issue, assigns(:issue)
-      assert_equal assigns(:student), Student.find(issue.students_Bnum)
+      assert_redirected_to "/access_denied"
 
     end
   end
+
+  test "should not get resolve_issue bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      iss = Issue.first
+      get :resolve_issue, {:issue_id => iss.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+test "should not post close_issue bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      user = User.find(session[:user])
+      iss = Issue.first
+      iss.Open = false
+      stu = iss.student
+      close_params = {
+        :Description => "close it!"
+      }
+
+      expected_update = IssueUpdate.new({
+          :Description => close_params[:Description], 
+          :UpdateName => "Issue Resolved",
+          :Issues_IssueID => "who cares",
+          :tep_advisors_AdvisorBnum => "doesn't matter"
+        })
+
+      post :close_issue, {:issue_id => iss.id, :issue_update => close_params}
+      assert_redirected_to "/access_denied"
+      
+    end
+  end
+
+
 end
