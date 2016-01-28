@@ -8,11 +8,11 @@
 #  column: value
 
 base: &base
-  FirstName: Jacob
-  LastName: Stoebel
+  FirstName: base
+  LastName: base
   AltID: 1
 
-candidate:
-  FirstName: Jacob
-  LastName: Stoebel
+candidate: &candidate
+  FirstName: candidate
+  LastName: candidate
   AltID: 2

@@ -10,9 +10,17 @@
 #
 #  column: value
 one:
-  Bnum: candidate
+  student: candidate
   praxis_test: current
-  TestDate: <% Date.today %>
-  RegDate: <% Date.today %>
-  PaidBy: ETS
+  TestDate: <%= Date.today %>
+  RegDate: <%= Date.today %>
+  PaidBy: ETS (fee waiver)
   AltID: 1
+
+two:
+  student: base
+  praxis_test: current
+  TestDate: <%= Date.today %>
+  RegDate: <%= Date.today %>
+  PaidBy: ETS (fee waiver)
+  AltID: 2

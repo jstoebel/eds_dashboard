@@ -1,19 +1,22 @@
 class PraxisResultsController < ApplicationController
   layout 'application'
   authorize_resource
-  skip_authorize_resource :only => [:new]
+  # skip_authorize_resource :only => [:new]
+  load_and_authorize_resource :only => [:index]
 
   def index
     #showing all Praxis results for a single student
     @student = find_student(params[:student_id])
     authorize! :read, @student
  
-    @tests = @student.praxis_results.select {|r| can? :read, r }
+    ability = Ability.new(current_user)
+    @tests = @student.praxis_results.select {|r| ability.can? :read, r }
+    # @tests = @praxis_results #this should be created by load_and_authorize_resource
   end
 
   def show
     #show details on test including subtests
-    @test = find_praxis_result(params[:id])
+    @test = PraxisResult.find(params[:id])
     authorize! :read, @test
 
     @student = Student.find(@test.Bnum)
@@ -31,13 +34,14 @@ class PraxisResultsController < ApplicationController
 
   def create
     @test = PraxisResult.new(new_test_params)
-    @test.TestID = get_testid(params)
+    # @test.TestID = get_testid(params)
+    @test.TestID = [@test.Bnum, @test.TestCode, @test.TestDate.strftime("%m/%d/%Y")].join("-")
 
     authorize! :manage, @test     #this should restrict advisors from adding new tests
     if @test.save
-      @student = Student.find(params[:praxis_result][:Bnum])
-      name_details(@student)
-      flash[:notice] = "Registration successful: #{@first_name}, #{@last_name}, #{@test.TestCode}, #{@test.TestDate}"
+      # @student = Student.find(params[:praxis_result][:Bnum])
+      @student = @test.student
+      flash[:notice] = "Registration successful: #{ApplicationController.helpers.name_details(@student)}, #{@test.TestCode}, #{@test.TestDate}"
       redirect_to(action: 'new')
     else
       create_error

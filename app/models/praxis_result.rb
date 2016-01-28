@@ -1,6 +1,6 @@
 class PraxisResult < ActiveRecord::Base
 
-	belongs_to :student
+	belongs_to :student, {:foreign_key => "Bnum"}
 	has_many :praxis_subtest_results, {:foreign_key => 'praxis_results_TestID'}
 	belongs_to :praxis_test, {:foreign_key => 'TestCode'}
 

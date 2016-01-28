@@ -15,7 +15,7 @@
   student: candidate
   Name: issue name
   Description: description goes here
-  tep_advisors_AdvisorBnum: "B00123456"
+  tep_advisors_AdvisorBnum: "B00123456"   #TODO change me!
 
   <% if i < 2 %>
   Open: true
