@@ -148,42 +148,18 @@ class ProgExitsController < ApplicationController
   end
 
   def exits_needed
-    #index all students who need exiting for any of the following 
-    #reasons. Student is a candidate and...
-      #...graduated
-      #...does not have a TEP major
-    #or a completer with any open programs
+    #pre: nothing
+    #post:
+      #programs: program admissions belonging to: students who have a non
+      # TEP major. 
 
-      programs = []
+    programs = []
 
-      #graduated but a candidate
-      graduated = Student.where("EnrollmentStatus=? and ProgStatus=?", 'Graduation', 'Candidate')
-      graduated.each do |s|
-        open_programs = AdmTep.open(s.Bnum)   #add all open programs
-        programs += open_programs
-      end
+    #1)TODO grab students with no TEP major. We need Banner integration for this.
 
-      #TODO grab students with no TEP major
-      
-      #any open programs belonging to a completer.
-
-      join_statement = %q(
-      JOIN (
-      (SELECT `adm_tep`.* 
-        FROM `adm_tep` 
-        LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) 
-        and (adm_tep.Student_Bnum = prog_exits.Student_Bnum) 
-      
-        WHERE (prog_exits.id IS NULL AND adm_tep.TEPAdmit = 1 )) as open_prog
-    ) ON students.Bnum = open_prog.Student_Bnum
-)
-      completers = Student.joins(join_statement).where(ProgStatus: 'Completer')
-
-      completers.each do |c|
-        open_programs = AdmTep.open(c.Bnum)
-        programs += open_programs
-      end
-
+    #TODO for later
+    #add non exiting program admissions belonging to candidates who have graduated 
+    
     return programs
 
   end
