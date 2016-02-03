@@ -8,6 +8,7 @@ class ProgExit < ActiveRecord::Base
 	belongs_to :student, foreign_key: "Student_Bnum"
 	belongs_to :program, foreign_key: "Program_ProgCode"
 	belongs_to :exit_code, foreign_key: "ExitCode_ExitCode"
+	belongs_to :banner_term, foreign_key: "ExitTerm"
 
 	#CALLBACKS
 	before_validation :add_term
@@ -67,18 +68,18 @@ class ProgExit < ActiveRecord::Base
 			#1) exiting student was accepted to this program
 			#2) exiting student has not exited this program already.
 
-			stu = self.student
+		stu = self.student
 
-			admission = AdmTep.where(Student_Bnum: stu.Bnum).where(Program_ProgCode: self.Program_ProgCode).where(TEPAdmit: true)
-			exits = ProgExit.where(Student_Bnum: stu.Bnum).where(Program_ProgCode: self.Program_ProgCode)
+		admission = AdmTep.where(Student_Bnum: stu.Bnum).where(Program_ProgCode: self.Program_ProgCode).where(TEPAdmit: true)
+		exits = ProgExit.where(Student_Bnum: stu.Bnum).where(Program_ProgCode: self.Program_ProgCode)
 
-			if admission.size == 0
-				self.errors.add(:Program_ProgCode, "Student was never admitted to this program.")
-			end
+		if admission.size == 0
+			self.errors.add(:Program_ProgCode, "Student was never admitted to this program.")
+		end
 
-			if exits.size > 0
-				self.errors.add(:Program_ProgCode, "Student has already exited this program.")
-			end
+		if exits.size > 0
+			self.errors.add(:Program_ProgCode, "Student has already exited this program.")
+		end
 	end
 		
 
