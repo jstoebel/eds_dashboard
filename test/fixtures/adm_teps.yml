@@ -21,3 +21,12 @@ pending:
   student: base
   TEPAdmit: Null
 
+admit_graduate_no_exit:
+  <<: *base
+  student: graduate
+  TEPAdmit: true
+
+completer_but_open_program:
+  <<: *base
+  student: grad_completer
+  TEPAdmit: true

@@ -14,7 +14,7 @@ one:
   id: 1
   student: candidate
   Program_ProgCode: 2
-  ExitCode_ExitCode: 1849
+  ExitCode_ExitCode: 1849	#completer!
   ExitTerm: 201511
   ExitDate: 2015-12-17
   RecommendDate: 2015-12-18

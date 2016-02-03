@@ -71,6 +71,9 @@ class ApplicationController < ActionController::Base
   	end
 
   def term_menu_setup
+    #pre: nothing
+    #post:
+      #menu_terms: all of the terms to be include in the term menu
      @current_term = current_term(exact: false, plan_b: :back)
 
     if params[:banner_term_id]

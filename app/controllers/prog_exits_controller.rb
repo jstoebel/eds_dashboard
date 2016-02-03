@@ -5,16 +5,13 @@ class ProgExitsController < ApplicationController
     #lists all exits for a paticular term as well as exits needed.
   	term_menu_setup
   	@exits = ProgExit.all.by_term(@term)   #fetch all applications for this term
-    @needs_exit = exits_needed
+    @needs_exit = exits_needed    #until we get Banner integration this will return []
   end
 
   def need_exit
     #indexes programs that need exiting.
     @programs = exits_needed  #gathers applications that need exiting.
 
-  end
-
-  def show
   end
 
   def new
@@ -28,10 +25,6 @@ class ProgExitsController < ApplicationController
 
     #mass assign bnum, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
-    student = Student.from_alt_id(params[:prog_exit][:Student_Bnum])
-    if student.kind_of?(Student)
-      @exit.Student_Bnum = student.Bnum
-    end
 
     exit_date = params[:prog_exit][:ExitDate]
     if exit_date.present?
@@ -72,8 +65,8 @@ class ProgExitsController < ApplicationController
     
     @exit = ProgExit.new
     alt_id = params[:prog_exit_id]
-    student = Student.from_alt_id(alt_id)
-    @exit.Student_Bnum = student.Bnum
+    stu = Student.from_alt_id(alt_id) #.first
+    @exit.Student_Bnum = stu.Bnum
     
     program = params[:program_id]
     @exit.Program_ProgCode = program
@@ -88,7 +81,7 @@ class ProgExitsController < ApplicationController
 
   def update
     #update exit record
-    @exit = ProgExit.find(params[:id])    
+    @exit = ProgExit.find(params[:id]) 
     @exit.assign_attributes(edit_exit_params)
 
     recommend_date = params[:prog_exit][:RecommendDate]
@@ -134,7 +127,7 @@ class ProgExitsController < ApplicationController
   #PRIVATE METHODS
   private
   def new_exit_params
-    params.require(:prog_exit).permit(:Program_ProgCode, :ExitCode_ExitCode, :Details)
+    params.require(:prog_exit).permit(:Student_Bnum, :Program_ProgCode, :ExitCode_ExitCode, :Details)
   end
 
   def edit_exit_params

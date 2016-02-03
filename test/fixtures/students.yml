@@ -16,3 +16,22 @@ candidate: &candidate
   FirstName: candidate
   LastName: candidate
   AltID: 2
+
+
+##GRADUATES
+#graduate but not exited
+graduate:
+  FirstName: graduate
+  LastName: but candidate
+  EnrollmentStatus: Graduation
+  AltID: 3
+
+#completer and graudate (with an open program)
+grad_completer:
+  FirstName: graduate
+  LastName: completer
+  EnrollmentStatus: Graduation
+  ProgStatus: Completer
+  AltID: 4
+
+#TODO student who was admitted but does not have a TEP major.
