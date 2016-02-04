@@ -5,10 +5,6 @@ class StudentFilesController < ApplicationController
     index_setup
   end
 
-  def new
-
-  end
-
   def create
     @file = StudentFile.new
     student = Student.from_alt_id(params[:student_id])
@@ -23,24 +19,22 @@ class StudentFilesController < ApplicationController
     else
       index_setup
       flash[:notice] = "Error uploading file."
+      @student = Student.from_alt_id(params[:student_id])
       render 'index'      
     end
   end
 
-  def delete
-  end
-
   def destroy
-    file = StudentFile.find(params[:id])
-    file.active = false
+    @file = StudentFile.find(params[:id])
+    @file.active = false
 
-    authorize! :manage, file
-    if file.save
+    authorize! :manage, @file
+    if @file.save
       flash[:notice] = "File successfully removed."
-      redirect_to student_student_files_path(file.student.AltID)
+      redirect_to student_student_files_path(@file.student.AltID)
     else
       flash[:notice] = "Error removing file."
-      redirect_to student_student_files_path(file.student.AltID)      
+      redirect_to student_student_files_path(@file.student.AltID)      
     end
   end
 
@@ -56,9 +50,11 @@ class StudentFilesController < ApplicationController
     authorize! :read, @student
 
     @adm_teps = AdmTep.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)
+    
     @adm_sts = AdmSt.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)    
-
-    @docs = @student.student_files.active.select {|r| can? :read, r }
+    
+    ability = Ability.new(current_user)
+    @docs = @student.student_files.active.select {|r| ability.can? :read, r }
   end
 
 end
