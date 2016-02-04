@@ -40,7 +40,7 @@
 
         <% @adm_teps.each do |adm_tep| %>
           <tr>
-            <td><%= link_to(adm_tep.letter_file_name, adm_tep_download_path(adm_tep.AltID)) %></td>
+            <td><%= link_to(adm_tep.letter_file_name, adm_tep_download_path(adm_tep.id)) %></td>
             <td><%= number_to_human_size adm_tep.letter_file_size %></td>
             <td><%= adm_tep.letter_updated_at.strftime("%m/%d/%Y") %></td>   
             <td> Admission to TEP</td>       
