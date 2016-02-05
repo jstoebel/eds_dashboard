@@ -21,8 +21,11 @@ class AdmTep < ActiveRecord::Base
   has_attached_file :letter, 
   :url => "/adm_tep/:id/download",    #passes AltID 
   :path => ":rails_root/public/:bnum/admission_letters/:basename.:extension"  #changed path from /admission_letters/:bnum
-  validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
-
+  # validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
+  
+  validates_attachment :letter, presence: true
+  validates_attachment_file_name :letter, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/]
+      
 
   validate :if => :check_fks do |app|
     term = BannerTerm.find(app.BannerTerm_BannerTerm)
@@ -38,7 +41,7 @@ class AdmTep < ActiveRecord::Base
     # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
     app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
     app.errors.add(:EarnedCredits, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
-    app.errors.add(:base, "Please attach an admission letter.") if (app.letter_file_name == nil and app.TEPAdmit != nil)
+    app.errors.add(:letter, "Please attach an admission letter.") if (app.letter_file_name == nil and app.TEPAdmit != nil)
     #TODO must have completed EDS150 with C or better to be admitted.
     #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
    
