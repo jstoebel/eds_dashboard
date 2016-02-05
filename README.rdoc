@@ -17,35 +17,23 @@ EDS Dashboard
 		create a dump.sql file from access using bullzip
 
 	In Linux (local machine): 
-		1) create movedb
-		2) Create development database (on development machine) using the included .mwb file.
-		3) migrate data into eds_development database using python script.
-		4) create a dump.sql file by running mysqlsump -u root -p eds_development > dump.sql
-		5) import schema and all data by copy/pasting this file in phpmyadmin 
 
-	Disidentified data in development db on production server:
-		use a python script to migrate all data, but disidentify.
+		SCHEMA:
+			make sure the model.wb file is up to date on localhost. Synchronize with edsdata.
+		DATA: 
+		1) create movedb from dump.sql
+		2) using python script, connect to edsdata and migrate data to database called eds.
+		3) copy same data to eds_development but disidentify
 
 *updates the schema:
-	Because the schema for this app is complex we have opted to not use migrations and instead check in a .mwb file into the repository allowing for visual representation.  To make changes to the schema:
-
-		PLAN A:
-		1) Figure out how to connect to production db using mysql workbench.
-		2) make changes to .mwb file, run "synchonize with any source"
-
-		PLAN B (if we can't connect using mysql workbench)
-		1) update the schema using schema.rb
+	Because the schema for this app is complex we have opted to not use migrations and instead check in a .mwb file into the repository allowing for visual representation.
 
 * Database initialization
 
 
-* How to run the test suite
+* Testing
 
-	to create the test database:
-
-		1) Make sure the test schema is up to date by syncing with workbench
-		2) To ensure test fixtures are up to date:
-			rake db: fixtures:dump_yaml	-> this will pull data from development db and create fixtures for unit tests
+	All commits to this app are built in a testing enviornment using CodeShip.
 
 * Services (job queues, cache servers, search engines, etc.)
 
