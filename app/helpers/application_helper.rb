@@ -55,7 +55,7 @@ module ApplicationHelper
       else  #go to plan-b
         if options[:plan_b] == :back
           #give me the last term that ended before Date.today
-          return BannerTerm.where("EndDate<?", options[:date]).order(EndDate: :desc).first
+          return BannerTerm.where("EndDate<?", options[:date]).order(EndDate: :desc).order(BannerTerm: :desc).first
         elsif options[:plan_b] == :forward
           #give me the first term that begins after today
           return BannerTerm.where("StartDate>?", options[:date]).order(StartDate: :asc).first
