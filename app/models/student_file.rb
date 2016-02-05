@@ -11,6 +11,11 @@ class StudentFile < ActiveRecord::Base
 	  :keep_old_files => true
 
 	do_not_validate_attachment_file_type :doc
+	# validates_attachment_content_type :doc, :content_type => 'text/plain'
+
+	# validates_attachment :doc, presence: true,
+ #       content_type: {content_type: [/\A*.txt\Z/]
+ #      }
 
 	validates :doc_file_name,
 		uniqueness: {scope: [:Student_Bnum, :active], 

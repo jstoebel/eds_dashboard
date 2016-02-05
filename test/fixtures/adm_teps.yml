@@ -14,7 +14,6 @@ base_app: &base
   GPA: 2.75
   GPA_last30: 3.0 
   EarnedCredits: 30
-  letter_file_name: "letter.docx"
 
 pending:
   <<: *base
