@@ -146,7 +146,8 @@ class IssuesControllerTest < ActionController::TestCase
 
       #expected update and created update should have same attributes
       assert_equal expected_update.attributes.delete(:id), assigns(:update).attributes.delete(:id)
-      assert_equal flash[:notice], "Issue resolved!"
+
+      assert_equal "Issue resolved!", flash[:notice]
       assert_redirected_to student_issues_path(stu.AltID)
       
     end
