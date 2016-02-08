@@ -21,11 +21,9 @@ class AdmTep < ActiveRecord::Base
   has_attached_file :letter, 
   :url => "/adm_tep/:id/download",    #passes AltID 
   :path => ":rails_root/public/:bnum/admission_letters/:basename.:extension"  #changed path from /admission_letters/:bnum
-  # validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
-  
-  validates_attachment :letter, presence: true
-  validates_attachment_file_name :letter, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/]
-      
+
+  validates_attachment_file_name :letter, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
+    :message => "Admission letter must be a Word Document, PDF or plain text document."
 
   validate :if => :check_fks do |app|
     term = BannerTerm.find(app.BannerTerm_BannerTerm)

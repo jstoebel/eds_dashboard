@@ -10,7 +10,7 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "scope admitted" do
     admit_count = AdmTep.admitted.size
-    assert_equal(admit_count, 1)
+    assert_equal(admit_count, AdmTep.where("TEPAdmit = ?", true).size)
   end
 
   test "scope open" do
@@ -42,11 +42,9 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "admit date empty" do
+    #tests validation for required admission date for accespted applications.
 
-    # stu = Student.first
-    # prog = Program.first
-    # term = BannerTerm.first
-    app = AdmTep.where(TEPAdmit: true).first
+    app = AdmTep.where(TEPAdmit: true).where(TEPAdmitDate: nil).first
     app.valid?
     assert_equal(app.errors[:TEPAdmitDate], ["Admission date must be given."])
 
@@ -99,9 +97,9 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "no admission letter" do
     app = AdmTep.where(TEPAdmit: true).first
-    app.letter_file_name = nil
+    # app.letter_file_name = nil
     app.valid?
-    assert_equal(app.errors[:base], ["Please attach an admission letter."])
+    assert_equal(app.errors[:letter], ["Please attach an admission letter."])
   end
 
   test "already enrolled" do
@@ -134,11 +132,18 @@ class AdmTepTest < ActiveSupport::TestCase
     app.TEPAdmitDate = admit_date
 
     #attach an admission letter
-    app.letter = Paperclip.fixture_file_upload('test/fixtures/test_letter.docx')
+    app.letter = Paperclip.fixture_file_upload('test/fixtures/test_file.txt')
     assert app.valid?, app.errors.full_messages
     app.save
     # assert_equal(app.TEPAdmit, true)
     assert_equal("Candidate", app.student.ProgStatus)
+  end
+
+  private
+
+  def attach_letter(app)
+    app.letter = Paperclip.fixture_file_upload('test/fixtures/test_file.txt')
+    return app
   end
 
 end
