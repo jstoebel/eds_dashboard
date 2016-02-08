@@ -1,5 +1,6 @@
 require 'test_helper'
-
+require 'paperclip'
+include ActionDispatch::TestProcess
 class AdmTepControllerTest < ActionController::TestCase
 
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
@@ -19,9 +20,12 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should not get new outside term" do
-    load_session("admin")
-    get :new
-    assert_redirected_to adm_tep_index_path
+    travel_to Date.new(2015, 12, 25) do
+
+      load_session("admin")
+      get :new
+      assert_redirected_to adm_tep_index_path
+    end
   end
 
   test "should post create" do
@@ -40,7 +44,7 @@ class AdmTepControllerTest < ActionController::TestCase
           }
         }
         assert_redirected_to adm_tep_index_path
-        py_assert flash[:notice], "New application added: #{ApplicationController.helpers.name_details(stu)}-#{prog.EDSProgName}"
+        assert_equal flash[:notice], "New application added: #{ApplicationController.helpers.name_details(stu)}-#{prog.EDSProgName}"
       end
     end
   end
@@ -59,7 +63,7 @@ class AdmTepControllerTest < ActionController::TestCase
         }
       }
 
-      py_assert flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
+      assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
       assert_redirected_to adm_tep_index_path
     end
   end
@@ -82,7 +86,7 @@ class AdmTepControllerTest < ActionController::TestCase
         }
       }
 
-      py_assert flash[:notice], "Application not saved."
+      assert_equal flash[:notice], "Application not saved."
       assert_response :success
     end
   end
@@ -98,9 +102,9 @@ class AdmTepControllerTest < ActionController::TestCase
         load_session(r)
         get :edit, {:id => app.id}
         assert_response :success
-        py_assert assigns(:application), app
-        py_assert assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-        py_assert assigns(:student), Student.find(app.Student_Bnum)
+        assert_equal assigns(:application), app
+        assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+        assert_equal assigns(:student), Student.find(app.Student_Bnum)
       end
     end
   end
@@ -112,6 +116,8 @@ class AdmTepControllerTest < ActionController::TestCase
 
   test "should post update" do
     app = AdmTep.first
+    app.letter = Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+    app.save
     term = app.banner_term
     date = (term.StartDate.to_date) + 10
     travel_to date do
@@ -122,17 +128,21 @@ class AdmTepControllerTest < ActionController::TestCase
               :id => app.id,
               :adm_tep => {
                 :TEPAdmit => "true",
-                :TEPAdmitDate => date.strftime("%m/%d/%Y")
+                :TEPAdmitDate => date.strftime("%m/%d/%Y"),
+                :letter => fixture_file_upload('test_file.txt')
                 }
             }
+        assert assigns(:application).valid?, assigns(:application).errors.full_messages 
         assert_redirected_to adm_tep_index_path
-        py_assert flash[:notice], "Student application successfully updated"
+        assert_equal flash[:notice], "Student application successfully updated"
       end
     end
   end
 
   test "should not post update bad date" do
     app = AdmTep.first
+    app.letter = Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+    app.save
     term = app.banner_term
     next_term = BannerTerm.where("BannerTerm > ?", term.BannerTerm).first
     date = (next_term.StartDate.to_date) + 10
@@ -146,10 +156,10 @@ class AdmTepControllerTest < ActionController::TestCase
               :TEPAdmitDate => date.strftime("%m/%d/%Y")
               }
           }
-      py_assert flash[:notice], "Application must be processed in its own term."
+      assert_equal flash[:notice], "Application must be processed in its own term."
       assert_response :success
-      py_assert assigns(:term), app.banner_term
-      py_assert assigns(:student), app.student
+      assert_equal assigns(:term), app.banner_term
+      assert_equal assigns(:student), app.student
     end
   end
 
@@ -167,7 +177,7 @@ class AdmTepControllerTest < ActionController::TestCase
               :TEPAdmitDate => date.strftime("%m/%d/%Y")
               }
           }
-      py_assert flash[:notice], "Please make an admission decision for this student."
+      assert_equal flash[:notice], "Please make an admission decision for this student."
       assert_response :success
     end
   end
@@ -187,9 +197,9 @@ class AdmTepControllerTest < ActionController::TestCase
               }
           }
       assert_response :success
-      py_assert flash[:notice], "Error in saving application."
-      py_assert assigns(:term), app.banner_term
-      py_assert assigns(:student), app.student
+      assert_equal flash[:notice], "Error in saving application."
+      assert_equal assigns(:term), app.banner_term
+      assert_equal assigns(:student), app.student
     end
   end
 
@@ -202,7 +212,7 @@ class AdmTepControllerTest < ActionController::TestCase
         get :index
         assert_response :success
         expected_applications = AdmTep.all.by_term(expected_term)
-        py_assert assigns(:applications).to_a, expected_applications.to_a
+        assert_equal assigns(:applications).to_a, expected_applications.to_a
       end
     end 
   end
@@ -215,7 +225,7 @@ class AdmTepControllerTest < ActionController::TestCase
       load_session(r)
       get :index, {:banner_term_id => term.BannerTerm}
       assert_response :success
-      py_assert assigns(:applications).to_a, AdmTep.all.by_term(term).to_a
+      assert_equal assigns(:applications).to_a, AdmTep.all.by_term(term).to_a
     end
   end   
 
@@ -242,9 +252,9 @@ class AdmTepControllerTest < ActionController::TestCase
       app = AdmTep.first
       get :show, {id: app.id}
       assert_response :success
-      py_assert assigns(:app), app
-      py_assert assigns(:term), app.banner_term
-      py_assert assigns(:student), app.student
+      assert_equal assigns(:app), app
+      assert_equal assigns(:term), app.banner_term
+      assert_equal assigns(:student), app.student
     end
   end
 
@@ -264,7 +274,7 @@ class AdmTepControllerTest < ActionController::TestCase
   test "should not post create bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      stu = Student.where(ProgStatus: "Candidate").first
+      stu = Student.first
       post :create, {:adm_tep => {
         :Student_Bnum => stu.Bnum}
       }
