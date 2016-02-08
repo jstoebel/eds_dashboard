@@ -247,8 +247,7 @@ a:hover { text-decoration: underline; }
 
   /*Large buttons*/
 
-  .action-large, .action-large:visited, .action-large:hover, 
-  .action-large:hover:visited  {
+  .action-large, .action-large:visited, .action-large:hover, .action-large:hover:visited{
     font-size: 14pt;
     color: black;
   }
