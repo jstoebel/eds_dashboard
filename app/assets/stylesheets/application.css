@@ -253,8 +253,7 @@ a:hover { text-decoration: underline; }
     color: black;
   }
 
-  .action-large.
-  n {
+  .action-large.{
     font-size: 14px;
   }
 
@@ -283,11 +282,6 @@ button.btn-danger.glyphicon.glyphicon-remove {
   color: #CCCCCC;
 }
 
-
-
-/*html body div.yield div.index table.listing.summary.student_files.list.table.table-striped tbody tr td.actions button.btn.btn-danger.glyphicon.glyphicon-remove.action-large {
-  background-color: transparent;
-}*/
 
 div.form_link {font-size: 0pt;}
 
@@ -320,13 +314,6 @@ table caption { font-weight: bold; margin-bottom: 10px; color: black;}
 
 
 /*Tables*/
-
-/*zebra stripping for bootstrap table
-light blue: #D9EDF7 (table header)
-light gray: #F9F9F9 (zebra stripe 1, zs2 = white)
- */
-
-/*override headers inside .table > caption*/
 
 .table caption {
   padding-top: 25px;
@@ -383,11 +370,6 @@ caption .container .row {width: inherit;}
    border-style: 0px;
 }
 
-/*no coloring for action buttons*/
-/*.table-striped > tbody > tr > td.actions {
-  background-color: #F9F9F9; -> considering deleting this.    
-  border-style: 0px;
-}*/
 
 /*no bordering*/
 .table-striped > tbody > tr > td {
@@ -429,10 +411,7 @@ td.wrap {
 .vertical-table #text-no-space {
   padding-left: 0px;
 }
-/*styling for old school tables.
-.index {width: 100%; margin-left: 50px; margin-bottom: 50px}
-.index table { clear: both; white-space: nowrap;}     /*width: 90%;*/
-/*.index table tr td {white-space: nowrap; }*/
+
 .show table { clear: both; margin: 0 100px 50px; width: 300px; 
   }
 .show table td, .show table th {border-style: solid; border-width: 1px;}
@@ -457,15 +436,8 @@ div.issue_header {width: 40%;}
 table > tr > td.issue_discrip {height: 100px;}
 
 
-/*test result formatting*/
-/*.test-fail {color: red; font-weight: bold;}*/
-
-/*.good_text {background-color: green; font-weight: bold;}
-.bad_text {background-color: red; font-weight: bold;}*/
 
 /*popup window*/
-
-
 
 .good_text {
   color: green;
@@ -477,12 +449,6 @@ table > tr > td.issue_discrip {height: 100px;}
   border-color: inherit;
 }
 
-
-/* status_tag 
-span.status { display: block; width: 10px; height: 10px;
-  margin: 0.25em auto; padding: 0; border: 1px solid #000000; }
-span.status.true  { background: green; color: green; }
-span.status.false { background: red; color: red; }
 
 /* Errors */
 .field_with_errors { }
