@@ -13,8 +13,6 @@ class ProgExit < ActiveRecord::Base
 	#CALLBACKS
 	before_validation :add_term
 
-	# attr_accessor :spam
-
 	after_save :change_status
 
 	#SCOPES
@@ -103,18 +101,14 @@ class ProgExit < ActiveRecord::Base
 		#non complete exit -> student becomes dropped if they have no unexited programs
 		
 		stu = self.student
-
-
+		
 		if self.ExitCode_ExitCode == "1849"
 			
 			stu.ProgStatus = "Completer"
 			stu.save
 
 		elsif stu.ProgStatus == "Candidate"		#exit wasn't completion
-			#we can only consider calling student dropped if they are currently a candidate. 
-			#No other status leads to dropped.
 
-			#mark student as dropped if no open programs left
 			if AdmTep.open(stu.Bnum).size == 0
 				#no open programs left after save
 				stu.ProgStatus = "Dropped"
