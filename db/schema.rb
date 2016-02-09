@@ -323,8 +323,8 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "tep_advisors", ["username"], name: "fk_tep_advisors_users1_idx", using: :btree
 
   create_table "transcript", primary_key: "crn", force: true do |t|
-    t.string  "Student_Bnum",      limit: 9,   null: false
-    t.string  "course_code",       limit: 45
+    t.string  "students_Bnum",     limit: 9,   null: false
+    t.string  "course_code",       limit: 45,  null: false
     t.string  "course_name",       limit: 100
     t.integer "term_taken",                    null: false
     t.float   "grade_pt",          limit: 24
@@ -337,8 +337,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "Inst_bnum",         limit: 45
   end
 
-  add_index "transcript", ["Student_Bnum"], name: "fk_transcript_students1_idx", using: :btree
-  add_index "transcript", ["course_code"], name: "course_code_UNIQUE", unique: true, using: :btree
+  add_index "transcript", ["students_Bnum"], name: "fk_transcript_students1_idx", using: :btree
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
   create_table "users", primary_key: "UserName", force: true do |t|

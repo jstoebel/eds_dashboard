@@ -1,6 +1,6 @@
 == README
 
-EDS Dashboard
+EDS Dashboard***
 
 * Ruby version: 2.1, Rails Version 4.1
 
