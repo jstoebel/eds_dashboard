@@ -16,6 +16,7 @@ candidate: &candidate
   FirstName: candidate
   LastName: candidate
   ProgStatus: Candidate
+  EnrollmentStatus: Active Student
   AltID: 2
 
 
@@ -25,6 +26,7 @@ graduate:
   FirstName: graduate
   LastName: but candidate
   EnrollmentStatus: Graduation
+  ProgStatus: Candidate
   AltID: 3
 
 #completer and graudate (with an open program)
