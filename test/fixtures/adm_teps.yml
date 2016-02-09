@@ -11,6 +11,7 @@ base_app: &base
   BannerTerm_BannerTerm: 201511
   Attempt: 1
   TEPAdmit: true
+  TEPAdmitDate: <%= Date.new(2015, 10, 1) %>
   GPA: 2.75
   GPA_last30: 3.0 
   EarnedCredits: 30

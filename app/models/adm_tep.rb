@@ -16,6 +16,7 @@ class AdmTep < ActiveRecord::Base
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
   #all of a student's open programs.
   scope :open, ->(bnum) {joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)").where("prog_exits.id IS NULL AND adm_tep.TEPAdmit = 1 AND adm_tep.Student_Bnum = ?", bnum)}
+  
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}   #all applications by term
   
   has_attached_file :letter, 

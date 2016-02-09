@@ -44,7 +44,8 @@ class AdmTepTest < ActiveSupport::TestCase
   test "admit date empty" do
     #tests validation for required admission date for accespted applications.
 
-    app = AdmTep.where(TEPAdmit: true).where(TEPAdmitDate: nil).first
+    app = AdmTep.find_by(TEPAdmit: true)
+    app.TEPAdmitDate = nil
     app.valid?
     assert_equal(app.errors[:TEPAdmitDate], ["Admission date must be given."])
 
