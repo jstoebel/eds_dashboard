@@ -15,6 +15,7 @@ base: &base
 candidate: &candidate
   FirstName: candidate
   LastName: candidate
+  ProgStatus: Candidate
   AltID: 2
 
 
