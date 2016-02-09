@@ -98,7 +98,10 @@ class AdmStController < ApplicationController
     if @application.STAdmitted == true
         begin
             admit_date = params[:adm_st][:STAdmitDate]
-            @application.STAdmitDate = DateTime.strptime(admit_date, '%m/%d/%Y') #load in the date if student was admited           
+            @application.STAdmitDate = DateTime.strptime(
+              admit_date, '%m/%d/%Y') if admit_date
+
+              #load in the date if student was admited           
         rescue ArgumentError => e
             @application.STAdmitDate = nil
         end

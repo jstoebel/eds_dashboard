@@ -11,7 +11,8 @@ class AdmSt < ActiveRecord::Base
   belongs_to :student, foreign_key: "Student_Bnum"
   belongs_to :banner_term, foreign_key: "BannerTerm_BannerTerm"
 
-	validates_attachment_content_type :letter, :content_type => [ 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]
+  validates_attachment_file_name :letter, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
+    :message => "Admission letter must be a Word Document, PDF or plain text document."
 	
 	validate :validate_letter, unless: :skip_val_letter
 	scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}

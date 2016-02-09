@@ -1,4 +1,6 @@
 require 'test_helper'
+require 'paperclip'
+include ActionDispatch::TestProcess
 class AdmStControllerTest < ActionController::TestCase
 
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
@@ -13,7 +15,7 @@ class AdmStControllerTest < ActionController::TestCase
       load_session(r)
       get :index
       assert_response :success, "unexpected http response, role=#{r}"
-      py_assert assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
+      assert_equal assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
     end
   end
 
@@ -25,7 +27,7 @@ class AdmStControllerTest < ActionController::TestCase
       load_session(r)
       get :index, {:banner_term_id => term.BannerTerm}
       assert_response :success, "unexpected http response, role=#{r}"
-      py_assert assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
+      assert_equal assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
     end
   end   
 
@@ -38,7 +40,7 @@ class AdmStControllerTest < ActionController::TestCase
         load_session(r)
         get :new
         expected = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'").order(LastName: :asc)
-        py_assert assigns(:students).to_a, expected.to_a
+        assert_equal assigns(:students).to_a, expected.to_a
         assert_response :success, "unexpected http response, role=#{r}"
       end
     end
@@ -50,7 +52,7 @@ class AdmStControllerTest < ActionController::TestCase
       load_session("admin")
       get :new
       assert_redirected_to adm_st_index_path
-      py_assert flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
+      assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
     end 
   end
 
@@ -71,8 +73,8 @@ class AdmStControllerTest < ActionController::TestCase
           :Student_Bnum => stu.Bnum}
         }
         assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
-        py_assert assigns(:app).Student_Bnum, stu.Bnum
-        py_assert flash[:notice], "New application added for #{ApplicationController.helpers.name_details(stu, file_as=true)}"
+        assert_equal assigns(:app).Student_Bnum, stu.Bnum
+        assert_equal flash[:notice], "New application added for #{ApplicationController.helpers.name_details(stu, file_as=true)}"
       end
     end
   end
@@ -90,7 +92,7 @@ class AdmStControllerTest < ActionController::TestCase
           :Student_Bnum => stu.Bnum}
         }
         assert_redirected_to adm_st_index_path
-        py_assert flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
+        assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
     end
   end
 
@@ -113,7 +115,7 @@ class AdmStControllerTest < ActionController::TestCase
       }
 
       assert_response :success
-      py_assert flash[:notice], "Application not saved."
+      assert_equal flash[:notice], "Application not saved."
     end
   end
 
@@ -123,9 +125,9 @@ class AdmStControllerTest < ActionController::TestCase
       app = AdmSt.first
       get :edit, {:id => app.id}
       assert_response :success, "unexpected http response, role=#{r}"
-      py_assert assigns(:application), app 
-      py_assert assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-      py_assert assigns(:student), Student.find(app.Student_Bnum)
+      assert_equal assigns(:application), app 
+      assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+      assert_equal assigns(:student), Student.find(app.Student_Bnum)
     end
 
   end
@@ -145,14 +147,18 @@ class AdmStControllerTest < ActionController::TestCase
       app.STAdmitted = nil
       app.STAdmitDate = nil
       app.save
-
-      post :create, {
-            :id => app.id,
-            :adm_st => {
-              :STAdmitted => "true"
-              }
-          }
-      assert_redirected_to adm_st_index_path
+      travel_to (app.banner_term.StartDate.to_date) + 1 do
+        post :update, {
+              :id => app.id,
+              :adm_st => {
+                :STAdmitted => "true",
+                :STAdmitDate => Date.today.strftime("%m/%d/%Y"),
+                :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                }
+            }
+        assert assigns(:application).valid?, assigns(:application).errors.full_messages
+        assert_redirected_to adm_st_index_path
+      end
     end
   end
 
@@ -179,27 +185,31 @@ class AdmStControllerTest < ActionController::TestCase
           }
       }
       assert_response :success
-      py_assert flash[:notice],  "Application must be processed in its own term or the break following."
-      py_assert assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-      py_assert assigns(:student), Student.find(app.Student_Bnum)
+      assert_equal flash[:notice],  "Application must be processed in its own term or the break following."
+      assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+      assert_equal assigns(:student), Student.find(app.Student_Bnum)
     end
   end
 
   test "should not post update no decision" do
-    load_session("admin")
-    app = AdmSt.first
-    app.STAdmitted = nil
-    app.STAdmitDate = nil
-    app.save
-    post :update, {
-      :id => app.id,
-      :adm_st => {
+
+      load_session("admin")
+      app = AdmSt.first
+      travel_to (app.banner_term.StartDate.to_date) + 1 do
+        app.STAdmitted = nil
+        app.STAdmitDate = nil
+        assert app.valid?, app.errors.full_messages
+        app.save
+        post :update, {
+          :id => app.id,
+          :adm_st => {
+            }
         }
-    }
-    assert_response :success
-    py_assert flash[:notice],  "Please make an admission decision for this student."
-    py_assert assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-    py_assert assigns(:student), Student.find(app.Student_Bnum)
+      end
+      assert_response :success
+      assert_equal "Please make an admission decision for this student.", flash[:notice]  
+      assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+      assert_equal assigns(:student), Student.find(app.Student_Bnum)
 
   end
 
@@ -209,9 +219,9 @@ class AdmStControllerTest < ActionController::TestCase
       app = AdmSt.first
       get :edit_st_paperwork, {adm_st_id: app.id}
       assert_response :success, "unexpected http response, role=#{r}"    
-      py_assert assigns(:app), app
-      py_assert assigns(:student), app.student
-      py_assert assigns(:terms), BannerTerm.where("BannerTerm > ?", app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
+      assert_equal assigns(:app), app
+      assert_equal assigns(:student), app.student
+      assert_equal assigns(:terms), BannerTerm.where("BannerTerm > ?", app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
     end
   end
 
@@ -232,7 +242,7 @@ class AdmStControllerTest < ActionController::TestCase
       }
 
       assert_redirected_to adm_st_index_path
-      py_assert flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
+      assert_equal flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
     end
   end
 
