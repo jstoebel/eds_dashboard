@@ -107,7 +107,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     assert_response :success
     py_assert expected_site.attributes.delete(:id), assigns(:site).attributes.delete(:id) #attibute hashes should be equal except for the id
     py_assert flash[:notice], "Error creating site."
-    assert_template "new "
+    assert_template "new"
 
   end
 
