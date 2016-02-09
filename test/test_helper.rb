@@ -34,10 +34,10 @@ class ActiveSupport::TestCase
     session[:role] = role 
   end
 
-  def load_session(role)
+  def load_session(r)
     #loads up session data with a user
     #role: name of role to be loaded (string)
-    role = Role.where(RoleName: role).first
+    role = Role.where(RoleName: r).first
     user = User.where(Roles_idRoles: role.idRoles).first
     session[:user] = user.UserName
     session[:role] = role.RoleName
