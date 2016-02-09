@@ -53,7 +53,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     post :update, {:id => site.id, :clinical_site => update_params}
     assert_response :success
     assert_template 'edit'
-    assert_form_details
+    assert_equal "Error updating site.", flash[:notice]
   end
 
   test "should get new" do
@@ -100,13 +100,14 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       :Principal => "mr. test",
       :District => "district"
     } #no SiteName!
-
+    expected_site = ClinicalSite.new(new_params)
 
     post :create, {:clinical_site => new_params}
 
     assert_response :success
     py_assert expected_site.attributes.delete(:id), assigns(:site).attributes.delete(:id) #attibute hashes should be equal except for the id
-    py_assert flash[:notice], "Created #{assigns(:site).SiteName}."
+    py_assert flash[:notice], "Error creating site."
+    assert_template "new "
 
   end
 
