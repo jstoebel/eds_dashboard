@@ -6,12 +6,12 @@ class AdvisorAssignments < ActiveRecord::Migration
   	end
 
   	#also add composite pk
-  	execute %q(ALTER TABLE `eds_test`.`advisor_assignments`
+  	execute %q(ALTER TABLE `advisor_assignments`
   			ADD PRIMARY KEY (`tep_advisors_AdvisorBnum`, `students_Bnum`);)
   end
 
   def down
-  	execute %q(ALTER TABLE `eds_test`.`advisor_assignments` 
+  	execute %q(ALTER TABLE `advisor_assignments` 
 		DROP PRIMARY KEY;)
 
   	change_table :advisor_assignments do |t|

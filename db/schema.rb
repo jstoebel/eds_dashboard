@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160210180545) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,   null: false
@@ -67,17 +67,17 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "advisor_assignments", ["tep_advisors_AdvisorBnum"], name: "fk_students_has_tep_advisors_tep_advisors1_idx", using: :btree
 
   create_table "alumni_info", primary_key: "AlumniID", force: true do |t|
-    t.string    "Student_Bnum", limit: 9,  null: false
-    t.timestamp "Date"
-    t.string    "FirstName",    limit: 45
-    t.string    "LastName",     limit: 45
-    t.string    "Email",        limit: 45
-    t.string    "Phone",        limit: 45
-    t.string    "Address1",     limit: 45
-    t.string    "Address2",     limit: 45
-    t.string    "City",         limit: 45
-    t.string    "State",        limit: 45
-    t.string    "ZIP",          limit: 45
+    t.string   "Student_Bnum", limit: 9,  null: false
+    t.datetime "Date"
+    t.string   "FirstName",    limit: 45
+    t.string   "LastName",     limit: 45
+    t.string   "Email",        limit: 45
+    t.string   "Phone",        limit: 45
+    t.string   "Address1",     limit: 45
+    t.string   "Address2",     limit: 45
+    t.string   "City",         limit: 45
+    t.string   "State",        limit: 45
+    t.string   "ZIP",          limit: 45
   end
 
   add_index "alumni_info", ["Student_Bnum"], name: "fk_AlumniInfo_Student1_idx", using: :btree
@@ -152,11 +152,11 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "forms_of_intention", ["Student_Bnum"], name: "fk_FormofIntention_Student1_idx", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
-    t.timestamp "CreateDate",                           null: false
-    t.string    "UpdateName",               limit: 100, null: false
-    t.text      "Description",                          null: false
-    t.integer   "Issues_IssueID",                       null: false
-    t.string    "tep_advisors_AdvisorBnum", limit: 45,  null: false
+    t.datetime "CreateDate",                           null: false
+    t.string   "UpdateName",               limit: 100, null: false
+    t.text     "Description",                          null: false
+    t.integer  "Issues_IssueID",                       null: false
+    t.string   "tep_advisors_AdvisorBnum", limit: 45,  null: false
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
@@ -323,7 +323,7 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "tep_advisors", ["username"], name: "fk_tep_advisors_users1_idx", using: :btree
 
   create_table "transcript", primary_key: "crn", force: true do |t|
-    t.string  "students_Bnum",     limit: 9,   null: false
+    t.string  "Student_Bnum",      limit: 9,   null: false
     t.string  "course_code",       limit: 45,  null: false
     t.string  "course_name",       limit: 100
     t.integer "term_taken",                    null: false
@@ -337,7 +337,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "Inst_bnum",         limit: 45
   end
 
-  add_index "transcript", ["students_Bnum"], name: "fk_transcript_students1_idx", using: :btree
+  add_index "transcript", ["Student_Bnum"], name: "fk_transcript_students1_idx", using: :btree
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
   create_table "users", primary_key: "UserName", force: true do |t|
