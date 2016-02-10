@@ -7,14 +7,14 @@ class Transcript < ActiveRecord::Migration
   	end
 
     #also add student bnum as part of PK
-    execute %q(ALTER TABLE `eds_development`.`transcript` 
+    execute %q(ALTER TABLE `transcript` 
     DROP PRIMARY KEY,
     ADD PRIMARY KEY (`crn`, `Student_Bnum`);)
 
   end
 
   def down
-    execute %q(ALTER TABLE `eds_development`.`transcript` 
+    execute %q(ALTER TABLE `transcript` 
     DROP PRIMARY KEY,
     ADD PRIMARY KEY (`crn`);)
 
