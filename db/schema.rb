@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210180545) do
+ActiveRecord::Schema.define(version: 20160210211221) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,   null: false
@@ -152,11 +152,11 @@ ActiveRecord::Schema.define(version: 20160210180545) do
   add_index "forms_of_intention", ["Student_Bnum"], name: "fk_FormofIntention_Student1_idx", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
-    t.datetime "CreateDate",                           null: false
-    t.string   "UpdateName",               limit: 100, null: false
-    t.text     "Description",                          null: false
-    t.integer  "Issues_IssueID",                       null: false
-    t.string   "tep_advisors_AdvisorBnum", limit: 45,  null: false
+    t.timestamp "CreateDate",                           null: false
+    t.string    "UpdateName",               limit: 100, null: false
+    t.text      "Description",                          null: false
+    t.integer   "Issues_IssueID",                       null: false
+    t.string    "tep_advisors_AdvisorBnum", limit: 45,  null: false
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
@@ -322,7 +322,8 @@ ActiveRecord::Schema.define(version: 20160210180545) do
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
   add_index "tep_advisors", ["username"], name: "fk_tep_advisors_users1_idx", using: :btree
 
-  create_table "transcript", primary_key: "crn", force: true do |t|
+  create_table "transcript", id: false, force: true do |t|
+    t.integer "crn",                           null: false
     t.string  "Student_Bnum",      limit: 9,   null: false
     t.string  "course_code",       limit: 45,  null: false
     t.string  "course_name",       limit: 100
