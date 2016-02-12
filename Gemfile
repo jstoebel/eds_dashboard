@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.10'
+# gem 'rails', '~> 4.2', '>= 4.2.5'
 # Use mysql as the database for Active Record
 gem 'mysql2'
 # Use SCSS for stylesheets
@@ -38,6 +39,10 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
 gem 'lograge'
 gem 'minitest-fail-fast'
+
+#for working out foreign keys!!1
+gem 'foreigner', '~> 1.7', '>= 1.7.4'
+gem 'immigrant'
 # Use unicorn as the app server
 # gem 'unicorn'
 
