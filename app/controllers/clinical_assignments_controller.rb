@@ -58,7 +58,7 @@ class ClinicalAssignmentsController < ApplicationController
 
   def edit
     form_setup
-    @assignment = ClinicalAssignment.where("AltID = ?", params[:id]).first
+    @assignment = ClinicalAssignment.find(params[:id])
     authorize! :manage, @assignment
     # @student = Student.find(@assignment.Bnum)
     # @teacher = ClinicalTeacher.find(@assignment.clinical_teacher_id)
