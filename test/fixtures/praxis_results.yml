@@ -15,7 +15,6 @@ one:
   TestDate: <%= Date.today %>
   RegDate: <%= Date.today %>
   PaidBy: ETS (fee waiver)
-  AltID: 1
 
 two:
   student: base
@@ -23,4 +22,3 @@ two:
   TestDate: <%= Date.today %>
   RegDate: <%= Date.today %>
   PaidBy: ETS (fee waiver)
-  AltID: 2
