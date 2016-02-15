@@ -34,8 +34,6 @@ class PraxisResultsController < ApplicationController
 
   def create
     @test = PraxisResult.new(new_test_params)
-    # @test.TestID = get_testid(params)
-    @test.TestID = [@test.Bnum, @test.TestCode, @test.TestDate.strftime("%m/%d/%Y")].join("-")
 
     authorize! :manage, @test     #this should restrict advisors from adding new tests
     if @test.save
