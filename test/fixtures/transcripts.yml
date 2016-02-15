@@ -6,6 +6,7 @@
 #
 
 one:
+  crn: 12345
   student: base
   course_code: EDS150
   term_taken: BannerTerm_262

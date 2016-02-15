@@ -11,7 +11,6 @@
 #  column: value
 
 one:
-  id: 1
   student: candidate
   Program_ProgCode: 2
   ExitCode_ExitCode: 1849	#completer!
