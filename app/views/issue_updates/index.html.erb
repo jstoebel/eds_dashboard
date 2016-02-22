@@ -33,7 +33,14 @@
         <td><%=update.UpdateName%></td>
         <td> <%=update.CreateDate.strftime("%m/%d/%Y")%> </td>
         <td class="actions">
-          <%= link_to "Details", issue_update_path(update.UpdateID), class: "btn btn-info action-small"%>
+
+          <%= render(partial: 'details_popover', 
+          locals: {
+            :record_id => update.UpdateID,
+            :popover_title => "Update Details", 
+            :button_title => "Details",
+            :content => update.Description
+          } )  %>
         </td>
       </tr>
       
