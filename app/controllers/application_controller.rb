@@ -41,6 +41,9 @@ class ApplicationController < ActionController::Base
         if user != nil
           session[:user] = user.UserName
           session[:role] = user.role_name
+          if session[:user] == "admin"
+            session[:view_as] = 1   # default to view as admin
+          end
           #user is recognized in this site!
 
           #redirect to their home page!
