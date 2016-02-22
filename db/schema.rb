@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160215175737) do
+ActiveRecord::Schema.define(version: 20160222211256) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,   null: false
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20160215175737) do
     t.boolean  "beh_train"
     t.boolean  "conf_train"
     t.boolean  "kfets_in"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "adm_st", ["BannerTerm_BannerTerm"], name: "fk_AdmST_BannerTerm1_idx", using: :btree
@@ -267,7 +269,7 @@ ActiveRecord::Schema.define(version: 20160215175737) do
   add_index "prog_exits", ["Student_Bnum"], name: "fk_Exit_Student1_idx", using: :btree
 
   create_table "programs", primary_key: "ProgCode", force: true do |t|
-    t.string  "EPSBProgName", limit: 45
+    t.string  "EPSBProgName", limit: 100
     t.string  "EDSProgName",  limit: 45
     t.boolean "Current"
   end
