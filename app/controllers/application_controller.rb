@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
   def authorize
     #if the user gets here they are authenticated as a Berea College user.
     #let's fetch their username and role (if any)
+
     unless session[:user].present?    #look up username and role if we don't have it.
 
       username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
@@ -51,6 +52,52 @@ class ApplicationController < ActionController::Base
       end
       
       #user is already loaded into session data. Nothing needed.
+
+
+    #get the ip address as a second way to verify we are on the production server
+    ip=Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
+
+    if Rails.env.production? or ip.ip_address == "10.40.42.92"
+      #login if we are in production
+      unless session[:user].present?    #look up username and role if we don't have it.
+
+        username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
+        results = User.where(UserName: username)
+        user = results.first
+        if user != nil
+          session[:user] = user.UserName
+          session[:role] = user.role_name
+          #user is recognized in this site!
+
+          #redirect to their home page!
+          if user.FirstName.present? and user.LastName.present?
+            flash[:notice] = "Welcome, #{user.FirstName} #{user.LastName}!"
+          else
+            flash[:notice] = "Welcome, #{user.UserName}!"    
+          end
+          
+        else  #couldn't find user in database ->authorize failed!
+          redirect_to "/access_denied"
+        end
+      end
+
+    else
+      #if not in production all requests are given credentials as admin
+
+      #try to find a user account who is admin
+      user = User.find_by(Roles_idRoles: 1)
+      if not user  # couldn't find one, let's make one!
+        user = User.create({
+            UserName: "devuser",
+            FirstName: "Development",
+            LastName: "User",
+            Email: "userd@berea.edu",
+            Roles_idRoles: 1
+          })
+      end
+      session[:user] = user.UserName
+      session[:role] = user.role_name
+
     end
 
   end
