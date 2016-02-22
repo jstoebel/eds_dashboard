@@ -12,7 +12,7 @@ class AccessControllerTest < ActionController::TestCase
 
   test "should get access_denied" do
     get :access_denied
-    assert_response :success
+    assert_redirected_to "/access_denied.html"
   end
 
   test "should get logout" do
