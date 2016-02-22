@@ -47,7 +47,18 @@ gem 'immigrant'
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+group :development do
+    gem 'capistrano', '~> 3.1'
+    gem 'capistrano-passenger'
+    gem 'capistrano-rbenv', '~> 2.0'
+    # gem 'capistrano-rvm',       require: false
+    gem 'capistrano-rails'    
+    gem 'capistrano-bundler' 
+    gem 'capistrano3-puma' 
+    gem  'capistrano-ext'
+end
+
+gem 'puma'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
