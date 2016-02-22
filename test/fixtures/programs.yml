@@ -32,11 +32,13 @@ Program_6:
   ProgCode: 19
   EPSBProgName: Family and Consumer Science-5-12
   EDSProgName: CFS
+  Current: false
 
 Program_7:
   ProgCode: 21
   EPSBProgName: German-K-12
   EDSProgName: German
+  Current: false
 
 Program_8:
   ProgCode: 23
@@ -54,16 +56,19 @@ Program_10:
   ProgCode: 29
   EPSBProgName: Integrated Music -P-12
   EDSProgName: Integrated Music
+  Current: false
 
 Program_11:
   ProgCode: 30
   EPSBProgName: Interdisciplinary Early Childhood Education -
   EDSProgName: IECE
+  Current: false
 
 Program_12:
   ProgCode: 32
   EPSBProgName: Latin-K-12
   EDSProgName: Latin
+  Current: false
 
 Program_13:
   ProgCode: 37
@@ -93,6 +98,7 @@ Program_17:
   ProgCode: 58
   EPSBProgName: Spanish -K-12
   EDSProgName: Spanish
+  Current: false
 
 Program_18:
   ProgCode: 61
@@ -122,6 +128,7 @@ Program_22:
   ProgCode: 2258
   EPSBProgName: Middle School English-5-9
   EDSProgName: 5-9 English
+  Current: false
 
 Program_23:
   ProgCode: 2354
@@ -133,4 +140,4 @@ Program_24:
   ProgCode: 2450
   EPSBProgName: Middle School Social Studies-5-9
   EDSProgName: 5-9 Social Studies
-
+  Current: false
