@@ -23,6 +23,3 @@ task :load_constants => :environment do
 
     end
 end
-
-
-{"BannerTerm"=>197502, "PlainTerm"=>"Short Term 76", "StartDate"=>"1/5/1976", "EndDate"=>"1/30/1976", "AYStart"=>1975}
