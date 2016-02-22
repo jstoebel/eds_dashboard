@@ -61,25 +61,22 @@ class ApplicationController < ActionController::Base
 
       end
 
-    else
-      #if not in production all requests are given credentials as 
-
-      #try to find a user account who is admin
-      user = User.find_by(Roles_idRoles: 1)
-      if user
+    else # we're in development
+      if session[:user] == nil # has session data been set?
+        #try to find a user account who is admin
+        user = User.find_by(Roles_idRoles: 1)
+        if not user
+          user = User.create({
+              UserName: "devuser",
+              FirstName: "Development",
+              LastName: "User",
+              Email: "userd@berea.edu",
+              Roles_idRoles: 1
+            })
+        end
         session[:user] = user.UserName
         session[:role] = user.role_name
-      else
-        #couldn't find one, let's make one!
-        user = User.create({
-            UserName: "devuser",
-            FirstName: "Development",
-            LastName: "User",
-            Email: "userd@berea.edu",
-            Roles_idRoles: 1
-          })
       end
-
     end
 
   end
