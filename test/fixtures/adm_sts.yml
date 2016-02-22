@@ -18,3 +18,4 @@ base_app: &base
   OverallGPA: 2.75
   CoreGPA: 3.0 
   letter_file_name: "letter.docx"
+  letter_updated_at: <%= Date.strptime("10/1/2015", "%m/%d/%Y") %>
