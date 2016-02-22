@@ -70,10 +70,16 @@
                       :record_id => issue.IssueID,
                       :popover_title => "Issue Details", 
                       :button_title => "Details",
-                      :content => exit.Details
+                      :content => issue.Description
                     } )  %>
                               
-                    <%= link_to "Updates", issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small"%>   
+                    <%= link_to issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small" do %>
+                        <span class="small-btn-text"> Updates 
+                          <span class="badge">
+                            <%=issue.issue_updates.size%> 
+                          </span>
+                        </span>
+                    <% end %>    
                      
                     <% if issue.Open %>          
                       <%= link_to "Resolve Issue", issue_resolve_issue_path(issue.IssueID), class: "btn btn-info action-small"%>
