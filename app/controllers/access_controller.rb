@@ -11,6 +11,7 @@ class AccessController < ApplicationController
   end
 
   def access_denied
+    redirect_to "/access_denied.html"
   end
 
   def logout
