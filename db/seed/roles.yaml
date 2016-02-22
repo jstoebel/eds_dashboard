@@ -1,0 +1,13 @@
+---
+-
+  idRoles: 1
+  RoleName: admin
+-
+  idRoles: 2
+  RoleName: advisor
+-
+  idRoles: 3
+  RoleName: staff
+-
+  idRoles: 4
+  RoleName: student labor
