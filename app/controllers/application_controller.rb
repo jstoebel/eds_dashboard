@@ -27,29 +27,6 @@ class ApplicationController < ActionController::Base
 
   def authorize
     #if the user gets here they are authenticated as a Berea College user.
-<<<<<<< Updated upstream
-    #let's fetch their username and role (if any)
-=======
-<<<<<<< Updated upstream
-    #next let's fetch their username and role (if any)
->>>>>>> Stashed changes
-    unless session[:user].present?    #look up username and role if we don't have it.
-
-      username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
-      results = User.where(UserName: username)
-      user = results.first
-      if user != nil
-        session[:user] = user.UserName
-        session[:role] = user.role_name
-        #user is recognized in this site!
-
-        #redirect to their home page!
-        if user.FirstName.present? and user.LastName.present?
-          flash[:notice] = "Welcome, #{user.FirstName} #{user.LastName}!"
-        else
-          flash[:notice] = "Welcome, #{user.UserName}!"    
-=======
-    #let's fetch their username and role (if any)
 
     #get the ip address as a second way to verify we are on the production server
     ip=Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
@@ -77,15 +54,9 @@ class ApplicationController < ActionController::Base
           
         else  #couldn't find user in database ->authorize failed!
           redirect_to "/access_denied"
->>>>>>> Stashed changes
         end
-        
-        #user is already loaded into session data. Nothing needed.
+
       end
-<<<<<<< Updated upstream
-      
-      #user is already loaded into session data. Nothing needed.
-=======
 
     else
       #if not in production all requests are given credentials as 
@@ -105,15 +76,7 @@ class ApplicationController < ActionController::Base
             Roles_idRoles: 1
           })
       end
-<<<<<<< Updated upstream
 
-      #user is already loaded into session data. Nothing needed.
-=======
-      
-
->>>>>>> Stashed changes
-
->>>>>>> Stashed changes
     end
 
   end
