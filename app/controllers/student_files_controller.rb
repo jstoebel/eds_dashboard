@@ -39,8 +39,9 @@ class StudentFilesController < ApplicationController
   end
 
   def download
-
+    file = StudentFile.find(params[:student_file_id])
     authorize! :read, file
+    send_file file.doc.path
   end
 
   private
