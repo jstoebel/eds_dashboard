@@ -24,7 +24,7 @@ class Ability
     elsif user.is? "staff"
       can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher, 
         Employment, Foi, ProgExit, StudentFile]
-      # can [:new, :create], PraxisResult
+      can [:new, :create], PraxisResult
       can :read, Student
 
     elsif user.is? "student labor"
