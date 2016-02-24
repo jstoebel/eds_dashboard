@@ -35,13 +35,16 @@ class PraxisResultsController < ApplicationController
   def create
     @test = PraxisResult.new(new_test_params)
 
-    authorize! :manage, @test     #this should restrict advisors from adding new tests
+    authorize! :create, @test     #this should restrict advisors from adding new tests
+
+    puts "****RECORD IS SAVING****"
     if @test.save
       # @student = Student.find(params[:praxis_result][:Bnum])
       @student = @test.student
       flash[:notice] = "Registration successful: #{ApplicationController.helpers.name_details(@student)}, #{@test.TestCode}, #{@test.TestDate}"
-      redirect_to(action: 'new')
+      redirect_to new_praxis_result_path
     else
+      puts "****RECORD NOT IS SAVING****"
       create_error
       
     end
