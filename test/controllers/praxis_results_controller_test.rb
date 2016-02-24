@@ -123,7 +123,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
   end
 
   test "should not get new bad role" do
-    ["staff"].each do |r|
+    ["advisor"].each do |r|
       load_session(r)
       get :new
       assert_redirected_to "/access_denied"
@@ -131,7 +131,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
   end
 
   test "should not post create bad role" do
-    ["staff"].each do |r|
+    ["advisor"].each do |r|
       load_session(r)
       test = PraxisResult.first
 
