@@ -23,7 +23,7 @@ class ProgExitsController < ApplicationController
   def create
     #create a new exit.
 
-    #mass assign bnum, program code, exit code, details
+    #mass assign AltID, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
     @exit.Student_Bnum = Student.find_by(:AltID => params[:prog_exit][:AltID]).Bnum
 
@@ -50,8 +50,6 @@ class ProgExitsController < ApplicationController
 
     #get exit ID
   
-
-
     if @exit.save
       flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
       redirect_to prog_exits_path
@@ -138,10 +136,7 @@ class ProgExitsController < ApplicationController
   end
 
   def new_setup
-    puts "***STARTING NEW SETUP***"
     @students = Student.all.where("ProgStatus in (?, ?)", "Candidate", "Completer").by_last    #TODO all candidates with unexited programs
-    puts @students
-    puts "*******"
     @programs = []
     @exit_reasons = ExitCode.all
   end
