@@ -8,33 +8,39 @@
 #  column: value
 
 base: &base
-  FirstName: base
-  LastName: base
+  FirstName: Prospective
+  LastName: Student
+  EnrollmentStatus: Active Student
+  ProgStatus: Prospective
+  Classification: Junior
   AltID: 1
 
 candidate: &candidate
-  FirstName: candidate
-  LastName: candidate
+  FirstName: Candidate
+  LastName: Student
   ProgStatus: Candidate
   EnrollmentStatus: Active Student
+  Classification: Junior
   AltID: 2
 
 
 ##GRADUATES
 #graduate but not exited
 graduate:
-  FirstName: graduate
-  LastName: but candidate
+  FirstName: Graduate
+  LastName: Still Candidate
   EnrollmentStatus: Graduation
   ProgStatus: Candidate
+  Classification: Senior
   AltID: 3
 
 #completer and graudate (with an open program)
 grad_completer:
-  FirstName: graduate
-  LastName: completer
+  FirstName: Graudate
+  LastName: Completer
   EnrollmentStatus: Graduation
   ProgStatus: Completer
+  Classification: Senior
   AltID: 4
 
 #TODO student who was admitted but does not have a TEP major.
