@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222211256) do
+ActiveRecord::Schema.define(version: 20160224200250) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,   null: false
@@ -262,8 +262,10 @@ ActiveRecord::Schema.define(version: 20160222211256) do
     t.float    "GPA_last60",        limit: 24
     t.datetime "RecommendDate"
     t.text     "Details"
+    t.integer  "AltID",                        null: false
   end
 
+  add_index "prog_exits", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "prog_exits", ["ExitCode_ExitCode"], name: "fk_Exit_ExitCode1_idx", using: :btree
   add_index "prog_exits", ["Program_ProgCode"], name: "fk_Exit__Program_idx", using: :btree
   add_index "prog_exits", ["Student_Bnum"], name: "fk_Exit_Student1_idx", using: :btree
