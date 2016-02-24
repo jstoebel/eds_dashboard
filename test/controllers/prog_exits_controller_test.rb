@@ -73,7 +73,8 @@ class ProgExitsControllerTest < ActionController::TestCase
             :ExitCode_ExitCode => "1826",   #dropped out
             :ExitDate => start_date.strftime("%m/%d/%Y"),
             :GPA => 2.5,
-            :GPA_last60 => 3.0 
+            :GPA_last60 => 3.0,
+            :AltID => adm.student.AltID 
           }}
 
         assert_equal flash[:notice], "Successfully exited #{ApplicationController.helpers.name_details(assigns(:exit).student)} from #{assigns(:exit).program.EDSProgName}. Reason: #{assigns(:exit).exit_code.ExitDiscrip}."
@@ -105,18 +106,17 @@ class ProgExitsControllerTest < ActionController::TestCase
         stu = adm.student
         prog = adm.program
 
-        post :create, {:prog_exit => {
-            :Student_Bnum => adm.Student_Bnum,
-            :Program_ProgCode => "999",   #bad program code, will trip an error
-            :ExitCode_ExitCode => "1826",   #dropped out
-            :ExitDate => start_date.strftime("%m/%d/%Y"),
-            :GPA => 2.5,
-            :GPA_last60 => 3.0 
-          }}
-
-        assert_response :success
-        test_new_setup
-        assert_template 'new'
+        assert_raises NoMethodError do
+          post :create, {:prog_exit => {
+              :Student_Bnum => adm.Student_Bnum,
+              :Program_ProgCode => "999",   #bad program code, will trip an error
+              :ExitCode_ExitCode => "1826",   #dropped out
+              :ExitDate => start_date.strftime("%m/%d/%Y"),
+              :GPA => 2.5,
+              :GPA_last60 => 3.0,
+              :AltID => "badid" 
+            }}
+        end
 
       end
     end
@@ -147,7 +147,7 @@ class ProgExitsControllerTest < ActionController::TestCase
       load_session(r)
 
       expected_exit = ProgExit.first
-      get :edit, {:id => expected_exit.id}
+      get :edit, {:id => expected_exit.AltID}
       assert_response :success
       assert_equal expected_exit, assigns(:exit)
     end    
@@ -168,7 +168,7 @@ class ProgExitsControllerTest < ActionController::TestCase
       update_params = {
         :Details => expected_exit.Details
       }
-      post :update, {:id => expected_exit.id, :prog_exit => update_params}
+      post :update, {:id => expected_exit.AltID, :prog_exit => update_params}
       assert_equal expected_exit, assigns(:exit)
       assert_equal flash[:notice], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
       assert_redirected_to prog_exits_path
@@ -246,7 +246,6 @@ class ProgExitsControllerTest < ActionController::TestCase
 
   test "should not post create bad role" do
     (role_names - allowed_roles).each do |r|
-      
       load_session(r)
       post :create, {:prog_exit => {
             :Student_Bnum => "bnum",
@@ -254,7 +253,8 @@ class ProgExitsControllerTest < ActionController::TestCase
             :ExitCode_ExitCode => "1826",   #dropped out
             :ExitDate => "date!",
             :GPA => 2.5,
-            :GPA_last60 => 3.0 
+            :GPA_last60 => 3.0,
+            :AltID => "who cares" 
           }}
       assert_redirected_to "/access_denied"
 
