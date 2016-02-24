@@ -36,7 +36,7 @@ class ProgExit < ActiveRecord::Base
 		#Can't be recommended without graduating with EDS with certification
 			#The best I can do right now is make sure student has graduated.
 			#TODO Make sure the student graduated with a certification major
-		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == '1849' and student.EnrollmentStatus != 'Graduation'
+		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == '1849' and e.student.EnrollmentStatus != 'Graduation'
 
 		#security validations. Won't come up in typical user experience.
 		check_open if e.new_record?		#if record is new, let's make sure that we are closing an open program
