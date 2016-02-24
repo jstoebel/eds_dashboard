@@ -10,9 +10,9 @@
 		<%= error_messages_for(@exit) %>
 
 		<tr>  
-		    <th> <%=f.label :Student_Bnum, "Student to Exit"%> </th>
+		    <th> <%=f.label :AltID, "Student to Exit"%> </th>
 		    <td>	
-			<%= f.select :Student_Bnum, 
+			<%= f.select :AltID, 
 			options_for_select(@students.map { |s| [name_details(s), s.AltID] }, :selected => @exit.Student_Bnum ? @exit.student.AltID : "" ), 
 
 				{:include_blank => "Select a student to exit"},
