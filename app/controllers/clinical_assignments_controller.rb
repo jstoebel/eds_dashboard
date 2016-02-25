@@ -94,7 +94,7 @@ class ClinicalAssignmentsController < ApplicationController
     
   end
   def form_setup
-    @students = Student.current.by_last.select{|s| can? :read, s}
+    @students = Student.current.by_last.select{|s| can? :index, s}
     @teachers = ClinicalTeacher.all
     @current_term = current_term exact: false, plan_b: :forward
   end
