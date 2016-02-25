@@ -16,7 +16,7 @@
     </tr>
     <% @students.each do |student| %>
 
-      <% if can? :read, student %>
+
 
     	  <td><%= student.Bnum %></td>
     	  <td><%= student.FirstName %> <%= student.PreferredFirst.present? ? "(#{student.PreferredFirst})" : nil %></td>
@@ -72,7 +72,7 @@
 
         </td>
       </tr>
-      <% end %>
+    
     <% end %>
   </table>
 </div>
