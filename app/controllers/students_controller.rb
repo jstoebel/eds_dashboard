@@ -5,7 +5,7 @@ class StudentsController < ApplicationController
   authorize_resource
   def index
     user = current_user
-  	@students = Student.all.current.by_last.select {|r| can? :read, r }    #also need to filter for students who are activley enrolled.
+  	@students = Student.all.current.by_last.select {|r| can? :index, r }    #also need to filter for students who are activley enrolled.
   end
 
   def show
