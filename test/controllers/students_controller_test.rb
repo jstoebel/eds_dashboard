@@ -44,14 +44,6 @@ class StudentsControllerTest < ActionController::TestCase
 
   ## TESTS FOR UNPERMITTED ROLES
 
-  test "should not get index bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      get :index
-      assert_redirected_to "/access_denied"
-    end
-  end
-
   test "should not get show bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
