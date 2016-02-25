@@ -28,6 +28,7 @@ class Ability
       can :read, Student
 
     elsif user.is? "student labor"
+      can :index, Student
       can :manage, [ClinicalAssignment, ClinicalTeacher, ClinicalSite]
       can [:new, :create], PraxisResult
       can [:index, :new, :create, :delete, :destroy], StudentFile   #everything but download!
