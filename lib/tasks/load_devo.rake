@@ -1,9 +1,6 @@
 namespace :db do
     task :load_devo => :environment do
 
-        fixtures_dir = Rails.root + "test/fixtures"
-        fixtures = Dir["#{fixtures_dir}/**/*.yml"].map {|f| File.basename f, ".*"}
-
         Rake::Task["db:fixtures:load"].invoke
         #Ideally I could not load the black_listed fixtures, but since I can't work this out I am simply deleting their data afterwards
 
