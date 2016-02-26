@@ -50,11 +50,7 @@ class Ability
         stu = resource.student      #all other resources
       end
 
-      if stu.is_advisee_of(bnum) or stu.is_student_of(bnum)
-        return true   #user has this student as an advisee
-      else
-        return false    #user has this student in a current course
-      end
+      return (stu.is_advisee_of(bnum) or stu.is_student_of(bnum))
 
     else  #user not in advisor table
       return false
