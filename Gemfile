@@ -59,7 +59,7 @@ group :development do
 end
 
 gem 'puma'
-
+gem 'phony_rails'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
