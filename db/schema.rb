@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224200250) do
+ActiveRecord::Schema.define(version: 20160229220029) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,   null: false
@@ -108,11 +108,14 @@ ActiveRecord::Schema.define(version: 20160224200250) do
   add_index "clinical_assignments", ["clinical_teacher_id"], name: "fk_ClinicalAssignments_ClinicalTeacher1_idx", using: :btree
 
   create_table "clinical_sites", force: true do |t|
-    t.string "SiteName",  limit: 45, null: false
-    t.string "City",      limit: 45
-    t.string "County",    limit: 45
-    t.string "Principal", limit: 45
-    t.string "District",  limit: 45
+    t.string "SiteName",     limit: 45, null: false
+    t.string "City",         limit: 45
+    t.string "County",       limit: 45
+    t.string "Principal",    limit: 45
+    t.string "District",     limit: 45
+    t.string "phone"
+    t.string "receptionist"
+    t.string "website"
   end
 
   create_table "clinical_teachers", force: true do |t|
