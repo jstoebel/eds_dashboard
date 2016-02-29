@@ -79,10 +79,6 @@
                             <%=issue.issue_updates.size%> 
                           </span>
                         </span>
-                    <% end %>    
-                     
-                    <% if issue.Open %>          
-                      <%= link_to "Resolve Issue", issue_resolve_issue_path(issue.IssueID), class: "btn btn-info action-small"%>
                     <% end %>                             
                       
                 </td>
