@@ -13,11 +13,23 @@ class ClinicalSite < ActiveRecord::Base
 	validates :District,
 		presence: {message: "Please enter a district."}
 
-	# validate do |site|
-	# 	site.errors.add(:base, "Please enter a site name.") if site.SiteName.blank?
-	# 	site.errors.add(:base, "Please enter a city.") if site.City.blank?
-	# 	site.errors.add(:base, "Please enter a county.") if site.County.blank?
-	# 	site.errors.add(:base, "Please enter a sistrict.") if site.District.blank?
-	# end
+	validates :phone,
+		presnce: {message: "Please enter a phone number"}
+
+	phony_normalize :phone, default_country_code: 'US'
+	validates :phone, phony_plausible: true
+	
+	validates :email, 
+		presence: {message: "Please enter an email."}, 
+		format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, 
+					message: "Please enter a valid email." }
+
+	validates :receptionist,
+		presence: {message: "Please enter a receptionist."}
+
+	validates :website,
+		presence: {message: "Please enter a school website."},
+		format: {:with => URI::, message: "Please enter a valid school website."}
+
 
 end
