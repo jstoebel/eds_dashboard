@@ -11,8 +11,8 @@
         <caption>New Praxis Registration</caption>
         <%= error_messages_for(@test) %>
         <tr>
-          <th> <%= f.label(:Bnum, "Name")%> </th>
-          <td> <%= f.select(:Bnum, @students.map {|s| [name_details(s), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
+          <th> <%= f.label(:AltID, "Name")%> </th>
+          <td> <%= f.select(:AltID, @students.map {|s| [name_details(s), s.AltID]}, {:prompt => 'Select a name'}) %></td>
         </tr>
 
         <tr>
