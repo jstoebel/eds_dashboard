@@ -99,5 +99,41 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   end
   
   #TESTS FOR UNAUTHORIZED USERS
+  test "should not get new bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :new, {:issue_id => "who cares"}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not post create bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      create_params = {
+        :UpdateName => "who cares",
+        :Description => "blah blah blah"
+      }
+
+      post :create, {:issue_id => "meh", :issue_updates => create_params}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not get index bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :index, {:issue_id => "who cares"}
+      assert_redirected_to "/access_denied"
+    end
+  end
+
+  test "should not get show bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :show, {:id => "spam"}
+      assert_redirected_to "/access_denied"
+    end
+  end
 
 end
