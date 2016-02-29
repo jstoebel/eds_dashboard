@@ -110,6 +110,10 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
+    phony (2.15.15)
+    phony_rails (0.12.13)
+      activesupport (>= 3.0)
+      phony (~> 2.12)
     puma (2.16.0)
     rack (1.5.5)
     rack-test (0.6.3)
@@ -193,6 +197,7 @@ DEPENDENCIES
   minitest-fail-fast
   mysql2
   paperclip (~> 4.3)
+  phony_rails
   puma
   rails (= 4.1.10)
   sass-rails (~> 4.0.3)
