@@ -108,51 +108,6 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get resolve_issue" do
-    allowed_roles.each do |r|
-      load_session(r)
-      iss = Issue.first
-      
-      get :resolve_issue, {:issue_id => iss.id}
-
-      assert_equal iss, assigns(:issue)
-      assert_equal iss.student, assigns(:student)
-
-    end
-  end
-
-  test "should post close_issue" do
-    allowed_roles.each do |r|
-      load_session(r)
-      user = User.find(session[:user])
-      iss = Issue.first
-      iss.Open = false
-      stu = iss.student
-      close_params = {
-        :Description => "close it!"
-      }
-
-      expected_update = IssueUpdate.new({
-          :Description => close_params[:Description], 
-          :UpdateName => "Issue Resolved",
-          :Issues_IssueID => iss.id,
-          :tep_advisors_AdvisorBnum => user.tep_advisor.AdvisorBnum
-        })
-
-      post :close_issue, {:issue_id => iss.id, :issue_update => close_params}
-
-      assert_equal iss, assigns(:issue)
-      assert_equal stu, assigns(:student)
-
-      #expected update and created update should have same attributes
-      assert_equal expected_update.attributes.delete(:id), assigns(:update).attributes.delete(:id)
-
-      assert_equal "Issue resolved!", flash[:notice]
-      assert_redirected_to student_issues_path(stu.AltID)
-      
-    end
-  end
-
   #TESTS FOR UNAUTHORIZED USERS
 
   #new does not pass through cancancan
@@ -191,39 +146,5 @@ class IssuesControllerTest < ActionController::TestCase
 
     end
   end
-
-  test "should not get resolve_issue bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      iss = Issue.first
-      get :resolve_issue, {:issue_id => iss.id}
-      assert_redirected_to "/access_denied"
-    end
-  end
-
-test "should not post close_issue bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      user = User.find(session[:user])
-      iss = Issue.first
-      iss.Open = false
-      stu = iss.student
-      close_params = {
-        :Description => "close it!"
-      }
-
-      expected_update = IssueUpdate.new({
-          :Description => close_params[:Description], 
-          :UpdateName => "Issue Resolved",
-          :Issues_IssueID => "who cares",
-          :tep_advisors_AdvisorBnum => "doesn't matter"
-        })
-
-      post :close_issue, {:issue_id => iss.id, :issue_update => close_params}
-      assert_redirected_to "/access_denied"
-      
-    end
-  end
-
 
 end
