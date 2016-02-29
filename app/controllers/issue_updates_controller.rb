@@ -9,7 +9,7 @@ class IssueUpdatesController < ApplicationController
     authorize! :manage, @issue
 
     @student = Student.find(@issue.students_Bnum)
-    authorize! :manage, @student
+    authorize! :read, @student
 
     @update = IssueUpdate.new
 
@@ -30,7 +30,7 @@ class IssueUpdatesController < ApplicationController
     authorize! :manage, @update
 
     @student = Student.find(@issue.students_Bnum)
-    authorize! :manage, @student
+    authorize! :read, @student
 
     if @update.save
       flash[:notice] = "New update added"
