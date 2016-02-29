@@ -60,7 +60,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test.delete   #delete so we can create again
 
       test_params = {
-        :Bnum => test.Bnum, 
+        :AltID => stu.AltID, 
         :TestCode => test.TestCode, 
         :TestDate => test.TestDate, 
         :RegDate => test.RegDate, 
@@ -83,7 +83,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = PraxisResult.first
 
       test_params = {
-        :Bnum => test.Bnum, 
+        :AltID => test.student.AltID, 
         :TestCode => test.TestCode, 
         :TestDate => test.TestDate, 
         :RegDate => test.RegDate, 
