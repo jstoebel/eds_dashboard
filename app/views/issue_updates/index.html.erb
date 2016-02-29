@@ -9,7 +9,8 @@
       <%="#{@student.FirstName} #{@student.LastName}"%>
     </div>
 
-    <div class="header2">Updates for issue: <%= @issue.Name %></div>
+    <div class="header2">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.Open ? "bad_text" : "good_text"  %>"><%=@issue.Open ? "Open" : "Closed"  %></span>) 
+    </div>
     <div class="row">
       <div class="col-md-1 pull-right">
         <%= link_to new_issue_issue_update_path(@issue.IssueID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %> 

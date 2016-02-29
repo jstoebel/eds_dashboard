@@ -36,15 +36,16 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
       create_params = {
         :UpdateName => expected_update.UpdateName,
-        :Description => expected_update.Description
+        :Description => expected_update.Description,
+        :issue => {:status => "Open"}
       }
 
       post :create, {:issue_id => issue.id, :issue_updates => create_params}
       assert_equal issue, assigns(:issue)
       assert_equal expected_update.attributes.delete(:UpdateID), assigns(:update).attributes.delete(:UpdateID)
       assert_equal issue.student, assigns(:student)
-      assert_equal flash[:notice], "New update added"
       assert_redirected_to issue_issue_updates_path(issue.IssueID)
+      assert_equal flash[:notice], "New update added"
     end
   end
 
@@ -62,7 +63,8 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
     create_params = {
       :UpdateName => expected_update.UpdateName,
-      :Description => expected_update.Description
+      :Description => expected_update.Description,
+        :issue => {:Open => true}
     }
 
     post :create, {:issue_id => issue.id, :issue_updates => create_params}
