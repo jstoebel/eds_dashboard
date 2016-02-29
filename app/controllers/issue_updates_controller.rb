@@ -32,9 +32,17 @@ class IssueUpdatesController < ApplicationController
     @student = Student.find(@issue.students_Bnum)
     authorize! :read, @student
 
-    if @update.save
-      flash[:notice] = "New update added"
+    #change status of issue
+    if params[:issue_updates][:issue][:status] == "Closed"
+      status = false
+    elsif params[:issue_updates][:issue][:status] == "Open"
+      status = true
+    end
 
+    @issue.Open = status
+
+    if @update.save and @issue.save
+      flash[:notice] = "New update added"
       redirect_to(issue_issue_updates_path(@issue.IssueID))
     else
       render('new')
