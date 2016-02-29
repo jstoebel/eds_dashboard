@@ -54,46 +54,6 @@ class IssuesController < ApplicationController
 
   end
 
-  def resolve_issue
-    #opens a form to enter information to resolve the issues
-
-    @issue = Issue.find(params[:issue_id])
-    authorize! :manage, @issue
-    @student = Student.find(@issue.students_Bnum)
-    name_details(@student)
-    
-  end
-
-  def close_issue
-    #create an update save and close the parent issue, then redirect.
-
-    user = current_user
-    @issue = Issue.find(params[:issue_id])
-    authorize! :manage, @issue
-
-    @student = Student.find(@issue.students_Bnum)
-    authorize! :read, @student
-
-    #create and authorize the update
-    @update = IssueUpdate.new(close_issue_params)
-    @update.UpdateName = "Issue Resolved"
-    @update.Issues_IssueID = @issue.IssueID
-    @update.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum
-    authorize! :manage, @update
-
-    if @update.save
-      @issue.Open = false
-      @issue.save
-
-      flash[:notice] = "Issue resolved!"
-
-      redirect_to(student_issues_path(@student.AltID))
-
-    else
-      render('resolve_issue')
-    end
-
-  end
 
   private
   def new_issue_params

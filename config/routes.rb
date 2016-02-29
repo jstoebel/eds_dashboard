@@ -63,8 +63,6 @@ Rails.application.routes.draw do
   end
 
   resources :issues, shallow: true do
-    get "resolve_issue"
-    post "close_issue"
     resources :issue_updates
   end
 
