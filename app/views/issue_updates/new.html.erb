@@ -5,23 +5,40 @@
 <div class="issue new">
 
 
-  <%= form_for(:issue_updates, :url => issue_issue_updates_path(@issue.IssueID)) do |f| %>
+  <%= form_for(:issue_updates, :url => issue_issue_updates_path(@issue.IssueID)) do |update_form| %>
 	<h2>New Update for <%=@issue.Name%></br></h2>
 
 	 <h3><%=[@first_name, @last_name].join(' ')%></h3>
   	<%= error_messages_for(@update) %>
+    <%= error_messages_for(@issue)  %>
 
 	<table summary="Issue form fields">
 
-	  <tr>
-	    <th><%= f.label(:UpdateName, "Name") %> </th>
-	    <td><%= f.text_field(:UpdateName) %></td>
-	  </tr>
+      <tr>
+        <th><%= update_form.label(:UpdateName, "Name") %> </th>
+        <td><%= update_form.text_field(:UpdateName) %></td>
+      </tr>
 
 	  <tr>
-	    <th><%= f.label(:Description, "Description") %></th>
-	    <td> <%= f.text_area(:Description, :size => '30x10') %> </td>
+	    <th><%= update_form.label(:Description, "Description") %></th>
+	    <td> <%= update_form.text_area(:Description, :size => '30x10') %> </td>
 	  </tr>
+
+        <!-- option to alter Issue.open -->
+        <%= update_form.fields_for :issue do |issue_form|  %>
+          <tr>
+            <th> Issue Status </th>
+            <td>
+                <%= issue_form.radio_button :status, "Open", :checked => @issue.Open %> 
+                <%= issue_form.label :Open, "Open"  %> </br>
+                <%= issue_form.radio_button :status, "Closed", :checked => (not @issue.Open) %>
+                <%= issue_form.label :Open, "Closed"  %>
+            </td>
+          </tr>            
+
+        <% end %>
+
+
 
   	<tr>
 	<th></th>
