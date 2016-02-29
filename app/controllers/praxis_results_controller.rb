@@ -34,9 +34,9 @@ class PraxisResultsController < ApplicationController
 
   def create
     @test = PraxisResult.new(new_test_params)
-
+    stu = Student.find_by(AltID: params[:praxis_result][:AltID])
     authorize! :create, @test     #this should restrict advisors from adding new tests
-
+    @test.Bnum = stu.Bnum
     if @test.save
       # @student = Student.find(params[:praxis_result][:Bnum])
       @student = @test.student
@@ -56,14 +56,14 @@ class PraxisResultsController < ApplicationController
     #same as using params[:subject] except that:
       #raises an error if :praxis_result is not present
       #allows listed attributes to be mass-assigned
-    params.require(:praxis_result).permit(:Bnum, :TestCode, :TestDate, :RegDate, :PaidBy)
+    params.require(:praxis_result).permit(:TestCode, :TestDate, :RegDate, :PaidBy)
     
   end
 
   def get_testid(params)
     result = params["praxis_result"]
     return [
-        result[:Bnum], 
+        result[:AltID], 
         result[:TestCode], 
         [
           result["TestDate(2i)"], result["TestDate(3i)"], result["TestDate(1i)"]
