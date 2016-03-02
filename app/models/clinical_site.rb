@@ -14,7 +14,7 @@ class ClinicalSite < ActiveRecord::Base
 		presence: {message: "Please enter a district."}
 
 	validates :phone,
-		presnce: {message: "Please enter a phone number"}
+		presence: {message: "Please enter a phone number"}
 
 	phony_normalize :phone, default_country_code: 'US'
 	validates :phone, phony_plausible: true
@@ -29,7 +29,7 @@ class ClinicalSite < ActiveRecord::Base
 
 	validates :website,
 		presence: {message: "Please enter a school website."},
-		format: {:with => URI::, message: "Please enter a valid school website."}
+		format: {:with => /\./, message: "Please enter a valid website."}
 
 
 end

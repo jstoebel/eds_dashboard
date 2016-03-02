@@ -51,7 +51,7 @@ class ClinicalSitesController < ApplicationController
 
   private
   def site_params
-    params.require(:clinical_site).permit(:SiteName, :City, :County, :Principal, :District)
+    params.require(:clinical_site).permit(:SiteName, :City, :County, :Principal, :District, :phone, :receptionist, :website, :email)
     
     
   end
