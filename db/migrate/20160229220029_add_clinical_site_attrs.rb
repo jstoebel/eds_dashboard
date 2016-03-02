@@ -4,6 +4,7 @@ class AddClinicalSiteAttrs < ActiveRecord::Migration
         t.string :phone
         t.string :receptionist
         t.string :website
+        t.string :email
     end
   end
 
@@ -12,6 +13,7 @@ class AddClinicalSiteAttrs < ActiveRecord::Migration
         t.remove :phone
         t.remove :receptionist
         t.remove :website
+        t.remove :email
     end
   end
 end

@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20160229220029) do
     t.string "phone"
     t.string "receptionist"
     t.string "website"
+    t.string "email"
   end
 
   create_table "clinical_teachers", force: true do |t|
