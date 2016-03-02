@@ -75,7 +75,11 @@ class ClinicalSitesControllerTest < ActionController::TestCase
         :City => "test city",
         :County => "county",
         :Principal => "mr. test",
-        :District => "district"
+        :District => "district", 
+        :email => "secretary@school.com",
+        :website => "http://www.school.com",
+        :receptionist => "Ima Secretary",
+        :phone => "(859) 123-4567"
       }
 
 
@@ -83,7 +87,6 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
       expected_site = ClinicalSite.create(new_params)
       actual_site = assigns(:site)
-
       assert_redirected_to clinical_sites_path
       py_assert expected_site.attributes.delete(:id), assigns(:site).attributes.delete(:id) #attibute hashes should be equal except for the id
       py_assert flash[:notice], "Created #{assigns(:site).SiteName}."
