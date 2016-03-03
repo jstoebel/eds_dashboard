@@ -14,11 +14,9 @@ class ClinicalSite < ActiveRecord::Base
 		presence: {message: "Please enter a district."}
 
 	validates :phone,
-		presence: {message: "Please enter a phone number"}
+		presence: {message: "Please enter a phone number."},
+		phony_plausible: {message: "Please enter a valid phone number."}
 
-	phony_normalize :phone, default_country_code: 'US'
-	validates :phone, phony_plausible: true
-	
 	validates :email, 
 		presence: {message: "Please enter an email."}, 
 		format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, 
@@ -31,5 +29,6 @@ class ClinicalSite < ActiveRecord::Base
 		presence: {message: "Please enter a school website."},
 		format: {:with => /\./, message: "Please enter a valid website."}
 
+	phony_normalize :phone, default_country_code: 'US'
 
 end
