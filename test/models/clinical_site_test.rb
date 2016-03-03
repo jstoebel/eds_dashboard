@@ -34,14 +34,14 @@ class ClinicalSiteTest < ActiveSupport::TestCase
 		site = ClinicalSite.first
 		site.phone = nil
 		site.valid?
-		assert_equal ["Please enter a phone number"], site.errors[:phone]
+		assert_equal ["Please enter a phone number."], site.errors[:phone]
 	end
 
 	test "phone number invalid" do
 		site = ClinicalSite.first
 		site.phone = "123"
 		site.valid?
-		assert_equal ["is an invalid number"], site.errors[:phone]
+		assert_equal ["Please enter a valid phone number."], site.errors[:phone]
 	end
 
 	test "needs email" do
