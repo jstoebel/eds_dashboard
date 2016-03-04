@@ -15,6 +15,7 @@ one:
   TestDate: <%= Date.today %>
   RegDate: <%= Date.today %>
   PaidBy: ETS (fee waiver)
+  Pass: true
 
 two:
   student: base
@@ -22,3 +23,4 @@ two:
   TestDate: <%= Date.today %>
   RegDate: <%= Date.today %>
   PaidBy: ETS (fee waiver)
+  Pass: false

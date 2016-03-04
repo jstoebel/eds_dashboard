@@ -12,7 +12,9 @@
 current:
   TestName: basket weaving
   CurrentTest: true
+  TestFamily: 1
 
 old:
   TestName: old basket weaving
   CurrentTest: false
+  TestFamily: 1
