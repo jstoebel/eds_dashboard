@@ -24,7 +24,6 @@ class Student < ActiveRecord::Base
 	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
 	scope :from_alt_id, ->(alt_id) {where("AltID = ?", alt_id).first}		#finds a student based on AltID
 	
-
 	def is_advisee_of(prof_bnum)
 		#is this student advisee of the prof with prof_bnum?
 		advisor_assignments = self.advisor_assignments
@@ -38,6 +37,23 @@ class Student < ActiveRecord::Base
 		classes = self.transcripts.in_term(term)
 		profs = classes.map { |i| i.Inst_bnum }
 		return profs.include?(prof_bnum)
+	end
+
+	def praxisI_pass
+	   	#input a Student instance
+	   	#output if student has passed all praxis I exams.
+   	
+	   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.TestCode}
+	   	passings = PraxisResult.where(Bnum: self.Bnum, Pass: 1).map{ |p| p.TestCode}
+
+	   	req_tests.each do |requirement|
+	   		if not passings.include? requirement
+	   			return false	#found a required test student hasn't passed
+   			end
+
+	   	end
+
+	   	return true		#failed to find a required test student hasn't passed.
 	end
 
 end
