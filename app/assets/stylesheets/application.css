@@ -248,12 +248,9 @@ a:hover { text-decoration: underline; }
   /*Large buttons*/
 
   .action-large, .action-large:visited, .action-large:hover, .action-large:hover:visited{
-    font-size: 14pt;
+    font-size: 12pt;
     color: black;
-  }
-
-  .action-large{
-    font-size: 14px;
+    margin-top: 25px;
   }
 
   .large-btn-text {
@@ -328,7 +325,7 @@ caption .header2 {
   font-style: italic;
 }
 
-caption .container .row {width: inherit;}
+/*caption .container .row {width: inherit;}*/
 
 
 .table-striped tr td {
