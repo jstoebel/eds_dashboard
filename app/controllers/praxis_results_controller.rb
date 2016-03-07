@@ -16,7 +16,7 @@ class PraxisResultsController < ApplicationController
 
   def show
     #show details on test including subtests
-    @test = PraxisResult.find(params[:id])
+    @test = PraxisResult.find_by(:AltID => params[:id])
     authorize! :read, @test
 
     @student = Student.find(@test.Bnum)
