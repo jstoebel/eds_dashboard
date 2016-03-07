@@ -140,6 +140,10 @@ class AdmTepTest < ActiveSupport::TestCase
     assert_equal("Candidate", app.student.ProgStatus)
   end
 
+  test "praxisI_pass" do
+    
+  end
+
   private
 
   def attach_letter(app)
