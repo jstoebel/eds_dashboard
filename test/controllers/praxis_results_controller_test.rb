@@ -28,7 +28,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = PraxisResult.first
       stu = test.student
 
-      get :show, {:id => test.id}
+      get :show, {:id => test.AltID}
 
       assert_response :success
       assert_equal test, assigns(:test)
