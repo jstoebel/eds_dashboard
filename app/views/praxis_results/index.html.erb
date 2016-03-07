@@ -3,40 +3,42 @@
   <i class=" link-text"> Back</i>
 <% end %>
 
-  <table class="listing table table-striped" summary="praxis list">
-    <caption>   
-      <h2>Praxis Results for <%= "#{@student.FirstName} #{@student.LastName}"%></h2>
-
-      <div> <%= pluralize(@student.praxis_results.size, 'result') %>  found </div>
-
-    </caption>
-
-    <% if @tests.size > 0  %>
-
-          <tr class="header">
-            <th>Test Name</th>
-            <th>Date Taken</th>
-            <th>Score</th>
-            <th>Best Score as of Test Date</th>      
-            <th>Cut Score</th>
-          </tr>
-          <% @tests.each do |result| %>
-          <tr class "<%= cycle('odd', 'even') %>">
-      	  <td><%= PraxisTest.find(result.TestCode).TestName %></td>
-      	  <td><%= result.TestDate.strftime("%m/%d/%Y")%> </td>
-      	  <td><%= result.TestScore %></td>
-          <td><%= result.BestScore %></td>   
-      	  <td><%= result.CutScore %></td>
-           <td class="actions">
-              <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
-                  <span class="small-btn-text">Details</span>
-
+  <div class="container-fluid">  
+    <table class="listing table table-striped" summary="praxis list">
+        <div class="row">
+          <caption>
+            <div class="header1 col-xs-12"> Praxis Results for <%= "#{@student.FirstName} #{@student.LastName}"%> </div>
+            <div class="header2 col-xs-12"> <%= pluralize(@student.praxis_results.size, 'result') %>  found 
+            </div>
+          </caption>
+        </div>
+  
+        <% if @tests.size > 0  %>
+  
+              <tr class="header">
+                <th>Test Name</th>
+                <th>Date Taken</th>
+                <th>Score</th>
+                <th>Best Score as of Test Date</th>      
+                <th>Cut Score</th>
+              </tr>
+              <% @tests.each do |result| %>
+              <tr class "<%= cycle('odd', 'even') %>">
+              <td><%= PraxisTest.find(result.TestCode).TestName %></td>
+              <td><%= result.TestDate.strftime("%m/%d/%Y")%> </td>
+              <td><%= result.TestScore %></td>
+              <td><%= result.BestScore %></td>   
+              <td><%= result.CutScore %></td>
+               <td class="actions">
+                  <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
+                      <span class="small-btn-text">Details</span>
+  
+                  <% end %>
+              </tr>
+  
               <% end %>
-          </tr>
-
-          <% end %>
-          
-    <% end %>
-
-  </table>
-</div>
+              
+        <% end %>
+  
+    </table>
+  </div>
