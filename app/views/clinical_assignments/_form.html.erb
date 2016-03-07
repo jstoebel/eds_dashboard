@@ -18,14 +18,11 @@
     <th> <%= f.label(:StartDate, "Start Date") %></th>
 
     <td>    
-      <%= f.text_field :StartDate, 'data-behaviour' => 'datepicker' %>
-      <script type="text/javascript">
-          $('[data-behaviour~=datepicker]').datepicker({
-              format: 'mm/dd/yyyy',
-              startDate: <%=@current_term.StartDate.strftime("%m/%d/%Y") %>,
-              endDate: <%=@current_term.EndDate.strftime("%m/%d/%Y") %>
-          });
-      </script>
+      <%= render(partial: 'date_picker', :locals => {
+                f: f,
+                field: :StartDate,
+                default: current_term({:exact => false, :plan_b => :forward}).StartDate
+              } )%> 
     </td>
     </tr>
 
@@ -34,14 +31,11 @@
     <th> <%= f.label(:EndDate, "End Date") %></th>
 
     <td>    
-      <%= f.text_field :EndDate, 'data-behaviour' => 'datepicker' %>
-      <script type="text/javascript">
-          $('[data-behaviour~=datepicker]').datepicker({
-              format: 'mm/dd/yyyy',
-              startDate: <%=@current_term.StartDate.strftime("%m/%d/%Y") %>,
-              endDate: <%=@current_term.EndDate.strftime("%m/%d/%Y") %>
-          });
-      </script>
+      <%= render(partial: 'date_picker', :locals => {
+                f: f,
+                field: :EndDate,
+                default: current_term({:exact => false, :plan_b => :forward}).EndDate
+              } )%> 
     </td>
     </tr>
 
