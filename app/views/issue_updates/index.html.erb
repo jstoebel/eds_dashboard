@@ -2,24 +2,26 @@
   <i class=" link-text"> Back</i>
 <% end %> 
 
-<table class="table table-striped">
+<div class="container-fluid">
+  <table class="table table-striped">
 
-  <caption>
-    <div class="header1">
-      <%="#{@student.FirstName} #{@student.LastName}"%>
-    </div>
+  <div class="row">
+    <caption>
+      <div class="header1 col-xs-12">
+        <%="#{@student.FirstName} #{@student.LastName}"%>
+      </div>
+  
+      <div class="header2 col-xs-12">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.Open ? "bad_text" : "good_text"  %>"><%=@issue.Open ? "Open" : "Closed"  %></span>) 
+      </div>
 
-    <div class="header2">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.Open ? "bad_text" : "good_text"  %>"><%=@issue.Open ? "Open" : "Closed"  %></span>) 
-    </div>
-    <div class="row">
-      <div class="col-md-1 pull-right">
+      <div class="col-md-1">
         <%= link_to new_issue_issue_update_path(@issue.IssueID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %> 
           <span class="large-btn-text">Add New Update</span>
 
         <% end %>    
       </div>
-    </div>
-  </caption>
+    </caption>
+  </div>
 
   <% if @updates %>
     <tr>
@@ -49,4 +51,5 @@
 
   <% end %>
 
-</table>
+  </table>
+</div>
