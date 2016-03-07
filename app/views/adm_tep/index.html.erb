@@ -11,103 +11,106 @@
 
   <% end %>
 
+  <div class="container-fluid">        
 
-  <table class="listing summary adm_tep list table table-striped">
+    <table class="listing summary adm_tep list table table-striped">
    
-    <caption>        
-        <div class="header1">Applications to TEP: <%= @term.PlainTerm%></div></br>
-        <div class="header2"><%= pluralize(@applications.size, 'application') %>  found </div>
-      
-        <div class="container">
-          <div class="row">
-            <div class="col-md-1 pull-right">
+      <caption>        
+          <div class="row">          
+            <div class="header1 col-xs-12">
+               Applications to TEP: <%= @term.PlainTerm%>
+             </div></br>
+             <div class="header2 col-xs-12">
+               <%= pluralize(@applications.size, 'application') %>  found 
+             </div></br>
+           
+     
+            <div class="col-xs-12">           
               <%= link_to new_adm_tep_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
-
-                  <span class="large-btn-text">Add New Student</span>
-
-              <% end %>         
-
+                 <span class="large-btn-text">Add New Student</span>
+              <% end %>    
             </div>
-          </div>
-
-      </div>
-    </caption>
-
-    <% if @applications.size > 0  %>
-
-          <tr class="header">
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Program</th>
-            <th>GPA</th>
-            <th>GPA (Last 30 Credit Hours)</th>      
-            <th>Praxis Pass</th>       
-            <th>Admit Date</th>
-            <th>Admission Decision</th>
-            <th>Details</th>
-            <th>Letter</th>
-
-          </tr>
-      	<% @applications.each do |app|%>
-        <% student = Student.find(app.Student_Bnum) %>
+           </div>  
 
 
-			<tr class "<%= cycle('odd', 'even') %>">
-			<td><%= student.FirstName %></td>
-			<td><%= student.LastName %></td>
-      <td><%= Program.find(app.Program_ProgCode).EDSProgName%> </td>
-      <td><%=app.GPA %></td>
-      <td><%=app.GPA_last30%></td>
-      <td>
-        <% if student.praxisI_pass %> 
-          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+      </caption>
 
-        <% else %>
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+      <% if @applications.size > 0  %>
 
-        <% end %>
+            <tr class="header">
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Program</th>
+              <th>GPA</th>
+              <th>GPA (Last 30 Credit Hours)</th>      
+              <th>Praxis Pass</th>       
+              <th>Admit Date</th>
+              <th>Admission Decision</th>
+              <th>Details</th>
+              <th>Letter</th>
+
+            </tr>
+        	<% @applications.each do |app|%>
+          <% student = Student.find(app.Student_Bnum) %>
+
+
+  			<tr class "<%= cycle('odd', 'even') %>">
+  			<td><%= student.FirstName %></td>
+  			<td><%= student.LastName %></td>
+        <td><%= Program.find(app.Program_ProgCode).EDSProgName%> </td>
+        <td><%=app.GPA %></td>
+        <td><%=app.GPA_last30%></td>
+        <td>
+          <% if student.praxisI_pass %> 
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+
+          <% else %>
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+
+          <% end %>
+
+          </td>
+        <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td> 
+
+  			<td class="actions">
+              <!-- Display button for admission decision if
+                  1) Student has no admission decision
+                  2) we are currently inside a term
+                  3) the term displayed is a current term.-->
+              <% if app.TEPAdmit == nil and @term = current_term(exact: false)%>    
+
+                <%= link_to("Admission Decision", edit_adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
+
+              <% else %>
+
+                <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
+
+              <% end %>
+        </td>
+
+        <td>
+          
+          <%= link_to("Details", adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
+        </td>
+
+        <% if app.letter_file_name %>      
+        <td class="doc-download"> 
+
+              <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+              <% end %>
 
         </td>
-      <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td> 
-
-			<td class="actions">
-            <!-- Display button for admission decision if
-                1) Student has no admission decision
-                2) we are currently inside a term
-                3) the term displayed is a current term.-->
-            <% if app.TEPAdmit == nil and @term = current_term(exact: false)%>    
-
-              <%= link_to("Admission Decision", edit_adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
-
-            <% else %>
-
-              <%= app.TEPAdmit ? "Admitted" : "Not admitted"%>
-
-            <% end %>
-      </td>
-
-      <td>
-        
-        <%= link_to("Details", adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
-      </td>
-
-      <% if app.letter_file_name %>      
-      <td class="doc-download"> 
-
-            <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
-            <% end %>
-
-      </td>
-      <% end %>
+        <% end %>
 
 
 
-          </tr>
-        <!-- end of if statement for content-->
-      	<% end %>
-          
-    <!-- end of main loop -->
-    <% end %>   
+            </tr>
+          <!-- end of if statement for content-->
+        	<% end %>
+            
+      <!-- end of main loop -->
+      <% end %>   
 
-  </table>
+    </table>
+  </div>   <!-- end container --> 
 </div>
