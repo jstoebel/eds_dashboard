@@ -11,38 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229220029) do
+ActiveRecord::Schema.define(version: 20160308164914) do
 
   create_table "adm_st", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,   null: false
+    t.string   "Student_Bnum",          limit: 9,  null: false
     t.integer  "BannerTerm_BannerTerm"
-    t.integer  "Attempt",                           null: false
+    t.integer  "Attempt",                          null: false
     t.float    "OverallGPA",            limit: 24
     t.float    "CoreGPA",               limit: 24
     t.boolean  "STAdmitted"
     t.datetime "STAdmitDate"
     t.integer  "STTerm"
     t.text     "Notes"
-    t.string   "letter_file_name",      limit: 100
-    t.string   "letter_content_type",   limit: 100
-    t.integer  "letter_file_size"
-    t.datetime "letter_updated_at"
     t.boolean  "background_check"
     t.boolean  "beh_train"
     t.boolean  "conf_train"
     t.boolean  "kfets_in"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "student_file_id"
   end
 
   add_index "adm_st", ["BannerTerm_BannerTerm"], name: "fk_AdmST_BannerTerm1_idx", using: :btree
   add_index "adm_st", ["Student_Bnum"], name: "fk_AdmST_Student1_idx", using: :btree
+  add_index "adm_st", ["student_file_id"], name: "adm_st_student_file_id_fk", using: :btree
 
   create_table "adm_tep", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,   null: false
-    t.string   "Program_ProgCode",      limit: 45,  null: false
-    t.integer  "BannerTerm_BannerTerm",             null: false
-    t.integer  "Attempt",                           null: false
+    t.string   "Student_Bnum",          limit: 9,  null: false
+    t.string   "Program_ProgCode",      limit: 45, null: false
+    t.integer  "BannerTerm_BannerTerm",            null: false
+    t.integer  "Attempt",                          null: false
     t.float    "GPA",                   limit: 24
     t.float    "GPA_last30",            limit: 24
     t.integer  "EarnedCredits"
@@ -50,15 +48,13 @@ ActiveRecord::Schema.define(version: 20160229220029) do
     t.boolean  "TEPAdmit"
     t.datetime "TEPAdmitDate"
     t.text     "Notes"
-    t.string   "letter_file_name",      limit: 100
-    t.string   "letter_content_type",   limit: 500
-    t.integer  "letter_file_size"
-    t.datetime "letter_updated_at"
+    t.integer  "student_file_id"
   end
 
   add_index "adm_tep", ["BannerTerm_BannerTerm"], name: "fk_AdmTEP_BannerTerm1_idx", using: :btree
   add_index "adm_tep", ["Program_ProgCode"], name: "fk_AdmTEP_Program1_idx", using: :btree
   add_index "adm_tep", ["Student_Bnum"], name: "fk_AdmTEP_Student1_idx", using: :btree
+  add_index "adm_tep", ["student_file_id"], name: "adm_tep_student_file_id_fk", using: :btree
 
   create_table "advisor_assignments", id: false, force: true do |t|
     t.string "Student_Bnum",             limit: 9, null: false
@@ -358,9 +354,11 @@ ActiveRecord::Schema.define(version: 20160229220029) do
 
   Foreigner.load
   add_foreign_key "adm_st", "banner_terms", name: "fk_AdmST_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
+  add_foreign_key "adm_st", "student_files", name: "adm_st_student_file_id_fk"
   add_foreign_key "adm_st", "students", name: "fk_AdmST_Student", column: "Student_Bnum", primary_key: "Bnum"
 
   add_foreign_key "adm_tep", "banner_terms", name: "fk_AdmTEP_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
+  add_foreign_key "adm_tep", "student_files", name: "adm_tep_student_file_id_fk"
   add_foreign_key "adm_tep", "students", name: "fk_AdmTEP_Student", column: "Student_Bnum", primary_key: "Bnum"
 
   add_foreign_key "advisor_assignments", "students", name: "fk_students_has_tep_advisors_students", column: "Student_Bnum", primary_key: "Bnum"
