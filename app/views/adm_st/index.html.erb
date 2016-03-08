@@ -97,9 +97,9 @@
 
                 <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.id) , :class => "action details btn btn-info action-small") %>
                       
-                <% if app.letter_file_name %>      
+                <% if app.student_file %>      
 
-                  <%= link_to app.letter.url, :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
+                  <%= link_to adm_st_download_path(app.id), :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
                   <% end %>
 
                 <% else %>
