@@ -80,14 +80,14 @@ class AdmTepController < ApplicationController
     #assigns the letter if it was given. While this is admitadly verbose, I don't
     #know how to pass in a letter in my test request.
 
-    letter = StudentFile.create ({
+    @letter = StudentFile.create ({
         :doc => params[:adm_tep][:letter], 
         :active => true,
         :Student_Bnum => @application.student.id
       })
-    letter.save
+    @letter.save
     
-    @application.student_file_id = letter.id
+    @application.student_file_id = @letter.id
 
     # @application.letter = params[:adm_tep][:letter] if params[:adm_tep][:letter].present?
     
@@ -115,7 +115,7 @@ class AdmTepController < ApplicationController
 
     else
         flash[:notice] = "Error in saving application."
-        letter.destroy!
+        @letter.destroy!
         error_update
         return
 
