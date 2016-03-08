@@ -88,7 +88,13 @@ class AdmStController < ApplicationController
     end
 
     @application.STAdmitted = string_to_bool(params[:adm_st][:STAdmitted])
-    @application.letter = params[:adm_st][:letter]
+    letter = StudentFile.create ({
+        :doc => params[:adm_st][:letter], 
+        :active => true,
+        :Student_Bnum => @application.student.id
+      })
+    letter.save
+    @application.student_file_id = letter.id
 
     #special validation 
 
@@ -120,6 +126,7 @@ class AdmStController < ApplicationController
 
     else
         flash[:notice] = "Error in saving application."
+        letter.destroy!
         error_update
         return
 

@@ -3,18 +3,11 @@ class AdmSt < ActiveRecord::Base
   include ApplicationHelper
 
 	attr_accessor :skip_val_letter
-
-  has_attached_file :letter, 
-	  :url => "/adm_st/:id/download",		
-	  :path => ":rails_root/public/:bnum/adm_st_letters/:basename.:extension"	#changed path from /adm_st_letters/:bnum
   
   belongs_to :student, foreign_key: "Student_Bnum"
   belongs_to :banner_term, foreign_key: "BannerTerm_BannerTerm"
+  belongs_to :student_file
 
-  validates_attachment_file_name :letter, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
-    :message => "Admission letter must be a Word Document, PDF or plain text document."
-	
-	validate :validate_letter, unless: :skip_val_letter
 	scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 
 
@@ -34,13 +27,6 @@ class AdmSt < ActiveRecord::Base
 
 	end
 
-	def validate_letter
-		#validates presence of a letter.
-		if (self.letter_file_name == nil and self.STAdmitted != nil)
-			self.errors.add(:base, "Please attach an admission letter.")
-		end 
-	end
-
 
   private
 
@@ -48,7 +34,7 @@ class AdmSt < ActiveRecord::Base
     #validate the foreign keys and return true if all are good.
     self.errors.add(:Student_Bnum, "No student selected.") if self.Student_Bnum.blank?
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") if self.BannerTerm_BannerTerm.blank?
-
+    self.errors.add(:student_file_id, "Please attach an admissioin letter.") unless (self.student_file_id or self.STAdmitted == nil)
     if self.errors.size == 0
 
       return true
