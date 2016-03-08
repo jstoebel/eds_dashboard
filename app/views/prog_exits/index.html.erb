@@ -12,43 +12,33 @@
   <% end %>
 
 
-  <table class="listing summary adm_tep list table table-striped">
+  <div class="container-fluid">  
+    <table class="listing summary adm_tep list table table-striped">
    
-    <caption>        
-        <div class="header1">Program Exits: <%= @term.PlainTerm%></div></br>
-        <div class="header2"><%= pluralize(@exits.size, 'exit') %>  found </div>
-      
-        <div class="container">
-          <div class="row">
+    <div class="row">
+      <caption>        
+            <div class="col-xs-12 header1">Program Exits: <%= @term.PlainTerm%></div></br>
+            <div class="col-xs-12 header2"><%= pluralize(@exits.size, 'exit') %>  found </div>
 
-            <div class="col-md-1 col-md-offset-9">
-
-                  <%= link_to prog_exit_need_exit_path("get"), :class => "btn btn-info glyphicon glyphicon-plus action-large " + (@needs_exit.size > 0 ? "" : "disabled") do %>  
-                  <span class="large-btn-text">
-                    Exits Needed
-
-                      <span class="badge"> <%= @needs_exit.size %> </span>                  
-                  </span>
-
-                <% end %>
-
-
-            </div>
-
-            <div class="col-md-1 col-md-offset-1">
-              <%= link_to new_prog_exit_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
-
-                  <span class="large-btn-text">Add New Exit</span>
-
-              <% end %>        
-
-            </div>
-
-
-          </div>
-
+                <div class="col-xs-1">
+                  <%= link_to new_prog_exit_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+    
+                      <span class="large-btn-text">Add New Exit</span>
+    
+                  <% end %>        
+    
+                </div>
+                <div class="col-xs-1 col-xs-offset-1">
+                      <%= link_to prog_exit_need_exit_path("get"), :class => "btn btn-info glyphicon glyphicon-plus action-large " + (@needs_exit.size > 0 ? "" : "disabled") do %>  
+                      <span class="large-btn-text">
+                        Exits Needed
+    
+                          <span class="badge"> <%= @needs_exit.size %> </span>                  
+                      </span>
+                    <% end %>
+                </div>
+        </caption>
       </div>
-    </caption>
 
     <% if @exits.size > 0  %>
 
@@ -64,10 +54,10 @@
             <th>Details</th>
 
           </tr>
-      	<% @exits.each do |exit|%>
+        <% @exits.each do |exit|%>
     <tr>
-		<td><%= exit.student.FirstName %></td>
-		<td><%= exit.student.LastName %></td>
+    <td><%= exit.student.FirstName %></td>
+    <td><%= exit.student.LastName %></td>
 
       <td><%= exit.program.EDSProgName %> </td>
 
@@ -79,7 +69,7 @@
 
       <td> <%= exit.RecommendDate ? exit.RecommendDate.strftime("%m/%d/%Y") : nil   %> </td>
 
-			<td class="actions">
+      <td class="actions">
             <!-- Action buttons
                 1) Details of exit 
                 2) edit exit record
@@ -106,10 +96,11 @@
 
       </tr>
         <!-- End of loop iterating over each record -->
-      	<% end %>
+        <% end %>
           
     <!-- end of if statement for content-->
     <% end %>   
 
   </table>
+</div>
 </div>
