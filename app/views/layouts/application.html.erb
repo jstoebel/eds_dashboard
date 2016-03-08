@@ -19,38 +19,44 @@
 <div class="navbar navbar-default">
   <div class="container-fluid">
 
-    <!-- menu to swap psudo role if user is admin -->
-    <% if session[:role] == 'admin' %>
+    <div class="row">    <!-- menu to swap psudo role if user is admin -->
+      <div class="col-xs-12 col-md-3">      <% if session[:role] == 'admin' %>
 
-      <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
-        Viewing Site As:
-      <% end %>
+        <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
+          Viewing Site As:
+        <% end %>
 
-      <%= form_tag("/access/change_psudo_status") do -%>
-        <p class="navbar-text pull-left">
-        <%= select_tag "view_as", 
-            options_for_select(
-                Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
-                session[:view_as] #sets the default
-                ),
-              {:prompt => "View Site As...",
-              :class => "form-control",
-              :onchange => "this.form.submit()"}
-           %>
-        </p>
-      <% end -%>
-  
-    <% end %>
+        <%= form_tag("/access/change_psudo_status") do -%>
+            <p class="navbar-text pull-left">
+            <%= select_tag "view_as", 
+                options_for_select(
+                    Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
+                    session[:view_as] #sets the default
+                    ),
+                  {:prompt => "View Site As...",
+                  :class => "form-control",
+                  :onchange => "this.form.submit()"}
+               %>
+            </p>
+          <% end -%>
+      
+        <% end %>
+      </div>
 
-    <p class="navbar-text pull-right">
-       
-            Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
-              
-            <%= link_to "/logout", :class => "btn btn-default" do %>
-              Log Out
-            <% end %>
-             
-    </p>  
+      <div class="col-xs-12 col-md-3 col-md-offset-6">      
+        <p class="navbar-text pull-right">
+          Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
+        </p>  
+      </div>
+        
+      <div class="col-xs-12 col-md-1 pull-right">      
+        <%= link_to "/logout", :class => "btn btn-default" do %>
+          Log Out
+        <% end %>
+      </div>
+                 
+
+    </div>
 
   </div>
     <!-- TODO Here is where we render role specific nav bar -->
