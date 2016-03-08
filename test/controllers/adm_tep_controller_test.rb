@@ -115,15 +115,13 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should post update" do
-    app = AdmTep.first
-    app.letter = Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
-    app.save
-    term = app.banner_term
-    date = (term.StartDate.to_date) + 10
-    travel_to date do
-      allowed_roles.each do |r|
-        load_session(r)
-
+    app = AdmTep.find_by(:TEPAdmit => nil)
+    allowed_roles.each do |r|
+      load_session(r)
+      term = app.banner_term
+      date = (term.StartDate.to_date) + 10
+    
+      travel_to date do
         post :update, {
               :id => app.id,
               :adm_tep => {
@@ -132,16 +130,35 @@ class AdmTepControllerTest < ActionController::TestCase
                 :letter => fixture_file_upload('test_file.txt')
                 }
             }
+
+        # puts assigns(:letter).inspect
+        # puts assigns(:application).inspect
+        
         assert assigns(:application).valid?, assigns(:application).errors.full_messages 
         assert_redirected_to adm_tep_index_path
         assert_equal flash[:notice], "Student application successfully updated"
       end
+        
+      #reset everything
+      StudentFile.delete_all
+      app.update({
+        :TEPAdmit => nil,
+        :TEPAdmitDate => nil,
+        :student_file_id => nil
+        })
+
+      app.save
+      puts app.inspect
+      puts StudentFile.first.inspect
     end
   end
 
   test "should not post update bad date" do
     app = AdmTep.first
-    app.letter = Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+
+    #make a file for this app
+    letter = attach_letter(app)
+    app.student_file_id = letter.id
     app.save
     term = app.banner_term
     next_term = BannerTerm.where("BannerTerm > ?", term.BannerTerm).first
@@ -330,6 +347,18 @@ class AdmTepControllerTest < ActionController::TestCase
       get :download, {adm_tep_id: "who cares"}
       assert_redirected_to "/access_denied"
     end
+  end
+
+  private
+  def attach_letter(app)
+    letter = StudentFile.create({
+        :Student_Bnum => app.student.id,
+        :active => true,
+        :doc => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+      })
+
+    letter.save
+    return letter
   end
 
 end
