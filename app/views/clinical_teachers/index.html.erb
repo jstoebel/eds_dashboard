@@ -4,20 +4,19 @@
 
 <% @page_title = "Clinical Teachers" %>
 
+<div class="container-fluid">  
   <table class="listing table table-striped" summary="clinical_teachers list">
-    <caption>	
-      <span class="header1">Clinical Teachers </span><br>  
-      <span class="header2"><%= @teachers.size %> found</span>  
-        <div class="container">
-          <div class="row">
-            <div class="col-md-1 pull-right">
-              <%= link_to new_clinical_teacher_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
-                  <span class="large-btn-text">Add New Clinical Teacher</span>
-              <% end %>         
-            </div>
+    <div class="row">  
+      <caption>  
+          <span class="header1 col-xs-12">Clinical Teachers </span><br>  
+          <span class="header2 col-xs-12"><%= @teachers.size %> found</span>  
+          <div class="col-xs-1">
+            <%= link_to new_clinical_teacher_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                <span class="large-btn-text">Add New Clinical Teacher</span>
+            <% end %>         
           </div>
-        </div> 
-    </caption>
+        </caption>
+      </div>
     <tr class="header">
       <th>First Name</th>
       <th>Last Name</th>
@@ -29,27 +28,27 @@
     </tr>
     <% @teachers.each do |teacher| %>
       <% if can? :read, teacher %>
-    	  <td><%= teacher.FirstName%></td>
-    	  <td><%= teacher.LastName %></td>
-    	  <td><%= mail_to teacher.Email%></td>
-    	  <td><%= teacher.Subject %> </td>
-    	  <td><%= teacher.Bnum %></td>
-    	  <td><%= teacher.Rank %></td>
-    	  <td><%= teacher.YearsExp %></td>
+        <td><%= teacher.FirstName%></td>
+        <td><%= teacher.LastName %></td>
+        <td><%= mail_to teacher.Email%></td>
+        <td><%= teacher.Subject %> </td>
+        <td><%= teacher.Bnum %></td>
+        <td><%= teacher.Rank %></td>
+        <td><%= teacher.YearsExp %></td>
         <td class="actions">
 
-        	<!-- actions:
-        	 	edit teacher
-        	 	see assignments-->
+          <!-- actions:
+             edit teacher
+             see assignments-->
 
-    		<!-- edit teacher -->
+        <!-- edit teacher -->
           <%= link_to(edit_clinical_teacher_path(teacher.id), :class => "btn btn-info action-small") do %>
             <span class="small-btn-text"> Edit</span>
           <% end %>
 
-    		<!-- see assignments -->
+        <!-- see assignments -->
 
-    		<!-- example -->
+        <!-- example -->
             <%# link_to edit_clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
                   <!-- <span class="small-btn-text">Edit</span> -->
                 <%# end %>
@@ -59,3 +58,4 @@
       <% end %>
     <% end %>
   </table>
+</div>                  
