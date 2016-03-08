@@ -11,11 +11,9 @@
 #  column: value
 base_app: &base
   student: candidate
-  BannerTerm_BannerTerm: 201511
+  BannerTerm_BannerTerm: <%= BannerTerm.current_term(:exact => false, :plan_b => :back).BannerTerm %>
   Attempt: 1
   STAdmitted: true
-  STAdmitDate: <%= Date.strptime("10/1/2015", "%m/%d/%Y") %>
+  STAdmitDate: <%= Date.today %>
   OverallGPA: 2.75
-  CoreGPA: 3.0 
-  letter_file_name: "letter.docx"
-  letter_updated_at: <%= Date.strptime("10/1/2015", "%m/%d/%Y") %>
+  CoreGPA: 3.0
