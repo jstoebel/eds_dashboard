@@ -63,7 +63,7 @@ class AdmTep < ActiveRecord::Base
     self.errors.add(:Student_Bnum, "No student selected.") unless self.Student_Bnum
     self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm
-    self.errors.add(:student_file_id, "Please attach an admission letter. student_file_id is #{self.student_file_id}") unless (self.student_file_id or not self.TEPAdmit)
+    self.errors.add(:student_file_id, "Please attach an admission letter.") unless (self.student_file_id.present? or self.TEPAdmit == nil)
     if self.errors.size == 0
       return true
     else
