@@ -23,6 +23,14 @@ candidate: &candidate
   Classification: Junior
   AltID: 2
 
+candidate: &candidate
+  FirstName: Candidate
+  LastName: PreStudentTeacher
+  ProgStatus: Candidate
+  EnrollmentStatus: Active Student
+  Classification: Senior
+  AltID: 5
+
 
 ##GRADUATES
 #graduate but not exited
