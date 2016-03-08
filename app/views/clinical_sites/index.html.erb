@@ -4,46 +4,54 @@
 
 <% @page_title = "Clinical Sites" %>
 
+<div class="container-fluid">  
   <table class="listing table table-striped" summary="clinical_sites list">
-    <caption>	
-      <span class="header1">Clinical Sites </span><br>  
-      <span class="header2"><%= @sites.size %> found</span>  
-        <div class="container">
-          <div class="row">
-            <div class="col-md-1 pull-right">
-              <%= link_to new_clinical_site_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
-                  <span class="large-btn-text">Add New Site</span>
-              <% end %>         
-            </div>
+    <div class="row">
+      <caption>  
+          <span class="header1 col-xs-12">Clinical Sites </span><br>  
+          <span class="header2 col-xs-12"><%= @sites.size %> found</span>  
+          <div class="col-xs-1">
+            <%= link_to new_clinical_site_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                <span class="large-btn-text">Add New Site</span>
+            <% end %>         
           </div>
-        </div> 
-    </caption>
+
+      </caption>
+    </div>
     <tr class="header">
       <th>Site Name</th>
       <th>City</th>
       <th>County</th>
       <th>District</th>
       <th>Principal</th>
+      <th>Phone</th>
+      <th>Receptionist</th>
+      <th>Website</th>
+      <th>Email</th>
     </tr>
     <% @sites.each do |site| %>
       <% if can? :read, site %>
-    	  <td><%= site.SiteName%></td>
-    	  <td><%= site.City %></td>
-    	  <td><%= site.County %></td>
-    	  <td><%= site.District %> </td>
-    	  <td><%= site.Principal %></td>
+        <td><%= site.SiteName%></td>
+        <td><%= site.City %></td>
+        <td><%= site.County %></td>
+        <td><%= site.District %> </td>
+        <td><%= site.Principal %></td>
+        <td><%= site.phone %></td>
+        <td><%= site.receptionist %></td>
+        <td><%= link_to(site.website, site.website)%></td>
+        <td> <%= mail_to(site.email, site.email) %> </td>
         <td class="actions">
 
-        	<!-- actions:
-        	 	see teachers
-        	 	edit school-->
+          <!-- actions:
+             see teachers
+             edit school-->
 
-    		<!-- edit school  -->
+        <!-- edit school  -->
             <%= link_to edit_clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
                   <span class="small-btn-text">Edit</span>
                 <% end %>
 
-    	 	<!-- see teachers -->
+         <!-- see teachers -->
             <%= link_to clinical_site_clinical_teachers_path(site.id), :class => "btn btn-info action-small " + (site.clinical_teachers.size > 0 ? "" : " disabled") do %>
                   <span class="small-btn-text">Teachers
                     <span class="badge"> <%= site.clinical_teachers.size%></span>
@@ -57,3 +65,4 @@
     <% end %>
 
   </table>
+</div>
