@@ -16,6 +16,8 @@ class StudentFile < ActiveRecord::Base
 	# validates_attachment :doc, presence: true,
  #       content_type: {content_type: [/\A*.txt\Z/]
  #      }
+  validates_attachment_file_name :doc, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
+    :message => "Admission letter must be a Word Document, PDF or plain text document."
 
 	validates :doc_file_name,
 		uniqueness: {scope: [:Student_Bnum, :active], 

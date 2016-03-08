@@ -8,10 +8,10 @@
 base_app: &base
   student: candidate
   Program_ProgCode: 2
-  BannerTerm_BannerTerm: 201511
+  BannerTerm_BannerTerm: <%= BannerTerm.current_term(:exact => false, :plan_b => :back).BannerTerm %>
   Attempt: 1
   TEPAdmit: true
-  TEPAdmitDate: <%= Date.new(2015, 10, 1) %>
+  TEPAdmitDate: <%= Date.today %>
   GPA: 2.75
   GPA_last30: 3.0 
   EarnedCredits: 30
@@ -20,6 +20,7 @@ pending:
   <<: *base
   student: base
   TEPAdmit: Null
+  TEPAdmitDate: Null
 
 admit_graduate_no_exit:
   <<: *base
