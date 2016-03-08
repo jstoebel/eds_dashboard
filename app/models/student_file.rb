@@ -9,13 +9,7 @@ class StudentFile < ActiveRecord::Base
 	  :path => ":rails_root/public/:bnum/misc_docs/:basename.:extension",
 	  :preserve_files => true,
 	  :keep_old_files => true
-
-	do_not_validate_attachment_file_type :doc
-	# validates_attachment_content_type :doc, :content_type => 'text/plain'
-
-	# validates_attachment :doc, presence: true,
- #       content_type: {content_type: [/\A*.txt\Z/]
- #      }
+	  
   validates_attachment_file_name :doc, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
     :message => "Admission letter must be a Word Document, PDF or plain text document."
 
