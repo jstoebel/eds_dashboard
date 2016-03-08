@@ -8,6 +8,7 @@ class AdmTep < ActiveRecord::Base
   belongs_to :program, {foreign_key: "Program_ProgCode"}
   belongs_to :student, {foreign_key: "Student_Bnum"}
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
+  belongs_to :student_file
 
   #CALL BACKS
   after_save :change_status
@@ -18,13 +19,8 @@ class AdmTep < ActiveRecord::Base
   scope :open, ->(bnum) {joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)").where("prog_exits.ExitCode_ExitCode IS NULL AND adm_tep.TEPAdmit = 1 AND adm_tep.Student_Bnum = ?", bnum)}
   
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}   #all applications by term
-  
-  has_attached_file :letter, 
-  :url => "/adm_tep/:id/download",    #passes AltID 
-  :path => ":rails_root/public/:bnum/admission_letters/:basename.:extension"  #changed path from /admission_letters/:bnum
 
-  validates_attachment_file_name :letter, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
-    :message => "Admission letter must be a Word Document, PDF or plain text document."
+  #VALIDATIONS
 
   validate :if => :check_fks do |app|
     term = BannerTerm.find(app.BannerTerm_BannerTerm)
@@ -40,7 +36,7 @@ class AdmTep < ActiveRecord::Base
     # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
     app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
     app.errors.add(:EarnedCredits, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
-    app.errors.add(:letter, "Please attach an admission letter.") if (app.letter_file_name == nil and app.TEPAdmit != nil)
+    
     #TODO must have completed EDS150 with C or better to be admitted.
     #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
    
@@ -67,7 +63,7 @@ class AdmTep < ActiveRecord::Base
     self.errors.add(:Student_Bnum, "No student selected.") unless self.Student_Bnum
     self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm
-
+    self.errors.add(:student_file_id, "Please attach an admission letter. student_file_id is #{self.student_file_id}") unless (self.student_file_id or not self.TEPAdmit)
     if self.errors.size == 0
       return true
     else
