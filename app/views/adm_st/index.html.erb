@@ -16,26 +16,22 @@
 
   <% end %>
 
-  <table class="listing summary adm_st list table table-striped">
-   
-    <caption>        
-        <div class="header1">Applications to Student Teaching: <%= @term.PlainTerm%></div></br>
-        <div class="header2"><%= pluralize(@applications.size, 'application') %>  found </div>
-      
-        <div class="container">
-          <div class="row">
-            <div class="col-md-1 pull-right">
-              <%= link_to new_adm_st_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+    <div class="container-fluid">  
+      <table class="listing summary adm_st list table table-striped">
+        <div class="row">   
+          <caption>        
+              <div class="col-xs-12 header1">Applications to Student Teaching: <%= @term.PlainTerm%></div></br>
+              <div class="col-xs-12 header2"><%= pluralize(@applications.size, 'application') %>  found </div>
+                  <div class="col-xs-12">
+                    <%= link_to new_adm_st_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
 
-                  <span class="large-btn-text">Add New Student</span>
+                        <span class="large-btn-text">Add New Student</span>
 
-              <% end %>         
-
-            </div>
-          </div>
-
-      </div>
-    </caption>
+                    <% end %>         
+                  
+                  </div>
+          </caption>
+        </div>
 
     <% if @applications.size > 0  %>
 
@@ -53,19 +49,19 @@
             <th>Letter</th> -->
 
           </tr>
-      	<% @applications.each do |app|%>
+        <% @applications.each do |app|%>
           <!-- currently only admin and staff have access to this resource, but if we provide access
           to advisors, they will only be able to see their own students. -->
           <% if can? :read, app %>    
               <% student = Student.find(app.Student_Bnum) %>
 
-        			<tr>
-        			<td><%= student.FirstName %></td>
-        			<td><%= student.LastName %></td>
-          		<td><%=app.OverallGPA %></td>
-          		<td><%=app.CoreGPA%></td>
+              <tr>
+              <td><%= student.FirstName %></td>
+              <td><%= student.LastName %></td>
+              <td><%=app.OverallGPA %></td>
+              <td><%=app.CoreGPA%></td>
 
-          		<td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
+              <td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
               <td>
 
                 <% if app.STAdmitted == nil and @term = current_term(exact: false)%>    
@@ -117,11 +113,12 @@
             </td>
           </tr>
         <!-- end of if statement for content-->
-      	<% end %>
+        <% end %>
                   
       <!-- end of main loop -->
       <% end %>   
 
     <% end %>  
-  </table>
+    </table>
+  </div>
 </div>
