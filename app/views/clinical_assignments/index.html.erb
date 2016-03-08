@@ -11,46 +11,46 @@
 
   <% end %>
 
-  <table class="listing table table-striped" summary="clinical_assignments list">
-    <caption> 
-      <span class="header1"><%= "Clinical Assignments: #{@term.PlainTerm}" %> </span><br>  
-      <span class="header2"><%= @assignments.size %> found</span>  
-        <div class="container">
+  <div class="container-fluid">  
+    <table class="listing table table-striped" summary="clinical_assignments list">
           <div class="row">
-            <div class="col-md-1 pull-right">
-              <%= link_to new_clinical_assignment_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
-                  <span class="large-btn-text">New Assignment</span>
-              <% end %>         
-            </div>
+            <caption> 
+              <span class="header1 col-xs-12"><%= "Clinical Assignments: #{@term.PlainTerm}" %> </span><br>  
+              <span class="header2 col-xs-12"><%= @assignments.size %> found</span>  
+              <div class="col-xs-1">
+                <%= link_to new_clinical_assignment_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                    <span class="large-btn-text">New Assignment</span>
+                <% end %>         
+              </div>
+            </caption>
           </div>
-        </div> 
-    </caption>
-    <tr class="header">
-      <th>Student</th>
-      <th>Clinical Teacher</th>
-      <th>Course</th>
-      <th>Level</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-    </tr>
-    <% @assignments.each do |assignment| %>
-      <td><%= name_details(assignment.student, file_as=true)%></td>
-      <td><%= "#{assignment.clinical_teacher.FirstName} #{assignment.clinical_teacher.LastName}"  %></td>
-      <td><%= assignment.CourseID %></td>  <!-- needs to exist in Banner!-->
-      <td><%= assignment.Level %> </td>
-      <td><%= assignment.StartDate.strftime("%m/%d/%Y") %></td>
-      <td><%= assignment.EndDate.strftime("%m/%d/%Y") %></td>
-      <td class="actions">
-
-      <!-- edit assignment-->
-          <%= link_to edit_clinical_assignment_path(assignment.id), :class => "btn btn-info action-small" do %>
-                <span class="small-btn-text">Edit
-                </span>
-              <% end %>
-
-
-        </td>
-      </tr>
-
-    <% end %>
-  </table>
+        <tr class="header">
+          <th>Student</th>
+          <th>Clinical Teacher</th>
+          <th>Course</th>
+          <th>Level</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </tr>
+        <% @assignments.each do |assignment| %>
+          <td><%= name_details(assignment.student, file_as=true)%></td>
+          <td><%= "#{assignment.clinical_teacher.FirstName} #{assignment.clinical_teacher.LastName}"  %></td>
+          <td><%= assignment.CourseID %></td>  <!-- needs to exist in Banner!-->
+          <td><%= assignment.Level %> </td>
+          <td><%= assignment.StartDate.strftime("%m/%d/%Y") %></td>
+          <td><%= assignment.EndDate.strftime("%m/%d/%Y") %></td>
+          <td class="actions">
+  
+          <!-- edit assignment-->
+              <%= link_to edit_clinical_assignment_path(assignment.id), :class => "btn btn-info action-small" do %>
+                    <span class="small-btn-text">Edit
+                    </span>
+                  <% end %>
+  
+  
+            </td>
+          </tr>
+  
+        <% end %>
+      </table>
+    </div>
