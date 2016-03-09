@@ -31,7 +31,7 @@ class AdmTep < ActiveRecord::Base
     
     app.errors.add(:TEPAdmitDate, "Admission date must be given.") if app.TEPAdmit and app.TEPAdmitDate.blank?
     app.errors.add(:TEPAdmitDate, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
-    app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate and app.TEPAdmitDate >= next_term.StartDate
+    app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate
     
     # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
     app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
