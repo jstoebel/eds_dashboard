@@ -131,25 +131,19 @@ class AdmTepControllerTest < ActionController::TestCase
                 }
             }
 
-        # puts assigns(:letter).inspect
-        # puts assigns(:application).inspect
-        
         assert assigns(:application).valid?, assigns(:application).errors.full_messages 
         assert_redirected_to adm_tep_index_path
         assert_equal flash[:notice], "Student application successfully updated"
       end
         
       #reset everything
-      StudentFile.delete_all
       app.update({
         :TEPAdmit => nil,
         :TEPAdmitDate => nil,
         :student_file_id => nil
         })
-
       app.save
-      puts app.inspect
-      puts StudentFile.first.inspect
+
     end
   end
 
