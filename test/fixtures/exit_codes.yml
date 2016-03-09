@@ -1,40 +1,40 @@
 ExitCode_1:
-  ExitCode: 1809
+  ExitCode: '1809'
   ExitDiscrip: Unsuccessful Student Teaching
 
 ExitCode_2:
-  ExitCode: 1810
+  ExitCode: '1810'
   ExitDiscrip: Not Passing PRAXIS Tests
 
 ExitCode_3:
-  ExitCode: 1812
+  ExitCode: '1812'
   ExitDiscrip: Transferred to another institution
 
 ExitCode_4:
-  ExitCode: 1814
+  ExitCode: '1814'
   ExitDiscrip: Death
 
 ExitCode_5:
-  ExitCode: 1816
+  ExitCode: '1816'
   ExitDiscrip: Advised out of Teacher Education Program
 
 ExitCode_6:
-  ExitCode: 1826
+  ExitCode: '1826'
   ExitDiscrip: Dropped Out
 
 ExitCode_7:
-  ExitCode: 1827
+  ExitCode: '1827'
   ExitDiscrip: Inadequate GPA
 
 ExitCode_8:
-  ExitCode: 1832
+  ExitCode: '1832'
   ExitDiscrip: Other
 
 ExitCode_9:
-  ExitCode: 1849
+  ExitCode: '1849'
   ExitDiscrip: Program Completion
 
 ExitCode_10:
-  ExitCode: 2141
+  ExitCode: '2141'
   ExitDiscrip: Transferred to another program
 
