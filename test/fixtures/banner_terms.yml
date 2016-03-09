@@ -1840,6 +1840,69 @@ BannerTerm_263:
   AYStart: 2015
 
 BannerTerm_264:
+  BannerTerm: 201513
+  PlainTerm: 8 Week Summer Term
+  StartDate: 2016-05-16 00:00:00.000000000 Z
+  EndDate: 2016-07-08 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_265:
+  BannerTerm: 201514
+  PlainTerm: 1st 4 Week Summer Term
+  StartDate: 2016-05-16 00:00:00.000000000 Z
+  EndDate: 2016-06-10 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_266:
+  BannerTerm: 201515
+  PlainTerm: 2nd Four Week Summer Term
+  StartDate: 2016-06-13 00:00:00.000000000 Z
+  EndDate: 2016-07-08 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_267:
+  BannerTerm: 201610
+  PlainTerm: Berea Bridge Program Term
+  StartDate: 2016-07-15 00:00:00.000000000 Z
+  EndDate: 2016-08-13 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_268:
+  BannerTerm: 201611
+  PlainTerm: Fall 2016 Term
+  StartDate: 2016-08-24 00:00:00.000000000 Z
+  EndDate: 2016-12-16 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_269:
+  BannerTerm: 201612
+  PlainTerm: Spring Term 2017
+  StartDate: 2017-01-10 00:00:00.000000000 Z
+  EndDate: 2017-04-27 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_270:
+  BannerTerm: 201613
+  PlainTerm: 8 Week Summer term
+  StartDate: 2017-05-15 00:00:00.000000000 Z
+  EndDate: 2017-07-07 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_271:
+  BannerTerm: 201614
+  PlainTerm: 1st 4 Week Summer Term
+  StartDate: 2017-05-15 00:00:00.000000000 Z
+  EndDate: 2017-06-09 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_272:
+  BannerTerm: 201615
+  PlainTerm: 2nd Four Week Summer Term
+  StartDate: 2017-06-12 00:00:00.000000000 Z
+  EndDate: 2017-07-07 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_273:
   BannerTerm: 999999
   PlainTerm: End of Time
   StartDate: 4712-12-11 00:00:00.000000000 Z
