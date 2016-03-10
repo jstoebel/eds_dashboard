@@ -43,4 +43,16 @@ class ActiveSupport::TestCase
     session[:role] = role.RoleName
   end
 
+  def attach_letter(app)
+    #creates a file and associates it with the application
+    letter = StudentFile.create({
+        :Student_Bnum => app.student.id,
+        :active => true,
+        :doc => fixture_file_upload('test_file.txt')
+      })
+
+    app.student_file_id = letter.id
+    return letter
+  end
+
 end
