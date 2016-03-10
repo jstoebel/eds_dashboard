@@ -156,6 +156,7 @@ class AdmStControllerTest < ActionController::TestCase
                 :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
                 }
             }
+
         assert assigns(:application).valid?, assigns(:application).errors.full_messages
         assert_redirected_to adm_st_index_path
       end
@@ -234,13 +235,17 @@ class AdmStControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       app = AdmSt.first
+      letter = attach_letter(app)
+      app.save
       post :update_st_paperwork, {
         adm_st_id: app.id,
         :adm_st => {
-          :background_check => 1
+          :background_check => 1,
+          :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
         }
       }
 
+      puts assigns(:app).errors.full_messages
       assert_redirected_to adm_st_index_path
       assert_equal flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
     end
@@ -252,6 +257,7 @@ class AdmStControllerTest < ActionController::TestCase
   end
 
   test "should get download" do
+    #TODO
     #haven't figured out how to test this yet.
     # load_session("admin")
     # app = AdmSt.first

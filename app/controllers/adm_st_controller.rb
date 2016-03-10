@@ -5,17 +5,9 @@ class AdmStController < ApplicationController
   # skip_authorize_resource :only => [:choose]
 
   def index
-    #@current_term: the current term in time
-    #@term: the term displayed
+
     index_setup
   end
-
-  # def show
-  #   @app = AdmSt.find(params[:id])   
-  #   @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
-  #   @student = Student.find(@app.Student_Bnum)
-  #   name_details(@student)
-  # end
 
   def new
     #display menu for possible names and possible programs
@@ -143,8 +135,6 @@ class AdmStController < ApplicationController
 
   def update_st_paperwork
     #update st paperwork
-
-
     @app = AdmSt.find(params[:adm_st_id])
 
     #convert each param to an int and assign
