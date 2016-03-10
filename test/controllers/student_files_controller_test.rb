@@ -55,12 +55,10 @@ class StudentFilesControllerTest < ActionController::TestCase
   end
 
   test "should not post create bad params" do
-
     #create this record so the test requested post will not result in a
     #successful save
 
     file = create_file
-
     role_names.each do |r|
       load_session(r)
       stu = Student.first
@@ -68,7 +66,7 @@ class StudentFilesControllerTest < ActionController::TestCase
       get :create, {:student_id => stu.AltID, 
         :active => true,
         :student_file => 
-          {:doc => fixture_file_upload('test_file.txt')}
+          {:doc => fixture_file_upload('badfile.bad')}
       }
 
       assert_response :success
