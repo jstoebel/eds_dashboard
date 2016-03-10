@@ -4,3 +4,18 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
+
+good_file:
+  student: candidate
+  active: true
+  doc_file_name: good_file.txt
+
+inactive_file:
+  student: candidate
+  active: false
+  doc_file_name: good_file.txt
+
+bad_file:
+  student: candidate
+  active: false
+  doc_file_name: bad_file.bad
