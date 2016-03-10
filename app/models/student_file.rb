@@ -11,7 +11,7 @@ class StudentFile < ActiveRecord::Base
 	  :keep_old_files => true
 	  
   validates_attachment_file_name :doc, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
-    :message => "Admission letter must be a Word Document, PDF or plain text document."
+    :message => "Attached file must be a Word Document, PDF or plain text document."
 
 	scope :active, lambda {where(:active => true) }
 
