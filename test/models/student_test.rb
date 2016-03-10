@@ -23,13 +23,6 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal(expected.slice(0, expected.size), actual.slice(0, actual.size))
 	end
 
-	test "from alt_id scope" do
-		#pulls a student based on their alt_id.
-
-		s = Student.from_alt_id(2)
-		assert_equal(s.ProgStatus, "Candidate")		#this student should be the only one with ProgStatus of "Candidate"
-	end
-
 	test "is advisee of passes" do
 		assignment = AdvisorAssignment.first
 		s = assignment.student

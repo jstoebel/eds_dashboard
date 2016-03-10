@@ -148,17 +148,4 @@ class AdmTepTest < ActiveSupport::TestCase
     
   end
 
-  private
-
-  def attach_letter(app)
-    letter = StudentFile.create({
-        :Student_Bnum => app.student.id,
-        :active => true,
-        :doc => fixture_file_upload('test_file.txt')
-      })
-
-    app.student_file_id = letter.id
-    return letter
-  end
-
 end
