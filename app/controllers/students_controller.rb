@@ -9,7 +9,7 @@ class StudentsController < ApplicationController
   end
 
   def show
-    @student = Student.from_alt_id(params[:id])
+    @student = Student.find_by(:AltID => params[:id])
     authorize! :show, @student
   end
 

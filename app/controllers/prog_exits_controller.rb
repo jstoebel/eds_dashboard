@@ -66,7 +66,7 @@ class ProgExitsController < ApplicationController
     
     @exit = ProgExit.new
     alt_id = params[:prog_exit_id]
-    stu = Student.from_alt_id(alt_id) #.first
+    stu = Student.find_by(:AltID => alt_id)
     @exit.Student_Bnum = stu.Bnum
     
     program = params[:program_id]
