@@ -4,7 +4,7 @@ class BannerTerm < ActiveRecord::Base
 	has_many :prog_exit, foreign_key: "ExitTerm"
 
 
-    def self.current_term(options = {})
+  def self.current_term(options = {})
     defaults = {
       :exact => true,         #bool, does the date need to match the term perfectly 
         #(dates outside of terms are rejected.)
@@ -20,7 +20,6 @@ class BannerTerm < ActiveRecord::Base
 
     if term
       return term
-
     else
       if options[:exact]
         return nil
@@ -32,17 +31,21 @@ class BannerTerm < ActiveRecord::Base
         elsif options[:plan_b] == :forward
           #give me the first term that begins after today
           return BannerTerm.where("StartDate>?", options[:date]).order(StartDate: :asc).first
-
         else
           raise "Must select forward or back for plan_b"
         end
-
-
       end
-      
     end
+  end
 
+  def next_term
+    #returns the term with the next largest id
+    BannerTerm.where("BannerTerm > ?", self.BannerTerm).first
+  end
 
-    end
+  def prev_term
+    #returns the term with the next smallest id
+    BannerTerm.where("BannerTerm < ?", self.BannerTerm).last
+  end
 
 end
