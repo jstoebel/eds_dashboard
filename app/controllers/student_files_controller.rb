@@ -7,7 +7,7 @@ class StudentFilesController < ApplicationController
 
   def create
     @file = StudentFile.new
-    student = Student.from_alt_id(params[:student_id])
+    student = Student.find_by(:AltID => params[:student_id])
     @file.Student_Bnum = student.Bnum
     @file.doc = params[:student_file][:doc]
 
@@ -19,7 +19,8 @@ class StudentFilesController < ApplicationController
     else
       index_setup
       flash[:notice] = "Error uploading file."
-      @student = Student.from_alt_id(params[:student_id])
+      @student = Student.find_by(:AltID => params[:student_id])
+      
       render 'index'      
     end
   end
@@ -47,7 +48,7 @@ class StudentFilesController < ApplicationController
   private
 
   def index_setup
-    @student = Student.from_alt_id(params[:student_id])
+    @student = Student.find_by(:AltID => params[:student_id])
     authorize! :read, @student
 
     @adm_teps = AdmTep.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)
