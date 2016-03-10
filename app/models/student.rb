@@ -22,7 +22,6 @@ class Student < ActiveRecord::Base
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}
 	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
-	scope :from_alt_id, ->(alt_id) {where("AltID = ?", alt_id).first}		#finds a student based on AltID
 	
 	def is_advisee_of(prof_bnum)
 		#is this student advisee of the prof with prof_bnum?
