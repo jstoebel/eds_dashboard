@@ -9,3 +9,19 @@
 #
 #
 #  column: value
+
+sub_one:
+  praxis_result: one
+  name: Basics of Basket Weaving
+  pts_earned: 15
+  pts_aval: 20
+  avg_high: 14
+  avg_low: 10
+
+sub_two:
+  praxis_result: two
+  name: Basics of Basket Weaving
+  pts_earned: 15
+  pts_aval: 20
+  avg_high: 14
+  avg_low: 10

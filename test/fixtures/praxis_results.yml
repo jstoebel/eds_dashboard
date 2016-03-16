@@ -10,6 +10,7 @@
 #
 #  column: value
 one:
+  TestID: testid1
   student: candidate
   praxis_test: current
   TestDate: <%= Date.today %>
@@ -18,6 +19,7 @@ one:
   Pass: true
 
 two:
+  TestID: testid2
   student: base
   praxis_test: current
   TestDate: <%= Date.today %>

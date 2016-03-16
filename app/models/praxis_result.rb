@@ -2,7 +2,7 @@ class PraxisResult < ActiveRecord::Base
 
 	self.primary_keys = :Bnum, :TestCode, :TestDate
 	belongs_to :student, {:foreign_key => "Bnum"}
-	has_many :praxis_subtest_results, {:foreign_key => [:praxis_results_Student_Bnum, :praxis_results_TestCode, :praxis_results_TestDate]}
+	has_many :praxis_subtest_results
 	belongs_to :praxis_test, {:foreign_key => 'TestCode'}
 
 	validates :Bnum,
