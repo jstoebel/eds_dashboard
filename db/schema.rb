@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308164914) do
+ActiveRecord::Schema.define(version: 20160316200054) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,  null: false
@@ -200,36 +200,30 @@ ActiveRecord::Schema.define(version: 20160308164914) do
   add_index "praxis_prep", ["PraxisTest_TestCode"], name: "fk_PraxisPrep_PraxisTest1_idx", using: :btree
   add_index "praxis_prep", ["Student_Bnum"], name: "fk_PraxisPrep_Student1_idx", using: :btree
 
-  create_table "praxis_results", id: false, force: true do |t|
+  create_table "praxis_results", primary_key: "TestID", force: true do |t|
     t.string   "Bnum",      limit: 9,  null: false
     t.string   "TestCode",  limit: 45, null: false
-    t.datetime "TestDate",             null: false
+    t.datetime "TestDate"
     t.datetime "RegDate"
     t.string   "PaidBy",    limit: 45
     t.integer  "TestScore"
     t.integer  "BestScore"
     t.integer  "CutScore"
     t.boolean  "Pass"
-    t.integer  "AltID",                null: false
   end
 
-  add_index "praxis_results", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "praxis_results", ["Bnum"], name: "fk_PraxisResult_Student1_idx", using: :btree
   add_index "praxis_results", ["TestCode"], name: "fk_PraxisResult_PraxisTest1_idx", using: :btree
 
-  create_table "praxis_subtest_results", primary_key: "SubTestID", force: true do |t|
-    t.string   "SubNumber",                   limit: 45, null: false
-    t.string   "Name",                        limit: 45
-    t.integer  "PtsEarned"
-    t.integer  "PtsAval"
-    t.integer  "AvgHigh"
-    t.integer  "AvgLow"
-    t.string   "praxis_results_Student_Bnum", limit: 9
-    t.string   "praxis_results_TestCode",     limit: 45
-    t.datetime "praxis_results_TestDate"
+  create_table "praxis_subtest_results", force: true do |t|
+    t.string  "praxis_result_id"
+    t.integer "sub_number"
+    t.string  "name"
+    t.integer "pts_earned"
+    t.integer "pts_aval"
+    t.integer "avg_high"
+    t.integer "avg_low"
   end
-
-  add_index "praxis_subtest_results", ["praxis_results_Student_Bnum", "praxis_results_TestCode", "praxis_results_TestDate"], name: "fk_praxis_subtest_results_praxis_results", using: :btree
 
   create_table "praxis_tests", primary_key: "TestCode", force: true do |t|
     t.string  "TestName",         limit: 45
@@ -387,10 +381,6 @@ ActiveRecord::Schema.define(version: 20160308164914) do
 
   add_foreign_key "praxis_results", "praxis_tests", name: "fk_PraxisResult_PraxisTest", column: "TestCode", primary_key: "TestCode"
   add_foreign_key "praxis_results", "students", name: "fk_PraxisResult_Student", column: "Bnum", primary_key: "Bnum"
-
-  add_foreign_key "praxis_subtest_results", "praxis_results", name: "fk_praxis_subtest_results_praxis_results", column: "praxis_results_Student_Bnum", primary_key: "Bnum"
-  add_foreign_key "praxis_subtest_results", "praxis_results", name: "fk_praxis_subtest_results_praxis_results", column: "praxis_results_TestCode", primary_key: "TestCode"
-  add_foreign_key "praxis_subtest_results", "praxis_results", name: "fk_praxis_subtest_results_praxis_results", column: "praxis_results_TestDate", primary_key: "TestDate"
 
   add_foreign_key "praxis_tests", "programs", name: "fk_PraxisTest_Program", column: "Program_ProgCode", primary_key: "ProgCode"
 
