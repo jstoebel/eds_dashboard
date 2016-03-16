@@ -3,74 +3,52 @@
   <i class=" link-text"> Back</i>
 <% end %>
 
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <table class="table" summary="Student detail view">
+        <caption>  
+          <div class="header1">
+            <%= name_details(@student) %>
+          </div>
+          <div class="header2">
+            <%= @test.praxis_test.TestName  %>  
+          </div>
+        </caption>
 
-<div class="test details show">
+        <tr>
+          <th>Registration Date</th>
+          <td><%= @test.RegDate ? @test.RegDate.strftime("%m/%d/%Y") : nil%></td>
+        </tr>
 
-  <table summary="Student detail view">
+        <tr>
+          <th>Test Date</th>
+          <td><%= @test.TestDate ?  @test.TestDate.strftime("%m/%d/%Y") : nil%></td>
+        </tr>
 
-    <caption>  
-      Test Details
-    </caption>
+        <tr>
+          <th>Paid By</th>
+          <td><%= @test.PaidBy%></td>
+        </tr>
 
-    <tr>
-      <th>B#</th>
-      <td><%= @student.Bnum %></td>
-    </tr>
+        <tr>
+          <th>Score</th>
+          <td <%= (@test.TestScore and @test.TestScore >= @test.CutScore) ? nil : "class=bad_text" %>><%= @test.TestScore%></td>
+        </tr>
 
+        <tr>
+          <th>Best Score as of Test Date</th>
+          <td><%= @test.BestScore%></td>
+        </tr>
 
-    <tr>
-      <th>Frist Name</th>
-      <td><%= @first_name %></td>
-    </tr>
-
-    <tr>
-      <th>Middle Name</th>
-      <td><%= @student.MiddleName %></td>
-    </tr>
-
-    <tr>
-      <th>Last Name</th>
-      <td><%= @last_name %></td>
-    </tr>
-
-    <tr>
-      <th>Test Name</th>
-      <td><%= @test.TestCode %></td>
-    </tr>
-
-    <tr>
-      <th>Test Date</th>
-      <td><%= @test.TestDate ?  @test.TestDate.strftime("%m/%d/%Y") : nil%></td>
-    </tr>
-
-    <tr>
-      <th>Registration Date</th>
-      <td><%= @test.RegDate ? @test.RegDate.strftime("%m/%d/%Y") : nil%></td>
-    </tr>
-
-    <tr>
-      <th>Paid By</th>
-      <td><%= @test.PaidBy%></td>
-    </tr>
-
-    <tr>
-      <th>Score</th>
-      <td <%= (@test.TestScore and @test.TestScore >= @test.CutScore) ? nil : "class=bad_text" %>><%= @test.TestScore%></td>
-    </tr>
-
-    <tr>
-      <th>Best Score as of Test Date</th>
-      <td><%= @test.BestScore%></td>
-    </tr>
-
-    <tr>
-      <th>Cut Score</th>
-      <td><%= @test.CutScore%></td>
-    </tr>
-
-
-
-  </table>
+        <tr>
+          <th>Cut Score</th>
+          <td><%= @test.CutScore%></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
 
   <div class="test sections show">
 

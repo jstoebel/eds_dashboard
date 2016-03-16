@@ -7,6 +7,9 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
+  #code here to load fixtures from factories instead!
+
+
   self.set_fixture_class adm_tep: AdmTep,
 							banner_terms: BannerTerm
   # Add more helper methods to be used by all tests here...

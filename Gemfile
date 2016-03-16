@@ -38,7 +38,9 @@ gem 'composite_primary_keys', '=7.0.15'
 gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
 gem 'lograge'
+
 gem 'minitest-fail-fast'
+gem "factory_girl_rails", "~> 4.0"
 
 #for working out foreign keys!!1
 gem 'foreigner', '~> 1.7', '>= 1.7.4'
@@ -56,6 +58,10 @@ group :development do
     gem 'capistrano-bundler' 
     gem 'capistrano3-puma' 
     gem  'capistrano-ext'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
 end
 
 gem 'puma'
