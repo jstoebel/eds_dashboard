@@ -10,19 +10,17 @@
 #
 #  column: value
 one:
-  TestID: testid1
   student: candidate
   praxis_test: current
-  TestDate: <%= Date.today %>
-  RegDate: <%= Date.today %>
-  PaidBy: ETS (fee waiver)
+  test_date: <%= Date.today %>
+  reg_date: <%= Date.today %>
+  paid_by: ETS (fee waiver)
   Pass: true
 
 two:
-  TestID: testid2
   student: base
   praxis_test: current
-  TestDate: <%= Date.today %>
-  RegDate: <%= Date.today %>
-  PaidBy: ETS (fee waiver)
+  test_date: <%= Date.today %>
+  reg_date: <%= Date.today %>
+  paid_by: ETS (fee waiver)
   Pass: false
