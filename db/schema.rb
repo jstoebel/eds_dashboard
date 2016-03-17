@@ -210,8 +210,10 @@ ActiveRecord::Schema.define(version: 20160317152733) do
     t.integer  "best_score"
     t.integer  "cut_score"
     t.boolean  "pass"
+    t.integer  "AltID",          null: false
   end
 
+  add_index "praxis_results", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "praxis_results", ["praxis_test_id"], name: "fk_praxis_results_praxis_tests_idx", using: :btree
   add_index "praxis_results", ["student_id"], name: "fk_praxis_results_students_idx", using: :btree
 
