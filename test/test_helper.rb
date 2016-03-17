@@ -5,6 +5,8 @@ require 'rails/test_help'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  
+  Rake::Task["db:fixtures:load"].invoke
   fixtures :all
 
   self.set_fixture_class adm_tep: AdmTep,
