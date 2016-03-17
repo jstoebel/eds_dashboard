@@ -1,23 +1,23 @@
 class PraxisResult < ActiveRecord::Base
 
 	self.primary_keys = :Bnum, :TestCode, :TestDate
-	belongs_to :student, {:foreign_key => "Bnum"}
+	belongs_to :student
 	has_many :praxis_subtest_results
-	belongs_to :praxis_test, {:foreign_key => 'TestCode'}
+	belongs_to :praxis_test
 
-	validates :Bnum,
+	validates :student_id,
 		presence: {message: "Please select a student."}
 
-	validates :TestCode,
+	validates :test_code,
 		presence: {message: "Test must be selected."}
 
-	validates :TestDate,
+	validates :test_date,
 		presence: {message: "Test date must be selected."}
 
-	validates :RegDate,
+	validates :reg_date,
 		presence: {message: "Registration date must be selected."}
 
-	validates :PaidBy,
+	validates :paid_by,
 		presence: {message: "Payment source must be given."},
 		inclusion: {
 			:in => ['EDS', 'ETS (fee waiver)', 'Student'],
