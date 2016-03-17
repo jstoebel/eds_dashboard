@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316200054) do
+ActiveRecord::Schema.define(version: 20160317152733) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,  null: false
@@ -200,20 +200,20 @@ ActiveRecord::Schema.define(version: 20160316200054) do
   add_index "praxis_prep", ["PraxisTest_TestCode"], name: "fk_PraxisPrep_PraxisTest1_idx", using: :btree
   add_index "praxis_prep", ["Student_Bnum"], name: "fk_PraxisPrep_Student1_idx", using: :btree
 
-  create_table "praxis_results", primary_key: "TestID", force: true do |t|
-    t.string   "Bnum",      limit: 9,  null: false
-    t.string   "TestCode",  limit: 45, null: false
-    t.datetime "TestDate"
-    t.datetime "RegDate"
-    t.string   "PaidBy",    limit: 45
-    t.integer  "TestScore"
-    t.integer  "BestScore"
-    t.integer  "CutScore"
-    t.boolean  "Pass"
+  create_table "praxis_results", force: true do |t|
+    t.string   "student_id"
+    t.string   "praxis_test_id"
+    t.datetime "test_date"
+    t.datetime "reg_date"
+    t.string   "paid_by"
+    t.integer  "test_score"
+    t.integer  "best_score"
+    t.integer  "cut_score"
+    t.boolean  "pass"
   end
 
-  add_index "praxis_results", ["Bnum"], name: "fk_PraxisResult_Student1_idx", using: :btree
-  add_index "praxis_results", ["TestCode"], name: "fk_PraxisResult_PraxisTest1_idx", using: :btree
+  add_index "praxis_results", ["praxis_test_id"], name: "fk_praxis_results_praxis_tests_idx", using: :btree
+  add_index "praxis_results", ["student_id"], name: "fk_praxis_results_students_idx", using: :btree
 
   create_table "praxis_subtest_results", force: true do |t|
     t.string  "praxis_result_id"
@@ -379,8 +379,8 @@ ActiveRecord::Schema.define(version: 20160316200054) do
   add_foreign_key "praxis_prep", "praxis_tests", name: "fk_PraxisPrep_PraxisTest", column: "PraxisTest_TestCode", primary_key: "TestCode"
   add_foreign_key "praxis_prep", "students", name: "fk_PraxisPrep_Student", column: "Student_Bnum", primary_key: "Bnum"
 
-  add_foreign_key "praxis_results", "praxis_tests", name: "fk_PraxisResult_PraxisTest", column: "TestCode", primary_key: "TestCode"
-  add_foreign_key "praxis_results", "students", name: "fk_PraxisResult_Student", column: "Bnum", primary_key: "Bnum"
+  add_foreign_key "praxis_results", "praxis_tests", name: "fk_praxis_results_praxis_tests", primary_key: "TestCode", options: "ON DELETE NO ACTION ON UPDATE NO ACTION"
+  add_foreign_key "praxis_results", "students", name: "fk_praxis_results_students", primary_key: "Bnum", options: "ON DELETE NO ACTION ON UPDATE NO ACTION"
 
   add_foreign_key "praxis_tests", "programs", name: "fk_PraxisTest_Program", column: "Program_ProgCode", primary_key: "ProgCode"
 
