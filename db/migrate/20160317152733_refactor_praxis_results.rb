@@ -14,6 +14,12 @@ class RefactorPraxisResults < ActiveRecord::Migration
         t.boolean    :pass 
     end
 
+    # remove ai from pk and add ai column AltID
+    execute %q(ALTER TABLE `praxis_results` 
+      CHANGE COLUMN `id` `id` INT(11) NOT NULL ,
+      ADD COLUMN `AltID` INT NULL AUTO_INCREMENT AFTER `pass`,
+      ADD UNIQUE INDEX `AltID_UNIQUE` (`AltID` ASC);)
+
     #add fks to students and praxis_tests
     execute %q(ALTER TABLE `praxis_results` 
       ADD INDEX `fk_praxis_results_students_idx` (`student_id` ASC),
@@ -45,9 +51,12 @@ class RefactorPraxisResults < ActiveRecord::Migration
       t.integer  "BestScore"
       t.integer  "CutScore"
       t.boolean  "Pass"
+      t.integer  "AltID",                null: false
     end
 
-    add_index "praxis_results", ["Bnum"], name: "fk_PraxisResult_Student1_idx", using: :btree
-    add_index "praxis_results", ["TestCode"], name: "fk_PraxisResult_PraxisTest1_idx", using: :btree
+      add_index "praxis_results", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
+      add_index "praxis_results", ["Bnum"], name: "fk_PraxisResult_Student1_idx", using: :btree
+      add_index "praxis_results", ["TestCode"], name: "fk_PraxisResult_PraxisTest1_idx", using: :btree
+
   end
 end
