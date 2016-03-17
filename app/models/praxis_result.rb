@@ -1,6 +1,5 @@
 class PraxisResult < ActiveRecord::Base
 
-	self.primary_keys = :Bnum, :TestCode, :TestDate
 	belongs_to :student
 	has_many :praxis_subtest_results
 	belongs_to :praxis_test

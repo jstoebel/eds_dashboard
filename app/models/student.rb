@@ -1,7 +1,7 @@
 class Student < ActiveRecord::Base
 	include ApplicationHelper
 
-	has_many :praxis_results, {:foreign_key => 'Bnum'}
+	has_many :praxis_results
 	
 	has_many :issues, {:foreign_key => 'students_Bnum'}
 	has_many :issue_updates, {:foreign_key => 'students_Bnum', through: :issues}
@@ -43,7 +43,7 @@ class Student < ActiveRecord::Base
 	   	#output if student has passed all praxis I exams.
    	
 	   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.TestCode}
-	   	passings = PraxisResult.where(Bnum: self.Bnum, Pass: 1).map{ |p| p.TestCode}
+	   	passings = PraxisResult.where(student_id: self.student_id, pass: 1).map{ |p| p.TestCode}
 
 	   	req_tests.each do |requirement|
 	   		if not passings.include? requirement
