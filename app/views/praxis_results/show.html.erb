@@ -9,49 +9,15 @@
   <table summary="Student detail view">
 
     <caption>  
-      Test Details
+      <div class="header1">
+        <%= name_details(@test.student)%>
+      </div>
+
+      <div class="header2">
+        <%= "Praxis Results for #{@test.praxis_test.TestName} take on #{@test.test_date.to_s}"  %>
+      </div>
     </caption>
 
-    <tr>
-      <th>B#</th>
-      <td><%= @student.Bnum %></td>
-    </tr>
-
-
-    <tr>
-      <th>Frist Name</th>
-      <td><%= @first_name %></td>
-    </tr>
-
-    <tr>
-      <th>Middle Name</th>
-      <td><%= @student.MiddleName %></td>
-    </tr>
-
-    <tr>
-      <th>Last Name</th>
-      <td><%= @last_name %></td>
-    </tr>
-
-    <tr>
-      <th>Test Name</th>
-      <td><%= @test.praxis_test_id %></td>
-    </tr>
-
-    <tr>
-      <th>Test Date</th>
-      <td><%= @test.test_date ?  @test.test_date.strftime("%m/%d/%Y") : nil%></td>
-    </tr>
-
-    <tr>
-      <th>Registration Date</th>
-      <td><%= @test.reg_date ? @test.reg_date.strftime("%m/%d/%Y") : nil%></td>
-    </tr>
-
-    <tr>
-      <th>Paid By</th>
-      <td><%= @test.paid_by%></td>
-    </tr>
 
     <tr>
       <th>Score</th>
@@ -66,6 +32,16 @@
     <tr>
       <th>Cut Score</th>
       <td><%= @test.cut_score%></td>
+    </tr>
+    
+    <tr>
+      <th>Registration Date</th>
+      <td><%= @test.reg_date ? @test.reg_date.strftime("%m/%d/%Y") : nil%></td>
+    </tr>
+
+    <tr>
+      <th>Paid By</th>
+      <td><%= @test.paid_by%></td>
     </tr>
 
   </table>
