@@ -19,7 +19,7 @@ class PraxisResultsController < ApplicationController
     @test = PraxisResult.find_by(:AltID => params[:id])
     authorize! :read, @test
 
-    @student = Student.find(@test.Bnum)
+    @student = Student.find(@test.student_id)
     authorize! :read, @student
     name_details(@student)
   end
@@ -36,11 +36,11 @@ class PraxisResultsController < ApplicationController
     @test = PraxisResult.new(new_test_params)
     stu = Student.find_by(AltID: params[:praxis_result][:AltID])
     authorize! :create, @test     #this should restrict advisors from adding new tests
-    @test.Bnum = stu.Bnum
+    @test.student_id = stu.Bnum
     if @test.save
-      # @student = Student.find(params[:praxis_result][:Bnum])
       @student = @test.student
-      flash[:notice] = "Registration successful: #{ApplicationController.helpers.name_details(@student)}, #{@test.TestCode}, #{@test.TestDate}"
+
+      flash[:notice] = "Registration successful: #{ApplicationController.helpers.name_details(@student)}, #{@test.praxis_test_id}, #{@test.test_date}"
       redirect_to new_praxis_result_path
     else
       create_error
@@ -56,7 +56,7 @@ class PraxisResultsController < ApplicationController
     #same as using params[:subject] except that:
       #raises an error if :praxis_result is not present
       #allows listed attributes to be mass-assigned
-    params.require(:praxis_result).permit(:TestCode, :TestDate, :RegDate, :PaidBy)
+    params.require(:praxis_result).permit(:praxis_test_id, :test_date, :reg_date, :paid_by)
     
   end
 
@@ -64,7 +64,7 @@ class PraxisResultsController < ApplicationController
     result = params["praxis_result"]
     return [
         result[:AltID], 
-        result[:TestCode], 
+        result[:praxis_test_id], 
         [
           result["TestDate(2i)"], result["TestDate(3i)"], result["TestDate(1i)"]
         ].join('/')

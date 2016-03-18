@@ -16,24 +16,24 @@
         </tr>
 
         <tr>
-          <th> <%= f.label(:TestCode, "Test Name")%> </th>
-          <td> <%= f.select(:TestCode,  @test_options.map {|t| [t.TestName, t.TestCode]}, 
+          <th> <%= f.label(:praxis_test_id, "Test Name")%> </th>
+          <td> <%= f.select(:praxis_test_id,  @test_options.map {|t| [t.TestName, t.TestCode]}, 
           {:prompt => 'Select a test'}) %></td>
         </tr>
 
         <tr>
-          <th> <%= f.label(:TestDate, "Test Date")%> </th>
-          <td> <%= f.datetime_select(:TestDate, {:include_blank => true, :default => nil, :order => [:month, :day, :year, :hour, :minute ], :minute_step => 5})  %></td>
+          <th> <%= f.label(:test_date, "Test Date")%> </th>
+          <td> <%= f.datetime_select(:test_date, {:include_blank => true, :default => nil, :order => [:month, :day, :year, :hour, :minute ], :minute_step => 5})  %></td>
         </tr>
 
         <tr>
-          <th> <%= f.label(:RegDate, "Regsitration Date")%> </th>
-          <td> <%= f.date_select(:RegDate, {:order => [:month, :day, :year], default: Date.today})  %></td>
+          <th> <%= f.label(:reg_date, "Regsitration Date")%> </th>
+          <td> <%= f.date_select(:reg_date, {:order => [:month, :day, :year], default: Date.today})  %></td>
         </tr>
 
         <tr>
-          <th> <%= f.label(:PaidBy, "Paid By")%> </th>
-          <td> <%= f.select(:PaidBy, ['EDS', 'ETS (fee waiver)', 'Student'], {prompt: 'Paid By'})  %></td>
+          <th> <%= f.label(:paid_by, "Paid By")%> </th>
+          <td> <%= f.select(:paid_by, ['EDS', 'ETS (fee waiver)', 'Student'], {prompt: 'Paid By'})  %></td>
         </tr>
 
       </table>
