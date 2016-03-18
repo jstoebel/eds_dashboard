@@ -57,21 +57,22 @@ class PraxisResultsControllerTest < ActionController::TestCase
       load_session(r)
       test = PraxisResult.first
       stu = test.student
+
       test.delete   #delete so we can create again
 
       test_params = {
         :AltID => stu.AltID, 
-        :TestCode => test.TestCode, 
-        :TestDate => test.TestDate, 
-        :RegDate => test.RegDate, 
-        :PaidBy => test.PaidBy
+        :praxis_test_id => test.praxis_test_id, 
+        :test_date => test.test_date, 
+        :reg_date => test.reg_date, 
+        :paid_by => test.paid_by
       }
 
       post :create, {:praxis_result => test_params}
 
-      assert_equal assigns(:test).attributes.delete(:TestID), test.attributes.delete(:TestID)   #fixture record has id randomly generated
+      assert_equal assigns(:test).attributes.delete(:id), test.attributes.delete(:id)   #fixture record has id randomly generated
       assert_equal assigns(:student), stu
-      assert_equal flash[:notice], "Registration successful: #{ApplicationController.helpers.name_details(stu)}, #{test.TestCode}, #{test.TestDate}"
+      assert_equal flash[:notice], "Registration successful: #{ApplicationController.helpers.name_details(stu)}, #{test.praxis_test_id}, #{test.test_date}"
       assert_redirected_to new_praxis_result_path
     end
   end
@@ -84,10 +85,10 @@ class PraxisResultsControllerTest < ActionController::TestCase
 
       test_params = {
         :AltID => test.student.AltID, 
-        :TestCode => test.TestCode, 
-        :TestDate => test.TestDate, 
-        :RegDate => test.RegDate, 
-        :PaidBy => nil  #break the record here
+        :praxis_test_id => test.praxis_test_id, 
+        :test_date => test.test_date, 
+        :reg_date => test.reg_date, 
+        :paid_by => nil  #break the record here
       }
 
       post :create, {:praxis_result => test_params}
@@ -136,11 +137,11 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = PraxisResult.first
 
       test_params = {
-        :Bnum => test.Bnum, 
-        :TestCode => test.TestCode, 
-        :TestDate => test.TestDate, 
-        :RegDate => test.RegDate, 
-        :PaidBy => nil  #break the record here
+        :student_id => test.student_id, 
+        :praxis_test_id => test.praxis_test_id, 
+        :test_date => test.test_date, 
+        :reg_date => test.reg_date, 
+        :paid_by => nil  #break the record here
       }
 
       post :create, {:praxis_result => test_params}

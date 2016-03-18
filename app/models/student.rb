@@ -43,7 +43,7 @@ class Student < ActiveRecord::Base
 	   	#output if student has passed all praxis I exams.
    	
 	   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.TestCode}
-	   	passings = PraxisResult.where(student_id: self.student_id, pass: 1).map{ |p| p.TestCode}
+	   	passings = PraxisResult.where(student_id: self.Bnum, pass: 1).map{ |p| p.praxis_test_id}
 
 	   	req_tests.each do |requirement|
 	   		if not passings.include? requirement

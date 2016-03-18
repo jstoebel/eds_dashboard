@@ -80,7 +80,7 @@ class StudentTest < ActiveSupport::TestCase
 	test "praxisI_pass" do
 		Student.all.each do |stu|
 		   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.TestCode}
-		   	all_passed = PraxisResult.where(Bnum: stu.Bnum, Pass: 1).map{ |p| p.TestCode}
+		   	all_passed = PraxisResult.where(student_id: stu.Bnum, Pass: 1).map{ |p| p.praxis_test_id}
 		   	passing = true
 
 		   	req_tests.each do |requirement|
