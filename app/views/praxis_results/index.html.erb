@@ -23,12 +23,11 @@
                 <th>Cut Score</th>
               </tr>
               <% @tests.each do |result| %>
-              <tr class "<%= cycle('odd', 'even') %>">
-              <td><%= PraxisTest.find(result.TestCode).TestName %></td>
-              <td><%= result.TestDate.strftime("%m/%d/%Y")%> </td>
-              <td><%= result.TestScore %></td>
-              <td><%= result.BestScore %></td>   
-              <td><%= result.CutScore %></td>
+              <td><%= PraxisTest.find(result.praxis_test_id).TestName %></td>
+              <td><%= result.test_date.strftime("%m/%d/%Y")%> </td>
+              <td><%= result.test_score %></td>
+              <td><%= result.best_score %></td>   
+              <td><%= result.cut_score %></td>
                <td class="actions">
                   <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
                       <span class="small-btn-text">Details</span>
