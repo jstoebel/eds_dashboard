@@ -2,6 +2,7 @@ class PraxisResult < ActiveRecord::Base
 
 	#callbacks
 	after_validation :set_id
+	before_validation :check_alterability
 
 	belongs_to :student
 	has_many :praxis_subtest_results
@@ -26,12 +27,26 @@ class PraxisResult < ActiveRecord::Base
 			message: "Invalid payment source.",
 			allow_blank: true}	
 
+
+	def can_alter?
+		#if this test record may be altered.
+		#if a score has been recorded for this record, it can't be changed.
+		return self.test_score.blank?
+	end
+
+
 	private
 
 	def set_id
 		#set the id if all validations pass.
 		if self.errors.size == 0
 			self.id = [self.student_id, self.praxis_test_id, self.test_date.to_s].join("-")
+		end
+	end
+
+	def check_alterability
+		if !self.can_alter?
+			self.errors.add(:base, "Test may not be altered.")
 		end
 	end
 
