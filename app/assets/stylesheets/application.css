@@ -278,6 +278,14 @@ button.btn-danger.glyphicon.glyphicon-remove {
   color: #CCCCCC;
 }
 
+/* glyph links*/
+
+a.glyphicon,
+a:hover.glyphicon,
+a:active.glyphicon,
+a:visited.glyphicon {
+  text-decoration: none;
+}
 
 div.form_link {font-size: 0pt;}
 
