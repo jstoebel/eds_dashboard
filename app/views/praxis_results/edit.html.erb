@@ -1,3 +1,4 @@
+<!-- edit.html.erb -->
 <%= link_to students_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
@@ -6,16 +7,16 @@
 
     <%= error_messages_for(@test) %>
 
-    <%= form_for @test, url: praxis_results_path do |f| %>
+    <%= form_for @test, url: praxis_result_path(@test.AltID) do |f| %>
 
       <table summary="Praxis form fields">
 
-        <caption>New Praxis Registration</caption>
+        <caption>Edit Praxis Registration</caption>
         <%= render(partial: 'form', locals: {f: f})  %>
       </table>
 
     <div class="form-buttons">
-      <%= submit_tag("Create Test") %>
+      <%= submit_tag("Edit Test") %>
 
     <% end %>
 </div>

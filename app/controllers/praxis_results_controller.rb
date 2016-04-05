@@ -1,8 +1,6 @@
 class PraxisResultsController < ApplicationController
   layout 'application'
   authorize_resource
-  # skip_authorize_resource :only => [:new]
-  load_and_authorize_resource :only => [:index]
 
   def index
     #showing all Praxis results for a single student
@@ -10,7 +8,7 @@ class PraxisResultsController < ApplicationController
     authorize! :read, @student
  
     ability = Ability.new(current_user)
-    @tests = @student.praxis_results.select {|r| ability.can? :read, r }
+    @tests = @student.praxis_results.select {|r| ability.can? :index, r }
     # @tests = @praxis_results #this should be created by load_and_authorize_resource
   end
 
@@ -27,13 +25,11 @@ class PraxisResultsController < ApplicationController
   def new
     #for clerical users to enter a new praxis exam when a student registers.
     @test = PraxisResult.new
-
-    @students = Student.all.current.by_last
-    @test_options = PraxisTest.all.current
+    form_setup
   end
 
   def create
-    @test = PraxisResult.new(new_test_params)
+    @test = PraxisResult.new(safe_params)
     stu = Student.find_by(AltID: params[:praxis_result][:AltID])
     authorize! :create, @test     #this should restrict advisors from adding new tests
     @test.student_id = stu.Bnum
@@ -49,9 +45,46 @@ class PraxisResultsController < ApplicationController
 
   end
 
+  def edit
+    #update a praxis_result if no scores are present
+
+    @test = PraxisResult.find_by(:AltID => params[:id])
+    authorize! :write, @test
+    if !@test.can_alter?
+      flash[:notice] = "Test may not be altered."
+      redirect_to student_praxis_results_path(@test.student.AltID)
+    end
+    form_setup
+
+  end
+
+  def update
+
+    @test = PraxisResult.find_by(:AltID => params[:id])
+    authorize! :write, @test
+    
+    if @test.update_attributes(safe_params)
+      flash[:notice] = "Registration updated: #{ApplicationController.helpers.name_details(@test.student)}, #{PraxisTest.find(@test.praxis_test_id).TestName}, #{@test.test_date.strftime("%m/%d/%Y")}"
+      redirect_to student_praxis_results_path(@test.student.AltID)
+    else
+    end
+  end
+
+  def delete
+  end
+
+  def destroy
+  end
+
 
   private
-  def new_test_params
+
+  def form_setup
+    @students = Student.all.current.by_last
+    @test_options = PraxisTest.all.current
+  end
+
+  def safe_params
 
     #same as using params[:subject] except that:
       #raises an error if :praxis_result is not present
