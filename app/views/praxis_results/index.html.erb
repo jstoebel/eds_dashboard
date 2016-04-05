@@ -25,12 +25,15 @@
                <td class="actions">
                   <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
                       <span class="small-btn-text">Details</span>
-  
                   <% end %>
+
                   <%= link_to edit_praxis_result_path(result.AltID), class: "btn btn-info #{result.can_alter? ? "" : "disabled"}" do %>
                       <span class="glyphicon glyphicon-pencil"></span>
                   <% end %> 
-                  <%# link_to("Delete", "url" , :options) %>
+
+                 <%= link_to praxis_result_path(result.AltID), {class: "btn btn-info #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
+                      <span class="glyphicon glyphicon-trash"></span>
+                  <% end %> 
               </tr>
   
               <% end %>
