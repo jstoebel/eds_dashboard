@@ -49,7 +49,7 @@ class PraxisResultsController < ApplicationController
     #update a praxis_result if no scores are present
 
     @test = PraxisResult.find_by(:AltID => params[:id])
-    authorize! :write, @test
+    authorize! :update, @test
     if !@test.can_alter?
       flash[:notice] = "Test may not be altered."
       redirect_to student_praxis_results_path(@test.student.AltID)
@@ -61,10 +61,10 @@ class PraxisResultsController < ApplicationController
   def update
 
     @test = PraxisResult.find_by(:AltID => params[:id])
-    authorize! :write, @test
+    authorize! :update, @test
     
     if @test.update_attributes(safe_params)
-      flash[:notice] = "Registration updated: #{ApplicationController.helpers.name_details(@test.student)}, #{PraxisTest.find(@test.praxis_test_id).TestName}, #{@test.test_date.strftime("%m/%d/%Y")}"
+      flash[:notice] = "Registration updated: #{info_for_flash}"
       redirect_to student_praxis_results_path(@test.student.AltID)
     else
     end
@@ -74,10 +74,16 @@ class PraxisResultsController < ApplicationController
   end
 
   def destroy
+    @test = PraxisResult.find_by(:AltID => params[:praxis_result_id])
+    authorize! :destroy, @test
   end
 
 
   private
+
+  def info_for_flash
+    return "#{ApplicationController.helpers.name_details(@test.student)}, #{PraxisTest.find(@test.praxis_test_id).TestName}, #{@test.test_date.strftime("%m/%d/%Y")}"
+  end
 
   def form_setup
     @students = Student.all.current.by_last
