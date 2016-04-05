@@ -53,7 +53,9 @@ Rails.application.routes.draw do
   end
 
   resources :students, only: [:index, :show], shallow: true do
-    resources :praxis_results, only: [:index, :show, :edit, :update, :delete, :destroy]
+    resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
+      get "delete"
+    end
     resources :issues, only: [:index, :new, :create]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
   end
