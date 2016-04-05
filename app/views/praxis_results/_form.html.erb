@@ -1,10 +1,27 @@
-  <!-- error messages go here -->
-
- <table summary="Praxis form fields">
 
 
-    <%= select(:students) %>
+<tr>
+  <th> <%= f.label(:AltID, "Name")%> </th>
+  <td> <%= f.select(:AltID, @students.map {|s| [name_details(s), s.AltID]}, {:prompt => 'Select a name'}) %></td>
+</tr>
 
+<tr>
+  <th> <%= f.label(:praxis_test_id, "Test Name")%> </th>
+  <td> <%= f.select(:praxis_test_id,  @test_options.map {|t| [t.TestName, t.TestCode]}, 
+  {:prompt => 'Select a test'}) %></td>
+</tr>
 
+<tr>
+  <th> <%= f.label(:test_date, "Test Date")%> </th>
+  <td> <%= f.datetime_select(:test_date, {:include_blank => true, :default => nil, :order => [:month, :day, :year, :hour, :minute ], :minute_step => 5})  %></td>
+</tr>
 
-    </table>
+<tr>
+  <th> <%= f.label(:reg_date, "Regsitration Date")%> </th>
+  <td> <%= f.date_select(:reg_date, {:order => [:month, :day, :year], default: Date.today})  %></td>
+</tr>
+
+<tr>
+  <th> <%= f.label(:paid_by, "Paid By")%> </th>
+  <td> <%= f.select(:paid_by, ['EDS', 'ETS (fee waiver)', 'Student'], {prompt: 'Paid By'})  %></td>
+</tr>
