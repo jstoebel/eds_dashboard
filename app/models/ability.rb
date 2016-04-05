@@ -24,13 +24,13 @@ class Ability
     elsif user.is? "staff"
       can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher, 
         Employment, Foi, ProgExit, StudentFile]
-      can [:new, :create], PraxisResult
+      can [:new, :create, :index], PraxisResult
       can :read, Student
 
     elsif user.is? "student labor"
       can :index, Student
       can :manage, [ClinicalAssignment, ClinicalTeacher, ClinicalSite]
-      can [:new, :create], PraxisResult
+      can [:new, :create, :index], PraxisResult
       can [:index, :new, :create, :delete, :destroy], StudentFile   #everything but download!
     end
     
