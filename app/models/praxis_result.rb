@@ -3,6 +3,7 @@ class PraxisResult < ActiveRecord::Base
 	#callbacks
 	after_validation :set_id
 	before_validation :check_alterability
+	before_destroy :check_alterability
 
 	belongs_to :student
 	has_many :praxis_subtest_results
@@ -31,7 +32,9 @@ class PraxisResult < ActiveRecord::Base
 	def can_alter?
 		#if this test record may be altered.
 		#if a score has been recorded for this record, it can't be changed.
-		return self.test_score.blank?
+		return true if self.id.blank?
+		db_record = PraxisResult.find(self.id)
+		return db_record.test_score.blank?
 	end
 
 
@@ -46,8 +49,10 @@ class PraxisResult < ActiveRecord::Base
 
 	def check_alterability
 		if !self.can_alter?
-			self.errors.add(:base, "Test may not be altered.")
+			self.errors.add(:base, "Test has scores and may not be altered.")
+			return false
 		end
+		return true
 	end
 
 end
