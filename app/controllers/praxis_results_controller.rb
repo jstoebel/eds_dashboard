@@ -5,8 +5,6 @@ class PraxisResultsController < ApplicationController
   def index
     #showing all Praxis results for a single student
     @student = find_student(params[:student_id])
-    authorize! :read, @student
- 
     ability = Ability.new(current_user)
     @tests = @student.praxis_results.select {|r| ability.can? :index, r }
     # @tests = @praxis_results #this should be created by load_and_authorize_resource
@@ -39,8 +37,8 @@ class PraxisResultsController < ApplicationController
       flash[:notice] = "Registration successful: #{ApplicationController.helpers.name_details(@student)}, #{@test.praxis_test_id}, #{@test.test_date}"
       redirect_to new_praxis_result_path
     else
-      create_error
-      
+      error_setup
+      render 'new'
     end
 
   end
@@ -67,6 +65,9 @@ class PraxisResultsController < ApplicationController
       flash[:notice] = "Registration updated: #{info_for_flash}"
       redirect_to student_praxis_results_path(@test.student.AltID)
     else
+      flash[:notice] = "Can't update test #{info_for_flash}"
+      error_setup
+      render 'edit'
     end
   end
 
@@ -74,8 +75,10 @@ class PraxisResultsController < ApplicationController
   end
 
   def destroy
-    @test = PraxisResult.find_by(:AltID => params[:praxis_result_id])
+    @test = PraxisResult.find_by(:AltID => params[:id])
     authorize! :destroy, @test
+    @test.destroy!
+    redirect_to student_praxis_results_path(@test.student.AltID)
   end
 
 
@@ -111,12 +114,11 @@ class PraxisResultsController < ApplicationController
     
   end
 
-  def create_error
-    #handles rerendernig of new page.
+  def error_setup
+    #if we need to rerender edit or new, this sets up the needed instance variables.
     # flash[:notice] = "Error in creating registration. Please review this form and try again."
     @students = Student.all.current.by_last
     @test_options = PraxisTest.all.current
-    render('new')
   end
 
 end
