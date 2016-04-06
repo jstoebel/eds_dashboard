@@ -60,7 +60,6 @@ class PraxisResultsController < ApplicationController
 
     @test = PraxisResult.find_by(:AltID => params[:id])
     authorize! :update, @test
-    
     if @test.update_attributes(safe_params)
       flash[:notice] = "Registration updated: #{info_for_flash}"
       redirect_to student_praxis_results_path(@test.student.AltID)
@@ -77,7 +76,7 @@ class PraxisResultsController < ApplicationController
   def destroy
     @test = PraxisResult.find_by(:AltID => params[:id])
     authorize! :destroy, @test
-    @test.destroy!
+    @test.destroy
     redirect_to student_praxis_results_path(@test.student.AltID)
   end
 
