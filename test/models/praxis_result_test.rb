@@ -46,4 +46,41 @@ class PraxisResultTest < ActiveSupport::TestCase
 		assert_equal(["Invalid payment source."], t.errors[:paid_by])		
 	end
 
+	test "allows edit no score" do
+		test = PraxisResult.where(test_score: nil).first
+		test.reg_date = Date.today
+		test.valid?
+		assert test.valid?, test.errors.full_messages
+	end
+
+	test "allows edit new record" do
+
+		old_test = PraxisResult.first
+		old_attr = old_test.attributes
+		[:id, :test_score].map {|a| old_attr.delete(a)}	#remove these attrs
+
+		test = PraxisResult.new old_attr
+		test.test_date += 1	#change this attr
+		assert test.valid?
+	end
+
+	test "prevents from edit" do
+		test = PraxisResult.where(test_score: nil).first
+		test.test_score = 123
+		assert test.valid?
+		test.save
+		test.reg_date = Date.today
+		test.valid?
+		assert_equal ["Test has scores and may not be altered."], test.errors[:base]
+	end
+
+	test "prevents from destroy" do
+		test = PraxisResult.where(test_score: nil).first
+		test.test_score = 123
+		assert test.valid?
+		test.save
+		test.destroy
+		assert_equal ["Test has scores and may not be altered."], test.errors[:base]			
+	end
+
 end
