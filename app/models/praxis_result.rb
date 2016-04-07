@@ -32,7 +32,7 @@ class PraxisResult < ActiveRecord::Base
 	def can_alter?
 		#if this test record may be altered.
 		#if a score has been recorded for this record, it can't be changed.
-		return true if self.id.blank?
+		return true if self.new_record?
 		db_record = PraxisResult.find(self.id)
 		return db_record.test_score.blank?
 	end
