@@ -1,8 +1,9 @@
 class PraxisResult < ActiveRecord::Base
 
 	#callbacks
-	after_validation :set_id
 	before_validation :check_alterability
+	before_validation :check_unique
+	before_save :set_id
 	before_destroy :check_alterability
 
 	belongs_to :student
@@ -43,7 +44,19 @@ class PraxisResult < ActiveRecord::Base
 	def set_id
 		#set the id if all validations pass.
 		if self.errors.size == 0
-			self.id = [self.student_id, self.praxis_test_id, self.test_date.to_s].join("-")
+			self.id = [self.student_id, self.praxis_test_id, self.test_date.strftime("%m%d%Y")].join("-")
+		end
+	end
+
+	def check_unique
+		matching_ids = PraxisResult.where(
+			student_id: self.student_id,
+			praxis_test_id: self.praxis_test_id,
+			test_date: self.test_date
+			 )
+		# puts "I found #{matching_ids.size} matching ids"
+		if matching_ids.size > 1
+			self.errors.add(:base, "Student may not take the same exam on the same day.")
 		end
 	end
 
