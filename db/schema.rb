@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405155347) do
+ActiveRecord::Schema.define(version: 20160407191127) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,  null: false
@@ -152,23 +152,25 @@ ActiveRecord::Schema.define(version: 20160405155347) do
   add_index "forms_of_intention", ["Student_Bnum"], name: "fk_FormofIntention_Student1_idx", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
-    t.timestamp "CreateDate",                           null: false
-    t.string    "UpdateName",               limit: 100, null: false
-    t.text      "Description",                          null: false
-    t.integer   "Issues_IssueID",                       null: false
-    t.string    "tep_advisors_AdvisorBnum", limit: 45,  null: false
+    t.string   "UpdateName",               limit: 100, null: false
+    t.text     "Description",                          null: false
+    t.integer  "Issues_IssueID",                       null: false
+    t.string   "tep_advisors_AdvisorBnum", limit: 45,  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
   add_index "issue_updates", ["tep_advisors_AdvisorBnum"], name: "fk_IssueUpdates_tep_advisors1_idx", using: :btree
 
   create_table "issues", primary_key: "IssueID", force: true do |t|
-    t.timestamp "CreateDate",                                          null: false
-    t.string    "students_Bnum",            limit: 9,                  null: false
-    t.string    "Name",                     limit: 100,                null: false
-    t.text      "Description",                                         null: false
-    t.boolean   "Open",                                 default: true, null: false
-    t.string    "tep_advisors_AdvisorBnum", limit: 45,                 null: false
+    t.string   "students_Bnum",            limit: 9,                  null: false
+    t.string   "Name",                     limit: 100,                null: false
+    t.text     "Description",                                         null: false
+    t.boolean  "Open",                                 default: true, null: false
+    t.string   "tep_advisors_AdvisorBnum", limit: 45,                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "issues", ["students_Bnum"], name: "fk_Issues_students1_idx", using: :btree
