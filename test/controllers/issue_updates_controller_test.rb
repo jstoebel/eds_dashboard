@@ -42,7 +42,12 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
       post :create, {:issue_id => issue.id, :issue_updates => create_params}
       assert_equal issue, assigns(:issue)
-      assert_equal expected_update.attributes.delete(:UpdateID), assigns(:update).attributes.delete(:UpdateID)
+      expected_attrs = expected_update.attributes
+      actual_attrs = assigns(:update).attributes
+
+      [expected_attrs, actual_attrs].map {|i| i.delete("UpdateID")}
+      assert_equal expected_attrs.inspect, actual_attrs.inspect
+      
       assert_equal issue.student, assigns(:student)
       assert_redirected_to issue_issue_updates_path(issue.IssueID)
       assert_equal flash[:notice], "New update added"

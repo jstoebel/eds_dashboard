@@ -1,6 +1,6 @@
 class IssueUpdate < ActiveRecord::Base
 	belongs_to :issue, foreign_key: 'Issues_IssueID'
-	scope :sorted, lambda {order(:CreateDate => :desc)}
+	scope :sorted, lambda {order(:created_at => :desc)}
 
     BNUM_REGEX = /\AB00\d{6}\Z/i
 	validates :UpdateName, 
