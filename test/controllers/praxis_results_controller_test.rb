@@ -79,7 +79,6 @@ class PraxisResultsControllerTest < ActionController::TestCase
       assert_equal assigns(:student), stu
 
       assigns(:test).delete
-      puts "success with #{r}"
     end
   end
 
