@@ -23,12 +23,6 @@
   Open: false
   <% end %>
 
-  <% if i % 2 == 0 %>
-  CreateDate: <%= Date.today %>
-  <% else %>
-  CreateDate: <%= Date.today + 1 %>
-  <% end %>
-
 <% end %>
 
 # one:

@@ -56,25 +56,30 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should post create" do
     (role_names - ["advisor"]).each do |r|
       load_session(r)
-      test = PraxisResult.first
-      stu = test.student
 
-      test.delete   #delete so we can create again
-
+      stu = Student.first
       test_params = {
-        :AltID => stu.AltID, 
-        :praxis_test_id => test.praxis_test_id, 
-        :test_date => test.test_date, 
-        :reg_date => test.reg_date, 
-        :paid_by => test.paid_by
+        :AltID => stu.AltID,
+        :praxis_test_id => PraxisTest.first.id, 
+        :test_date => Date.today, 
+        :reg_date => Date.today, 
+        :paid_by => "ETS (fee waiver)"        
       }
 
       post :create, {:praxis_result => test_params}
 
-      assert_equal assigns(:test).attributes.delete(:id), test.attributes.delete(:id)   #fixture record has id randomly generated
+      expected_attrs = test_params.except(:AltID).stringify_keys
+      actual_attrs = assigns(:test).attributes
+
+      assert expected_attrs, actual_attrs
+      assert_redirected_to new_praxis_result_path, assigns(:test).errors.full_messages
+
+
+      assert_equal flash[:notice], "Registration successful: #{ApplicationController.helpers.name_details(stu)}, #{PraxisTest.find(test_params[:praxis_test_id]).TestName}, #{test_params[:test_date].strftime("%m/%d/%Y")}"
       assert_equal assigns(:student), stu
-      assert_equal flash[:notice], "Registration successful: #{ApplicationController.helpers.name_details(stu)}, #{test.praxis_test_id}, #{test.test_date}"
-      assert_redirected_to new_praxis_result_path
+
+      assigns(:test).delete
+      puts "success with #{r}"
     end
   end
 

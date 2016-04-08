@@ -31,7 +31,7 @@ class IssueUpdateTest < ActiveSupport::TestCase
 	end
 
 	test "scope sorted" do
-		expected = IssueUpdate.all.order(CreateDate: :desc).to_a
+		expected = IssueUpdate.all.order(created_at: :desc).to_a
 		actual = IssueUpdate.all.sorted.to_a
 		py_assert(expected, actual)
 	end

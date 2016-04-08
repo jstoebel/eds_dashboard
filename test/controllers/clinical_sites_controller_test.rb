@@ -7,7 +7,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       load_session(r)
       get :index
       assert_response :success
-      py_assert assigns(:sites), ClinicalSite.all
+      assert_equal assigns(:sites), ClinicalSite.all
     end
   end
 
@@ -17,7 +17,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       site = ClinicalSite.first
       get :edit, {:id => site.id}
       assert_response :success
-      py_assert site, assigns(:site)
+      assert_equal site, assigns(:site)
     end
   end
 
@@ -34,7 +34,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       #post!
       post :update, {:id => site.id, :clinical_site => update_params}
       assert_redirected_to clinical_sites_path
-      py_assert assigns(:site), site
+      assert_equal assigns(:site), site
     end
   end
 
@@ -88,8 +88,14 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       expected_site = ClinicalSite.create(new_params)
       actual_site = assigns(:site)
       assert_redirected_to clinical_sites_path
-      py_assert expected_site.attributes.delete(:id), assigns(:site).attributes.delete(:id) #attibute hashes should be equal except for the id
-      py_assert flash[:notice], "Created #{assigns(:site).SiteName}."
+      exepcted_attrs = expected_site.attributes
+      actual_attrs = assigns(:site).attributes
+
+      [exepcted_attrs, actual_attrs].map { |i| i.delete("id")}
+
+      assert_equal exepcted_attrs, actual_attrs 
+
+      assert_equal flash[:notice], "Created #{assigns(:site).SiteName}."
 
     end
   end
@@ -108,8 +114,14 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     post :create, {:clinical_site => new_params}
 
     assert_response :success
-    py_assert expected_site.attributes.delete(:id), assigns(:site).attributes.delete(:id) #attibute hashes should be equal except for the id
-    py_assert flash[:notice], "Error creating site."
+
+    expected_attrs = expected_site.attributes
+    actual_attrs =  assigns(:site).attributes
+
+    [expected_attrs, actual_attrs].map {|i| i.delete(:id)}
+
+    assert_equal expected_attrs, actual_attrs
+    assert_equal flash[:notice], "Error creating site."
     assert_template "new"
 
   end
