@@ -33,8 +33,7 @@ class PraxisResultsController < ApplicationController
     @test.student_id = stu.Bnum
     if @test.save
       @student = @test.student
-
-      flash[:notice] = "Registration successful: #{ApplicationController.helpers.name_details(@student)}, #{@test.praxis_test_id}, #{@test.test_date}"
+      flash[:notice] = "Registration successful: #{info_for_flash}"
       redirect_to new_praxis_result_path
     else
       error_setup

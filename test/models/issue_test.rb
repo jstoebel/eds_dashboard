@@ -48,21 +48,27 @@ class IssueTest < ActiveSupport::TestCase
 	end
 
 	test "sorted scope" do
-		issues = Issue.sorted
-		4.times do |i|
-			if i < 2
-				assert_equal(issues[i].Open, true)		#first two records should be open
-			else
-				assert_equal(issues[i].Open, false)
-			end
+		# issues = Issue.sorted
+		# 4.times do |i|
+		# 	if i < 2
+		# 		assert_equal(issues[i].Open, true)		#first two records should be open
+		# 	else
+		# 		assert_equal(issues[i].Open, false)
+		# 	end
 
-			if i % 2 == 0
-				assert_equal(issues[i].CreateDate, Date.today+1)	#even records created tomorrow
-			else
-				assert_equal(issues[i].CreateDate, Date.today)	#odd records created today
-			end
+		# 	if i % 2 == 0
+		# 		assert_equal(issues[i].CreateDate, Date.today+1)	#even records created tomorrow
+		# 	else
+		# 		assert_equal(issues[i].CreateDate, Date.today)	#odd records created today
+		# 	end
 
-		end
+		# end
+
+		scoped = Issue.sorted
+		expected = Issue.all.order(:Open => :desc, :created_at => :desc)
+
+		assert_equal scoped.to_a, expected.to_a
+
 	end
 
 end

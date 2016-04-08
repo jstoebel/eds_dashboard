@@ -3,7 +3,7 @@ class Issue < ActiveRecord::Base
 	belongs_to :student, {foreign_key: 'students_Bnum'}
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
 
-	scope :sorted, lambda {order(:Open => :desc, :CreateDate => :desc)}
+	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
 
     BNUM_REGEX = /\AB00\d{6}\Z/i
     validates :students_Bnum,

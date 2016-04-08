@@ -12,7 +12,7 @@ class IssuesControllerTest < ActionController::TestCase
       get :new, :student_id => student.AltID
       assert_response :success
       assert assigns(:issue).new_record?
-      py_assert assigns(:student), student
+      assert_equal assigns(:student), student
     end
   end
 
@@ -21,8 +21,8 @@ class IssuesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
 
-      student = Student.first
-      advisor = TepAdvisor.first
+      stu = Student.first
+      advisor = User.find(session[:user]).tep_advisor
 
       create_params ={
         :Name => "Test name",
@@ -30,27 +30,28 @@ class IssuesControllerTest < ActionController::TestCase
       }
 
       expected_issue = Issue.create({
-        :CreateDate => Date.today,
-        :students_Bnum => student.Bnum,
+        :students_Bnum => stu.Bnum,
         :Name => create_params[:Name],
         :Description => create_params[:Description],
         :Open => true,
         :tep_advisors_AdvisorBnum => advisor.AdvisorBnum
         })
 
-      post :create, {:student_id => student.AltID, :issue => create_params}
+      post :create, {:student_id => stu.AltID, :issue => create_params}
 
       #we expect that the two records will be the same except for id
-      expected_attr = expected_issue.attributes.delete(:id)
-      actual_attr = assigns(:issue).attributes.delete(:id)
+      expected_attr = expected_issue.attributes
+      actual_attr = assigns(:issue).attributes
       
-      py_assert expected_attr, actual_attr
+      [expected_attr, actual_attr].map { |i| i.delete("IssueID")}
+
+      assert_equal expected_attr.inspect, actual_attr.inspect
 
       assert assigns(:issue).present?, assigns(:issue) == nil
       assert assigns(:issue).valid?, assigns(:issue).errors.full_messages
 
-      py_assert flash[:notice], "New issue opened for: #{ApplicationController.helpers.name_details(student)}"
-      assert_redirected_to student_issues_path(student.AltID)
+      assert_equal flash[:notice], "New issue opened for: #{ApplicationController.helpers.name_details(stu)}"
+      assert_redirected_to student_issues_path(stu.AltID)
     end
   end
 
@@ -67,7 +68,6 @@ class IssuesControllerTest < ActionController::TestCase
     }
 
     expected_issue = Issue.create({
-      :CreateDate => Date.today,
       :students_Bnum => student.Bnum,
       :Name => create_params[:Name],
       :Description => create_params[:Description],

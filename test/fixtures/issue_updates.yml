@@ -12,7 +12,6 @@
 
 <% 2.times do |i| %>
 <%= "issue_update#{i}:" %>
-  CreateDate: <%= Date.today + i %>
   UpdateName: Update1
   Description: Update1 Description
   issue: issue1

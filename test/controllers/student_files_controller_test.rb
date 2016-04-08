@@ -49,7 +49,10 @@ class StudentFilesControllerTest < ActionController::TestCase
       assert_equal "File successfully uploaded.", flash[:notice]
 
       #are the records the same except for their id?
-      assert_equal expected_stu_file.attributes.delete(:id), assigns(:file).attributes.delete(:id)
+      expected_attrs = expected_stu_file.attributes
+      actual_attrs = assigns(:file).attributes
+      [expected_attrs, actual_attrs].map { |i| i.delete("id")}
+      assert_equal expected_attrs.inspect, actual_attrs.inspect
     end
 
   end
