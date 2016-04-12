@@ -56,6 +56,7 @@ group :development do
     gem 'capistrano-bundler' 
     gem 'capistrano3-puma' 
     gem  'capistrano-ext'
+    gem 'rails-erd'
 end
 
 gem "factory_girl_rails", "~> 4.0"
