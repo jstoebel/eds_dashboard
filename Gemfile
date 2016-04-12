@@ -58,6 +58,8 @@ group :development do
     gem  'capistrano-ext'
 end
 
+gem "factory_girl_rails", "~> 4.0"
+
 gem 'puma'
 gem 'phony_rails'
 # Use debugger
