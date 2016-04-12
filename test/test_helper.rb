@@ -4,14 +4,7 @@ require 'rails/test_help'
 #require 'minitest/fail_fast'
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  
-  Rake::Task["db:fixtures:load"].invoke
-  fixtures :all
-
-  self.set_fixture_class adm_tep: AdmTep,
-							banner_terms: BannerTerm
-  # Add more helper methods to be used by all tests here...
+  include FactoryGirl::Syntax::Methods  
 
   # Rails.application.load_seed   #load seed data
 
