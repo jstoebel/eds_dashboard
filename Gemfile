@@ -60,7 +60,7 @@ group :development do
 end
 
 gem "factory_girl_rails", "~> 4.0"
-
+gem 'faker', '~> 1.6', '>= 1.6.3'
 gem 'puma'
 gem 'phony_rails'
 # Use debugger
