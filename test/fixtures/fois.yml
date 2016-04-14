@@ -9,3 +9,10 @@
 #
 #
 #  column: value
+
+one:
+  student: base
+  date_completing: <%= Date.today %>
+  new_form: true
+  seek_cert: true
+  program: Program_1
