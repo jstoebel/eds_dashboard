@@ -51,7 +51,7 @@ class StudentFilesControllerTest < ActionController::TestCase
       #are the records the same except for their id?
       expected_attrs = expected_stu_file.attributes
       actual_attrs = assigns(:file).attributes
-      [expected_attrs, actual_attrs].map { |i| i.delete("id")}
+      [expected_attrs, actual_attrs].map { |i| i.except!("id", "doc_updated_at")}
       assert_equal expected_attrs.inspect, actual_attrs.inspect
     end
 
