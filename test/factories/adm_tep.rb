@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :adm_tep do
     sequence(:id) { |i| i }
-    association :student, factory: :student
-    Program_ProgCode Program.first.id
-    BannerTerm_BannerTerm BannerTerm.current_term.id
+    association :student, factory: :prospective
+    # need to provide Program_ProgCode
+    # need to provide BannerTerm_BannerTerm
     Attempt 1
     TEPAdmit true
     TEPAdmitDate Date.today

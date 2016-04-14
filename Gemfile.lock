@@ -73,6 +73,7 @@ GEM
     coffee-script-source (1.9.1.1)
     composite_primary_keys (7.0.15)
       activerecord (~> 4.1.7)
+    database_cleaner (1.5.1)
     db_fixtures_dump (0.1.1)
     erubis (2.7.0)
     execjs (2.5.2)
@@ -202,6 +203,7 @@ DEPENDENCIES
   capistrano3-puma
   coffee-rails (~> 4.0.0)
   composite_primary_keys (= 7.0.15)
+  database_cleaner (~> 1.5, >= 1.5.1)
   db_fixtures_dump
   factory_girl_rails (~> 4.0)
   faker (~> 1.6, >= 1.6.3)
