@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407191127) do
+ActiveRecord::Schema.define(version: 20160414200734) do
 
   create_table "adm_st", force: true do |t|
     t.string   "Student_Bnum",          limit: 9,  null: false
@@ -141,15 +141,17 @@ ActiveRecord::Schema.define(version: 20160407191127) do
     t.string "ExitDiscrip", limit: 45, null: false
   end
 
-  create_table "forms_of_intention", primary_key: "FormID", force: true do |t|
-    t.string  "Student_Bnum",   limit: 9,  null: false
-    t.string  "DateCompleting", limit: 45, null: false
-    t.boolean "NewForm"
-    t.boolean "SeekCert"
-    t.string  "CertArea",       limit: 45
+  create_table "forms_of_intention", force: true do |t|
+    t.string   "student_id"
+    t.datetime "date_completing"
+    t.boolean  "new_form"
+    t.boolean  "seek_cert"
+    t.string   "program_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "forms_of_intention", ["Student_Bnum"], name: "fk_FormofIntention_Student1_idx", using: :btree
+  add_index "forms_of_intention", ["student_id"], name: "forms_of_intention_student_id_fk", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
     t.string   "UpdateName",               limit: 100, null: false
@@ -372,7 +374,7 @@ ActiveRecord::Schema.define(version: 20160407191127) do
 
   add_foreign_key "employment", "students", name: "fk_Employment_Student", column: "Student_Bnum", primary_key: "Bnum"
 
-  add_foreign_key "forms_of_intention", "students", name: "fk_FormofIntention_Student", column: "Student_Bnum", primary_key: "Bnum"
+  add_foreign_key "forms_of_intention", "students", name: "forms_of_intention_student_id_fk", primary_key: "Bnum"
 
   add_foreign_key "issue_updates", "issues", name: "fk_IssueUpdates_Issues", column: "Issues_IssueID", primary_key: "IssueID"
   add_foreign_key "issue_updates", "tep_advisors", name: "fk_IssueUpdates_tep_advisors", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
