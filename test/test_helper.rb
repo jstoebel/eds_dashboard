@@ -4,7 +4,11 @@ require 'rails/test_help'
 #require 'minitest/fail_fast'
 
 class ActiveSupport::TestCase
-  include FactoryGirl::Syntax::Methods  
+  Rake::Task["db:fixtures:load"].invoke
+  fixtures :all
+
+  self.set_fixture_class adm_tep: AdmTep,
+              banner_terms: BannerTerm 
 
   # Rails.application.load_seed   #load seed data
 
