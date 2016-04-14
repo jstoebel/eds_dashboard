@@ -18,6 +18,8 @@ class Student < ActiveRecord::Base
 	has_many :tep_advisors, {:foreign_key => 'Student_Bnum', :through => :advisor_assignments}
 
 	has_many :transcripts, {:foreign_key => 'Student_Bnum'}
+	has_many :foi
+
 
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}
@@ -53,6 +55,42 @@ class Student < ActiveRecord::Base
 	   	end
 
 	   	return true		#failed to find a required test student hasn't passed.
+	end
+
+	def prog_status
+		#Program Statuses
+		# Prospective
+		# 	A student who has registered for EDS150 and has not indicated they WON'T apply to the TEP.
+		# 	No admit found in TEP
+		# 	FOI does not incidate that the student IS NOT seeking certification 
+
+		# Not applying:
+		# 	A student who has indicated they are not interested in applying to the TEP.
+		# 	FOI indicates they are not interested in certification
+
+		# Candidate
+		# 	A student who has applied to the TEP, was admitted and is still persuing certification.
+		# 	Admited in adm_tep
+		# 	no exit
+
+
+		# Dropped
+		# 	A student who has left the TEP after being admited for any reason other than program completion
+		# 	Admited in adm_tep
+		# 	all adm_tep are closed
+		#   all exit reasons something other than program completion 
+
+		# Completer
+		# 	A student who has successfully completed the TEP.
+		# 	Admited in adm_tep
+		# 	all adm_tep are closed
+		#   atleast one exit is for reason program completion
+
+		
+
+
+
+
 	end
 
 end
