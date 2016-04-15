@@ -1,0 +1,23 @@
+<% majors = ["Art",
+"Biology",
+"Chemistry",
+"Elementary (P-5)",
+"Engineering and Technology",
+"English (8-12)",
+"Math (5-9)",
+"Math (8-12)",
+"Music-Instrumental",
+"Music-Vocal",
+"PE",
+"PE/Health",
+"Physics",
+"Science (5-9)",
+"Social Studies (8-12)",
+"Undecided"]%>
+
+<% majors.each_with_index do |val, index| %>
+<%= "major_#{index}:" %>
+  name: <%= val %>
+
+<% end %>
+

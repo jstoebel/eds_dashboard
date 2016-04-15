@@ -31,6 +31,13 @@ candidate: &candidate
   Classification: Senior
   AltID: 5
 
+# NOT SEEKING CERT
+
+not_seeking:
+  <<: *base
+  FirstName: Not Seeking
+  LastName: Certifcation
+  AltID: 6
 
 ##GRADUATES
 #graduate but not exited

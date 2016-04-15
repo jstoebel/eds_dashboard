@@ -10,9 +10,26 @@
 #
 #  column: value
 
+
+#one prospective student is seeking cert
+
+
+#another prospective student indicated seeking cert but changed their mind
+#to eds_only
 one:
   student: base
-  date_completing: <%= Date.today %>
-  new_form: true
+  date_completing: <%= DateTime.now %>
+  major: major_1
   seek_cert: true
-  program: Program_1
+
+two:
+  student: not_seeking
+  date_completing: <%= DateTime.now %>
+  major: major_1
+  seek_cert: true
+
+three:
+  student: not_seeking
+  date_completing: <%= DateTime.now %>
+  seek_cert: false
+  eds_only: true
