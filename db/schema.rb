@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20160414200734) do
 
   create_table "adm_st", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,  null: false
+    t.string   "Student_Bnum",          limit: 45, null: false
     t.integer  "BannerTerm_BannerTerm"
     t.integer  "Attempt",                          null: false
     t.float    "OverallGPA",            limit: 24
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   add_index "adm_st", ["student_file_id"], name: "adm_st_student_file_id_fk", using: :btree
 
   create_table "adm_tep", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,  null: false
+    t.string   "Student_Bnum",          limit: 45, null: false
     t.string   "Program_ProgCode",      limit: 45, null: false
     t.integer  "BannerTerm_BannerTerm",            null: false
     t.integer  "Attempt",                          null: false
@@ -57,15 +57,15 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   add_index "adm_tep", ["student_file_id"], name: "adm_tep_student_file_id_fk", using: :btree
 
   create_table "advisor_assignments", id: false, force: true do |t|
-    t.string "Student_Bnum",             limit: 9, null: false
-    t.string "tep_advisors_AdvisorBnum", limit: 9, null: false
+    t.string "Student_Bnum",             limit: 45, null: false
+    t.string "tep_advisors_AdvisorBnum", limit: 45, null: false
   end
 
   add_index "advisor_assignments", ["Student_Bnum"], name: "fk_students_has_tep_advisors_students1_idx", using: :btree
   add_index "advisor_assignments", ["tep_advisors_AdvisorBnum"], name: "fk_students_has_tep_advisors_tep_advisors1_idx", using: :btree
 
   create_table "alumni_info", primary_key: "AlumniID", force: true do |t|
-    t.string   "Student_Bnum", limit: 9,  null: false
+    t.string   "Student_Bnum", limit: 45, null: false
     t.datetime "Date"
     t.string   "FirstName",    limit: 45
     t.string   "LastName",     limit: 45
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   end
 
   create_table "clinical_assignments", force: true do |t|
-    t.string  "Bnum",                limit: 9,  null: false
+    t.string  "Bnum",                limit: 45, null: false
     t.integer "clinical_teacher_id",            null: false
     t.integer "Term",                           null: false
     t.string  "CourseID",            limit: 45, null: false
@@ -142,15 +142,17 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   end
 
   create_table "forms_of_intention", force: true do |t|
-    t.string   "student_id"
+    t.string   "student_id",      null: false
     t.datetime "date_completing"
     t.boolean  "new_form"
+    t.integer  "major_id"
     t.boolean  "seek_cert"
-    t.string   "program_id"
+    t.boolean  "eds_only"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "forms_of_intention", ["major_id"], name: "forms_of_intention_major_id_fk", using: :btree
   add_index "forms_of_intention", ["student_id"], name: "forms_of_intention_student_id_fk", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
@@ -166,7 +168,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   add_index "issue_updates", ["tep_advisors_AdvisorBnum"], name: "fk_IssueUpdates_tep_advisors1_idx", using: :btree
 
   create_table "issues", primary_key: "IssueID", force: true do |t|
-    t.string   "students_Bnum",            limit: 9,                  null: false
+    t.string   "students_Bnum",            limit: 45,                 null: false
     t.string   "Name",                     limit: 100,                null: false
     t.text     "Description",                                         null: false
     t.boolean  "Open",                                 default: true, null: false
@@ -178,8 +180,12 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   add_index "issues", ["students_Bnum"], name: "fk_Issues_students1_idx", using: :btree
   add_index "issues", ["tep_advisors_AdvisorBnum"], name: "fk_Issues_tep_advisors1_idx", using: :btree
 
+  create_table "majors", force: true do |t|
+    t.string "name"
+  end
+
   create_table "praxis_prep", primary_key: "TestID", force: true do |t|
-    t.string  "Student_Bnum",        limit: 9,          null: false
+    t.string  "Student_Bnum",        limit: 45,         null: false
     t.string  "PraxisTest_TestCode", limit: 45,         null: false
     t.string  "Sub1Name",            limit: 45
     t.float   "Sub1Score",           limit: 24
@@ -253,7 +259,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   end
 
   create_table "prog_exits", id: false, force: true do |t|
-    t.string   "Student_Bnum",      limit: 9,  null: false
+    t.string   "Student_Bnum",      limit: 45, null: false
     t.string   "Program_ProgCode",  limit: 45, null: false
     t.string   "ExitCode_ExitCode", limit: 45, null: false
     t.integer  "ExitTerm",                     null: false
@@ -283,7 +289,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   add_index "roles", ["RoleName"], name: "RoleName_UNIQUE", unique: true, using: :btree
 
   create_table "student_files", force: true do |t|
-    t.string   "Student_Bnum",     limit: 9,                  null: false
+    t.string   "Student_Bnum",     limit: 45,                 null: false
     t.boolean  "active",                       default: true
     t.string   "doc_file_name",    limit: 100
     t.string   "doc_content_type", limit: 100
@@ -326,7 +332,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
 
   create_table "transcript", id: false, force: true do |t|
     t.string  "crn",               limit: 45,  null: false
-    t.string  "Student_Bnum",      limit: 9,   null: false
+    t.string  "Student_Bnum",      limit: 45,  null: false
     t.string  "course_code",       limit: 45,  null: false
     t.string  "course_name",       limit: 100
     t.integer "term_taken",                    null: false
@@ -374,6 +380,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
 
   add_foreign_key "employment", "students", name: "fk_Employment_Student", column: "Student_Bnum", primary_key: "Bnum"
 
+  add_foreign_key "forms_of_intention", "majors", name: "forms_of_intention_major_id_fk"
   add_foreign_key "forms_of_intention", "students", name: "forms_of_intention_student_id_fk", primary_key: "Bnum"
 
   add_foreign_key "issue_updates", "issues", name: "fk_IssueUpdates_Issues", column: "Issues_IssueID", primary_key: "IssueID"
