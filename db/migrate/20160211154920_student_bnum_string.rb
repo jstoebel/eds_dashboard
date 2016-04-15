@@ -3,7 +3,7 @@ class StudentBnumString < ActiveRecord::Migration
 
     reversible do |dir|
       change_table :students do |t|
-        dir.up { t.change :Bnum, :string, :limit => 9 }
+        dir.up { t.change :Bnum, :string, :limit => 45 }
         dir.down { t.change :Bnum, :integer }
       end
     end
