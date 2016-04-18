@@ -42,7 +42,7 @@ class RefactorPraxisResults < ActiveRecord::Migration
 
     drop_table :praxis_results
     create_table "praxis_results", primary_key: "TestID", force: true do |t|
-      t.string   "Bnum",      limit: 45,  null: false
+      t.string   "Bnum",      limit: 9,  null: false
       t.string   "TestCode",  limit: 45, null: false
       t.datetime "TestDate"
       t.datetime "RegDate"

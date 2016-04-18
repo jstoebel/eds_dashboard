@@ -1,7 +1,7 @@
 class First < ActiveRecord::Migration
   def change
   create_table "adm_st", force: true do |t|
-    t.string   "Student_Bnum",          limit: 45,   null: false
+    t.string   "Student_Bnum",          limit: 9,   null: false
     t.integer  "BannerTerm_BannerTerm"
     t.integer  "Attempt",                           null: false
     t.float    "OverallGPA",            limit: 24
@@ -24,7 +24,7 @@ class First < ActiveRecord::Migration
   add_index "adm_st", ["Student_Bnum"], name: "fk_AdmST_Student1_idx", using: :btree
 
   create_table "adm_tep", force: true do |t|
-    t.string   "Student_Bnum",          limit: 45,   null: false
+    t.string   "Student_Bnum",          limit: 9,   null: false
     t.string   "Program_ProgCode",      limit: 45,  null: false
     t.integer  "BannerTerm_BannerTerm",             null: false
     t.integer  "Attempt",                           null: false
@@ -46,15 +46,15 @@ class First < ActiveRecord::Migration
   add_index "adm_tep", ["Student_Bnum"], name: "fk_AdmTEP_Student1_idx", using: :btree
 
   create_table "advisor_assignments", id: false, force: true do |t|
-    t.string "students_Bnum",            limit: 45, null: false
-    t.string "tep_advisors_AdvisorBnum", limit: 45, null: false
+    t.string "students_Bnum",            limit: 9, null: false
+    t.string "tep_advisors_AdvisorBnum", limit: 9, null: false
   end
 
   add_index "advisor_assignments", ["students_Bnum"], name: "fk_students_has_tep_advisors_students1_idx", using: :btree
   add_index "advisor_assignments", ["tep_advisors_AdvisorBnum"], name: "fk_students_has_tep_advisors_tep_advisors1_idx", using: :btree
 
   create_table "alumni_info", primary_key: "AlumniID", force: true do |t|
-    t.string    "Student_Bnum", limit: 45,  null: false
+    t.string    "Student_Bnum", limit: 9,  null: false
     t.timestamp "Date"
     t.string    "FirstName",    limit: 45
     t.string    "LastName",     limit: 45
@@ -80,7 +80,7 @@ class First < ActiveRecord::Migration
   end
 
   create_table "clinical_assignments", force: true do |t|
-    t.string  "Bnum",                limit: 45,  null: false
+    t.string  "Bnum",                limit: 9,  null: false
     t.integer "clinical_teacher_id",            null: false
     t.integer "Term",                           null: false
     t.string  "CourseID",            limit: 45, null: false
@@ -129,7 +129,7 @@ class First < ActiveRecord::Migration
   end
 
   create_table "forms_of_intention", primary_key: "FormID", force: true do |t|
-    t.string  "Student_Bnum",   limit: 45,  null: false
+    t.string  "Student_Bnum",   limit: 9,  null: false
     t.string  "DateCompleting", limit: 45, null: false
     t.boolean "NewForm"
     t.boolean "SeekCert"
@@ -151,7 +151,7 @@ class First < ActiveRecord::Migration
 
   create_table "issues", primary_key: "IssueID", force: true do |t|
     t.timestamp "CreateDate",                                          null: false
-    t.string    "students_Bnum",            limit: 45,                  null: false
+    t.string    "students_Bnum",            limit: 9,                  null: false
     t.string    "Name",                     limit: 100,                null: false
     t.text      "Description",                                         null: false
     t.boolean   "Open",                                 default: true, null: false
@@ -162,7 +162,7 @@ class First < ActiveRecord::Migration
   add_index "issues", ["tep_advisors_AdvisorBnum"], name: "fk_Issues_tep_advisors1_idx", using: :btree
 
   create_table "praxis_prep", primary_key: "TestID", force: true do |t|
-    t.string  "Student_Bnum",        limit: 45,          null: false
+    t.string  "Student_Bnum",        limit: 9,          null: false
     t.string  "PraxisTest_TestCode", limit: 45,         null: false
     t.string  "Sub1Name",            limit: 45
     t.float   "Sub1Score",           limit: 24
@@ -188,7 +188,7 @@ class First < ActiveRecord::Migration
   add_index "praxis_prep", ["Student_Bnum"], name: "fk_PraxisPrep_Student1_idx", using: :btree
 
   create_table "praxis_results", primary_key: "TestID", force: true do |t|
-    t.string   "Bnum",      limit: 45,  null: false
+    t.string   "Bnum",      limit: 9,  null: false
     t.string   "TestCode",  limit: 45, null: false
     t.datetime "TestDate"
     t.datetime "RegDate"
@@ -239,7 +239,7 @@ class First < ActiveRecord::Migration
 
   create_table "prog_exits", id: false, force: true do |t|
     t.integer  "id",                           null: false
-    t.string   "Student_Bnum",      limit: 45,  null: false
+    t.string   "Student_Bnum",      limit: 9,  null: false
     t.string   "Program_ProgCode",  limit: 45, null: false
     t.string   "ExitCode_ExitCode", limit: 45, null: false
     t.integer  "ExitTerm",                     null: false
@@ -268,7 +268,7 @@ class First < ActiveRecord::Migration
   add_index "roles", ["RoleName"], name: "RoleName_UNIQUE", unique: true, using: :btree
 
   create_table "student_files", force: true do |t|
-    t.string   "Student_Bnum",     limit: 45,                  null: false
+    t.string   "Student_Bnum",     limit: 9,                  null: false
     t.boolean  "active",                       default: true
     t.string   "doc_file_name",    limit: 100
     t.string   "doc_content_type", limit: 100
@@ -310,7 +310,7 @@ class First < ActiveRecord::Migration
   add_index "tep_advisors", ["username"], name: "fk_tep_advisors_users1_idx", using: :btree
 
   create_table "transcript", primary_key: "crn", force: true do |t|
-    t.string  "students_Bnum",     limit: 45,   null: false
+    t.string  "students_Bnum",     limit: 9,   null: false
     t.string  "course_code",       limit: 45,  null: false
     t.string  "course_name",       limit: 100
     t.integer "term_taken",                    null: false
