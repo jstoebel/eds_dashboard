@@ -57,6 +57,12 @@ class Student < ActiveRecord::Base
 	   	return true		#failed to find a required test student hasn't passed.
 	end
 
+	# AltID was removed. The arbitrary unique identifier is now id (its also the pk).
+	# This method prevents us from having to refactor
+	def AltID
+		return self.id
+	end
+
 	def prog_status
 		#Program Statuses
 		# Prospective
