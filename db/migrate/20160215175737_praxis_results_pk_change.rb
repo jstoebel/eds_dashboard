@@ -3,7 +3,7 @@ class PraxisResultsPkChange < ActiveRecord::Migration
 
     # #add Bnum, TestCode and TestDate to praxis_subtest_results
     # change_table :praxis_subtest_results do |t|
-    #   t.string :praxis_results_Student_Bnum, limit: 45
+    #   t.string :praxis_results_Student_Bnum, limit: 9
     #   t.string :praxis_results_TestCode, limit: 45
     #   t.datetime :praxis_results_TestDate
     # end
