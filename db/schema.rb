@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414200734) do
+ActiveRecord::Schema.define(version: 20160418201041) do
 
   create_table "adm_st", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,  null: false
+    t.integer  "Student_Bnum",                     null: false
     t.integer  "BannerTerm_BannerTerm"
     t.integer  "Attempt",                          null: false
     t.float    "OverallGPA",            limit: 24
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   add_index "adm_st", ["student_file_id"], name: "adm_st_student_file_id_fk", using: :btree
 
   create_table "adm_tep", force: true do |t|
-    t.string   "Student_Bnum",          limit: 9,  null: false
+    t.integer  "Student_Bnum",                     null: false
     t.string   "Program_ProgCode",      limit: 45, null: false
     t.integer  "BannerTerm_BannerTerm",            null: false
     t.integer  "Attempt",                          null: false
@@ -60,6 +60,9 @@ ActiveRecord::Schema.define(version: 20160414200734) do
     t.string "Student_Bnum",             limit: 9, null: false
     t.string "tep_advisors_AdvisorBnum", limit: 9, null: false
   end
+
+  add_index "advisor_assignments", ["Student_Bnum"], name: "fk_students_has_tep_advisors_students1_idx", using: :btree
+  add_index "advisor_assignments", ["tep_advisors_AdvisorBnum"], name: "fk_students_has_tep_advisors_tep_advisors1_idx", using: :btree
 
   create_table "alumni_info", primary_key: "AlumniID", force: true do |t|
     t.string   "Student_Bnum", limit: 9,  null: false
@@ -183,7 +186,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
 
   create_table "praxis_prep", primary_key: "TestID", force: true do |t|
     t.string  "Student_Bnum",        limit: 9,          null: false
-    t.string  "PraxisTest_TestCode",                    null: false
+    t.string  "PraxisTest_TestCode", limit: 45,         null: false
     t.string  "Sub1Name",            limit: 45
     t.float   "Sub1Score",           limit: 24
     t.string  "Sub2Name",            limit: 45
@@ -234,8 +237,6 @@ ActiveRecord::Schema.define(version: 20160414200734) do
     t.integer "avg_low"
   end
 
-  add_index "praxis_subtest_results", ["praxis_result_id"], name: "praxis_subtest_results_praxis_result_id_fk", using: :btree
-
   create_table "praxis_tests", primary_key: "TestCode", force: true do |t|
     t.string  "TestName",         limit: 45
     t.integer "CutScore"
@@ -252,7 +253,6 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   end
 
   add_index "praxis_tests", ["Program_ProgCode"], name: "fk_PraxisTest_Program1_idx", using: :btree
-  add_index "praxis_tests", ["TestCode"], name: "TestCode_UNIQUE", unique: true, using: :btree
 
   create_table "praxis_updates", primary_key: "ReportDate", force: true do |t|
     t.datetime "UploadDate", null: false
@@ -261,7 +261,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   create_table "prog_exits", id: false, force: true do |t|
     t.string   "Student_Bnum",      limit: 9,  null: false
     t.string   "Program_ProgCode",  limit: 45, null: false
-    t.string   "ExitCode_ExitCode",            null: false
+    t.string   "ExitCode_ExitCode", limit: 45, null: false
     t.integer  "ExitTerm",                     null: false
     t.datetime "ExitDate"
     t.float    "GPA",               limit: 24
@@ -299,7 +299,8 @@ ActiveRecord::Schema.define(version: 20160414200734) do
 
   add_index "student_files", ["Student_Bnum"], name: "fk_student_files_students1_idx", using: :btree
 
-  create_table "students", primary_key: "Bnum", force: true do |t|
+  create_table "students", force: true do |t|
+    t.string  "Bnum",             limit: 9,                           null: false
     t.string  "FirstName",        limit: 45,                          null: false
     t.string  "PreferredFirst",   limit: 45
     t.string  "MiddleName",       limit: 45
@@ -317,10 +318,9 @@ ActiveRecord::Schema.define(version: 20160414200734) do
     t.string  "CurrentMinors",    limit: 45
     t.string  "Email",            limit: 100
     t.string  "CPO",              limit: 45
-    t.integer "AltID",                                                null: false
   end
 
-  add_index "students", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
+  add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree
 
   create_table "tep_advisors", primary_key: "AdvisorBnum", force: true do |t|
     t.string "Salutation", limit: 45, null: false
@@ -361,11 +361,15 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   Foreigner.load
   add_foreign_key "adm_st", "banner_terms", name: "fk_AdmST_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
   add_foreign_key "adm_st", "student_files", name: "adm_st_student_file_id_fk"
-  add_foreign_key "adm_st", "students", name: "fk_AdmST_Student", column: "Student_Bnum", primary_key: "Bnum"
+  add_foreign_key "adm_st", "students", name: "adm_st_Student_Bnum_fk", column: "Student_Bnum"
 
   add_foreign_key "adm_tep", "banner_terms", name: "fk_AdmTEP_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
   add_foreign_key "adm_tep", "student_files", name: "adm_tep_student_file_id_fk"
-  add_foreign_key "adm_tep", "students", name: "fk_AdmTEP_Student", column: "Student_Bnum", primary_key: "Bnum"
+  add_foreign_key "adm_tep", "students", name: "adm_tep_Student_Bnum_fk", column: "Student_Bnum"
+
+  add_foreign_key "advisor_assignments", "students", name: "fk_students_has_tep_advisors_students", column: "Student_Bnum", primary_key: "Bnum"
+  add_foreign_key "advisor_assignments", "tep_advisors", name: "advisor_assignments_tep_advisors_AdvisorBnum_fk", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
+  add_foreign_key "advisor_assignments", "tep_advisors", name: "fk_students_has_tep_advisors_tep_advisors", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
 
   add_foreign_key "alumni_info", "students", name: "fk_AlumniInfo_Student", column: "Student_Bnum", primary_key: "Bnum"
 
@@ -388,7 +392,7 @@ ActiveRecord::Schema.define(version: 20160414200734) do
   add_foreign_key "praxis_prep", "praxis_tests", name: "fk_PraxisPrep_PraxisTest", column: "PraxisTest_TestCode", primary_key: "TestCode"
   add_foreign_key "praxis_prep", "students", name: "fk_PraxisPrep_Student", column: "Student_Bnum", primary_key: "Bnum"
 
-  add_foreign_key "praxis_results", "praxis_tests", name: "fk_PraxisResult_PraxisTest", primary_key: "TestCode"
+  add_foreign_key "praxis_results", "praxis_tests", name: "fk_praxis_results_praxis_tests", primary_key: "TestCode", options: "ON DELETE NO ACTION ON UPDATE NO ACTION"
   add_foreign_key "praxis_results", "students", name: "fk_praxis_results_students", primary_key: "Bnum", options: "ON DELETE NO ACTION ON UPDATE NO ACTION"
 
   add_foreign_key "praxis_tests", "programs", name: "fk_PraxisTest_Program", column: "Program_ProgCode", primary_key: "ProgCode"
