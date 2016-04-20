@@ -19,6 +19,9 @@ class RefactorTepAdvisor < ActiveRecord::Migration
     add_foreign_key :advisor_assignments, :tep_advisors
     add_foreign_key :advisor_assignments, :students
 
+    add_index :advisor_assignments, [:student_id, :tep_advisor_id],
+        unique: true
+
   end
 
   def down
