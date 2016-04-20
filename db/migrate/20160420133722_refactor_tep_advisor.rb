@@ -1,48 +1,41 @@
 class RefactorTepAdvisor < ActiveRecord::Migration
   def up
 
-
-    #remove tep_advisors pk
     execute %q(ALTER TABLE `tep_advisors` 
-    DROP PRIMARY KEY;
-    )
+    DROP PRIMARY KEY;)
 
-    change_table :tep_advisors do |t|
-        t.integer :id, :primary_key, :first => true
-        t.remove :AdvisorBnum
-    end
+    add_column :tep_advisors, :id, :primary_key, :first => true
 
-    #remove fks pointing to tep_advisors
-    #add change data types
-    # add new fks
+    remove_foreign_key :advisor_assignments, :name=> "fk_students_has_tep_advisors_tep_advisors"
+    remove_foreign_key :advisor_assignments, :name=> "fk_students_has_tep_advisors_students"
 
-    #advisor_assignments
-    remove_foreign_key :advisor_assignments, :name => "advisor_assignments_tep_advisors_AdvisorBnum_fk"
-    
-    execute %q(ALTER TABLE `advisor_assignments` 
-    DROP PRIMARY KEY;
-    )
+    drop_table :advisor_assignments
 
-    change_table  :advisor_assignments do |t|
-        t.remove  :tep_advisors_AdvisorBnum
-        t.integer :tep_advisor_id
+    create_table :advisor_assignments do |t|
+        t.integer :student_id, null: false
+        t.integer :tep_advisor_id, null: false
     end
 
     add_foreign_key :advisor_assignments, :tep_advisors
-
+    add_foreign_key :advisor_assignments, :students
 
   end
 
   def down
+    drop_table :advisor_assignments
+
+    create_table "advisor_assignments", id: false, force: true do |t|
+        t.string "students_Bnum",            limit: 9, null: false
+        t.string "tep_advisors_AdvisorBnum", limit: 9, null: false
+    end
+
+    add_foreign_key "advisor_assignments", "tep_advisors", name: "fk_students_has_tep_advisors_students", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
+    add_foreign_key "advisor_assignments", "tep_advisors", name: "fk_students_has_tep_advisors_tep_advisors",  column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
+    
+    remove_column :tep_advisors, :id
 
     execute %q(ALTER TABLE `tep_advisors` 
-    DROP PRIMARY KEY;
-    )
-
-    change_table :tep_advisors do |t|
-        t.remove :id
-        t.string :AdvisorBnum, :primary_key, :first => true
-    end
+    ADD PRIMARY KEY (`AdvisorBnum`);)
 
   end
 end
