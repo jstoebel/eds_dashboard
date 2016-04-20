@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160420133722) do
+ActiveRecord::Schema.define(version: 20160420181720) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20160420133722) do
     t.integer "tep_advisor_id", null: false
   end
 
-  add_index "advisor_assignments", ["student_id"], name: "advisor_assignments_student_id_fk", using: :btree
+  add_index "advisor_assignments", ["student_id", "tep_advisor_id"], name: "index_advisor_assignments_on_student_id_and_tep_advisor_id", unique: true, using: :btree
   add_index "advisor_assignments", ["tep_advisor_id"], name: "advisor_assignments_tep_advisor_id_fk", using: :btree
 
   create_table "alumni_info", primary_key: "AlumniID", force: true do |t|
@@ -137,7 +137,8 @@ ActiveRecord::Schema.define(version: 20160420133722) do
 
   add_index "employment", ["student_id"], name: "employment_student_id_fk", using: :btree
 
-  create_table "exit_codes", primary_key: "ExitCode", force: true do |t|
+  create_table "exit_codes", force: true do |t|
+    t.string "ExitCode",    limit: 5,  null: false
     t.string "ExitDiscrip", limit: 45, null: false
   end
 
@@ -186,7 +187,7 @@ ActiveRecord::Schema.define(version: 20160420133722) do
 
   create_table "praxis_prep", primary_key: "TestID", force: true do |t|
     t.integer "student_id",                             null: false
-    t.string  "PraxisTest_TestCode", limit: 45,         null: false
+    t.integer "PraxisTest_TestCode",                    null: false
     t.string  "Sub1Name",            limit: 45
     t.float   "Sub1Score",           limit: 24
     t.string  "Sub2Name",            limit: 45
@@ -212,7 +213,7 @@ ActiveRecord::Schema.define(version: 20160420133722) do
 
   create_table "praxis_results", force: true do |t|
     t.integer  "student_id"
-    t.string   "praxis_test_id"
+    t.integer  "praxis_test_id"
     t.datetime "test_date"
     t.datetime "reg_date"
     t.string   "paid_by"
@@ -225,6 +226,7 @@ ActiveRecord::Schema.define(version: 20160420133722) do
 
   add_index "praxis_results", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "praxis_results", ["praxis_test_id"], name: "fk_praxis_results_praxis_tests_idx", using: :btree
+  add_index "praxis_results", ["student_id", "praxis_test_id", "test_date"], name: "index_by_stu_test_date", unique: true, using: :btree
   add_index "praxis_results", ["student_id"], name: "fk_praxis_results_students_idx", using: :btree
 
   create_table "praxis_subtest_results", force: true do |t|
@@ -237,7 +239,8 @@ ActiveRecord::Schema.define(version: 20160420133722) do
     t.integer "avg_low"
   end
 
-  create_table "praxis_tests", primary_key: "TestCode", force: true do |t|
+  create_table "praxis_tests", force: true do |t|
+    t.string  "TestCode",         limit: 45,  null: false
     t.string  "TestName",         limit: 45
     t.integer "CutScore"
     t.string  "TestFamily",       limit: 1
@@ -253,6 +256,7 @@ ActiveRecord::Schema.define(version: 20160420133722) do
   end
 
   add_index "praxis_tests", ["Program_ProgCode"], name: "fk_PraxisTest_Program1_idx", using: :btree
+  add_index "praxis_tests", ["TestCode"], name: "TestCode_UNIQUE", unique: true, using: :btree
 
   create_table "praxis_updates", primary_key: "ReportDate", force: true do |t|
     t.datetime "UploadDate", null: false
@@ -260,7 +264,7 @@ ActiveRecord::Schema.define(version: 20160420133722) do
 
   create_table "prog_exits", primary_key: "Program_ProgCode", force: true do |t|
     t.integer  "student_id",                   null: false
-    t.string   "ExitCode_ExitCode", limit: 45, null: false
+    t.integer  "ExitCode_ExitCode",            null: false
     t.integer  "ExitTerm",                     null: false
     t.datetime "ExitDate"
     t.float    "GPA",               limit: 24
@@ -387,15 +391,15 @@ ActiveRecord::Schema.define(version: 20160420133722) do
   add_foreign_key "issues", "students", name: "issues_student_id_fk"
   add_foreign_key "issues", "tep_advisors", name: "fk_Issues_tep_advisors", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
 
-  add_foreign_key "praxis_prep", "praxis_tests", name: "fk_PraxisPrep_PraxisTest", column: "PraxisTest_TestCode", primary_key: "TestCode"
+  add_foreign_key "praxis_prep", "praxis_tests", name: "praxis_prep_PraxisTest_TestCode_fk", column: "PraxisTest_TestCode"
   add_foreign_key "praxis_prep", "students", name: "praxis_prep_student_id_fk"
 
-  add_foreign_key "praxis_results", "praxis_tests", name: "fk_praxis_results_praxis_tests", primary_key: "TestCode", options: "ON DELETE NO ACTION ON UPDATE NO ACTION"
+  add_foreign_key "praxis_results", "praxis_tests", name: "praxis_results_praxis_test_id_fk"
   add_foreign_key "praxis_results", "students", name: "praxis_results_student_id_fk"
 
   add_foreign_key "praxis_tests", "programs", name: "fk_PraxisTest_Program", column: "Program_ProgCode", primary_key: "ProgCode"
 
-  add_foreign_key "prog_exits", "exit_codes", name: "fk_Exit_ExitCode", column: "ExitCode_ExitCode", primary_key: "ExitCode"
+  add_foreign_key "prog_exits", "exit_codes", name: "prog_exits_ExitCode_ExitCode_fk", column: "ExitCode_ExitCode"
   add_foreign_key "prog_exits", "programs", name: "fk_Exit__Program", column: "Program_ProgCode", primary_key: "ProgCode"
   add_foreign_key "prog_exits", "students", name: "prog_exits_student_id_fk"
 
