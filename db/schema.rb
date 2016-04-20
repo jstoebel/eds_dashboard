@@ -56,13 +56,13 @@ ActiveRecord::Schema.define(version: 20160420133722) do
   add_index "adm_tep", ["student_file_id"], name: "adm_tep_student_file_id_fk", using: :btree
   add_index "adm_tep", ["student_id"], name: "adm_tep_student_id_fk", using: :btree
 
-  create_table "advisor_assignments", id: false, force: true do |t|
-    t.string "Student_Bnum",             limit: 9, null: false
-    t.string "tep_advisors_AdvisorBnum", limit: 9, null: false
+  create_table "advisor_assignments", force: true do |t|
+    t.integer "student_id",     null: false
+    t.integer "tep_advisor_id", null: false
   end
 
-  add_index "advisor_assignments", ["Student_Bnum"], name: "fk_students_has_tep_advisors_students1_idx", using: :btree
-  add_index "advisor_assignments", ["tep_advisors_AdvisorBnum"], name: "fk_students_has_tep_advisors_tep_advisors1_idx", using: :btree
+  add_index "advisor_assignments", ["student_id"], name: "advisor_assignments_student_id_fk", using: :btree
+  add_index "advisor_assignments", ["tep_advisor_id"], name: "advisor_assignments_tep_advisor_id_fk", using: :btree
 
   create_table "alumni_info", primary_key: "AlumniID", force: true do |t|
     t.string   "Student_Bnum", limit: 9,  null: false
@@ -321,9 +321,10 @@ ActiveRecord::Schema.define(version: 20160420133722) do
 
   add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree
 
-  create_table "tep_advisors", primary_key: "AdvisorBnum", force: true do |t|
-    t.string "Salutation", limit: 45, null: false
-    t.string "username",   limit: 45, null: false
+  create_table "tep_advisors", force: true do |t|
+    t.string "AdvisorBnum", limit: 9,  null: false
+    t.string "Salutation",  limit: 45, null: false
+    t.string "username",    limit: 45, null: false
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
@@ -365,9 +366,8 @@ ActiveRecord::Schema.define(version: 20160420133722) do
   add_foreign_key "adm_tep", "student_files", name: "adm_tep_student_file_id_fk"
   add_foreign_key "adm_tep", "students", name: "adm_tep_student_id_fk"
 
-  add_foreign_key "advisor_assignments", "students", name: "fk_students_has_tep_advisors_students", column: "Student_Bnum", primary_key: "Bnum"
-  add_foreign_key "advisor_assignments", "tep_advisors", name: "advisor_assignments_tep_advisors_AdvisorBnum_fk", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
-  add_foreign_key "advisor_assignments", "tep_advisors", name: "fk_students_has_tep_advisors_tep_advisors", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
+  add_foreign_key "advisor_assignments", "students", name: "advisor_assignments_student_id_fk"
+  add_foreign_key "advisor_assignments", "tep_advisors", name: "advisor_assignments_tep_advisor_id_fk"
 
   add_foreign_key "alumni_info", "students", name: "fk_AlumniInfo_Student", column: "Student_Bnum", primary_key: "Bnum"
 
