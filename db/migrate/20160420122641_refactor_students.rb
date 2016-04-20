@@ -63,6 +63,8 @@ class RefactorStudents < ActiveRecord::Migration
     remove_foreign_key :praxis_results, :name => "fk_praxis_results_students"
     change_column :praxis_results, :student_id, :integer
     add_foreign_key :praxis_results, :students
+    add_index :praxis_results, [:student_id, :praxis_test_id, :test_date],
+        {unique: true, :name => "index_by_stu_test_date"}
 
     # prog_exits
     remove_foreign_key :prog_exits, :name => "fk_Exit_Student"
