@@ -130,12 +130,15 @@ class RefactorStudents < ActiveRecord::Migration
     execute %q(ALTER TABLE `students` 
     DROP PRIMARY KEY ,
     DROP COLUMN `id` ,
-    ADD PRIMARY KEY (`Bnum`);
+    DROP INDEX `Bnum_UNIQUE` ,
+    ADD PRIMARY KEY (`Bnum`) ,
+    ADD COLUMN `AltID` INT NOT NULL AUTO_INCREMENT AFTER `CPO` ,
+    ADD UNIQUE INDEX `AltID_UNIQUE` (`AltID` ASC);
     )
     
     #add old fks once everything is changed back
     add_foreign_key "clinical_assignments", "students", name: "fk_ClinicalAssignments_Student", column: "Bnum", primary_key: "Bnum"
-    add_foreign_key "praxis_results", "students", name: "fk_PraxisResult_Student", primary_key: "Bnum"
+    add_foreign_key "praxis_results", "students", name: "fk_praxis_results_students", primary_key: "Bnum"
     add_foreign_key "adm_tep", "students", name: "fk_AdmTEP_Student", column: "Student_Bnum", primary_key: "Bnum"
     add_foreign_key "adm_st", "students", name: "fk_AdmST_Student", column: "Student_Bnum", primary_key: "Bnum"
     add_foreign_key "prog_exits", "students", name: "fk_Exit_Student", column: "Student_Bnum", primary_key: "Bnum"
