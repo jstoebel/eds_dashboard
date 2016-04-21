@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 	#associations
 	belongs_to :role, foreign_key: "Roles_idRoles"
 
-  has_one :tep_advisor, {foreign_key: "username" }
+  has_one :tep_advisor
 
 	#scopes
 
