@@ -8,7 +8,7 @@ class IssueUpdatesController < ApplicationController
     @issue = Issue.find(params[:issue_id])
     authorize! :manage, @issue
 
-    @student = Student.find(@issue.students_Bnum)
+    @student = Student.find(@issue.student.id)
     authorize! :read, @student
 
     @update = IssueUpdate.new
@@ -29,7 +29,7 @@ class IssueUpdatesController < ApplicationController
     @update.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum 
     authorize! :manage, @update
 
-    @student = Student.find(@issue.students_Bnum)
+    @student = Student.find(@issue.student.id)
     authorize! :read, @student
 
     #change status of issue
@@ -55,7 +55,7 @@ class IssueUpdatesController < ApplicationController
     @issue = Issue.find(params[:issue_id])
     authorize! :read, @issue
 
-    @student = Student.find(@issue.students_Bnum)
+    @student = Student.find(@issue.student.id)
     authorize! :read, @student
 
     name_details(@student)
