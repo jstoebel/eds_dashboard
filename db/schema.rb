@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421151616) do
+ActiveRecord::Schema.define(version: 20160421162843) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -87,7 +87,10 @@ ActiveRecord::Schema.define(version: 20160421151616) do
     t.integer  "AYStart",              null: false
   end
 
-  create_table "banner_updates", primary_key: "UploadDate", force: true do |t|
+  create_table "banner_updates", force: true do |t|
+    t.datetime "upload_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "clinical_assignments", force: true do |t|
@@ -339,8 +342,9 @@ ActiveRecord::Schema.define(version: 20160421151616) do
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
   add_index "tep_advisors", ["username"], name: "fk_tep_advisors_users1_idx", using: :btree
 
-  create_table "transcript", primary_key: "crn", force: true do |t|
+  create_table "transcript", force: true do |t|
     t.integer "student_id",                    null: false
+    t.string  "crn",               limit: 45,  null: false
     t.string  "course_code",       limit: 45,  null: false
     t.string  "course_name",       limit: 100
     t.integer "term_taken",                    null: false
@@ -354,6 +358,7 @@ ActiveRecord::Schema.define(version: 20160421151616) do
     t.string  "Inst_bnum",         limit: 45
   end
 
+  add_index "transcript", ["crn", "student_id"], name: "index_transcript_on_crn_and_student_id", using: :btree
   add_index "transcript", ["student_id"], name: "transcript_student_id_fk", using: :btree
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
