@@ -39,6 +39,10 @@ class ProgExit < ActiveRecord::Base
 
 	end
 
+	def AltID
+		return self.id
+	end
+
 	private
 
 	def check_basics
