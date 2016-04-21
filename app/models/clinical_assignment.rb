@@ -1,6 +1,6 @@
 class ClinicalAssignment < ActiveRecord::Base
 
-	belongs_to :student, {:foreign_key => 'Bnum'}
+	belongs_to :student
 	belongs_to :clinical_teacher
 	belongs_to :banner_term, {:foreign_key => 'Term'}
 
