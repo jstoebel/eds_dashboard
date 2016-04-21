@@ -1,6 +1,6 @@
 class StudentFile < ActiveRecord::Base
 
-	belongs_to :student, {:foreign_key => 'Student_Bnum'}
+	belongs_to :student
 
 	before_save :clear_name
 

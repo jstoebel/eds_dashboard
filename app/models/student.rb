@@ -3,21 +3,21 @@ class Student < ActiveRecord::Base
 
 	has_many :praxis_results
 	
-	has_many :issues, {:foreign_key => 'students_Bnum'}
-	has_many :issue_updates, {:foreign_key => 'students_Bnum', through: :issues}
+	has_many :issues
+	has_many :issue_updates
 
-	has_many :adm_tep, {:foreign_key => 'Student_Bnum'}
-	has_many :programs, {:foreign_key => 'Student_Bnum', through: :adm_tep}
+	has_many :adm_tep
+	has_many :programs
 
-	has_many :adm_st, {:foreign_key => 'Student_Bnum'}
-	has_many :prog_exits, {:foreign_key => 'Student_Bnum'}
-	has_many :clinical_assignments, {:foreign_key => 'Student_Bnum'}
-	has_many :student_files, {:foreign_key => 'Student_Bnum'}
+	has_many :adm_st
+	has_many :prog_exits
+	has_many :clinical_assignments
+	has_many :student_files
 
-	has_many :advisor_assignments, {:foreign_key => 'Student_Bnum'}
-	has_many :tep_advisors, {:foreign_key => 'Student_Bnum', :through => :advisor_assignments}
+	has_many :advisor_assignments
+	has_many :tep_advisors
 
-	has_many :transcripts, {:foreign_key => 'Student_Bnum'}
+	has_many :transcripts
 	has_many :foi
 
 

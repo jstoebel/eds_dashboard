@@ -1,6 +1,6 @@
 class PraxisTest < ActiveRecord::Base
 
-	has_many :praxis_results, {:foreign_key => 'TestCode'}, inverse_of: :praxis_test
+	has_many :praxis_results
 
 
 	scope :current, lambda {where ("CurrentTest=1")}

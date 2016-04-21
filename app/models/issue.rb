@@ -1,6 +1,5 @@
 class Issue < ActiveRecord::Base
-
-	belongs_to :student, {foreign_key: 'students_Bnum'}
+	belongs_to :student
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
 
 	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
