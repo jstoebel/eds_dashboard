@@ -6,7 +6,7 @@ class AdmTep < ActiveRecord::Base
   attr_accessor :fks_in   #if forign keys are in.
 
   belongs_to :program, {foreign_key: "Program_ProgCode"}
-  belongs_to :student, {foreign_key: "Student_Bnum"}
+  belongs_to :student
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
   belongs_to :student_file
 

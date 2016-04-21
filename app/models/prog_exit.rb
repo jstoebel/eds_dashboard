@@ -1,11 +1,7 @@
 class ProgExit < ActiveRecord::Base
 
-	#PRIMARY KEYS
-	self.primary_keys = :Student_Bnum, :Program_ProgCode, :ExitTerm
-
-
 	#RELATIONSHIPS
-	belongs_to :student, foreign_key: "Student_Bnum"
+	belongs_to :student
 	belongs_to :program, foreign_key: "Program_ProgCode"
 	belongs_to :exit_code, foreign_key: "ExitCode_ExitCode"
 	belongs_to :banner_term, foreign_key: "ExitTerm"
