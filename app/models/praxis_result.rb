@@ -38,6 +38,9 @@ class PraxisResult < ActiveRecord::Base
 		return db_record.test_score.blank?
 	end
 
+	def AltID
+		return self.id
+	end
 
 	private
 
