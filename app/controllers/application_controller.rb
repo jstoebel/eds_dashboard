@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def current_user
-    user = User.find(session[:user])
+    user = User.find_by(:UserName => session[:user])
     user.view_as = session[:view_as]
     return user
   end

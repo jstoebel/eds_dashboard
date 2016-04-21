@@ -12,6 +12,7 @@
 
 #admin
 jon_snow:
+  UserName: snowj
   FirstName: John
   LastName: Snow
   Email: snowj@thewall.org
@@ -19,7 +20,7 @@ jon_snow:
 
 #advisor
 jon_arryn:
-  # UserName: arrynj
+  UserName: arrynj
   FirstName: John
   LastName: Arryn
   Email: arrynj@thehand.ironthrone.gov
@@ -27,7 +28,7 @@ jon_arryn:
 
 #staff
 tyrion:
-  # UserName: imp279
+  UserName: imp279
   FirstName: Tyrion
   LastName: Lannister
   Email: imp279@gmail.com
@@ -35,7 +36,7 @@ tyrion:
 
 #student labor
 arya_stark:
-  # UserName: noone
+  UserName: noone
   FirstName: Arya
   LastName: Stark
   Email: noone@facelessmen.org

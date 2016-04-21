@@ -6,11 +6,11 @@
 #
 #
 snow_advisor:
-  # AdvisorBnum: B00999999
+  AdvisorBnum: B00999999
   Salutation: Lord Commander
   user: jon_snow
 
 arryn_advisor:
-  # AdvisorBnum: B00888888
+  AdvisorBnum: B00888888
   Salutation: Lord Hand
   user: jon_arryn

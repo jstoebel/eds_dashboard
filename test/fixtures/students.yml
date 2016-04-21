@@ -8,54 +8,53 @@
 #  column: value
 
 base: &base
+  Bnum: "B00111111"
   FirstName: Prospective
   LastName: Student
   EnrollmentStatus: Active Student
   ProgStatus: Prospective
   Classification: Junior
-  AltID: 1
 
 candidate: &candidate
+  Bnum: "B00222222"
   FirstName: Candidate
   LastName: Student
   ProgStatus: Candidate
   EnrollmentStatus: Active Student
   Classification: Junior
-  AltID: 2
 
 candidate: &candidate
+  Bnum: "B00333333"
   FirstName: Candidate
   LastName: PreStudentTeacher
   ProgStatus: Candidate
   EnrollmentStatus: Active Student
   Classification: Senior
-  AltID: 5
 
 # NOT SEEKING CERT
 
 not_seeking:
   <<: *base
+  Bnum: "B00444444"
   FirstName: Not Seeking
   LastName: Certifcation
-  AltID: 6
 
 ##GRADUATES
 #graduate but not exited
 graduate:
+  Bnum: "B00555555"
   FirstName: Graduate
   LastName: Still Candidate
   EnrollmentStatus: Graduation
   ProgStatus: Candidate
   Classification: Senior
-  AltID: 3
 
 #completer and graudate (with an open program)
 grad_completer:
+  Bnum: "B00666666"
   FirstName: Graudate
   LastName: Completer
   EnrollmentStatus: Graduation
   ProgStatus: Completer
   Classification: Senior
-  AltID: 4
-
 #TODO student who was admitted but does not have a TEP major.
