@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421134937) do
+ActiveRecord::Schema.define(version: 20160421151616) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160421134937) do
 
   create_table "adm_tep", force: true do |t|
     t.integer  "student_id"
-    t.string   "Program_ProgCode",      limit: 45, null: false
+    t.integer  "Program_ProgCode",                 null: false
     t.integer  "BannerTerm_BannerTerm",            null: false
     t.integer  "Attempt",                          null: false
     t.float    "GPA",                   limit: 24
@@ -251,15 +251,17 @@ ActiveRecord::Schema.define(version: 20160421134937) do
     t.string  "Sub5",             limit: 100
     t.string  "Sub6",             limit: 100
     t.string  "Sub7",             limit: 45
-    t.string  "Program_ProgCode", limit: 45
+    t.integer "Program_ProgCode",             null: false
     t.boolean "CurrentTest"
   end
 
   add_index "praxis_tests", ["Program_ProgCode"], name: "fk_PraxisTest_Program1_idx", using: :btree
   add_index "praxis_tests", ["TestCode"], name: "TestCode_UNIQUE", unique: true, using: :btree
 
-  create_table "praxis_updates", primary_key: "ReportDate", force: true do |t|
-    t.datetime "UploadDate", null: false
+  create_table "praxis_updates", force: true do |t|
+    t.datetime "report_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "prog_exits", primary_key: "Program_ProgCode", force: true do |t|
@@ -279,11 +281,14 @@ ActiveRecord::Schema.define(version: 20160421134937) do
   add_index "prog_exits", ["Program_ProgCode"], name: "fk_Exit__Program_idx", using: :btree
   add_index "prog_exits", ["student_id"], name: "prog_exits_student_id_fk", using: :btree
 
-  create_table "programs", primary_key: "ProgCode", force: true do |t|
+  create_table "programs", force: true do |t|
+    t.string  "ProgCode",     limit: 10,  null: false
     t.string  "EPSBProgName", limit: 100
     t.string  "EDSProgName",  limit: 45
     t.boolean "Current"
   end
+
+  add_index "programs", ["ProgCode"], name: "ProgCode_UNIQUE", unique: true, using: :btree
 
   create_table "roles", primary_key: "idRoles", force: true do |t|
     t.string "RoleName", limit: 45, null: false
@@ -367,6 +372,7 @@ ActiveRecord::Schema.define(version: 20160421134937) do
   add_foreign_key "adm_st", "students", name: "adm_st_student_id_fk"
 
   add_foreign_key "adm_tep", "banner_terms", name: "fk_AdmTEP_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
+  add_foreign_key "adm_tep", "programs", name: "adm_tep_Program_ProgCode_fk", column: "Program_ProgCode"
   add_foreign_key "adm_tep", "student_files", name: "adm_tep_student_file_id_fk"
   add_foreign_key "adm_tep", "students", name: "adm_tep_student_id_fk"
 
@@ -399,10 +405,10 @@ ActiveRecord::Schema.define(version: 20160421134937) do
 
   add_foreign_key "praxis_subtest_results", "praxis_results", name: "praxis_subtest_results_praxis_result_id_fk"
 
-  add_foreign_key "praxis_tests", "programs", name: "fk_PraxisTest_Program", column: "Program_ProgCode", primary_key: "ProgCode"
+  add_foreign_key "praxis_tests", "programs", name: "praxis_tests_Program_ProgCode_fk", column: "Program_ProgCode"
 
   add_foreign_key "prog_exits", "exit_codes", name: "prog_exits_ExitCode_ExitCode_fk", column: "ExitCode_ExitCode"
-  add_foreign_key "prog_exits", "programs", name: "fk_Exit__Program", column: "Program_ProgCode", primary_key: "ProgCode"
+  add_foreign_key "prog_exits", "programs", name: "prog_exits_Program_ProgCode_fk", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "students", name: "prog_exits_student_id_fk"
 
   add_foreign_key "student_files", "students", name: "student_files_student_id_fk"
