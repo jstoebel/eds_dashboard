@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421162843) do
+ActiveRecord::Schema.define(version: 20160421180853) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -267,8 +267,9 @@ ActiveRecord::Schema.define(version: 20160421162843) do
     t.datetime "updated_at"
   end
 
-  create_table "prog_exits", primary_key: "Program_ProgCode", force: true do |t|
+  create_table "prog_exits", force: true do |t|
     t.integer  "student_id",                   null: false
+    t.integer  "Program_ProgCode",             null: false
     t.integer  "ExitCode_ExitCode",            null: false
     t.integer  "ExitTerm",                     null: false
     t.datetime "ExitDate"
@@ -276,13 +277,12 @@ ActiveRecord::Schema.define(version: 20160421162843) do
     t.float    "GPA_last60",        limit: 24
     t.datetime "RecommendDate"
     t.text     "Details"
-    t.integer  "AltID",                        null: false
   end
 
-  add_index "prog_exits", ["AltID"], name: "AltID_UNIQUE", unique: true, using: :btree
   add_index "prog_exits", ["ExitCode_ExitCode"], name: "fk_Exit_ExitCode1_idx", using: :btree
+  add_index "prog_exits", ["ExitTerm"], name: "prog_exits_ExitTerm_fk", using: :btree
   add_index "prog_exits", ["Program_ProgCode"], name: "fk_Exit__Program_idx", using: :btree
-  add_index "prog_exits", ["student_id"], name: "prog_exits_student_id_fk", using: :btree
+  add_index "prog_exits", ["student_id", "Program_ProgCode"], name: "index_prog_exits_on_student_id_and_Program_ProgCode", using: :btree
 
   create_table "programs", force: true do |t|
     t.string  "ProgCode",     limit: 10,  null: false
@@ -334,13 +334,13 @@ ActiveRecord::Schema.define(version: 20160421162843) do
   add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree
 
   create_table "tep_advisors", force: true do |t|
-    t.string "AdvisorBnum", limit: 9,  null: false
-    t.string "Salutation",  limit: 45, null: false
-    t.string "username",    limit: 45, null: false
+    t.string  "AdvisorBnum", limit: 9,  null: false
+    t.string  "Salutation",  limit: 45, null: false
+    t.integer "user_id"
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
-  add_index "tep_advisors", ["username"], name: "fk_tep_advisors_users1_idx", using: :btree
+  add_index "tep_advisors", ["user_id"], name: "tep_advisors_user_id_fk", using: :btree
 
   create_table "transcript", force: true do |t|
     t.integer "student_id",                    null: false
@@ -362,7 +362,8 @@ ActiveRecord::Schema.define(version: 20160421162843) do
   add_index "transcript", ["student_id"], name: "transcript_student_id_fk", using: :btree
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
-  create_table "users", primary_key: "UserName", force: true do |t|
+  create_table "users", force: true do |t|
+    t.string  "UserName",      limit: 45, null: false
     t.string  "FirstName",     limit: 45, null: false
     t.string  "LastName",      limit: 45, null: false
     t.string  "Email",         limit: 45, null: false
@@ -370,6 +371,7 @@ ActiveRecord::Schema.define(version: 20160421162843) do
   end
 
   add_index "users", ["Roles_idRoles"], name: "fk_users_Roles1_idx", using: :btree
+  add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
 
   Foreigner.load
   add_foreign_key "adm_st", "banner_terms", name: "fk_AdmST_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
@@ -412,13 +414,14 @@ ActiveRecord::Schema.define(version: 20160421162843) do
 
   add_foreign_key "praxis_tests", "programs", name: "praxis_tests_Program_ProgCode_fk", column: "Program_ProgCode"
 
+  add_foreign_key "prog_exits", "banner_terms", name: "prog_exits_ExitTerm_fk", column: "ExitTerm", primary_key: "BannerTerm"
   add_foreign_key "prog_exits", "exit_codes", name: "prog_exits_ExitCode_ExitCode_fk", column: "ExitCode_ExitCode"
   add_foreign_key "prog_exits", "programs", name: "prog_exits_Program_ProgCode_fk", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "students", name: "prog_exits_student_id_fk"
 
   add_foreign_key "student_files", "students", name: "student_files_student_id_fk"
 
-  add_foreign_key "tep_advisors", "users", name: "fk_tep_advisors_users", column: "username", primary_key: "UserName"
+  add_foreign_key "tep_advisors", "users", name: "tep_advisors_user_id_fk"
 
   add_foreign_key "transcript", "banner_terms", name: "fk_transcript_banner_terms", column: "term_taken", primary_key: "BannerTerm"
   add_foreign_key "transcript", "students", name: "transcript_student_id_fk"
