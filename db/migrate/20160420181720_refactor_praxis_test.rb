@@ -1,6 +1,6 @@
-class RefactorPraxis < ActiveRecord::Migration
+class RefactorPraxisTest < ActiveRecord::Migration
   def up
-    # refactor for praxis_results and praxis_tests
+    # refactor praxis_test
 
     remove_foreign_key :praxis_results, :name => "fk_praxis_results_praxis_tests"
     remove_foreign_key :praxis_prep, :name => "fk_PraxisPrep_PraxisTest"
