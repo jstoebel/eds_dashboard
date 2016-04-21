@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160420181720) do
+ActiveRecord::Schema.define(version: 20160421134937) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(version: 20160420181720) do
   add_index "praxis_results", ["student_id"], name: "fk_praxis_results_students_idx", using: :btree
 
   create_table "praxis_subtest_results", force: true do |t|
-    t.string  "praxis_result_id"
+    t.integer "praxis_result_id"
     t.integer "sub_number"
     t.string  "name"
     t.integer "pts_earned"
@@ -238,6 +238,8 @@ ActiveRecord::Schema.define(version: 20160420181720) do
     t.integer "avg_high"
     t.integer "avg_low"
   end
+
+  add_index "praxis_subtest_results", ["praxis_result_id"], name: "praxis_subtest_results_praxis_result_id_fk", using: :btree
 
   create_table "praxis_tests", force: true do |t|
     t.string  "TestCode",         limit: 45,  null: false
@@ -396,6 +398,8 @@ ActiveRecord::Schema.define(version: 20160420181720) do
 
   add_foreign_key "praxis_results", "praxis_tests", name: "praxis_results_praxis_test_id_fk"
   add_foreign_key "praxis_results", "students", name: "praxis_results_student_id_fk"
+
+  add_foreign_key "praxis_subtest_results", "praxis_results", name: "praxis_subtest_results_praxis_result_id_fk"
 
   add_foreign_key "praxis_tests", "programs", name: "fk_PraxisTest_Program", column: "Program_ProgCode", primary_key: "ProgCode"
 
