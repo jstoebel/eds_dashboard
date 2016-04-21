@@ -13,8 +13,12 @@ current:
   TestName: basket weaving
   CurrentTest: true
   TestFamily: 1
+  TestCode: 1
+  program: Program_1
 
 old:
   TestName: old basket weaving
   CurrentTest: false
   TestFamily: 1
+  TestCode: 2
+  program: Program_1
