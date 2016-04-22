@@ -6,7 +6,7 @@ class AdmStTest < ActiveSupport::TestCase
 	test "check fks" do
 		app = AdmSt.new
 		app.valid?
-		assert_equal(app.errors.full_messages, ["Student bnum No student selected.", "Bannerterm bannerterm No term could be determined."]
+		assert_equal(app.errors.full_messages, ["Student No student selected.", "Bannerterm bannerterm No term could be determined."]
 )
 	end
 
