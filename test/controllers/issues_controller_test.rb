@@ -22,7 +22,7 @@ class IssuesControllerTest < ActionController::TestCase
       load_session(r)
 
       stu = Student.first
-      advisor = User.find(session[:user]).tep_advisor
+      advisor = User.find_by(:UserName => session[:user]).tep_advisor
 
       create_params ={
         :Name => "Test name",
@@ -30,7 +30,7 @@ class IssuesControllerTest < ActionController::TestCase
       }
 
       expected_issue = Issue.create({
-        :students_Bnum => stu.Bnum,
+        :student_id => stu.id,
         :Name => create_params[:Name],
         :Description => create_params[:Description],
         :Open => true,
@@ -68,7 +68,7 @@ class IssuesControllerTest < ActionController::TestCase
     }
 
     expected_issue = Issue.create({
-      :students_Bnum => student.Bnum,
+      :student_id => student.Bnum,
       :Name => create_params[:Name],
       :Description => create_params[:Description],
       :Open => true,
@@ -103,7 +103,7 @@ class IssuesControllerTest < ActionController::TestCase
       get :show, {:id => issue.id}
       assert_response :success
       assert_equal issue, assigns(:issue)
-      assert_equal assigns(:student), Student.find(issue.students_Bnum)
+      assert_equal assigns(:student), Student.find(issue.student_id)
 
     end
   end
