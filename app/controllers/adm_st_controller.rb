@@ -38,15 +38,15 @@ class AdmStController < ApplicationController
     end
 
     @app = AdmSt.new(new_adm_params)    #add in Bnum
-    @bnum =  params[:adm_st][:Student_Bnum]
+    stu_id =  params[:adm_st][:student_id]
     @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
-    apps_this_term = AdmSt.where(Student_Bnum: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).size
+    apps_this_term = AdmSt.where(student_id: @stu_id).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).size
     @app.Attempt = apps_this_term + 1
 
     #TODO fetch overall GPA,  Core GPA, Add to @app
 
     if @app.save
-      @student = Student.find(@bnum)
+      @student = Student.find(stu_id)
       name_details(@student)
 
       flash[:notice] = "New application added for #{name_details(@student, file_as=true)}"
@@ -62,7 +62,7 @@ class AdmStController < ApplicationController
   def edit
     @application = AdmSt.find(params[:id])
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
-    @student = Student.find(@application.Student_Bnum)
+    @student = Student.find(@application.student_id)
   end
 
   def update
@@ -83,7 +83,7 @@ class AdmStController < ApplicationController
     letter = StudentFile.create ({
         :doc => params[:adm_st][:letter], 
         :active => true,
-        :Student_Bnum => @application.student.id
+        :student_id => @application.student.id
       })
     letter.save
     @application.student_file_id = letter.id
@@ -186,7 +186,7 @@ class AdmStController < ApplicationController
   end
 
   def new_adm_params
-    params.require(:adm_st).permit(:Student_Bnum)
+    params.require(:adm_st).permit(:student_id)
   end
 
   # def st_paperwork_params
@@ -207,7 +207,7 @@ class AdmStController < ApplicationController
   def error_update
     #sends user back to edit
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
-    @student = Student.find(@application.Student_Bnum)
+    @student = Student.find(@application.student_id)
     render('edit')
     
   end

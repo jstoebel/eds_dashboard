@@ -70,10 +70,10 @@ class AdmStControllerTest < ActionController::TestCase
         term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
         stu = Student.where(ProgStatus: "Candidate").first
         post :create, {:adm_st => {
-          :Student_Bnum => stu.Bnum}
+          :student_id => stu.id}
         }
         assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
-        assert_equal assigns(:app).Student_Bnum, stu.Bnum
+        assert_equal assigns(:app).student_id, stu.id
         assert_equal flash[:notice], "New application added for #{ApplicationController.helpers.name_details(stu, file_as=true)}"
       end
     end
@@ -89,7 +89,7 @@ class AdmStControllerTest < ActionController::TestCase
         # term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
         stu = Student.where(ProgStatus: "Candidate").first
         post :create, {:adm_st => {
-          :Student_Bnum => stu.Bnum}
+          :student_id => stu.id}
         }
         assert_redirected_to adm_st_index_path
         assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
@@ -111,7 +111,7 @@ class AdmStControllerTest < ActionController::TestCase
       # term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
       stu = existing_app.student
       post :create, {:adm_st => {
-        :Student_Bnum => stu.Bnum}
+        :student_id=> stu.id}
       }
 
       assert_response :success
@@ -127,7 +127,7 @@ class AdmStControllerTest < ActionController::TestCase
       assert_response :success, "unexpected http response, role=#{r}"
       assert_equal assigns(:application), app 
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-      assert_equal assigns(:student), Student.find(app.Student_Bnum)
+      assert_equal assigns(:student), Student.find(app.student_id)
     end
 
   end
@@ -188,7 +188,7 @@ class AdmStControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal flash[:notice],  "Application must be processed in its own term or the break following."
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-      assert_equal assigns(:student), Student.find(app.Student_Bnum)
+      assert_equal assigns(:student), Student.find(app.student_id)
     end
   end
 
@@ -210,7 +210,7 @@ class AdmStControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal "Please make an admission decision for this student.", flash[:notice]  
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-      assert_equal assigns(:student), Student.find(app.Student_Bnum)
+      assert_equal assigns(:student), Student.find(app.student_id)
 
   end
 
@@ -312,7 +312,7 @@ class AdmStControllerTest < ActionController::TestCase
       load_session(r)
       stu = Student.where(ProgStatus: "Candidate").first
       post :create, {:adm_st => {
-        :Student_Bnum => stu.Bnum}
+        :student_id => stu.id}
       }
       assert_redirected_to "/access_denied"
     end

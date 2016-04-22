@@ -53,11 +53,9 @@
           <!-- currently only admin and staff have access to this resource, but if we provide access
           to advisors, they will only be able to see their own students. -->
           <% if can? :read, app %>    
-              <% student = Student.find(app.Student_Bnum) %>
-
               <tr>
-              <td><%= student.FirstName %></td>
-              <td><%= student.LastName %></td>
+              <td><%= app.student.FirstName %></td>
+              <td><%= app.student.LastName %></td>
               <td><%=app.OverallGPA %></td>
               <td><%=app.CoreGPA%></td>
 
