@@ -34,7 +34,7 @@ class StudentFilesControllerTest < ActionController::TestCase
 
 
       expected_stu_file = StudentFile.new(
-        :Student_Bnum => stu.id,
+        :student_id => stu.id,
         :active => true)
       expected_stu_file.doc = fixture_file_upload 'test_file.txt'
 
@@ -115,15 +115,17 @@ class StudentFilesControllerTest < ActionController::TestCase
   private
   def test_index_setup(stu)
     assert_equal stu.attributes, assigns(:student).attributes
-    assert_equal AdmTep.where(Student_Bnum: stu.Bnum).where.not(letter_file_name: nil), assigns(:adm_teps)
-    assert_equal AdmSt.where(Student_Bnum: stu.Bnum).where.not(letter_file_name: nil), assigns(:adm_sts)
+    user = User.find_by(:UserName => session[:user])
+    ability = Ability.new(user)
+    assert_equal stu.student_files.active.select {|r| ability.can? :read, r }.to_a, assigns(:docs).to_a
+
   end
 
   def create_file
     #creates a file record
     # returns the file object
     file = StudentFile.new
-    file.Student_Bnum = Student.first.id
+    file.student_id = Student.first.id
     file.active = true
     file.doc = fixture_file_upload 'test_file.txt'
     file.doc_updated_at = DateTime.now
