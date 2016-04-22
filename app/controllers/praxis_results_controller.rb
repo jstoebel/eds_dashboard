@@ -4,7 +4,7 @@ class PraxisResultsController < ApplicationController
 
   def index
     #showing all Praxis results for a single student
-    @student = find_student(params[:student_id])
+    @student = Student.find(params[:student_id])
     ability = Ability.new(current_user)
     @tests = @student.praxis_results.select {|r| ability.can? :index, r }
     # @tests = @praxis_results #this should be created by load_and_authorize_resource
@@ -12,7 +12,7 @@ class PraxisResultsController < ApplicationController
 
   def show
     #show details on test including subtests
-    @test = PraxisResult.find_by(:AltID => params[:id])
+    @test = PraxisResult.find params[:id]
     authorize! :read, @test
 
     @student = Student.find(@test.student_id)
@@ -28,9 +28,10 @@ class PraxisResultsController < ApplicationController
 
   def create
     @test = PraxisResult.new(safe_params)
-    stu = Student.find_by(AltID: params[:praxis_result][:AltID])
+    stu_id = (params["praxis_result"]["AltID"])
+    stu = Student.find(stu_id)
     authorize! :create, @test     #this should restrict advisors from adding new tests
-    @test.student_id = stu.Bnum
+    @test.student_id = stu.id
     if @test.save
       @student = @test.student
       flash[:notice] = "Registration successful: #{info_for_flash}"
@@ -45,7 +46,7 @@ class PraxisResultsController < ApplicationController
   def edit
     #update a praxis_result if no scores are present
 
-    @test = PraxisResult.find_by(:AltID => params[:id])
+    @test = PraxisResult.find params[:id]
     authorize! :update, @test
     if !@test.can_alter?
       flash[:notice] = "Test may not be altered."
@@ -57,7 +58,7 @@ class PraxisResultsController < ApplicationController
 
   def update
 
-    @test = PraxisResult.find_by(:AltID => params[:id])
+    @test = PraxisResult.find params[:id]
     authorize! :update, @test
     if @test.update_attributes(safe_params)
       flash[:notice] = "Registration updated: #{info_for_flash}"
@@ -73,7 +74,7 @@ class PraxisResultsController < ApplicationController
   end
 
   def destroy
-    @test = PraxisResult.find_by(:AltID => params[:id])
+    @test = PraxisResult.find params[:id]
     authorize! :destroy, @test
     @test.destroy
     redirect_to student_praxis_results_path(@test.student.AltID)
