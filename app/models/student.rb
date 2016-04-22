@@ -25,19 +25,20 @@ class Student < ActiveRecord::Base
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}
 	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
 	
-	def is_advisee_of(prof_bnum)
+	def is_advisee_of(advisor_profile)
 		#is this student advisee of the prof with prof_bnum?
-		advisor_assignments = self.advisor_assignments
-		bnums = advisor_assignments.map { |i| i.tep_advisor_id }
-		return bnums.include?(prof_bnum)
+		adv_assigns = self.advisor_assignments	#students advisor assignments
+		my_advisors = self.advisor_assignments.map { |a| a.tep_advisor }
+		return my_advisors.include?(advisor_profile)
 	end
 
-	def is_student_of(prof_bnum)
+	def is_student_of(advisor_profile)
 		#does this student have this prof in the current term (plan_b = forward)
+
 		term = current_term({:exact => false, :plan_b => :forward})
 		classes = self.transcripts.in_term(term)
-		profs = classes.map { |i| i.Inst_bnum }
-		return profs.include?(prof_bnum)
+		prof_bnums = classes.map { |i| i.Inst_bnum }
+		return profs.include?(advisor_profile.AdvisorBnum)
 	end
 
 	def praxisI_pass
