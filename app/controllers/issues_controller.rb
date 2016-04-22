@@ -6,16 +6,16 @@ class IssuesController < ApplicationController
 
   def new
   	@issue = Issue.new
-  	@student = find_student(params[:student_id]) #AltID passed in here!
+  	@student = Student.find params[:student_id]
     name_details(@student)
   end
 
   def create
 
-    @student = find_student(params[:student_id])
+    @student = Student.find params[:student_id]
     
     @issue = Issue.new(new_issue_params)
-    @issue.students_Bnum = @student.Bnum
+    @issue.student_id = @student.id
     
     #assign advisor's B#
     user = current_user
@@ -32,7 +32,7 @@ class IssuesController < ApplicationController
   end
 
   def index
-    @student = find_student(params[:student_id])
+    @student = Student.find params[:student_id]
     authorize! :show, @student
     @issues = @student.issues.sorted.select {|r| can? :read, r }
     name_details(@student)    
@@ -41,7 +41,7 @@ class IssuesController < ApplicationController
   def show
     @issue = Issue.find(params[:id])
     authorize! :read, @issue
-    @student = Student.find(@issue.students_Bnum)
+    @student = Student.find(@issue.student_id)
     name_details (@student)
 
   end
