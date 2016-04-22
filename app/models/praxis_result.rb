@@ -3,7 +3,6 @@ class PraxisResult < ActiveRecord::Base
 	#callbacks
 	before_validation :check_alterability
 	before_validation :check_unique
-	before_save :set_id
 	before_destroy :check_alterability
 
 	belongs_to :student
@@ -43,13 +42,6 @@ class PraxisResult < ActiveRecord::Base
 	end
 
 	private
-
-	def set_id
-		#set the id if all validations pass.
-		if self.errors.size == 0
-			self.id = [self.student_id, self.praxis_test_id, self.test_date.strftime("%m%d%Y")].join("-")
-		end
-	end
 
 	def check_unique
 		matching_ids = PraxisResult.where(

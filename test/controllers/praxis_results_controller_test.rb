@@ -8,7 +8,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should get index" do
     role_names.each do |r|
       load_session(r)
-      user = User.find(session[:user])
+      user = User.find_by(:UserName => session[:user])
       
       test = PraxisResult.first
       stu = test.student
@@ -26,19 +26,19 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should get show" do
     allowed_roles.each do |r|
       load_session(r)
-      user = User.find(session[:user])
-      
-      test = PraxisResult.first
-      stu = test.student
+      user = User.find_by(:UserName => session[:user])
+      #find a test -> student -> advisor
+      related_student = user.tep_advisor.advisor_assignments.first.student
+      test = related_student.praxis_results.first
 
       get :show, {:id => test.AltID}
 
       assert_response :success
       assert_equal test, assigns(:test)
-      assert_equal stu, assigns(:student)
+      assert_equal related_student, assigns(:student)
 
       ability = Ability.new(user)
-      assert ability.can? :read, test
+      assert (ability.can? :read, test)
 
     end
   end
@@ -58,13 +58,21 @@ class PraxisResultsControllerTest < ActionController::TestCase
       load_session(r)
 
       stu = Student.first
-      test_params = {
-        :AltID => stu.AltID,
-        :praxis_test_id => PraxisTest.first.id, 
-        :test_date => Date.today, 
-        :reg_date => Date.today, 
-        :paid_by => "ETS (fee waiver)"        
-      }
+      test = PraxisResult.first
+
+      subs = test.praxis_subtest_results
+      subs.destroy_all
+      test.destroy
+      test_params = test.attributes
+
+      test_params[:AltID => stu.AltID]
+      # test_params = {
+      #   :AltID => stu.AltID,
+      #   :praxis_test_id => PraxisTest.first.id, 
+      #   :test_date => Date.today, 
+      #   :reg_date => Date.today, 
+      #   :paid_by => "ETS (fee waiver)"        
+      # }
 
       post :create, {:praxis_result => test_params}
 
@@ -79,6 +87,15 @@ class PraxisResultsControllerTest < ActionController::TestCase
       assert_equal assigns(:student), stu
 
       assigns(:test).delete
+
+      PraxisResult.create test.attributes
+
+      subs = test.praxis_subtest_results
+      subs.each do |s|
+        new_sub = PraxisSubtestResult.new s.attributes
+        new_sub.save
+      end
+
     end
   end
 
@@ -194,6 +211,11 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = PraxisResult.first
       alt_id = test.student.AltID
 
+      #destroy each subtest
+
+      sub_tests = test.praxis_subtest_results
+      sub_tests.destroy_all
+
       post :destroy, {:id => test.AltID}
       assert_redirected_to student_praxis_results_path(alt_id)
       assert_nil PraxisResult.find_by(:id => test.id)
@@ -202,6 +224,13 @@ class PraxisResultsControllerTest < ActionController::TestCase
       new_test = PraxisResult.new(test.attributes)
       new_test.id = nil
       new_test.save
+
+      #bring back the subtests
+      sub_tests.each do |s|
+        new_sub = PraxisSubtestResult.new s.attributes
+        new_sub.save
+      end
+
     end
   end
 
