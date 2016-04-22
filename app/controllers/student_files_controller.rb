@@ -7,19 +7,19 @@ class StudentFilesController < ApplicationController
 
   def create
     @file = StudentFile.new
-    student = Student.find_by(:AltID => params[:student_id])
-    @file.Student_Bnum = student.Bnum
+    student = Student.find params[:student_id]
+    @file.student_id = student.id
     @file.doc = params[:student_file][:doc]
 
     authorize! :manage, @file
 
     if @file.save
       flash[:notice] = "File successfully uploaded."
-      redirect_to student_student_files_path(student.AltID)
+      redirect_to student_student_files_path(student.id)
     else
       index_setup
       flash[:notice] = "Error uploading file."
-      @student = Student.find_by(:AltID => params[:student_id])
+      @student = Student.find params[:student_id]
       
       render 'index'      
     end
@@ -32,10 +32,10 @@ class StudentFilesController < ApplicationController
     authorize! :manage, @file
     if @file.save
       flash[:notice] = "File successfully removed."
-      redirect_to student_student_files_path(@file.student.AltID)
+      redirect_to student_student_files_path(@file.student.id)
     else
       flash[:notice] = "Error removing file."
-      redirect_to student_student_files_path(@file.student.AltID)      
+      redirect_to student_student_files_path(@file.student.id)      
     end
   end
 
@@ -48,13 +48,8 @@ class StudentFilesController < ApplicationController
   private
 
   def index_setup
-    @student = Student.find_by(:AltID => params[:student_id])
+    @student = Student.find params[:student_id]
     authorize! :read, @student
-
-    @adm_teps = AdmTep.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)
-    
-    @adm_sts = AdmSt.where(Student_Bnum: @student.Bnum).where.not(letter_file_name: nil)    
-    
     ability = Ability.new(current_user)
     @docs = @student.student_files.active.select {|r| ability.can? :read, r }
   end

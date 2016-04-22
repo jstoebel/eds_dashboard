@@ -20,7 +20,7 @@ class StudentFile < ActiveRecord::Base
 		#checks if file_name will not result in replacing a file.
 		#creates an available file name if it will
 
-		if self.new_record? and has_duplicate(self.doc_file_name, self.Student_Bnum)
+		if self.new_record? and has_duplicate(self.doc_file_name, self.student_id)
 			#try alternatives by appending a number to the end of the file
 			#example file_1, file_2 etc
 
@@ -29,7 +29,7 @@ class StudentFile < ActiveRecord::Base
 			ext = File.extname self.doc_file_name
 			while true
 				new_name = [name, num.to_s].join('_')+ext
-				if not has_duplicate(new_name, self.Student_Bnum)	#does this name check out?
+				if not has_duplicate(new_name, self.student_id)	#does this name check out?
 					break
 				else
 					num += 1
@@ -49,7 +49,7 @@ class StudentFile < ActiveRecord::Base
 		#bnum: student's B#
 		#returns true if the file exists for this student.
 
-		matches = StudentFile.where(Student_Bnum: bnum, doc_file_name: file_name).size
+		matches = StudentFile.where(student_id: bnum, doc_file_name: file_name).size
 		return matches > 0
 	end
 

@@ -14,12 +14,12 @@ class AdmSt < ActiveRecord::Base
   validate :if => :check_fks do |app|
 		# term = BannerTerm.find(app.BannerTerm_BannerTerm)	#current term
 		next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first		#next term in sequence
-		student = Student.find(app.Student_Bnum)
+		student = Student.find(app.student_id)
 		app.errors.add(:STAdmitDate, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < app.banner_term.StartDate
 		app.errors.add(:STAdmitDate, "Admission date may not be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
 		app.errors.add(:STAdmitDate, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
     
-    accepted_apps = AdmSt.where(Student_Bnum: app.Student_Bnum).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("STAdmitted = 1 or STAdmitted IS NULL")
+    accepted_apps = AdmSt.where(student_id: app.student_id).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("STAdmitted = 1 or STAdmitted IS NULL")
 
     if accepted_apps.size > 0 and app.new_record?
       app.errors.add(:base, "Student has already been admitted or has an open applicaiton in this term.")

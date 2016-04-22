@@ -7,7 +7,7 @@ class StudentFileTest < ActiveSupport::TestCase
     test "valid file extension" do
         stu = Student.first
         file = StudentFile.new({
-                :Student_Bnum => stu.id,
+                :student_id => stu.id,
                 :active => true,
                 :doc => fixture_file_upload('test_file.txt')
             })
@@ -37,7 +37,7 @@ class StudentFileTest < ActiveSupport::TestCase
 
         num_files.times do |i|
             file = StudentFile.create({
-                    :Student_Bnum => stu.id,
+                    :student_id => stu.id,
                     :active => true,
                     :doc => fixture_file_upload(file_name)
                 })
