@@ -1,10 +1,9 @@
 Paperclip.interpolates('bnum') do |attachment, style|
-	#for adm_tep
-  attachment.instance.Student_Bnum
+
+  attachment.instance.student_id
 end
 
 Paperclip.interpolates('term') do |attachment, style|
-	#for adm_tep
   attachment.instance.BannerTerm_BannerTerm
 end
 

@@ -28,7 +28,7 @@ class Student < ActiveRecord::Base
 	def is_advisee_of(prof_bnum)
 		#is this student advisee of the prof with prof_bnum?
 		advisor_assignments = self.advisor_assignments
-		bnums = advisor_assignments.map { |i| i.tep_advisors_AdvisorBnum }
+		bnums = advisor_assignments.map { |i| i.tep_advisor_id }
 		return bnums.include?(prof_bnum)
 	end
 
