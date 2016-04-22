@@ -41,8 +41,6 @@ class Ability
     advisor_profile = user.tep_advisor
 
     if advisor_profile.present?   #is user in the advisor table (admin posing as advisor might not)
-      bnum = advisor_profile.AdvisorBnum
-
 
       if resource.kind_of?Student   #if the resource is a student object
         stu=resource  
@@ -50,7 +48,7 @@ class Ability
         stu = resource.student      #all other resources
       end
 
-      return (stu.is_advisee_of(bnum) or stu.is_student_of(bnum))
+      return (stu.is_advisee_of(advisor_profile) or stu.is_student_of(advisor_profile))
 
     else  #user not in advisor table
       return false
