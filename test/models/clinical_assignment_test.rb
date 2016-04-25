@@ -28,9 +28,9 @@ class ClinicalAssignmentTest < ActiveSupport::TestCase
 
 	test "need bnum" do
 		assignment = ClinicalAssignment.first
-		assignment.Bnum = nil
+		assignment.student_id = nil
 		assignment.valid?
-		py_assert(["Please select a student."], assignment.errors[:Bnum])
+		py_assert(["Please select a student."], assignment.errors[:student_id])
 
 	end
 

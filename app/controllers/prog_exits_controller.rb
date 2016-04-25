@@ -25,7 +25,7 @@ class ProgExitsController < ApplicationController
 
     #mass assign AltID, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
-    @exit.Student_Bnum = Student.find_by(:AltID => params[:prog_exit][:AltID]).Bnum
+    @exit.student_id = Student.find(params[:prog_exit][:AltID]).id
 
     exit_date = params[:prog_exit][:ExitDate]
     if exit_date.present?
@@ -66,8 +66,8 @@ class ProgExitsController < ApplicationController
     
     @exit = ProgExit.new
     alt_id = params[:prog_exit_id]
-    stu = Student.find_by(:AltID => alt_id)
-    @exit.Student_Bnum = stu.Bnum
+    stu = Student.find alt_id
+    @exit.student_id = stu.id
     
     program = params[:program_id]
     @exit.Program_ProgCode = program
@@ -77,12 +77,12 @@ class ProgExitsController < ApplicationController
 
 
   def edit
-    @exit = ProgExit.find_by(:AltID => params[:id]) 
+    @exit = ProgExit.find params[:id]
   end
 
   def update
     #update exit record
-    @exit = ProgExit.find_by(:AltID => params[:id]) 
+    @exit = ProgExit.find_by params[:id]
     @exit.assign_attributes(edit_exit_params)
 
     recommend_date = params[:prog_exit][:RecommendDate]
@@ -111,7 +111,7 @@ class ProgExitsController < ApplicationController
   def get_programs
     #gets programs for a given student's B#, respond with json of all of students opened programs 
 
-    student = Student.where(AltID: params[:alt_id]).first
+    student = Student.find params[:alt_id]
     open_admissions = AdmTep.open(student.Bnum)
     open_programs = open_admissions.map { |i| i.program }
 

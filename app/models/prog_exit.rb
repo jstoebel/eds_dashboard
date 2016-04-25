@@ -32,7 +32,9 @@ class ProgExit < ActiveRecord::Base
 		#Can't be recommended without graduating with EDS with certification
 			#The best I can do right now is make sure student has graduated.
 			#TODO Make sure the student graduated with a certification major
-		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == '1849' and e.student.EnrollmentStatus != 'Graduation'
+
+		completer_code = ExitCode.find_by :ExitCode => "1849"
+		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == completer_code.id and e.student.EnrollmentStatus != 'Graduation'
 
 		#security validations. Won't come up in typical user experience.
 		check_open if e.new_record?		#if record is new, let's make sure that we are closing an open program
@@ -48,7 +50,7 @@ class ProgExit < ActiveRecord::Base
 	def check_basics
 		#checks the presence of foreign keys before running more advanced validations.
 
-	    self.errors.add(:Student_Bnum, "Please select a student.") if self.Student_Bnum.blank?
+	    self.errors.add(:student_id, "Please select a student.") if self.student_id.blank?
 	    self.errors.add(:Program_ProgCode, "Please select a program.") if self.Program_ProgCode.blank?
 	    self.errors.add(:ExitCode_ExitCode, "Please select an exit code.") if self.ExitCode_ExitCode.blank?
 	    self.errors.add(:ExitTerm, "No exit term could be determined.") if self.ExitTerm.blank?
@@ -68,8 +70,8 @@ class ProgExit < ActiveRecord::Base
 
 		stu = self.student
 
-		admission = AdmTep.where(Student_Bnum: stu.Bnum).where(Program_ProgCode: self.Program_ProgCode).where(TEPAdmit: true)
-		exits = ProgExit.where(Student_Bnum: stu.Bnum).where(Program_ProgCode: self.Program_ProgCode)
+		admission = AdmTep.where(student_id: stu.id).where(Program_ProgCode: self.Program_ProgCode).where(TEPAdmit: true)
+		exits = ProgExit.where(student_id: stu.id).where(Program_ProgCode: self.Program_ProgCode)
 
 		if admission.size == 0
 			self.errors.add(:Program_ProgCode, "Student was never admitted to this program.")
@@ -102,14 +104,17 @@ class ProgExit < ActiveRecord::Base
 		
 		stu = self.student
 		
-		if self.ExitCode_ExitCode == "1849"
-			
+		completer_code = ExitCode.find_by :ExitCode => "1849"
+		if self.ExitCode_ExitCode == completer_code.id
+
 			stu.ProgStatus = "Completer"
 			stu.save
 
 		elsif stu.ProgStatus == "Candidate"		#exit wasn't completion
 
+			puts "STUDENT IS A CANDIDATE"
 			if AdmTep.open(stu.Bnum).size == 0
+				puts "STUDENT HAS NO OPEN PROGRAMS!"
 				#no open programs left after save
 				stu.ProgStatus = "Dropped"
 				stu.save
