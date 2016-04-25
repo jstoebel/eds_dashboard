@@ -7,7 +7,7 @@ class Student < ActiveRecord::Base
 	has_many :issue_updates
 
 	has_many :adm_tep
-	has_many :programs
+	has_many :programs, :through => :adm_tep
 
 	has_many :adm_st
 	has_many :prog_exits

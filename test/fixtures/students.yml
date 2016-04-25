@@ -23,7 +23,7 @@ candidate: &candidate
   EnrollmentStatus: Active Student
   Classification: Junior
 
-candidate: &candidate
+senior_candidate: &candidate
   Bnum: "B00333333"
   FirstName: Candidate
   LastName: PreStudentTeacher

@@ -1,8 +1,8 @@
  
     <%= error_messages_for(@assignment) %>
     <tr>
-      <th> <%= f.label(:Bnum, "Student")%> </th>
-      <td> <%= f.select(:Bnum, @students.map {|s| [name_details(s), s.Bnum]},
+      <th> <%= f.label(:student_id, "Student")%> </th>
+      <td> <%= f.select(:student_id, @students.map {|s| [name_details(s), s.id]},
       {prompt: "Select a student"}) %></td>
     </tr>
 

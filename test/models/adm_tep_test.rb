@@ -11,7 +11,7 @@ class AdmTepTest < ActiveSupport::TestCase
   test "scope open" do
     stu = AdmTep.admitted.first.student
 
-    expected = AdmTep.where(Student_Bnum: stu.Bnum)
+    expected = AdmTep.where(student_id: stu.id)
     actual = AdmTep.open(stu.Bnum)
 
     #since different SQL was used, slice the records into an array

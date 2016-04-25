@@ -40,7 +40,7 @@ class ProgExitsControllerTest < ActionController::TestCase
       get :new
       
       assert_response :success
-      assert_equal expected_exit, assigns(:exit)
+      assert assigns(:exit).new_record?
       test_new_setup
     end
   end
@@ -56,7 +56,7 @@ class ProgExitsControllerTest < ActionController::TestCase
 
         adm = AdmTep.first
         exit = ProgExit.where(
-          :Student_Bnum => adm.Student_Bnum,
+          :student_id => adm.student_id,
           :Program_ProgCode => adm.Program_ProgCode
           ).first
 
@@ -67,10 +67,12 @@ class ProgExitsControllerTest < ActionController::TestCase
         stu = adm.student
         prog = adm.program
 
+        drop_code = ExitCode.find_by :ExitCode => "1826"
+
         post :create, {:prog_exit => {
-            :Student_Bnum => adm.Student_Bnum,
+            :student_id => adm.student_id,
             :Program_ProgCode => prog.id,
-            :ExitCode_ExitCode => "1826",   #dropped out
+            :ExitCode_ExitCode => drop_code.id,   #dropped out
             :ExitDate => start_date.strftime("%m/%d/%Y"),
             :GPA => 2.5,
             :GPA_last60 => 3.0,
@@ -79,44 +81,6 @@ class ProgExitsControllerTest < ActionController::TestCase
 
         assert_equal flash[:notice], "Successfully exited #{ApplicationController.helpers.name_details(assigns(:exit).student)} from #{assigns(:exit).program.EDSProgName}. Reason: #{assigns(:exit).exit_code.ExitDiscrip}."
         assert_redirected_to prog_exits_path
-
-      end
-    end
-  end
-
-  test "should not post create bad record" do
-    term = BannerTerm.first
-    start_date = (term.StartDate.to_date) + 1
-
-    travel_to start_date do
-      allowed_roles.each do |r|
-
-        load_session(r)
-
-        adm = AdmTep.first
-        exit = ProgExit.where(
-          :Student_Bnum => adm.Student_Bnum,
-          :Program_ProgCode => adm.Program_ProgCode
-          ).first
-
-        if exit
-          exit.destroy  #if there was an exit to this admission, destroy it so we can create a new one.
-        end
-
-        stu = adm.student
-        prog = adm.program
-
-        assert_raises NoMethodError do
-          post :create, {:prog_exit => {
-              :Student_Bnum => adm.Student_Bnum,
-              :Program_ProgCode => "999",   #bad program code, will trip an error
-              :ExitCode_ExitCode => "1826",   #dropped out
-              :ExitDate => start_date.strftime("%m/%d/%Y"),
-              :GPA => 2.5,
-              :GPA_last60 => 3.0,
-              :AltID => "badid" 
-            }}
-        end
 
       end
     end
@@ -131,14 +95,16 @@ class ProgExitsControllerTest < ActionController::TestCase
       adm = stu.adm_tep.first
       prog = adm.program
       expected_exit = ProgExit.new({
-          :Student_Bnum => stu.Bnum,
+          :student_id => stu.id,
           :Program_ProgCode => prog.id
         })
 
       get :new_specific, {:prog_exit_id => stu.AltID, :program_id => prog.id}
 
       assert_response :success
-      assert_equal expected_exit, assigns(:exit)
+      assert assigns(:exit).new_record?
+      assert_equal assigns(:exit).student_id, stu.id
+      assert_equal assigns(:exit).Program_ProgCode, prog.id
     end
   end
 
@@ -248,7 +214,7 @@ class ProgExitsControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
       load_session(r)
       post :create, {:prog_exit => {
-            :Student_Bnum => "bnum",
+            :student_id => "bnum",
             :Program_ProgCode => "id",
             :ExitCode_ExitCode => "1826",   #dropped out
             :ExitDate => "date!",
