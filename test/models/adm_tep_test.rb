@@ -2,11 +2,6 @@ require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
 class AdmTepTest < ActiveSupport::TestCase
-	
-	# test "data are right" do
-	# 	app = AdmTep.first
-	# 	self.my_assert(app.Student_Bnum, app.student.Bnum.to_s)
- # 	end
 
   test "scope admitted" do
     admit_count = AdmTep.admitted.size
@@ -36,7 +31,7 @@ class AdmTepTest < ActiveSupport::TestCase
   	#test validation: needing a program.
     app = AdmTep.new
     app.valid?
-    assert_equal(app.errors[:Student_Bnum], ["No student selected."])
+    assert_equal(app.errors[:student_id], ["No student selected."])
     assert_equal(app.errors[:Program_ProgCode], ["No program selected."])
     assert_equal(app.errors[:BannerTerm_BannerTerm], ["No term could be determined."])
   end
