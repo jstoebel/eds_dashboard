@@ -13,8 +13,8 @@
 	    <%= error_messages_for(@app) %>
 
     <tr>
-      <th> <%= f.label(:Student_Bnum, "Name")%> </th>
-      <td> <%= f.select(:Student_Bnum, @students.map {|s| [name_details(s, file_as=true), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
+      <th> <%= f.label(:student_id, "Name")%> </th>
+      <td> <%= f.select(:student_id, @students.map {|s| [name_details(s, file_as=true), s.Bnum]}, {:prompt => 'Select a name'}) %></td>
     </tr>
 
     <tr>

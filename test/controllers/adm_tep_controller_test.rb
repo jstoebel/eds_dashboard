@@ -39,8 +39,8 @@ class AdmTepControllerTest < ActionController::TestCase
         AdmTep.delete_all   #clear entire table or else the record won't save on the second iteration
         load_session(r)
         post :create, {:adm_tep => {
-            :Student_Bnum => stu.Bnum,
-            :Program_ProgCode => prog.ProgCode
+            :student_id => stu.id,
+            :Program_ProgCode => prog.id
           }
         }
         assert_redirected_to adm_tep_index_path
@@ -58,8 +58,8 @@ class AdmTepControllerTest < ActionController::TestCase
     travel_to bad_date do
 
       post :create, {:adm_tep => {
-          :Student_Bnum => stu.Bnum,
-          :Program_ProgCode => prog.ProgCode
+          :student_id => stu.id,
+          :Program_ProgCode => prog.id
         }
       }
 
@@ -81,8 +81,8 @@ class AdmTepControllerTest < ActionController::TestCase
     travel_to date do
 
       post :create, {:adm_tep => {
-          :Student_Bnum => stu.Bnum,
-          :Program_ProgCode => prog.ProgCode
+          :student_id => stu.id,
+          :Program_ProgCode => prog.id
         }
       }
 
@@ -104,7 +104,7 @@ class AdmTepControllerTest < ActionController::TestCase
         assert_response :success
         assert_equal assigns(:application), app
         assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-        assert_equal assigns(:student), Student.find(app.Student_Bnum)
+        assert_equal assigns(:student), Student.find(app.student_id)
       end
     end
   end
@@ -287,7 +287,7 @@ class AdmTepControllerTest < ActionController::TestCase
       load_session(r)
       stu = Student.first
       post :create, {:adm_tep => {
-        :Student_Bnum => stu.Bnum}
+        :student_id => stu.id}
       }
       assert_redirected_to "/access_denied"
     end
@@ -346,7 +346,7 @@ class AdmTepControllerTest < ActionController::TestCase
   private
   def attach_letter(app)
     letter = StudentFile.create({
-        :Student_Bnum => app.student.id,
+        :student_id => app.student.id,
         :active => true,
         :doc => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
       })

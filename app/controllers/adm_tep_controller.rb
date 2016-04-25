@@ -26,13 +26,13 @@ class AdmTepController < ApplicationController
 
     @app = AdmTep.new(new_adm_params)
 
-    @bnum =  params[:adm_tep][:Student_Bnum]
+    @bnum =  params[:adm_tep][:student_id]
     @prog_code = params[:adm_tep][:Program_ProgCode]
 
     @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
 
     #how many times has this student applied this term?
-    apps_this_term = AdmTep.where(Student_Bnum: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: @app.Program_ProgCode).size
+    apps_this_term = AdmTep.where(student_id: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: @app.Program_ProgCode).size
     @app.Attempt = apps_this_term + 1
 
     #TODO fetch GPA,  GPA last 30, earned credits. Add to @app
@@ -40,6 +40,7 @@ class AdmTepController < ApplicationController
     @app.GPA_last30 = 3.0   #TODO FIX THIS!
     @app.EarnedCredits = 45   #TODO FIX THIS!
 
+    puts @app.inspect
     if @app.save
       @student = Student.find(@bnum)
       name = name_details(@student)
@@ -59,7 +60,7 @@ class AdmTepController < ApplicationController
   def edit
       @application = AdmTep.find(params[:id])
       @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
-      @student = Student.find(@application.Student_Bnum)
+      @student = Student.find(@application.student_id)
       name_details(@student)
   end
 
@@ -83,7 +84,7 @@ class AdmTepController < ApplicationController
     @letter = StudentFile.create ({
         :doc => params[:adm_tep][:letter], 
         :active => true,
-        :Student_Bnum => @application.student.id
+        :student_id => @application.student.id
       })
     @letter.save
     
@@ -144,7 +145,7 @@ class AdmTepController < ApplicationController
 
     @app = AdmTep.find(params[:id])
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
-    @student = Student.find(@app.Student_Bnum)
+    @student = Student.find(@app.student_id)
     name_details(@student)
   end
 
@@ -158,7 +159,7 @@ class AdmTepController < ApplicationController
 
   private
   def new_adm_params
-    params.require(:adm_tep).permit(:Student_Bnum, :Program_ProgCode)
+    params.require(:adm_tep).permit(:student_id, :Program_ProgCode)
   end
 
   def edit_adm_params
@@ -181,7 +182,7 @@ class AdmTepController < ApplicationController
   def error_update
     #sends user back to edit
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
-    @student = Student.find(@application.Student_Bnum)
+    @student = Student.find(@application.student_id)
     name_details(@student)
     render('edit')
     

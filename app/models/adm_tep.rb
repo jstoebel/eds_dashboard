@@ -16,7 +16,7 @@ class AdmTep < ActiveRecord::Base
   #SCOPES 
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
   #all of a student's open programs.
-  scope :open, ->(bnum) {joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.Student_Bnum = prog_exits.Student_Bnum)").where("prog_exits.ExitCode_ExitCode IS NULL AND adm_tep.TEPAdmit = 1 AND adm_tep.Student_Bnum = ?", bnum)}
+  scope :open, ->(bnum) {joins("LEFT JOIN prog_exits ON (adm_tep.Program_ProgCode = prog_exits.Program_ProgCode) and (adm_tep.student_id = prog_exits.student_id)").where("prog_exits.ExitCode_ExitCode IS NULL AND adm_tep.TEPAdmit = 1 AND adm_tep.student_id = ?", bnum)}
   
   scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}   #all applications by term
 
@@ -25,10 +25,6 @@ class AdmTep < ActiveRecord::Base
   validate :if => :check_fks do |app|
     term = BannerTerm.find(app.BannerTerm_BannerTerm)
     next_term = BannerTerm.all.where("BannerTerm >?", app.BannerTerm_BannerTerm).order(:BannerTerm).first
-    student = Student.find(app.Student_Bnum)
-    # app.errors.add(:base, "Please select a program.") if app.Program_ProgCode.blank?
-    # app.errors.add(:base, "Please select a student to apply.") if app.Student_Bnum.blank?
-    
     app.errors.add(:TEPAdmitDate, "Admission date must be given.") if app.TEPAdmit and app.TEPAdmitDate.blank?
     app.errors.add(:TEPAdmitDate, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
     app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate
@@ -42,13 +38,13 @@ class AdmTep < ActiveRecord::Base
    
     #can't create a duplicate application unless all others are denied
     #find any apps matching student, program and term that are accepted
-    accepted_apps = AdmTep.where(Student_Bnum: app.Student_Bnum).where(Program_ProgCode: app.Program_ProgCode).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("TEPAdmit = 1 or TEPAdmit IS NULL")
+    accepted_apps = AdmTep.where(student_id: app.student_id).where(Program_ProgCode: app.Program_ProgCode).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("TEPAdmit = 1 or TEPAdmit IS NULL")
     if accepted_apps.size > 0 and app.new_record?
       app.errors.add(:base, "Student has already been admitted or has an open applicaiton for this program in this term.")
     end
 
     #make sure that there isn't an open program for this student.
-    open_programs = AdmTep.open(self.Student_Bnum).where(Program_ProgCode: self.Program_ProgCode)
+    open_programs = AdmTep.open(self.student_id).where(Program_ProgCode: self.Program_ProgCode)
     # if open_programs.size > 0 and app.new_record?
     #   self.errors.add(:base, "Student is already enrolled in this program." )
     # end
@@ -60,7 +56,7 @@ class AdmTep < ActiveRecord::Base
   private
   def check_fks
     #validate the foreign keys and return true if all are good
-    self.errors.add(:Student_Bnum, "No student selected.") unless self.Student_Bnum
+    self.errors.add(:student_id, "No student selected.") unless self.student_id
     self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm
     self.errors.add(:student_file_id, "Please attach an admission letter.") unless (self.student_file_id.present? or self.TEPAdmit == nil)

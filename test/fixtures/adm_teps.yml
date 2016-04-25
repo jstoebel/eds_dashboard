@@ -7,7 +7,7 @@
 #
 base_app: &base
   student: candidate
-  Program_ProgCode: 2
+  program: Program_1
   BannerTerm_BannerTerm: <%= BannerTerm.current_term(:exact => false, :plan_b => :back).BannerTerm %>
   Attempt: 1
   TEPAdmit: true
