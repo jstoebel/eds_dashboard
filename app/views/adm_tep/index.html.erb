@@ -51,17 +51,15 @@
 
             </tr>
         	<% @applications.each do |app|%>
-          <% student = Student.find(app.Student_Bnum) %>
-
 
   			<tr class "<%= cycle('odd', 'even') %>">
-  			<td><%= student.FirstName %></td>
-  			<td><%= student.LastName %></td>
-        <td><%= Program.find(app.Program_ProgCode).EDSProgName%> </td>
+  			<td><%= app.student.FirstName %></td>
+  			<td><%= app.student.LastName %></td>
+        <td><%= app.program.EDSProgName%> </td>
         <td><%=app.GPA %></td>
         <td><%=app.GPA_last30%></td>
         <td>
-          <% if student.praxisI_pass %> 
+          <% if app.student.praxisI_pass %> 
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
 
           <% else %>
