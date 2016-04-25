@@ -6,9 +6,9 @@ class IssueTest < ActiveSupport::TestCase
 	#TESTS FOR STUDENT BNUM
 	test "blank bnum bad" do
 		t = Issue.first
-		t.students_Bnum = nil
+		t.student_id = nil
 		t.valid?
-		assert_equal(["Please enter a valid B#, (including the B00)"], t.errors[:students_Bnum])		
+		assert_equal(["Please enter a valid B#, (including the B00)"], t.errors[:student_id])		
 	end
 
 	test "needs name" do
