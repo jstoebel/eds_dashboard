@@ -13,7 +13,7 @@
 		    <th> <%=f.label :AltID, "Student to Exit"%> </th>
 		    <td>	
 			<%= f.select :AltID, 
-			options_for_select(@students.map { |s| [name_details(s), s.AltID] }, :selected => @exit.Student_Bnum ? @exit.student.AltID : "" ), 
+			options_for_select(@students.map { |s| [name_details(s), s.AltID] }, :selected => @exit.student_id ? @exit.student.AltID : "" ), 
 
 				{:include_blank => "Select a student to exit"},
 

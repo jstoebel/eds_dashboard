@@ -6,12 +6,12 @@ class ClinicalAssignment < ActiveRecord::Base
 
 	validates :clinical_teacher_id,
 		uniqueness: {
-			scope: [:Bnum, :CourseID, :Term],
+			scope: [:student_id, :CourseID, :Term],
 			message: "Student may not be matched with same teacher more than once in the same course in the same semester."
 		},
 		presence: {message: "Please select a clinical teacher."}
 
-	validates :Bnum,
+	validates :student_id,
 		:presence => {message: "Please select a student."}
 
 	validate do |a|

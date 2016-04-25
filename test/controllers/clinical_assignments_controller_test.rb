@@ -25,7 +25,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
       assert_response :success
       assert assigns(:assignment).new_record? and not assigns(:assignment).changed?
 
-      user = User.find(session[:user])
+      user = User.find_by(:UserName => session[:user])
 
       abil = Ability.new(user)
       check_form_setup
@@ -41,21 +41,31 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
       teacher = ClinicalTeacher.first
       stu = Student.first
       expected_term = ApplicationController.helpers.current_term(exact: false, plan_b: :forward)
-      expected_assignment_id = [stu.Bnum, expected_term.BannerTerm.to_s, teacher.id.to_s, "???"].join("-")
 
       #delete current_assignment so new assignment can go through
       current_assignment.destroy
 
-      post :create, :clinical_assignment => {
-        :Bnum => stu.Bnum,
-        :clinical_teacher_id => teacher.id,
-        :StartDate => expected_term.StartDate.strftime("%m/%d/%Y"),
-        :EndDate => expected_term.EndDate.strftime("%m/%d/%Y")
-        },
-      :commit =>"Create Assignment"
+      create_params = {:clinical_assignment => {
+              :student_id => stu.id,
+              :clinical_teacher_id => teacher.id,
+              :StartDate => expected_term.StartDate.strftime("%m/%d/%Y"),
+              :EndDate => expected_term.EndDate.strftime("%m/%d/%Y")
+              },
+              :commit =>"Create Assignment"
+            }
 
+      post :create, create_params
+
+      expected_assignment = ClinicalAssignment.new create_params[:clinical_assignment]
+
+      matching_params = create_params[:clinical_assignment].map { |k, v| assigns(:assignment).send(k) == expected_assignment.send(k) } 
+
+      puts 
+
+      puts assigns(:assignment).student_id
+      puts expected_assignment.student_id
+      assert matching_params.all?, matching_params
       assert_redirected_to clinical_assignments_path
-      assert_equal assigns(:assignment), ClinicalAssignment.find(expected_assignment_id)
 
     end
   end
@@ -83,31 +93,6 @@ test "should not post create bad record" do
       assert_response :success
 
      
-    end
-  end
-
-  test "should not post create integrity error" do
-    #create an assignment with a non existant student
-    #should get an integrity error
-    role_names.each do |r|
-      load_session(r)
-
-      current_assignment = ClinicalAssignment.first
-
-      teacher = ClinicalTeacher.first
-      stu = Student.first
-      expected_term = ApplicationController.helpers.current_term(exact: false, plan_b: :forward)
-      expected_assignment_id = [stu.Bnum, expected_term.BannerTerm.to_s, teacher.id.to_s, "???"].join("-")
-
-      post_params = {
-          :Bnum => "bad id",
-          :clinical_teacher_id => teacher.id,
-          :StartDate => expected_term.StartDate.strftime("%m/%d/%Y"),
-          :EndDate => expected_term.EndDate.strftime("%m/%d/%Y")
-          }
-      assert_raises(ActiveRecord::InvalidForeignKey) { post :create, 
-        :clinical_assignment => post_params }
-
     end
   end
 
@@ -187,7 +172,7 @@ test "should not post create bad record" do
   private
 
   def check_form_setup
-    user = User.find(session[:user])
+    user = User.find_by(:UserName => session[:user])
     abil = Ability.new(user)
     # TODO figure out why this doesn't work as expected
     # assert assigns(:students) == Student.current.by_last.select{|s| abil.can? :read, s}, user.inspect

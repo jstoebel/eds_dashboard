@@ -40,7 +40,6 @@ class AdmTepController < ApplicationController
     @app.GPA_last30 = 3.0   #TODO FIX THIS!
     @app.EarnedCredits = 45   #TODO FIX THIS!
 
-    puts @app.inspect
     if @app.save
       @student = Student.find(@bnum)
       name = name_details(@student)

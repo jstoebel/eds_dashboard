@@ -41,7 +41,6 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.CourseID = '???'    
 
     @assignment.Term = current_term({exact: false, plan_b: :forward}).BannerTerm
-    get_assignment_id
   
     authorize! :manage, @assignment
 
@@ -60,8 +59,6 @@ class ClinicalAssignmentsController < ApplicationController
     form_setup
     @assignment = ClinicalAssignment.find(params[:id])
     authorize! :manage, @assignment
-    # @student = Student.find(@assignment.Bnum)
-    # @teacher = ClinicalTeacher.find(@assignment.clinical_teacher_id)
   end
 
   def update
@@ -90,7 +87,7 @@ class ClinicalAssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:clinical_assignment).permit(:Bnum, :clinical_teacher_id, :Term, :CourseID, :Level, :StartDate, :EndDate)
+    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level, :StartDate, :EndDate)
     
   end
   def form_setup
@@ -99,9 +96,4 @@ class ClinicalAssignmentsController < ApplicationController
     @current_term = current_term exact: false, plan_b: :forward
   end
 
-  def get_assignment_id
-    #builds an assignment's id
-    @assignment.id = [@assignment.Bnum, @assignment.Term.to_s, 
-    @assignment.clinical_teacher_id.to_s, @assignment.CourseID].join('-')
-  end
 end
