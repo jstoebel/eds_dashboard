@@ -27,7 +27,7 @@ class StudentTest < ActiveSupport::TestCase
 		assignment = AdvisorAssignment.first
 		s = assignment.student
 		adv = assignment.tep_advisor
-		assert s.is_advisee_of(adv.AdvisorBnum)
+		assert s.is_advisee_of(adv)
 	end
 
 	test "is advisee of fails" do
@@ -48,7 +48,7 @@ class StudentTest < ActiveSupport::TestCase
 
 		stu = course.student
 		prof_bnum = course.Inst_bnum
-		assert stu.is_student_of(prof_bnum), "inst B# is " + prof_bnum
+		assert stu.is_student_of?(prof_bnum), "inst B# is " + prof_bnum
 	end
 
 	test "is student of fails bad term" do
@@ -60,10 +60,11 @@ class StudentTest < ActiveSupport::TestCase
 		course.save
 		stu = course.student
 		prof_bnum = course.Inst_bnum
-		assert stu.is_student_of(prof_bnum) == false
+		assert stu.is_student_of?(prof_bnum) == false
 	end
 
 	test "is student of fails not student" do
+
 		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})		
 
 		#fails because student doesn't have this prof (in fact the Bnum is completly bogus)
@@ -74,7 +75,7 @@ class StudentTest < ActiveSupport::TestCase
 
 		stu = course.student
 		prof_bnum = course.Inst_bnum
-		assert stu.is_student_of("bogus bnum") == false
+		assert stu.is_student_of?("bogus bnum") == false
 	end
 
 	test "praxisI_pass" do

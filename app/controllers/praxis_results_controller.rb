@@ -28,7 +28,7 @@ class PraxisResultsController < ApplicationController
 
   def create
     @test = PraxisResult.new(safe_params)
-    stu_id = (params["praxis_result"]["AltID"])
+    stu_id = (params["praxis_result"]["id"])
     stu = Student.find(stu_id)
     authorize! :create, @test     #this should restrict advisors from adding new tests
     @test.student_id = stu.id
