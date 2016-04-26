@@ -66,20 +66,31 @@ class Student < ActiveRecord::Base
 
 	def prog_status
 		#Program Statuses
-		# Prospective
-		# 	A student who has registered for EDS150 and has not indicated they WON'T apply to the TEP.
-		# 	No admit found in TEP
-		# 	FOI does not incidate that the student IS NOT seeking certification 
+		# Prospective: all of the following conditions are met.
 
-		# Not applying:
-		# 	A student who has indicated they are not interested in applying to the TEP.
-		# 	FOI indicates they are not interested in certification
+		#   * student has not been dismissed AND
+		#	* latest FOI does not incidate that the student IS NOT seeking certification AND
+		# 	* No admit in adm_tep 
+
+		if 	(not self.was_dismissed?) and 
+			(self.latest_foi == nil or self.latest_foi.seek_cert) and
+			(self.adm_tep.where(:TEPAdmit => true).size == 0)
+
+			return "Prospective"
+
+
+		# Not applying: any of the following
+		# 	A student who has indicated they are not interested in applying to the TEP. OR
+		# 	A student who was dismissed from the college and never aditted to TEP
+		elsif 	(self.latest_foi.present? and not self.latest_foi.seek_cert) or
+				(self.was_dismissed?)
+			return "Not applying"
 
 		# Candidate
-		# 	A student who has applied to the TEP, was admitted and is still persuing certification.
 		# 	Admited in adm_tep
 		# 	no exit
-
+		elsif AdmTep.open(self.id).size > 0
+			return "Candidate"
 
 		# Dropped
 		# 	A student who has left the TEP after being admited for any reason other than program completion
@@ -87,17 +98,35 @@ class Student < ActiveRecord::Base
 		# 	all adm_tep are closed
 		#   all exit reasons something other than program completion 
 
+		elsif 	(AdmTep.open(self.id).size == 0) and
+				(self.prog_exits.map{ |e| e.exit_code.ExitCode != "1849" }.all?)
+
+			return "Dropped"
+
 		# Completer
 		# 	A student who has successfully completed the TEP.
-		# 	Admited in adm_tep
 		# 	all adm_tep are closed
 		#   atleast one exit is for reason program completion
+		elsif 	(AdmTep.open(self.id).size == 0) and
+				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?)
 
-		
+			return "Completer"
 
-
+		else
+			return "Unknown Status"
+		end
 
 
 	end
+
+	def was_dismissed?
+		return self.EnrollmentStatus.include?("Dismissed")
+	end
+
+	def latest_foi
+		#the most recent form of intention for this student
+		return Foi.where({:student_id => self.id}).order(:date_completing).last
+	end
+
 
 end

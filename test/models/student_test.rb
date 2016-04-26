@@ -92,6 +92,33 @@ class StudentTest < ActiveSupport::TestCase
 	   	
 			assert_equal stu.praxisI_pass, passing
 		end
-
 	end
+
+	test "latest_foi" do
+		stu = Foi.first.student
+		assert_equal stu.foi.order(:date_completing).last, stu.latest_foi
+	end
+
+	test "was_dismissed" do
+		stu = Student.first
+		stu.EnrollmentStatus = "Dismissed - Academic"
+		stu.save
+		assert stu.was_dismissed?
+	end
+
+	test "prog_status prospective no foi" do
+
+		Foi.delete_all
+		AdmTep.delete_all
+		s = Student.first
+		s.EnrollmentStatus = "Active Student"
+		s.save
+		assert_equal "Prospective", s.prog_status
+	end
+
+	test "prog_status prospective positive foi" do
+		stu = Foi.find_by(:seek_cert => true).first
+		#FINISH ME!
+	end
+
 end
