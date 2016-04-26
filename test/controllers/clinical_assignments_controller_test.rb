@@ -48,23 +48,24 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
       create_params = {:clinical_assignment => {
               :student_id => stu.id,
               :clinical_teacher_id => teacher.id,
-              :StartDate => expected_term.StartDate.strftime("%m/%d/%Y"),
-              :EndDate => expected_term.EndDate.strftime("%m/%d/%Y")
+              :StartDate => expected_term.StartDate.strftime("%d/%m/%Y"),
+              :EndDate => expected_term.EndDate.strftime("%d/%m/%Y")
               },
               :commit =>"Create Assignment"
             }
 
       post :create, create_params
 
-      expected_assignment = ClinicalAssignment.new create_params[:clinical_assignment]
 
-      matching_params = create_params[:clinical_assignment].map { |k, v| assigns(:assignment).send(k) == expected_assignment.send(k) } 
+      assignment_params = create_params[:clinical_assignment]
+      expected_assignment = ClinicalAssignment.new assignment_params
 
-      puts 
+      #filter down the expected and the actual based on the keys we want to compare.
+      expected_filtered = expected_assignment.attributes.select { |k, v| assignment_params.include?(k.to_sym)}
+      actual_filtered = assigns(:assignment).attributes.select { |k, v| assignment_params.include?(k.to_sym)}
 
-      puts assigns(:assignment).student_id
-      puts expected_assignment.student_id
-      assert matching_params.all?, matching_params
+      assert_equal expected_filtered, actual_filtered
+
       assert_redirected_to clinical_assignments_path
 
     end
