@@ -9,14 +9,8 @@ class StudentsController < ApplicationController
   end
 
   def show
-    @student = Student.find_by(:AltID => params[:id])
+    @student = Student.find params[:id]
     authorize! :show, @student
-  end
-
-  def edit
-  end
-
-  def update
   end
 
 end

@@ -7,7 +7,7 @@ class StudentsControllerTest < ActionController::TestCase
       load_session("admin")
       get :index
       assert_response :success
-      user = User.find(session[:user])
+      user = User.find_by(:UserName => session[:user])
       ability = Ability.new(user)
       assert_equal Student.all.current.by_last.select {|r| ability.can? :read, r }, assigns(:students)
   end
@@ -17,7 +17,7 @@ class StudentsControllerTest < ActionController::TestCase
       load_session("staff")
       get :index
       assert_response :success
-      user = User.find(session[:user])
+      user = User.find_by(:UserName => session[:user])
       ability = Ability.new(user)
       assert_equal Student.all.current.by_last.select {|r| ability.can? :read, r }, assigns(:students)
   end
@@ -26,7 +26,7 @@ class StudentsControllerTest < ActionController::TestCase
       load_session("advisor")
       get :index
       assert_response :success
-      user = User.find(session[:user])
+      user = User.find_by(:UserName => session[:user])
       ability = Ability.new(user)
       assert_equal Student.all.current.by_last.select {|r| ability.can? :read, r }, assigns(:students)
   end

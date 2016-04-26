@@ -32,13 +32,22 @@ class Student < ActiveRecord::Base
 		return my_advisors.include?(advisor_profile)
 	end
 
-	def is_student_of(advisor_profile)
+	# def is_student_of(advisor_profile)
+	# 	#does this student have this prof in the current term (plan_b = forward)
+
+	# 	term = current_term({:exact => false, :plan_b => :forward})
+	# 	classes = self.transcripts.in_term(term)
+	# 	my_profs = classes.map { |i| i.Inst_bnum }
+	# 	return my_profs.include?(advisor_profile.AdvisorBnum)
+	# end
+
+	def is_student_of?(inst_bnum)
 		#does this student have this prof in the current term (plan_b = forward)
 
-		term = current_term({:exact => false, :plan_b => :forward})
+		term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
 		classes = self.transcripts.in_term(term)
-		prof_bnums = classes.map { |i| i.Inst_bnum }
-		return profs.include?(advisor_profile.AdvisorBnum)
+		my_profs = classes.map { |i| i.Inst_bnum }
+		return my_profs.include?(inst_bnum) 
 	end
 
 	def praxisI_pass
