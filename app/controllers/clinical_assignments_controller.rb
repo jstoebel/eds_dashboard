@@ -20,14 +20,14 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.assign_attributes(assignment_params)
 
     begin
-      start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%m/%d/%Y')
+      start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%d/%m/%Y')
       @assignment.StartDate = start_date 
     rescue ArgumentError => e
       @assignment.StartDate = nil
     end
 
     begin
-      end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%m/%d/%Y')
+      end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%d/%m/%Y')
       @assignment.EndDate = end_date
     rescue ArgumentError => e
       @assignment.EndDate = end_date
