@@ -11,7 +11,7 @@
 #  column: value
 
 one:
-  student: candidate
+  student: grad_completer
   program: Program_1
   exit_code: ExitCode_9
   ExitTerm: 201511
