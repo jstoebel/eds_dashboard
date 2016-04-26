@@ -65,14 +65,13 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test.destroy
       test_params = test.attributes
 
-      test_params[:AltID => stu.AltID]
-      # test_params = {
-      #   :AltID => stu.AltID,
-      #   :praxis_test_id => PraxisTest.first.id, 
-      #   :test_date => Date.today, 
-      #   :reg_date => Date.today, 
-      #   :paid_by => "ETS (fee waiver)"        
-      # }
+      test_params = {
+        :id => stu.id,
+        :praxis_test_id => PraxisTest.first.id, 
+        :test_date => Date.today, 
+        :reg_date => Date.today, 
+        :paid_by => "ETS (fee waiver)"        
+      }
 
       post :create, {:praxis_result => test_params}
 
@@ -106,7 +105,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = PraxisResult.first
 
       test_params = {
-        :AltID => test.student.AltID, 
+        :id => test.student.id, 
         :praxis_test_id => test.praxis_test_id, 
         :test_date => test.test_date, 
         :reg_date => test.reg_date, 
