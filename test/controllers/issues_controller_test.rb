@@ -29,23 +29,24 @@ class IssuesControllerTest < ActionController::TestCase
         :Description => "Test descrip"
       }
 
-      expected_issue = Issue.create({
+      expected_params = {
         :student_id => stu.id,
         :Name => create_params[:Name],
         :Description => create_params[:Description],
         :Open => true,
         :tep_advisors_AdvisorBnum => advisor.AdvisorBnum
-        })
+        }
+
 
       post :create, {:student_id => stu.AltID, :issue => create_params}
 
       #we expect that the two records will be the same except for id
-      expected_attr = expected_issue.attributes
-      actual_attr = assigns(:issue).attributes
-      
-      [expected_attr, actual_attr].map { |i| i.delete("IssueID")}
+      expected_issue = Issue.new(expected_params)
+      actual_issue = assigns(:issue).attributes
 
-      assert_equal expected_attr.inspect, actual_attr.inspect
+      actual_attrs = expected_params.select { |k, v| expected_params.include?(k)}
+
+      assert_equal expected_params, actual_attrs
 
       assert assigns(:issue).present?, assigns(:issue) == nil
       assert assigns(:issue).valid?, assigns(:issue).errors.full_messages
