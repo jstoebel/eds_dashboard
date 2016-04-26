@@ -38,3 +38,4 @@ bower.json
 # Ignore pow environment settings
 .powenv
 error_rpt.txt
+error_report.txt
