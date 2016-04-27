@@ -64,6 +64,12 @@ class Student < ActiveRecord::Base
 		return self.id
 	end
 
+	def open_programs
+		admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
+
+		return admited.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
+	end
+
 	def prog_status
 		#Program Statuses
 		# Prospective: all of the following conditions are met.
@@ -89,7 +95,7 @@ class Student < ActiveRecord::Base
 		# Candidate
 		# 	Admited in adm_tep
 		# 	no exit
-		elsif AdmTep.open(self.id).size > 0
+		elsif self.open_programs.size > 0
 			return "Candidate"
 
 		# Dropped
@@ -98,7 +104,7 @@ class Student < ActiveRecord::Base
 		# 	all adm_tep are closed
 		#   all exit reasons something other than program completion 
 
-		elsif 	(AdmTep.open(self.id).size == 0) and
+		elsif 	(self.open_programs.size == 0) and
 				(self.prog_exits.map{ |e| e.exit_code.ExitCode != "1849" }.all?)
 
 			return "Dropped"

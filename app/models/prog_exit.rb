@@ -6,6 +6,7 @@ class ProgExit < ActiveRecord::Base
 	belongs_to :exit_code, foreign_key: "ExitCode_ExitCode"
 	belongs_to :banner_term, foreign_key: "ExitTerm"
 
+	has_one :adm_tep, :through => :program
 	#CALLBACKS
 	before_validation :add_term
 
