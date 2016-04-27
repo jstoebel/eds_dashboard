@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421194532) do
+ActiveRecord::Schema.define(version: 20160427135003) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20160421194532) do
   add_index "adm_st", ["student_id"], name: "adm_st_student_id_fk", using: :btree
 
   create_table "adm_tep", force: true do |t|
-    t.integer  "student_id"
+    t.integer  "student_id",                       null: false
     t.integer  "Program_ProgCode",                 null: false
     t.integer  "BannerTerm_BannerTerm",            null: false
     t.integer  "Attempt",                          null: false
@@ -215,7 +215,7 @@ ActiveRecord::Schema.define(version: 20160421194532) do
   add_index "praxis_prep", ["student_id"], name: "praxis_prep_student_id_fk", using: :btree
 
   create_table "praxis_results", force: true do |t|
-    t.integer  "student_id"
+    t.integer  "student_id",     null: false
     t.integer  "praxis_test_id"
     t.datetime "test_date"
     t.datetime "reg_date"
@@ -231,7 +231,7 @@ ActiveRecord::Schema.define(version: 20160421194532) do
   add_index "praxis_results", ["student_id"], name: "fk_praxis_results_students_idx", using: :btree
 
   create_table "praxis_subtest_results", force: true do |t|
-    t.integer "praxis_result_id"
+    t.integer "praxis_result_id", null: false
     t.integer "sub_number"
     t.string  "name"
     t.integer "pts_earned"
@@ -336,7 +336,7 @@ ActiveRecord::Schema.define(version: 20160421194532) do
   create_table "tep_advisors", force: true do |t|
     t.string  "AdvisorBnum", limit: 9,  null: false
     t.string  "Salutation",  limit: 45, null: false
-    t.integer "user_id"
+    t.integer "user_id",                null: false
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
