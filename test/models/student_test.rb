@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'minitest/autorun'
 
 class StudentTest < ActiveSupport::TestCase
 
@@ -106,8 +107,14 @@ class StudentTest < ActiveSupport::TestCase
 		assert stu.was_dismissed?
 	end
 
-	test "prog_status prospective no foi" do
+	test "was_dismissed false" do
+		stu = Student.first
+		stu.EnrollmentStatus = "Active Student"
+		stu.save
+		assert_not stu.was_dismissed?		
+	end
 
+	test "returns prospective no foi" do
 		Foi.delete_all
 		AdmTep.delete_all
 		s = Student.first
@@ -116,9 +123,110 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal "Prospective", s.prog_status
 	end
 
-	test "prog_status prospective positive foi" do
-		stu = Foi.find_by(:seek_cert => true).first
-		#FINISH ME!
+	test "returns prospective positive foi" do
+		stu = Student.first
+
+		#remove all FOIs and adm_tep
+		form = Foi.first
+		Foi.delete_all
+		AdmTep.delete_all
+		form.seek_cert = true
+		form.student_id = stu.id
+		form.save
+
+		stu.EnrollmentStatus = "Active Student"
+		stu.save
+
+		assert_equal "Prospective", stu.prog_status
+	end
+
+	test "returns not applying foi" do
+		stu = Student.first
+
+		#remove all FOIs and adm_tep
+		form = Foi.first
+		Foi.delete_all
+		AdmTep.delete_all
+
+		form.seek_cert = true
+		form.student_id = stu.id
+		form.save
+
+		stu.EnrollmentStatus = "Active Student"
+		stu.save
+
+		assert_equal "Prospective", stu.prog_status
+
+	end
+
+	test "returns not applying dismissed" do
+		stu = Student.first
+		Foi.delete_all
+
+		stu.EnrollmentStatus = "Dismissed - Academic"
+		stu.save
+		assert_equal "Not applying", stu.prog_status
+	end
+
+	test "returns candidate" do
+		ProgExit.delete_all
+		app = AdmTep.find_by :TEPAdmit => true
+		assert_equal "Candidate", app.student.prog_status
+	end
+
+	test "returns dropped" do
+
+		my_exit = ProgExit.first
+		stu = my_exit.student
+
+		#delete all exits and start over
+		ProgExit.delete_all
+
+		#get the code for exit
+		drop_exit = ExitCode.find_by :ExitCode => "1809"
+
+		#create a new exit that isn't a completion
+		my_exit.ExitCode_ExitCode = drop_exit.id
+		my_exit.RecommendDate = nil
+		new_exit = ProgExit.new my_exit.attributes
+
+		#make sure the new 
+		assert new_exit.save, new_exit.errors.full_messages
+
+		assert_equal "Dropped", stu.prog_status
+
+	end
+
+	test "returns completer" do
+		completer_code = ExitCode.find_by :ExitCode => "1849"
+		my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id 
+		stu = my_exit.student
+		assert_equal "Completer", stu.prog_status
+	end
+
+	test "returns completer with one drop" do
+		completer_code = ExitCode.find_by :ExitCode => "1849"
+		my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id 
+		stu = my_exit.student
+		old_app = my_exit.adm_tep
+
+		#create a second admission
+		second_program = Program.where.not(:id => my_exit.ExitCode_ExitCode).first
+		second_adm = AdmTep.new old_app.attributes
+		second_adm.Program_ProgCode = second_program.id
+		second_adm.id = nil
+		attach_letter second_adm
+
+		assert second_adm.save, second_adm.errors.full_messages
+
+	end
+
+	test "open_programs" do
+		stu = Student.first
+		apps = stu.adm_tep.where(:TEPAdmit => true)
+		expected = apps.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
+		
+		assert_equal expected.to_a, stu.open_programs.to_a
 	end
 
 end

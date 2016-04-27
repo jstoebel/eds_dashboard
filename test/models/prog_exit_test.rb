@@ -81,6 +81,9 @@ class ProgExitTest < ActiveSupport::TestCase
 
 	test "require completer before completion" do
 		exit = ProgExit.first
+		stu = exit.student
+		stu.EnrollmentStatus = "Active Student"
+		stu.save
 		exit.valid?
 		assert_equal(["Student must have graduated in order to complete their program."], exit.errors[:ExitCode_ExitCode])
 	end

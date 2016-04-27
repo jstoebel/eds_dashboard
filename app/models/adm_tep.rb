@@ -10,6 +10,8 @@ class AdmTep < ActiveRecord::Base
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
   belongs_to :student_file
 
+  has_one :prog_exit, :through => :program
+
   #CALL BACKS
   after_save :change_status
 
@@ -51,8 +53,6 @@ class AdmTep < ActiveRecord::Base
 
   end
 
-
-  
   private
   def check_fks
     #validate the foreign keys and return true if all are good
