@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427135003) do
+ActiveRecord::Schema.define(version: 20160428191004) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -79,6 +79,21 @@ ActiveRecord::Schema.define(version: 20160427135003) do
   end
 
   add_index "alumni_info", ["Student_Bnum"], name: "fk_AlumniInfo_Student1_idx", using: :btree
+
+  create_table "assessment_versions", force: true do |t|
+    t.integer  "assessment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "assessment_versions", ["assessment_id"], name: "assessment_versions_assessment_id_fk", using: :btree
+
+  create_table "assessments", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "banner_terms", primary_key: "BannerTerm", force: true do |t|
     t.string   "PlainTerm", limit: 45, null: false
@@ -387,6 +402,8 @@ ActiveRecord::Schema.define(version: 20160427135003) do
   add_foreign_key "advisor_assignments", "tep_advisors", name: "advisor_assignments_tep_advisor_id_fk"
 
   add_foreign_key "alumni_info", "students", name: "fk_AlumniInfo_Student", column: "Student_Bnum", primary_key: "Bnum"
+
+  add_foreign_key "assessment_versions", "assessments", name: "assessment_versions_assessment_id_fk"
 
   add_foreign_key "clinical_assignments", "clinical_teachers", name: "clinical_assignments_clinical_teacher_id_fk"
   add_foreign_key "clinical_assignments", "students", name: "clinical_assignments_student_id_fk"
