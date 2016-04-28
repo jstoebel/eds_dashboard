@@ -64,6 +64,8 @@ gem "factory_girl_rails", "~> 4.0"
 gem 'faker', '~> 1.6', '>= 1.6.3'
 gem 'puma'
 gem 'phony_rails'
+
+gem 'active_record-acts_as' #for multi table inheritance
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
