@@ -11,7 +11,11 @@
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
+include Faker
 FactoryGirl.define do
   factory :assessment do
+    name Lorem.words(4).join " "
+    description Lorem.paragraph
+
   end
 end

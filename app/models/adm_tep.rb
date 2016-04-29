@@ -16,13 +16,6 @@
 #  Notes                 :text
 #  student_file_id       :integer
 #
-# Indexes
-#
-#  adm_tep_student_file_id_fk  (student_file_id)
-#  adm_tep_student_id_fk       (student_id)
-#  fk_AdmTEP_BannerTerm1_idx   (BannerTerm_BannerTerm)
-#  fk_AdmTEP_Program1_idx      (Program_ProgCode)
-#
 
 class AdmTep < ActiveRecord::Base
   self.table_name = 'adm_tep'

@@ -10,11 +10,6 @@
 #  created_at               :datetime
 #  updated_at               :datetime
 #
-# Indexes
-#
-#  fk_IssueUpdates_Issues1_idx        (Issues_IssueID)
-#  fk_IssueUpdates_tep_advisors1_idx  (tep_advisors_AdvisorBnum)
-#
 
 require 'test_helper'
 

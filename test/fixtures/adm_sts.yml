@@ -20,12 +20,6 @@
 #  updated_at            :datetime
 #  student_file_id       :integer
 #
-# Indexes
-#
-#  adm_st_student_file_id_fk  (student_file_id)
-#  adm_st_student_id_fk       (student_id)
-#  fk_AdmST_BannerTerm1_idx   (BannerTerm_BannerTerm)
-#
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 

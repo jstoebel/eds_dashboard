@@ -8,14 +8,13 @@
 #  created_at    :datetime
 #  updated_at    :datetime
 #
-# Indexes
-#
-#  assessment_versions_assessment_id_fk  (assessment_id)
-#
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
+include Faker
 FactoryGirl.define do
   factory :assessment_version do
+    assessment  #create a new :assessment
+    
   end
 end

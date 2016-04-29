@@ -12,10 +12,6 @@
 #  Rank             :integer
 #  YearsExp         :integer
 #
-# Indexes
-#
-#  fk_ClinicalTeacher_ClinicalSite1_idx  (clinical_site_id)
-#
 
 class ClinicalTeacher < ActiveRecord::Base
 

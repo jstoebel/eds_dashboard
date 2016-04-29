@@ -17,12 +17,6 @@
 #  reg_status        :string(45)
 #  Inst_bnum         :string(45)
 #
-# Indexes
-#
-#  fk_transcript_banner_terms1_idx         (term_taken)
-#  index_transcript_on_crn_and_student_id  (crn,student_id)
-#  transcript_student_id_fk                (student_id)
-#
 
 require 'test_helper'
 

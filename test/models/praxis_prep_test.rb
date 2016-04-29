@@ -24,11 +24,6 @@
 #  RemediationComplete :boolean
 #  Notes               :text(2147483647)
 #
-# Indexes
-#
-#  fk_PraxisPrep_PraxisTest1_idx  (PraxisTest_TestCode)
-#  praxis_prep_student_id_fk      (student_id)
-#
 
 require 'test_helper'
 

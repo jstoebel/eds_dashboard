@@ -11,11 +11,6 @@
 #  created_at               :datetime
 #  updated_at               :datetime
 #
-# Indexes
-#
-#  fk_Issues_tep_advisors1_idx  (tep_advisors_AdvisorBnum)
-#  issues_student_id_fk         (student_id)
-#
 
 require 'test_helper'
 

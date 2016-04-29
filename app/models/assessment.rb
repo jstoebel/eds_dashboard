@@ -24,4 +24,12 @@ class Assessment < ActiveRecord::Base
     ### VALIDATIONS ###
     validates :name, :presence => true
 
+    def versions
+        return self.assessment_versions
+    end
+
+    def current_version
+        return self.versions.order(:version_num).last
+    end
+
 end

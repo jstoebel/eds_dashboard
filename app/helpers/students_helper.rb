@@ -22,10 +22,6 @@
 #  Email            :string(100)
 #  CPO              :string(45)
 #
-# Indexes
-#
-#  Bnum_UNIQUE  (Bnum) UNIQUE
-#
 
 module StudentsHelper
 end
