@@ -11,10 +11,6 @@
 #  avg_high         :integer
 #  avg_low          :integer
 #
-# Indexes
-#
-#  praxis_subtest_results_praxis_result_id_fk  (praxis_result_id)
-#
 
 class PraxisSubtestResult < ActiveRecord::Base
 	belongs_to :praxis_result

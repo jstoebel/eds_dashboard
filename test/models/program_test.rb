@@ -8,10 +8,6 @@
 #  EDSProgName  :string(45)
 #  Current      :boolean
 #
-# Indexes
-#
-#  ProgCode_UNIQUE  (ProgCode) UNIQUE
-#
 
 require 'test_helper'
 

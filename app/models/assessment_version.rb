@@ -8,10 +8,10 @@
 #  created_at    :datetime
 #  updated_at    :datetime
 #
-# Indexes
-#
-#  assessment_versions_assessment_id_fk  (assessment_id)
-#
+
+=begin
+Represents a specific version of a paticular assessment
+=end
 
 class AssessmentVersion < ActiveRecord::Base
 
@@ -19,4 +19,11 @@ class AssessmentVersion < ActiveRecord::Base
     belongs_to :assessment
     has_many  :assessment_item_versions
     has_many :assessment_items, :through => :assessment_item_version
+
+    before_save :set_version_num
+
+    def set_version_num
+        syblings = AssessmentVersion.where(assessment_id: self.assessment_id)
+        self.version_num = syblings.size + 1
+    end
 end

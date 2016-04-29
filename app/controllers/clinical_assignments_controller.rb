@@ -11,11 +11,6 @@
 #  StartDate           :date
 #  EndDate             :date
 #
-# Indexes
-#
-#  clinical_assignments_student_id_fk           (student_id)
-#  fk_ClinicalAssignments_ClinicalTeacher1_idx  (clinical_teacher_id)
-#
 
 class ClinicalAssignmentsController < ApplicationController
   authorize_resource

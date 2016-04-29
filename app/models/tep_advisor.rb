@@ -7,11 +7,6 @@
 #  Salutation  :string(45)       not null
 #  user_id     :integer          not null
 #
-# Indexes
-#
-#  AdvisorBnum_UNIQUE       (AdvisorBnum) UNIQUE
-#  tep_advisors_user_id_fk  (user_id)
-#
 
 class TepAdvisor < ActiveRecord::Base
 	self.table_name = "tep_advisors"

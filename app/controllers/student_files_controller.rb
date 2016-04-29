@@ -10,10 +10,6 @@
 #  doc_file_size    :integer
 #  doc_updated_at   :datetime
 #
-# Indexes
-#
-#  student_files_student_id_fk  (student_id)
-#
 
 class StudentFilesController < ApplicationController
   authorize_resource

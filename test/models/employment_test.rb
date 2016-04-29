@@ -8,10 +8,6 @@
 #  EmpCategory :string(45)
 #  Employer    :string(45)
 #
-# Indexes
-#
-#  employment_student_id_fk  (student_id)
-#
 
 require 'test_helper'
 

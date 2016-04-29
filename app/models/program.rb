@@ -8,10 +8,6 @@
 #  EDSProgName  :string(45)
 #  Current      :boolean
 #
-# Indexes
-#
-#  ProgCode_UNIQUE  (ProgCode) UNIQUE
-#
 
 class Program < ActiveRecord::Base
 	has_many :adm_tep, {:foreign_key => 'Program_ProgCode'}

@@ -8,10 +8,6 @@
 #  EDSProgName  :string(45)
 #  Current      :boolean
 #
-# Indexes
-#
-#  ProgCode_UNIQUE  (ProgCode) UNIQUE
-#
 
 Program_1:
   ProgCode: '14'
