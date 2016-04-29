@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: programs
+#
+#  id           :integer          not null, primary key
+#  ProgCode     :string(10)       not null
+#  EPSBProgName :string(100)
+#  EDSProgName  :string(45)
+#  Current      :boolean
+#
+# Indexes
+#
+#  ProgCode_UNIQUE  (ProgCode) UNIQUE
+#
+
 Program_1:
   ProgCode: '14'
   EPSBProgName: Elementary-P-5

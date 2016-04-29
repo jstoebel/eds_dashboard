@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: exit_codes
+#
+#  id          :integer          not null, primary key
+#  ExitCode    :string(5)        not null
+#  ExitDiscrip :string(45)       not null
+#
+
 ExitCode_1:
   ExitCode: '1809'
   ExitDiscrip: Unsuccessful Student Teaching
