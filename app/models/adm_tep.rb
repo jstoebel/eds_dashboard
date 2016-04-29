@@ -1,3 +1,29 @@
+# == Schema Information
+#
+# Table name: adm_tep
+#
+#  student_id            :integer          not null
+#  id                    :integer          not null, primary key
+#  Program_ProgCode      :integer          not null
+#  BannerTerm_BannerTerm :integer          not null
+#  Attempt               :integer          not null
+#  GPA                   :float(24)
+#  GPA_last30            :float(24)
+#  EarnedCredits         :integer
+#  PortfolioPass         :boolean
+#  TEPAdmit              :boolean
+#  TEPAdmitDate          :datetime
+#  Notes                 :text
+#  student_file_id       :integer
+#
+# Indexes
+#
+#  adm_tep_student_file_id_fk  (student_file_id)
+#  adm_tep_student_id_fk       (student_id)
+#  fk_AdmTEP_BannerTerm1_idx   (BannerTerm_BannerTerm)
+#  fk_AdmTEP_Program1_idx      (Program_ProgCode)
+#
+
 class AdmTep < ActiveRecord::Base
   self.table_name = 'adm_tep'
 

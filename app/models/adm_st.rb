@@ -1,3 +1,32 @@
+# == Schema Information
+#
+# Table name: adm_st
+#
+#  student_id            :integer          not null
+#  id                    :integer          not null, primary key
+#  BannerTerm_BannerTerm :integer
+#  Attempt               :integer          not null
+#  OverallGPA            :float(24)
+#  CoreGPA               :float(24)
+#  STAdmitted            :boolean
+#  STAdmitDate           :datetime
+#  STTerm                :integer
+#  Notes                 :text
+#  background_check      :boolean
+#  beh_train             :boolean
+#  conf_train            :boolean
+#  kfets_in              :boolean
+#  created_at            :datetime
+#  updated_at            :datetime
+#  student_file_id       :integer
+#
+# Indexes
+#
+#  adm_st_student_file_id_fk  (student_file_id)
+#  adm_st_student_id_fk       (student_id)
+#  fk_AdmST_BannerTerm1_idx   (BannerTerm_BannerTerm)
+#
+
 class AdmSt < ActiveRecord::Base
   self.table_name = 'adm_st'
   include ApplicationHelper

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: banner_terms
+#
+#  BannerTerm :integer          not null, primary key
+#  PlainTerm  :string(45)       not null
+#  StartDate  :datetime         not null
+#  EndDate    :datetime         not null
+#  AYStart    :integer          not null
+#
+
 class BannerTerm < ActiveRecord::Base
 	has_many :adm_tep, foreign_key: "BannerTerm_BannerTerm"
 	has_many :adm_st, foreign_key: "BannerTerm_BannerTerm"
