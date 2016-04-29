@@ -13,9 +13,10 @@
 #  assessment_versions_assessment_id_fk  (assessment_id)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+require 'test_helper'
 
-FactoryGirl.define do
-  factory :assessment_version do
-  end
+class AssessmentVersionTest < ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
 end

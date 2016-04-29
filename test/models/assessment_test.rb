@@ -1,16 +1,17 @@
 # == Schema Information
 #
-# Table name: praxis_updates
+# Table name: assessments
 #
 #  id          :integer          not null, primary key
-#  report_date :datetime
+#  name        :string(255)
+#  description :text
 #  created_at  :datetime
 #  updated_at  :datetime
 #
 
 require 'test_helper'
 
-class PraxisUpdateTest < ActiveSupport::TestCase
+class AssessmentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

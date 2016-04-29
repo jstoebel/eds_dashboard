@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id            :integer          not null, primary key
+#  UserName      :string(45)       not null
+#  FirstName     :string(45)       not null
+#  LastName      :string(45)       not null
+#  Email         :string(45)       not null
+#  Roles_idRoles :integer          not null
+#
+# Indexes
+#
+#  UserName_UNIQUE      (UserName) UNIQUE
+#  fk_users_Roles1_idx  (Roles_idRoles)
+#
+
 FactoryGirl.define do
     factory :user do
         sequence(:UserName) { |b| "user#{b.to_s.rjust(3, '0')}" }
