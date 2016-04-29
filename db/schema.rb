@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429154924) do
+ActiveRecord::Schema.define(version: 20160429180057) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -99,14 +99,14 @@ ActiveRecord::Schema.define(version: 20160429154924) do
   end
 
   create_table "assessment_scores", force: true do |t|
-    t.integer  "student_assessment_id", null: false
-    t.integer  "assessment_item_id",    null: false
+    t.integer  "student_assessment_id",      null: false
+    t.integer  "assessment_item_version_id", null: false
     t.integer  "score"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "assessment_scores", ["assessment_item_id"], name: "assessment_scores_assessment_item_id_fk", using: :btree
+  add_index "assessment_scores", ["assessment_item_version_id"], name: "assessment_scores_assessment_item_version_id_fk", using: :btree
   add_index "assessment_scores", ["student_assessment_id"], name: "assessment_scores_student_assessment_id_fk", using: :btree
 
   create_table "assessment_versions", force: true do |t|
@@ -232,7 +232,8 @@ ActiveRecord::Schema.define(version: 20160429154924) do
   create_table "item_levels", force: true do |t|
     t.integer  "assessment_item_id", null: false
     t.text     "descriptor"
-    t.integer  "level"
+    t.string   "level"
+    t.integer  "ord"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -456,7 +457,7 @@ ActiveRecord::Schema.define(version: 20160429154924) do
   add_foreign_key "assessment_item_versions", "assessment_items", name: "assessment_item_versions_assessment_item_id_fk"
   add_foreign_key "assessment_item_versions", "assessment_versions", name: "assessment_item_versions_assessment_version_id_fk"
 
-  add_foreign_key "assessment_scores", "assessment_items", name: "assessment_scores_assessment_item_id_fk"
+  add_foreign_key "assessment_scores", "assessment_item_versions", name: "assessment_scores_assessment_item_version_id_fk"
   add_foreign_key "assessment_scores", "student_assessments", name: "assessment_scores_student_assessment_id_fk"
 
   add_foreign_key "assessment_versions", "assessments", name: "assessment_versions_assessment_id_fk"

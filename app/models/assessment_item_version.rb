@@ -9,16 +9,23 @@
 #  created_at            :datetime
 #  updated_at            :datetime
 #
-# Indexes
-#
-#  assessment_item_versions_assessment_item_id_fk     (assessment_item_id)
-#  assessment_item_versions_assessment_version_id_fk  (assessment_version_id)
-#
+
+=begin
+Represents an association between an assessment item belonging on a paticular assessment version
+=end
 
 class AssessmentItemVersion < ActiveRecord::Base
 
-    has_many :assessment_versions
-    has_many :assessment_items
+    belongs_to :assessment_version
+    belongs_to :assessment_item
 
-    validates :item_code, :presnce => true
+    validates :item_code, 
+      {:presence => 
+          {message: "Please provide an item code."}
+      }
+
+    validates :assessment_version_id,
+      {
+        :uniqueness => { scope: :assessment_item_id, message: "Assessment version may not have the same item twice." }
+      }
 end

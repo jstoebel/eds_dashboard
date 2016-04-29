@@ -13,12 +13,6 @@
 #  cut_score      :integer
 #  pass           :boolean
 #
-# Indexes
-#
-#  fk_praxis_results_praxis_tests_idx  (praxis_test_id)
-#  fk_praxis_results_students_idx      (student_id)
-#  index_by_stu_test_date              (student_id,praxis_test_id,test_date) UNIQUE
-#
 
 class PraxisResultsController < ApplicationController
   layout 'application'

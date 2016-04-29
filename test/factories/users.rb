@@ -9,11 +9,6 @@
 #  Email         :string(45)       not null
 #  Roles_idRoles :integer          not null
 #
-# Indexes
-#
-#  UserName_UNIQUE      (UserName) UNIQUE
-#  fk_users_Roles1_idx  (Roles_idRoles)
-#
 
 FactoryGirl.define do
     factory :user do

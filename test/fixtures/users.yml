@@ -9,11 +9,6 @@
 #  Email         :string(45)       not null
 #  Roles_idRoles :integer          not null
 #
-# Indexes
-#
-#  UserName_UNIQUE      (UserName) UNIQUE
-#  fk_users_Roles1_idx  (Roles_idRoles)
-#
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 

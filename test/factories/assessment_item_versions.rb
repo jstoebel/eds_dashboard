@@ -9,15 +9,19 @@
 #  created_at            :datetime
 #  updated_at            :datetime
 #
-# Indexes
-#
-#  assessment_item_versions_assessment_item_id_fk     (assessment_item_id)
-#  assessment_item_versions_assessment_version_id_fk  (assessment_version_id)
-#
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
+=begin
+
+
+=end
+
+include Faker
 FactoryGirl.define do
   factory :assessment_item_version do
+    association :assessment_version, factory: :assessment_version
+    association :assessment_item, factory: :assessment_item
+    item_code Number.hexadecimal(2)
   end
 end

@@ -12,11 +12,6 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #
-# Indexes
-#
-#  forms_of_intention_major_id_fk    (major_id)
-#  forms_of_intention_student_id_fk  (student_id)
-#
 
 class Foi < ActiveRecord::Base
   self.table_name = 'forms_of_intention'

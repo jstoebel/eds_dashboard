@@ -15,10 +15,6 @@
 #  State        :string(45)
 #  ZIP          :string(45)
 #
-# Indexes
-#
-#  fk_AlumniInfo_Student1_idx  (Student_Bnum)
-#
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 

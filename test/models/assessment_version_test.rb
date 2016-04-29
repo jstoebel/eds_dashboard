@@ -8,10 +8,6 @@
 #  created_at    :datetime
 #  updated_at    :datetime
 #
-# Indexes
-#
-#  assessment_versions_assessment_id_fk  (assessment_id)
-#
 
 require 'test_helper'
 
