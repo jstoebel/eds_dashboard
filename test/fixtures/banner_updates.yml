@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: banner_updates
+#
+#  id          :integer          not null, primary key
+#  upload_date :datetime
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 # This model initially had no columns defined.  If you add columns to the
