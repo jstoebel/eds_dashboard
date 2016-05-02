@@ -67,7 +67,6 @@ class Student < ActiveRecord::Base
 	end
 
 	def praxisI_pass
-	   	#input a Student instance
 	   	#output if student has passed all praxis I exams.
    	
 	   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.TestCode}
@@ -159,5 +158,17 @@ class Student < ActiveRecord::Base
 		return Foi.where({:student_id => self.id}).order(:date_completing).last
 	end
 
+
+	def gpa(last=nil)
+		#pre:
+			#last: last number of credits to include in calculation
+			#if nil examine all courses
+		#post: returns gpa 
+
+	end
+
+	def credits
+		#returns number of credits student has earned
+	end
 
 end

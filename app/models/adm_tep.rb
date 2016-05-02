@@ -51,8 +51,8 @@ class AdmTep < ActiveRecord::Base
     app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate
     
     # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
-    app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and app.GPA < 2.75 and app.GPA_last30 < 3.0
-    app.errors.add(:EarnedCredits, "Student has not earned 30 credit hours.") if app.TEPAdmit and (app.EarnedCredits.nil? or app.EarnedCredits < 30)
+    app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and !good_gpa?
+    app.errors.add(:EarnedCredits, "Student has not earned 30 credit hours.") if app.TEPAdmit and (!app.good_credits?)
     
     #TODO must have completed EDS150 with C or better to be admitted.
     #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
@@ -70,6 +70,15 @@ class AdmTep < ActiveRecord::Base
     #   self.errors.add(:base, "Student is already enrolled in this program." )
     # end
 
+  end
+
+
+  def good_credits?
+    return self.EarnedCredits >= 30
+  end
+
+  def good_gpa?
+    return (self.GPA >= 2.75 or self.GPA_last30 >= 3.0)
   end
 
   private
