@@ -10,5 +10,6 @@
 
 FactoryGirl.define do
   factory :major do
+    name "Sample major"
   end
 end

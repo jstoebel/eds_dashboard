@@ -27,27 +27,9 @@ include Faker
 FactoryGirl.define do
   factory :student do
     Bnum {"B00#{Number.number(6)}"}
-    FirstName Name.first_name
-    LastName Name.last_name
+    FirstName {Name.first_name}
+    LastName {Name.last_name}
+    
 
-    factory :prospective do
-        ProgStatus "Prospetive"
-        EnrollmentStatus "Active Student"
-    end
-
-    factory :candidate do
-        ProgStatus "Candidate"
-        EnrollmentStatus "Active Student"
-    end
-
-    factory :graduate_candidate do
-        ProgStatus "Candidate"
-        EnrollmentStatus "Graduation"
-    end
-
-    factory :graduate_completer do
-        ProgStatus "Completer"
-        EnrollmentStatus "Graduation"
-    end
   end
 end
