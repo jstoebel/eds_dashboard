@@ -29,16 +29,872 @@
 #
 #
 #  column: value
-current:
-  TestName: basket weaving
-  CurrentTest: true
+---
+-
+  TestCode: 5710
+  TestName:  C-PPST Reading (computer)
+  CutScore: 176
   TestFamily: 1
-  TestCode: 1
-  program: Program_1
-
-old:
-  TestName: old basket weaving
-  CurrentTest: false
+  Sub1:  Literal Comprehension
+  Sub2:  Critical & Inferential Comprension
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5712
+  TestName:  "Core Academic Skills for Educators: Reading"
+  CutScore: 156
   TestFamily: 1
-  TestCode: 2
-  program: Program_1
+  Sub1:  Key Ideas and Details
+  Sub2:  Craft, Structure, and Language Skills
+  Sub3:  Integration of Knowledge and Ideas
+  Sub4: Null 
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 5720
+  TestName:  C-PPST Writing (computer)
+  CutScore: 174
+  TestFamily: 1
+  Sub1:  Grammatical Relationships
+  Sub2:  Structural Relationships
+  Sub3:  Word Choice & Mechanics
+  Sub4:  Essay
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5722
+  TestName:  "Core Academic Skills for Educators: Writing"
+  CutScore: 162
+  TestFamily: 1
+  Sub1:  Text Types, Purpose and Production
+  Sub2:  Language and Research Skills for Writing
+  Sub3: Null 
+  Sub4: Null 
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 5730
+  TestName:  C-PPST Mathematics (computer)
+  CutScore: 174
+  TestFamily: 1
+  Sub1:  Number & Operations
+  Sub2:  Algebra
+  Sub3:  Geometry & Measurement
+  Sub4:  Data Analysis & Probability
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5732
+  TestName:  "Core Academic Skills for Educators: Mathematics"
+  CutScore: 150
+  TestFamily: 1
+  Sub1:  Number and Quantity
+  Sub2:  Algebra and Functions
+  Sub3:  Geometry
+  Sub4:  Statistics and Probability
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 14
+  TestName: "Elementary ED: Content Knowledge"
+  CutScore: 148
+  TestFamily: 2
+  Sub1: Language Arts
+  Sub2: Mathematics
+  Sub3: Social Studies
+  Sub4: Science
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 23
+  TestName: Interdisciplinary Early Childhood Education
+  CutScore: 166
+  TestFamily: 2
+  Sub1: Growth and Development of Young Children
+  Sub2: Educational and Service Requirements
+  Sub3: Curriculum, Instruction and Assessment
+  Sub4: Play and Learning Enviornment
+  Sub5: Collaboration with Families and Colleagues
+  Sub6: Professionalism and Growth Through Professional Development
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 32
+  TestName: "Elem Ed: Reading"
+  CutScore: 165
+  TestFamily: 2
+  Sub1: Reading
+  Sub2: Language, Writing, and Communication
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 33
+  TestName: "Elem Ed: Mathematics"
+  CutScore: 164
+  TestFamily: 2
+  Sub1: Number, Operations, and Algebraic Thinking
+  Sub2: Geometry, Measurement, Data, and Interpretation
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 34
+  TestName: "Elem Ed: Social Studies"
+  CutScore: 155
+  TestFamily: 2
+  Sub1: U.S. History, Government, and Citizenship
+  Sub2: Geography, Anthropology, and Sociology
+  Sub3: World History and Economics
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 35
+  TestName: "Elem Ed: Science"
+  CutScore: 159
+  TestFamily: 2
+  Sub1: Earth Science
+  Sub2: Life Science
+  Sub3: Physical Science
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 41
+  TestName: "English Language Literature and Composition: Content Knowledge"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Literature and Understanding Text
+  Sub2: Language and Lingustics
+  Sub3: Compostion and Rhetoric
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 42
+  TestName: English Language, Literature and Composition Essays
+  CutScore: 155
+  TestFamily: 2
+  Sub1: "Interpreting Literature: Poetry"
+  Sub2: "Interpreting Literature: Prose"
+  Sub3: "Issues in English: Understanding Literary Issues"
+  Sub4: "Issues in English: Literary Issues and Literary Texts"
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 44
+  TestName: "English Lang, Lit, and Comp: Analysis"
+  CutScore: 166
+  TestFamily: 2
+  Sub1: Literature and Understanding Text
+  Sub2: Language and Linguistics
+  Sub3: Comp. and Rhetoric
+  Sub4: Analysis Constructed Response)
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 50
+  TestName: Technology Education
+  CutScore: 600
+  TestFamily: 2
+  Sub1: Technology and Society
+  Sub2: Technological Design and Problem Solving
+  Sub3: Energy/Power/ and Transportation
+  Sub4: Information and Communication Technologies
+  Sub5: Manufacturing and Construction Technologies
+  Sub6: Pedagogical And Proessional Studies
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 51
+  TestName: Technology Education
+  CutScore: 159
+  TestFamily: 2
+  Sub1: Tech. and Society
+  Sub2: Tech. Design and Problem Solving
+  Sub3: Energy, Power, and Transportation
+  Sub4: Information and Comm. Technologies
+  Sub5: Manufacturing and Cons. Technologies
+  Sub6: Ped. and Professional Studies
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 61
+  TestName: "Mathematics: Content Knowledge"
+  CutScore: 125
+  TestFamily: 2
+  Sub1: Algebra and Number Theory
+  Sub2: Measurement, Geometry, and Trig.
+  Sub3: Functions and Calculus
+  Sub4: Data Analysis and Statistics Probability
+  Sub5: Matrix Algebra and Discrete Math
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 63
+  TestName: "Mathematics: Proofs Models Problems Part 1"
+  CutScore: 141
+  TestFamily: 2
+  Sub1: Problems
+  Sub2: Model
+  Sub3: Proof
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 69
+  TestName: "Middle School: Mathematics"
+  CutScore: 148
+  TestFamily: 2
+  Sub1: Arithmatic and Basic Alg.
+  Sub2: Geometry and Measurement
+  Sub3: Functions and Their Graphs
+  Sub4: Data, Prob., and Stat. Concepts; Discrete Math
+  Sub5: Problem-Solving Exercises
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 81
+  TestName: "Social Studies: Content Knowledge"
+  CutScore: 151
+  TestFamily: 2
+  Sub1: United States History
+  Sub2: World History
+  Sub3: Government/Civics/Political Science
+  Sub4: Geography
+  Sub5: Economics
+  Sub6: Behavioral Sciences
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 83
+  TestName: "Social Studies: Interpretation of Materials"
+  CutScore: 159
+  TestFamily: 2
+  Sub1: United States History
+  Sub2: World History
+  Sub3: Government/Civics
+  Sub4: Geography
+  Sub5: Economics
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 86
+  TestName: "Social Studies: Content and Interpretation"
+  CutScore: 153
+  TestFamily: 2
+  Sub1: U.S. History 
+  Sub2: World History
+  Sub3: Government/Civics
+  Sub4: Economics
+  Sub5: Geography
+  Sub6: Behavioral Sciences
+  Sub7: Short Content Essays
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 92
+  TestName: "Physical ED Analysis and Design"
+  CutScore: 151
+  TestFamily: 2
+  Sub1: Assessing Fitness and Design Routines to Achieve Goals
+  Sub2: Designing Activities for Skill Mastery or Achivement of Objectives
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 95
+  TestName: "Physical Education: Content and Design"
+  CutScore: 169
+  TestFamily: 2
+  Sub1: Content Know. and Student Growth and Dev.
+  Sub2: Management, Motivation, and Communication
+  Sub3: Planning, Instruction, and Student Assess.
+  Sub4: Collaboration, Reflection, and Tech.
+  Sub5: Instructional Design
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 111
+  TestName: "Music Concepts and Processes"
+  CutScore: 145
+  TestFamily: 2
+  Sub1: Intrumental/Vocal Performance Techniques
+  Sub2: Planning a Demonstration of a Music Concept
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 113
+  TestName: "Music: Content Knowledge"
+  CutScore: 154
+  TestFamily: 2
+  Sub1: Music History and Literature
+  Sub2: Theory and Composition
+  Sub3: Performance
+  Sub4: Pedagogy, Professional Issues, and Technology\r\nTechnology
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 114
+  TestName: "Music: Content and Instruction"
+  CutScore: 162
+  TestFamily: 2
+  Sub1: Music History and Theory
+  Sub2: Performance
+  Sub3: Instruction, Prof. Issues, and Technology
+  Sub4: Instructional Activities Constructed Response)
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 135
+  TestName: "Art: Content and Analysis"
+  CutScore: 161
+  TestFamily: 2
+  Sub1: Art Making
+  Sub2: Historical and Theoretical Foundations of Art
+  Sub3: Art Analysis
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 235
+  TestName: "Biology: Content Knowledge"
+  CutScore: 146
+  TestFamily: 2
+  Sub1: Basic Principles of Science
+  Sub2: Molecular and Cellular Biology
+  Sub3: Classical Genetics and Evol.
+  Sub4: Div. of Life, Plants, and Animals
+  Sub5: Ecology
+  Sub6: Science, Tech., and Society
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 265
+  TestName: "Physics: Content Knowledge"
+  CutScore: 133
+  TestFamily: 2
+  Sub1: Mechanics
+  Sub2: Electricity and Magnetism
+  Sub3: Optics and Waves
+  Sub4: Heat and Thermodynamics
+  Sub5: Modern Physics, Atomic and Nuclear Structure
+  Sub6: His.and Nature of Sci., Sci. Tech., and Soc. Pers. STS)
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 439
+  TestName: "Middle School: Science"
+  CutScore: 144
+  TestFamily: 2
+  Sub1: Scientific Meth., Techn., and History
+  Sub2: Basic Principles
+  Sub3: Physical Sciences
+  Sub4: Life Sciences
+  Sub5: Earth/Space Sciences
+  Sub6: Science, Tech., and Society
+  Sub7: Short-Answer Essays
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 522
+  TestName: "PLT: Grades K-6"
+  CutScore: 161
+  TestFamily: 2
+  Sub1: "Students as Learners: Development, Diverse Learners, Motivation, Enviornment"
+  Sub2: "Instruction and Assessment: Instructional Assessment Strategies, Planning"
+  Sub3: "Teacher Professionalism: Reflective Practitioner, larger community"
+  Sub4: "Students as Learners: Case Histories/Short Answer Questions"
+  Sub5: "Instruction and Assessment: Case Histories/Short Answer Questions"
+  Sub6: "Communication Techniques: Case Histories/Short Answer Questions"
+  Sub7: "Teacher Professionalism: Case Histories/Short Answer Questions"
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 523
+  TestName: "PLT: Grades 5-9"
+  CutScore: 161
+  TestFamily: 2
+  Sub1: "Students as Learners: Development, Diverse Learners, Motivation, Enviornment"
+  Sub2: "Instruction and Assessment: Instructional Assessment Strategies, Planning"
+  Sub3: "Teacher Professionalism: Reflective Practitioner, larger community"
+  Sub4: "Students as Learners: Case Histories/Short Answer Questions"
+  Sub5: "Instruction and Assessment: Case Histories/Short Answer Questions"
+  Sub6: "Communication Techniques: Case Histories/Short Answer Questions"
+  Sub7: "Teacher Professionalism: Case Histories/Short Answer Questions"
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 524
+  TestName: "PLT: Grades 7-12"
+  CutScore: 161
+  TestFamily: 2
+  Sub1: "Students as Learners: Development, Diverse Learners, Motivation, Enviornment"
+  Sub2: "Instruction and Assessment: Instructional Assessment Strategies, Planning"
+  Sub3: "Teacher Professionalism: Reflective Practitioner, larger community"
+  Sub4: "Students as Learners: Case Histories/Short Answer Questions"
+  Sub5: "Instruction and Assessment: Case Histories/Short Answer Questions"
+  Sub6: "Communication Techniques: Case Histories/Short Answer Questions"
+  Sub7: "Teacher Professionalism: Case Histories/Short Answer Questions"
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 622
+  TestName: "PLT: Grades K-6"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Students as Learners
+  Sub2: Instructional Process
+  Sub3: Assessment
+  Sub4: Professional Dev., Leadership, and Community
+  Sub5: Analysis of Instructional Scenarios
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 623
+  TestName: "PLT: Grades 5-9"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Students as Learners
+  Sub2: Instructional Process
+  Sub3: Assessment
+  Sub4: Professional Dev., Leadership, and Community
+  Sub5: Analysis of Instructional Scenarios
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 624
+  TestName: "PLT: Grades 7-12"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Students as Learners
+  Sub2: Instructional Process
+  Sub3: Assessment
+  Sub4: Professional Dev., Leadership, and Community
+  Sub5: Analysis of Instructional Scenarios
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 856
+  TestName: "Health and Physical Education: Content Knowledge"
+  CutScore: 156
+  TestFamily: 2
+  Sub1: Personal Health Care
+  Sub2: Family Living and Sex Education
+  Sub3: Comm. Health/Diseases and Disorders
+  Sub4: Fund. Movement, Motor Dev., and Motor Learning
+  Sub5: Movement Forms
+  Sub6: Fitness and Exercise Science
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5032
+  TestName: "Elem Ed: Reading"
+  CutScore: 165
+  TestFamily: 2
+  Sub1: Reading
+  Sub2: Language, Writing, and Communication
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5033
+  TestName: "Elem Ed: Mathematics"
+  CutScore: 164
+  TestFamily: 2
+  Sub1: Number, Operations, and Algebraic Thinking
+  Sub2: Geometry, Measurement, Data, and Interpretation
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5034
+  TestName: "Elem Ed: Social Studies"
+  CutScore: 155
+  TestFamily: 2
+  Sub1: U.S. History, Government, and Citizenship
+  Sub2: Geography, Anthropology, and Sociology
+  Sub3: World History and Economics
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5035
+  TestName: "Elem Ed: Science"
+  CutScore: 159
+  TestFamily: 2
+  Sub1: Earth Science
+  Sub2: Life Science
+  Sub3: Physical Science
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5039
+  TestName: "English Language Arts: Content and Analysis"
+  CutScore: 168
+  TestFamily: 2
+  Sub1: Reading
+  Sub2: Language Use and Vocabulary
+  Sub3: Writing, Speaking, and Listening
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5044
+  TestName: "English Lang, Lit, and Comp: Analysis"
+  CutScore: 166
+  TestFamily: 2
+  Sub1: Literature and Understanding Text
+  Sub2: Language and Linguistics
+  Sub3: Comp. and Rhetoric
+  Sub4: Analysis Constructed Response)
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 5051
+  TestName: Technology Education
+  CutScore: 159
+  TestFamily: 2
+  Sub1: Tech. and Society
+  Sub2: Tech. Design and Problem Solving
+  Sub3: Energy, Power, and Transportation
+  Sub4: Information and Comm. Technologies
+  Sub5: Manufacturing and Cons. Technologies
+  Sub6: Ped. and Professional Studies
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5061
+  TestName: "Mathematics: Content Knowledge"
+  CutScore: 125
+  TestFamily: 2
+  Sub1: Algebra and Number Theory
+  Sub2: Measurement, Geometry, and Trig.
+  Sub3: Functions and Calculus
+  Sub4: Data Analysis and Statistics Probability
+  Sub5: Matrix Algebra and Discrete Math
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 5063
+  TestName: "Mathematics: Proofs Models Problems Part 1"
+  CutScore: 141
+  TestFamily: 2
+  Sub1: Problems
+  Sub2: Model
+  Sub3: Proof
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 5069
+  TestName: "Middle School: Mathematics"
+  CutScore: 148
+  TestFamily: 2
+  Sub1: Arithmatic and Basic Alg.
+  Sub2: Geometry and Measurement
+  Sub3: Functions and Their Graphs
+  Sub4: Data, Prob., and Stat. Concepts; Discrete Math
+  Sub5: Problem-Solving Exercises
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+-
+  TestCode: 5086
+  TestName: "Social Studies: Content and Interpretation"
+  CutScore: 153
+  TestFamily: 2
+  Sub1: U.S. History 
+  Sub2: World History
+  Sub3: Government/Civics
+  Sub4: Economics
+  Sub5: Geography
+  Sub6: Behavioral Sciences
+  Sub7: Short Content Essays
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5095
+  TestName: "Physical Education: Content and Design"
+  CutScore: 169
+  TestFamily: 2
+  Sub1: Content Know. and Student Growth and Dev.
+  Sub2: Management, Motivation, and Communication
+  Sub3: Planning, Instruction, and Student Assess.
+  Sub4: Collaboration, Reflection, and Tech.
+  Sub5: Instructional Design
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5114
+  TestName: "Music: Content and Instruction"
+  CutScore: 162
+  TestFamily: 2
+  Sub1: Music History and Theory
+  Sub2: Performance
+  Sub3: Instruction, Prof. Issues, and Technology
+  Sub4: Instructional Activities Constructed Response)
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5135
+  TestName: "Art: Content and Analysis"
+  CutScore: 161
+  TestFamily: 2
+  Sub1: Art Making
+  Sub2: Historical and Theoretical Foundations of Art
+  Sub3: Art Analysis
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5161
+  TestName: "Mathematics: Content Knowledge"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Number and Quantity, Algebra, Functions, and Calculus
+  Sub2: Geometry, Probability and Statistics, and Discrete Mathematics
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5235
+  TestName: "Biology: Content Knowledge"
+  CutScore: 146
+  TestFamily: 2
+  Sub1: Basic Principles of Science
+  Sub2: Molecular and Cellular Biology
+  Sub3: Classical Genetics and Evol.
+  Sub4: Div. of Life, Plants, and Animals
+  Sub5: Ecology
+  Sub6: Science, Tech., and Society
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5265
+  TestName: "Physics: Content Knowledge"
+  CutScore: 133
+  TestFamily: 2
+  Sub1: Mechanics
+  Sub2: Electricity and Magnetism
+  Sub3: Optics and Waves
+  Sub4: Heat and Thermodynamics
+  Sub5: Modern Physics, Atomic and Nuclear Structure
+  Sub6: His.and Nature of Sci., Sci. Tech., and Soc. Pers. STS)
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5439
+  TestName: "Middle School: Science"
+  CutScore: 144
+  TestFamily: 2
+  Sub1: Scientific Meth., Techn., and History
+  Sub2: Basic Principles
+  Sub3: Physical Sciences
+  Sub4: Life Sciences
+  Sub5: Earth/Space Sciences
+  Sub6: Science, Tech., and Society
+  Sub7: Short-Answer Essays
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5622
+  TestName: "PLT: Grades K-6"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Students as Learners
+  Sub2: Instructional Process
+  Sub3: Assessment
+  Sub4: Professional Dev., Leadership, and Community
+  Sub5: Analysis of Instructional Scenarios
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5623
+  TestName: "PLT: Grades 5-9"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Students as Learners
+  Sub2: Instructional Process
+  Sub3: Assessment
+  Sub4: Professional Dev., Leadership, and Community
+  Sub5: Analysis of Instructional Scenarios
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5624
+  TestName: "PLT: Grades 7-12"
+  CutScore: 160
+  TestFamily: 2
+  Sub1: Students as Learners
+  Sub2: Instructional Process
+  Sub3: Assessment
+  Sub4: Professional Dev., Leadership, and Community
+  Sub5: Analysis of Instructional Scenarios
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5856
+  TestName: "Health and Physical Education: Content Knowledge"
+  CutScore: 156
+  TestFamily: 2
+  Sub1: Personal Health Care
+  Sub2: Family Living and Sex Education
+  Sub3: Comm. Health/Diseases and Disorders
+  Sub4: Fund. Movement, Motor Dev., and Motor Learning
+  Sub5: Movement Forms
+  Sub6: Fitness and Exercise Science
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+-
+  TestCode: 5169
+  TestName: Middle School Mathematics
+  CutScore: 165
+  TestFamily: 2
+  Sub1: Arithmetic and Algebra
+  Sub2: Geometry and Data
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
