@@ -19,8 +19,9 @@
 
 FactoryGirl.define do
   factory :adm_tep do
-    sequence(:id) { |i| i }
-    association :student, factory: :prospective
+    student
+    association :program
+    association :banner_term
     # need to provide Program_ProgCode
     # need to provide BannerTerm_BannerTerm
     Attempt 1
