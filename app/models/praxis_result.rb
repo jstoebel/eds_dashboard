@@ -11,7 +11,6 @@
 #  test_score     :integer
 #  best_score     :integer
 #  cut_score      :integer
-#  pass           :boolean
 #
 
 class PraxisResult < ActiveRecord::Base
