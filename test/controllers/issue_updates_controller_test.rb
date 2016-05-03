@@ -65,8 +65,6 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       expected_attrs.except!(*to_exclude)
       actual_attrs.except!(*to_exclude)
 
-      puts expected_attrs
-
       assert_equal expected_attrs, actual_attrs
       
       assert_equal issue.student, assigns(:student)
