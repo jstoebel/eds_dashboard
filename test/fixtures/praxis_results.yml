@@ -27,7 +27,7 @@
 #  column: value
 one:
   student: candidate
-  praxis_test: current
+  praxis_test: test1
   test_date: <%= Date.today %>
   reg_date: <%= Date.today %>
   paid_by: ETS (fee waiver)
@@ -35,7 +35,7 @@ one:
 
 two:
   student: base
-  praxis_test: current
+  praxis_test: test1
   test_date: <%= Date.today %>
   reg_date: <%= Date.today %>
   paid_by: ETS (fee waiver)
