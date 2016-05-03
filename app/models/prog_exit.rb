@@ -85,16 +85,15 @@ class ProgExit < ActiveRecord::Base
 			#1) exiting student was accepted to this program
 			#2) exiting student has not exited this program already.
 
-		stu = self.student
+		matching_admission = self.student.adm_tep.where(TEPAdmit: 1).select {|adm| adm.Program_ProgCode == self.Program_ProgCode} 
 
-		admission = AdmTep.where(student_id: stu.id).where(Program_ProgCode: self.Program_ProgCode).where(TEPAdmit: true)
-		exits = ProgExit.where(student_id: stu.id).where(Program_ProgCode: self.Program_ProgCode)
+		matching_exits = self.student.prog_exits.select { |prog_exit| prog_exit.Program_ProgCode == self.Program_ProgCode}
 
-		if admission.size == 0
+		if matching_admission.size == 0
 			self.errors.add(:Program_ProgCode, "Student was never admitted to this program.")
 		end
 
-		if exits.size > 0
+		if matching_exits.size > 0
 			self.errors.add(:Program_ProgCode, "Student has already exited this program.")
 		end
 	end
@@ -104,7 +103,7 @@ class ProgExit < ActiveRecord::Base
 		#adds the banner term to record based on date.
 
 		if self.ExitDate
-			term = ApplicationController.helpers.current_term({:date => self.ExitDate})
+			term = BannerTerm.current_term({:date => self.ExitDate, :exact => false, :plan_b => :back})
 			if term
 				self.ExitTerm = term.BannerTerm
 			else
