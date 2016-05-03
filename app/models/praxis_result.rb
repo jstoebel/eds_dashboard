@@ -57,6 +57,10 @@ class PraxisResult < ActiveRecord::Base
 		return self.id
 	end
 
+	def passing?
+		return self.test_score >= self.cut_score
+	end
+
 	private
 
 	def check_unique
