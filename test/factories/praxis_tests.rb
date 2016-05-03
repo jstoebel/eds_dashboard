@@ -22,7 +22,5 @@
 FactoryGirl.define do
   factory :praxis_test do
 
-    
-
   end 
 end
