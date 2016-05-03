@@ -11,11 +11,10 @@
 #  test_score     :integer
 #  best_score     :integer
 #  cut_score      :integer
-#  pass           :boolean
 #
 
 FactoryGirl.define do
-  factory :praxis_results do
+  factory :praxis_result do
     student
     praxis_test
     test_date Date.today
@@ -23,6 +22,6 @@ FactoryGirl.define do
     test_score 100
     best_score 100
     cut_score 100
-    pass true
+    paid_by "EDS"
   end 
 end
