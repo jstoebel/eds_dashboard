@@ -45,7 +45,13 @@ class AdmTep < ActiveRecord::Base
 
   validate :if => :check_fks do |app|
     term = BannerTerm.find(app.BannerTerm_BannerTerm)
-    next_term = BannerTerm.all.where("BannerTerm >?", app.BannerTerm_BannerTerm).order(:BannerTerm).first
+    # next_term = BannerTerm.all.where("BannerTerm >?", app.BannerTerm_BannerTerm).order(:BannerTerm).first
+    
+    #the next non over lapping term
+    next_term = BannerTerm.where("StartDate > ?", term.EndDate).order(:BannerTerm).first 
+
+
+
     app.errors.add(:TEPAdmitDate, "Admission date must be given.") if app.TEPAdmit and app.TEPAdmitDate.blank?
     app.errors.add(:TEPAdmitDate, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
     app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate

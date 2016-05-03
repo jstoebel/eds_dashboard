@@ -4,17 +4,17 @@
 #
 #  id               :integer          not null, primary key
 #  TestCode         :string(45)       not null
-#  TestName         :string(45)
+#  TestName         :string(255)
 #  CutScore         :integer
 #  TestFamily       :string(1)
-#  Sub1             :string(100)
-#  Sub2             :string(100)
-#  Sub3             :string(100)
-#  Sub4             :string(100)
-#  Sub5             :string(100)
-#  Sub6             :string(100)
-#  Sub7             :string(45)
-#  Program_ProgCode :integer          not null
+#  Sub1             :string(255)
+#  Sub2             :string(255)
+#  Sub3             :string(255)
+#  Sub4             :string(255)
+#  Sub5             :string(255)
+#  Sub6             :string(255)
+#  Sub7             :string(255)
+#  Program_ProgCode :integer
 #  CurrentTest      :boolean
 #
 
