@@ -58,8 +58,16 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       expected_attrs = expected_update.attributes
       actual_attrs = assigns(:update).attributes
 
-      [expected_attrs, actual_attrs].map {|i| i.delete("UpdateID")}
-      assert_equal expected_attrs.inspect, actual_attrs.inspect
+
+      #remove some attrs
+      to_exclude = ["UpdateID", "created_at", "updated_at"]
+
+      expected_attrs.except!(*to_exclude)
+      actual_attrs.except!(*to_exclude)
+
+      puts expected_attrs
+
+      assert_equal expected_attrs, actual_attrs
       
       assert_equal issue.student, assigns(:student)
       assert_redirected_to issue_issue_updates_path(issue.IssueID)
