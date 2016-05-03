@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429180057) do
+ActiveRecord::Schema.define(version: 20160503133803) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -299,18 +299,18 @@ ActiveRecord::Schema.define(version: 20160429180057) do
   add_index "praxis_subtest_results", ["praxis_result_id"], name: "praxis_subtest_results_praxis_result_id_fk", using: :btree
 
   create_table "praxis_tests", force: true do |t|
-    t.string  "TestCode",         limit: 45,  null: false
-    t.string  "TestName",         limit: 45
+    t.string  "TestCode",         limit: 45, null: false
+    t.string  "TestName"
     t.integer "CutScore"
     t.string  "TestFamily",       limit: 1
-    t.string  "Sub1",             limit: 100
-    t.string  "Sub2",             limit: 100
-    t.string  "Sub3",             limit: 100
-    t.string  "Sub4",             limit: 100
-    t.string  "Sub5",             limit: 100
-    t.string  "Sub6",             limit: 100
-    t.string  "Sub7",             limit: 45
-    t.integer "Program_ProgCode",             null: false
+    t.string  "Sub1"
+    t.string  "Sub2"
+    t.string  "Sub3"
+    t.string  "Sub4"
+    t.string  "Sub5"
+    t.string  "Sub6"
+    t.string  "Sub7"
+    t.integer "Program_ProgCode"
     t.boolean "CurrentTest"
   end
 
