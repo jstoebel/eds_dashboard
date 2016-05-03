@@ -58,7 +58,11 @@ class PraxisResult < ActiveRecord::Base
 	end
 
 	def passing?
-		return self.test_score >= self.cut_score
+		if self.test_score.blank? or self.cut_score.blank?
+			return false
+		else
+			return self.test_score >= self.cut_score
+		end
 	end
 
 	private
