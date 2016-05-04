@@ -23,5 +23,7 @@ FactoryGirl.define do
     best_score 100
     cut_score 100
     paid_by "EDS"
+
+    after(:create) { |result| FactoryGirl.create_list :praxis_subtest_result, 4, {:praxis_result_id => result.id}}
   end 
 end

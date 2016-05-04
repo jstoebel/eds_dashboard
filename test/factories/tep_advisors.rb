@@ -7,10 +7,10 @@
 #  Salutation  :string(45)       not null
 #  user_id     :integer          not null
 #
-
+include Faker
 FactoryGirl.define do
   factory :tep_advisor do
-    sequence(:AdvisorBnum) { |b| "B#{b.to_s.rjust(6, '0')}" }
+    sequence(:AdvisorBnum) {"B00#{Number.number(6)}"}
     Salutation Faker::Name.first_name
     association :user, factory: :advisor
   end

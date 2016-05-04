@@ -19,7 +19,6 @@ FactoryGirl.define do
 
     #need to be entered by the caller
       student
-      exit_code
       ExitCode_ExitCode "1849"
       GPA 3.0
       GPA_last60 3.0
