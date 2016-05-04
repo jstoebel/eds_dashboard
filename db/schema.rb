@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503133803) do
+ActiveRecord::Schema.define(version: 20160503152753) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -279,7 +279,6 @@ ActiveRecord::Schema.define(version: 20160503133803) do
     t.integer  "test_score"
     t.integer  "best_score"
     t.integer  "cut_score"
-    t.boolean  "pass"
   end
 
   add_index "praxis_results", ["praxis_test_id"], name: "fk_praxis_results_praxis_tests_idx", using: :btree

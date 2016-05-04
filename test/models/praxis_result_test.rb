@@ -98,4 +98,21 @@ class PraxisResultTest < ActiveSupport::TestCase
 		assert_equal ["Test has scores and may not be altered."], test.errors[:base]			
 	end
 
+	test "passing returns true" do
+		pr = PraxisResult.first
+		pr.test_score = 101
+		pr.cut_score = 100
+		assert pr.save, pr.errors.full_messages
+		assert pr.passing?
+
+	end
+
+	test "passing returns false" do
+		pr = PraxisResult.first
+		pr.test_score = 100
+		pr.cut_score = 101
+		assert pr.save, pr.errors.full_messages
+		assert !pr.passing?
+	end
+
 end
