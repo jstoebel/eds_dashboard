@@ -11,7 +11,5 @@ FactoryGirl.define do
   factory :exit_code do
 
     #need to be entered by the caller
-    ExitCode "999"
-    ExitDiscrip "Exit reason"
   end 
 end
