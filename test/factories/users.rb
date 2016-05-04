@@ -18,10 +18,16 @@ FactoryGirl.define do
         Email { Faker::Internet.email }
 
 
+
+
         role_names = [:admin, :advisor, :staff, :stu_labor]
         role_names.each_with_index do |r, i|
             factory r do
                 Roles_idRoles i+1
+
+                if r == :advisor        #create a tep_advisor record for them if they are an advisor
+                    after(:create) { |usr| FactoryGirl.create :tep_advisor, {:user_id => usr.id, :Salutation => usr.FirstName}}
+                end
             end
         end
     end
