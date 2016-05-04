@@ -30,14 +30,25 @@ namespace :db do
       foi = s.latest_foi
 
       if foi.seek_cert
+        puts "lets see if they will apply to TEP"
 
         pop_adm_tep s, paths.sample
 
       end
 
       if s.open_programs
+        # puts "should they student teach?"
         pop_adm_st(s, paths.sample)
       
+      end
+
+      #was student admitted to Student Teaching
+      st_admissions = s.adm_st #.where(:STAdmitted => true)
+      if st_admissions.present?
+      end
+
+      if st_admissions.present?
+        exit_from_st(s, paths.sample)
       end
 
     end #end of task
