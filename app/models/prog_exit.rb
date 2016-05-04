@@ -54,7 +54,7 @@ class ProgExit < ActiveRecord::Base
 		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == completer_code.id and e.student.EnrollmentStatus != 'Graduation'
 
 		#security validations. Won't come up in typical user experience.
-		check_open if e.new_record?		#if record is new, let's make sure that we are closing an open program
+		check_admited if e.new_record?		#if record is new, let's make sure that we are closing an open program
 
 	end
 
@@ -78,26 +78,18 @@ class ProgExit < ActiveRecord::Base
 	      return false
 	    end
 	end
+		
+	def check_admited
+		#check that the student was admitted to this program
 
-	def check_open
+		stu = self.student
+		admissions = stu.adm_tep
+		program_ids = admissions.map { |adm| adm.program.id}
 
-		#ensures that
-			#1) exiting student was accepted to this program
-			#2) exiting student has not exited this program already.
-
-		matching_admission = self.student.adm_tep.where(TEPAdmit: 1).select {|adm| adm.Program_ProgCode == self.Program_ProgCode} 
-
-		matching_exits = self.student.prog_exits.select { |prog_exit| prog_exit.Program_ProgCode == self.Program_ProgCode}
-
-		if matching_admission.size == 0
+		if !program_ids.include? self.Program_ProgCode
 			self.errors.add(:Program_ProgCode, "Student was never admitted to this program.")
 		end
-
-		if matching_exits.size > 0
-			self.errors.add(:Program_ProgCode, "Student has already exited this program.")
-		end
 	end
-		
 
 	def add_term
 		#adds the banner term to record based on date.
