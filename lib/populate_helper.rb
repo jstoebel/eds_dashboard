@@ -87,11 +87,6 @@ module PopulateHelper
 
       tests = praxis_attrs.map {|attr| PraxisResult.create attr.merge score_attrs }
       apps = app_attrs.map {|attr| AdmTep.create attr.merge app_decision_attrs }
-      if !apps[0].valid?
-        puts apps[0].errors.full_messages 
-        puts apps[0].inspect
-
-      end
     end
 
     def pop_adm_st(stu, st_admit)
@@ -143,11 +138,12 @@ module PopulateHelper
 
         progs_to_close = stu.open_programs
       
+        drop_exit_code = ExitCode.find_by :ExitCode => "1826"
         progs_to_close.each do |prog|
           exit_attrs = FactoryGirl.create :prog_exit, {
             student_id: stu.id,
             Program_ProgCode: prog.program.id,
-            ExitCode_ExitCode: (ExitCode.find_by :ExitCode => "1826").id,
+            ExitCode_ExitCode: drop_exit_code.id,
             ExitDate: st_date_apply,
             RecommendDate: nil              
           }
@@ -174,17 +170,18 @@ module PopulateHelper
         rec_date = nil
       end
 
-      s.EnrollmentStatus = "Graduation"
-      s.save
+      stu.EnrollmentStatus = "Graduation"
+      stu.save
 
     else
+
       e_code = "1809"
 
     end
 
     progs_to_close = stu.open_programs
     progs_to_close.each do |prog|
-      puts "lets exit #{stu.id}"
+
       exit_attrs = FactoryGirl.create :prog_exit, {
         student_id: stu.id,
         Program_ProgCode: prog.program.id,

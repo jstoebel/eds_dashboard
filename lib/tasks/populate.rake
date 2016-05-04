@@ -1,6 +1,8 @@
 require 'factory_girl'
 require 'populate_helper'
+require 'faker'
 include PopulateHelper
+include Faker
 
 namespace :db do
   task :populate => ["db:devo:set_env", "db:clean", :environment] do
@@ -12,7 +14,7 @@ namespace :db do
     Rake::Task["db:seed"].invoke
 
     FactoryGirl.create :admin
-    FactoryGirl.create_pair :advisor
+    advisors = FactoryGirl.create_pair :advisor
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
 
@@ -23,6 +25,21 @@ namespace :db do
     students.each do |s|
       #decide the fate of each student going through the program
 
+      # ADVISOR ASSIGNMENTS
+      # assign them to one or both advisors
+
+      num_advisors = Faker::Number.between(1, 2)
+
+      my_advisors = advisors.shuffle.slice(0, num_advisors)
+
+      my_adv_assignments = my_advisors.map { |adv| AdvisorAssignment.create(
+        {:student_id => s.id,
+          :tep_advisor_id => adv.tep_advisor_id
+        })
+      }
+
+      exit
+
       #FOI
       pop_fois s
 
@@ -30,26 +47,22 @@ namespace :db do
       foi = s.latest_foi
 
       if foi.seek_cert
-        puts "lets see if they will apply to TEP"
-
         pop_adm_tep s, paths.sample
-
       end
 
       if s.open_programs
-        # puts "should they student teach?"
         pop_adm_st(s, paths.sample)
       
       end
 
       #was student admitted to Student Teaching
-      st_admissions = s.adm_st #.where(:STAdmitted => true)
-      if st_admissions.present?
-      end
+      st_admissions = s.adm_st
 
       if st_admissions.present?
         exit_from_st(s, paths.sample)
       end
+
+
 
     end #end of task
 
