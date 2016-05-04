@@ -120,9 +120,8 @@ class ProgExit < ActiveRecord::Base
 
 		elsif stu.ProgStatus == "Candidate"		#exit wasn't completion
 
-			puts "STUDENT IS A CANDIDATE"
+
 			if AdmTep.open(stu.Bnum).size == 0
-				puts "STUDENT HAS NO OPEN PROGRAMS!"
 				#no open programs left after save
 				stu.ProgStatus = "Dropped"
 				stu.save
