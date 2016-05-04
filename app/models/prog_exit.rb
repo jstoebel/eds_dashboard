@@ -34,6 +34,9 @@ class ProgExit < ActiveRecord::Base
 	#ADVANCED VALIDATIONS
 	validate :if => :check_basics do |e|
 		#GPA must be 2.5 or 3.0 in last 60 credit hours.
+
+		completer_code = ExitCode.find_by :ExitCode => "1849"
+
 		e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") if (e.GPA < 2.5 and e.GPA_last60 < 3.0) 
 		
 		#recommend date must be >= exit date
@@ -41,7 +44,7 @@ class ProgExit < ActiveRecord::Base
 		
 		#can only have a recommend date if student completed program
 
-		e.errors.add(:RecommendDate, "Student may not be recommended for certificaiton unless they have sucessfully completed the program.") if e.RecommendDate.present? and e.ExitCode_ExitCode != "1849"
+		e.errors.add(:RecommendDate, "Student may not be recommended for certificaiton unless they have sucessfully completed the program.") if e.RecommendDate.present? and e.ExitCode_ExitCode != completer_code.id
 
 		#TODO Can't be recomended without passing Praxis II
 			#need to know which program each PraxisII exam belongs to.
@@ -50,7 +53,6 @@ class ProgExit < ActiveRecord::Base
 			#The best I can do right now is make sure student has graduated.
 			#TODO Make sure the student graduated with a certification major
 
-		completer_code = ExitCode.find_by :ExitCode => "1849"
 		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == completer_code.id and e.student.EnrollmentStatus != 'Graduation'
 
 		#security validations. Won't come up in typical user experience.
