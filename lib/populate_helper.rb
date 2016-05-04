@@ -1,9 +1,5 @@
 module PopulateHelper
 
-    def test_helper
-        puts "HELPER METHOD HERE!"
-    end
-
     def pop_fois(stu)
 
       num_forms = Faker::Number.between 1, 3 #how many forms did they do?
@@ -109,7 +105,7 @@ module PopulateHelper
       applying = Faker::Boolean.boolean 0.7  #are they going to apply for ST?
 
       if applying
-        
+
         st_admit = Faker::Boolean.boolean 0.7
         num_apps = Faker::Number.between 1, 2
 
@@ -146,40 +142,58 @@ module PopulateHelper
         #student drops the program. They need to be exited.
 
         progs_to_close = stu.open_programs
+      
+        progs_to_close.each do |prog|
+          exit_attrs = FactoryGirl.create :prog_exit, {
+            student_id: stu.id,
+            Program_ProgCode: prog.program.id,
+            ExitCode_ExitCode: (ExitCode.find_by :ExitCode => "1826").id,
+            ExitDate: st_date_apply,
+            RecommendDate: nil              
+          }
 
-        begin
-        
-          progs_to_close.each do |prog|
-            exit_attrs = FactoryGirl.attributes_for :prog_exit, {
-              student_id: stu.id,
-              Program_ProgCode: prog.id,
-              ExitCode_ExitCode: (ExitCode.find_by :ExitCode => "1826").id,
-              ExitDate: st_date_apply,
-              RecommendDate: nil              
-            }
-
-            #this won't raise an exception any more. Check validation error.
-            ProgExit.create exit_attrs 
-
-          end
-
-        rescue Exception => e
-          puts e
-          puts "HERE IS THE STUDENT"
-          puts stu.inspect
-          puts "HERE IS THE EXIT"
-          exit_attrs
-          puts "HERE IS progs_to_close"
-          puts progs_to_close
-
-
-          
         end
 
       end
-
-
       
     end
+
+  def exit_from_st(stu, completed)
+    # exits a student from all programs following student teaching
+    # completed: if the student successfully completed their programs
+    # can be true, false or nil
+
+    exit_date = Faker::Time.between(1.years.ago, 1.month.ago)
+
+    if completed != false
+
+      e_code = "1849"
+      if completed
+        rec_date = Faker::Time.between(exit_date, Date.today)
+      else
+        rec_date = nil
+      end
+
+      s.EnrollmentStatus = "Graduation"
+      s.save
+
+    else
+      e_code = "1809"
+
+    end
+
+    progs_to_close = stu.open_programs
+    progs_to_close.each do |prog|
+      puts "lets exit #{stu.id}"
+      exit_attrs = FactoryGirl.create :prog_exit, {
+        student_id: stu.id,
+        Program_ProgCode: prog.program.id,
+        ExitCode_ExitCode: (ExitCode.find_by :ExitCode =>e_code).id,
+        ExitDate: exit_date,
+        RecommendDate: rec_date
+      }
+    end
+
+  end
 
 end
