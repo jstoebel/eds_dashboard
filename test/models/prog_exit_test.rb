@@ -51,7 +51,7 @@ class ProgExitTest < ActiveSupport::TestCase
 	test "date out of range" do
 		#tests what happens if an out of range exit date is given 
 		exit = ProgExit.first
-		exit.ExitDate = Date.strptime("01/01/3000", "%m/%d/%Y")
+		exit.ExitDate = Date.new(1865, 1, 1)	#date is less than begining of time
 		exit.valid?
 		assert_equal(["Exit date out of range."], exit.errors[:ExitDate])
 
@@ -106,33 +106,26 @@ class ProgExitTest < ActiveSupport::TestCase
 
 
 	test "no exit if not enrolled" do
-		#try to exit the prospective
-		stu = Student.where("ProgStatus=?", "Prospective").first
-		adm = stu.adm_tep.first
+		#try to exit a student with no admissions
+		stu = Student.first
+		
+		AdmTep.delete_all
 
-		term = ApplicationController.helpers.current_term({
+		term = BannerTerm.current_term({
 			:exact => false,
 			:plan_b => :back
 		})
 
 		exit = ProgExit.new({
 			student_id: stu.id,
-			Program_ProgCode: adm.Program_ProgCode,
-			ExitCode_ExitCode: "1849",
-			ExitTerm: 201511,
-			ExitDate: term.StartDate,
+			Program_ProgCode: Program.first.id,
+			ExitCode_ExitCode: ExitCode.first.id,
+			ExitDate: Date.today,
 			GPA: 3.0,
 			GPA_last60: 3.0
 			})
 		exit.save
 		assert_equal(["Student was never admitted to this program."], exit.errors[:Program_ProgCode])
-	end
-
-	test "no exit if alread exited" do
-		exit = ProgExit.first
-		exit2 = ProgExit.new(exit.attributes.except("id"))
-		exit2.save
-		assert_equal(["Student has already exited this program."], exit2.errors[:Program_ProgCode])
 	end
 
 	test "add term" do
