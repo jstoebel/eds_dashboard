@@ -13,8 +13,16 @@
 #  YearsExp         :integer
 #
 
+include Faker
 FactoryGirl.define do
   factory :clinical_teacher do
-    
+    Bnum {"B00#{Number.number(6)}"}
+    FirstName {Name.first_name}
+    LastName {Name.last_name}
+    Email {Internet.email}
+    Subject {Book.title}
+    clinical_site
+    Rank {Number.between(1,3)}
+    YearsExp {Number.between(1, 25)}
   end
 end
