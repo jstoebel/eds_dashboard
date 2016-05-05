@@ -21,7 +21,11 @@ namespace :db do
     students = FactoryGirl.create_list :student, 100
 
     paths = [true, false, nil]  #possible outcomes at each decision point
-    
+
+    #10 sites with 3 teachers each.
+    clinical_sites = FactoryGirl.create_list :clinical_site, 10
+    clinical_teachers = clinical_sites.map { |site| FactoryGirl.create_list :clinical_teacher, 3 }
+
     students.each do |s|
       #decide the fate of each student going through the program
 
@@ -60,6 +64,11 @@ namespace :db do
         exit_from_st(s, paths.sample)
       end
 
+      #clinical_assignments
+      num_assignments = Faker::Number.between(0, 5)
+      my_teachers = clinical_teachers.shuffle.slice(0, num_assignments)
+
+      my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
 
 
     end #end of task
