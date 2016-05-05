@@ -15,6 +15,8 @@
 #
 
 include Faker
+Faker::Config.locale = 'en-US'
+
 FactoryGirl.define do
   factory :clinical_site do
     SiteName {"#{StarWars.character} School"}
