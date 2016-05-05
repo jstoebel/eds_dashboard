@@ -33,12 +33,10 @@ namespace :db do
       my_advisors = advisors.shuffle.slice(0, num_advisors)
 
       my_adv_assignments = my_advisors.map { |adv| AdvisorAssignment.create(
-        {:student_id => s.id,
-          :tep_advisor_id => adv.tep_advisor_id
+        { :student_id => s.id,
+          :tep_advisor_id => adv.tep_advisor.id
         })
       }
-
-      exit
 
       #FOI
       pop_fois s
