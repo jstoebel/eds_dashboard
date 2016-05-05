@@ -17,9 +17,6 @@ FactoryGirl.define do
         LastName { Faker::Name.last_name }
         Email { Faker::Internet.email }
 
-
-
-
         role_names = [:admin, :advisor, :staff, :stu_labor]
         role_names.each_with_index do |r, i|
             factory r do
