@@ -196,19 +196,20 @@ module PopulateHelper
   def pop_clinical_assignment(stu, teacher)
 
     start_date = Faker::Time.between(4.years.ago, Date.today)
-    term = BannerTerm.current_term, {
+    term = BannerTerm.current_term({
       :exact => false,
       :plan_b => :forward,
       :date => start_date
-    }
+    })
 
     end_date = term.EndDate
 
     FactoryGirl.create :clinical_assignment, {
       :student_id => stu.id,
-      :clinical_teacher => teacher.id,
+      :clinical_teacher_id => teacher.id,
       :StartDate => start_date,
-      :EndDate => end_date
+      :EndDate => end_date,
+      :Term => term.id
     }
 
 

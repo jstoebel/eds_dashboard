@@ -24,7 +24,7 @@ namespace :db do
 
     #10 sites with 3 teachers each.
     clinical_sites = FactoryGirl.create_list :clinical_site, 10
-    clinical_teachers = clinical_sites.map { |site| FactoryGirl.create_list :clinical_teacher, 3 }
+    clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
 
     students.each do |s|
       #decide the fate of each student going through the program
@@ -70,6 +70,20 @@ namespace :db do
 
       my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
 
+
+      #ISSUES AND UPDATES
+
+      num_issues = Faker::Number.between(0, 3)
+      my_issues = FactoryGirl.create_list :issue, num_issues, {
+        :student_id => s.id,
+        :tep_advisors_AdvisorBnum => my_advisors.sample.id
+      }
+
+      my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3), 
+        { :Issues_IssueID => iss.id,
+          :tep_advisors_AdvisorBnum => my_advisors.sample.id
+        }
+      }
 
     end #end of task
 
