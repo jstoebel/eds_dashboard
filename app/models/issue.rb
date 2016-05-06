@@ -14,6 +14,7 @@
 
 class Issue < ActiveRecord::Base
 	belongs_to :student
+	belongs_to :tep_advisor, {:foreign_key => 'tep_advisors_AdvisorBnum'}
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
 
 	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
@@ -23,9 +24,6 @@ class Issue < ActiveRecord::Base
     	presence: {message: "Please enter a valid B#, (including the B00)"}
 
 	validates :Name, 
-		:length => { 
-			maximum: 100,
-			message: "Max name length is 100 characters."},
 		presence: {message: "Please provide an issue name."}
 
 	validates :Description,
