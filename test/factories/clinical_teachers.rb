@@ -20,7 +20,7 @@ FactoryGirl.define do
     FirstName {Name.first_name}
     LastName {Name.last_name}
     Email {Internet.email}
-    Subject {Book.title}
+    Subject {Hipster.word}
     clinical_site
     Rank {Number.between(1,3)}
     YearsExp {Number.between(1, 25)}
