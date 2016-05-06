@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503152753) do
+ActiveRecord::Schema.define(version: 20160506185011) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -205,10 +205,10 @@ ActiveRecord::Schema.define(version: 20160503152753) do
   add_index "forms_of_intention", ["student_id"], name: "forms_of_intention_student_id_fk", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
-    t.string   "UpdateName",               limit: 100, null: false
-    t.text     "Description",                          null: false
-    t.integer  "Issues_IssueID",                       null: false
-    t.string   "tep_advisors_AdvisorBnum", limit: 45,  null: false
+    t.text     "UpdateName",               null: false
+    t.text     "Description",              null: false
+    t.integer  "Issues_IssueID",           null: false
+    t.integer  "tep_advisors_AdvisorBnum", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -217,11 +217,11 @@ ActiveRecord::Schema.define(version: 20160503152753) do
   add_index "issue_updates", ["tep_advisors_AdvisorBnum"], name: "fk_IssueUpdates_tep_advisors1_idx", using: :btree
 
   create_table "issues", primary_key: "IssueID", force: true do |t|
-    t.integer  "student_id",                                          null: false
-    t.string   "Name",                     limit: 100,                null: false
-    t.text     "Description",                                         null: false
-    t.boolean  "Open",                                 default: true, null: false
-    t.string   "tep_advisors_AdvisorBnum", limit: 45,                 null: false
+    t.integer  "student_id",                              null: false
+    t.text     "Name",                                    null: false
+    t.text     "Description",                             null: false
+    t.boolean  "Open",                     default: true, null: false
+    t.integer  "tep_advisors_AdvisorBnum",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -472,10 +472,10 @@ ActiveRecord::Schema.define(version: 20160503152753) do
   add_foreign_key "forms_of_intention", "students", name: "forms_of_intention_student_id_fk"
 
   add_foreign_key "issue_updates", "issues", name: "fk_IssueUpdates_Issues", column: "Issues_IssueID", primary_key: "IssueID"
-  add_foreign_key "issue_updates", "tep_advisors", name: "fk_IssueUpdates_tep_advisors", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
+  add_foreign_key "issue_updates", "tep_advisors", name: "issue_updates_tep_advisors_AdvisorBnum_fk", column: "tep_advisors_AdvisorBnum"
 
   add_foreign_key "issues", "students", name: "issues_student_id_fk"
-  add_foreign_key "issues", "tep_advisors", name: "fk_Issues_tep_advisors", column: "tep_advisors_AdvisorBnum", primary_key: "AdvisorBnum"
+  add_foreign_key "issues", "tep_advisors", name: "issues_tep_advisors_AdvisorBnum_fk", column: "tep_advisors_AdvisorBnum"
 
   add_foreign_key "item_levels", "assessment_items", name: "item_levels_assessment_item_id_fk"
 
