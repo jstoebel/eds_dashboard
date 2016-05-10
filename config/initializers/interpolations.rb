@@ -1,6 +1,6 @@
 Paperclip.interpolates('bnum') do |attachment, style|
 
-  attachment.instance.student_id
+  attachment.instance.student.Bnum
 end
 
 Paperclip.interpolates('term') do |attachment, style|
@@ -12,8 +12,7 @@ end
 # 	#for AltID
 #   attachment.instance.AltID
 
-  Paperclip.interpolates('id') do |attachment, style|
-	#for id
+Paperclip.interpolates('id') do |attachment, style|
   attachment.instance.id
 end
 
