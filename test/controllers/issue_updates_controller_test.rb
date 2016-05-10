@@ -43,7 +43,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
           :UpdateName => "Update!",
           :Description => "descrip!",
           :Issues_IssueID => issue.id,
-          :tep_advisors_AdvisorBnum => user.tep_advisor.AdvisorBnum
+          :tep_advisors_AdvisorBnum => user.tep_advisor.id
         })
 
 

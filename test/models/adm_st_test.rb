@@ -91,8 +91,10 @@ class AdmStTest < ActiveSupport::TestCase
 	end
 
 	test "scope by term" do
-		expected_apps = AdmSt.by_term(BannerTerm.current_term )
-		actual_apps = AdmSt.all
+
+		curr_term = BannerTerm.current_term
+		expected_apps = AdmSt.by_term(curr_term)
+		actual_apps = AdmSt.all.where("BannerTerm_BannerTerm = ?", curr_term)
 
 		assert_equal(expected_apps.slice(0, expected_apps.size), actual_apps.slice(0, actual_apps.size))
 
