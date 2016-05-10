@@ -59,18 +59,23 @@ module PopulateHelper
 
 
       #transcript attrs
+      course_dates = 8.times.map{ |i| Faker::Time.between(4.years.ago, date_apply) } 
+      course_terms = course_dates.map {|date| BannerTerm.current_term({
+          :date => date,
+          :exact => false,
+          :plan_b => :back
+        })
+      }
 
-      # date = Time.between(4.years.ago, Date.today)
-      # FactoryGirl.create_list(:transcript, 8, {
-      #   :student_id => stu.id,
-      #   :grade_pt => 3.0,
-      #   :grade_ltr => "B",
-      #   :credits_attempted => 4.0,
-      #   :credits_earned => 4.0,
-      #   :gpa_include => true
-
-      # })
-      
+      course_attrs = course_terms.map {|term| FactoryGirl.attributes_for(:transcript, {
+          :student_id => stu.id,
+          :credits_attempted => 4.0,
+          :credits_earned => 4.0,
+          :gpa_include => true,
+          :term_taken => term.id
+        })
+      }
+    
 
       if !admit == false
 
@@ -79,6 +84,11 @@ module PopulateHelper
         #TODO:
           #implement method in transcript to evaluate gpas and credits earned
           # implement hook in adm_tep to call method and populate fields
+
+        transcript_attrs = {
+          :grade_pt => 3.0,
+          :grade_ltr => "B"
+        }
 
         app_decision_attrs = {
           GPA: 2.75,
@@ -97,6 +107,11 @@ module PopulateHelper
         #create transcript with failing GPA
 
 
+        transcript_attrs = {
+          :grade_pt => 3.0,
+          :grade_ltr => "B"
+        }
+
         app_decision_attrs = {
           GPA: Faker::Boolean.boolean ? 
           Faker::Number.between(0, 2) : Faker::Number.between(3, 4),
@@ -112,12 +127,12 @@ module PopulateHelper
         }
 
       end
-
+      courses = course_attrs.map {|attr| Transcript.create attr.merge transcript_attrs}
       tests = praxis_attrs.map {|attr| PraxisResult.create attr.merge score_attrs }
       apps = app_attrs.map {|attr| AdmTep.create attr.merge app_decision_attrs }
     end
 
-    def pop_adm_st(stu, st_admit)
+    def pop_adm_st(stu)
 
       p __method__
 
