@@ -33,7 +33,7 @@ class IssuesController < ApplicationController
     
     #assign advisor's B#
     user = current_user
-    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.AdvisorBnum
+    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.id
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
     # 
     if @issue.save

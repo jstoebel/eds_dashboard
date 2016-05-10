@@ -47,8 +47,7 @@ class IssuesControllerTest < ActionController::TestCase
         :student_id => stu.id,
         :Name => create_params[:Name],
         :Description => create_params[:Description],
-        :Open => true,
-        :tep_advisors_AdvisorBnum => advisor.AdvisorBnum
+        :Open => true
         }
 
 
