@@ -57,18 +57,24 @@ module PopulateHelper
         }
       }
 
+
+      #transcript attrs
+
+      # date = Time.between(4.years.ago, Date.today)
+      # FactoryGirl.create_list(:transcript, 8, {
+      #   :student_id => stu.id,
+      #   :grade_pt => 3.0,
+      #   :grade_ltr => "B",
+      #   :credits_attempted => 4.0,
+      #   :credits_earned => 4.0,
+      #   :gpa_include => true
+
+      # })
+      
+
       if !admit == false
 
         #create transcript with good enough GPA
-        FactoryGirl.create_list(:transcript, 8, {
-          :student_id => stu.id,
-          :grade_pt => 3.0,
-          :grade_ltr => "B",
-          :credits_attempted => 4.0,
-          :credits_earned => 4.0,
-          :gpa_include => true
-
-        })
 
         #TODO:
           #implement method in transcript to evaluate gpas and credits earned
@@ -89,15 +95,6 @@ module PopulateHelper
         #student is denied admission
 
         #create transcript with failing GPA
-        FactoryGirl.create_list(:transcript, 8, {
-          :student_id => stu.id,
-          :grade_pt => 2.0,
-          :grade_ltr => "C",
-          :credits_attempted => 4.0,
-          :credits_earned => 4.0,
-          :gpa_include => true
-
-        })
 
 
         app_decision_attrs = {
