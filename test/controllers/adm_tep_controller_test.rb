@@ -1,8 +1,10 @@
+
 require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
+require 'test_teardown'
 class AdmTepControllerTest < ActionController::TestCase
-
+  include TestTeardown
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
 
   test "should get new" do

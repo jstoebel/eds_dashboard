@@ -12,13 +12,15 @@
 #
 
 require 'test_helper'
-
+require 'test_teardown'
 #advisors and staff can :manage
 #student labor can [:index, :new, :create, :delete, :destroy] 
 
 #help on tests with paperclip: http://blog.joncairns.com/2012/11/uploading-files-in-functional-tests-with-rails-paperclip-and-test-unit/
 
 class StudentFilesControllerTest < ActionController::TestCase
+
+  include TestTeardown
 
   test "should get index" do
     #create a file and test that its there

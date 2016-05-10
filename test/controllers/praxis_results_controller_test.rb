@@ -14,8 +14,9 @@
 #
 
 require 'test_helper'
-
+require 'test_teardown'
 class PraxisResultsControllerTest < ActionController::TestCase
+  include TestTeardown
   allowed_roles = ["admin", "advisor"]    #roles who can do everything to this resource
 
   #taken from clinical_assignments. It works there!
