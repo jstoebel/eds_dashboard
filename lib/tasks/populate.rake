@@ -8,8 +8,8 @@ namespace :db do
   task :populate => ["db:devo:set_env", "db:clean", :environment] do
 
 
-    puts "Starting populate"
     t0 = Time.now
+    puts "#[{t0}] Starting populate"
 
     Rake::Task["db:seed"].invoke
 
@@ -18,7 +18,7 @@ namespace :db do
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
 
-    students = FactoryGirl.create_list :student, 100
+    students = FactoryGirl.create_list :student, 50
 
     paths = [true, false, nil]  #possible outcomes at each decision point
 
@@ -45,6 +45,31 @@ namespace :db do
       #FOI
       pop_fois s
 
+      #PRAXIS_PRACTICE
+
+      if Boolean.boolean 0.3
+
+        (1..3).each do |i|
+
+          test_record = PraxisTest.find_by :TestCode => "57#{i}2"
+
+          passing = Boolean.boolean
+
+          practice_params = {
+            :student_id => s.id,
+            :PraxisTest_TestCode => test_record.id,
+            :RemediationRequired => passing,
+            :Notes => Lorem.paragraph
+          }
+
+          practice_params.merge({:RemediationComplete => Boolean.boolean}) if !passing
+
+          FactoryGirl.create :praxis_prep, practice_params
+
+        end
+
+      end
+
       #ADM_TEP
       foi = s.latest_foi
 
@@ -64,30 +89,39 @@ namespace :db do
         exit_from_st(s, paths.sample)
       end
 
-      #clinical_assignments
-      num_assignments = Faker::Number.between(0, 5)
-      my_teachers = clinical_teachers.shuffle.slice(0, num_assignments)
+      #clinical_assignments 
+      # 30% chance of having clinical_assignments
+      if Boolean.boolean 0.3
 
-      my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
+        num_assignments = Faker::Number.between(0, 5)
+        my_teachers = clinical_teachers.shuffle.slice(0, num_assignments)
+        my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
+
+      end
 
 
       #ISSUES AND UPDATES
+      # 30% chance
 
-      num_issues = Faker::Number.between(0, 3)
-      my_issues = FactoryGirl.create_list :issue, num_issues, {
-        :student_id => s.id,
-        :tep_advisors_AdvisorBnum => my_advisors.sample.id
-      }
+      if Boolean.boolean 0.3
 
-      my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3), 
-        { :Issues_IssueID => iss.id,
+        num_issues = Faker::Number.between(0, 3)
+        my_issues = FactoryGirl.create_list :issue, num_issues, {
+          :student_id => s.id,
           :tep_advisors_AdvisorBnum => my_advisors.sample.id
         }
-      }
+
+        my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3), 
+          { :Issues_IssueID => iss.id,
+            :tep_advisors_AdvisorBnum => my_advisors.sample.id
+          }
+        }
+
+      end
 
     end #end of task
-
-    puts "Populate complete. Time=#{Time.now - t0}"
+    t1 = Time.now
+    puts "[#{t1}]Populate complete. Time=#{t1 - t0}"
 
   end
 

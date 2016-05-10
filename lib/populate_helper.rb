@@ -2,6 +2,8 @@ module PopulateHelper
 
     def pop_fois(stu)
 
+      p __method__
+
       num_forms = Faker::Number.between 1, 3 #how many forms did they do?
 
         (num_forms).times do
@@ -21,6 +23,8 @@ module PopulateHelper
 
     def pop_adm_tep(stu, admit)
       #they're applying!
+
+      p __method__
 
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
       term = BannerTerm.current_term(options={
@@ -55,6 +59,21 @@ module PopulateHelper
 
       if !admit == false
 
+        #create transcript with good enough GPA
+        FactoryGirl.create_list(:transcript, 8 {
+          :student_id => stu.id,
+          :grade_pt => 3.0,
+          :grade_ltr => "B",
+          :credits_attempted => 4.0,
+          :credits_earned => 4.0,
+          :gpa_include => true
+
+        })
+
+        #TODO:
+          #implement method in transcript to evaluate gpas and credits earned
+          # implement hook in adm_tep to call method and populate fields
+
         app_decision_attrs = {
           GPA: 2.75,
           GPA_last30: 3.0,
@@ -68,6 +87,18 @@ module PopulateHelper
 
       else
         #student is denied admission
+
+        #create transcript with failing GPA
+        FactoryGirl.create_list(:transcript, 8 {
+          :student_id => stu.id,
+          :grade_pt => 2.0,
+          :grade_ltr => "C",
+          :credits_attempted => 4.0,
+          :credits_earned => 4.0,
+          :gpa_include => true
+
+        })
+
 
         app_decision_attrs = {
           GPA: Faker::Boolean.boolean ? 
@@ -90,6 +121,8 @@ module PopulateHelper
     end
 
     def pop_adm_st(stu, st_admit)
+
+      p __method__
 
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
       st_apply_term = BannerTerm.current_term(options={
@@ -159,6 +192,8 @@ module PopulateHelper
     # completed: if the student successfully completed their programs
     # can be true, false or nil
 
+    p __method__
+
     exit_date = Faker::Time.between(1.years.ago, 1.month.ago)
 
     if completed != false
@@ -195,6 +230,8 @@ module PopulateHelper
 
   def pop_clinical_assignment(stu, teacher)
 
+    p __method__
+    
     start_date = Faker::Time.between(4.years.ago, Date.today)
     term = BannerTerm.current_term({
       :exact => false,
