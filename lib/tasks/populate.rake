@@ -13,7 +13,14 @@ namespace :db do
 
     Rake::Task["db:seed"].invoke
 
-    FactoryGirl.create :admin
+    FactoryGirl.create(:admin, {
+          UserName: "dev_admin",
+          FirstName: "Dev",
+          LastName: "Admin",
+          Email: "devadmin@test.com",
+          Roles_idRoles: 1
+
+        })
     advisors = FactoryGirl.create_pair :advisor
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
