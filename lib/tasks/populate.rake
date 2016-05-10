@@ -9,7 +9,7 @@ namespace :db do
 
 
     t0 = Time.now
-    puts "#[{t0}] Starting populate"
+    puts "[#{t0}] Starting populate"
 
     Rake::Task["db:seed"].invoke
 
