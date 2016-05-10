@@ -18,20 +18,18 @@
 #  Inst_bnum         :string(45)
 #
 
-require 'test_helper'
+include Faker
+FactoryGirl.define do
+  factory :transcript do
 
-class TranscriptTest < ActiveSupport::TestCase
+    student
+    crn {"#{Number.number 4}"}
+    course_code {"EDS#{Number.between 100, 499}"}
+    course_name {Book.title}
 
-    test "student in course in term is unique" do
-        t1 = Transcript.create({:student_id => Student.first.id,
-            :crn => "1001",
-            :course_code => "EDS150",
-            :course_name => "Intro Clas",
-            :term_taken => BannerTerm.first.id})
+    #must provide a term
+    
+    grade_pt {[4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0, nil].sample}
 
-        assert_raises ActiveRecord::RecordNotUnique do
-            Transcript.create t1.attributes #try to make the same record
-        end
-    end
-
+  end
 end
