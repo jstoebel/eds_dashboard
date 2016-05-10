@@ -24,4 +24,6 @@ class Transcript < ActiveRecord::Base
     belongs_to :banner_term, :foreign_key => "term_take"
 
 	scope :in_term, ->(term_object) { where(term_taken: term_object.BannerTerm)}
+
+    def get_quality_points
 end

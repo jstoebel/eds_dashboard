@@ -2,8 +2,8 @@
 #
 # Table name: praxis_prep
 #
-#  student_id          :integer          not null
 #  TestID              :integer          not null, primary key
+#  student_id          :integer          not null
 #  PraxisTest_TestCode :integer          not null
 #  Sub1Name            :string(45)
 #  Sub1Score           :float(24)
@@ -25,9 +25,19 @@
 #  Notes               :text(2147483647)
 #
 
-class PraxisPrep < ActiveRecord::Base
-  self.table_name = 'praxis_prep'
+FactoryGirl.define do
+  factory :praxis_prep do
 
-  belongs_to :student
-  belongs_to :praxis_test, {:foreign_key => "PraxisTest_TestCode" }
+    student
+    
+    #praxis_test needs to be passed in
+
+    (1..7).each do |i|
+        send("Sub#{i}Name", "Subtest#{i}") 
+    end
+    RemediationRequired true
+    RemediationComplete true
+
+
+  end 
 end
