@@ -18,8 +18,8 @@ class StudentFile < ActiveRecord::Base
 	before_save :clear_name
 
 	has_attached_file :doc, 
-	  :url => "/student_file/:altid/download",		#passes AltID 
-	  :path => ":rails_root/public/student_files/:bnum/:basename.:extension",
+	  :url => "/student_file/:id/download",		#passes AltID 
+	  :path => ":rails_root/public/student_files/#{Rails.env}/:bnum/:basename.:extension",
 	  :preserve_files => true,
 	  :keep_old_files => true
 	  
