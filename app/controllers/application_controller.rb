@@ -62,20 +62,20 @@ class ApplicationController < ActionController::Base
       end
 
     else # we're in development
-      #always login as a special account: dev_admin
-      
-      admin_user = User.find_or_create_by({
-        UserName: "dev_admin", 
-        FirstName: "Dev",
-        LastName: "Admin",
-        Email: "admind@test.edu",
-        Roles_idRoles: 1
-      })
-      session[:user] = admin_user.UserName
-      session[:role] = admin_user.role_name
+      #log us in as dev_admin if there is no session info
+      unless session[:user]
+        admin_user = User.find_or_create_by({
+          UserName: "dev_admin", 
+          FirstName: "Dev",
+          LastName: "Admin",
+          Email: "admind@test.edu",
+          Roles_idRoles: 1
+        })
+        session[:user] = admin_user.UserName
+        session[:role] = admin_user.role_name
 
+      end
     end
-
   end
 
   private
