@@ -124,7 +124,7 @@ namespace :db do
 
   end
 
-  task :clean => ["db:devo:set_env", :environment] do
+  task :clean => ["db:devo:set_env", "db:devo:clean_dev_files", :environment] do
     #used for cleaning the development database
     puts "Truncating #{Rails.env} database"
     conn = ActiveRecord::Base.connection
@@ -143,10 +143,17 @@ namespace :db do
 
 
   namespace :devo do
-    desc "Custom dependency to set development environment"
     task :set_env do # Note that we don't load the :environment task dependency
+      desc "Set development environment"
       Rails.env = "development"
     end
+
+    task :clean_dev_files do
+      desc "remove public/student_files/development"
+
+        sh "rm -rf #{Rails.root}/public/student_files/development"
+    end
+
   end
 
 end
