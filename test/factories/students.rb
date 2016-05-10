@@ -29,7 +29,7 @@ FactoryGirl.define do
     Bnum {"B00#{Number.number(6)}"}
     FirstName {Name.first_name}
     LastName {Name.last_name}
-    
+    EnrollmentStatus "Active Student"
 
   end
 end
