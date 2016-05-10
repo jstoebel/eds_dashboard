@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506185011) do
+ActiveRecord::Schema.define(version: 20160509202222) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -418,12 +418,12 @@ ActiveRecord::Schema.define(version: 20160506185011) do
     t.float   "quality_points",    limit: 24
     t.float   "credits_attempted", limit: 24
     t.float   "credits_earned",    limit: 24
-    t.float   "gpa_credits",       limit: 24
     t.string  "reg_status",        limit: 45
     t.string  "Inst_bnum",         limit: 45
+    t.boolean "gpa_include",                   null: false
   end
 
-  add_index "transcript", ["crn", "student_id"], name: "index_transcript_on_crn_and_student_id", using: :btree
+  add_index "transcript", ["student_id", "crn", "term_taken"], name: "index_transcript_on_student_id_and_crn_and_term_taken", unique: true, using: :btree
   add_index "transcript", ["student_id"], name: "transcript_student_id_fk", using: :btree
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
