@@ -12,10 +12,10 @@
 #
 
 require 'test_helper'
-
+require 'test_teardown'
 class IssueUpdatesControllerTest < ActionController::TestCase
+  include TestTeardown
   allowed_roles = ["admin", "advisor"]
-
   test "should get new" do
     allowed_roles.each do |r|
       load_session(r)

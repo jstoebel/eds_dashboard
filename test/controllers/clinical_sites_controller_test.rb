@@ -15,8 +15,9 @@
 #
 
 require 'test_helper'
-
+require 'test_teardown'
 class ClinicalSitesControllerTest < ActionController::TestCase
+  include TestTeardown
   #all roles have access to this resource
   test "should get index" do
     role_names.each do |r|

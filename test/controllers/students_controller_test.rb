@@ -24,8 +24,9 @@
 #
 
 require 'test_helper'
-
+require 'test_teardown'
 class StudentsControllerTest < ActionController::TestCase
+  include TestTeardown
   allowed_roles = ["admin", "staff", "advisor"]
 
   test "admin should get index" do
