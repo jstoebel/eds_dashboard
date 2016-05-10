@@ -27,7 +27,9 @@ class Student < ActiveRecord::Base
 	include ApplicationHelper
 
 	has_many :praxis_results
-	
+	has_many :praxis_prep
+
+
 	has_many :issues
 	has_many :issue_updates
 
