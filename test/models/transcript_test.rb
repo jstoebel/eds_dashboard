@@ -26,8 +26,9 @@ class TranscriptTest < ActiveSupport::TestCase
         t1 = Transcript.create({:student_id => Student.first.id,
             :crn => "1001",
             :course_code => "EDS150",
-            :course_name => "Intro Clas",
-            :term_taken => BannerTerm.first.id})
+            :course_name => "Intro Class",
+            :term_taken => BannerTerm.first.id,
+            :gpa_include => true})
 
         assert_raises ActiveRecord::RecordNotUnique do
             Transcript.create t1.attributes #try to make the same record

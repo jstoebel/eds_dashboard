@@ -32,13 +32,6 @@ class IssueTest < ActiveSupport::TestCase
 		assert_equal(["Please provide an issue name."], t.errors[:Name])
 	end
 
-	test "name max length" do
-		t = Issue.first
-		t.Name = "a"*101
-		t.valid?
-		assert_equal(["Max name length is 100 characters."], t.errors[:Name])
-	end
-
 	test "needs description" do
 		t = Issue.first
 		t.Description = nil

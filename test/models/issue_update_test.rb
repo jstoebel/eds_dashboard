@@ -22,13 +22,6 @@ class IssueUpdateTest < ActiveSupport::TestCase
 		py_assert(["Please provide an update name."], t.errors[:UpdateName])
 	end
 
-	test "name max length" do
-		t = IssueUpdate.first
-		t.UpdateName = "a"*101
-		t.valid?
-		py_assert(["Max name length is 100 characters."], t.errors[:UpdateName])
-	end
-
 	test "needs description" do
 		t = IssueUpdate.first
 		t.Description = nil

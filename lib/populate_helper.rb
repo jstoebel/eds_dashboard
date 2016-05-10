@@ -60,7 +60,7 @@ module PopulateHelper
       if !admit == false
 
         #create transcript with good enough GPA
-        FactoryGirl.create_list(:transcript, 8 {
+        FactoryGirl.create_list(:transcript, 8, {
           :student_id => stu.id,
           :grade_pt => 3.0,
           :grade_ltr => "B",
@@ -89,7 +89,7 @@ module PopulateHelper
         #student is denied admission
 
         #create transcript with failing GPA
-        FactoryGirl.create_list(:transcript, 8 {
+        FactoryGirl.create_list(:transcript, 8, {
           :student_id => stu.id,
           :grade_pt => 2.0,
           :grade_ltr => "C",
