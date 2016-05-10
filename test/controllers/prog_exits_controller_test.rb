@@ -15,8 +15,9 @@
 #
 
 require 'test_helper'
-
+require 'test_teardown'
 class ProgExitsControllerTest < ActionController::TestCase
+  include TestTeardown
   allowed_roles = ["admin", "staff"]
   bad_roles = ["advisor", "student labor"]
 

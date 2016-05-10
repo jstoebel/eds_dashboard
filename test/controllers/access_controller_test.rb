@@ -1,6 +1,9 @@
 require 'test_helper'
-
+require 'test_teardown'
 class AccessControllerTest < ActionController::TestCase
+
+  include TestTeardown
+  
   test "should get index" do
     role_names.each do |r|    #iterating over all possible roles
       load_session(r)

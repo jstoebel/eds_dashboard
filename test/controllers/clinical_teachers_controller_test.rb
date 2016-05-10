@@ -14,9 +14,9 @@
 #
 
 require 'test_helper'
-
+require 'test_teardown'
 class ClinicalTeachersControllerTest < ActionController::TestCase
-
+  include TestTeardown
   allowed_roles = ["admin", "advisor", "staff", "student labor"]
 
   def assert_form_details

@@ -14,8 +14,9 @@
 
 require 'test_helper'
 require 'application_controller'
-
+require 'test_teardown'
 class IssuesControllerTest < ActionController::TestCase
+  include TestTeardown
   allowed_roles = ["admin", "advisor"]
 
   test "should get new" do
