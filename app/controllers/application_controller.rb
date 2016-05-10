@@ -9,7 +9,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def current_user
+    puts "STARTING current_user"
+    puts "****"
+    puts session[:user]
+    puts "****"
     user = User.find_by(:UserName => session[:user])
+
     user.view_as = session[:view_as]
     return user
   end
@@ -64,18 +69,10 @@ class ApplicationController < ActionController::Base
     else # we're in development
       #always login as a special account: dev_admin
 
-      if session[:user] == nil # has session data been set?
-        user = User.find_or_create_by({
-            UserName: "dev_admin",
-            FirstName: "Dev",
-            LastName: "Admin",
-            Email: "devadmin@test.com",
-            Roles_idRoles: 1
+      admin_user = User.find_by({UserName: "dev_admin"})
+      session[:user] = admin_user.UserName
+      session[:role] = admin_user.role_name
 
-          })
-        session[:user] = user.UserName
-        session[:role] = user.role_name
-      end
     end
 
   end
