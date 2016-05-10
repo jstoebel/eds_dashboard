@@ -62,18 +62,17 @@ class ApplicationController < ActionController::Base
       end
 
     else # we're in development
+      #always login as a special account: dev_admin
+
       if session[:user] == nil # has session data been set?
-        #try to find a user account who is admin
-        user = User.find_by(Roles_idRoles: 1)
-        if not user
-          user = User.create({
-              UserName: "devuser",
-              FirstName: "Development",
-              LastName: "User",
-              Email: "userd@berea.edu",
-              Roles_idRoles: 1
-            })
-        end
+        user = User.find_or_create_by({
+            UserName: "dev_admin",
+            FirstName: "Dev",
+            LastName: "Admin",
+            Email: "devadmin@test.com",
+            Roles_idRoles: 1
+
+          })
         session[:user] = user.UserName
         session[:role] = user.role_name
       end
