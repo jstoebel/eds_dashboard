@@ -13,7 +13,7 @@
 #
 
 class IssuesController < ApplicationController
-
+ 
   authorize_resource
   skip_authorize_resource :only => :new
   layout 'application'
