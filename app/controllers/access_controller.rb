@@ -19,7 +19,7 @@ class AccessController < ApplicationController
     session[:user] = nil
     session[:role] = nil
     session[:view_as] = nil
-    redirect_to "https://log:out@edsdata.berea.edu"
+    redirect_to "/logout_confirm.html"
   end
 
   def change_psudo_status
