@@ -13,13 +13,13 @@
 #  quality_points    :float(24)
 #  credits_attempted :float(24)
 #  credits_earned    :float(24)
-#  gpa_credits       :float(24)
 #  reg_status        :string(45)
 #  Inst_bnum         :string(45)
+#  gpa_include       :boolean          not null
 #
 
 require 'test_helper'
-
+require 'factory_girl'
 class TranscriptTest < ActiveSupport::TestCase
 
     test "student in course in term is unique" do
@@ -33,6 +33,14 @@ class TranscriptTest < ActiveSupport::TestCase
         assert_raises ActiveRecord::RecordNotUnique do
             Transcript.create t1.attributes #try to make the same record
         end
+    end
+
+    test "sets quality points" do
+        t = FactoryGirl.create :transcript, {
+            term_taken: BannerTerm.first.id
+        }
+
+        assert t.quality_points.present?
     end
 
 end
