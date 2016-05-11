@@ -159,11 +159,42 @@ class Student < ActiveRecord::Base
 	end
 
 
-	def gpa(last=nil)
+	def gpa(options={})
 		#pre:
 			#last: last number of credits to include in calculation
 			#if nil examine all courses
-		#post: returns gpa 
+		#post: returns gpa
+
+	    defaults = {
+			last: nil,	#(integer) if given, how many credits back should be included? Otherwise, use all
+			term: nil	#(term id) the upper bound term to use. Otherwise, use all.
+	    }
+
+	    options = defaults.merge(options)
+
+
+		courses = Transcript.where({
+				:student_id => self.id,
+				:gpa_include => true,
+			})
+
+		#filter by term if one is given
+		courses.where!("term_taken <= ?", options[:term]) if options[:term]
+
+		#order by term and q points if last was given
+		courses.order!(term_taken: :desc).order!(quality_points: :desc) if options[:last]
+
+		credits = 0
+		qpoints = 0
+		courses.each do |course|
+			credits += course.credits_earned
+			qpoints += course.quality_points
+			break if options[:last].present? && credits >= options[:last] 
+		end
+
+		gpa_raw = qpoints / credits #truncated
+
+		return (gpa_raw * 100).to_i / 100.0
 
 	end
 
