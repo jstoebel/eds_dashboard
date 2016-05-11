@@ -8,6 +8,8 @@
 	install dependencies:
 		bundle install
 
+	Add database.yml file (see repo wiki)
+
 * Database migration
 
 	Initial migration
