@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
           UserName: "dev_admin", 
           FirstName: "Dev",
           LastName: "Admin",
-          Email: "admind@test.edu",
+          Email: "devadmin@test.com",
           Roles_idRoles: 1
         })
         session[:user] = admin_user.UserName
