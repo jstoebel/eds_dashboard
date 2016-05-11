@@ -13,9 +13,9 @@
 #  quality_points    :float(24)
 #  credits_attempted :float(24)
 #  credits_earned    :float(24)
-#  gpa_credits       :float(24)
 #  reg_status        :string(45)
 #  Inst_bnum         :string(45)
+#  gpa_include       :boolean          not null
 #
 
 include Faker
@@ -30,6 +30,8 @@ FactoryGirl.define do
     #must provide a term
     
     grade_pt {[4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0, nil].sample}
-
+    credits_earned 4.0
+    credits_attempted 4.0
+    gpa_include true
   end
 end
