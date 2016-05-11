@@ -49,12 +49,11 @@
         </p>  
       </div>
         
-      <div class="col-xs-12 col-md-1 pull-right">      
-        <%= link_to "/logout", :class => "btn btn-default" do %>
-          Log Out!
-        <% end %>
+      <div class="col-xs-12 col-md-1 pull-right">   
+        <%= form_tag("/logout", method: "post") do  %>
+          <%= submit_tag("Logout", id: "logout-btn", data: { confirm: 'Are you sure you want to logout?' }) %>
+        <% end  %>
       </div>
-                 
 
     </div>
 
