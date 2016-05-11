@@ -25,7 +25,7 @@
 
 require 'test_helper'
 require 'minitest/autorun'
-
+require 'factory_girl'
 class StudentTest < ActiveSupport::TestCase
 
 	test "by_last scope" do
@@ -252,6 +252,52 @@ class StudentTest < ActiveSupport::TestCase
 		expected = apps.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
 		
 		assert_equal expected.to_a, stu.open_programs.to_a
+	end
+
+	test "gpa with no options" do
+		courses = FactoryGirl.create_list(:transcript, 4, {
+				term_taken: BannerTerm.first.id,
+				grade_pt: 4.0
+			})
+
+		stu = courses[0].student
+		assert_equal 4.0, stu.gpa 
+	end
+
+	test "gpa with term limit" do
+		
+
+		first_course = FactoryGirl.create :transcript, {
+			term_taken: BannerTerm.first.id,
+			grade_pt: 4.0
+		}
+
+		stu = first_course.student
+
+		BannerTerm.all.slice(1,2).map {|term| FactoryGirl.create :transcript, {
+				student_id: stu.id,
+				term_taken: term.id,
+				grade_pt: 3.0
+			}}
+
+		assert 4.0, stu.gpa({term: first_course.term_taken})
+	end
+
+	test "gpa with credit limit" do
+		first_course = FactoryGirl.create :transcript, {
+			term_taken: BannerTerm.first.id,
+			grade_pt: 4.0
+		}
+
+		stu = first_course.student
+
+		second_course = FactoryGirl.create :transcript, {
+			term_taken: BannerTerm.second.id,
+			student_id: stu.id,
+			grade_pt: 3.0
+		}
+
+		assert_equal 3.0, stu.gpa({last: second_course.credits_earned})
 	end
 
 end
