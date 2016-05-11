@@ -119,6 +119,9 @@ GEM
     minitest (5.7.0)
     minitest-fail-fast (0.1.0)
       minitest (~> 5)
+    minitest-spec-rails (5.3.0)
+      minitest (~> 5.0)
+      rails (>= 4.1)
     multi_json (1.11.1)
     mysql2 (0.3.18)
     net-scp (1.2.1)
@@ -226,6 +229,7 @@ DEPENDENCIES
   jquery-rails
   lograge
   minitest-fail-fast
+  minitest-spec-rails
   mysql2
   paperclip (~> 4.3)
   phony_rails
