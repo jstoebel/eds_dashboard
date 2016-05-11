@@ -20,11 +20,27 @@
 
 class Transcript < ActiveRecord::Base
 	self.table_name = 'transcript'
-	belongs_to :student
-    belongs_to :banner_term, :foreign_key => "term_take"
 
+    #~~~HOOKS~~~#
+    before_save :set_quality_points
+
+
+    #~~~ASSOCIATIONS~~~#
+	belongs_to :student
+    belongs_to :banner_term, :foreign_key => "term_taken"
+
+
+
+    #~~~SCOPES~~~#
 	scope :in_term, ->(term_object) { where(term_taken: term_object.BannerTerm)}
 
-    def get_quality_points
+
+    def set_quality_points
+        #sets quality_points for a record
+        if self.grade_pt_changed? || self.credits_earned_changed?
+            self.quality_points = self.grade_pt / self.credits_earned
+        end
+
+
     end
 end
