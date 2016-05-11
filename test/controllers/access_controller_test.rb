@@ -18,9 +18,9 @@ class AccessControllerTest < ActionController::TestCase
     assert_redirected_to "/access_denied.html"
   end
 
-  test "should get logout" do
-    get :logout
-    assert_redirected_to "https://log:out@edsdata.berea.edu"
+  test "should post logout" do
+    post :logout
+    assert_redirected_to "/logout_confirm.html"
   end
 
   test "logout should clear session" do
