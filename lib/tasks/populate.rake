@@ -25,19 +25,7 @@ namespace :db do
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
 
-
-    #students go in one of the following groups
-      # => FOI no
-      # => FOI nil
-
-      # => Adm_tep no
-      # => adm_tep nil
-
-      # => adm_st no (drop program)
-      # => adm_st nil 
-      # => adm_st yes, complete
-      # => adm_st yes, fail
-    students = FactoryGirl.create_list :student, 24
+    students = FactoryGirl.create_list :student, 50
 
     paths = [true, false, nil]  #possible outcomes at each decision point
 
@@ -94,10 +82,14 @@ namespace :db do
 
       if foi.seek_cert
         pop_adm_tep s, paths.sample
+      else
+        #give them the course work anyway.
+        pop_transcript s, 12, 3.0, 4.years.ago, Date.today
       end
 
+      #ADM_ST
       if s.open_programs
-        pop_adm_st(s)
+        # pop_adm_st(s)
       end
 
       #was student admitted to Student Teaching
@@ -137,11 +129,11 @@ namespace :db do
 
       end
 
-    end #end of task
+    end 
     t1 = Time.now
     puts "[#{t1}]Populate complete. Time=#{t1 - t0}"
 
-  end
+  end #end of task
 
   task :clean => ["db:devo:set_env", "db:devo:clean_dev_files", :environment] do
     #used for cleaning the development database
