@@ -7,46 +7,36 @@ class AdmTepController < ApplicationController
   def new
     #display menu for possible names and possible programs
 
-    if current_term(exact: true) == nil
-      flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
-      redirect_to(adm_tep_index_path)
-      return
-    end
     @app = AdmTep.new
     new_setup
   end
 
   def create
-    @current_term = current_term({exact: true})  
-    if @current_term == nil
-      flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
-      redirect_to(adm_tep_index_path)
-      return
-    end
+    term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
 
-    @app = AdmTep.new(new_adm_params)
+    app = AdmTep.new(new_adm_params)
 
-    @bnum =  params[:adm_tep][:student_id]
-    @prog_code = params[:adm_tep][:Program_ProgCode]
+    stu = app.student
 
-    @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
+    bnum =  params[:adm_tep][:student_id]
+    prog_code = params[:adm_tep][:Program_ProgCode]
 
     #how many times has this student applied this term?
-    apps_this_term = AdmTep.where(student_id: @bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: @app.Program_ProgCode).size
-    @app.Attempt = apps_this_term + 1
+
+    apps_this_term = AdmTep.where(student_id: bnum).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where(Program_ProgCode: prog_code).size
+    app.Attempt = apps_this_term + 1
 
     #TODO fetch GPA,  GPA last 30, earned credits. Add to @app
-    @app.GPA = 3.0    #TODO FIX THIS!
-    @app.GPA_last30 = 3.0   #TODO FIX THIS!
-    @app.EarnedCredits = 45   #TODO FIX THIS!
+    app.GPA = stu.gpa
+    app.GPA_last30 = stu.gpa({last: 30})
+    app.EarnedCredits = 45   #TODO FIX THIS!
 
-    if @app.save
-      @student = Student.find(@bnum)
-      name = name_details(@student)
+    if app.save
 
-      @program = Program.find(@prog_code)
+      name = name_details(stu)
+      prog = app.program
 
-      flash[:notice] = "New application added: #{name}-#{@program.EDSProgName}"
+      flash[:notice] = "New application added: #{name}-#{prog.EDSProgName}"
       redirect_to(action: 'index')
     else
       flash[:notice] = "Application not saved."
@@ -158,7 +148,7 @@ class AdmTepController < ApplicationController
 
   private
   def new_adm_params
-    params.require(:adm_tep).permit(:student_id, :Program_ProgCode)
+    params.require(:adm_tep).permit(:student_id, :Program_ProgCode, :BannerTerm_BannerTerm)
   end
 
   def edit_adm_params
@@ -167,8 +157,12 @@ class AdmTepController < ApplicationController
 
 
   def new_setup
-      @students = Student.where("ProgStatus = 'Prospective' and EnrollmentStatus not like 'Dismissed%' and EnrollmentStatus <> 'Graduation' and Classification <> 'Senior'").order(LastName: :asc )
+      @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation" && s.Classification != "Senior"}
+
       @programs = Program.where("Current = 1")
+
+      term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
+      @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
   end
   # def error_new
   #   #sends user back to new form
