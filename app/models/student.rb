@@ -26,6 +26,13 @@
 class Student < ActiveRecord::Base
 	include ApplicationHelper
 
+	after_save :report
+
+	def report
+		print "MADE A STUDENT"
+		puts "TOTAL COUNT #{Student.all.size}"
+	end
+
 	has_many :praxis_results
 	has_many :praxis_prep
 
@@ -176,7 +183,7 @@ class Student < ActiveRecord::Base
 		courses = Transcript.where({
 				:student_id => self.id,
 				:gpa_include => true,
-			})
+			}).where("grade_pt is not null")
 
 		#filter by term if one is given
 		courses.where!("term_taken <= ?", options[:term]) if options[:term]
@@ -198,8 +205,15 @@ class Student < ActiveRecord::Base
 
 	end
 
-	def credits
-		#returns number of credits student has earned
+	def credits(last_term)
+		#last_term: term_id if last term to use total
+		credits = 0
+
+		self.transcripts.where("term_taken <= ?", last_term).each do |t|
+			credits += t.credits_earned
+		end
+		return credits
+		# return self.transcripts.where("term_taken <= ?", last_term).inject {|sum, i| i.credits_earned + sum}
 	end
 
 end
