@@ -20,8 +20,8 @@
 FactoryGirl.define do
   factory :adm_tep do
     student
-    association :program
-    association :banner_term
+    # association :program
+    # association :banner_term
     # need to provide Program_ProgCode
     # need to provide BannerTerm_BannerTerm
     Attempt 1
