@@ -12,8 +12,10 @@
 class BannerTerm < ActiveRecord::Base
 	has_many :adm_tep, foreign_key: "BannerTerm_BannerTerm"
 	has_many :adm_st, foreign_key: "BannerTerm_BannerTerm"
-	has_many :prog_exit, foreign_key: "ExitTerm"
+	has_many :prog_exit, foreign_key: "ExitTerm" 
 
+
+  scope :actual, lambda {where("BannerTerm > ? and BannerTerm < ?", 1, 999999)}
 
   def self.current_term(options = {})
     defaults = {
@@ -57,6 +59,14 @@ class BannerTerm < ActiveRecord::Base
   def prev_term
     #returns the term with the next smallest id
     BannerTerm.where("BannerTerm < ?", self.BannerTerm).last
+  end
+
+  def readable
+    if self.PlainTerm =~ /\d{4}/
+      return self.PlainTerm
+    else 
+      return "#{self.PlainTerm} (#{self.AYStart}-#{self.AYStart+1})"
+    end
   end
 
 end
