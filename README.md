@@ -29,15 +29,15 @@
 * Database initialization
 	- To build the schema from scratch run `rake db:schema:load`
 	- run `rake db:seed` to load constant data from fixtures. This will load `banner_terms` , `exit_codes`, `programs` and `roles`
-        - run `rake db:populate` to load sample data into the development database. Note that this will truncate the entire development database.
+    - run `rake db:populate` to load sample data into the development database. Note that this will truncate the entire development database.
 
 * Testing
 
- - This uses Minitest for all tests.
- - All commits to this app are built in a testing enviornment using CodeShip.
+    - This uses Minitest for all tests.
+    - All commits to this app are built in a testing enviornment using CodeShip.
 
 * Deployment instructions
 
- - For production the following secrets need to be stored in session information. A bash profile is a good place.
- - secrets\_key\_base under the key `ENV["SECRET_KEY_BASE"]` (run rake secrets to generate one)
- - database password
+    - For production the following secrets need to be stored in session information. A bash profile is a good place.
+    - secrets\_key\_base under the key `ENV["SECRET_KEY_BASE"]` (run rake secrets to generate one)
+    - database password
