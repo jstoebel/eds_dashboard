@@ -25,7 +25,19 @@ namespace :db do
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
 
-    students = FactoryGirl.create_list :student, 50
+
+    #students go in one of the following groups
+      # => FOI no
+      # => FOI nil
+
+      # => Adm_tep no
+      # => adm_tep nil
+
+      # => adm_st no (drop program)
+      # => adm_st nil 
+      # => adm_st yes, complete
+      # => adm_st yes, fail
+    students = FactoryGirl.create_list :student, 24
 
     paths = [true, false, nil]  #possible outcomes at each decision point
 
