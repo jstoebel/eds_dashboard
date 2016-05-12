@@ -38,6 +38,6 @@
 
 * Deployment instructions
 
-	For production the following secrets need to be stored in session information. A bash profile is a good place.
-	* secrets\_key\_base under the key `ENV["SECRET_KEY_BASE"]` (run rake secrets to generate one)
-	* database password
+ - For production the following secrets need to be stored in session information. A bash profile is a good place.
+ - secrets\_key\_base under the key `ENV["SECRET_KEY_BASE"]` (run rake secrets to generate one)
+ - database password
