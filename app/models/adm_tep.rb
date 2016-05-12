@@ -32,6 +32,8 @@ class AdmTep < ActiveRecord::Base
   has_one :prog_exit, :through => :program
 
   #CALL BACKS
+  before_validation :set_gpas
+  before_validation :set_credits
   after_save :change_status
 
   #SCOPES 
@@ -50,16 +52,15 @@ class AdmTep < ActiveRecord::Base
     #the next non over lapping term
     next_term = BannerTerm.where("StartDate > ?", term.EndDate).order(:BannerTerm).first 
 
-
-
     app.errors.add(:TEPAdmitDate, "Admission date must be given.") if app.TEPAdmit and app.TEPAdmitDate.blank?
     app.errors.add(:TEPAdmitDate, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
     app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate
     
     # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
     app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and !good_gpa?
-    app.errors.add(:EarnedCredits, "Student has not earned 30 credit hours.") if app.TEPAdmit and (!app.good_credits?)
     
+    app.errors.add(:EarnedCredits, "[#{self.student.id} #{self.BannerTerm_BannerTerm}]Student needs to have earned 30 credit hours and has only earned #{self.EarnedCredits}.") if app.TEPAdmit and (!app.good_credits?)
+
     #TODO must have completed EDS150 with C or better to be admitted.
     #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
    
@@ -78,6 +79,18 @@ class AdmTep < ActiveRecord::Base
 
   end
 
+  def set_gpas
+    #set GPAs for record
+    stu = self.student
+
+    self.GPA = stu.gpa({:term => self.BannerTerm_BannerTerm})
+    self.GPA_last30 = stu.gpa({:term => self.BannerTerm_BannerTerm, :last => 30})
+  end
+
+
+  def set_credits
+    self.EarnedCredits = self.student.credits(self.BannerTerm_BannerTerm)
+  end
 
   def good_credits?
     return self.EarnedCredits >= 30
@@ -111,9 +124,6 @@ class AdmTep < ActiveRecord::Base
       stu = self.student
       stu.update_attributes :ProgStatus => "Candidate"
       if stu.save
-        # puts
-        # puts "***UPDATING PROG STATUS***"
-        # puts stu.ProgStatus
       end
       # self.student.update_attributes :ProgStatus => "Candidate"
     end
