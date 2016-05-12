@@ -2,7 +2,7 @@ module PopulateHelper
 
     def pop_fois(stu)
 
-      p __method__
+      
 
       num_forms = Faker::Number.between 1, 3 #how many forms did they do?
 
@@ -24,7 +24,7 @@ module PopulateHelper
     def pop_adm_tep(stu, admit)
       #they're applying!
 
-      p __method__
+      
 
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
       term = BannerTerm.current_term(options={
@@ -128,13 +128,15 @@ module PopulateHelper
 
       end
       courses = course_attrs.map {|attr| Transcript.create attr.merge transcript_attrs}
-      tests = praxis_attrs.map {|attr| PraxisResult.create attr.merge score_attrs }
+      # tests = praxis_attrs.map {|attr| PraxisResult.create attr.merge score_attrs }
+      tests = praxis_attrs.map {|attr| FactoryGirl.create(:praxis_result, attr.merge(score_attrs)) }
+
       apps = app_attrs.map {|attr| AdmTep.create attr.merge app_decision_attrs }
     end
 
     def pop_adm_st(stu)
 
-      p __method__
+      
 
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
       st_apply_term = BannerTerm.current_term(options={
@@ -204,7 +206,7 @@ module PopulateHelper
     # completed: if the student successfully completed their programs
     # can be true, false or nil
 
-    p __method__
+    
 
     exit_date = Faker::Time.between(1.years.ago, 1.month.ago)
 
@@ -242,7 +244,7 @@ module PopulateHelper
 
   def pop_clinical_assignment(stu, teacher)
 
-    p __method__
+    
     
     start_date = Faker::Time.between(4.years.ago, Date.today)
     term = BannerTerm.current_term({
