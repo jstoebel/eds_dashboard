@@ -57,24 +57,7 @@ module PopulateHelper
         }
       }
 
-
       #transcript attrs
-      course_dates = 8.times.map{ |i| Faker::Time.between(4.years.ago, date_apply) } 
-      course_terms = course_dates.map {|date| BannerTerm.current_term({
-          :date => date,
-          :exact => false,
-          :plan_b => :back
-        })
-      }
-
-      course_attrs = course_terms.map {|term| FactoryGirl.attributes_for(:transcript, {
-          :student_id => stu.id,
-          :credits_attempted => 4.0,
-          :credits_earned => 4.0,
-          :gpa_include => true,
-          :term_taken => term.id
-        })
-      }
     
 
       if !admit == false
@@ -84,11 +67,6 @@ module PopulateHelper
         #TODO:
           #implement method in transcript to evaluate gpas and credits earned
           # implement hook in adm_tep to call method and populate fields
-
-        transcript_attrs = {
-          :grade_pt => 3.0,
-          :grade_ltr => "B"
-        }
 
         app_decision_attrs = {
           GPA: 2.75,
@@ -106,11 +84,6 @@ module PopulateHelper
 
         #create transcript with failing GPA
 
-
-        transcript_attrs = {
-          :grade_pt => 3.0,
-          :grade_ltr => "B"
-        }
 
         app_decision_attrs = {
           GPA: Faker::Boolean.boolean ? 
@@ -132,6 +105,31 @@ module PopulateHelper
       tests = praxis_attrs.map {|attr| FactoryGirl.create(:praxis_result, attr.merge(score_attrs)) }
 
       apps = app_attrs.map {|attr| AdmTep.create attr.merge app_decision_attrs }
+    end
+
+    def pop_transcript(stu, n, grade_pt, start_date, end_date)
+      #gives student n courses all with the given grade
+      #all courses are in terms between start and end date
+
+      course_dates = n.times.map{ |i| Faker::Time.between(4.years.ago, date_apply) }
+      course_terms = course_dates.map {|date| BannerTerm.current_term({
+          :date => date,
+          :exact => false,
+          :plan_b => :back
+        })
+      }
+
+      courses = course_terms.map {|term| FactoryGirl.create(:transcript, {
+          :student_id => stu.id,
+          :credits_attempted => 4.0,
+          :credits_earned => 4.0,
+          :gpa_include => true,
+          :term_taken => term.id,
+          :grade_pt => grade_pt,
+          :grade_ltr => Transcript.g_to_l(grade_pt)
+        })
+      }
+
     end
 
     def pop_adm_st(stu)
