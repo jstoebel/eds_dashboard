@@ -33,8 +33,8 @@
 
 * Testing
 
-        This uses Minitest for all tests.
-	All commits to this app are built in a testing enviornment using CodeShip.
+ - This uses Minitest for all tests.
+ - All commits to this app are built in a testing enviornment using CodeShip.
 
 * Deployment instructions
 
