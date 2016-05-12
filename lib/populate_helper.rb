@@ -2,9 +2,9 @@ module PopulateHelper
 
     def pop_fois(stu)
 
-      
+      p __method__
 
-      num_forms = Faker::Number.between 1, 3 #how many forms did they do?
+      num_forms = Faker::Number.between 1, 2 #how many forms did they do?
 
         (num_forms).times do
           seek_cert = Faker::Boolean.boolean 0.75
@@ -24,6 +24,8 @@ module PopulateHelper
     def pop_adm_tep(stu, admit)
       #they're applying!
 
+      p __method__
+
       
 
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
@@ -32,18 +34,7 @@ module PopulateHelper
         exact: false,
         plan_b: :back})
 
-      #for each required test, make attrs for a praxis_result
-      p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
-      praxis_attrs = p1_tests.map { |test|
-        FactoryGirl.attributes_for :praxis_result, {
-          :student_id => stu.id,
-          :praxis_test_id =>  test.id,
-          :test_date => date_apply - 30,
-          :reg_date => date_apply - 60
-        }
-       }
-
-      num_programs = Faker::Number.between(1, 10) / 9 + 1 # 10% chance of 2 programs
+      num_programs = (Faker::Boolean.boolean 0.1) ? 2 : 1
       my_programs = Program.all.shuffle.slice(0, num_programs)
 
       app_attrs = my_programs.each.map { |prog| 
@@ -53,65 +44,53 @@ module PopulateHelper
           :BannerTerm_BannerTerm => term.id,
           :TEPAdmit => admit,
           :TEPAdmitDate => date_apply,
+          :GPA => nil,
+          :GPA_last30 => nil, 
+          :EarnedCredits => nil,
           :student_file_id => FactoryGirl.create(:student_file, {:student_id => stu.id}).id
         }
       }
-
-      #transcript attrs
     
-
       if !admit == false
-
-        #create transcript with good enough GPA
-
-        #TODO:
-          #implement method in transcript to evaluate gpas and credits earned
-          # implement hook in adm_tep to call method and populate fields
-
-        app_decision_attrs = {
-          GPA: 2.75,
-          GPA_last30: 3.0,
-          EarnedCredits: 30,
-        }
-
-        score_attrs = {
-          :test_score => 101,
-          :cut_score => 100
-        }
-
+        #student qualifies for admission
+        gpa = 3.0 #good enough GPA
+        praxis_pass = true #pass the praxis
       else
         #student is denied admission
-
-        #create transcript with failing GPA
-
-
-        app_decision_attrs = {
-          GPA: Faker::Boolean.boolean ? 
-          Faker::Number.between(0, 2) : Faker::Number.between(3, 4),
-
-          GPA_last30: 2.99, #this one always breaks
-          EarnedCredits: Faker::Boolean.boolean ? 
-          Faker::Number.between(0, 29) : Faker::Number.between(30, 40)
-        }
-
-        score_attrs = {
-          :test_score => 99,
-          :cut_score => 100
-        }
-
+        gpa = 2.0 #not good enough GPA
+        praxis_pass = false #fail praxis
       end
-      courses = course_attrs.map {|attr| Transcript.create attr.merge transcript_attrs}
-      # tests = praxis_attrs.map {|attr| PraxisResult.create attr.merge score_attrs }
-      tests = praxis_attrs.map {|attr| FactoryGirl.create(:praxis_result, attr.merge(score_attrs)) }
 
-      apps = app_attrs.map {|attr| AdmTep.create attr.merge app_decision_attrs }
+      pop_transcript stu, 12, gpa, term.StartDate - 200, term.EndDate
+      pop_praxisI stu, date_apply - 30, praxis_pass
+      app_attrs.map {|attr| FactoryGirl.create :adm_tep, attr}
+    end
+
+    def pop_praxisI(stu, date_taken, passing)
+      p __method__
+
+      #for each required test, make attrs for a praxis_result
+      p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
+
+
+      praxis_attrs = p1_tests.map { |test|
+        FactoryGirl.attributes_for :praxis_result, {
+          :student_id => stu.id,
+          :praxis_test_id =>  test.id,
+          :test_score => (passing ? 101 : 99),
+          :cut_score => 100,
+          :test_date => date_taken,
+          :reg_date => date_taken - 30
+        }
+       }
     end
 
     def pop_transcript(stu, n, grade_pt, start_date, end_date)
+      p __method__
       #gives student n courses all with the given grade
       #all courses are in terms between start and end date
 
-      course_dates = n.times.map{ |i| Faker::Time.between(4.years.ago, date_apply) }
+      course_dates = n.times.map{ |i| Faker::Time.between(start_date, end_date) }
       course_terms = course_dates.map {|date| BannerTerm.current_term({
           :date => date,
           :exact => false,
@@ -133,7 +112,7 @@ module PopulateHelper
     end
 
     def pop_adm_st(stu)
-
+      p __method__
       
 
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
@@ -200,6 +179,7 @@ module PopulateHelper
     end
 
   def exit_from_st(stu, completed)
+      p __method__
     # exits a student from all programs following student teaching
     # completed: if the student successfully completed their programs
     # can be true, false or nil
@@ -241,7 +221,7 @@ module PopulateHelper
   end
 
   def pop_clinical_assignment(stu, teacher)
-
+      p __method__
     
     
     start_date = Faker::Time.between(4.years.ago, Date.today)
