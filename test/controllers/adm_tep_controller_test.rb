@@ -3,6 +3,7 @@ require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
 require 'test_teardown'
+require 'factorygirl'
 class AdmTepControllerTest < ActionController::TestCase
   include TestTeardown
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
@@ -33,8 +34,10 @@ class AdmTepControllerTest < ActionController::TestCase
   test "should post create" do
     term = BannerTerm.first
     start_date = (term.StartDate.to_date) + 1
-
     stu = Student.first
+
+    pop_transcript(stu, 12, 3.0, term)
+
     prog = Program.first
     travel_to start_date do
       allowed_roles.each do |r|
@@ -355,6 +358,25 @@ class AdmTepControllerTest < ActionController::TestCase
 
     letter.save
     return letter
+  end
+
+
+  def pop_transcript(stu, n, grade_pt, term)
+    #gives student n courses all with the given grade and in the given term
+
+    #create courses for student
+    courses = n.times.map { |i| FactoryGirl.build :transcript, {
+        :student_id => stu.id,
+        :credits_attempted => 4.0,
+        :credits_earned => 4.0,
+        :gpa_include => true,
+        :term_taken => term.id,
+        :grade_pt => grade_pt
+      } 
+    }
+
+    courses.each {|i| i.save}
+
   end
 
 end
