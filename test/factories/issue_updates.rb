@@ -15,7 +15,7 @@ FactoryGirl.define do
   factory :issue_update do
     UpdateName {Hipster.sentence}
     Description {Hipster.paragraph}
-    issue
-    tep_advisor
+    # issue
+    # tep_advisor
   end
 end

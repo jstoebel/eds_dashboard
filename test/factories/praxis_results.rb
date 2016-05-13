@@ -15,8 +15,8 @@
 
 FactoryGirl.define do
   factory :praxis_result do
-    student
-    praxis_test
+    association :student
+    association :praxis_test
     test_date Date.today
     reg_date Date.today
     test_score 100

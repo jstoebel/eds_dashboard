@@ -15,11 +15,11 @@
 include Faker
 FactoryGirl.define do
   factory :issue do
-    student
+    association :student
     Name {Hipster.sentence}
     Description {Hipster.paragraph}
     Open true
-    tep_advisor
+    association :tep_advisor
     
   end
 end
