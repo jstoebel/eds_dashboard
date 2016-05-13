@@ -22,8 +22,9 @@ include Faker
 FactoryGirl.define do
   factory :transcript do
 
-    student
-    crn {"#{Number.number 4}"}
+    association :student
+    sequence(:crn) { |n| (1000 + n.to_i).to_s}
+    # crn {"#{Number.number 4}"}
     course_code {"EDS#{Number.between 100, 499}"}
     course_name {Book.title}
 

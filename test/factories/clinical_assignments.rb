@@ -14,8 +14,8 @@
 include Faker
 FactoryGirl.define do
   factory :clinical_assignment do
-    student
-    clinical_teacher
+    association :student
+    association :clinical_teacher
     #banner_term must be supplied
     CourseID {Lorem.characters 6}
     Level {Faker::Number.between(1,3)}
