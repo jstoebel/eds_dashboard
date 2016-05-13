@@ -28,7 +28,7 @@ include Faker
 FactoryGirl.define do
   factory :student do
 
-    Bnum {"B00#{Number.number(6)}"}
+    sequence(:Bnum) { |n| "B00#{n.to_s.rjust(6, '0')}" }
     FirstName {Name.first_name}
     LastName {Name.last_name}
     EnrollmentStatus "Active Student"
