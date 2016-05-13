@@ -2,7 +2,6 @@ module PopulateHelper
 
     def pop_fois(stu)
 
-      p __method__
 
       num_forms = Faker::Number.between 1, 2 #how many forms did they do?
 
@@ -24,9 +23,6 @@ module PopulateHelper
     def pop_adm_tep(stu, admit)
       #they're applying!
 
-      p __method__
-
-      
 
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
       term = BannerTerm.current_term(options={
@@ -38,7 +34,7 @@ module PopulateHelper
       my_programs = Program.all.shuffle.slice(0, num_programs)
 
       app_attrs = my_programs.each.map { |prog| 
-        FactoryGirl.attributes_for :adm_tep, {
+        FactoryGirl.build :adm_tep, {
           :student_id => stu.id,
           :Program_ProgCode => prog.id,
           :BannerTerm_BannerTerm => term.id,
@@ -63,11 +59,11 @@ module PopulateHelper
 
       pop_transcript stu, 12, gpa, term.StartDate - 200, term.EndDate
       pop_praxisI stu, date_apply - 30, praxis_pass
-      app_attrs.map {|attr| FactoryGirl.create :adm_tep, attr}
+
+      app_attrs.each { |i| i.save}
     end
 
     def pop_praxisI(stu, date_taken, passing)
-      p __method__
 
       #for each required test, make attrs for a praxis_result
       p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
@@ -86,7 +82,6 @@ module PopulateHelper
     end
 
     def pop_transcript(stu, n, grade_pt, start_date, end_date)
-      p __method__
       #gives student n courses all with the given grade
       #all courses are in terms between start and end date
 
@@ -98,7 +93,7 @@ module PopulateHelper
         })
       }
 
-      courses = course_terms.map {|term| FactoryGirl.create(:transcript, {
+      courses = course_terms.map {|term| FactoryGirl.build(:transcript, {
           :student_id => stu.id,
           :credits_attempted => 4.0,
           :credits_earned => 4.0,
@@ -109,10 +104,11 @@ module PopulateHelper
         })
       }
 
+      courses.each { |i| i.save}
+
     end
 
     def pop_adm_st(stu)
-      p __method__
       
 
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
@@ -179,7 +175,6 @@ module PopulateHelper
     end
 
   def exit_from_st(stu, completed)
-      p __method__
     # exits a student from all programs following student teaching
     # completed: if the student successfully completed their programs
     # can be true, false or nil
@@ -221,7 +216,6 @@ module PopulateHelper
   end
 
   def pop_clinical_assignment(stu, teacher)
-      p __method__
     
     
     start_date = Faker::Time.between(4.years.ago, Date.today)
@@ -233,7 +227,7 @@ module PopulateHelper
 
     end_date = term.EndDate
 
-    FactoryGirl.create :clinical_assignment, {
+    assignment = FactoryGirl.build :clinical_assignment, {
       :student_id => stu.id,
       :clinical_teacher_id => teacher.id,
       :StartDate => start_date,
@@ -241,6 +235,7 @@ module PopulateHelper
       :Term => term.id
     }
 
+    assignment.save
 
   end
 
