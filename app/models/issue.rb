@@ -19,9 +19,9 @@ class Issue < ActiveRecord::Base
 
 	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
 
-    BNUM_REGEX = /\AB00\d{6}\Z/i
-    validates :student_id,
-    	presence: {message: "Please enter a valid B#, (including the B00)"}
+    # BNUM_REGEX = /\AB00\d{6}\Z/i
+    # validates :student_id,
+    # 	presence: {message: "Please enter a valid B#, (including the B00)"}
 
 	validates :Name, 
 		presence: {message: "Please provide an issue name."}
