@@ -26,13 +26,6 @@
 class Student < ActiveRecord::Base
 	include ApplicationHelper
 
-	after_save :report
-
-	def report
-		print "MADE A STUDENT"
-		puts "TOTAL COUNT #{Student.all.size}"
-	end
-
 	has_many :praxis_results
 	has_many :praxis_prep
 
@@ -94,6 +87,21 @@ class Student < ActiveRecord::Base
 	# This method prevents us from having to refactor
 	def AltID
 		return self.id
+	end
+
+	def name_readable(file_as = false)
+    #returns full student name with additional first and last names as needed
+    #if file_as, return student with last name first (Fee, Jon)
+
+		first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{student.FirstName})" : self.FirstName
+		last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{student.PrevLast})" : self.LastName
+
+	    if file_as
+	      return [last_name+',', first_name].join(' ')  #return last name first
+	    else
+	      return [first_name, last_name].join(' ')  #return first name first
+    	end
+
 	end
 
 	def open_programs
