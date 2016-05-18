@@ -32,6 +32,7 @@ class AdmTep < ActiveRecord::Base
   has_one :prog_exit, :through => :program
 
   #CALL BACKS
+  before_validation :check_fks
   before_validation :set_gpas
   before_validation :set_credits
   after_save :change_status
@@ -45,51 +46,55 @@ class AdmTep < ActiveRecord::Base
 
   #VALIDATIONS
 
-  validate :if => :check_fks do |app|
-    term = BannerTerm.find(app.BannerTerm_BannerTerm)
-    # next_term = BannerTerm.all.where("BannerTerm >?", app.BannerTerm_BannerTerm).order(:BannerTerm).first
-    
-    #the next non over lapping term
-    next_term = BannerTerm.where("StartDate > ?", term.EndDate).order(:BannerTerm).first 
+  validate do |app|
+    unless app.errors.any?
+      term = BannerTerm.find(app.BannerTerm_BannerTerm)
+      # next_term = BannerTerm.all.where("BannerTerm >?", app.BannerTerm_BannerTerm).order(:BannerTerm).first
+      
+      #the next non over lapping term
+      next_term = BannerTerm.where("StartDate > ?", term.EndDate).order(:BannerTerm).first 
 
-    app.errors.add(:TEPAdmitDate, "Admission date must be given.") if app.TEPAdmit and app.TEPAdmitDate.blank?
-    app.errors.add(:TEPAdmitDate, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
-    app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate
-    
-    # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
-    app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and !good_gpa?
-    
-    app.errors.add(:EarnedCredits, "[#{self.student.id} #{self.BannerTerm_BannerTerm}]Student needs to have earned 30 credit hours and has only earned #{self.EarnedCredits}.") if app.TEPAdmit and (!app.good_credits?)
+      app.errors.add(:TEPAdmitDate, "Admission date must be given.") if app.TEPAdmit and app.TEPAdmitDate.blank?
+      app.errors.add(:TEPAdmitDate, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
+      app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate
+      
+      # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
+      app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and !good_gpa?
+      
+      app.errors.add(:EarnedCredits, "Student needs to have earned 30 credit hours and has only earned #{self.EarnedCredits}.") if app.TEPAdmit and (!app.good_credits?)
 
-    #TODO must have completed EDS150 with C or better to be admitted.
-    #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
-   
-    #can't create a duplicate application unless all others are denied
-    #find any apps matching student, program and term that are accepted
-    accepted_apps = AdmTep.where(student_id: app.student_id).where(Program_ProgCode: app.Program_ProgCode).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("TEPAdmit = 1 or TEPAdmit IS NULL")
-    if accepted_apps.size > 0 and app.new_record?
-      app.errors.add(:base, "Student has already been admitted or has an open applicaiton for this program in this term.")
+      #TODO must have completed EDS150 with C or better to be admitted.
+      #TODO must complete 227, 227 or equivilant with a B- or better (what is the equvilant?) 
+     
+      #can't create a duplicate application unless all others are denied
+      #find any apps matching student, program and term that are accepted
+      accepted_apps = AdmTep.where(student_id: app.student_id).where(Program_ProgCode: app.Program_ProgCode).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("TEPAdmit = 1 or TEPAdmit IS NULL")
+      if accepted_apps.size > 0 and app.new_record?
+        app.errors.add(:base, "Student has already been admitted or has an open applicaiton for this program in this term.")
+      end
+
+      #make sure that there isn't an open program for this student.
+      open_programs = AdmTep.open(self.student_id).where(Program_ProgCode: self.Program_ProgCode)
+      # if open_programs.size > 0 and app.new_record?
+      #   self.errors.add(:base, "Student is already enrolled in this program." )
+      # end
     end
-
-    #make sure that there isn't an open program for this student.
-    open_programs = AdmTep.open(self.student_id).where(Program_ProgCode: self.Program_ProgCode)
-    # if open_programs.size > 0 and app.new_record?
-    #   self.errors.add(:base, "Student is already enrolled in this program." )
-    # end
-
   end
 
   def set_gpas
     #set GPAs for record
-    stu = self.student
 
-    self.GPA = stu.gpa({:term => self.BannerTerm_BannerTerm})
-    self.GPA_last30 = stu.gpa({:term => self.BannerTerm_BannerTerm, :last => 30})
+    unless self.errors.any?
+      stu = self.student
+
+      self.GPA = stu.gpa({:term => self.BannerTerm_BannerTerm})
+      self.GPA_last30 = stu.gpa({:term => self.BannerTerm_BannerTerm, :last => 30})
+    end
   end
 
 
   def set_credits
-    self.EarnedCredits = self.student.credits(self.BannerTerm_BannerTerm)
+    self.EarnedCredits = self.student.credits(self.BannerTerm_BannerTerm) unless self.errors.any?
   end
 
   def good_credits?
@@ -107,12 +112,6 @@ class AdmTep < ActiveRecord::Base
     self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm
     self.errors.add(:student_file_id, "Please attach an admission letter.") unless (self.student_file_id.present? or self.TEPAdmit == nil)
-    if self.errors.size == 0
-      return true
-    else
-      return false
-    end
-
   end
 
 
