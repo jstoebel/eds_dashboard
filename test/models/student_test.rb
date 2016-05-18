@@ -242,6 +242,10 @@ class StudentTest < ActiveSupport::TestCase
 		second_adm.id = nil
 		attach_letter second_adm
 
+		#make transcript for student
+		# (stu, n, grade_pt, term)
+		pop_transcript(stu, 12, 3.0, second_adm.banner_term.prev_term)
+
 		assert second_adm.save, second_adm.errors.full_messages
 
 	end
