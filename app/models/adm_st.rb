@@ -36,8 +36,9 @@ class AdmSt < ActiveRecord::Base
 
   validate :if => :check_fks do |app|
 		# term = BannerTerm.find(app.BannerTerm_BannerTerm)	#current term
-		next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first		#next term in sequence
-		student = Student.find(app.student_id)
+		# next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first		#next term in sequence
+	  next_term = BannerTerm.where("StartDate > ?", app.banner_term.EndDate).first
+    student = Student.find(app.student_id)
 		app.errors.add(:STAdmitDate, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < app.banner_term.StartDate
 		app.errors.add(:STAdmitDate, "Admission date may not be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
 		app.errors.add(:STAdmitDate, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
