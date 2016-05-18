@@ -54,4 +54,22 @@ class ActiveSupport::TestCase
     return letter
   end
 
+  def pop_transcript(stu, n, grade_pt, term)
+    #gives student n courses all with the given grade
+    #all courses are in the term given
+
+    courses = n.times.map {|i| FactoryGirl.build(:transcript, {
+        :student_id => stu.id,
+        :credits_attempted => 4.0,
+        :credits_earned => 4.0,
+        :gpa_include => true,
+        :term_taken => term.id,
+        :grade_pt => grade_pt,
+        :grade_ltr => Transcript.g_to_l(grade_pt)
+      })
+    }
+
+    courses.each { |i| i.save}
+  end
+
 end
