@@ -68,7 +68,7 @@ class AdmStControllerTest < ActionController::TestCase
       allowed_roles.each do |r|
         AdmSt.delete_all      #for this test, delete all applications to avoid conflicting open applications
         load_session(r)
-        term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
+        term = BannerTerm.current_term({:exact => true, :date => Date.today})
         stu = Student.where(ProgStatus: "Candidate").first
         post :create, {:adm_st => {
           :student_id => stu.id}
@@ -170,12 +170,8 @@ class AdmStControllerTest < ActionController::TestCase
     app.STAdmitDate = nil
     app.save
 
-    app_term = app.BannerTerm_BannerTerm
-
-    next_term = BannerTerm.where("BannerTerm > ?", app_term).order(:BannerTerm).first
-    start_date = (next_term.StartDate).to_date + 1
-
-    # assert false, "app_term is #{app_term} and next_term is #{next_term.BannerTerm}"
+    exclusive_next_term = BannerTerm.where("StartDate > ?", app.banner_term.EndDate).first
+    start_date = (exclusive_next_term.StartDate).to_date + 1
 
     travel_to start_date do
       load_session("admin")
