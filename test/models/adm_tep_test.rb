@@ -61,6 +61,7 @@ class AdmTepTest < ActiveSupport::TestCase
     app = AdmTep.find_by(TEPAdmit: true)
     letter = attach_letter(app)
     app.TEPAdmitDate = nil
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.valid?
     assert_equal(app.errors[:TEPAdmitDate], ["Admission date must be given."])
 
@@ -71,6 +72,7 @@ class AdmTepTest < ActiveSupport::TestCase
     date = app.banner_term.StartDate.to_date
     app.TEPAdmitDate = date - 10
     letter = attach_letter(app)
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.valid?
     assert_equal(app.errors[:TEPAdmitDate], ["Admission date must be after term begins."])
   end
@@ -80,6 +82,7 @@ class AdmTepTest < ActiveSupport::TestCase
     letter = attach_letter(app)
     date = app.banner_term.EndDate.to_date
     app.TEPAdmitDate = date + 365
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.valid?
     assert_equal(app.errors[:TEPAdmitDate], ["Admission date must be before next term begins."])
 
@@ -87,37 +90,41 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "gpa both bad" do
     app = AdmTep.where(TEPAdmit: true).first
-    app.GPA = 2.74
-    app.GPA_last30 = 2.99
     letter = attach_letter(app)
+    pop_transcript(app.student, 12, 2.0, app.banner_term.prev_term)
     app.valid?
     assert_equal(app.errors[:base], ["Student does not have sufficent GPA to be admitted this term."])
   end
 
   test "overall gpa bad only" do
     app = AdmTep.first
-    app.GPA = 2.74
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
+    app.TEPAdmit = true
     app.valid?
     assert_equal(app.errors[:base], [])
   end
 
   test "last 30 gpa bad" do
     app = AdmTep.where(TEPAdmit: true).first
+    app.TEPAdmit = true
     app.GPA_last30 = 2.99
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.valid?
     assert_equal(app.errors[:base], [])
   end
 
   test "earned credits bad" do
     app = AdmTep.where(TEPAdmit: true).first
-    app.EarnedCredits = 29
+    app.TEPAdmit = true
     letter = attach_letter(app)
+    pop_transcript(app.student, 1, 3.0, app.banner_term.prev_term)
     app.valid?
-    assert_equal(app.errors[:EarnedCredits], ["Student has not earned 30 credit hours."])
+    assert_equal(app.errors[:EarnedCredits], ["Student needs to have earned 30 credit hours and has only earned #{app.EarnedCredits}."])
   end
 
   test "no admission letter" do
     app = AdmTep.find_by(TEPAdmit: true)
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.valid?
     assert_equal(app.errors[:student_file_id], ["Please attach an admission letter."])
   end
@@ -127,6 +134,7 @@ class AdmTepTest < ActiveSupport::TestCase
     app = AdmTep.find_by(:TEPAdmit => nil)
     app2 = AdmTep.new(app.attributes)
     letter = attach_letter(app)
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app2.valid?
     assert_equal(app2.errors[:base], ["Student has already been admitted or has an open applicaiton for this program in this term."])
   end
@@ -136,26 +144,10 @@ class AdmTepTest < ActiveSupport::TestCase
     app = AdmTep.where(TEPAdmit: nil).first
     stu = app.student
     app2 = AdmTep.new(app.attributes)
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app2.valid?
     assert_equal(app2.errors[:base], ["Student has already been admitted or has an open applicaiton for this program in this term."])
 
-  end
-
-  test "change status" do
-    pros_stu = Student.where(ProgStatus: "Prospective").first
-    app = pros_stu.adm_tep.where(TEPAdmit: nil).first
-
-    app.TEPAdmit = true
-    #needs to be before next term begins
-    admit_date = app.banner_term.StartDate
-    app.TEPAdmitDate = admit_date
-
-    #attach an admission letter
-    letter = attach_letter(app)
-    assert app.valid?, app.errors.full_messages
-    app.save
-    # assert_equal(app.TEPAdmit, true)
-    assert_equal("Candidate", app.student.ProgStatus)
   end
 
   test "praxisI_pass" do

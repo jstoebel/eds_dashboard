@@ -3,7 +3,7 @@ require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
 require 'test_teardown'
-require 'factorygirl'
+require 'factory_girl'
 class AdmTepControllerTest < ActionController::TestCase
   include TestTeardown
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
@@ -19,15 +19,6 @@ class AdmTepControllerTest < ActionController::TestCase
         get :new
         assert_response :success
       end
-    end
-  end
-
-  test "should not get new outside term" do
-    travel_to Date.new(2015, 12, 25) do
-
-      load_session("admin")
-      get :new
-      assert_redirected_to adm_tep_index_path
     end
   end
 
@@ -48,28 +39,10 @@ class AdmTepControllerTest < ActionController::TestCase
             :Program_ProgCode => prog.id
           }
         }
+
         assert_redirected_to adm_tep_index_path
         assert_equal flash[:notice], "New application added: #{ApplicationController.helpers.name_details(stu)}-#{prog.EDSProgName}"
       end
-    end
-  end
-
-  test "should not post create not in term" do
-    load_session("admin")
-    term = BannerTerm.first
-    stu = Student.first
-    prog = Program.first
-    bad_date = (term.EndDate.to_date) + 3
-    travel_to bad_date do
-
-      post :create, {:adm_tep => {
-          :student_id => stu.id,
-          :Program_ProgCode => prog.id
-        }
-      }
-
-      assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
-      assert_redirected_to adm_tep_index_path
     end
   end
 
@@ -84,7 +57,7 @@ class AdmTepControllerTest < ActionController::TestCase
     date = (term.StartDate.to_date) + 2
 
     travel_to date do
-
+      pop_transcript(stu, 12, 3.0, term.prev_term)
       post :create, {:adm_tep => {
           :student_id => stu.id,
           :Program_ProgCode => prog.id
@@ -127,6 +100,7 @@ class AdmTepControllerTest < ActionController::TestCase
       date = (term.StartDate.to_date) + 10
     
       travel_to date do
+        pop_transcript(app.student, 12, 3.0, term.prev_term)
         post :update, {
               :id => app.id,
               :adm_tep => {
@@ -158,10 +132,15 @@ class AdmTepControllerTest < ActionController::TestCase
     #make a file for this app
     letter = attach_letter(app)
     app.student_file_id = letter.id
-    app.save
     term = app.banner_term
-    next_term = BannerTerm.where("BannerTerm > ?", term.BannerTerm).first
-    date = (next_term.StartDate.to_date) + 10
+    next_exclusive_term = BannerTerm.where("StartDate > ?", term.EndDate).first 
+    pop_transcript(app.student, 12, 3.0, term.prev_term)
+
+    app.save
+
+    #the next term that starts after this term finishes
+    date = (next_exclusive_term.StartDate.to_date) + 10
+
     travel_to date do
       load_session("admin")
 
@@ -200,6 +179,8 @@ class AdmTepControllerTest < ActionController::TestCase
 
   test "should not post update bad app" do
     app = AdmTep.first
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
+
     term = app.banner_term
     date = (term.StartDate.to_date) + 10
     travel_to date do
@@ -360,23 +341,5 @@ class AdmTepControllerTest < ActionController::TestCase
     return letter
   end
 
-
-  def pop_transcript(stu, n, grade_pt, term)
-    #gives student n courses all with the given grade and in the given term
-
-    #create courses for student
-    courses = n.times.map { |i| FactoryGirl.build :transcript, {
-        :student_id => stu.id,
-        :credits_attempted => 4.0,
-        :credits_earned => 4.0,
-        :gpa_include => true,
-        :term_taken => term.id,
-        :grade_pt => grade_pt
-      } 
-    }
-
-    courses.each {|i| i.save}
-
-  end
 
 end

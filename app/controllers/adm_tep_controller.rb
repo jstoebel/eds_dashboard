@@ -12,29 +12,23 @@ class AdmTepController < ApplicationController
   end
 
   def create
-    term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
 
-    app = AdmTep.new(new_adm_params)
-
-    stu = app.student
+    @app = AdmTep.new(new_adm_params)
+    @app.BannerTerm_BannerTerm = BannerTerm.current_term({:exact => false, :plan_b => :back}).id
+    stu = @app.student
 
     bnum =  params[:adm_tep][:student_id]
     prog_code = params[:adm_tep][:Program_ProgCode]
 
     #how many times has this student applied this term?
 
-    apps_this_term = AdmTep.where(student_id: bnum).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where(Program_ProgCode: prog_code).size
-    app.Attempt = apps_this_term + 1
+    apps_this_term = AdmTep.where(student_id: bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: prog_code).size
+    @app.Attempt = apps_this_term + 1
 
-    #TODO fetch GPA,  GPA last 30, earned credits. Add to @app
-    app.GPA = stu.gpa
-    app.GPA_last30 = stu.gpa({last: 30})
-    app.EarnedCredits = 45   #TODO FIX THIS!
-
-    if app.save
+    if @app.save
 
       name = name_details(stu)
-      prog = app.program
+      prog = @app.program
 
       flash[:notice] = "New application added: #{name}-#{prog.EDSProgName}"
       redirect_to(action: 'index')
@@ -56,10 +50,10 @@ class AdmTepController < ApplicationController
   def update
     #process admission decision for student
     @application = AdmTep.find(params[:id])
-    @current_term = current_term(exact: false)
+    @current_term = BannerTerm.current_term(exact: false, :plan_b => :back)
 
     #application must be processed in its own term or the break following.
-    if @application.BannerTerm_BannerTerm != @current_term.BannerTerm
+    if @application.BannerTerm_BannerTerm != @current_term.id
         flash[:notice] = "Application must be processed in its own term."
         error_update
         return
