@@ -60,9 +60,9 @@ class AdmStTest < ActiveSupport::TestCase
 	test "admitted too late" do
 		app = AdmSt.first
 		letter = attach_letter(app)
-		next_term = app.banner_term.next_term
+		exclusive_next = BannerTerm.where("StartDate > ?", app.banner_term.EndDate).first
 
-		app.STAdmitDate = next_term.StartDate
+		app.STAdmitDate = exclusive_next.StartDate
 		app.valid?
 		assert_equal(["Admission date may not be before next term begins."], app.errors[:STAdmitDate])
 	end
