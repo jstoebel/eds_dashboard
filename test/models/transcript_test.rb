@@ -22,6 +22,9 @@ require 'test_helper'
 require 'factory_girl'
 class TranscriptTest < ActiveSupport::TestCase
 
+    let(:four_point_oh) {Transcript.l_to_g "A"}
+    let(:a_grade) {Transcript.g_to_l 4.0}
+
     test "student in course in term is unique" do
         t1 = Transcript.create({:student_id => Student.first.id,
             :crn => "1001",
@@ -41,6 +44,14 @@ class TranscriptTest < ActiveSupport::TestCase
         }
 
         assert t.quality_points.present?
+    end
+
+    it "converts letter to grade" do
+       expect four_point_oh.must_equal 4.0 
+    end
+
+    it "converts grade to letter" do
+        expect a_grade.must_equal "A"
     end
 
 end
