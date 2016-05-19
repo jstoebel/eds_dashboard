@@ -91,7 +91,7 @@ namespace :db do
 
       #ADM_ST
       if s.open_programs
-        # pop_adm_st(s)
+        pop_adm_st(s)
       end
 
       #was student admitted to Student Teaching
