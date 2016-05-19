@@ -14,7 +14,6 @@ class AdmTepController < ApplicationController
   def create
 
     @app = AdmTep.new(new_adm_params)
-    @app.BannerTerm_BannerTerm = BannerTerm.current_term({:exact => false, :plan_b => :back}).id
     stu = @app.student
 
     bnum =  params[:adm_tep][:student_id]
