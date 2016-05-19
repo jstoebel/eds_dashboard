@@ -17,7 +17,7 @@ class ClinicalAssignmentsController < ApplicationController
   skip_authorize_resource :only => [:new, :choose]
 
   def index
-    term_menu_setup
+    term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :Term)
     @assignments = ClinicalAssignment.where(Term: @term).select {|a| can? :read, a }    #get records user can read
 
   end
