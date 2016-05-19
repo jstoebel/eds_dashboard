@@ -110,6 +110,9 @@ module PopulateHelper
 
     def pop_adm_st(stu)
       
+      stu.Classification = "Senior"
+      stu.save
+
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
       st_apply_term = BannerTerm.current_term(options={
         date: st_date_apply,
