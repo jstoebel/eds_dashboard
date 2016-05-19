@@ -78,4 +78,10 @@ class BannerTermTest < ActiveSupport::TestCase
         expect summer_term.readable.must_equal "#{summer_term.PlainTerm} (#{summer_term.AYStart}-#{summer_term.AYStart+1})"
     end
 
+    it "filters out begining and end of time" do
+        filtered = BannerTerm.actual
+        expect filtered.first.id.wont_equal 0
+        expect filtered.last.id.wont_equal 999999
+    end
+
 end
