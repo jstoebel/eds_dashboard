@@ -111,7 +111,7 @@ class AdmTepController < ApplicationController
 
     #@current_term: the current term in time
     #@term: the term displayed
-    term_menu_setup
+    term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
         
     @applications = AdmTep.all.by_term(@term)   #fetch all applications for this term
 

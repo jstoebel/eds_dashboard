@@ -181,7 +181,8 @@ class AdmStController < ApplicationController
   private
 
   def index_setup
-    term_menu_setup
+    term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
+
     @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term  
   end
 
