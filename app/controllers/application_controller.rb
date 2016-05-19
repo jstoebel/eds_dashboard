@@ -93,27 +93,26 @@ class ApplicationController < ActionController::Base
   		return Issue.where(AltID: alt_stuid).first
   	end
 
-  def term_menu_setup
-    #pre: nothing
-    #post:
-      #menu_terms: all of the terms to be include in the term menu
-     @current_term = current_term(exact: false, plan_b: :back)
+  def term_menu_setup(table_name, term_col)
+    #prepares all terms where records are found for the given model
+    #table_name (symbol)
+    #term_col (symbol) the name of the column in this table where the banner_term fk is stored
+    #post: current_term and menu_terms are set
+
+    #TODO refactoring all tables that reference banner_terms to have fk col name be simply banner_term_id will
+      #allow us to remove the param term_col
+
+    @current_term = BannerTerm.current_term(exact: false, plan_b: :back)
 
     if params[:banner_term_id]
       @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412
     else
       @term = @current_term   #if no params passed, the term to render is current term
-    end
-
-    #assemble possible terms for select menu: all terms less than more than 
-    #2 years ago, no future terms.
-
-    @menu_terms = BannerTerm.where("StartDate > ? and StartDate < ?", Date.today-730, Date.today)
-
-    if (@current_term) and not (@menu_terms.include? @current_term)
-      @menu_terms << @current_term    #add the current term if its not there already.
-    end
-   end
+    end    
+    
+    @menu_terms = BannerTerm.all.joins(table_name).group(term_col)
+    
+  end
 
    def to_console(object)
     puts "*"*100

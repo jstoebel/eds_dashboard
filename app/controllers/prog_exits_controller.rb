@@ -19,7 +19,8 @@ class ProgExitsController < ApplicationController
 
   def index
     #lists all exits for a paticular term as well as exits needed.
-  	term_menu_setup
+    term_menu_setup(controller_name.singularize.to_sym, :ExitTerm)
+
   	@exits = ProgExit.all.by_term(@term)   #fetch all applications for this term
     @needs_exit = exits_needed    #until we get Banner integration this will return []
   end
