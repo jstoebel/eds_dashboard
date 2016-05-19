@@ -158,13 +158,6 @@ class AdmTepController < ApplicationController
       term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
       @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
   end
-  # def error_new
-  #   #sends user back to new form
-
-  #   @students = Student.where("ProgStatus <> 'Candidate' and EnrollmentStatus='Active Student' and Classification <> 'Senior'")
-  #   @programs = Program.where("Current = 1")
-  #   render('new')
-  # end
 
   def error_update
     #sends user back to edit
