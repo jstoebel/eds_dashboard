@@ -31,15 +31,11 @@ class AdmStController < ApplicationController
 
     @current_term = current_term(exact: true)
 
-    if @current_term == nil
-      flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
-      redirect_to(adm_st_index_path)
-      return
-    end
+    @app = AdmSt.new(new_adm_params)    #add in student_id
 
-    @app = AdmSt.new(new_adm_params)    #add in Bnum
+    puts @app.inspect
+
     stu_id =  params[:adm_st][:student_id]
-    @app.BannerTerm_BannerTerm =  @current_term.BannerTerm
     apps_this_term = AdmSt.where(student_id: @stu_id).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).size
     @app.Attempt = apps_this_term + 1
 
@@ -48,7 +44,6 @@ class AdmStController < ApplicationController
     if @app.save
       @student = Student.find(stu_id)
       name_details(@student)
-
       flash[:notice] = "New application added for #{name_details(@student, file_as=true)}"
       redirect_to(action: 'index')
     else
@@ -66,64 +61,29 @@ class AdmStController < ApplicationController
   end
 
   def update
-
-    #process admission decision for student
-    @application = AdmSt.find(params[:id])
-
+    @app = AdmSt.find(params[:id])
     @current_term = current_term(exact: false, plan_b: :back)
+    @app.assign_attributes(update_adm_params)
+    @app.STAdmitDate = DateTime.strptime(params[:adm_st][:STAdmitDate], "%m/%d/%Y")
 
-    #application must be processed in its own term or the break following.
-    if @application.BannerTerm_BannerTerm != @current_term.BannerTerm
-        flash[:notice] = "Application must be processed in its own term or the break following."
-        error_update
-        return
+    ltr_param = params[:adm_st][:letter]
+    if ltr_param.present?
+      letter = StudentFile.create ({
+          :doc => params[:adm_st][:letter], 
+          :active => true,
+          :student_id => @app.student.id
+        })
+      @app.student_file_id = letter.id      
     end
-
-    @application.STAdmitted = string_to_bool(params[:adm_st][:STAdmitted])
-    letter = StudentFile.create ({
-        :doc => params[:adm_st][:letter], 
-        :active => true,
-        :student_id => @application.student.id
-      })
-    letter.save
-    @application.student_file_id = letter.id
-
-    #special validation 
-
-    @application.Notes = params[:adm_st][:Notes]
-
-    #was an admission decision made?
-    if @application.STAdmitted == true
-        begin
-            admit_date = params[:adm_st][:STAdmitDate]
-            @application.STAdmitDate = DateTime.strptime(
-              admit_date, '%m/%d/%Y') if admit_date
-
-              #load in the date if student was admited           
-        rescue ArgumentError => e
-            @application.STAdmitDate = nil
-        end
-        
-
-    elsif @application.STAdmitted.nil?
-        flash[:notice] = "Please make an admission decision for this student."
-        error_update
-        return
-    end
-
-    if @application.save
-        flash[:notice] = "Student application successfully updated."
-        redirect_to(adm_st_index_path)
-        return
-
+    
+    if @app.save
+      letter.save
+      flash[:notice] = "Student application successfully updated."
+      redirect_to(adm_st_index_path)      
     else
-        flash[:notice] = "Error in saving application."
-        letter.destroy!
-        error_update
-        return
-
+      flash[:notice] = "Error in saving application."
+      error_update      
     end
-
   end
 
   def edit_st_paperwork
@@ -187,7 +147,11 @@ class AdmStController < ApplicationController
   end
 
   def new_adm_params
-    params.require(:adm_st).permit(:student_id)
+    params.require(:adm_st).permit(:student_id, :BannerTerm_BannerTerm)
+  end
+
+  def update_adm_params
+    params.require(:adm_st).permit(:STAdmitted, :Notes)
   end
 
   # def st_paperwork_params
@@ -203,6 +167,8 @@ class AdmStController < ApplicationController
 
   def new_setup
     @students = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'").order(LastName: :asc)
+    term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
   end
 
   def error_update
