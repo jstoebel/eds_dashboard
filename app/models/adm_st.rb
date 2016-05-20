@@ -31,6 +31,7 @@ class AdmSt < ActiveRecord::Base
   belongs_to :banner_term, foreign_key: "BannerTerm_BannerTerm"
   belongs_to :student_file
 
+
 	scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 
 
@@ -43,6 +44,9 @@ class AdmSt < ActiveRecord::Base
 		app.errors.add(:STAdmitDate, "Admission date may not be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
 		app.errors.add(:STAdmitDate, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
     
+    app.errors.add(:STAdmitted, "Please make an admission decision for this student.") if app.STAdmitDate.present? and app.STAdmitted.blank?
+
+
     accepted_apps = AdmSt.where(student_id: app.student_id).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("STAdmitted = 1 or STAdmitted IS NULL")
 
     if accepted_apps.size > 0 and app.new_record?
