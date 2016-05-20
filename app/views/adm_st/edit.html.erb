@@ -4,8 +4,8 @@
     
 
 
-    <%= error_messages_for(@application) %> 
-    <%= form_for(:adm_st, :url => adm_st_path(@application.id), method: :patch ) do |f| %>
+    <%= error_messages_for(@app) %> 
+    <%= form_for(:adm_st, :url => adm_st_path(@app.id), method: :patch ) do |f| %>
     <table summary="adm_st form fields">
         <caption>
         <div class="header1"> <%= "Edit Application to Student Teaching"  %> </div>
