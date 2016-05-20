@@ -32,7 +32,7 @@ get_programs = ->
       type: "GET"
       dataType: "json"
       data: {
-        alt_id: $("#names_select option:selected").val()
+        id: $("#names_select option:selected").val()
       }
       error: (jqXHR, textStatus, errorThrown) ->
         console.log("AJAX Error: #{textStatus}")

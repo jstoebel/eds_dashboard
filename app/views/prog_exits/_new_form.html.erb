@@ -10,10 +10,10 @@
 		<%= error_messages_for(@exit) %>
 
 		<tr>  
-		    <th> <%=f.label :AltID, "Student to Exit"%> </th>
+		    <th> <%=f.label :id, "Student to Exit"%> </th>
 		    <td>	
-			<%= f.select :AltID, 
-			options_for_select(@students.map { |s| [name_details(s), s.AltID] }, :selected => @exit.student_id ? @exit.student.AltID : "" ), 
+			<%= f.select :id, 
+			options_for_select(@students.map { |s| [name_details(s), s.id] }, :selected => @exit.student_id ? @exit.student.AltID : "" ), 
 
 				{:include_blank => "Select a student to exit"},
 
@@ -34,7 +34,7 @@
 				<%= f.label :ExitCode_ExitCode, "Exit Reason" %>
 			</th>
 			<td>
-				<%= f.select :ExitCode_ExitCode, options_for_select(@exit_reasons.collect { |er| [er.ExitDiscrip, er.ExitCode]})  %>
+				<%= f.select :ExitCode_ExitCode, options_for_select(@exit_reasons.collect { |er| [er.ExitDiscrip, er.id]})  %>
 			</td>
 		</tr>
 
