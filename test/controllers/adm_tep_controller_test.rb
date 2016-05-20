@@ -36,7 +36,8 @@ class AdmTepControllerTest < ActionController::TestCase
         load_session(r)
         post :create, {:adm_tep => {
             :student_id => stu.id,
-            :Program_ProgCode => prog.id
+            :Program_ProgCode => prog.id,
+            :BannerTerm_BannerTerm =>  BannerTerm.current_term.id
           }
         }
 
