@@ -42,7 +42,7 @@ class ProgExitsController < ApplicationController
 
     #mass assign AltID, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
-    @exit.student_id = Student.find(params[:prog_exit][:AltID]).id
+    @exit.student_id = Student.find(params[:prog_exit][:id]).id
 
     exit_date = params[:prog_exit][:ExitDate]
     if exit_date.present?
@@ -99,7 +99,7 @@ class ProgExitsController < ApplicationController
 
   def update
     #update exit record
-    @exit = ProgExit.find_by params[:id]
+    @exit = ProgExit.find params[:id]
     @exit.assign_attributes(edit_exit_params)
 
     recommend_date = params[:prog_exit][:RecommendDate]
@@ -111,7 +111,7 @@ class ProgExitsController < ApplicationController
 
     if @exit.save
       flash[:notice] = "Edited exit record for #{name_details(@exit.student)}"
-      redirect_to prog_exits_path
+      redirect_to banner_term_prog_exits_path(@exit.banner_term.id)
     else
       render('edit')
       
@@ -126,16 +126,16 @@ class ProgExitsController < ApplicationController
   end
 
   def get_programs
-    #gets programs for a given student's B#, respond with json of all of students opened programs 
+    #gets programs for a given student's id, respond with json of all of students opened programs 
 
-    student = Student.find params[:alt_id]
-    open_admissions = AdmTep.open(student.Bnum)
+    stu = Student.find params[:id]
+    open_admissions = stu.open_programs
     open_programs = open_admissions.map { |i| i.program }
 
     response = {}
 
     open_programs.each do |p|   #build a hash with each program mapped to its id
-      response.merge!({ p.ProgCode => p.EDSProgName })
+      response.merge!({ p.id => p.EDSProgName })
     end
 
     render :json => response
@@ -153,7 +153,9 @@ class ProgExitsController < ApplicationController
   end
 
   def new_setup
-    @students = Student.all.where("ProgStatus in (?, ?)", "Candidate", "Completer").by_last    #TODO all candidates with unexited programs
+
+    @students = Student.all.select {|s| s.prog_status == "Candidate"}
+    # @students = Student.all.where("ProgStatus in (?, ?)", "Candidate", "Completer").by_last    #TODO all candidates with unexited programs
     @programs = []
     @exit_reasons = ExitCode.all
   end
