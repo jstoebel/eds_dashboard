@@ -71,29 +71,14 @@ class AdmStControllerTest < ActionController::TestCase
         term = BannerTerm.current_term({:exact => true, :date => Date.today})
         stu = Student.where(ProgStatus: "Candidate").first
         post :create, {:adm_st => {
-          :student_id => stu.id}
+          :student_id => stu.id,
+          :BannerTerm_BannerTerm => term.id
+          }
         }
         assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
         assert_equal assigns(:app).student_id, stu.id
         assert_equal flash[:notice], "New application added for #{ApplicationController.helpers.name_details(stu, file_as=true)}"
       end
-    end
-  end
-
-  test "should not post create outside term" do
-    #post outside a term
-      #we should be redirected and post a flash message
-
-    travel_to Date.new(2015, 12, 31) do
-        AdmSt.delete_all      #for this test, delete all applications to avoid conflicting open applications
-        load_session("admin")
-        # term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
-        stu = Student.where(ProgStatus: "Candidate").first
-        post :create, {:adm_st => {
-          :student_id => stu.id}
-        }
-        assert_redirected_to adm_st_index_path
-        assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
     end
   end
 
@@ -126,7 +111,7 @@ class AdmStControllerTest < ActionController::TestCase
       app = AdmSt.first
       get :edit, {:id => app.id}
       assert_response :success, "unexpected http response, role=#{r}"
-      assert_equal assigns(:application), app 
+      assert_equal assigns(:app), app 
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
       assert_equal assigns(:student), Student.find(app.student_id)
     end
@@ -158,36 +143,12 @@ class AdmStControllerTest < ActionController::TestCase
                 }
             }
 
-        assert assigns(:application).valid?, assigns(:application).errors.full_messages
+        assert assigns(:app).valid?, assigns(:app).errors.full_messages
         assert_redirected_to adm_st_index_path
       end
     end
   end
 
-  test "should not post update bad date" do
-    app = AdmSt.first
-    app.STAdmitted = nil
-    app.STAdmitDate = nil
-    app.save
-
-    exclusive_next_term = BannerTerm.where("StartDate > ?", app.banner_term.EndDate).first
-    start_date = (exclusive_next_term.StartDate).to_date + 1
-
-    travel_to start_date do
-      load_session("admin")
-      #try to admit in the following term
-      post :update, {
-        :id => app.id,
-        :adm_st => {
-          :STAdmitted => "true"
-          }
-      }
-      assert_response :success
-      assert_equal flash[:notice],  "Application must be processed in its own term or the break following."
-      assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-      assert_equal assigns(:student), Student.find(app.student_id)
-    end
-  end
 
   test "should not post update no decision" do
 
@@ -201,11 +162,14 @@ class AdmStControllerTest < ActionController::TestCase
         post :update, {
           :id => app.id,
           :adm_st => {
+              :STAdmitted => "",
+              :STAdmitDate => Date.today.strftime("%m/%d/%Y"),
+              :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
             }
         }
       end
       assert_response :success
-      assert_equal "Please make an admission decision for this student.", flash[:notice]  
+      assert_equal ["Please make an admission decision for this student."], assigns(:app).errors[:STAdmitted] 
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
       assert_equal assigns(:student), Student.find(app.student_id)
 
@@ -242,7 +206,7 @@ class AdmStControllerTest < ActionController::TestCase
         }
       }
 
-      puts assigns(:app).errors.full_messages
+
       assert_redirected_to adm_st_index_path
       assert_equal flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
     end

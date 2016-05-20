@@ -33,8 +33,6 @@ class AdmStController < ApplicationController
 
     @app = AdmSt.new(new_adm_params)    #add in student_id
 
-    puts @app.inspect
-
     stu_id =  params[:adm_st][:student_id]
     apps_this_term = AdmSt.where(student_id: @stu_id).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).size
     @app.Attempt = apps_this_term + 1
@@ -55,9 +53,9 @@ class AdmStController < ApplicationController
   end
 
   def edit
-    @application = AdmSt.find(params[:id])
-    @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
-    @student = Student.find(@application.student_id)
+    @app = AdmSt.find(params[:id])
+    @term = BannerTerm.find(@app.BannerTerm_BannerTerm)   #term of application
+    @student = Student.find(@app.student_id)
   end
 
   def update
@@ -173,8 +171,8 @@ class AdmStController < ApplicationController
 
   def error_update
     #sends user back to edit
-    @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
-    @student = Student.find(@application.student_id)
+    @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
+    @student = Student.find(@app.student_id)
     render('edit')
     
   end
