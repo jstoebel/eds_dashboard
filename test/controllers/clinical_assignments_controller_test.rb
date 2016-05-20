@@ -54,16 +54,18 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
 
       teacher = ClinicalTeacher.first
       stu = Student.first
-      expected_term = ApplicationController.helpers.current_term(exact: false, plan_b: :forward)
+      expected_term = BannerTerm.current_term(exact: false, plan_b: :forward)
 
       #delete current_assignment so new assignment can go through
       current_assignment.destroy
 
+      assert false, expected_term.StartDate.strftime("%m/%d/%Y")
+
       create_params = {:clinical_assignment => {
               :student_id => stu.id,
               :clinical_teacher_id => teacher.id,
-              :StartDate => expected_term.StartDate.strftime("%d/%m/%Y"),
-              :EndDate => expected_term.EndDate.strftime("%d/%m/%Y")
+              :StartDate => expected_term.StartDate.strftime("%m/%d/%Y"),
+              :EndDate => expected_term.EndDate.strftime("%m/%d/%Y")
               },
               :commit =>"Create Assignment"
             }

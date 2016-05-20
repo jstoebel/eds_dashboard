@@ -34,17 +34,17 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.assign_attributes(assignment_params)
 
     begin
-      start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%d/%m/%Y')
+      start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%m/%d/%Y')
       @assignment.StartDate = start_date 
-    rescue ArgumentError => e
+    rescue ArgumentError, TypeError => e
       @assignment.StartDate = nil
     end
 
     begin
-      end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%d/%m/%Y')
+      end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%m/%d/%Y')
       @assignment.EndDate = end_date
-    rescue ArgumentError => e
-      @assignment.EndDate = end_date
+    rescue ArgumentError, TypeError => e
+      @assignment.EndDate = nil
     end
 
     #TODO ideally, look up student's courses dyanmically using ajax
@@ -76,18 +76,30 @@ class ClinicalAssignmentsController < ApplicationController
   end
 
   def update
-
     @assignment = ClinicalAssignment.find(params[:id])
     authorize! :manage, @assignment
-    @assignment.update_attributes(assignment_params)
-    
+    @assignment.assign_attributes(assignment_params)
+
+    begin
+      start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%m/%d/%Y')
+      @assignment.StartDate = start_date 
+    rescue ArgumentError, TypeError => e
+      @assignment.StartDate = nil
+    end
+
+    begin
+      end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%m/%d/%Y')
+      @assignment.EndDate = end_date
+    rescue ArgumentError, TypeError => e
+      @assignment.EndDate = nil
+    end
 
     if @assignment.save
       flash[:notice] = "Updated Assignment #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
-      redirect_to(clinical_assignments_path)
+      redirect_to(banner_term_clinical_assignments_path(@assignment.banner_term.id))
     else
-      form_details
-      render ('new')
+      form_setup
+      render ('edit')
     end
 
   end
@@ -101,7 +113,7 @@ class ClinicalAssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level, :StartDate, :EndDate)
+    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level)#, :StartDate, :EndDate)
     
   end
   def form_setup
