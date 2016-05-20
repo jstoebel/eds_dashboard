@@ -87,13 +87,12 @@ class ProgExitsControllerTest < ActionController::TestCase
         drop_code = ExitCode.find_by :ExitCode => "1826"
 
         post :create, {:prog_exit => {
-            :student_id => adm.student_id,
+            :id => adm.student.id,
             :Program_ProgCode => prog.id,
             :ExitCode_ExitCode => drop_code.id,   #dropped out
             :ExitDate => start_date.strftime("%m/%d/%Y"),
             :GPA => 2.5,
-            :GPA_last60 => 3.0,
-            :AltID => adm.student.AltID 
+            :GPA_last60 => 3.0
           }}
 
         assert_equal flash[:notice], "Successfully exited #{ApplicationController.helpers.name_details(assigns(:exit).student)} from #{assigns(:exit).program.EDSProgName}. Reason: #{assigns(:exit).exit_code.ExitDiscrip}."
@@ -154,7 +153,7 @@ class ProgExitsControllerTest < ActionController::TestCase
       post :update, {:id => expected_exit.AltID, :prog_exit => update_params}
       assert_equal expected_exit, assigns(:exit)
       assert_equal flash[:notice], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
-      assert_redirected_to prog_exits_path
+      assert_redirected_to banner_term_prog_exits_path(expected_exit.banner_term.id)
 
     end  
   end
@@ -187,7 +186,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         expected_json.merge!({ p.ProgCode => p.EDSProgName })
       end
 
-      get :get_programs, {:alt_id => expected_student.AltID}
+      get :get_programs, {:id => expected_student.id}
       assert_response :success
 
       json_response = JSON.parse(@response.body)
@@ -294,7 +293,7 @@ class ProgExitsControllerTest < ActionController::TestCase
 
   private
   def test_new_setup
-    expected_students = Student.all.where("ProgStatus in (?, ?)", "Candidate", "Completer").by_last    
+    expected_students = Student.all.select {|s| s.prog_status == "Candidate"}   
     assert_equal expected_students, assigns(:students)
     assert_equal [], assigns(:programs)
     assert_equal ExitCode.all, assigns(:exit_reasons)
