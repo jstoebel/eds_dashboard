@@ -26,12 +26,11 @@
             <td class="date-admit">
 
 
-            <%= render(:partial => 'date_picker', :locals => {
-                f: f,
-                field: :STAdmitDate,
-                default: ""
-            })  %>
-
+              <%= render(partial: 'date_picker', :locals => {
+                        f: f,
+                        field: :STAdmitDate,
+                        default: Date.today
+                      } )%> 
 
         </td>
 
