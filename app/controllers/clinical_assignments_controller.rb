@@ -34,15 +34,13 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.assign_attributes(assignment_params)
 
     begin
-      start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%m/%d/%Y')
-      @assignment.StartDate = start_date 
+      @assignment.StartDate = params[:clinical_assignment][:StartDate]
     rescue ArgumentError, TypeError => e
       @assignment.StartDate = nil
     end
 
     begin
-      end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%m/%d/%Y')
-      @assignment.EndDate = end_date
+      @assignment.EndDate = params[:clinical_assignment][:EndDate]
     rescue ArgumentError, TypeError => e
       @assignment.EndDate = nil
     end
@@ -81,15 +79,13 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.assign_attributes(assignment_params)
 
     begin
-      start_date = Date.strptime(params[:clinical_assignment][:StartDate], '%m/%d/%Y')
-      @assignment.StartDate = start_date 
+      @assignment.StartDate = params[:clinical_assignment][:StartDate] 
     rescue ArgumentError, TypeError => e
       @assignment.StartDate = nil
     end
 
     begin
-      end_date = Date.strptime(params[:clinical_assignment][:EndDate], '%m/%d/%Y')
-      @assignment.EndDate = end_date
+      @assignment.EndDate = params[:clinical_assignment][:EndDate] 
     rescue ArgumentError, TypeError => e
       @assignment.EndDate = nil
     end

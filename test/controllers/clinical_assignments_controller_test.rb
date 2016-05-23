@@ -59,20 +59,18 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
       #delete current_assignment so new assignment can go through
       current_assignment.destroy
 
-      assert false, expected_term.StartDate.strftime("%m/%d/%Y")
+      # assert false, expected_term.StartDate.strftime("%m/%d/%Y")
 
       create_params = {:clinical_assignment => {
               :student_id => stu.id,
               :clinical_teacher_id => teacher.id,
-              :StartDate => expected_term.StartDate.strftime("%m/%d/%Y"),
-              :EndDate => expected_term.EndDate.strftime("%m/%d/%Y")
+              :StartDate => expected_term.StartDate.strftime("%Y/%m/%d"),
+              :EndDate => expected_term.EndDate.strftime("%Y/%m/%d")
               },
               :commit =>"Create Assignment"
             }
 
       post :create, create_params
-
-
       assignment_params = create_params[:clinical_assignment]
       expected_assignment = ClinicalAssignment.new assignment_params
 
@@ -82,6 +80,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
 
       assert_equal expected_filtered, actual_filtered
 
+      assert assigns(:assignment).valid?, assigns(:assignment).inspect
       assert_redirected_to clinical_assignments_path
 
     end
@@ -143,11 +142,11 @@ test "should not post create bad record" do
       load_session(r)
       assignment = ClinicalAssignment.first
       assignment.Level = 3
-      update_params = {:Level => assignment.Level}
+      update_params = assignment.attributes
 
       post :update, {:id => assignment.id, :clinical_assignment => update_params}
-
-      assert_redirected_to clinical_assignments_path
+      assert assigns(:assignment).valid?, assigns(:assignment).inspect
+      assert_redirected_to banner_term_clinical_assignments_path(assigns(:assignment).banner_term.id)
       assert_equal assigns(:assignment), assignment
     end
   end
