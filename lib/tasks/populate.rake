@@ -35,6 +35,7 @@ namespace :db do
 
     puts "creating data for students..."
     students.each do |s|
+
       puts "#{s.name_readable}"
       #decide the fate of each student going through the program
 
@@ -86,11 +87,16 @@ namespace :db do
         pop_adm_tep s, paths.sample
       else
         #give them the course work anyway.
+
         pop_transcript s, 12, 3.0, 4.years.ago, Date.today
       end
 
       #ADM_ST
       if s.open_programs
+        s.Classification = "Senior"
+        puts "#{[caller.first.split(":")[1]]}PINCH START"
+        # s.save
+        p "PINCH END"
         pop_adm_st(s)
       end
 
@@ -98,6 +104,10 @@ namespace :db do
       st_admissions = s.adm_st
 
       if st_admissions.present?
+        s.EnrollmentStatus = "Graduation"
+        puts "#{[caller.first.split(":")[1]]}PINCH START"
+        # s.save
+        puts "PINCH END"
         exit_from_st(s, paths.sample)
       end
 
