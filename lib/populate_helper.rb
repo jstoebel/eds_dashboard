@@ -40,7 +40,7 @@ module PopulateHelper
           :Program_ProgCode => prog.id,
           :BannerTerm_BannerTerm => term.id,
           :TEPAdmit => admit,
-          :TEPAdmitDate => date_apply,
+          :TEPAdmitDate => (admit ? date_apply : nil),
           :GPA => nil,
           :GPA_last30 => nil, 
           :EarnedCredits => nil,
