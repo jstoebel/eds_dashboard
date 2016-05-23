@@ -2,7 +2,7 @@ module PopulateHelper
 
     def pop_fois(stu)
 
-
+      p __method__
       num_forms = Faker::Number.between 1, 2 #how many forms did they do?
 
         (num_forms).times do
@@ -22,6 +22,7 @@ module PopulateHelper
 
     def pop_adm_tep(stu, admit)
       #they're applying!
+      p __method__
 
 
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
@@ -64,10 +65,10 @@ module PopulateHelper
     end
 
     def pop_praxisI(stu, date_taken, passing)
+      p __method__
 
       #for each required test, make attrs for a praxis_result
       p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
-
 
       praxis_attrs = p1_tests.map { |test|
         FactoryGirl.attributes_for :praxis_result, {
@@ -79,6 +80,8 @@ module PopulateHelper
           :reg_date => date_taken - 30
         }
        }
+
+       praxis_attrs.map { |t| PraxisResult.create t }
     end
 
     def pop_transcript(stu, n, grade_pt, start_date, end_date)
@@ -109,9 +112,8 @@ module PopulateHelper
     end
 
     def pop_adm_st(stu)
-      
-      stu.Classification = "Senior"
-      stu.save
+      p __method__
+
 
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
       st_apply_term = BannerTerm.current_term(options={
@@ -129,7 +131,7 @@ module PopulateHelper
         if num_apps == 2
           #this is the first app, and always fails
           
-          FactoryGirl.create :adm_st, {
+          app = FactoryGirl.build :adm_st, {
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
@@ -137,6 +139,8 @@ module PopulateHelper
             STAdmitted: false,
             STAdmitDate: nil,
           }
+
+          app.save
 
         end
 
@@ -180,6 +184,7 @@ module PopulateHelper
     # exits a student from all programs following student teaching
     # completed: if the student successfully completed their programs
     # can be true, false or nil
+    p __method__
 
     
 
@@ -194,9 +199,6 @@ module PopulateHelper
         rec_date = nil
       end
 
-      stu.EnrollmentStatus = "Graduation"
-      stu.save
-
     else
 
       e_code = "1809"
@@ -206,18 +208,21 @@ module PopulateHelper
     progs_to_close = stu.open_programs
     progs_to_close.each do |prog|
 
-      exit_attrs = FactoryGirl.create :prog_exit, {
-        student_id: stu.id,
-        Program_ProgCode: prog.program.id,
-        ExitCode_ExitCode: (ExitCode.find_by :ExitCode =>e_code).id,
-        ExitDate: exit_date,
-        RecommendDate: rec_date
+      exit_attrs = FactoryGirl.build :prog_exit, {
+        :student_id => stu.id,
+        :Program_ProgCode => prog.program.id,
+        :ExitCode_ExitCode => (ExitCode.find_by :ExitCode =>e_code).id,
+        :ExitDate => exit_date,
+        :RecommendDate => rec_date
       }
+
+      exit_attrs.save
     end
 
   end
 
   def pop_clinical_assignment(stu, teacher)
+      p __method__
     
     
     start_date = Faker::Time.between(4.years.ago, Date.today)
