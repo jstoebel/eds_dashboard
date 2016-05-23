@@ -94,9 +94,7 @@ namespace :db do
       #ADM_ST
       if s.open_programs
         s.Classification = "Senior"
-        puts "#{[caller.first.split(":")[1]]}PINCH START"
-        # s.save
-        p "PINCH END"
+        s.save
         pop_adm_st(s)
       end
 
@@ -105,9 +103,7 @@ namespace :db do
 
       if st_admissions.present?
         s.EnrollmentStatus = "Graduation"
-        puts "#{[caller.first.split(":")[1]]}PINCH START"
-        # s.save
-        puts "PINCH END"
+        s.save
         exit_from_st(s, paths.sample)
       end
 
