@@ -51,13 +51,6 @@ class AdmTepController < ApplicationController
     @application = AdmTep.find(params[:id])
     @current_term = BannerTerm.current_term(exact: false, :plan_b => :back)
 
-    #application must be processed in its own term or the break following.
-    if @application.BannerTerm_BannerTerm != @current_term.id
-        flash[:notice] = "Application must be processed in its own term."
-        error_update
-        return
-    end
-
     @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
 
     #assigns the letter if it was given. While this is admitadly verbose, I don't
@@ -76,18 +69,11 @@ class AdmTepController < ApplicationController
     
     @application.Notes = params[:adm_tep][:Notes]
 
-    if @application.TEPAdmit == true
-        begin
-            admit_date = params[:adm_tep][:TEPAdmitDate]
-            @application.TEPAdmitDate = DateTime.strptime(admit_date, '%m/%d/%Y') #load in the date if student was admited           
-        rescue ArgumentError => e
-            @application.TEPAdmitDate = nil
-        end
-        
-    elsif @application.TEPAdmit.nil?
-        flash[:notice] = "Please make an admission decision for this student."
-        error_update
-        return
+    begin
+      @application.TEPAdmitDate = params[:adm_tep][:TEPAdmitDate]
+    rescue ArgumentError, TypeError => e
+      @application.TEPAdmitDate = nil
+      
     end
 
     if @application.save
