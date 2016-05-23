@@ -131,7 +131,7 @@ module PopulateHelper
         if num_apps == 2
           #this is the first app, and always fails
           
-          app = FactoryGirl.build :adm_st, {
+          app = FactoryGirl.attributes_for :adm_st, {
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
@@ -140,7 +140,7 @@ module PopulateHelper
             STAdmitDate: nil,
           }
 
-          app.save
+          AdmSt.create app
 
         end
 
