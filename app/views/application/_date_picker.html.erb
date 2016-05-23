@@ -7,10 +7,10 @@
 		default: the default date. Use "" for no default
  -->
 
-    <%= f.text_field field, {:value => (default != "" ? default.strftime("%m/%d/%Y") : ""), 'data-behaviour' => 'datepicker'} %>
+    <%= f.text_field field, {:value => (default != "" ? default.strftime("%Y-%m-%d") : ""), 'data-behaviour' => 'datepicker'} %>
 
 <script type="text/javascript">
     $('[data-behaviour~=datepicker]').datepicker({
-        format: 'mm/dd/yyyy',
+        format: 'yyyy-mm-dd',
     });
 </script>
