@@ -2,7 +2,6 @@ module PopulateHelper
 
     def pop_fois(stu)
 
-      p __method__
       num_forms = Faker::Number.between 1, 2 #how many forms did they do?
 
         (num_forms).times do
@@ -22,7 +21,6 @@ module PopulateHelper
 
     def pop_adm_tep(stu, admit)
       #they're applying!
-      p __method__
 
 
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
@@ -48,10 +46,12 @@ module PopulateHelper
         }
       }
     
-      if !admit == false
+      if !(admit == false)
         #student qualifies for admission
         gpa = 3.0 #good enough GPA
         praxis_pass = true #pass the praxis
+
+
       else
         #student is denied admission
         gpa = 2.0 #not good enough GPA
@@ -65,7 +65,6 @@ module PopulateHelper
     end
 
     def pop_praxisI(stu, date_taken, passing)
-      p __method__
 
       #for each required test, make attrs for a praxis_result
       p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
@@ -112,7 +111,6 @@ module PopulateHelper
     end
 
     def pop_adm_st(stu)
-      p __method__
 
 
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
@@ -183,8 +181,7 @@ module PopulateHelper
   def exit_from_st(stu, completed)
     # exits a student from all programs following student teaching
     # completed: if the student successfully completed their programs
-    # can be true, false or nil
-    p __method__
+    # can be true, false or ni
 
     
 
@@ -222,7 +219,6 @@ module PopulateHelper
   end
 
   def pop_clinical_assignment(stu, teacher)
-      p __method__
     
     
     start_date = Faker::Time.between(4.years.ago, Date.today)
