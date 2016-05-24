@@ -58,7 +58,7 @@ class AdmTep < ActiveRecord::Base
       app.errors.add(:TEPAdmitDate, "Admission date must be after term begins.") if app.TEPAdmitDate and app.TEPAdmitDate < term.StartDate
       app.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.") if app.TEPAdmitDate.present? and app.TEPAdmitDate >= next_term.StartDate
       
-      # app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not praxisI_pass(student)
+      app.errors.add(:base, "Student has not passed the Praxis I exam.") if app.TEPAdmit == true and not app.student.praxisI_pass
       app.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.") if app.TEPAdmit and !good_gpa?
       
       app.errors.add(:EarnedCredits, "Student needs to have earned 30 credit hours and has only earned #{self.EarnedCredits}.") if app.TEPAdmit and (!app.good_credits?)
@@ -111,7 +111,7 @@ class AdmTep < ActiveRecord::Base
     self.errors.add(:student_id, "No student selected.") unless self.student_id
     self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm
-    self.errors.add(:student_file_id, "Please attach an admission letter.") unless (self.student_file_id.present? or self.TEPAdmit == nil)
+    self.errors.add(:student_file_id, "Please attach an admission letter.") unless (self.student_file.present? or self.TEPAdmit == nil)
   end
 
 
