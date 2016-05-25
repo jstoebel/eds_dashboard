@@ -12,6 +12,7 @@ namespace :db do
     puts "[#{t0}] Starting populate"
 
     Rake::Task["db:seed"].invoke
+    puts "Seeds added."
 
     FactoryGirl.create(:admin, {
           UserName: "dev_admin",
