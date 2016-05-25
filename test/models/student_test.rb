@@ -233,6 +233,7 @@ class StudentTest < ActiveSupport::TestCase
 		completer_code = ExitCode.find_by :ExitCode => "1849"
 		my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id 
 		stu = my_exit.student
+		pop_praxisI stu, true		#make student pass the praxis
 		old_app = my_exit.adm_tep
 
 		#create a second admission
