@@ -26,17 +26,6 @@
 class Student < ActiveRecord::Base
 	include ApplicationHelper
 
-
-	before_save :check_size
-
-	def check_size
-		if Student.all.size > 50
-			1/0
-		end
-		
-	end
-
-
 	has_many :praxis_results
 	has_many :praxis_prep
 
