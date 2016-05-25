@@ -40,9 +40,10 @@ class StudentFilesController < ApplicationController
 
   def destroy
     @file = StudentFile.find(params[:id])
+    authorize! :manage, @file
+
     @file.active = false
 
-    authorize! :manage, @file
     if @file.save
       flash[:notice] = "File successfully removed."
       redirect_to student_student_files_path(@file.student.id)

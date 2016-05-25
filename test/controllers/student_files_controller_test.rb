@@ -98,11 +98,14 @@ class StudentFilesControllerTest < ActionController::TestCase
 
     role_names.each do |r|
       load_session(r)
-      file = create_file
-
+      StudentFile.delete_all
+      file = FactoryGirl.create :student_file
       post :destroy, {:id => file.id}
+
       assert_equal file, assigns(:file)
+      puts assigns(:file).errors.full_messages
       assert_equal "File successfully removed.", flash[:notice]
+
       assert_redirected_to student_student_files_path(file.student.AltID)
     end
   end

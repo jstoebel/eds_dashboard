@@ -27,7 +27,7 @@ class StudentFileTest < ActiveSupport::TestCase
         assert file.valid?, file.errors.full_messages
     end
 
-    test "ivalid file exension" do
+    test "invalid file exension" do
         file = StudentFile.where('doc_file_name like "%.bad"').first
         file.valid?
         assert_includes file.errors[:doc], "Attached file must be a Word Document, PDF or plain text document."
@@ -39,26 +39,14 @@ class StudentFileTest < ActiveSupport::TestCase
         assert_equal expected.to_a, actual.to_a
     end
 
-    test "can handle multiple files" do
+    test "cant have repeat names for same student" do 
         StudentFile.delete_all
         stu = Student.first
-        file_name = "test_file.txt"
-        name, ext = file_name.split('.')
-        num_files = 3
+        FactoryGirl.create :student_file, :student_id => stu.id, :doc => fixture_file_upload("test_file.txt")
+        assert_raises(ActiveRecord::RecordInvalid){FactoryGirl.create :student_file, :student_id => stu.id, 
+            :doc => fixture_file_upload("test_file.txt")
+        }
 
-        expected_names = [file_name] + (1..num_files-1).map {|i| "test_file_#{i}.txt"}
-
-        num_files.times do |i|
-            file = StudentFile.create({
-                    :student_id => stu.id,
-                    :active => true,
-                    :doc => fixture_file_upload(file_name)
-                })
-        end
-
-        actual_names = StudentFile.all.order(:id).map {|f| f.doc_file_name}
-
-        assert_equal expected_names, actual_names.to_a    
-    end  
+    end
 
 end
