@@ -55,21 +55,16 @@ class AdmTepController < ApplicationController
 
     #assigns the letter if it was given. While this is admitadly verbose, I don't
     #know how to pass in a letter in my test request.
+
+
     @letter = StudentFile.create ({
         :doc => params[:adm_tep][:letter], 
         :active => true,
         :student_id => @application.student.id
       })
-    @letter.save
-    
-    @application.student_file_id = @letter.id
 
-    puts "******"
-    puts @letter.inspect
-    puts @application.inspect
-    puts "******"
-    1/0
-    # @application.letter = params[:adm_tep][:letter] if params[:adm_tep][:letter].present?
+    @letter.save
+    @application.student_file_id = @letter.id
     
     @application.Notes = params[:adm_tep][:Notes]
 
@@ -77,13 +72,11 @@ class AdmTepController < ApplicationController
       @application.TEPAdmitDate = params[:adm_tep][:TEPAdmitDate]
     rescue ArgumentError, TypeError => e
       @application.TEPAdmitDate = nil
-      
     end
 
     if @application.save
-
         flash[:notice] = "Student application successfully updated"
-        redirect_to(adm_tep_index_path)
+        redirect_to banner_term_adm_tep_index_path(@application.banner_term.id)
         return
 
     else
