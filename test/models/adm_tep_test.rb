@@ -93,7 +93,7 @@ class AdmTepTest < ActiveSupport::TestCase
     letter = attach_letter(app)
     pop_transcript(app.student, 12, 2.0, app.banner_term.prev_term)
     app.valid?
-    assert_equal(app.errors[:base], ["Student does not have sufficent GPA to be admitted this term."])
+    assert (app.errors[:base].include? "Student does not have sufficent GPA to be admitted this term.")
   end
 
   test "overall gpa bad only" do
