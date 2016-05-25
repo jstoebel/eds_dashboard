@@ -40,10 +40,18 @@ class TranscriptTest < ActiveSupport::TestCase
 
     test "sets quality points" do
         t = FactoryGirl.create :transcript, {
-            term_taken: BannerTerm.first.id
+            term_taken: BannerTerm.first.id,
+            grade_pt: 4.0
         }
-
         assert t.quality_points.present?
+    end
+
+    test "does not set quality points, nil grade" do
+        t = FactoryGirl.create :transcript, {
+            term_taken: BannerTerm.first.id,
+            grade_pt: nil
+        }
+        assert t.quality_points.blank?
     end
 
     it "converts letter to grade" do
