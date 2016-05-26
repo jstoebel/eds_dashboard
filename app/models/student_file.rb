@@ -34,8 +34,13 @@ class StudentFile < ActiveRecord::Base
 
     def check_file_unique
         #if file isn't unique for this student, append a number to the file end (example letter.docx and letter-1.docx)
-        match_count = StudentFile.where(:student_id => self.student.id, :doc_file_name => self.doc_file_name).where.not(id: self.id)
-        self.doc_file_name = "#{self.doc_file_name}-#{match_count}" if match_count.size > 0
+        match_count = StudentFile.where(:student_id => self.student.id, :doc_file_name => self.doc_file_name).where.not(id: self.id).size
+        extension = File.extname self.doc_file_name
+        base = File.basename self.doc_file_name, extension
+
+        if match_count> 0
+            self.doc_file_name = "#{base}-#{match_count}#{extension}"
+        end
     end
 
 end
