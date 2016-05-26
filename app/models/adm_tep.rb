@@ -78,6 +78,13 @@ class AdmTep < ActiveRecord::Base
       # if open_programs.size > 0 and app.new_record?
       #   self.errors.add(:base, "Student is already enrolled in this program." )
       # end
+
+      # should validate for no admission decision if an admit date is given or letter is attached
+
+      if ((self.TEPAdmitDate.present? || self.student_file_id.present?) && self.TEPAdmit.blank? )
+        self.errors.add(:TEPAdmit, "Please make an admission decision for this student.")
+      end
+
     end
   end
 
@@ -108,9 +115,9 @@ class AdmTep < ActiveRecord::Base
   private
   def check_fks
     #validate the foreign keys and return true if all are good
-    self.errors.add(:student_id, "No student selected.") unless self.student_id
-    self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode
-    self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm
+    self.errors.add(:student_id, "No student selected.") unless self.student_id.present?
+    self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode.present?
+    self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm.present?
     self.errors.add(:student_file_id, "Please attach an admission letter.") unless (self.student_file.present? or self.TEPAdmit == nil)
   end
 
