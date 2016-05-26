@@ -78,6 +78,15 @@ class AdmStTest < ActiveSupport::TestCase
 	test "no date error if not admitted" do
 		app = AdmSt.first
 		app.STAdmitted = false
+		app.STAdmitDate = nil
+		app.valid?
+		assert_equal([], app.errors[:STAdmitted])
+	end
+
+	test "no date error if not pending" do
+		app = AdmSt.first
+		app.STAdmitted = nil
+		app.STAdmitDate = nil
 		app.valid?
 		assert_equal([], app.errors[:STAdmitted])
 	end
