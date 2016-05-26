@@ -161,7 +161,6 @@ class Student < ActiveRecord::Base
 			return "Unknown Status"
 		end
 
-
 	end
 
 	def was_dismissed?
@@ -207,7 +206,7 @@ class Student < ActiveRecord::Base
 			break if options[:last].present? && credits >= options[:last] 
 		end
 
-		gpa_raw = qpoints / credits #truncated
+		gpa_raw = qpoints / credits
 
 		return (gpa_raw * 100).to_i / 100.0
 
