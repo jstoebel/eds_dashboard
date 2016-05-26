@@ -94,21 +94,28 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should post update" do
-    app = AdmTep.find_by(:TEPAdmit => nil)
-    allowed_roles.each do |r|
+    stu = FactoryGirl.create :student
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
 
-      puts "running test as #{r}"
+    allowed_roles.each do |r|
+      
       load_session(r)
-      term = app.banner_term
+
+      app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+        :TEPAdmitDate => nil,
+        :student_id => stu.id,
+        :student_file_id =>nil,
+        :Program_ProgCode => Program.first.id,
+        :BannerTerm_BannerTerm => term.id
+      }
+
+      app = AdmTep.create app_attrs
+
       date = (term.StartDate.to_date) + 10
     
       travel_to date do
-        pop_transcript(app.student, 12, 3.0, term.prev_term)
-
-        PraxisSubtestResult.delete_all
-        PraxisResult.delete_all
-        
-        pop_praxisI app.student, true
         post :update, {
               :id => app.id,
               :adm_tep => {
@@ -118,37 +125,26 @@ class AdmTepControllerTest < ActionController::TestCase
                 }
             }
 
-
-        assert assigns(:letter).valid?, assigns(:letter).inspect
         assert assigns(:application).valid?, assigns(:application).errors.full_messages 
         assert_redirected_to banner_term_adm_tep_index_path(app.banner_term.id)
         assert_equal flash[:notice], "Student application successfully updated"
 
-        puts assigns(:application).student_file.destroy
+        #tear down for next role
+        app.destroy
+        assigns(:letter).destroy
+
       end
-        
-      #reset everything
-      app.update({
-        :TEPAdmit => nil,
-        :TEPAdmitDate => nil,
-        :student_file_id => nil
-        })
-      app.save
 
     end
   end
 
   test "should not post update bad date" do
-    app = AdmTep.first
-
-    #make a file for this app
-    letter = attach_letter(app)
-    app.student_file_id = letter.id
-    term = app.banner_term
+    
+    stu = FactoryGirl.create :student
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
     next_exclusive_term = BannerTerm.where("StartDate > ?", term.EndDate).first 
-    pop_transcript(app.student, 12, 3.0, term.prev_term)
-
-    app.save
 
     #the next term that starts after this term finishes
     date = (next_exclusive_term.StartDate.to_date) + 10
@@ -156,14 +152,28 @@ class AdmTepControllerTest < ActionController::TestCase
     travel_to date do
       load_session("admin")
 
+      app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+        :TEPAdmitDate => nil,
+        :student_id => stu.id,
+        :student_file_id =>nil,
+        :Program_ProgCode => Program.first.id,
+        :BannerTerm_BannerTerm => term.id
+      }
+
+      app = AdmTep.create app_attrs
+
       post :update, {
             :id => app.id,
             :adm_tep => {
               :TEPAdmit => "true",
-              :TEPAdmitDate => date.strftime("%m/%d/%Y")
+              :TEPAdmitDate => date.to_s,
+              :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
               }
           }
-      assert_equal flash[:notice], "Application must be processed in its own term."
+      assert_equal flash[:notice], "Error in saving application."
+      assert assigns(:application).errors[:TEPAdmitDate].include?("Admission date must be before next term begins."),
+        assigns(:application).errors.full_messages
+
       assert_response :success
       assert_equal assigns(:term), app.banner_term
       assert_equal assigns(:student), app.student
@@ -171,8 +181,22 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should not post update no admission decision" do
-    app = AdmTep.first
-    term = app.banner_term
+
+    stu = FactoryGirl.create :student
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
+
+    app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+      :TEPAdmitDate => nil,
+      :student_id => stu.id,
+      :student_file_id =>nil,
+      :Program_ProgCode => Program.first.id,
+      :BannerTerm_BannerTerm => term.id
+    }
+
+    app = AdmTep.create app_attrs
+
     date = (term.StartDate.to_date) + 10
     travel_to date do
       load_session("admin")
@@ -181,10 +205,13 @@ class AdmTepControllerTest < ActionController::TestCase
       post :update, {
             :id => app.id,
             :adm_tep => {
-              :TEPAdmitDate => date.strftime("%m/%d/%Y")
+              :TEPAdmitDate => date.to_s,
+              :TEPAdmit => true,
+              :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
               }
           }
-      assert_equal flash[:notice], "Please make an admission decision for this student."
+
+      assert assigns(:application).errors[:TEPAdmit].include?("Please make an admission decision for this student.")
       assert_response :success
     end
   end
