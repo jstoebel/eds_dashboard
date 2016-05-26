@@ -64,16 +64,15 @@ class AdmStController < ApplicationController
     @app.assign_attributes(update_adm_params)
     @app.STAdmitDate = DateTime.strptime(params[:adm_st][:STAdmitDate], "%m/%d/%Y")
 
-    ltr_param = params[:adm_st][:letter]
-    if ltr_param.present?
-      letter = StudentFile.create ({
-          :doc => params[:adm_st][:letter], 
-          :active => true,
-          :student_id => @app.student.id
-        })
-      @app.student_file_id = letter.id      
-    end
-    
+    letter = StudentFile.create ({
+        :doc => params[:adm_st][:letter], 
+        :active => true,
+        :student_id => @app.student.id
+      })
+
+    letter.save
+    @app.student_file_id = letter.id
+
     if @app.save
       letter.save
       flash[:notice] = "Student application successfully updated."

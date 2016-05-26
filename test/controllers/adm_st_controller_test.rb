@@ -2,6 +2,7 @@ require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
 require 'test_teardown'
+
 class AdmStControllerTest < ActionController::TestCase
 
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
@@ -125,14 +126,21 @@ class AdmStControllerTest < ActionController::TestCase
   end
 
   test "should post update" do
+    stu = FactoryGirl.create :student
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
     allowed_roles.each do |r|
       load_session(r)
-      app = AdmSt.first
+
+      app_attrs = FactoryGirl.attributes_for :adm_st, {:student_id => stu.id,
+        :STAdmitted => nil,
+        :STAdmitDate => nil,
+        :BannerTerm_BannerTerm => term.id
+      }
+      app = AdmSt.create app_attrs
+      assert app.valid?, app.errors.full_messages
 
       #restore app to a pre decision state
-      app.STAdmitted = nil
-      app.STAdmitDate = nil
-      app.save
+
       travel_to (app.banner_term.StartDate.to_date) + 1 do
         post :update, {
               :id => app.id,
@@ -143,8 +151,12 @@ class AdmStControllerTest < ActionController::TestCase
                 }
             }
 
-        assert assigns(:app).valid?, assigns(:app).errors.full_messages
+        assert assigns(:app).valid?, assigns(:app).errors.full_messages 
         assert_redirected_to adm_st_index_path
+
+        app.destroy
+        StudentFile.delete_all
+
       end
     end
   end
