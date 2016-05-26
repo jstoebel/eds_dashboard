@@ -81,7 +81,7 @@ class AdmTep < ActiveRecord::Base
 
       # should validate for no admission decision if an admit date is given or letter is attached
 
-      if ((self.TEPAdmitDate.present? || self.student_file_id.present?) && self.TEPAdmit.blank? )
+      if ((self.TEPAdmitDate.present? || self.student_file_id.present?) && self.TEPAdmit == nil )
         self.errors.add(:TEPAdmit, "Please make an admission decision for this student.")
       end
 

@@ -22,7 +22,6 @@ module PopulateHelper
     def pop_adm_tep(stu, admit)
       #they're applying!
 
-
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
       term = BannerTerm.current_term(options={
         date: date_apply,
@@ -42,7 +41,7 @@ module PopulateHelper
           :GPA => nil,
           :GPA_last30 => nil, 
           :EarnedCredits => nil,
-          :student_file_id => FactoryGirl.create(:student_file, {:student_id => stu.id}).id
+          :student_file_id => (admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil) 
         }
       }
     
@@ -50,7 +49,6 @@ module PopulateHelper
         #student qualifies for admission
         gpa = 3.0 #good enough GPA
         praxis_pass = true #pass the praxis
-
 
       else
         #student is denied admission
@@ -61,7 +59,10 @@ module PopulateHelper
       pop_transcript stu, 12, gpa, term.StartDate - 200, term.EndDate
       pop_praxisI stu, date_apply - 30, praxis_pass
 
-      app_attrs.each { |i| i.save}
+      app_attrs.each do |i|
+        i.save
+      end
+
     end
 
     def pop_praxisI(stu, date_taken, passing)
@@ -112,7 +113,6 @@ module PopulateHelper
 
     def pop_adm_st(stu)
 
-
       st_date_apply = Faker::Time.between(2.years.ago, 1.years.ago)
       st_apply_term = BannerTerm.current_term(options={
         date: st_date_apply,
@@ -136,6 +136,7 @@ module PopulateHelper
             CoreGPA: 3.0,
             STAdmitted: false,
             STAdmitDate: nil,
+            student_file_id: false
           }
 
           AdmSt.create app
@@ -150,12 +151,18 @@ module PopulateHelper
           OverallGPA: 2.75,
           CoreGPA: 3.0,
           STAdmitted: st_admit,
-          STAdmitDate: nil,          
+          STAdmitDate: (st_admit ? st_date_apply : nil),
+          student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
         }
 
         st_admit_attrs = {STAdmitted: st_admit}
 
-        AdmSt.create st_app_attrs.merge(st_admit_attrs) 
+        final_app = AdmSt.create st_app_attrs.merge(st_admit_attrs) 
+        if final_app.errors.present?
+          puts final_app.errors.full_messages
+          puts final_app.inspect
+          exit
+        end
 
       else
         #student drops the program. They need to be exited.

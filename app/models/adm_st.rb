@@ -62,7 +62,7 @@ class AdmSt < ActiveRecord::Base
     #validate the foreign keys and return true if all are good.
     self.errors.add(:student_id, "No student selected.") if self.student_id.blank?
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") if self.BannerTerm_BannerTerm.blank?
-    self.errors.add(:student_file_id, "Please attach an admission letter.") if (self.student_file_id.blank? && self.STAdmitted.present?)
+    self.errors.add(:student_file_id, "Please attach an admission letter.") if (self.student_file_id.blank? && self.STAdmitted != nil)
     if self.errors.size == 0
 
       return true
