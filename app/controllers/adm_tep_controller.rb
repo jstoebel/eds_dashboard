@@ -65,7 +65,7 @@ class AdmTepController < ApplicationController
 
     @letter.save
     @application.student_file_id = @letter.id
-    
+
     @application.Notes = params[:adm_tep][:Notes]
 
     begin
@@ -146,8 +146,7 @@ class AdmTepController < ApplicationController
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
     @student = Student.find(@application.student_id)
     name_details(@student)
-    render('edit')
-    
+    render('edit')  
   end
 
 end
