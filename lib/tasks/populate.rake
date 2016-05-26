@@ -37,7 +37,7 @@ namespace :db do
     puts "creating data for students..."
     students.each do |s|
 
-      puts "#{s.name_readable}"
+      print "#{s.name_readable}"
       #decide the fate of each student going through the program
 
       # ADVISOR ASSIGNMENTS
@@ -137,8 +137,7 @@ namespace :db do
 
       end
 
-      print " -> done."
-      puts
+      puts " -> done."
     end 
     t1 = Time.now
     puts "[#{t1}]Populate complete. Time=#{t1 - t0}"
