@@ -39,14 +39,4 @@ class StudentFileTest < ActiveSupport::TestCase
         assert_equal expected.to_a, actual.to_a
     end
 
-    test "cant have repeat names for same student" do 
-        StudentFile.delete_all
-        stu = Student.first
-        FactoryGirl.create :student_file, :student_id => stu.id, :doc => fixture_file_upload("test_file.txt")
-        assert_raises(ActiveRecord::RecordInvalid){FactoryGirl.create :student_file, :student_id => stu.id, 
-            :doc => fixture_file_upload("test_file.txt")
-        }
-
-    end
-
 end

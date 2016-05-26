@@ -14,7 +14,7 @@
 class StudentFile < ActiveRecord::Base
 
 	belongs_to :student
-    before_validation :check_file_unique
+    before_save :check_file_unique
 
 	has_attached_file :doc, 
 	  :url => "/student_file/:id/download",		#passes AltID 
@@ -33,8 +33,9 @@ class StudentFile < ActiveRecord::Base
     private 
 
     def check_file_unique
-        same_files = StudentFile.where(:student_id => self.student.id, :doc_file_name => self.doc_file_name).where.not(id: self.id)
-        self.errors.add(:base, "Document with this name already exists for this student") if same_files.size > 0 
+        #if file isn't unique for this student, append a number to the file end (example letter.docx and letter-1.docx)
+        match_count = StudentFile.where(:student_id => self.student.id, :doc_file_name => self.doc_file_name).where.not(id: self.id)
+        self.doc_file_name = "#{self.doc_file_name}-#{match_count}" if match_count.size > 0
     end
 
 end
