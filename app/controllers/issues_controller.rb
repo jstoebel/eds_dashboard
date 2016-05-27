@@ -33,9 +33,9 @@ class IssuesController < ApplicationController
     
     #assign advisor's B#
     user = current_user
-    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.id
+    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
-    # 
+
     if @issue.save
       flash[:notice] = "New issue opened for: #{name_details(@student)}"
       redirect_to(student_issues_path(@student.AltID)) 

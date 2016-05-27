@@ -39,7 +39,7 @@ class IssueUpdatesController < ApplicationController
 
     #assign advisor's B#
     user = current_user
-    @update.tep_advisors_AdvisorBnum = user.tep_advisor.id 
+    @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
     authorize! :manage, @update
 
     @student = Student.find(@issue.student.id)

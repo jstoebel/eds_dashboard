@@ -37,7 +37,7 @@ class Issue < ActiveRecord::Base
 			}
 
 	validates :tep_advisors_AdvisorBnum,
-		:presence => { message: "Please enter a valid B#, (including the B00)"}
+		:presence => { message: "Could not find an advisor profile for this user."}
 
 
 end
