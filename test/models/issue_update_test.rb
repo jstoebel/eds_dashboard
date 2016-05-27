@@ -33,12 +33,12 @@ class IssueUpdateTest < ActiveSupport::TestCase
 		t = IssueUpdate.first
 		t.tep_advisors_AdvisorBnum = nil
 		t.valid?
-		py_assert(["Please enter a valid B#, (including the B00)"], t.errors[:tep_advisors_AdvisorBnum])		
+		assert t.errors[:tep_advisors_AdvisorBnum].include?("Could not find an advisor profile for this user.")		
 	end
 
 	test "scope sorted" do
 		expected = IssueUpdate.all.order(created_at: :desc).to_a
 		actual = IssueUpdate.all.sorted.to_a
-		py_assert(expected, actual)
+		assert_equal(expected, actual)
 	end
 end
