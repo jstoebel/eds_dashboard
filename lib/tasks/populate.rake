@@ -22,6 +22,8 @@ namespace :db do
           Roles_idRoles: 1
 
         })
+    admin_tep_profile = FactoryGirl.create :tep_advisor, {:user_id => 1}
+    
     advisors = FactoryGirl.create_pair :advisor
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
@@ -52,6 +54,13 @@ namespace :db do
           :tep_advisor_id => adv.tep_advisor.id
         })
       }
+
+      #also, everyone needs to have dev_admin as an advisor
+      AdvisorAssignment.create({
+          :student_id => s.id,
+          :tep_advisor_id => admin_tep_profile.id
+        })
+
 
       #FOI
       pop_fois s
