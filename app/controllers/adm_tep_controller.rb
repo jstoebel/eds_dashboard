@@ -133,7 +133,7 @@ class AdmTepController < ApplicationController
 
 
   def new_setup
-      @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation" && s.Classification != "Senior"}
+      @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
 
       @programs = Program.where("Current = 1")
 
