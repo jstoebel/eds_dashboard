@@ -62,7 +62,12 @@ class AdmStController < ApplicationController
     @app = AdmSt.find(params[:id])
     @current_term = current_term(exact: false, plan_b: :back)
     @app.assign_attributes(update_adm_params)
-    @app.STAdmitDate = DateTime.strptime(params[:adm_st][:STAdmitDate], "%m/%d/%Y")
+
+    begin
+      @app.STAdmitDate = params[:adm_st][:STAdmitDate]
+    rescue ArgumentError, TypeError => e
+      @app.STAdmitDate = nil
+    end
 
     letter = StudentFile.create ({
         :doc => params[:adm_st][:letter], 
@@ -164,8 +169,7 @@ class AdmStController < ApplicationController
 
   def new_setup
     @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
-    term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
-    @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
+    @terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc)
   end
 
   def error_update
