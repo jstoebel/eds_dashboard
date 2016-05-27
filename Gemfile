@@ -73,3 +73,4 @@ gem 'active_record-acts_as' #for multi table inheritance
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 gem 'annotate', github: 'ctran/annotate_models'
+gem 'andand', '~> 1.3', '>= 1.3.3'
