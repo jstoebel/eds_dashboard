@@ -119,6 +119,8 @@ module PopulateHelper
         exact: false,
         plan_b: :back})
 
+      #a student can apply, not apply (they drop the program) or have no activity yet.
+
       applying = Faker::Boolean.boolean 0.7  #are they going to apply for ST?
 
       if applying
@@ -165,19 +167,24 @@ module PopulateHelper
         end
 
       else
-        #student drops the program. They need to be exited.
+        # student hasn't applied. Have they dropped? or are they still eligible to apply
 
-        progs_to_close = stu.open_programs
-      
-        drop_exit_code = ExitCode.find_by :ExitCode => "1826"
-        progs_to_close.each do |prog|
-          exit_attrs = FactoryGirl.create :prog_exit, {
-            student_id: stu.id,
-            Program_ProgCode: prog.program.id,
-            ExitCode_ExitCode: drop_exit_code.id,
-            ExitDate: st_date_apply,
-            RecommendDate: nil              
-          }
+        will_drop = Faker::Boolean.boolean
+
+        if will_drop #if this is false student is still eligible to apply
+          progs_to_close = stu.open_programs
+        
+          drop_exit_code = ExitCode.find_by :ExitCode => "1826"
+          progs_to_close.each do |prog|
+            exit_attrs = FactoryGirl.create :prog_exit, {
+              student_id: stu.id,
+              Program_ProgCode: prog.program.id,
+              ExitCode_ExitCode: drop_exit_code.id,
+              ExitDate: st_date_apply,
+              RecommendDate: nil              
+            }
+
+          end
 
         end
 
