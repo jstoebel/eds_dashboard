@@ -37,6 +37,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   test "should post create" do
     allowed_roles.each do |r|
       load_session(r)
+
       issue = Issue.first
       user = User.find_by(:UserName => session[:user])
       expected_update = IssueUpdate.create({
