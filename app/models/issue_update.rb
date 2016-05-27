@@ -26,7 +26,7 @@ class IssueUpdate < ActiveRecord::Base
 		presence: {message: "Please provide an update description."}
 
 	validates :tep_advisors_AdvisorBnum,
-		:presence => { message: "Please enter a valid B#, (including the B00)"}
+		:presence => { message: "Could not find an advisor profile for this user."}
 
 	def student
 		return self.issue.student
