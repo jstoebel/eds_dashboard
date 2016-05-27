@@ -146,7 +146,7 @@ class AdmStControllerTest < ActionController::TestCase
               :id => app.id,
               :adm_st => {
                 :STAdmitted => "true",
-                :STAdmitDate => Date.today.strftime("%m/%d/%Y"),
+                :STAdmitDate => Date.today.to_s,
                 :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
                 }
             }
@@ -175,11 +175,12 @@ class AdmStControllerTest < ActionController::TestCase
           :id => app.id,
           :adm_st => {
               :STAdmitted => "",
-              :STAdmitDate => Date.today.strftime("%m/%d/%Y"),
+              :STAdmitDate => Date.today.to_s,
               :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
             }
         }
       end
+          
       assert_response :success
       assert_equal ["Please make an admission decision for this student."], assigns(:app).errors[:STAdmitted] 
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)

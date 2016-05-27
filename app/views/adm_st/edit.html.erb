@@ -9,7 +9,7 @@
     <table summary="adm_st form fields">
         <caption>
         <div class="header1"> <%= "Edit Application to Student Teaching"  %> </div>
-        <div class="header2"> <%= name_details(@student, file_as=true) %> </div>
+        <div class="header2"> <%= "#{name_details(@student, file_as=true)} (#{@app.banner_term.readable})" %> </div>
         </caption>
         <tr>
             <th><%= f.label(:STAdmitted, "Admission Decision", ) %></th>
