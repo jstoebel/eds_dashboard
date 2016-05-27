@@ -170,6 +170,9 @@ namespace :db do
   
   end
 
+  task :test_assess => ["db:devo:set_env", "db:clean", :environment] do
+    pop_assessments
+  end
 
   namespace :devo do
     task :set_env do # Note that we don't load the :environment task dependency

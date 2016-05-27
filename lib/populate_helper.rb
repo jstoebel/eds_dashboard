@@ -256,4 +256,30 @@ module PopulateHelper
 
   end
 
+  def pop_assessments
+    assessments = FactoryGirl.create_list :assessment, 6
+    #each assessment has two versions
+    assessment_versions = assessments.map{ |a| FactoryGirl.create_list :assessment_version, 2, {:assessment_id => a.id}}.flatten
+
+    assessment_items = FactoryGirl.create_list :assessment_item, 20
+
+    #each item has 4 levels
+
+    assessment_items.each do |ai|
+      (1..4).each do |o|
+        FactoryGirl.create :item_level, {:assessment_item_id => ai.id, :ord => o}
+      end
+    end
+
+    #for each assessment_version, assign 5 assessment_items
+    assessment_versions.each do |av|
+      5.times do |i|
+        FactoryGirl.create :assessment_item_versions, {:assessment_version_id => av.id,
+          :assessment_item_id => assessment_items.sample.id
+        }
+      end
+    end
+
+  end
+
 end

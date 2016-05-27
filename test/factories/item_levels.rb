@@ -16,8 +16,8 @@
 FactoryGirl.define do
   factory :item_level do
     assessment_item
-    descriptor Lorem.paragraph
-    level Lorem.word
-    ord Number.between(1, 4)
+    descriptor {Lorem.paragraph}
+    level {Lorem.word}
+    ord {Number.between(1, 4)}
   end
 end

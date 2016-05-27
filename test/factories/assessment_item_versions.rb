@@ -22,6 +22,6 @@ FactoryGirl.define do
   factory :assessment_item_version do
     association :assessment_version, factory: :assessment_version
     association :assessment_item, factory: :assessment_item
-    item_code Number.hexadecimal(2)
+    item_code {Number.hexadecimal(2)}
   end
 end
