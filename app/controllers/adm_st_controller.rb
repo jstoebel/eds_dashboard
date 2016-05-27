@@ -163,7 +163,7 @@ class AdmStController < ApplicationController
   end
 
   def new_setup
-    @students = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'").order(LastName: :asc)
+    @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
     term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
     @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
   end
