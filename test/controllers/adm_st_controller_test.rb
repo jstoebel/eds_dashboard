@@ -41,7 +41,7 @@ class AdmStControllerTest < ActionController::TestCase
         term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
         load_session(r)
         get :new
-        expected = Student.where("ProgStatus = 'Candidate' and EnrollmentStatus='Active Student' and Classification='Senior'").order(LastName: :asc)
+        expected = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
         assert_equal assigns(:students).to_a, expected.to_a
         assert_response :success, "unexpected http response, role=#{r}"
       end
