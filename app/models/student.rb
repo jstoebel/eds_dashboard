@@ -47,6 +47,7 @@ class Student < ActiveRecord::Base
 	has_many :transcripts
 	has_many :foi
 
+	has_many :student_scores
 
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}

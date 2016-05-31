@@ -20,6 +20,7 @@ level name and level number
 class ItemLevel < ActiveRecord::Base
 
     belongs_to :assessment_item
+    has_many :student_scores
 
     validates :descriptor, presence: true
     validates :level, presence: true
