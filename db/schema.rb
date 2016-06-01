@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160509202222) do
+ActiveRecord::Schema.define(version: 20160601184951) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -240,6 +240,15 @@ ActiveRecord::Schema.define(version: 20160509202222) do
 
   add_index "item_levels", ["assessment_item_id"], name: "item_levels_assessment_item_id_fk", using: :btree
 
+  create_table "last_names", force: true do |t|
+    t.integer  "student_id"
+    t.string   "last_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "last_names", ["student_id"], name: "last_names_student_id_fk", using: :btree
+
   create_table "majors", force: true do |t|
     t.string "name"
   end
@@ -424,7 +433,6 @@ ActiveRecord::Schema.define(version: 20160509202222) do
   end
 
   add_index "transcript", ["student_id", "crn", "term_taken"], name: "index_transcript_on_student_id_and_crn_and_term_taken", unique: true, using: :btree
-  add_index "transcript", ["student_id"], name: "transcript_student_id_fk", using: :btree
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
   create_table "users", force: true do |t|
@@ -478,6 +486,8 @@ ActiveRecord::Schema.define(version: 20160509202222) do
   add_foreign_key "issues", "tep_advisors", name: "issues_tep_advisors_AdvisorBnum_fk", column: "tep_advisors_AdvisorBnum"
 
   add_foreign_key "item_levels", "assessment_items", name: "item_levels_assessment_item_id_fk"
+
+  add_foreign_key "last_names", "students", name: "last_names_student_id_fk"
 
   add_foreign_key "praxis_prep", "praxis_tests", name: "praxis_prep_PraxisTest_TestCode_fk", column: "PraxisTest_TestCode"
   add_foreign_key "praxis_prep", "students", name: "praxis_prep_student_id_fk"
