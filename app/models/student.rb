@@ -100,12 +100,6 @@ class Student < ActiveRecord::Base
 		return self.id
 	end
 
-	def PrevLast
-		#changed to a from attribute to method
-		#gets the second to most recent last_name in last_names table
-
-		return 
-	end
 
 	def name_readable(file_as = false)
     #returns full student name with additional first and last names as needed
