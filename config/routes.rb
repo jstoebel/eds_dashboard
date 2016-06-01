@@ -132,6 +132,7 @@
 #                             root GET      /                                                                     access#index
 #
 
+require 'api_constraints'
 Rails.application.routes.draw do
 
   #A resource must be top level before it can be nested in another resource (I think)
@@ -207,6 +208,15 @@ Rails.application.routes.draw do
     resources :adm_st, only: [:index]
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
+  end
+
+
+  #~~~API ROUTES
+  namespace :api, defaults: {formats: 'json'} do
+  	# /api/... Api::
+  	scope module: :v1, contraints: ApiConstraints.new(version: 1) do
+  		resources :students, :only => [:index, :show, :create, :update]
+  	end 
   end
 
   root 'access#index'
