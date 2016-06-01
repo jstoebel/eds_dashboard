@@ -1,5 +1,5 @@
 class CreateLastNames < ActiveRecord::Migration
-  def change
+  def up
     create_table :last_names do |t|
     	t.integer :student_id
     	t.string :last_name
@@ -7,5 +7,11 @@ class CreateLastNames < ActiveRecord::Migration
     end
 
     add_foreign_key :last_names, :students
+  end
+
+  def down
+  	remove_foreign_key :last_names, :students
+
+  	drop_table :last_names
   end
 end
