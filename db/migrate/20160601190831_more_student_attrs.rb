@@ -10,7 +10,6 @@ class MoreStudentAttrs < ActiveRecord::Migration
   		t.remove :ProgStatus
   		t.remove :PraxisICohort
   		t.remove :PraxisIICohort
-      t.remove :PrevLast
   	end
   	add_foreign_key :students, :banner_terms, :column => :term_graduated, :primary_key => :BannerTerm
   end
@@ -18,7 +17,6 @@ class MoreStudentAttrs < ActiveRecord::Migration
   def down
   	remove_foreign_key :students, :name => "students_term_graduated_fk"
   	change_table :students do |t|
-	    t.string :PrevLast
       t.string  "PraxisICohort",    limit: 45
 	    t.string  "PraxisIICohort",   limit: 45
     	t.string  "ProgStatus",       limit: 45,  default: "Prospective"

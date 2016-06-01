@@ -390,6 +390,7 @@ ActiveRecord::Schema.define(version: 20160601190831) do
     t.string  "PreferredFirst",   limit: 45
     t.string  "MiddleName",       limit: 45
     t.string  "LastName",         limit: 45,  null: false
+    t.string  "PrevLast",         limit: 45
     t.string  "EnrollmentStatus", limit: 45
     t.string  "Classification",   limit: 45
     t.string  "CurrentMajor1",    limit: 45
