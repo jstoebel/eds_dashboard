@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601184951) do
+ActiveRecord::Schema.define(version: 20160601190831) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -385,27 +385,29 @@ ActiveRecord::Schema.define(version: 20160601184951) do
   add_index "student_files", ["student_id"], name: "student_files_student_id_fk", using: :btree
 
   create_table "students", force: true do |t|
-    t.string  "Bnum",             limit: 9,                           null: false
-    t.string  "FirstName",        limit: 45,                          null: false
+    t.string  "Bnum",             limit: 9,   null: false
+    t.string  "FirstName",        limit: 45,  null: false
     t.string  "PreferredFirst",   limit: 45
     t.string  "MiddleName",       limit: 45
-    t.string  "LastName",         limit: 45,                          null: false
-    t.string  "PrevLast",         limit: 45
-    t.string  "ProgStatus",       limit: 45,  default: "Prospective"
+    t.string  "LastName",         limit: 45,  null: false
     t.string  "EnrollmentStatus", limit: 45
     t.string  "Classification",   limit: 45
     t.string  "CurrentMajor1",    limit: 45
     t.string  "CurrentMajor2",    limit: 45
     t.integer "TermMajor"
-    t.string  "PraxisICohort",    limit: 45
-    t.string  "PraxisIICohort",   limit: 45
     t.string  "CellPhone",        limit: 45
     t.string  "CurrentMinors",    limit: 45
     t.string  "Email",            limit: 100
     t.string  "CPO",              limit: 45
+    t.text    "withdrawals"
+    t.integer "term_graduated"
+    t.string  "gender"
+    t.string  "race"
+    t.boolean "hispanic"
   end
 
   add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree
+  add_index "students", ["term_graduated"], name: "students_term_graduated_fk", using: :btree
 
   create_table "tep_advisors", force: true do |t|
     t.string  "AdvisorBnum", limit: 9,  null: false
@@ -508,6 +510,8 @@ ActiveRecord::Schema.define(version: 20160601184951) do
   add_foreign_key "student_assessments", "students", name: "student_assessments_student_id_fk"
 
   add_foreign_key "student_files", "students", name: "student_files_student_id_fk"
+
+  add_foreign_key "students", "banner_terms", name: "students_term_graduated_fk", column: "term_graduated", primary_key: "BannerTerm"
 
   add_foreign_key "tep_advisors", "users", name: "tep_advisors_user_id_fk"
 
