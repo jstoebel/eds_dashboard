@@ -26,6 +26,10 @@
 class Student < ActiveRecord::Base
 	include ApplicationHelper
 
+	#~~~ASSOCIATIONS
+
+	has_many :last_names
+
 	has_many :praxis_results
 	has_many :praxis_prep
 
@@ -47,6 +51,13 @@ class Student < ActiveRecord::Base
 	has_many :transcripts
 	has_many :foi
 
+	#~~~HOOKS
+	after_save :process_last_name
+
+	#~~~VALIDATIONS
+	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
+
+	#~~~SCOPES
 
 	scope :by_last, lambda {order(LastName: :asc)}
 	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}
@@ -221,6 +232,14 @@ class Student < ActiveRecord::Base
 		end
 		return credits
 		# return self.transcripts.where("term_taken <= ?", last_term).inject {|sum, i| i.credits_earned + sum}
+	end
+
+	private
+	def process_last_name
+		#create a new entry in last names table with current last name
+		if self.LastName_changed?
+			LastName.create({student_id: self.id, last_name: "random"})
+		end
 	end
 
 end

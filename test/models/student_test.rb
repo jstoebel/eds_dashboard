@@ -28,6 +28,8 @@ require 'minitest/autorun'
 require 'factory_girl'
 class StudentTest < ActiveSupport::TestCase
 
+	let(:stu) {FactoryGirl.create :student}
+
 	test "by_last scope" do
 		
 		expected = Student.all.order(LastName: :asc)
@@ -305,4 +307,11 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal 3.0, stu.gpa({last: second_course.credits_earned})
 	end
 
+
+	it "updates last_name table" do
+		stu.LastName = "new-name"
+		stu.save
+		expect LastName.where(student_id: stu.id).size.must_equal 2
+
+	end
 end
