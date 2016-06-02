@@ -57,11 +57,22 @@ class Student < ActiveRecord::Base
 	#~~~VALIDATIONS
 	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
 
-	#~~~SCOPES
+	#~~~SCOPES AND CLASS METHODS
 
 	scope :by_last, lambda {order(LastName: :asc)}
-	scope :current, lambda { where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])}
-	scope :candidates, lambda {where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")}
+	scope :active_student, lambda {where(:EnrollmentStatus => "Active Student")}
+	scope :current, lambda {select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }}
+	scope :candidates, lambda {select {|s| ["Candidate"].include?(s.prog_status) }}
+
+	# def self.current
+	# 	#returns array of all students who are "Active Student" and either "Candidate" or "Prospective"
+	# 	return Student.active_student.select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }
+	# end
+
+	# def self.candidates
+	# 	# returns array of all students who are active and candidates
+	# 	return Student.active_student.select {|s| ["Candidate"].include?(s.prog_status) }
+	# end	
 	
 	def is_advisee_of(advisor_profile)
 		#is this student advisee of the prof with prof_bnum?

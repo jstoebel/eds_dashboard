@@ -35,7 +35,7 @@ class StudentsControllerTest < ActionController::TestCase
       assert_response :success
       user = User.find_by(:UserName => session[:user])
       ability = Ability.new(user)
-      assert_equal Student.all.current.by_last.select {|r| ability.can? :read, r }, assigns(:students)
+      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
   end
 
   test "staff should get index" do
@@ -45,7 +45,7 @@ class StudentsControllerTest < ActionController::TestCase
       assert_response :success
       user = User.find_by(:UserName => session[:user])
       ability = Ability.new(user)
-      assert_equal Student.all.current.by_last.select {|r| ability.can? :read, r }, assigns(:students)
+      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
   end
 
   test "advisor should get index" do
@@ -54,7 +54,7 @@ class StudentsControllerTest < ActionController::TestCase
       assert_response :success
       user = User.find_by(:UserName => session[:user])
       ability = Ability.new(user)
-      assert_equal Student.all.current.by_last.select {|r| ability.can? :read, r }, assigns(:students)
+      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
   end
 
   test "should get show" do
