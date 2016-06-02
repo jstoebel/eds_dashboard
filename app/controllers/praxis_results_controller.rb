@@ -103,7 +103,7 @@ class PraxisResultsController < ApplicationController
   end
 
   def form_setup
-    @students = Student.all.current.by_last
+    @students = Student.all.by_last.current
     @test_options = PraxisTest.all.current
   end
 
@@ -131,7 +131,7 @@ class PraxisResultsController < ApplicationController
   def error_setup
     #if we need to rerender edit or new, this sets up the needed instance variables.
     # flash[:notice] = "Error in creating registration. Please review this form and try again."
-    @students = Student.all.current.by_last
+    @students = Student.all.by_last.current
     @test_options = PraxisTest.all.current
   end
 

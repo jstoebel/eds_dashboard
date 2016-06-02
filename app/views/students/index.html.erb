@@ -26,7 +26,7 @@
               <td><%= student.FirstName %> <%= student.PreferredFirst.present? ? "(#{student.PreferredFirst})" : nil %></td>
               <td><%= student.MiddleName %></td>
               <td><%= student.LastName %> <%= student.PrevLast.present? ? "(#{student.PrevLast})" : nil %></td>
-              <td><%= student.ProgStatus %></td>
+              <td><%= student.prog_status %></td>
               <td class="actions">
     
                   <% if can? :show, Student %>

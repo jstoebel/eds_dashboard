@@ -137,56 +137,5 @@ class ProgExitTest < ActiveSupport::TestCase
 		assert_equal(exit_new.ExitTerm, 201511)
 	end
 
-	test "change status to completer" do
-
-		# THIS TEST IS BROKEN AND THIS FETURE WILL BE REIMPLEMENTED SOON
-		# stu = Student.where(ProgStatus: "Candidate", EnrollmentStatus: "Graduation").first
-		# adm_app = stu.adm_tep.find_by(TEPAdmit: true)
-		# #make an exit for this student
-		# new_exit = ProgExit.new
-
-		# exit_term = ApplicationController.helpers.current_term({
-		# 	:exact => false,
-		# 	:plan_b => :forward,
-		# 	:date => (adm_app.TEPAdmitDate) + 360	#1 year after admit
-		# })
-
-		# completer_code = ExitCode.find_by :ExitCode => "1849"
-
-		# new_exit.update_attributes({
-		# 	student_id: stu.id, Program_ProgCode: stu.programs.first.id, 
-		# 	ExitCode_ExitCode: completer_code.id, ExitTerm: exit_term, 
-		# 	ExitDate: exit_term.StartDate, GPA: 3, GPA_last60: 3,})
-
-
-		# assert_equal "Completer", stu.ProgStatus
-
-	end
-
-	test "change status to dropped" do
-
-		# THIS TEST IS BROKEN AND THIS FETURE WILL BE REIMPLEMENTED SOON
-		# #admit the prospective student,
-		# stu = Student.find_by(ProgStatus: "Candidate", EnrollmentStatus: "Active Student")
-		# adm_apps = stu.adm_tep.where(TEPAdmit: true)
-		
-		# #for each app, exit as dropped
-		# adm_apps.each do |app|
-
-		# 	#exit as completer
-		# 	new_exit = ProgExit.new
-		# 	exit_date = (app.TEPAdmitDate) + 365
-		# 	exit_term = ApplicationController.helpers.current_term(exact: false, date: exit_date)
-
-		# 	drop_code = ExitCode.find_by :ExitCode => "1826"
-		# 	new_exit.update_attributes(
-		# 		{student_id: stu.id, Program_ProgCode: app.Program_ProgCode, 
-		# 			ExitCode_ExitCode: drop_code.id, ExitTerm: exit_term, 
-		# 			ExitDate: exit_date, GPA: 3, GPA_last60: 3})
-
-		# end
-		# assert_equal 0, AdmTep.open(stu.id).size
-		# assert_equal("Dropped", stu.ProgStatus)
-	end
 
 end 

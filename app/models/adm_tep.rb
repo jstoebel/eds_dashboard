@@ -35,7 +35,6 @@ class AdmTep < ActiveRecord::Base
   before_validation :check_fks
   before_validation :set_gpas
   before_validation :set_credits
-  after_save :change_status
 
   #SCOPES 
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
@@ -119,20 +118,6 @@ class AdmTep < ActiveRecord::Base
     self.errors.add(:Program_ProgCode, "No program selected.") unless self.Program_ProgCode.present?
     self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") unless self.BannerTerm_BannerTerm.present?
     self.errors.add(:student_file_id, "Please attach an admission letter.") unless (self.student_file.present? or self.TEPAdmit == nil)
-  end
-
-
-  def change_status
-
-    #if applcation was successfully saved, change student's ProgStatus
-    if self.TEPAdmit == true
-
-      stu = self.student
-      stu.update_attributes :ProgStatus => "Candidate"
-      if stu.save
-      end
-      # self.student.update_attributes :ProgStatus => "Candidate"
-    end
   end
 
 end

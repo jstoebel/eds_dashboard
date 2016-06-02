@@ -70,7 +70,8 @@ class AdmStControllerTest < ActionController::TestCase
         AdmSt.delete_all      #for this test, delete all applications to avoid conflicting open applications
         load_session(r)
         term = BannerTerm.current_term({:exact => true, :date => Date.today})
-        stu = Student.where(ProgStatus: "Candidate").first
+        stu = Student.candidates.first
+        # stu = Student.where(ProgStatus: "Candidate").first
         post :create, {:adm_st => {
           :student_id => stu.id,
           :BannerTerm_BannerTerm => term.id
@@ -284,7 +285,7 @@ class AdmStControllerTest < ActionController::TestCase
   test "should not post create bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      stu = Student.where(ProgStatus: "Candidate").first
+      stu = Student.candidates.first
       post :create, {:adm_st => {
         :student_id => stu.id}
       }

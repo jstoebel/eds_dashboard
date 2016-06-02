@@ -9,7 +9,6 @@
 #  MiddleName       :string(45)
 #  LastName         :string(45)       not null
 #  PrevLast         :string(45)
-#  ProgStatus       :string(45)       default("Prospective")
 #  EnrollmentStatus :string(45)
 #  Classification   :string(45)
 #  CurrentMajor1    :string(45)
@@ -37,14 +36,12 @@ base: &base
   FirstName: Prospective
   LastName: Student
   EnrollmentStatus: Active Student
-  ProgStatus: Prospective
   Classification: Junior
 
 candidate: &candidate
   Bnum: "B00222222"
   FirstName: Candidate
   LastName: Student
-  ProgStatus: Candidate
   EnrollmentStatus: Active Student
   Classification: Junior
 
@@ -52,7 +49,6 @@ senior_candidate: &candidate
   Bnum: "B00333333"
   FirstName: Candidate
   LastName: PreStudentTeacher
-  ProgStatus: Candidate
   EnrollmentStatus: Active Student
   Classification: Senior
 
@@ -71,7 +67,6 @@ graduate:
   FirstName: Graduate
   LastName: Still Candidate
   EnrollmentStatus: Graduation
-  ProgStatus: Candidate
   Classification: Senior
 
 #completer and graudate (with an open program)
@@ -80,6 +75,5 @@ grad_completer:
   FirstName: Graudate
   LastName: Completer
   EnrollmentStatus: Graduation
-  ProgStatus: Completer
   Classification: Senior
 #TODO student who was admitted but does not have a TEP major.

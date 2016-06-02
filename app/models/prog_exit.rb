@@ -26,8 +26,6 @@ class ProgExit < ActiveRecord::Base
 	#CALLBACKS
 	before_validation :add_term
 
-	after_save :change_status
-
 	#SCOPES
 	scope :by_term, ->(term) {where("ExitTerm = ?", term)}
 
@@ -106,31 +104,6 @@ class ProgExit < ActiveRecord::Base
 			end
 
 		end
-	end
-
-	def change_status
-		#program completion -> student becomes a completer
-		#non complete exit -> student becomes dropped if they have no unexited programs
-		
-		stu = self.student
-		
-		completer_code = ExitCode.find_by :ExitCode => "1849"
-		if self.ExitCode_ExitCode == completer_code.id
-
-			stu.ProgStatus = "Completer"
-			stu.save
-
-		elsif stu.ProgStatus == "Candidate"		#exit wasn't completion
-
-
-			if AdmTep.open(stu.Bnum).size == 0
-				#no open programs left after save
-				stu.ProgStatus = "Dropped"
-				stu.save
-				
-			end	
-		end
-
 	end
 
 end
