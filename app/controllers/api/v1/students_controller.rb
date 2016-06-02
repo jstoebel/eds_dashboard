@@ -16,26 +16,47 @@ module Api
 
       def create
         #create a new student based on params
-        @student = Student.new params[:student]
-
-        puts "******"
-        puts params[:student]
-        puts @student.inspect
-        puts "******"
-        1/0
-        # respond_with @student
+        @student = Student.new new_params
+        @student.save
+        respond_with @student
       end
 
       def update
+
+        @student = Student.find params[:id]
+
+        @student.assign_attributes update_params
+        @student.PrevLast = @student.LastName_was if @student.LastName_changed? #register prior last name if changed
+
+        if @student.EnrollmentStatus.include?("Dismissed")
+          #TODO: logic if student has left the college
+            # 1: exit(s) needed if candidate
+            # what else
+        end
+
+        
+        #logic if student doesn't have EDS
+
+        #logic if student doesn't have cert concentration
 
       end
 
       private
 
       def new_params
+        params.require(:student).permit(:Bnum, :FirstName, :MiddleName, :LastName, 
+          :EnrollmentStatus, :Classification, 
+          :CurrentMajor1, :concentration1, :CurrentMajor2, :concentration2,
+          :TermMajor, :CurrentMinors, :Email, :CPO, :withdrawls, :term_graduated,
+          :gender, :race, :hispanic, :term_expl_major, :term_major)
+      end
 
-        #TODO: need to add attributes to model before this can be completed. See Wiki in banner-updater
-        params.require(:student).permit(:Bnum, :FirstName, :MiddleName, :LastName, :EnrollmentStatus, :Classification)
+      def update_params
+        params.require(:student).permit(:EnrollmentStatus, :Classification, :CurrentMajor1, 
+          :concentration1, :CurrentMajor2, :concentration2, :CurrentMinors, 
+          :Email, :CPO, :withdrawls, :term_graduated, 
+          :gender, :race, :hispanic, 
+          :term_expl_major, :term_major)
       end
 
     end
