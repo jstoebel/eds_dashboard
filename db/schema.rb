@@ -394,8 +394,9 @@ ActiveRecord::Schema.define(version: 20160601190831) do
     t.string  "EnrollmentStatus", limit: 45
     t.string  "Classification",   limit: 45
     t.string  "CurrentMajor1",    limit: 45
+    t.string  "concentration1"
     t.string  "CurrentMajor2",    limit: 45
-    t.integer "TermMajor"
+    t.string  "concentration2"
     t.string  "CellPhone",        limit: 45
     t.string  "CurrentMinors",    limit: 45
     t.string  "Email",            limit: 100
@@ -405,10 +406,14 @@ ActiveRecord::Schema.define(version: 20160601190831) do
     t.string  "gender"
     t.string  "race"
     t.boolean "hispanic"
+    t.integer "term_expl_major"
+    t.integer "term_major"
   end
 
   add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree
+  add_index "students", ["term_expl_major"], name: "students_term_expl_major_fk", using: :btree
   add_index "students", ["term_graduated"], name: "students_term_graduated_fk", using: :btree
+  add_index "students", ["term_major"], name: "students_term_major_fk", using: :btree
 
   create_table "tep_advisors", force: true do |t|
     t.string  "AdvisorBnum", limit: 9,  null: false
@@ -512,7 +517,9 @@ ActiveRecord::Schema.define(version: 20160601190831) do
 
   add_foreign_key "student_files", "students", name: "student_files_student_id_fk"
 
+  add_foreign_key "students", "banner_terms", name: "students_term_expl_major_fk", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", name: "students_term_graduated_fk", column: "term_graduated", primary_key: "BannerTerm"
+  add_foreign_key "students", "banner_terms", name: "students_term_major_fk", column: "term_major", primary_key: "BannerTerm"
 
   add_foreign_key "tep_advisors", "users", name: "tep_advisors_user_id_fk"
 
