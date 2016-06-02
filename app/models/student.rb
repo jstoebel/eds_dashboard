@@ -56,6 +56,16 @@ class Student < ActiveRecord::Base
 
 	#~~~VALIDATIONS
 	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
+	validates_uniqueness_of :Bnum
+
+	# ~~~ CLASS VARIABLES
+	CERT_CONCENTRATIONS = ["Middle Grades Science Cert",
+	"MUS Ed - Instrumental Emphasis",
+	"MUS Ed - Vocal Emphasis",
+	"Elementary P-5",
+	"Teaching & Curr with Cert",
+	"General Curriculum",
+	"Education Studies General Cur"]
 
 	#~~~SCOPES AND CLASS METHODS
 
@@ -64,16 +74,6 @@ class Student < ActiveRecord::Base
 	scope :current, lambda {select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }}
 	scope :candidates, lambda {select {|s| ["Candidate"].include?(s.prog_status) }}
 
-	# def self.current
-	# 	#returns array of all students who are "Active Student" and either "Candidate" or "Prospective"
-	# 	return Student.active_student.select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }
-	# end
-
-	# def self.candidates
-	# 	# returns array of all students who are active and candidates
-	# 	return Student.active_student.select {|s| ["Candidate"].include?(s.prog_status) }
-	# end	
-	
 	def is_advisee_of(advisor_profile)
 		#is this student advisee of the prof with prof_bnum?
 		adv_assigns = self.advisor_assignments	#students advisor assignments
@@ -235,6 +235,16 @@ class Student < ActiveRecord::Base
 
 	end
 
+	def has_cert_concentration?
+		my_concentrations = self.concentration1.andand.split(";") &&+ self.concentration2.andand.split(";")
+		my_concentrations.andand.each do |c|
+			if self.CERT_CONCENTRATIONS.include?(c)
+				return true
+			end
+		end
+		return false
+	end
+
 	def credits(last_term)
 		#last_term: term_id if last term to use total
 		credits = 0
@@ -250,7 +260,7 @@ class Student < ActiveRecord::Base
 	def process_last_name
 		#create a new entry in last names table with current last name
 		if self.LastName_changed?
-			LastName.create({student_id: self.id, last_name: "random"})
+			LastName.create({student_id: self.id, last_name: self.LastName})
 		end
 	end
 
