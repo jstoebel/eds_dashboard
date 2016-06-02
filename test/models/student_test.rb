@@ -37,16 +37,22 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal(expected.slice(0, expected.size), actual.slice(0, actual.size))
 	end
 
+	test "active_student" do
+		expected = Student.where(:EnrollmentStatus => "Active Student")
+		actual = Student.active_student
+		assert_equal(expected.to_a, actual.to_a)
+	end
+
 	test "current scope" do
 		#tests the scope called current
-		expected = Student.all.where("ProgStatus in (?) and EnrollmentStatus='Active Student'", ['Candidate', 'Prospective'])
+		expected = Student.select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }
 		actual = Student.current
 		assert_equal(expected.slice(0, expected.size), actual.slice(0, actual.size))
 
 	end
 
 	test "candidates scope" do
-		expected = Student.all.where("ProgStatus='Candidate' and EnrollmentStatus='Active Student'")
+		expected = Student.select {|s| ["Candidate"].include?(s.prog_status) }
 		actual = Student.candidates
 		assert_equal(expected.slice(0, expected.size), actual.slice(0, actual.size))
 	end

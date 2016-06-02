@@ -130,7 +130,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
 
       post :create, {:praxis_result => test_params}
 
-      assert_equal assigns(:students), Student.all.current.by_last
+      assert_equal assigns(:students), Student.all.by_last.current
       assert_equal assigns(:test_options), PraxisTest.all.current
       assert_template ('new')
     end
