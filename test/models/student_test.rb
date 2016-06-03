@@ -9,18 +9,23 @@
 #  MiddleName       :string(45)
 #  LastName         :string(45)       not null
 #  PrevLast         :string(45)
-#  ProgStatus       :string(45)       default("Prospective")
 #  EnrollmentStatus :string(45)
 #  Classification   :string(45)
 #  CurrentMajor1    :string(45)
+#  concentration1   :string(255)
 #  CurrentMajor2    :string(45)
-#  TermMajor        :integer
-#  PraxisICohort    :string(45)
-#  PraxisIICohort   :string(45)
+#  concentration2   :string(255)
 #  CellPhone        :string(45)
 #  CurrentMinors    :string(45)
 #  Email            :string(100)
 #  CPO              :string(45)
+#  withdrawals      :text
+#  term_graduated   :integer
+#  gender           :string(255)
+#  race             :string(255)
+#  hispanic         :boolean
+#  term_expl_major  :integer
+#  term_major       :integer
 #
 
 require 'test_helper'
@@ -349,6 +354,73 @@ class StudentTest < ActiveSupport::TestCase
 	it "returns false for is_eds_major?" do
 		s = FactoryGirl.create :student, {:CurrentMajor1 => "English"}
 		expect s.is_eds_major?.must_equal false
+	end
+
+	let(:students){ 
+		[
+	        {
+	            "Bnum"=> "B00999992",
+	            "FirstName"=> "Joe",
+	            "MiddleName"=> "J",
+	            "LastName"=> "Joseph",
+	            "EnrollmentStatus"=>"Active Student",
+	            "Classification"=> "Senior",
+	            "CurrentMajor1"=> "Education Studies",
+	            "concentration1"=> "Elementary",
+	            "CurrentMajor2"=> "English",
+	            "concentration2"=> "Literature",
+	            "CurrentMinors"=> "spamspamspam",
+	            "Email"=>"josephj@berea.edu",
+	            "CPO"=>"123",
+	            "withdrawals"=>"eggs; bakedbeans",
+	            "term_graduated"=> 201611,
+	            "gender"=> "Male",
+	            "race"=> "none of your bussiness",
+	            "hispanic"=> true,
+	            "term_expl_major"=> 201411,
+	            "term_major"=> 201511
+	        }, 
+
+	        {
+	            "Bnum"=> "B00999991",
+	            "FirstName"=> "Jacob",
+	            "MiddleName"=> "B",
+	            "LastName"=> "Stoebel",
+	            "EnrollmentStatus"=>"Active Student",
+	            "Classification"=> "Senior",
+	            "CurrentMajor1"=> "Education Studies",
+	            "concentration1"=> "Elementary",
+	            "CurrentMajor2"=> "English",
+	            "concentration2"=> "Literature",
+	            "CurrentMinors"=> "spamspamspam",
+	            "Email"=>"stoebelj@berea.edu",
+	            "CPO"=>"123",
+	            "withdrawals"=>"eggs; bakedbeans",
+	            "term_graduated"=> 201611,
+	            "gender"=> "Male",
+	            "race"=> "none of your bussiness",
+	            "hispanic"=> true,
+	            "term_expl_major"=> 201411,
+	            "term_major"=> 201511
+	        }  
+
+
+		]}
+
+	it "batch uploads students" do
+		s0 = Student.all.size
+		Student.batch_create(students)
+		s1 = Student.all.size
+		expect (s1-s0).must_equal(2)
+	end
+
+	it "does not batch upload students" do
+		#try to submit the same data twice. We should end up with two new records (not four)
+
+		s0 = Student.all.size
+		2.times {|i| Student.batch_create(students)}
+		s1 = Student.all.size
+		expect (s1-s0).must_equal(2)
 	end
 
 end

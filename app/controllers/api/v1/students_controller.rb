@@ -6,8 +6,10 @@ module Api
       # http_basic_authenticate_with name: "spam", password: "eggs"
       respond_to :json
 
-      def index
-        respond_with Student.all
+      def api_index
+        puts "api controller!"
+        @students = Student.all
+        respond_with @students 
       end
 
       def show
@@ -15,10 +17,15 @@ module Api
       end
 
       def create
-        #create a new student based on params
-        @student = Student.new new_params
-        @student.save
-        respond_with @student
+        #create new students based on params
+        white_listed = params[:students].map{|stu| new_params(stu)}  #a white listed array of params 
+        result = Student.batch_create(white_listed)
+        puts result[:msg]
+        if result[:success]
+          render json: result, status: :created
+        else
+          render json: result, status: :unprocessable_entity
+        end
       end
 
       def update
@@ -47,22 +54,24 @@ module Api
           #logic if student doesn't have cert concentration
         end
 
+        respond_with @student
+
       end
 
       private
 
-      def new_params
-        params.require(:student).permit(:Bnum, :FirstName, :MiddleName, :LastName, 
+      def new_params(stu)
+        stu.permit(:Bnum, :FirstName, :MiddleName, :LastName, 
           :EnrollmentStatus, :Classification, 
           :CurrentMajor1, :concentration1, :CurrentMajor2, :concentration2,
-          :TermMajor, :CurrentMinors, :Email, :CPO, :withdrawls, :term_graduated,
+          :TermMajor, :CurrentMinors, :Email, :CPO, :withdrawals, :term_graduated,
           :gender, :race, :hispanic, :term_expl_major, :term_major)
       end
 
       def update_params
         params.require(:student).permit(:EnrollmentStatus, :Classification, :CurrentMajor1, 
           :concentration1, :CurrentMajor2, :concentration2, :CurrentMinors, 
-          :Email, :CPO, :withdrawls, :term_graduated, 
+          :Email, :CPO, :withdrawals, :term_graduated, 
           :gender, :race, :hispanic, 
           :term_expl_major, :term_major)
       end
