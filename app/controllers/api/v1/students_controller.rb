@@ -25,6 +25,10 @@ module Api
 
         @student = Student.find params[:id]
 
+        was_cert = @student.has_cert_concentration?
+
+        was_eds = @student.is_eds_major?
+
         @student.assign_attributes update_params
         @student.PrevLast = @student.LastName_was if @student.LastName_changed? #register prior last name if changed
 
@@ -35,9 +39,13 @@ module Api
         end
 
         
-        #logic if student doesn't have EDS
+        if was_eds and !@student.is_eds_major?
+          #logic if student doesn't have EDS
+        end
 
-        #logic if student doesn't have cert concentration
+        if was_cert and !@student.has_cert_concentration?
+          #logic if student doesn't have cert concentration
+        end
 
       end
 

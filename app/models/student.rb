@@ -235,10 +235,16 @@ class Student < ActiveRecord::Base
 
 	end
 
+	def is_eds_major?
+		return [self.CurrentMajor1, self.CurrentMajor2].include?("Education Studies") 
+	end
+
 	def has_cert_concentration?
-		my_concentrations = self.concentration1.andand.split(";") &&+ self.concentration2.andand.split(";")
+
+		my_concentrations_2d = [self.concentration1.andand.split(";"), self.concentration2.andand.split(";")]
+		my_concentrations = my_concentrations_2d.flatten.select{|i| i.present?}
 		my_concentrations.andand.each do |c|
-			if self.CERT_CONCENTRATIONS.include?(c)
+			if CERT_CONCENTRATIONS.include?(c)
 				return true
 			end
 		end
