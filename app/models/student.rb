@@ -9,18 +9,23 @@
 #  MiddleName       :string(45)
 #  LastName         :string(45)       not null
 #  PrevLast         :string(45)
-#  ProgStatus       :string(45)       default("Prospective")
 #  EnrollmentStatus :string(45)
 #  Classification   :string(45)
 #  CurrentMajor1    :string(45)
+#  concentration1   :string(255)
 #  CurrentMajor2    :string(45)
-#  TermMajor        :integer
-#  PraxisICohort    :string(45)
-#  PraxisIICohort   :string(45)
+#  concentration2   :string(255)
 #  CellPhone        :string(45)
 #  CurrentMinors    :string(45)
 #  Email            :string(100)
 #  CPO              :string(45)
+#  withdrawals      :text
+#  term_graduated   :integer
+#  gender           :string(255)
+#  race             :string(255)
+#  hispanic         :boolean
+#  term_expl_major  :integer
+#  term_major       :integer
 #
 
 class Student < ActiveRecord::Base
@@ -74,6 +79,27 @@ class Student < ActiveRecord::Base
 	scope :current, lambda {select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }}
 	scope :candidates, lambda {select {|s| ["Candidate"].include?(s.prog_status) }}
 
+	def self.batch_create(hashes)
+		#bulk inserts student records
+		# hashes: array of hashes each containing params
+		# returns hash of results reporting success and a message
+
+		begin
+			Student.transaction do
+				hashes.each do |stu_hash|
+					Student.create! stu_hash
+				end #loop
+			end #transaction
+		rescue ActiveRecord::RecordInvalid => msg
+			#some record couldn't be saved
+			return {:success => false, :msg => msg.to_s}
+		end #exception handle
+		return {:success => true, :msg => "Successfully inserted #{hashes.size} records."}
+
+	end
+
+
+	#~~~ INSTANCE METHODS
 	def is_advisee_of(advisor_profile)
 		#is this student advisee of the prof with prof_bnum?
 		adv_assigns = self.advisor_assignments	#students advisor assignments

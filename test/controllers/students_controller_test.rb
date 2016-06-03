@@ -9,18 +9,23 @@
 #  MiddleName       :string(45)
 #  LastName         :string(45)       not null
 #  PrevLast         :string(45)
-#  ProgStatus       :string(45)       default("Prospective")
 #  EnrollmentStatus :string(45)
 #  Classification   :string(45)
 #  CurrentMajor1    :string(45)
+#  concentration1   :string(255)
 #  CurrentMajor2    :string(45)
-#  TermMajor        :integer
-#  PraxisICohort    :string(45)
-#  PraxisIICohort   :string(45)
+#  concentration2   :string(255)
 #  CellPhone        :string(45)
 #  CurrentMinors    :string(45)
 #  Email            :string(100)
 #  CPO              :string(45)
+#  withdrawals      :text
+#  term_graduated   :integer
+#  gender           :string(255)
+#  race             :string(255)
+#  hispanic         :boolean
+#  term_expl_major  :integer
+#  term_major       :integer
 #
 
 require 'test_helper'
