@@ -5,12 +5,13 @@ class StudentsControllerTest < ActionController::TestCase
 
   def setup
     @controller = Api::V1::StudentsController.new
+	@request.headers["Accept"] = "1"
   end
 
 	describe "index" do
 		it "returns all students" do
-			# get :index
-			# expect assigns(:students).must_equal Student.all
+			get :index, format: :json
+			expect assigns(:students).must_equal Student.all
 		end
 
 		it "responds 200" do
