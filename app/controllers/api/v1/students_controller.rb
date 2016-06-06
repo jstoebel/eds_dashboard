@@ -3,11 +3,9 @@ module Api
 
     class StudentsController < ApplicationController
       protect_from_forgery with: :null_session
-      # http_basic_authenticate_with name: "spam", password: "eggs"
       respond_to :json
 
-      def api_index
-        puts "api controller!"
+      def index
         @students = Student.all
         respond_with @students 
       end
@@ -30,31 +28,39 @@ module Api
 
       def update
 
-        @student = Student.find params[:id]
-
-        was_cert = @student.has_cert_concentration?
-
-        was_eds = @student.is_eds_major?
-
-        @student.assign_attributes update_params
-        @student.PrevLast = @student.LastName_was if @student.LastName_changed? #register prior last name if changed
-
-        if @student.EnrollmentStatus.include?("Dismissed")
-          #TODO: logic if student has left the college
-            # 1: exit(s) needed if candidate
-            # what else
+        white_listed = params[:students].map{|stu| update_params(stu)}
+        result = Student.batch_update(white_listed)
+        if result[:success]
+          render json: result, status: :ok
+        else
+          render json: result, status: :unprocessable_entity
         end
+
+        # @student = Student.find params[:id]
+
+        # was_cert = @student.has_cert_concentration?
+        # was_eds = @student.is_eds_major?
+
+        # @student.assign_attributes update_params
+        # @student.PrevLast = @student.LastName_was if @student.LastName_changed? #register prior last name if changed
+
+        # if @student.EnrollmentStatus.include?("Dismissed")
+        #   #TODO: logic if student has left the college
+        #     # 1: exit(s) needed if candidate
+        #     # what else
+        # end
 
         
-        if was_eds and !@student.is_eds_major?
-          #logic if student doesn't have EDS
-        end
+        # if was_eds and !@student.is_eds_major?
+        #   #logic if student doesn't have EDS
+        # end
 
-        if was_cert and !@student.has_cert_concentration?
-          #logic if student doesn't have cert concentration
-        end
+        # if was_cert and !@student.has_cert_concentration?
+        #   #logic if student doesn't have cert concentration
+        # end
+        # @student.save
 
-        respond_with @student
+        # respond_with @student
 
       end
 
@@ -68,8 +74,8 @@ module Api
           :gender, :race, :hispanic, :term_expl_major, :term_major)
       end
 
-      def update_params
-        params.require(:student).permit(:EnrollmentStatus, :Classification, :CurrentMajor1, 
+      def update_params(stu)
+        stu.require(:student).permit(:id, :EnrollmentStatus, :Classification, :CurrentMajor1, 
           :concentration1, :CurrentMajor2, :concentration2, :CurrentMinors, 
           :Email, :CPO, :withdrawals, :term_graduated, 
           :gender, :race, :hispanic, 

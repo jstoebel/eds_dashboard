@@ -98,6 +98,24 @@ class Student < ActiveRecord::Base
 
 	end
 
+	def self.batch_update(hashes)
+		#bulk updates student records
+		# hashes: array of hashes each containing params
+		# returns hash of results reporting success and a message
+
+		begin
+			Student.transaction do
+				hashes.each do |stu_hash|
+					s = Student.find stu_hash[:id]
+					s.update_attributes! stu_hash.reject{|k,v| k == :id}
+				end 	# loop
+			end # transaction
+		rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => msg #also need to catch if Record not found
+			return {:success => false, :msg => msg.to_s}
+		end #exception handle
+		return {:success => true, :msg => "Successfully updated #{hashes.size} records."}
+	end
+
 
 	#~~~ INSTANCE METHODS
 	def is_advisee_of(advisor_profile)
@@ -136,7 +154,6 @@ class Student < ActiveRecord::Base
 	def AltID
 		return self.id
 	end
-
 
 	def name_readable(file_as = false)
     #returns full student name with additional first and last names as needed
