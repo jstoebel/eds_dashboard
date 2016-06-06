@@ -212,9 +212,10 @@ Rails.application.routes.draw do
 
 
   #~~~API ROUTES
+  # credit: The code was found here: http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
   namespace :api, defaults: {formats: 'json'} do
   	# /api/... Api::
-  	scope module: :v1, contraints: ApiConstraints.new(version: 1) do
+  	scope module: :v1 do #, contraints: ApiConstraints.new(version: 1) do
   		resources :students, :only => [:index, :show, :create, :update]
   	end 
   end
