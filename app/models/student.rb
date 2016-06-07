@@ -107,6 +107,7 @@ class Student < ActiveRecord::Base
 			Student.transaction do
 				hashes.each do |stu_hash|
 					s = Student.find stu_hash[:id]
+					#need to throw out id. Don't change that!
 					s.update_attributes! stu_hash.reject{|k,v| k == :id}
 				end 	# loop
 			end # transaction
