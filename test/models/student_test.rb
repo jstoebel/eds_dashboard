@@ -326,35 +326,6 @@ class StudentTest < ActiveSupport::TestCase
 
 	end
 
-	# it "returns true has_cert_concentration?" do
-	# 	s = FactoryGirl.create :student, {:concentration1 => "Middle Grades Science Cert; spam", 
-	# 		:concentration2 => "eggs; baked beans"}
-
-	# 	expect s.has_cert_concentration?.must_equal true
-
-	# end
-
-	# it "returns false for has_cert_concentration?" do
-	# 	s = FactoryGirl.create :student, {:concentration1 => "spamspamspam; spam", 
-	# 		:concentration2 => "eggs; baked beans"}
-
-	# 	expect s.has_cert_concentration?.must_equal false
-	# end
-
-	# it "returns true for is_eds_major?" do
-	# 	s = FactoryGirl.create :student, {:CurrentMajor1 => "Education Studies",
-	# 		:CurrentMajor2 => "Education Studies"}
-
-	# 	(1..2).each do |i|
-	# 		expect s.is_eds_major?.must_equal true
-	# 		s.assign_attributes({"CurrentMajor1" => nil})
-	# 	end
-	# end
-
-	# it "returns false for is_eds_major?" do
-	# 	s = FactoryGirl.create :student, {:CurrentMajor1 => "English"}
-	# 	expect s.is_eds_major?.must_equal false
-	# end
 
 	describe "eds_major" do
 		describe "from major" do
