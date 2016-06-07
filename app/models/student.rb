@@ -278,20 +278,27 @@ class Student < ActiveRecord::Base
 
 	end
 
-	def is_eds_major?
-		return [self.CurrentMajor1, self.CurrentMajor2].include?("Education Studies") 
-	end
+	#methods for is/was eds_major/cert_concentration
 
-	def has_cert_concentration?
+	["is", "was"].each do |pre|
 
-		my_concentrations_2d = [self.concentration1.andand.split(";"), self.concentration2.andand.split(";")]
-		my_concentrations = my_concentrations_2d.flatten.select{|i| i.present?}
-		my_concentrations.andand.each do |c|
-			if CERT_CONCENTRATIONS.include?(c)
-				return true
-			end
+		suffix = pre=="was" ? "_was" : ""
+		define_method("#{pre}_eds_major?") do
+			majors = (1..2).map{|i| self.send("CurrentMajor#{i}#{suffix}")}	
+			return majors.include?("Education Studies")
 		end
-		return false
+
+		define_method("#{pre}_cert_concentration?") do
+			my_concentrations_2d = [self.send("concentration1#{suffix}").andand.split(";"), self.send("concentration2#{suffix}").andand.split(";")]
+			my_concentrations = my_concentrations_2d.flatten.select{|i| i.present?}
+			my_concentrations.andand.each do |c|
+				if CERT_CONCENTRATIONS.include?(c)
+					return true
+				end
+			end
+			return false
+		end
+
 	end
 
 	def credits(last_term)
