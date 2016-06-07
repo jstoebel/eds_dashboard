@@ -365,23 +365,37 @@ class StudentTest < ActiveSupport::TestCase
 	end
 
 	describe "cert_concentration" do
+		let(:cert_student){FactoryGirl.create :student, {:concentration1 => "Middle Grades Science Cert"}}
+		
 		describe "from cert" do
 			it "to cert" do
+				cert_student.concentration1 = "Middle Grades Science Cert"
+				assert cert_student.was_cert_concentration?
+				assert cert_student.is_cert_concentration?
 			end
 
 			it "to non cert" do
+				cert_student.concentration1 = "nope"
+				assert cert_student.was_cert_concentration?
+				assert_not cert_student.is_cert_concentration?
 			end
 		end
 
 		describe "from non cert" do
+			let(:non_cert_student){FactoryGirl.create :student, {:concentration1 => "something else"}}
+
 			it "to non cert" do
+				non_cert_student.concentration1 = "nope"
+				assert_not non_cert_student.was_cert_concentration?
+				assert_not non_cert_student.is_cert_concentration?
 			end
 
 			it "to cert" do
+				non_cert_student.concentration1 = "Middle Grades Science Cert"
+				assert_not non_cert_student.was_cert_concentration?
+				assert non_cert_student.is_cert_concentration?
 			end
-
 		end
-
 	end
 
 	let(:students){ 
@@ -449,6 +463,12 @@ class StudentTest < ActiveSupport::TestCase
 		2.times {|i| Student.batch_create(students)}
 		s1 = Student.all.size
 		expect (s1-s0).must_equal(2)
+	end
+
+	it "batch updates students" do
+	end
+
+	it "does not batch upload students" do
 	end
 
 end

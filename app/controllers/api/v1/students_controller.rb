@@ -14,11 +14,10 @@ module Api
         respond_with Student.find(params[:id])
       end
 
-      def create
+      def batch_create
         #create new students based on params
         white_listed = params[:students].map{|stu| new_params(stu)}  #a white listed array of params 
         result = Student.batch_create(white_listed)
-        puts result[:msg]
         if result[:success]
           render json: result, status: :created
         else
@@ -26,7 +25,7 @@ module Api
         end
       end
 
-      def update
+      def batch_update
 
         white_listed = params[:students].map{|stu| update_params(stu)}
         result = Student.batch_update(white_listed)
@@ -75,7 +74,7 @@ module Api
       end
 
       def update_params(stu)
-        stu.require(:student).permit(:id, :EnrollmentStatus, :Classification, :CurrentMajor1, 
+        stu.permit(:id, :EnrollmentStatus, :Classification, :CurrentMajor1, 
           :concentration1, :CurrentMajor2, :concentration2, :CurrentMinors, 
           :Email, :CPO, :withdrawals, :term_graduated, 
           :gender, :race, :hispanic, 
