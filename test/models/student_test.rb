@@ -326,34 +326,91 @@ class StudentTest < ActiveSupport::TestCase
 
 	end
 
-	it "returns true has_cert_concentration?" do
-		s = FactoryGirl.create :student, {:concentration1 => "Middle Grades Science Cert; spam", 
-			:concentration2 => "eggs; baked beans"}
+	# it "returns true has_cert_concentration?" do
+	# 	s = FactoryGirl.create :student, {:concentration1 => "Middle Grades Science Cert; spam", 
+	# 		:concentration2 => "eggs; baked beans"}
 
-		expect s.has_cert_concentration?.must_equal true
+	# 	expect s.has_cert_concentration?.must_equal true
 
-	end
+	# end
 
-	it "returns false for has_cert_concentration?" do
-		s = FactoryGirl.create :student, {:concentration1 => "spamspamspam; spam", 
-			:concentration2 => "eggs; baked beans"}
+	# it "returns false for has_cert_concentration?" do
+	# 	s = FactoryGirl.create :student, {:concentration1 => "spamspamspam; spam", 
+	# 		:concentration2 => "eggs; baked beans"}
 
-		expect s.has_cert_concentration?.must_equal false
-	end
+	# 	expect s.has_cert_concentration?.must_equal false
+	# end
 
-	it "returns true for is_eds_major?" do
-		s = FactoryGirl.create :student, {:CurrentMajor1 => "Education Studies",
-			:CurrentMajor2 => "Education Studies"}
+	# it "returns true for is_eds_major?" do
+	# 	s = FactoryGirl.create :student, {:CurrentMajor1 => "Education Studies",
+	# 		:CurrentMajor2 => "Education Studies"}
 
-		(1..2).each do |i|
-			expect s.is_eds_major?.must_equal true
-			s.assign_attributes({"CurrentMajor1" => nil})
+	# 	(1..2).each do |i|
+	# 		expect s.is_eds_major?.must_equal true
+	# 		s.assign_attributes({"CurrentMajor1" => nil})
+	# 	end
+	# end
+
+	# it "returns false for is_eds_major?" do
+	# 	s = FactoryGirl.create :student, {:CurrentMajor1 => "English"}
+	# 	expect s.is_eds_major?.must_equal false
+	# end
+
+	describe "eds_major" do
+		describe "from major" do
+
+			let(:major_student){FactoryGirl.create :student, {:CurrentMajor1 => "Education Studies"}}
+
+			it "to major" do
+				major_student.CurrentMajor1 = "Education Studies"
+				assert major_student.was_eds_major?
+				assert major_student.is_eds_major?
+			end
+
+			it "to non major" do
+				major_student.CurrentMajor1 = "English"
+				assert major_student.was_eds_major?				
+				assert_not major_student.is_eds_major?
+			end
 		end
+
+		let(:non_major){FactoryGirl.create :student, {:CurrentMajor1 => "English"}}
+
+		describe "from non major" do
+			it "to non major" do
+				non_major.CurrentMajor1 = "English"
+				assert_not non_major.was_eds_major?		
+				assert_not non_major.is_eds_major?
+			end
+
+			it "to major" do
+				non_major.CurrentMajor1 = "Education Studies"
+				assert_not non_major.was_eds_major?
+				assert non_major.is_eds_major?
+			end
+
+		end
+
 	end
 
-	it "returns false for is_eds_major?" do
-		s = FactoryGirl.create :student, {:CurrentMajor1 => "English"}
-		expect s.is_eds_major?.must_equal false
+	describe "cert_concentration" do
+		describe "from cert" do
+			it "to cert" do
+			end
+
+			it "to non cert" do
+			end
+		end
+
+		describe "from non cert" do
+			it "to non cert" do
+			end
+
+			it "to cert" do
+			end
+
+		end
+
 	end
 
 	let(:students){ 
