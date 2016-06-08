@@ -223,6 +223,13 @@ Rails.application.routes.draw do
 	  			patch "batch_update"
   			end
   		end
+
+  		resource :transcripts, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
+  			collection do
+	  			post "batch_upsert"
+  			end
+  		end
+
   	end 
   end
 
