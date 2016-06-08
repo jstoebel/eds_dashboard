@@ -35,32 +35,6 @@ module Api
           render json: result, status: :unprocessable_entity
         end
 
-        # @student = Student.find params[:id]
-
-        # was_cert = @student.has_cert_concentration?
-        # was_eds = @student.is_eds_major?
-
-        # @student.assign_attributes update_params
-        # @student.PrevLast = @student.LastName_was if @student.LastName_changed? #register prior last name if changed
-
-        # if @student.EnrollmentStatus.include?("Dismissed")
-        #   #TODO: logic if student has left the college
-        #     # 1: exit(s) needed if candidate
-        #     # what else
-        # end
-
-        
-        # if was_eds and !@student.is_eds_major?
-        #   #logic if student doesn't have EDS
-        # end
-
-        # if was_cert and !@student.has_cert_concentration?
-        #   #logic if student doesn't have cert concentration
-        # end
-        # @student.save
-
-        # respond_with @student
-
       end
 
       private
