@@ -70,7 +70,14 @@ class Student < ActiveRecord::Base
 	"Elementary P-5",
 	"Teaching & Curr with Cert",
 	"General Curriculum",
-	"Education Studies General Cur"]
+	"Education Studies General Cur",
+	"Teaching & Curriculum",
+	"Elementary, P-5",
+	"Middle Grades Math",
+	"Middle Grades Science",
+	"Music Education Instrumental Emphasis",
+	"Music Education Vocal Emphasis",
+	"Health and Human Performance, P-12"]
 
 	#~~~SCOPES AND CLASS METHODS
 
