@@ -66,12 +66,14 @@ class StudentsControllerTest < ActionController::TestCase
 		end
 
 		it "does not batch create" do
+			@controller = Api::V1::StudentsController.new 	# you need to explicitly specify the controller
 			post :batch_create, {format: :json, :students => stus} 	#resubmit the same data
 			resp = JSON.parse(response.body)
 			expect resp["msg"].must_equal "Validation failed: Bnum has already been taken"
 		end
 
 		it "returns 422" do
+			@controller = Api::V1::StudentsController.new 	# you need to explicitly specify the controller
 			post :batch_create, {format: :json, :students => stus} 	#resubmit the same data
 			assert_response :unprocessable_entity		
 		end
@@ -80,6 +82,7 @@ class StudentsControllerTest < ActionController::TestCase
 	describe "updates successfully" do
 
 		before do
+			@controller = Api::V1::StudentsController.new
 			@two_stus = Student.all.slice(0,2)
 			update_params = {:CurrentMajor1 => "New Major!"}
 			stu_attrs = @two_stus.map{|s| s.attributes.merge(update_params)}
