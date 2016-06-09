@@ -5,7 +5,9 @@ module Api
       respond_to :json
 
       def batch_upsert
-        #upsert course info based on params
+        # upsert course info based on params
+        # each record must also include a Bnum!
+        # this is how the controller will determine the correct student_id
         white_listed = params[:transcripts].map{|course| preped_params(course)}  #a white listed array of params 
         result = Transcript.batch_upsert(white_listed)
         if result[:success]

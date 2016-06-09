@@ -81,6 +81,11 @@ class Transcript < ActiveRecord::Base
 
     #~~~VALIDATIONS~~~# 
 
+    validates_presence_of :student_id, :crn, :course_code, :term_taken
+
+    validates :crn, uniqueness: { scope: [:student_id, :term_taken],
+        message: "student may not have duplicates of the same course in the same term." }
+
     def set_quality_points
 
         if self.grade_pt.present? && self.credits_earned.present? 
