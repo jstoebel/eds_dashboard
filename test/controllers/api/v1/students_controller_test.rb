@@ -44,7 +44,7 @@ class StudentsControllerTest < ActionController::TestCase
 	#to be used by both create and update
 
 
-	describe "create" do
+	describe "batch_create" do
 		let(:stus){2.times.map{|i| FactoryGirl.attributes_for :student}}
 
 		before do
