@@ -230,6 +230,8 @@ Rails.application.routes.draw do
   			end
   		end
 
+        resource :banner_update, :only => [:create] 
+
   	end 
   end
 

@@ -446,7 +446,6 @@ class StudentTest < ActiveSupport::TestCase
 	            "term_major"=> 201511
 	        }  
 
-
 		]}
 
 	it "batch uploads students" do
@@ -466,9 +465,11 @@ class StudentTest < ActiveSupport::TestCase
 	end
 
 	it "batch updates students" do
+		assert false, "test is not implemented"
 	end
 
 	it "does not batch upload students" do
+		assert false, "test is not implemented"
 	end
 
 end
