@@ -93,18 +93,15 @@
         </td>
         
         <td>
+          
+          <%= button_to(adm_tep_path(app.id), { class: "btn btn-default #{app.TEPAdmit==nil ? "" : "disabled" }", 
+          method: :delete, 
+          data: {confirm: "Are you sure you want to delete this application?"}} ) do %>
+                      <span class="glyphicon glyphicon-trash"></span>
+                  <% end %> 
           <!--Display button for deleting record
-          1) Button in grey if decision has been made
-          2) Button clickable if decision is nil-->
-          <% if app.TEPAdmit != nil %>
-            
-            <button type = 'button' class = "btn btn-default glyphicon glyphicon-trash action-small disabled glyph-only">
-              
-            <!-- This is where the JavaScript is suppose to be, to you know, delete stuff and tell the user they are deleting stuff --> 
-          <% else %>
-            <button type = 'button' class = "btn btn-default glyphicon glyphicon-trash action-small">
-              
-          <% end %>
+          # 1) Button in grey if decision has been made
+          # 2) Button clickable if decision is nil-->
           
         </td>
 
