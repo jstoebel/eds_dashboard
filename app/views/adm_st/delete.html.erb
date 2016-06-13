@@ -1,0 +1,31 @@
+<%= link_to adm_st_index_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+
+<html>
+   <head>
+   
+      <script type="text/javascript">
+         <!--
+            function getConfirmation(){
+               var retVal = confirm("Do you want to delete record?");
+               if( retVal == true ){
+                  document.write ("Record Deleted");
+                  return true;
+               }
+               else{
+                  document.write ("Did not delete record");
+                  return false;
+               }
+            }
+         //-->
+      </script>
+      
+   </head>
+   <body>
+      <p>Click the following button to see the result: </p>
+      
+      <form>
+         <input type="button" value="delete" onclick="getConfirmation();" />
+      </form>
+      
+   </body>
+</html>
