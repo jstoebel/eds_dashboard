@@ -47,6 +47,7 @@
               <th>Admit Date</th>
               <th>Admission Decision</th>
               <th>Details</th>
+              <th>Delete</th>
               <th>Letter</th>
 
             </tr>
@@ -85,24 +86,39 @@
 
               <% end %>
         </td>
-
+        
+       
         <td>
-          
           <%= link_to("Details", adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
+        </td>
+        
+        <td>
+          <!--Display button for deleting record
+          1) Button in grey if decision has been made
+          2) Button clickable if decision is nil-->
+          <% if app.TEPAdmit != nil %>
+            
+            <button type = 'button' class = "btn btn-default glyphicon glyphicon-trash action-small disabled glyph-only">
+              
+            <!-- This is where the JavaScript is suppose to be, to you know, delete stuff and tell the user they are deleting stuff --> 
+          <% else %>
+            <button type = 'button' class = "btn btn-default glyphicon glyphicon-trash action-small">
+              
+          <% end %>
+          
         </td>
 
         <% if app.student_file  %>      
+        
         <td class="doc-download"> 
 
               <%= link_to adm_tep_download_path(app.id), :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
               <% end %>
-
         </td>
+      
         <% end %>
 
-
-
-            </tr>
+        </tr>
           <!-- end of if statement for content-->
         	<% end %>
             
