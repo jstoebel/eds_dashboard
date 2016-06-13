@@ -368,6 +368,30 @@ class AdmTepControllerTest < ActionController::TestCase
     end
   end
 
+  test "should delete the record" do
+    # use assigns(:app)
+    
+    #1 create an example adm_tep record
+    expected_app = FactoryGirl.create :adm_tep
+    
+    #2 make the request
+    post :destroy, {:id => expected_app.id}
+    
+    #3 make your assertions
+    # assigned record is the same
+    assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
+    
+    # record is destroyed (research method to call on @app to see if it was destroyed)
+    assert expected_app.is_destroyed?
+    
+    #assert redirected_to
+    assert_redirected_to banner_term_adm_tep_index_path(:app.BannerTerm_BannerTerm)    
+    
+    #assert flash message
+    assert_equal flash[:notice], "Record deleted successfully"
+    
+  end
+
   private
   def attach_letter(app)
     letter = StudentFile.create({
