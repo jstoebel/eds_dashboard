@@ -121,23 +121,17 @@ class AdmTepController < ApplicationController
     
   end
 
-  def can_delete
+  def destroy
     #method checks whether the record can be deleted, based upon value of TEPAdmit
     #calls destroy method if TEPAdmit does not have value
     @app = AdmTep.find(params[:id])    #find object and assign to instance variable
     if @app.TEPAdmit == nil            #if TEPAdmit does not have a value
-      redirect_to(:action => 'destroy')    #calls destroy method
+      @app.destroy
+      flash[:notice] = "Record deleted successfully"
     else                               #if TEPAdmit does have a value
       flash[:notice] = "Record cannot be deleted"    #notifies user that object cannot be deleted
-      redirect_to(:action => 'index')                #redirect to index view
     end
-  end
-
-  def destroy
-    #method destroys object, informs user, and returns to index view
-    app = AdmTep.find(params[:id]).destroy
-    flash[:notice] = "Record deleted successfully"
-    redirect_to(:action => 'index')
+    redirect_to(banner_term_adm_tep_index_path(@app.BannerTerm_BannerTerm))    #method(method(object.attribute))
   end
 
   private
