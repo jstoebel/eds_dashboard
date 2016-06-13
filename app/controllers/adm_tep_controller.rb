@@ -131,7 +131,7 @@ class AdmTepController < ApplicationController
     else                               #if TEPAdmit does have a value
       flash[:notice] = "Record cannot be deleted"    #notifies user that object cannot be deleted
     end
-    redirect_to(banner_term_adm_tep_index_path(@app.BannerTerm_BannerTerm))    #method(method(object.attribute))
+    redirect_to(banner_term_adm_tep_index_path(@app.BannerTerm_BannerTerm))    #method(method(object.attribute)) appropriate method found through routing page
   end
 
   private
