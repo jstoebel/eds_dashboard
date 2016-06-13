@@ -156,7 +156,7 @@ Rails.application.routes.draw do
 
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
-  resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update] do
+  resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
     get "admit"
     get "download"
