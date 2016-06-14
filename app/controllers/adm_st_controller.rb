@@ -125,14 +125,10 @@ class AdmStController < ApplicationController
 
   end
   
-  def delete 
-    @app = AdmSt.find(params[:adm_st_id])
-  end 
-  
   def destroy
     @app = AdmSt.find(params[:id])
     
-    if @app.STAdmitted  == nil  
+    if @app.STAdmitted== nil  
       @app.destroy
       flash[:notice] = "Deleted Sucessfully!"
       

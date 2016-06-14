@@ -101,19 +101,21 @@
                   <% end %>
 
                 <% else %>
-
+                
                   <%= link_to "#", :class => "btn btn-default glyphicon glyphicon-file action-small disabled glyph-only" do %>
                 <% end %>
-            
-                <%= button_to(adm_st_path(app.id), { class: "btn btn-default #{app.STAdmitted==nil ? "" : "disabled" }", method: :delete, data: {confirm: "Are you sure you want to delete this application?"}} ) do %>
-                     <span class="glyphicon glyphicon-trash"></span>
-                <% end %>
+
                 <%# button_to("delete", :action => 'delete', :class => "btn btn-default glyphicon glyphicon-trash action-small") do %>
                 
                 <%# end %>
                   <!-- ST paperwork goes here -->
               
               <% end %>
+            </td>
+            <td>
+                <%= button_to(adm_st_path(app.id), { class: "btn btn-default #{app.STAdmitted==nil ? "" : "disabled" }", method: :delete, data: {confirm: "Are you sure you want to delete this application?"}} ) do %>
+                     <span class="glyphicon glyphicon-trash"></span>
+                <% end %>
             </td>
           </tr>
         <!-- end of if statement for content-->
