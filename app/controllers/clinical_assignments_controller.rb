@@ -72,6 +72,14 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment = ClinicalAssignment.find(params[:id])
     authorize! :manage, @assignment
   end
+  
+  def destroy
+    @assignment = ClinicalAssignment.find(params[:id])
+    
+    @assigment.destroy
+    flash[:notice] = "Deleted Sucessfully!"
+    redirect_to(banner_term_clinical_assignments_path(@assignment.BannerTerm))
+  end
 
   def update
     @assignment = ClinicalAssignment.find(params[:id])
