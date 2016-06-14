@@ -5,6 +5,7 @@ include ActionDispatch::TestProcess
 require 'test_teardown'
 require 'factory_girl'
 class AdmTepControllerTest < ActionController::TestCase
+  fixtures :all
   include TestTeardown
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
 
@@ -372,7 +373,7 @@ class AdmTepControllerTest < ActionController::TestCase
     # use assigns(:app)
     
     #1 create an example adm_tep record
-    expected_app = FactoryGirl.create :adm_tep
+    expected_app = FactoryGirl.create :adm_tep, {:Program_ProgCode => Program.first.id, :BannerTerm_BannerTerm => BannerTerm.first.id}
     allowed_roles.each do |r|
       load_session(r)
       
@@ -389,7 +390,7 @@ class AdmTepControllerTest < ActionController::TestCase
   end
   
   test "should not delete record bad role" do
-    expected_app = FactoryGirl.create :adm_tep
+    expected_app = FactoryGirl.create :adm_tep, {:Program_ProgCode => Program.first.id, :BannerTerm_BannerTerm => BannerTerm.first.id}
     (role_names - allowed_roles).each do |r|
       load_session(r)
       assert_redirected_to "/access_denied"
@@ -397,7 +398,7 @@ class AdmTepControllerTest < ActionController::TestCase
   end
   
   test 'should not delete record not pending' do
-    expected_app = FactoryGirl.create :adm_tep
+    expected_app = FactoryGirl.create :adm_tep, {:Program_ProgCode => Program.first.id, :BannerTerm_BannerTerm => BannerTerm.first.id}
     load_session("admin")
     assert_equal flash[:notice], "Record cannot be deleted"
     assert_redirected_to banner_term_adm_tep_index_path(:app.BannerTerm_BannerTerm)
