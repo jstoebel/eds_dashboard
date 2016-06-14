@@ -162,7 +162,7 @@ Rails.application.routes.draw do
     get "download"
   end
 
-  resources :adm_st, only: [:index, :show, :new, :create, :edit, :update] do
+  resources :adm_st, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"   #choose a term to display in index
     get "admit"
     get "download"  #download admission letter
