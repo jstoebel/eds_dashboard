@@ -72,6 +72,19 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment = ClinicalAssignment.find(params[:id])
     authorize! :manage, @assignment
   end
+  
+  def destroy
+    @assignment = ClinicalAssignment.find(params[:id])
+    
+    #if @assignment.ClinicalAssignment== nil  
+      @assignment.destroy
+      flash[:notice] = "Deleted Sucessfully!"
+      
+    #else 
+      #flash[:notice] = "Could not successfully delete record!"
+    #end
+    redirect_to(banner_term_clinical_assignments_path(@assignment.BannerTerm))
+  end
 
   def update
     @assignment = ClinicalAssignment.find(params[:id])
@@ -109,7 +122,7 @@ class ClinicalAssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level)#, :StartDate, :EndDate)
+    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level, :destroy, :delete)#, :StartDate, :EndDate)
     
   end
   def form_setup
