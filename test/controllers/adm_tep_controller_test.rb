@@ -373,24 +373,37 @@ class AdmTepControllerTest < ActionController::TestCase
     
     #1 create an example adm_tep record
     expected_app = FactoryGirl.create :adm_tep
-    
-    #2 make the request
-    post :destroy, {:id => expected_app.id}
-    
-    #3 make your assertions
-    # assigned record is the same
-    assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
-    
-    # record is destroyed (research method to call on @app to see if it was destroyed)
-    assert expected_app.is_destroyed?
-    
-    #assert redirected_to
-    assert_redirected_to banner_term_adm_tep_index_path(:app.BannerTerm_BannerTerm)    
-    
-    #assert flash message
-    assert_equal flash[:notice], "Record deleted successfully"
-    
+    allowed_roles.each do |r|
+      load_session(r)
+      
+      #2 make the request
+      post :destroy, {:id => expected_app.id}
+  
+      #3 make your assertions
+      # assigned record is the same
+      assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
+      assert expected_app.is_destroyed?    # record is destroyed (research method to call on @app to see if it was destroyed)
+      assert_redirected_to banner_term_adm_tep_index_path(:app.BannerTerm_BannerTerm)      #method(instance variable.object attribute)
+      assert_equal flash[:notice], "Record deleted successfully"    #assert flash message
+    end
   end
+  
+  test "should not delete record bad role" do
+    expected_app = FactoryGirl.create :adm_tep
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+  test 'should not delete record not pending' do
+    expected_app = FactoryGirl.create :adm_tep
+    load_session("admin")
+    assert_equal flash[:notice], "Record cannot be deleted"
+    assert_redirected_to banner_term_adm_tep_index_path(:app.BannerTerm_BannerTerm)
+  end
+  
+  
 
   private
   def attach_letter(app)
