@@ -5,7 +5,6 @@ class AdmStController < ApplicationController
   # skip_authorize_resource :only => [:choose]
 
   def index
-
     index_setup
   end
 
@@ -87,7 +86,7 @@ class AdmStController < ApplicationController
       error_update      
     end
   end
-
+  
   def edit_st_paperwork
     @app = AdmSt.find(params[:adm_st_id])
     @student = @app.student
@@ -124,6 +123,19 @@ class AdmStController < ApplicationController
       # redirect_to adm_st_index_path
     end
 
+  end
+  
+  def destroy
+    @app = AdmSt.find(params[:id])
+    
+    if @app.STAdmitted== nil  
+      @app.destroy
+      flash[:notice] = "Deleted Sucessfully!"
+      
+    else 
+      flash[:notice] = "Could not successfully delete record!"
+    end
+    redirect_to(banner_term_adm_st_index_path(@app.BannerTerm_BannerTerm))
   end
 
   def download
