@@ -125,6 +125,7 @@ class AdmTepController < ApplicationController
     #method checks whether the record can be deleted, based upon value of TEPAdmit
     #calls destroy method if TEPAdmit does not have value
     @app = AdmTep.find(params[:id])    #find object and assign to instance variable
+    authorize! :manage, @app
     if @app.TEPAdmit == nil            #if TEPAdmit does not have a value
       @app.destroy
       flash[:notice] = "Record deleted successfully"
