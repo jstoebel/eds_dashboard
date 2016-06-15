@@ -465,11 +465,38 @@ class StudentTest < ActiveSupport::TestCase
 	end
 
 	it "batch updates students" do
-		assert false, "test is not implemented"
+		#create 2 students
+		stus = FactoryGirl.create_list :student, 2
+		update_attrs = stus.map{|s| {:id => s.id, :CurrentMajor1 => "new major"}}
+		Student.batch_update(update_attrs)
+
+		#both students should have changed their major
+		assert update_attrs.map{ |attr| Student.find(attr[:id]).CurrentMajor1  == "new major"}.all?
+	
 	end
 
-	it "does not batch upload students" do
-		assert false, "test is not implemented"
+	it "does not batch update students failed validation" do
+		#make a validation fail
+
+		#create 2 students
+		stus = FactoryGirl.create_list :student, 2
+		update_attrs = stus.map{|s| {:id => s.id, :EnrollmentStatus => nil}}	
+
+
+		result = Student.batch_update(update_attrs)
+		assert_equal false, result[:success]
+		assert "Validation failed: Enrollmentstatus can't be blank", result[:msg]
+
+	end
+
+	it "does not batch update students can't find record" do
+		stus = FactoryGirl.create_list :student, 1
+		update_attrs = stus.map{|s| {:id => s.id + 1 , :EnrollmentStatus => nil}}	
+
+
+		result = Student.batch_update(update_attrs)
+		assert_equal false, result[:success]
+		assert "Validation failed: Enrollmentstatus can't be blank", result[:msg]
 	end
 
 end
