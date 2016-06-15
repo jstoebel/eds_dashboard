@@ -183,7 +183,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :clinical_assignments, only: [:index, :new, :create, :edit, :update] do
+  resources :clinical_assignments, only: [:index, :new, :create, :edit, :update, :destroy] do
     post "choose"
   end
 
