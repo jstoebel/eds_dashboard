@@ -357,7 +357,7 @@ class AdmStControllerTest < ActionController::TestCase
       post :destroy, {:id => test_destroy.id}
       assert_equal(test_destroy, assigns(:app))
       assert assigns(:app).destroyed?
-      assert_equal flash[:notice], "Deleted Sucessfully!" 
+      assert_equal flash[:notice], "Deleted Successfully!" 
       assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
     end
   end
