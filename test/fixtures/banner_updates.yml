@@ -2,10 +2,11 @@
 #
 # Table name: banner_updates
 #
-#  id          :integer          not null, primary key
-#  upload_date :datetime
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id         :integer          not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#  start_term :integer
+#  end_term   :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
