@@ -24,11 +24,11 @@ FactoryGirl.define do
 
     association :student
     sequence(:crn) { |n| (1000 + n.to_i).to_s}
-    # crn {"#{Number.number 4}"}
     course_code {"EDS#{Number.between 100, 499}"}
     course_name {Book.title}
 
     #must provide a term
+    term_taken {BannerTerm.first.andand.id}
     
     grade_pt {[4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0, nil].sample}
     credits_earned 4.0
