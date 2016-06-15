@@ -7,7 +7,8 @@ class BannerUpdatesControllerTest < ActionController::TestCase
     @controller = Api::V1::BannerUpdateController.new
   end
 
-  describe "create" doend
+  describe "create" do
+  end
   
 
 end
