@@ -135,7 +135,6 @@ class AdmTepControllerTest < ActionController::TestCase
         assigns(:letter).destroy
 
       end
-
     end
   end
 
@@ -373,37 +372,82 @@ class AdmTepControllerTest < ActionController::TestCase
     # use assigns(:app)
     
     #1 create an example adm_tep record
-    expected_app = FactoryGirl.create :adm_tep, {:Program_ProgCode => Program.first.id, :BannerTerm_BannerTerm => BannerTerm.first.id}
+    stu = FactoryGirl.create :student
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
+
+    app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+      :TEPAdmitDate => nil,
+      :student_id => stu.id,
+      :student_file_id =>nil,
+      :Program_ProgCode => Program.first.id,
+      :BannerTerm_BannerTerm => term.id
+    }
+   
     allowed_roles.each do |r|
       load_session(r)
-      
+      expected_app = AdmTep.create app_attrs
       #2 make the request
       post :destroy, {:id => expected_app.id}
   
       #3 make your assertions
       # assigned record is the same
       assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
-      assert expected_app.is_destroyed?    # record is destroyed (research method to call on @app to see if it was destroyed)
-      assert_redirected_to banner_term_adm_tep_index_path(:app.BannerTerm_BannerTerm)      #method(instance variable.object attribute)
+      assert assigns(:app).destroyed?             # failed for expected_app
       assert_equal flash[:notice], "Record deleted successfully"    #assert flash message
+      assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)      #asserted equal. can use expected_app.BannerTerm_BannerTerm?#method(instance variable.object attribute)
+     
     end
   end
   
   test "should not delete record bad role" do
-    expected_app = FactoryGirl.create :adm_tep, {:Program_ProgCode => Program.first.id, :BannerTerm_BannerTerm => BannerTerm.first.id}
+    stu = FactoryGirl.create :student
+    stu_file = FactoryGirl.create :student_file , {:student_id => stu.id}
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
+    
+    app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
+      :TEPAdmitDate => Date.today,
+      :student_id => stu.id,
+      :student_file_id => stu_file.id,
+      :Program_ProgCode => Program.first.id,
+      :BannerTerm_BannerTerm => term.id
+    }
+    expected_app = AdmTep.create app_attrs
     (role_names - allowed_roles).each do |r|
       load_session(r)
+ 
+      post :destroy, {:id => expected_app.id}
       assert_redirected_to "/access_denied"
     end
   end
   
   test 'should not delete record not pending' do
-    expected_app = FactoryGirl.create :adm_tep, {:Program_ProgCode => Program.first.id, :BannerTerm_BannerTerm => BannerTerm.first.id}
-    load_session("admin")
-    assert_equal flash[:notice], "Record cannot be deleted"
-    assert_redirected_to banner_term_adm_tep_index_path(:app.BannerTerm_BannerTerm)
+    stu = FactoryGirl.create :student
+    stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
+
+    app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
+      :TEPAdmitDate => Date.today,
+      :student_id => stu.id,
+      :student_file_id => stu_file.id,
+      :Program_ProgCode => Program.first.id,
+      :BannerTerm_BannerTerm => term.id
+    }
+    expected_app = AdmTep.create app_attrs
+    
+    allowed_roles.each do |r|
+      load_session(r)
+      post :destroy, {:id => expected_app.id}
+      assert_equal flash[:notice], "Record cannot be deleted"
+      #assert_redirected_to banner_term_adm_tep_index_path( assigns(:app.BannerTerm_BannerTerm))
+      assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)
+    end
   end
-  
   
 
   private
