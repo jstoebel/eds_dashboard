@@ -136,8 +136,6 @@ require 'api_constraints'
 Rails.application.routes.draw do
 
   #A resource must be top level before it can be nested in another resource (I think)
-  
-  # match ':controller(/:action(/:id))', :via => [:get, :post]
 
   match 'prog_exits/get_programs', via: [:post, :get]
 
@@ -212,10 +210,28 @@ Rails.application.routes.draw do
 
 
   #~~~API ROUTES
+  # credit: The code was found here: http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
   namespace :api, defaults: {formats: 'json'} do
   	# /api/... Api::
-  	scope module: :v1, contraints: ApiConstraints.new(version: 1) do
-  		resources :students, :only => [:index, :show, :create, :update]
+  	scope module: :v1 do #, contraints: ApiConstraints.new(version: 1) do
+  		resources :students, :only => [:index, :show] do
+  		end
+
+  		resource :students, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
+  			collection do
+	  			post "batch_create"
+	  			patch "batch_update"
+  			end
+  		end
+
+  		resource :transcripts, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
+  			collection do
+	  			post "batch_upsert"
+  			end
+  		end
+
+        resource :banner_update, :only => [:create] 
+
   	end 
   end
 
