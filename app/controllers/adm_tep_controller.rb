@@ -125,6 +125,8 @@ class AdmTepController < ApplicationController
   end
 
   def destroy
+    puts AdmTep.all
+    puts params.inspect
     #method checks whether the record can be deleted, based upon value of TEPAdmit
     #calls destroy method if TEPAdmit does not have value
     @app = AdmTep.find(params[:id])    #find object and assign to instance variable
