@@ -348,5 +348,31 @@ class AdmStControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-
+  
+  test "should delete" do 
+      
+      allowed_roles.each do |r|
+        load_session(r)
+      test_destroy = FactoryGirl.create(:adm_st, {:BannerTerm_BannerTerm => BannerTerm.first.id, :STAdmitted => nil, :STAdmitDate => nil})
+      post :destroy, {:id => test_destroy.id}
+      assert_equal(test_destroy, assigns(:app))
+      assert assigns(:app).destroyed?
+      assert_equal flash[:notice], "Deleted Successfully!" 
+      assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
+    end
+  end
+  
+  test "cannot delete" do 
+      stu = FactoryGirl.create :student
+      stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
+      term_date = BannerTerm.current_term({:exact => false, :plan_b => :back})
+      test_destroy_fail = FactoryGirl.create :adm_st, {:student_id => stu.id, :BannerTerm_BannerTerm => term_date.id, :STAdmitted => true, 
+        :STAdmitDate => Date.today.to_s, :student_file_id => stu_file.id}
+      allowed_roles.each do |r|
+        load_session(r)
+      post :destroy, {:id => test_destroy_fail.id}
+      assert_equal flash[:notice], "Could not successfully delete record!"
+      assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm))
+  end 
+ end
 end

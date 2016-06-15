@@ -130,7 +130,7 @@ class AdmStController < ApplicationController
     
     if @app.STAdmitted== nil  
       @app.destroy
-      flash[:notice] = "Deleted Sucessfully!"
+      flash[:notice] = "Deleted Successfully!"
       
     else 
       flash[:notice] = "Could not successfully delete record!"
