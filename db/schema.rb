@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601190831) do
+ActiveRecord::Schema.define(version: 20160614192552) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -205,12 +205,13 @@ ActiveRecord::Schema.define(version: 20160601190831) do
   add_index "forms_of_intention", ["student_id"], name: "forms_of_intention_student_id_fk", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
-    t.text     "UpdateName",               null: false
-    t.text     "Description",              null: false
-    t.integer  "Issues_IssueID",           null: false
-    t.integer  "tep_advisors_AdvisorBnum", null: false
+    t.text     "UpdateName",                              null: false
+    t.text     "Description",                             null: false
+    t.integer  "Issues_IssueID",                          null: false
+    t.integer  "tep_advisors_AdvisorBnum",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "visible",                  default: true, null: false
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
