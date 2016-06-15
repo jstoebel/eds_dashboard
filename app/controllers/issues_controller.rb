@@ -68,7 +68,11 @@ class IssuesController < ApplicationController
 
   end
 
-
+  def destroy
+    @issue = Issue.find(params[:id]).destroy
+    redirect_to(issue_issue_updates_path)
+  end
+  
   private
   def new_issue_params
   #same as using params[:subject] except that:
