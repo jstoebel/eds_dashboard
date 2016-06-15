@@ -63,20 +63,22 @@ class IssuesController < ApplicationController
   def edit
 
   end
+  
+  #destroy method added to issue controller; 
+  #should destory records and make them not visible to the user, 
+  # but still exist in the database
+  def destroy 
+    @issue = Issue.find(params[:issue_id])
+    @issue.visible = false
+    @issue.save
+    flash[:notice] = "Deleted Successfully."
+  end
 
   def update
 
   end
 
-<<<<<<< Updated upstream
 
-=======
-  def destroy
-    @issue = Issue.find(params[:id]).destroy
-    redirect_to(issue_issue_updates_path)
-  end
-  
->>>>>>> Stashed changes
   private
   def new_issue_params
   #same as using params[:subject] except that:
