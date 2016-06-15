@@ -485,18 +485,16 @@ class StudentTest < ActiveSupport::TestCase
 
 		result = Student.batch_update(update_attrs)
 		assert_equal false, result[:success]
-		assert "Validation failed: Enrollmentstatus can't be blank", result[:msg]
+		assert_equal "Validation failed: Enrollmentstatus can't be blank", result[:msg]
 
 	end
 
 	it "does not batch update students can't find record" do
 		stus = FactoryGirl.create_list :student, 1
-		update_attrs = stus.map{|s| {:id => s.id + 1 , :EnrollmentStatus => nil}}	
-
-
+		update_attrs = stus.map{|s| {:id => "blah", :CurrentMajor1 => "new major"}}	
 		result = Student.batch_update(update_attrs)
 		assert_equal false, result[:success]
-		assert "Validation failed: Enrollmentstatus can't be blank", result[:msg]
+		assert_equal "Couldn't find Student with 'id'=#{update_attrs[0][:id]}", result[:msg]
 	end
 
 end
