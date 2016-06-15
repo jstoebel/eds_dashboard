@@ -74,7 +74,7 @@ class IssueUpdatesController < ApplicationController
 
     name_details(@student)
 
-    @updates = @issue.issue_updates.sorted    #no additional auth needed. If you can? the issue you can? the updates
+    @updates = @issue.issue_updates.sorted.where(:visible => true).select {|r| can? :read, r }  #no additional auth needed. If you can? the issue you can? the updates
 
   end
 
@@ -99,7 +99,8 @@ class IssueUpdatesController < ApplicationController
     @issue = IssueUpdate.find(params[:issue_id])
     @issue.visible = false
     @issue.save
-    flash[:notice] = "Deleted Successfully."
+    flash[:notice] = "Deleted Successfully!"
+    redirect_to(issue_issue_updates_path(@issue.student.id))
   end
   
   private
