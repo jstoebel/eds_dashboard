@@ -48,8 +48,9 @@ class IssuesController < ApplicationController
   def index
     @student = Student.find params[:student_id]
     authorize! :show, @student
-    @issues = @student.issues.sorted.select {|r| can? :read, r }
-    name_details(@student)    
+    @issues = @student.issues.sorted.where(:visible => true).select {|r| can? :read, r }
+    name_details(@student) 
+    
   end
 
   def show
@@ -72,7 +73,7 @@ class IssuesController < ApplicationController
     @issue.visible = false
     @issue.save
     flash[:notice] = "Deleted Successfully!"
-    redirect_to(student_issues_path(@student.Issue))
+    redirect_to(student_issues_path(@issue.student.id))
   end
 
   def update
