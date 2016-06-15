@@ -49,6 +49,23 @@ class Transcript < ActiveRecord::Base
         return LTG.invert[grade_pt.to_f]
     end
 
+    def self.batch_upsert(hashes)
+        # bulk upserts transcript records
+        # hashes: array of hashes each containing params
+        # returns success status and success/error message.
+
+        begin
+            Transcript.transaction do
+                hashes.each do |stu_hash|
+                    Transcript.find_or_create_by! stu_hash
+                end #loop
+            end #transaction
+        rescue ActiveRecord::RecordInvalid => msg
+            #some record couldn't be saved
+            return {:success => false, :msg => msg.to_s}
+        end #exception handle
+        return {:success => true, :msg => "Successfully upserted #{hashes.size} records."}
+    end
 
     #~~~HOOKS~~~#
     before_save :set_quality_points
@@ -63,6 +80,11 @@ class Transcript < ActiveRecord::Base
 
 
     #~~~VALIDATIONS~~~# 
+
+    validates_presence_of :student_id, :crn, :course_code, :term_taken
+
+    validates :crn, uniqueness: { scope: [:student_id, :term_taken],
+        message: "student may not have duplicates of the same course in the same term." }
 
     def set_quality_points
 

@@ -26,16 +26,17 @@ class TranscriptTest < ActiveSupport::TestCase
     let(:a_grade) {Transcript.g_to_l 4.0}
 
     test "student in course in term is unique" do
-        t1 = Transcript.create({:student_id => Student.first.id,
+        attrs = {
+            :student_id => Student.first.id,
             :crn => "1001",
-            :course_code => "EDS150",
-            :course_name => "Intro Class",
-            :term_taken => BannerTerm.first.id,
-            :gpa_include => true})
+            :term_taken => BannerTerm.first.id
+        }
 
-        assert_raises ActiveRecord::RecordNotUnique do
-            Transcript.create t1.attributes #try to make the same record
-        end
+        t1 = FactoryGirl.create :transcript, attrs
+        t2 = FactoryGirl.build :transcript, attrs
+
+        assert_not t2.valid?
+        assert_equal ["Crn student may not have duplicates of the same course in the same term."], t2.errors.full_messages 
     end
 
     test "sets quality points" do
@@ -61,5 +62,20 @@ class TranscriptTest < ActiveSupport::TestCase
     it "converts grade to letter" do
         expect a_grade.must_equal "A"
     end
+
+    describe "validates reuqired columns" do
+
+        required_attrs = [:student_id, :crn, :course_code, :term_taken]
+
+        required_attrs.each do |a|
+            it "validates #{a}" do
+                t = FactoryGirl.build :transcript, {a => nil}
+                assert_not t.valid?
+                assert_equal ["#{a.to_s.humanize} can't be blank"], t.errors.full_messages
+
+            end
+        end
+    end
+
 
 end
