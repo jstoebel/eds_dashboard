@@ -78,7 +78,6 @@ class IssuesController < ApplicationController
 
   end
 
-
   private
   def new_issue_params
   #same as using params[:subject] except that:
