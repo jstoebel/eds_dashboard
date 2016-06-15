@@ -8,12 +8,14 @@ class AdmTepController < ApplicationController
     #display menu for possible names and possible programs
 
     @app = AdmTep.new
+    authorize! :manage, @app
     new_setup
   end
 
   def create
 
     @app = AdmTep.new(new_adm_params)
+    authorize! :manage, @app
     stu = @app.student
 
     bnum =  params[:adm_tep][:student_id]
@@ -41,6 +43,7 @@ class AdmTepController < ApplicationController
 
   def edit
       @application = AdmTep.find(params[:id])
+      authorize! :manage, @application
       @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
       @student = Student.find(@application.student_id)
       name_details(@student)
@@ -49,6 +52,7 @@ class AdmTepController < ApplicationController
   def update
     #process admission decision for student
     @application = AdmTep.find(params[:id])
+    authorize! :manage, @application
     @current_term = BannerTerm.current_term(exact: false, :plan_b => :back)
 
     @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
@@ -84,9 +88,7 @@ class AdmTepController < ApplicationController
         @letter.destroy!
         error_update
         return
-
     end
-
   end
 
   def index
@@ -96,19 +98,19 @@ class AdmTepController < ApplicationController
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
         
     @applications = AdmTep.all.by_term(@term)   #fetch all applications for this term
-
+    authorize! :read, @applications
   end
 
   def choose
     #display applicants for a term
     @term = params[:banner_term][:menu_terms]
     redirect_to(banner_term_adm_tep_index_path(@term))
-    
   end
 
   def show
 
     @app = AdmTep.find(params[:id])
+    authorize! :read, @app
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
     @student = Student.find(@app.student_id)
     name_details(@student)
@@ -117,6 +119,7 @@ class AdmTepController < ApplicationController
   def download
     #download an admission letter
     app = AdmTep.find(params[:adm_tep_id])
+    authorize! :read, app
     send_file app.student_file.doc.path
     
   end
@@ -144,12 +147,9 @@ class AdmTepController < ApplicationController
     params.require(:adm_tep).permit(:TEPAdmit, :TEPAdmitDate)
   end
 
-
   def new_setup
       @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
-
       @programs = Program.where("Current = 1")
-
       term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
       @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
   end
