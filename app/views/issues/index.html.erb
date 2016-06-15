@@ -80,6 +80,11 @@
                       <% end %>                             
                         
                   </td>
+                  <td>
+                     <%= button_to(issue_path(issue.id), { class: "btn btn-default", method: :delete, data: {confirm: "Are you sure you want to delete this issue?"}} ) do %>
+                      <span class="glyphicon glyphicon-trash" style="color:red"</span>
+                     <% end %>
+                  </td>
                 </tr>
                 <% end #end of loop iterating through records %>              
   
