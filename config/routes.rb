@@ -154,7 +154,7 @@ Rails.application.routes.draw do
 
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
-  resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update] do
+  resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
     get "admit"
     get "download"
@@ -181,7 +181,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :clinical_assignments, only: [:index, :new, :create, :edit, :update] do
+  resources :clinical_assignments, only: [:index, :new, :create, :edit, :update, :destroy] do
     post "choose"
   end
 

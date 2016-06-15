@@ -135,7 +135,6 @@ class AdmTepControllerTest < ActionController::TestCase
         assigns(:letter).destroy
 
       end
-
     end
   end
 
@@ -368,6 +367,88 @@ class AdmTepControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
+
+  test "should delete the record" do
+    # use assigns(:app)
+    
+    #1 create an example adm_tep record
+    stu = FactoryGirl.create :student
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
+
+    app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+      :TEPAdmitDate => nil,
+      :student_id => stu.id,
+      :student_file_id =>nil,
+      :Program_ProgCode => Program.first.id,
+      :BannerTerm_BannerTerm => term.id
+    }
+   
+    allowed_roles.each do |r|
+      load_session(r)
+      expected_app = AdmTep.create app_attrs
+      #2 make the request
+      post :destroy, {:id => expected_app.id}
+  
+      #3 make your assertions
+      # assigned record is the same
+      assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
+      assert assigns(:app).destroyed?             # failed for expected_app
+      assert_equal flash[:notice], "Record deleted successfully"    #assert flash message
+      assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)      #asserted equal. can use expected_app.BannerTerm_BannerTerm?#method(instance variable.object attribute)
+     
+    end
+  end
+  
+  test "should not delete record bad role" do
+    stu = FactoryGirl.create :student
+    stu_file = FactoryGirl.create :student_file , {:student_id => stu.id}
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
+    
+    app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
+      :TEPAdmitDate => Date.today,
+      :student_id => stu.id,
+      :student_file_id => stu_file.id,
+      :Program_ProgCode => Program.first.id,
+      :BannerTerm_BannerTerm => term.id
+    }
+    expected_app = AdmTep.create app_attrs
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+ 
+      post :destroy, {:id => expected_app.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+  test 'should not delete record not pending' do
+    stu = FactoryGirl.create :student
+    stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
+    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+    pop_transcript(stu, 12, 3.0, term.prev_term)
+    pop_praxisI(stu, true)
+
+    app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
+      :TEPAdmitDate => Date.today,
+      :student_id => stu.id,
+      :student_file_id => stu_file.id,
+      :Program_ProgCode => Program.first.id,
+      :BannerTerm_BannerTerm => term.id
+    }
+    expected_app = AdmTep.create app_attrs
+    
+    allowed_roles.each do |r|
+      load_session(r)
+      post :destroy, {:id => expected_app.id}
+      assert_equal flash[:notice], "Record cannot be deleted"
+      #assert_redirected_to banner_term_adm_tep_index_path( assigns(:app.BannerTerm_BannerTerm))
+      assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)
+    end
+  end
+  
 
   private
   def attach_letter(app)
