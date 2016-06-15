@@ -34,6 +34,10 @@ class StudentsControllerTest < ActionController::TestCase
   include TestTeardown
   allowed_roles = ["admin", "staff", "advisor"]
 
+  before do
+    @controller = StudentsController.new
+  end
+
   test "admin should get index" do
       load_session("admin")
       get :index
