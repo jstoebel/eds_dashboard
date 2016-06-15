@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601190831) do
+ActiveRecord::Schema.define(version: 20160609194211) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -133,10 +133,14 @@ ActiveRecord::Schema.define(version: 20160601190831) do
   end
 
   create_table "banner_updates", force: true do |t|
-    t.datetime "upload_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "start_term"
+    t.integer  "end_term"
   end
+
+  add_index "banner_updates", ["end_term"], name: "banner_updates_end_term_fk", using: :btree
+  add_index "banner_updates", ["start_term"], name: "banner_updates_start_term_fk", using: :btree
 
   create_table "clinical_assignments", force: true do |t|
     t.integer "student_id",                     null: false
@@ -462,6 +466,9 @@ ActiveRecord::Schema.define(version: 20160601190831) do
   add_foreign_key "assessment_scores", "student_assessments", name: "assessment_scores_student_assessment_id_fk"
 
   add_foreign_key "assessment_versions", "assessments", name: "assessment_versions_assessment_id_fk"
+
+  add_foreign_key "banner_updates", "banner_terms", name: "banner_updates_end_term_fk", column: "end_term", primary_key: "BannerTerm"
+  add_foreign_key "banner_updates", "banner_terms", name: "banner_updates_start_term_fk", column: "start_term", primary_key: "BannerTerm"
 
   add_foreign_key "clinical_assignments", "clinical_teachers", name: "clinical_assignments_clinical_teacher_id_fk"
   add_foreign_key "clinical_assignments", "students", name: "clinical_assignments_student_id_fk"
