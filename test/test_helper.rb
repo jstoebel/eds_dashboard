@@ -4,9 +4,10 @@ require 'rails/test_help'
 #require 'minitest/fail_fast'
 
 class ActiveSupport::TestCase
-  Rake::Task["db:fixtures:load"].invoke
+  Rake::Task["db:seed"].execute
+  Rake::Task["db:fixtures:load"].execute
   fixtures :all
-
+  
   self.set_fixture_class adm_tep: AdmTep,
               banner_terms: BannerTerm 
 

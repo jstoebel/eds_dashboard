@@ -5,6 +5,7 @@ include ActionDispatch::TestProcess
 require 'test_teardown'
 require 'factory_girl'
 class AdmTepControllerTest < ActionController::TestCase
+  fixtures :all
   include TestTeardown
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
 
