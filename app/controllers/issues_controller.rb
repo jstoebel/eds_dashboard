@@ -68,15 +68,11 @@ class IssuesController < ApplicationController
 
   end
 
-<<<<<<< Updated upstream
-
-=======
   def destroy
     @issue = Issue.find(params[:id]).destroy
     redirect_to(issue_issue_updates_path)
   end
   
->>>>>>> Stashed changes
   private
   def new_issue_params
   #same as using params[:subject] except that:
