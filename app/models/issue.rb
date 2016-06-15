@@ -36,6 +36,7 @@ class Issue < ActiveRecord::Base
 			message: "Issue may only be open or closed."
 			}
 
+
 	validates :tep_advisors_AdvisorBnum,
 		:presence => { message: "Could not find an advisor profile for this user."}
 

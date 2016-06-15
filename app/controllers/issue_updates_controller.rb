@@ -91,7 +91,17 @@ class IssueUpdatesController < ApplicationController
     name_details(@student)
 
   end
-
+  
+  #destroy method added to issue controller; 
+  #should destory records and make them not visible to the user, 
+  # but still exist in the database
+  def destroy 
+    @issue = IssueUpdate.find(params[:issue_id])
+    @issue.visible = false
+    @issue.save
+    flash[:notice] = "Deleted Successfully."
+  end
+  
   private
   def close_issue_params
     params.require(:issue_update).permit(:Description)
