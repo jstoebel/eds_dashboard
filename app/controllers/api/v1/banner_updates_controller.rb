@@ -5,8 +5,7 @@ module Api
       respond_to :json
       def create
         update = BannerUpdate.new create_params
-        update.save
-        if update.valid?
+        if update.save
           render json: {:success => true, :msg => "Successfully updated banner_update"}, status: :created
         else
           render json: {:success => false, :msg => update.errors.full_messages}, status: :unprocessable_entity
@@ -16,7 +15,6 @@ module Api
 
       private 
       def create_params
-        puts params.keys
         params.require(:banner_update).permit(
           :start_term,
           :end_term

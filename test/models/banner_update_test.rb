@@ -26,6 +26,5 @@ class BannerUpdateTest < ActiveSupport::TestCase
     it "validates start_term is not larger than end_term" do
         u = BannerUpdate.new({:start_term => (BannerTerm.second), :end_term => (BannerTerm.first)})
         assert_not u.valid?
-        # assert_equal 
     end
 end
