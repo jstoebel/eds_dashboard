@@ -55,5 +55,20 @@ class IssueTest < ActiveSupport::TestCase
 		assert_equal scoped.to_a, expected.to_a
 
 	end
+	
+	test "hides updates from an issue" do
+		issue = FactoryGirl.create(:issue)
+		# making an update belonging to this issue that is shared with an advisor
+    	# update = FactoryGirl.create(:issue_update, {:Issues_IssueID => issue.id, :tep_advisors_AdvisorBnum => issue.tep_advisors_AdvisorBnum })
+    	update  = IssueUpdate.create({:UpdateName => "Name",
+    		:Description => "Desc.",
+    		:Issues_IssueID => issue.id, 
+    		:tep_advisors_AdvisorBnum => issue.tep_advisors_AdvisorBnum })
+    	issue.visible = false
+    	issue.save
+    	issue.issue_updates.each{|u| assert_not u.visible}
+	end
+
+	
 
 end

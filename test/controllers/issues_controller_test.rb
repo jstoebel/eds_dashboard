@@ -158,8 +158,27 @@ class IssuesControllerTest < ActionController::TestCase
       issue = Issue.first
       get :show, {:id => issue.id}
       assert_redirected_to "/access_denied"
-
     end
   end
+  
+  test "should be allowed to destory records" do
+    (allowed_roles).each do |r|
+      load_session(r)
+      issue = FactoryGirl.create(:issue)
+      delete :destroy, {:id => issue.id}
+      assert_not assigns(:issue).visible
+      assert_equal flash[:notice], "Deleted Successfully!"
+      assert_redirected_to(student_issues_path(issue.student.id)) # makes sure the user has been redirected to the index page of the student issue page
+    end
+  end
+  
+  #test for unauthorized users
+  
+  test "should NOT be allowed to destroy records" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+    issue = FactoryGirl.create(:issue)
+    
+    end
 
 end
