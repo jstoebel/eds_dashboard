@@ -79,7 +79,7 @@ class ClinicalTeachersController < ApplicationController
     authorize! :manage, @teacher
     @teacher.destroy  
     flash[:notice] = "Deleted Sucessfully!"
-    redirect_to(clinical_teacher_path)
+    redirect_to(clinical_teachers_path)
   end
 
   private

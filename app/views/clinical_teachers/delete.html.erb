@@ -11,7 +11,12 @@
     <p><%= "You will also delete this many assignments: #{@teacher.clinical_assignments.size}" %></p> 
 
     <div class="form-buttons">
-      <%= submit_tag("Delete Teacher") %>
+        <td>
+            <%= button_to(clinical_teachers_path, { class: "btn btn-default", method: :delete}) do %>
+            <span style="color:red">Delete Teacher</span>
+            <% end %>
+        </td>
+      
     </div>
 
   <% end %>
