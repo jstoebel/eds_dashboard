@@ -148,7 +148,7 @@ Rails.application.routes.draw do
 
   resources :clinical_sites, only: [:index, :edit, :update, :new, :create, :destroy], shallow: true do
     resources :clinical_teachers, only: [:index]
-    gets "delete"
+    get "delete"
   end
 
   resources :clinical_teachers, only: [:index, :new, :create, :edit, :update]

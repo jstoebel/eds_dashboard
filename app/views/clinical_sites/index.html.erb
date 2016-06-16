@@ -57,9 +57,13 @@
                     <span class="badge"> <%= site.clinical_teachers.size%></span>
                   </span>
                 <% end %>
-
-
+          
+            <%= link_to(clinical_site_delete_path(site.id), :class => "btn btn-default") do %>  
+                <span class="glyphicon glyphicon-trash" style="color:red"></span>
+                <% end %>         
+      
           </td>
+          
         </tr>
       <% end %>
     <% end %>
