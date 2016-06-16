@@ -72,6 +72,7 @@ class ClinicalTeachersController < ApplicationController
   
   def delete
     @teacher = ClinicalTeacher.find(params[:clinical_teacher_id])
+    authorize! :manage, @teacher
   end
   
   def destroy

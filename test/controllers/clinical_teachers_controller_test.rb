@@ -159,4 +159,12 @@ test "should delete teacher and dependent assignments" do
     assert_redirected_to(clinical_teachers_path)
    end
   end
+  
+  test "deletion for bad role" do
+    (role_names - allowed_roles).each do |r|
+    teach = FactoryGirl.create :clinical_teacher
+      post :destroy, {:id => teach.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
 end
