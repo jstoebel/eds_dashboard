@@ -48,7 +48,7 @@ class IssuesController < ApplicationController
   def index
     @student = Student.find params[:student_id]
     authorize! :show, @student
-    @issues = @student.issues.sorted.where(:visible => true).select {|r| can? :read, r }
+    @issues = @student.issues.sorted.visible.select {|r| can? :read, r }
     name_details(@student) 
     
   end
