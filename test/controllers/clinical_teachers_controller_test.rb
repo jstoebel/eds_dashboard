@@ -144,4 +144,19 @@ test "should not post create bad params" do
 
   end
 
+test "should delete teacher and dependent assignments" do
+  
+  allowed_roles.each do |r|
+    load_session(r)
+    teach = FactoryGirl.create :clinical_teacher
+    
+    post :destroy, {:id => teach.id}
+    
+    assert_equal(teach, assigns(:teacher))
+    assert assigns(:teacher).destroyed?
+    assigns(:teacher).clinical_assignments.each{|i| assert i.destroyed?}
+    assert_equal flash[:notice], "Deleted Successfully!"
+    assert_redirected_to(clinical_teachers_path)
+   end
+  end
 end
