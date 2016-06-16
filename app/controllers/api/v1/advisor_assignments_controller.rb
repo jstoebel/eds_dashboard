@@ -17,10 +17,13 @@ module Api
 
         begin
           AdvisorAssignment.transaction do
-            
+            delete_me.each{|d| d.destroy!}
+            #add new assignments as well
+            # add_me.each{|a| }
           end
         rescue Exception => e
-          
+          render :json => e, status: :unprocessable_entity
+
         end
 
       end
