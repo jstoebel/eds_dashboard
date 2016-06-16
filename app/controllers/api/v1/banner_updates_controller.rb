@@ -14,12 +14,11 @@ module Api
       end
 
       private 
-      def create_params
+      def create_params 
         params.require(:banner_update).permit(
           :start_term,
           :end_term
           )
-        
       end
     end
   end
