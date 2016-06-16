@@ -78,7 +78,7 @@ class ClinicalTeachersController < ApplicationController
     @teacher = ClinicalTeacher.find(params[:id])
     authorize! :manage, @teacher
     @teacher.destroy  
-    flash[:notice] = "Deleted Sucessfully!"
+    flash[:notice] = "Deleted Successfully!"
     redirect_to(clinical_teachers_path)
   end
 
