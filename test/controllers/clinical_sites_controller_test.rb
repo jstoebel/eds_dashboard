@@ -19,6 +19,8 @@ require 'test_teardown'
 class ClinicalSitesControllerTest < ActionController::TestCase
   include TestTeardown
   #all roles have access to this resource
+  allowed_roles = ["admin", "advisor", "staff", "student labor"]
+  
   test "should get index" do
     role_names.each do |r|
       load_session(r)
@@ -158,12 +160,31 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     end
   end
   
-  test "should not destroy site bad role" do  
+  test "should not destroy site bad role" do
+    
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      expected_site = FactoryGirl.create :clinical_site
+      post :destroy, {:id => expected_site.id}
+      assert_redirected_to "/access_denied"
+    end
   end 
 
   test "should allow delete" do
+    allowed_roles.each do |r|
+      load_session(r)
+      expected_site = FactoryGirl.create :clinical_site
+      get :delete, {:clinical_site_id => expected_site.id}
+      assert_equal expected_site, assigns(:site)
+    end
   end
   
   test "should not allow delete bad role" do
+    expected_site = FactoryGirl.create :clinical_site
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :delete, {:id => expected_site.id}
+      assert_redirected_to "/access_denied"
+    end
   end
 end
