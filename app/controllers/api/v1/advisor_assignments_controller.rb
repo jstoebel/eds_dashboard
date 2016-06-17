@@ -12,20 +12,31 @@ module Api
         stu = Student.find params[:student_id]
         current_assignments = stu.advisor_assignments.map{|aa| aa.id}
 
-        add_me = params[:advisors] - current_assignments
-        delete_me = current_assignments - params[:advisors]
+        add_me = params[:advisors] - current_assignments  #ids of advisors to assign to students
+        delete_me = current_assignments - params[:advisors] #ids of advisors to remove from students
 
         begin
           AdvisorAssignment.transaction do
-            delete_me.each{|d| d.destroy!}
+            delete_me.each{|d| AdvisorAssignment.find(d).destroy!}
             #add new assignments as well
-            # add_me.each{|a| }
+            add_me.each{|a| AdvisorAssignment.create({
+                student_id: stu.id,
+                :advis
+              })
+          }
           end
         rescue Exception => e
           render :json => e, status: :unprocessable_entity
 
         end
 
+      end
+
+      private
+
+      def upsert_assignment
+        
+        
       end
 
     end
