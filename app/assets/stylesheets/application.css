@@ -91,6 +91,10 @@ Style for Glyphicons*/
   color: red;
 }
 
+.glyphicon-trash{
+  color:red;
+}
+
 /*h2, h3 {margin-left: 50px;
   color: black;
   }    /*page headers*/
