@@ -30,6 +30,7 @@ module Api
             end #each loop
           
           end # transaction
+          # render 
         rescue Exception => e
           render :json => {:msg => e.to_s}, status: :unprocessable_entity
 
