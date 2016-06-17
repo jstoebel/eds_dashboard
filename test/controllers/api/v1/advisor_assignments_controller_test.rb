@@ -52,7 +52,6 @@ class StudentsControllerTest < ActionController::TestCase
     it "handles missing student" do
     end
 
-    it ""
 
   end
 
