@@ -14,7 +14,6 @@
 
 class ClinicalTeachersController < ApplicationController
   authorize_resource
-  skip_authorize_resource :only => [:new]
 
   def index
 
