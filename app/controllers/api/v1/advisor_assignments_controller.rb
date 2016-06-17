@@ -12,8 +12,10 @@ module Api
         stu = Student.find params[:student_id]
         current_advisor_bnums = stu.advisor_assignments.map{|aa| aa.tep_advisor.AdvisorBnum}
 
-        add_me = params[:advisors] - current_advisor_bnums  #Bnums of advisors to assign to students
-        delete_me = current_advisor_bnums - params[:advisors] #Bnums of advisors to remove from students
+        new_advisors = (params[:advisors]).present? ? params[:advisors] : [] #if an empty array is passed, it gets parsed into nil
+
+        add_me = new_advisors - current_advisor_bnums  #Bnums of advisors to assign to students
+        delete_me = current_advisor_bnums - new_advisors #Bnums of advisors to remove from students
 
         begin
           AdvisorAssignment.transaction do
@@ -30,9 +32,10 @@ module Api
             end #each loop
           
           end # transaction
-          # render 
-        rescue Exception => e
-          render :json => {:msg => e.to_s}, status: :unprocessable_entity
+
+          render :json => {:success => true, :msg => "Successfully altered advisor assignments.", :added => add_me, :deleted => delete_me}
+        rescue ActiveRecord::RecordNotFound => e
+          render :json => {:success => false, :msg => e}, status: :unprocessable_entity
 
         end # exception handle
 
