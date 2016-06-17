@@ -44,7 +44,6 @@ class ClinicalSitesController < ApplicationController
     else
       flash[:notice] = "Error updating site."
       render 'edit'
-      
     end
   end
 
