@@ -15,7 +15,7 @@
 #
 
 class ClinicalSite < ActiveRecord::Base
-	has_many :clinical_teachers
+	has_many :clinical_teachers , dependent: :destroy
 
 	validates :SiteName,
 		presence: { message: "Please enter a site name."}

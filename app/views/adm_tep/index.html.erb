@@ -47,6 +47,7 @@
               <th>Admit Date</th>
               <th>Admission Decision</th>
               <th>Details</th>
+              <th>Delete</th>
               <th>Letter</th>
 
             </tr>
@@ -85,24 +86,36 @@
 
               <% end %>
         </td>
-
+        
+       
+        <td>
+          <%= link_to("Details", adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
+        </td>
+        
         <td>
           
-          <%= link_to("Details", adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
+          <%= button_to(adm_tep_path(app.id), { class: "btn btn-default #{app.TEPAdmit==nil ? "" : "disabled" }", 
+          method: :delete, 
+          data: {confirm: "Are you sure you want to delete this application?"}} ) do %>
+                      <span class="glyphicon glyphicon-trash"></span>
+                  <% end %> 
+          <!--Display button for deleting record
+          # 1) Button in grey if decision has been made
+          # 2) Button clickable if decision is nil-->
+          
         </td>
 
         <% if app.student_file  %>      
+        
         <td class="doc-download"> 
 
               <%= link_to adm_tep_download_path(app.id), :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
               <% end %>
-
         </td>
+      
         <% end %>
 
-
-
-            </tr>
+        </tr>
           <!-- end of if statement for content-->
         	<% end %>
             

@@ -19,6 +19,7 @@ class AdmStController < ApplicationController
 
     new_setup
     @app = AdmSt.new
+    authorize! :manage, @app
   end
 
   def create
@@ -31,7 +32,7 @@ class AdmStController < ApplicationController
     @current_term = current_term(exact: true)
 
     @app = AdmSt.new(new_adm_params)    #add in student_id
-
+    authorize! :manage, @app
     stu_id =  params[:adm_st][:student_id]
     apps_this_term = AdmSt.where(student_id: @stu_id).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).size
     @app.Attempt = apps_this_term + 1
@@ -53,12 +54,14 @@ class AdmStController < ApplicationController
 
   def edit
     @app = AdmSt.find(params[:id])
+    authorize! :manage, @app
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)   #term of application
     @student = Student.find(@app.student_id)
   end
 
   def update
     @app = AdmSt.find(params[:id])
+    authorize! :manage, @app
     @current_term = current_term(exact: false, plan_b: :back)
     @app.assign_attributes(update_adm_params)
 
@@ -89,6 +92,7 @@ class AdmStController < ApplicationController
   
   def edit_st_paperwork
     @app = AdmSt.find(params[:adm_st_id])
+    authorize! :manage, @app
     @student = @app.student
     @terms = BannerTerm.where("BannerTerm > ?", @app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
     
@@ -97,6 +101,7 @@ class AdmStController < ApplicationController
   def update_st_paperwork
     #update st paperwork
     @app = AdmSt.find(params[:adm_st_id])
+    authorize! :manage, @app
 
     #convert each param to an int and assign
     params_to_convert = [:background_check, :beh_train, :conf_train, :kfets_in, :STTerm]
@@ -122,7 +127,6 @@ class AdmStController < ApplicationController
       # flash[:notice] = "Problem updating record for #{name_details(app.student)}"
       # redirect_to adm_st_index_path
     end
-
   end
   
   def destroy
@@ -141,6 +145,7 @@ class AdmStController < ApplicationController
   def download
     #download an admission letter
     app = AdmSt.find(params[:adm_st_id])
+    authorize! :manage, @app
     send_file app.letter.path
     
   end
@@ -148,8 +153,8 @@ class AdmStController < ApplicationController
   def choose
     #display applicants for a term
     @term = params[:banner_term][:menu_terms]
+    #authorize! :manage, @term
     redirect_to(banner_term_adm_st_index_path(@term))
-    
   end
 
   private
