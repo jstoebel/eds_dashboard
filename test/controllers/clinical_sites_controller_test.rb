@@ -145,10 +145,22 @@ class ClinicalSitesControllerTest < ActionController::TestCase
   end
   
   test "should destroy site and dependent teachers and assignments" do
+    expected_term = BannerTerm.current_term(exact: false, plan_b: :forward)
     role_names.each do |r|
       load_session(r)
       expected_site = FactoryGirl.create :clinical_site
-    
+      
+      expected_teacher = FactoryGirl.create :clinical_teacher, {
+        :clinical_site_id => expected_site.id
+      }
+      
+      expected_assign = FactoryGirl.create :clinical_assignment, {
+        :clinical_teacher_id => expected_teacher.id, 
+        :Term => expected_term.id,
+        :StartDate => expected_term.StartDate.strftime("%Y/%m/%d"),
+        :EndDate => expected_term.EndDate.strftime("%Y/%m/%d")
+      }
+      
       post :destroy, {:id => expected_site.id}
     
       assert_equal(expected_site, assigns(:site))
