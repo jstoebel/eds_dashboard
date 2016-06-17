@@ -23,7 +23,7 @@ FactoryGirl.define do
                 Roles_idRoles i+1
 
                 if r == :advisor        #create a tep_advisor record for them if they are an advisor
-                    after(:create) { |usr| FactoryGirl.create :tep_advisor, {:user_id => usr.id, :Salutation => usr.FirstName}}
+                    after(:create) { |usr| FactoryGirl.create :tep_advisor, {:user_id => usr.id, :Salutation => usr.FirstName, :name => "#{usr.FirstName} #{usr.LastName}"}}
                 end
             end
         end
