@@ -3,9 +3,10 @@
 # Table name: tep_advisors
 #
 #  id          :integer          not null, primary key
+#  name        :string(255)
 #  AdvisorBnum :string(9)        not null
-#  Salutation  :string(45)       not null
-#  user_id     :integer          not null
+#  Salutation  :string(255)
+#  user_id     :integer
 #
 
 require 'test_helper'
