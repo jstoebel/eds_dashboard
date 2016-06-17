@@ -7,7 +7,7 @@ module Api
       def update
         #takes a student id and an array of all of that student's current advisors Bnums.
         # advisor assignments are dropped and created as needed
-        # example: {:student_id => 1, :advisors => ["B00123456", "B00789123"]}
+        # example: {:student_id => 1, :advisors => [{:AdvisorBnum => "B00123456", :Name => "Yoli Carter"}]}
 
         stu = Student.find params[:student_id]
         current_advisor_bnums = stu.advisor_assignments.map{|aa| aa.tep_advisor.AdvisorBnum}

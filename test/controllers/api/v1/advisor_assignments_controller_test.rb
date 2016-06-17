@@ -47,4 +47,13 @@ class StudentsControllerTest < ActionController::TestCase
 
   end
 
+  describe "create fail" do
+
+    it "handles missing student" do
+    end
+
+    it ""
+
+  end
+
 end
