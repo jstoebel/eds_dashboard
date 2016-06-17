@@ -4,7 +4,7 @@ module Api
       protect_from_forgery with: :null_session
       respond_to :json
 
-      def create
+      def update
         #takes a student id and an array of all of that student's current advisors Bnums.
         # advisor assignments are dropped and created as needed
         # example: {:student_id => 1, :advisors => ["B00123456", "B00789123"]}
@@ -33,7 +33,7 @@ module Api
           
           end # transaction
 
-          render :json => {:success => true, :msg => "Successfully altered advisor assignments.", :added => add_me, :deleted => delete_me}
+          render :json => {:success => true, :msg => "Successfully altered advisor assignments.", :added => add_me, :deleted => delete_me}, status: :created
         rescue ActiveRecord::RecordNotFound => e
           render :json => {:success => false, :msg => e}, status: :unprocessable_entity
 
