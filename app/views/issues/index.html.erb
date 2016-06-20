@@ -74,7 +74,7 @@
                       <%= link_to issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small" do %>
                           <span class="small-btn-text"> Updates 
                             <span class="badge">
-                              <%=issue.issue_updates.visible.size%> 
+                              <%= issue.issue_updates.select{|u| u.visible}.size %> 
                             </span>
                           </span>
                       <% end %>                             

@@ -13,6 +13,7 @@
 
 FactoryGirl.define do
   factory :issue_update do
+    association :issue
     UpdateName {Hipster.sentence}
     Description {Hipster.paragraph}
     # issue
