@@ -144,4 +144,54 @@ test "should not post create bad params" do
 
   end
 
+test "should delete teacher and dependent assignments" do
+  expected_term = BannerTerm.current_term(exact: false, plan_b: :forward)
+  
+  allowed_roles.each do |r|
+    load_session(r)
+    teach = FactoryGirl.create :clinical_teacher
+    expected_assign = FactoryGirl.create :clinical_assignment, {
+        :clinical_teacher_id => teach.id, 
+        :Term => expected_term.id,
+        :StartDate => expected_term.StartDate.strftime("%Y/%m/%d"),
+        :EndDate => expected_term.EndDate.strftime("%Y/%m/%d")
+      }
+    
+    post :destroy, {:id => teach.id}
+    
+    assert_equal(teach, assigns(:teacher))
+    assert assigns(:teacher).destroyed?
+    assigns(:teacher).clinical_assignments.each{|i| assert i.destroyed?}
+    assert_equal flash[:notice], "Deleted Successfully!"
+    assert_redirected_to(clinical_teachers_path)
+   end
+  end
+  
+  test "deletion for bad role" do
+    (role_names - allowed_roles).each do |r|
+    teach = FactoryGirl.create :clinical_teacher
+      post :destroy, {:id => teach.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+  test "should allow delete" do
+    #teach = FactoryGirl.create :clinical_teacher
+    allowed_roles.each do |r|
+      load_session(r)
+      teach = FactoryGirl.create :clinical_teacher
+      get :delete, {:clinical_teacher_id => teach.id}
+      assert_equal teach, assigns(:teacher)
+    end
+  end
+  
+  test "should not allow delete bad role" do
+    teach=FactoryGirl.create :clinical_teacher
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :delete, {:id => teach.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
 end
