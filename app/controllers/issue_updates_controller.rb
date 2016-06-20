@@ -74,7 +74,7 @@ class IssueUpdatesController < ApplicationController
 
     name_details(@student)
 
-    @updates = @issue.issue_updates.sorted    #no additional auth needed. If you can? the issue you can? the updates
+    @updates = @issue.issue_updates.sorted.where(:visible => true).select {|r| can? :read, r }  #no additional auth needed. If you can? the issue you can? the updates
 
   end
 
@@ -91,7 +91,19 @@ class IssueUpdatesController < ApplicationController
     name_details(@student)
 
   end
-
+  
+  #destroy method added to issue controller; 
+  #should destory records and make them not visible to the user, 
+  # but still exist in the database
+  def destroy 
+    authorize! :read, @manage
+    @update = IssueUpdate.find(params[:id])
+    @update.visible = false
+    @update.save
+    flash[:notice] = "Deleted Successfully!"
+    redirect_to(issue_issue_updates_path(@update.issue.id))
+  end
+  
   private
   def close_issue_params
     params.require(:issue_update).permit(:Description)

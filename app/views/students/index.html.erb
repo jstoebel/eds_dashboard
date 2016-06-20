@@ -54,7 +54,7 @@
                           </br><span class="small-btn-text">
                           Issues
                             <span class="badge">
-                              <%=student.issues.size%>
+                              <%=student.issues.select{|u| u.visible}.size%>
                             </span>
                           </span>
     

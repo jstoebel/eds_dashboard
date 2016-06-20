@@ -48,8 +48,9 @@ class IssuesController < ApplicationController
   def index
     @student = Student.find params[:student_id]
     authorize! :show, @student
-    @issues = @student.issues.sorted.select {|r| can? :read, r }
-    name_details(@student)    
+    @issues = @student.issues.sorted.visible.select {|r| can? :read, r }
+    name_details(@student) 
+    
   end
 
   def show
@@ -63,16 +64,23 @@ class IssuesController < ApplicationController
   def edit
 
   end
+  
+  #destroy method added to issue controller; 
+  #should destory records and make them not visible to the user, 
+  # but still exist in the database
+  def destroy 
+    @issue = Issue.find(params[:id])
+    authorize! :manage, @issue # added after test --> check w/JS #read,write, and manage
+    @issue.visible = false
+    @issue.save
+    flash[:notice] = "Deleted Successfully!"
+    redirect_to(student_issues_path(@issue.student.id))
+  end
 
   def update
 
   end
 
-  def destroy
-    @issue = Issue.find(params[:id]).destroy
-    redirect_to(issue_issue_updates_path)
-  end
-  
   private
   def new_issue_params
   #same as using params[:subject] except that:
