@@ -70,6 +70,7 @@ class IssuesController < ApplicationController
   # but still exist in the database
   def destroy 
     @issue = Issue.find(params[:id])
+    authorize! :create, @issue # added after test --> check w/JS
     @issue.visible = false
     @issue.save
     flash[:notice] = "Deleted Successfully!"
