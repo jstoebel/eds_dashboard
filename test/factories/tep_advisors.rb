@@ -13,7 +13,8 @@ include Faker
 FactoryGirl.define do
   factory :tep_advisor do
     sequence(:AdvisorBnum) {"B00#{Number.number(6)}"}
-    Salutation {Faker::Name.first_name}
+    name {Faker::Name.name}
+    Salutation {name.split(" ")[0]}
     association :user, factory: :advisor
   end
 end
