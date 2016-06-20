@@ -11,11 +11,9 @@
 #  clinical_site_id :integer          not null
 #  Rank             :integer
 #  YearsExp         :integer
-#
 
 class ClinicalTeachersController < ApplicationController
   authorize_resource
-  skip_authorize_resource :only => [:new]
 
   def index
 
@@ -69,6 +67,19 @@ class ClinicalTeachersController < ApplicationController
       render ('new')
     end
 
+  end
+  
+  def delete
+    @teacher = ClinicalTeacher.find(params[:clinical_teacher_id])
+    authorize! :manage, @teacher
+  end
+  
+  def destroy
+    @teacher = ClinicalTeacher.find(params[:id])
+    authorize! :manage, @teacher
+    @teacher.destroy  
+    flash[:notice] = "Deleted Successfully!"
+    redirect_to(clinical_teachers_path)
   end
 
   private
