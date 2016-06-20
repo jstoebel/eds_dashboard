@@ -166,28 +166,28 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   test "delete issue_update" do 
     (allowed_roles).each do |r|
       load_session(r)
-    stu = FactoryGirl.create(:student)
-    admtep = FactoryGirl.create(:tep_advisor)
-    iss = FactoryGirl.create(:issue, {:student_id => stu.id})  
-    iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => admtep.id, 
-    :Issues_IssueID => iss.id, :visible => true})
-    delete :destroy, {:id => iss_up.id}
-    assert_equal flash[:notice], "Deleted Successfully!"
-    assert_not assigns(:update).visible
-    assert_redirected_to(issue_issue_updates_path(assigns(:update).issue.id))
+        stu = FactoryGirl.create(:student)
+        admtep = FactoryGirl.create(:tep_advisor)
+        iss = FactoryGirl.create(:issue, {:student_id => stu.id})  
+        iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => admtep.id, 
+        :Issues_IssueID => iss.id, :visible => true})
+        delete :destroy, {:id => iss_up.id}
+        assert_equal flash[:notice], "Deleted Successfully!"
+        assert_not assigns(:update).visible
+        assert_redirected_to(issue_issue_updates_path(assigns(:update).issue.id))
     end
   end
   
   test "cannot delete" do 
     (role_names - allowed_roles).each do |r|
       load_session(r)
-    stu = FactoryGirl.create(:student)
-    admtep = FactoryGirl.create(:tep_advisor)
-    iss = FactoryGirl.create(:issue, {:student_id => stu.id})  
-    iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => admtep.id, 
-    :Issues_IssueID => iss.id, :visible => true})
-    delete :destroy, {:id => iss_up.id}
-    assert_redirected_to "/access_denied"
+        stu = FactoryGirl.create(:student)
+        tepadv = FactoryGirl.create(:tep_advisor)
+        iss = FactoryGirl.create(:issue, {:student_id => stu.id})  
+        iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => tepadv.id, 
+        :Issues_IssueID => iss.id, :visible => true})
+        delete :destroy, {:id => iss_up.id}
+        assert_redirected_to "/access_denied"
     end
   end
   

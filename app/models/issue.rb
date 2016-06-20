@@ -51,7 +51,6 @@ class Issue < ActiveRecord::Base
 			updates.each do |f|
 				f.visible = false
 				f.save
-				puts "here is the update in the model"
 			end
 		end
 	end
