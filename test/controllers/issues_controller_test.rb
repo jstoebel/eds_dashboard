@@ -175,10 +175,12 @@ class IssuesControllerTest < ActionController::TestCase
   #test for unauthorized users
   
   test "should NOT be allowed to destroy records" do
+    issue = FactoryGirl.create(:issue)
     (role_names - allowed_roles).each do |r|
       load_session(r)
-    issue = FactoryGirl.create(:issue)
-    
+    post :destroy, {:id => issue.id}
+    assert_redirected_to "/access_denied"
     end
+  end
 
 end
