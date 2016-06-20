@@ -15,7 +15,7 @@
 
 class ClinicalTeacher < ActiveRecord::Base
 
-	has_many :clinical_assignments
+	has_many :clinical_assignments, dependent: :destroy
 	belongs_to :clinical_site
 
     BNUM_REGEX = /\AB00\d{6}\Z/i
