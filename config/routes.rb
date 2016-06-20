@@ -192,7 +192,7 @@ Rails.application.routes.draw do
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
     end
-    resources :issues, only: [:index, :new, :create]
+    resources :issues, only: [:index, :new, :create, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
   end
 
