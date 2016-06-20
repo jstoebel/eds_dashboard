@@ -18,7 +18,7 @@ class ItemLevelTest < ActiveSupport::TestCase
   #   assert true
   # end
   
-  test "should not save, validations failed" do
+  test "Object not valid, validations failed" do
     lev = ItemLevel.new
     assert_not lev.valid?    #not a valid object
     #error due to all required attributes?

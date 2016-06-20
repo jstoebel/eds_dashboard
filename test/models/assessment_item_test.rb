@@ -15,4 +15,9 @@ class AssessmentItemTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  test "not valid object, validations fail" do
+    assess_items = AssessmentItem.new
+    assert_not assess_items.valid?
+    assert_equal [:slug, :name], assess_items.errors.keys
+  end
 end
