@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'test_teardown'
 
-class StudentsControllerTest < ActionController::TestCase
+class AdvisorAssignmentsControllerTest < ActionController::TestCase
 
   before do
     @controller = Api::V1::AdvisorAssignmentsController.new
@@ -55,7 +55,7 @@ class StudentsControllerTest < ActionController::TestCase
     end
 
     it "handles error message" do
-        patch :update, {:student_id => nil, :advisors => []}
+        patch :update, {:student_id => nil, :advisors => []}    
         message = JSON.parse(response.body)
         expect message["success"].must_equal false
         expect message["msg"].must_equal "Couldn't find Student without an ID"
