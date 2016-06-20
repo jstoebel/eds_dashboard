@@ -10,14 +10,16 @@ module Api
         # example: {:student_id => 1, :advisors => [{:AdvisorBnum => "B00123456", :Name => "Yoli Carter"}]}
 
         stu = Student.find params[:student_id]
-        current_advisor_bnums = stu.advisor_assignments.map{|aa| aa.tep_advisor.AdvisorBnum}
 
-        new_advisors = (params[:advisors]).present? ? params[:advisors].map{|a| a["AdvisorBnum"]} : [] #if an empty array is passed, it gets parsed into nil
+        new_advisors = (params[:advisors].present?) ? params[:advisors] : [] #if an empty array is passed, it gets parsed into nil
+        new_advisor_bnums = new_advisors.map{|na| na["AdvisorBnum"]}
 
-        new_advisor_bnums = new_advisors.map{|adv| adv["AdvisorBnum"]}  # B#s only
+        current_advisors = stu.advisor_assignments
+        current_advisor_bnums = current_advisors.map{|ca| ca.tep_advisor.AdvisorBnum}
+
 
         #add_me: who is not in current and IS in new?
-        add_me = new_advisors.select{|n| !current_advisor_bnums.include?(n["AdvisorBnum"])} #array of hashes with bnum and name
+        add_me = new_advisors.select{|n| !current_advisor_bnums.include?(n["AdvisorBnum"])} # array of hashes of advisors to add
 
         # delete me: bnums IN current and NOT in new
         delete_me = current_advisor_bnums.select{|bnum| !new_advisor_bnums.include?(bnum)} # array of just Bnums
@@ -54,12 +56,11 @@ module Api
         # stu: student record
         # the advisor is unassigned from this student
 
-        advisor = TepAdvisor.find_or_create_by :AdvisorBnum => bnum
-
+        advisor = TepAdvisor.find_by :AdvisorBnum => bnum
         assignment = AdvisorAssignment.find_by({:tep_advisor_id => advisor.id,
           :student_id => stu.id
           })
-        assignment.destroy!
+        assignment.destroy
       end
 
       def find_or_create_advisor(adv_hash)
@@ -74,7 +75,10 @@ module Api
           retry
         end
 
-        return adviso
+        puts "*****HERES THE ADVISOR THAT WAS FOUND OR CREATED"
+        puts advisor.inspect
+
+        return advisor
       end
 
     end
