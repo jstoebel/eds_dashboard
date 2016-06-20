@@ -45,8 +45,14 @@
             :content => update.Description
           } )  %>
         </td>
+        <td>
+                <%= button_to(issue_update_path(update.id), { class: "btn btn-default", method: :delete, data: {confirm: "Are you sure you want to delete this update?"}} ) do %>
+                     <span class="glyphicon glyphicon-trash"</span>
+                <% end %>
+        </td>
       </tr>
       
+    
     <% end %>
 
   <% end %>

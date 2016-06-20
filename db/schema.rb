@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609194211) do
+ActiveRecord::Schema.define(version: 20160615205836) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -209,12 +209,13 @@ ActiveRecord::Schema.define(version: 20160609194211) do
   add_index "forms_of_intention", ["student_id"], name: "forms_of_intention_student_id_fk", using: :btree
 
   create_table "issue_updates", primary_key: "UpdateID", force: true do |t|
-    t.text     "UpdateName",               null: false
-    t.text     "Description",              null: false
-    t.integer  "Issues_IssueID",           null: false
-    t.integer  "tep_advisors_AdvisorBnum", null: false
+    t.text     "UpdateName",                              null: false
+    t.text     "Description",                             null: false
+    t.integer  "Issues_IssueID",                          null: false
+    t.integer  "tep_advisors_AdvisorBnum",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "visible",                  default: true, null: false
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
@@ -228,6 +229,7 @@ ActiveRecord::Schema.define(version: 20160609194211) do
     t.integer  "tep_advisors_AdvisorBnum",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "visible",                  default: true, null: false
   end
 
   add_index "issues", ["student_id"], name: "issues_student_id_fk", using: :btree
@@ -459,20 +461,6 @@ ActiveRecord::Schema.define(version: 20160609194211) do
   add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
 
   Foreigner.load
-  add_foreign_key "adm_st", "banner_terms", name: "fk_AdmST_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
-  add_foreign_key "adm_st", "student_files", name: "adm_st_student_file_id_fk"
-  add_foreign_key "adm_st", "students", name: "adm_st_student_id_fk"
-
-  add_foreign_key "adm_tep", "banner_terms", name: "fk_AdmTEP_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
-  add_foreign_key "adm_tep", "programs", name: "adm_tep_Program_ProgCode_fk", column: "Program_ProgCode"
-  add_foreign_key "adm_tep", "student_files", name: "adm_tep_student_file_id_fk"
-  add_foreign_key "adm_tep", "students", name: "adm_tep_student_id_fk"
-
-  add_foreign_key "advisor_assignments", "students", name: "advisor_assignments_student_id_fk"
-  add_foreign_key "advisor_assignments", "tep_advisors", name: "advisor_assignments_tep_advisor_id_fk"
-
-  add_foreign_key "alumni_info", "students", name: "fk_AlumniInfo_Student", column: "Student_Bnum", primary_key: "Bnum"
-
   add_foreign_key "assessment_item_versions", "assessment_items", name: "assessment_item_versions_assessment_item_id_fk"
   add_foreign_key "assessment_item_versions", "assessment_versions", name: "assessment_item_versions_assessment_version_id_fk"
 
