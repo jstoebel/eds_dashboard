@@ -9,23 +9,23 @@ module Api
         # advisor assignments are dropped and created as needed
         # example: {:student_id => 1, :advisors => [{:AdvisorBnum => "B00123456", :Name => "Yoli Carter"}]}
 
-        stu = Student.find params[:student_id]
-
-        new_advisors = (params[:advisors].present?) ? params[:advisors] : [] #if an empty array is passed, it gets parsed into nil
-        new_advisor_bnums = new_advisors.map{|na| na["AdvisorBnum"]}
-
-        current_advisors = stu.advisor_assignments
-        current_advisor_bnums = current_advisors.map{|ca| ca.tep_advisor.AdvisorBnum}
-
-
-        #add_me: who is not in current and IS in new?
-        add_me = new_advisors.select{|n| !current_advisor_bnums.include?(n["AdvisorBnum"])} # array of hashes of advisors to add
-
-        # delete me: bnums IN current and NOT in new
-        delete_me = current_advisor_bnums.select{|bnum| !new_advisor_bnums.include?(bnum)} # array of just Bnums
-
-
         begin
+          stu = Student.find params[:student_id]
+
+          new_advisors = (params[:advisors].present?) ? params[:advisors] : [] #if an empty array is passed, it gets parsed into nil
+          new_advisor_bnums = new_advisors.map{|na| na["AdvisorBnum"]}
+
+          current_advisors = stu.advisor_assignments
+          current_advisor_bnums = current_advisors.map{|ca| ca.tep_advisor.AdvisorBnum}
+
+
+          #add_me: who is not in current and IS in new?
+          add_me = new_advisors.select{|n| !current_advisor_bnums.include?(n["AdvisorBnum"])} # array of hashes of advisors to add
+
+          # delete me: bnums IN current and NOT in new
+          delete_me = current_advisor_bnums.select{|bnum| !new_advisor_bnums.include?(bnum)} # array of just Bnums
+
+
           AdvisorAssignment.transaction do
 
             delete_me.each{|bnum| destroy_assignment(stu, bnum)}
@@ -42,8 +42,8 @@ module Api
           end # transaction
 
           render :json => {:success => true, :msg => "Successfully altered advisor assignments.", :added => add_me, :deleted => delete_me}, status: :created
-        rescue ActiveRecord::RecordNotFound => e
-          render :json => {:success => false, :msg => e}, status: :unprocessable_entity
+        rescue ActiveRecord::RecordNotFound, ActiveRecord::StatementInvalid => e
+          render :json => {:success => false, :msg => e.message}, status: :unprocessable_entity
 
         end # exception handle
 
@@ -74,9 +74,6 @@ module Api
         rescue ActiveRecord::RecordInvalid => e
           retry
         end
-
-        puts "*****HERES THE ADVISOR THAT WAS FOUND OR CREATED"
-        puts advisor.inspect
 
         return advisor
       end

@@ -16,17 +16,17 @@ class StudentsControllerTest < ActionController::TestCase
     let(:assignment_diff){AdvisorAssignment.all.size - @before_count}
 
     it "adds new assignments" do
-        patch :update, {:student_id => stu.id, :advisors => [adv.AdvisorBnum]}
+        patch :update, {:student_id => stu.id, :advisors => [adv.attributes.slice("AdvisorBnum", "name")]}
         # patch :update, {:student_id => stu.id, :advisors => [adv.AdvisorBnum] }
         expect assignment_diff.must_equal 1
     end
 
-    it "removes old advisors" do
+    it "removes advisors" do
         AdvisorAssignment.create({
                 :student_id => stu.id,
                 :tep_advisor_id => adv.id
         })
-        patch :update, {:student_id => stu.id, :advisors => []}
+        patch :update, {:student_id => stu.id, :advisors => []} #delete all assignments
         expect assignment_diff.must_equal 0
     end
 
@@ -49,9 +49,18 @@ class StudentsControllerTest < ActionController::TestCase
 
   describe "create fail" do
 
-    it "handles missing student" do
+    it "returns http fail" do
+        patch :update, {:student_id => nil, :advisors => []}
+        assert_response :unprocessable_entity
     end
 
+    it "handles error message" do
+        patch :update, {:student_id => nil, :advisors => []}
+        message = JSON.parse(response.body)
+        expect message["success"].must_equal false
+        expect message["msg"].must_equal "Couldn't find Student without an ID"
+
+    end
 
   end
 
