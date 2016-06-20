@@ -96,11 +96,12 @@ class IssueUpdatesController < ApplicationController
   #should destory records and make them not visible to the user, 
   # but still exist in the database
   def destroy 
-    @issue = IssueUpdate.find(params[:issue_id])
-    @issue.visible = false
-    @issue.save
+    authorize! :read, @manage
+    @update = IssueUpdate.find(params[:id])
+    @update.visible = false
+    @update.save
     flash[:notice] = "Deleted Successfully!"
-    redirect_to(issue_issue_updates_path(@issue.student.id))
+    redirect_to(issue_issue_updates_path(@update.issue.id))
   end
   
   private
