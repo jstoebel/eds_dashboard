@@ -17,8 +17,8 @@ class AssessmentVersion < ActiveRecord::Base
 
     ### ASSOCIATIONS ###
     belongs_to :assessment
-    has_many  :assessment_item_versions
-    has_many :assessment_items, :through => :assessment_item_version
+    belongs_to :student_score
+    #has_many :assessment_items
 
     before_save :set_version_num
 
