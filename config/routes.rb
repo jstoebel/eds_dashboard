@@ -135,6 +135,8 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
+    crud = [:index, :show, :new, :create, :edit, :update, :delete, :destroy]
+
   #A resource must be top level before it can be nested in another resource (I think)
 
   match 'prog_exits/get_programs', via: [:post, :get]
@@ -227,7 +229,7 @@ Rails.application.routes.draw do
   			end
   		end
 
-  		resource :transcripts, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
+  		resource :transcripts, :except => crud do
   			collection do
 	  			post "batch_upsert"
   			end
@@ -236,6 +238,12 @@ Rails.application.routes.draw do
         resource :banner_updates, :only => [:create]
 
         resource :advisor_assignment, :only => [:update]
+
+        resource :praxis_result, :except => crud do
+            collection do
+                post "upsert"
+            end
+        end
 
   	end 
   end
