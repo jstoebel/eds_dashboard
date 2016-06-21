@@ -4,6 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  slug        :string(255)
+#  name        :string
 #  description :text
 #  created_at  :datetime
 #  updated_at  :datetime
@@ -15,4 +16,12 @@ class AssessmentItemTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  
+  test "not valid object, validations fail" do
+    assess_item = AssessmentItem.new
+    assert_not assess_item.valid?
+    assert_equal [:name, :slug], assess_item.errors.keys
+    assert_equal [:name, :slug].map{|i| [i, ["can't be blank"]]}.to_h,
+      assess_item.errors.messages
+  end
 end

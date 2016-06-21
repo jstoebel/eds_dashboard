@@ -22,5 +22,5 @@ class ItemLevel < ActiveRecord::Base
     belongs_to :student_score
     belongs_to :assessment_item
 
-    validates_presence_of :descriptor, :level, assessment_item_id
+    validates_presence_of :descriptor, :level, :assessment_item_id
 end
