@@ -12,7 +12,12 @@
 require 'test_helper'
 
 class AssessmentTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  test "not valid object, validations failed" do
+    assess = Assessment.new
+    assert_not assess.valid?
+    assert_equal [:name], assess.errors.keys
+    assert_equal [:name].map{|i| [i, ["can't be blank"]]}.to_h, 
+      assess.errors.messages
+  end
 end
