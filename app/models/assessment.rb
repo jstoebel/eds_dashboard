@@ -31,5 +31,4 @@ class Assessment < ActiveRecord::Base
     def current_version
         return self.versions.order(:version_num).last
     end
-
 end
