@@ -28,6 +28,25 @@ class FixPks < ActiveRecord::Migration
   end
 
   def down
+
+    
+    change_column :users, :UserName, :int, :null => false
+    change_column :transcript, :crn, :int, :null => false
+    change_column :tep_advisors, :AdvisorBnum, :string, :null => false
+    change_column :roles, :idRoles, :string #THIS IS A GUESS!
+    execute %q(ALTER TABLE `eds_development`.`prog_exits` 
+    ADD COLUMN `id` INT NOT NULL AUTO_INCREMENT,
+    DROP PRIMARY KEY,
+    ADD PRIMARY KEY (`id`);)
+    change_column :praxis_updates, :ReportDate, :integer
+    change_column :praxis_tests, :TestCode, :integer
+    change_column :praxis_subtest_results, :SubTestID, :integer
+    change_column :praxis_results, :TestID, :integer
+    change_column :exit_codes, :ExitCode, :integer
+
+
+
+    # remove_foreign_key :prog_exits, :name => "fk_Exit_ExitCode"
     # execute "ALTER TABLE `exit_codes` CHANGE COLUMN `ExitCode` `ExitCode` INT NOT NULL AUTO_INCREMENT ;"
 
     # execute "ALTER TABLE `praxis_results` CHANGE COLUMN `TestID` `TestID` INT NOT NULL AUTO_INCREMENT ;"
