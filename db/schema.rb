@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621191024) do
+ActiveRecord::Schema.define(version: 20160621202428) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20160621191024) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "assessment_versions", force: true do |t|
@@ -357,6 +358,15 @@ ActiveRecord::Schema.define(version: 20160621191024) do
   end
 
   add_index "student_files", ["student_id"], name: "student_files_student_id_fk", using: :btree
+
+  create_table "student_scores", force: true do |t|
+    t.integer  "student_id",            null: false
+    t.integer  "assessment_version_id", null: false
+    t.integer  "assessment_item_id",    null: false
+    t.integer  "item_level_id",         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "students", force: true do |t|
     t.string  "Bnum",             limit: 9,   null: false
