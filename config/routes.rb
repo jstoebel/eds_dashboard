@@ -194,6 +194,7 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:index, :new, :create, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
+    resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update]
   end
 
   resources :student_files do
