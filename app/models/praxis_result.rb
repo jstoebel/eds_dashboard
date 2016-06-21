@@ -33,11 +33,7 @@ class PraxisResult < ActiveRecord::Base
 	validates :test_date,
 		presence: {message: "Test date must be selected."}
 
-	validates :reg_date,
-		presence: {message: "Registration date must be selected."}
-
 	validates :paid_by,
-		presence: {message: "Payment source must be given."},
 		inclusion: {
 			:in => ['EDS', 'ETS (fee waiver)', 'Student'],
 			message: "Invalid payment source.",
@@ -71,9 +67,8 @@ class PraxisResult < ActiveRecord::Base
 			student_id: self.student_id,
 			praxis_test_id: self.praxis_test_id,
 			test_date: self.test_date
-			 )
-		# puts "I found #{matching_ids.size} matching ids"
-		if matching_ids.size > 1
+			 ).where.not(:id => self.id)
+		if matching_ids.size >= 1
 			self.errors.add(:base, "Student may not take the same exam on the same day.")
 		end
 	end
