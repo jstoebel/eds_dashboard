@@ -18,7 +18,8 @@ level name and level number
 =end
 
 class ItemLevel < ActiveRecord::Base
-
+    
+    belongs_to :student_score
     belongs_to :assessment_item
 
     validates :descriptor, presence: true
