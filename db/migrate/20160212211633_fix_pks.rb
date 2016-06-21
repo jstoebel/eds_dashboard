@@ -28,7 +28,16 @@ class FixPks < ActiveRecord::Migration
   end
 
   def down
+
+    change_column :users, :UserName, :int, :null => false
+    change_column :transcript, :crn, :int, :null => false
+    change_column :tep_advisors, :AdvisorBnum, :null => false
+    change_column :roles, :idRoles, :string #THIS IS A GUESS!
+
+    # remove_foreign_key :prog_exits, :name => "fk_Exit_ExitCode"
     # execute "ALTER TABLE `exit_codes` CHANGE COLUMN `ExitCode` `ExitCode` INT NOT NULL AUTO_INCREMENT ;"
+    # add_foreign_key :prog_exits, :exit_codes, :name => "fk_Exit_ExitCode", :column => "ExitCode_ExitCode", :primary_key => "ExitCode"
+
 
     # execute "ALTER TABLE `praxis_results` CHANGE COLUMN `TestID` `TestID` INT NOT NULL AUTO_INCREMENT ;"
 
@@ -42,13 +51,13 @@ class FixPks < ActiveRecord::Migration
 
     # execute "ALTER TABLE `prog_exits` ADD COLUMN `id` INT NOT NULL AUTO_INCREMENT FIRST,ADD PRIMARY KEY (`id`);"
 
-    execute "ALTER TABLE `roles` CHANGE COLUMN `idRoles` `idRoles` INT NOT NULL AUTO_INCREMENT ;"
+    # execute "ALTER TABLE `roles` CHANGE COLUMN `idRoles` `idRoles` INT NOT NULL AUTO_INCREMENT ;"
 
-    execute "ALTER TABLE `tep_advisors` CHANGE COLUMN `AdvisorBnum` `AdvisorBnum` INT NOT NULL AUTO_INCREMENT ;"
+    # execute "ALTER TABLE `tep_advisors` CHANGE COLUMN `AdvisorBnum` `AdvisorBnum` INT NOT NULL AUTO_INCREMENT ;"
 
-    execute "ALTER TABLE `transcript` CHANGE COLUMN `crn` `crn` INT NOT NULL AUTO_INCREMENT ;"
+    # execute "ALTER TABLE `transcript` CHANGE COLUMN `crn` `crn` INT NOT NULL AUTO_INCREMENT ;"
 
-    execute "ALTER TABLE `transcript` CHANGE COLUMN `crn` `crn` INT NOT NULL AUTO_INCREMENT ;"
+    # execute "ALTER TABLE `transcript` CHANGE COLUMN `crn` `crn` INT NOT NULL AUTO_INCREMENT ;"
 
   end
 end
