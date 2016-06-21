@@ -20,9 +20,9 @@ class RefactorExitCodes < ActiveRecord::Migration
 
   def down
 
-    remove_foreign_key :prog_exits, :name => "prog_exits_ExitCode_ExitCode_fk"
-    change_column :prog_exits, :ExitCode_ExitCode, :string
-    change_column :exit_codes, :ExitCode, :null => true
+    # remove_foreign_key :prog_exits, :name => "prog_exits_ExitCode_ExitCode_fk"
+    # change_column :prog_exits, :ExitCode_ExitCode, :string
+    change_column :exit_codes, :ExitCode, :string, :null => true
     remove_column :exit_codes, :id
     execute %q(ALTER TABLE `exit_codes` 
     ADD PRIMARY KEY (`ExitCode`);)
