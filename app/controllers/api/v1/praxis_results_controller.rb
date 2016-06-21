@@ -28,7 +28,6 @@ module Api
 
         # get the test
         begin
-          p "*"*50
           puts params["praxis_result"]["TestCode"]
           test_code = params["praxis_result"]["TestCode"]
           praxis_test = PraxisTest.find_by!({:TestCode => test_code})
@@ -43,11 +42,11 @@ module Api
             :student_id => stu.id,
             :praxis_test_id => praxis_test.id,
             }.merge upsert_params
-            
+
           result = PraxisResult.find_or_initialize_by(result_params)
 
           result.update_attributes!({
-              :test_score => params["test_score"]  
+              :test_score => params["test_score"]
             })
 
           render :json => {:success => true, :msg => "Successfully upserted praxis result: #{result.inspect}"}, status: :created
