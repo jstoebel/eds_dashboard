@@ -10,15 +10,15 @@ class PraxisResultsControllerTest < ActionController::TestCase
   describe "successful upsert" do
 
     let(:stu){Student.first}
-    let(:test){PraxisTest.first}
-    let(:post_params){{"bnum" : "B00000001",
-        "praxis_result" : {
-            "TestCode": "5439",
-            "test_date" : "2016-06-22",
-            "test_score" : "100",
-            "cut_score" : "100"
+    let(:praxis_test){PraxisTest.first}
+    let(:post_params){ {"bnum" => "B00000001",
+        "praxis_result" => {
+            "TestCode"=> "5439",
+            "test_date" => "2016-06-22",
+            "test_score" => "100",
+            "cut_score" => "100"
         }
-    }}
+    } }
     subject{post :upsert, post_params}
     
     it "inserts a new record" do
