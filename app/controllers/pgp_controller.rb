@@ -19,7 +19,7 @@ class PgpController < ApplicationController
     
     def edit
         @pgp = Pgps.find(params[:id])
-        authorize! :read, @site
+        authorize! :read, @pgp
     end
     
     def create
@@ -27,7 +27,7 @@ class PgpController < ApplicationController
         @pgp.update_attributes(pgp_params)
         authorize! :manage, @pgp
         if @pgp.save
-          flash[:notice] = "Created #{@pgp.GoalName}."
+          flash[:notice] = "Created #{@pgp.goal_name}."
           redirect_to (pgp_path)
         else
           flash[:notice] = "Error creating professional growth plan."
@@ -46,17 +46,17 @@ class PgpController < ApplicationController
     end
 
     
-    def destroy
-        @pgp = Pgps.find(params[:id])    #find object and assign to instance variable
-        authorize! :manage, @pgp
-        if @pgp.PgpScore == nil            #if TEPAdmit does not have a value
-            @pgp.destroy
-            flash[:notice] = "Professional growth plan deleted successfully"
-        else                               #if TEPAdmit does have a value
-            flash[:notice] = "Professional growth plan cannot be deleted"    #notifies user that object cannot be deleted
-        end
-        redirect_to(pgp_path()) 
-    end
+    # def destroy
+    #     @pgp = Pgps.find(params[:id])    #find object and assign to instance variable
+    #     authorize! :manage, @pgp
+    #     if @pgp.PgpScore == nil            #if TEPAdmit does not have a value
+    #         @pgp.destroy
+    #         flash[:notice] = "Professional growth plan deleted successfully"
+    #     else                               #if TEPAdmit does have a value
+    #         flash[:notice] = "Professional growth plan cannot be deleted"    #notifies user that object cannot be deleted
+    #     end
+    #     redirect_to(pgp_path()) 
+    # end
 
     private
     def pgp_params
