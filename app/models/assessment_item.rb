@@ -14,10 +14,9 @@ represents a single item that can belong to any number of different assessments
 =end
 
 class AssessmentItem < ActiveRecord::Base
-
-    has_many :assessment_item_versions
-    has_many :assessment_versions, :through => :assessment_item_versions
+    
     has_many :item_levels
-
-    validates :slug, presence: true
+    has_many :student_scores
+    
+    validates_presence_of :name, :slug
 end
