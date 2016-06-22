@@ -497,4 +497,11 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal "Couldn't find Student with 'id'=#{update_attrs[0][:id]}", result[:msg]
 	end
 
+    test "Object not valid, validations failed" do 
+	  stu=Student.new
+	  assert_not stu.valid?
+	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus], stu.errors.keys
+	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus].map{|i| [i, ["can't be blank"]]}.to_h, 
+	    stu.errors.messages
+	end 
 end
