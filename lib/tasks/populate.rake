@@ -35,6 +35,10 @@ namespace :db do
     #10 sites with 3 teachers each.
     clinical_sites = FactoryGirl.create_list :clinical_site, 10
     clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
+    
+    #Assessment data
+    assessments = FactoryGirl.create_list :assessment, 10
+
 
     puts "creating data for students..."
     students.each do |s|

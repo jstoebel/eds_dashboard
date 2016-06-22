@@ -1,9 +1,8 @@
-class AssessmentController < ApplicationController
+class AssessmentsController < ApplicationController
   authorize_resource
   
   def index
-    #term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :Term)
-    @assessment = Assessment.all    #get records user can read
+    @assessment = Assessment.all    
     authorize! :read, @assessment
   end
 
@@ -14,29 +13,42 @@ class AssessmentController < ApplicationController
 
   def create
     @assessment = Assessment.new
+    authorize! :manage, @assessment  
     @assessment.assign_attributes(assessment_params)
-    authorize! :manage, @assessment
   end
 
   def edit
-    #form_details
     @assessment = Assessment.find(params[:id])
     authorize! :manage, @assessment
   end
 
   def update
     @assessment = Assessment.find(params[:id])
+    authorize! :manage, @assessment  
     @assessment.update_attributes(assessment_params)
-    authorize! :manage, @assessment    
     if @assessment.save
       flash[:notice] = "Updated Assessment #{@assessment.Name}."
-      redirect_to(assessment_path)
+      redirect_to(assessment_index_path)
     else
-      form_details
       render ('edit')
+    end
   end
 
   def delete
+    @assessment = Assessment.find(params[:id])
+    authorize! :manage, @assessment
+  end
+  
+  def destroy
+    @asssessment = Assessment.find(params[:id])
+    authorize! :manage, @assessment
+    if @assessment.AssessmentVersion.StudentScore == nil
+      @assessment.destroy
+      flash[:notice] = "Record deleted successfully"
+    else
+      flash[:notice] = "Record cannot be deleted"
+    end
+    redirect_to(assessment_index_path)
   end
   
   private
