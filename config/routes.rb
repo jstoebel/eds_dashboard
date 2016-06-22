@@ -135,6 +135,18 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
+  get 'assessment/index'
+
+  get 'assessment/new'
+
+  get 'assessment/create'
+
+  get 'assessment/edit'
+
+  get 'assessment/update'
+
+  get 'assessment/delete'
+
   #A resource must be top level before it can be nested in another resource (I think)
 
   match 'prog_exits/get_programs', via: [:post, :get]
