@@ -15,10 +15,10 @@
 =end
 
 class StudentScore < ActiveRecord::Base
-    has_many :students
-    has_many :assessment_versions
-    has_many :item_levels
-    has_many :assessment_items
+    belongs_to :students
+    belongs_to :assessment_versions
+    belongs_to :item_levels
+    belongs_to :assessment_items
     
     validates_presence_of :student_id, :assessment_version_id, :assessment_item_id, :item_level_id
 end

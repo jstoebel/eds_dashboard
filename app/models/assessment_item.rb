@@ -16,7 +16,7 @@ represents a single item that can belong to any number of different assessments
 class AssessmentItem < ActiveRecord::Base
     
     has_many :item_levels
-    belongs_to :student_score
+    has_many :student_scores
     
     validates_presence_of :name, :slug
 end
