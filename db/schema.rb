@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615152950) do
+ActiveRecord::Schema.define(version: 20160621171905) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -259,6 +259,17 @@ ActiveRecord::Schema.define(version: 20160615152950) do
     t.string "name"
   end
 
+  create_table "pgps", force: true do |t|
+    t.integer  "student_id"
+    t.string   "goal_name"
+    t.text     "description"
+    t.text     "plan"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pgps", ["student_id"], name: "pgps_student_id_fk", using: :btree
+
   create_table "praxis_prep", primary_key: "TestID", force: true do |t|
     t.integer "student_id",                             null: false
     t.integer "PraxisTest_TestCode",                    null: false
@@ -505,6 +516,8 @@ ActiveRecord::Schema.define(version: 20160615152950) do
   add_foreign_key "item_levels", "assessment_items", name: "item_levels_assessment_item_id_fk"
 
   add_foreign_key "last_names", "students", name: "last_names_student_id_fk"
+
+  add_foreign_key "pgps", "students", name: "pgps_student_id_fk"
 
   add_foreign_key "praxis_prep", "praxis_tests", name: "praxis_prep_PraxisTest_TestCode_fk", column: "PraxisTest_TestCode"
   add_foreign_key "praxis_prep", "students", name: "praxis_prep_student_id_fk"
