@@ -1,0 +1,16 @@
+<%= link_to assessments_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<%= form_for(@assessment, url: edit_assessment_path(@assessment.id)) do |f| %>
+
+	<table summary="assessment form fields">
+    <h1> Edit Assessment </h1>
+
+	<%= render(partial: 'form', locals: {f: f}) %>
+
+	<tr>
+		<td><%= submit_tag("Edit Assessment") %></td>
+	</tr>
+
+<% end %>

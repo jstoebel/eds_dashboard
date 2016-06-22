@@ -21,6 +21,7 @@
     <% @assessment.each do |assessment| %>
       <% if can? :read, assessment %>
         <td><%= assessment.name%></td>
+        <!-- <td><%#assessment.description %></td> -->
 
         <td class="actions">
 

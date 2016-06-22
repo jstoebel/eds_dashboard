@@ -14,8 +14,7 @@
 include Faker
 FactoryGirl.define do
   factory :assessment do
-    name Lorem.words(4).join " "
-    description Lorem.paragraph
-
+    name {Lorem.words(4).join " "}
+    description {Lorem.paragraph}
   end
 end

@@ -135,18 +135,6 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
-  get 'assessment/index'
-
-  get 'assessment/new'
-
-  get 'assessment/create'
-
-  get 'assessment/edit'
-
-  get 'assessment/update'
-
-  get 'assessment/delete'
-
   #A resource must be top level before it can be nested in another resource (I think)
 
   match 'prog_exits/get_programs', via: [:post, :get]
@@ -166,7 +154,11 @@ Rails.application.routes.draw do
   resources :clinical_teachers, only: [:index, :new, :create, :edit, :update, :destroy] do
     get "delete"
   end
-  
+ 
+  resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy]  do
+    get "delete"
+  end
+ 
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
@@ -222,8 +214,7 @@ Rails.application.routes.draw do
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
   end
-
-
+  
   #~~~API ROUTES
   # credit: The code was found here: http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
   namespace :api, defaults: {formats: 'json'} do
