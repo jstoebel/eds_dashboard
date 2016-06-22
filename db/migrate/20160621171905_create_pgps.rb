@@ -5,9 +5,10 @@ class CreatePgps < ActiveRecord::Migration
       t.string :goal_name
       t.text :description
       t.text :plan
-      t.timestamps
+      t.timestamps :created_at
     end
     add_foreign_key(:pgps, :students)
+    
   end
   
   def down
