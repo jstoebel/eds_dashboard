@@ -2,6 +2,8 @@ class Pgp < ActiveRecord::Base
     has_many :pgp_scores
     belongs_to :student
     
+    validates :student_id,
+        presence: {message:"There must be an active student associated."}
     validates :goal_name,
         presence: {message:"Please enter a goal."}
     validates :description,
