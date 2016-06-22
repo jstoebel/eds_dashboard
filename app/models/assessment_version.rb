@@ -22,11 +22,4 @@ class AssessmentVersion < ActiveRecord::Base
     ### VALIDATIONS ###
     
     validates_presence_of :assessment_id
-    
-    before_save :set_version_num
-
-    def set_version_num
-        syblings = AssessmentVersion.where(assessment_id: self.assessment_id)
-        self.version_num = syblings.size + 1
-    end
 end
