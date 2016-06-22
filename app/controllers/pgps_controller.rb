@@ -10,13 +10,13 @@
 
 class PgpsController < ApplicationController
     authorize_resource
-    skip_authorize_resource :only => :new
     layout 'application'
     
     def index
         @student = Student.find(params[:student_id])
         authorize! :show, @pgp
-        #@pgps = @student.pgps.sorted.select {|r| can? :show, r }
+        @pgps = @student.pgps.size
+        
     end
     
     def show

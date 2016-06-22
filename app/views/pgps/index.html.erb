@@ -25,7 +25,7 @@
                       close isue -->
                                 
                   <td>
-                     <%= button_to(pgp_path(pgp.id), { class: "btn btn-default", method: :delete,
+                     <%= button_to(pgp_path(student.pgp.id), { class: "btn btn-default", method: :delete,
                      data: {confirm: "Are you sure you want to delete this pgp?"}} ) do %>
                       <span class="glyphicon glyphicon-trash"</span>
                      <% end %>
