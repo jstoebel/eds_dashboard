@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615205836) do
+ActiveRecord::Schema.define(version: 20160622134750) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -80,34 +80,13 @@ ActiveRecord::Schema.define(version: 20160615205836) do
 
   add_index "alumni_info", ["Student_Bnum"], name: "fk_AlumniInfo_Student1_idx", using: :btree
 
-  create_table "assessment_item_versions", force: true do |t|
-    t.integer  "assessment_version_id", null: false
-    t.integer  "assessment_item_id",    null: false
-    t.string   "item_code"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "assessment_item_versions", ["assessment_item_id"], name: "assessment_item_versions_assessment_item_id_fk", using: :btree
-  add_index "assessment_item_versions", ["assessment_version_id"], name: "assessment_item_versions_assessment_version_id_fk", using: :btree
-
   create_table "assessment_items", force: true do |t|
     t.string   "slug"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
-
-  create_table "assessment_scores", force: true do |t|
-    t.integer  "student_assessment_id",      null: false
-    t.integer  "assessment_item_version_id", null: false
-    t.integer  "score"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "assessment_scores", ["assessment_item_version_id"], name: "assessment_scores_assessment_item_version_id_fk", using: :btree
-  add_index "assessment_scores", ["student_assessment_id"], name: "assessment_scores_student_assessment_id_fk", using: :btree
 
   create_table "assessment_versions", force: true do |t|
     t.integer  "assessment_id", null: false
@@ -369,16 +348,6 @@ ActiveRecord::Schema.define(version: 20160615205836) do
 
   add_index "roles", ["RoleName"], name: "RoleName_UNIQUE", unique: true, using: :btree
 
-  create_table "student_assessments", force: true do |t|
-    t.integer  "student_id",            null: false
-    t.integer  "assessment_version_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "student_assessments", ["assessment_version_id"], name: "student_assessments_assessment_version_id_fk", using: :btree
-  add_index "student_assessments", ["student_id"], name: "student_assessments_student_id_fk", using: :btree
-
   create_table "student_files", force: true do |t|
     t.integer  "student_id",                                  null: false
     t.boolean  "active",                       default: true
@@ -389,6 +358,20 @@ ActiveRecord::Schema.define(version: 20160615205836) do
   end
 
   add_index "student_files", ["student_id"], name: "student_files_student_id_fk", using: :btree
+
+  create_table "student_scores", force: true do |t|
+    t.integer  "student_id",            null: false
+    t.integer  "assessment_version_id", null: false
+    t.integer  "assessment_item_id",    null: false
+    t.integer  "item_level_id",         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "student_scores", ["assessment_item_id"], name: "student_scores_assessment_item_id_fk", using: :btree
+  add_index "student_scores", ["assessment_version_id"], name: "student_scores_assessment_version_id_fk", using: :btree
+  add_index "student_scores", ["item_level_id"], name: "student_scores_item_level_id_fk", using: :btree
+  add_index "student_scores", ["student_id"], name: "student_scores_student_id_fk", using: :btree
 
   create_table "students", force: true do |t|
     t.string  "Bnum",             limit: 9,   null: false
@@ -461,12 +444,6 @@ ActiveRecord::Schema.define(version: 20160615205836) do
   add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
 
   Foreigner.load
-  add_foreign_key "assessment_item_versions", "assessment_items", name: "assessment_item_versions_assessment_item_id_fk"
-  add_foreign_key "assessment_item_versions", "assessment_versions", name: "assessment_item_versions_assessment_version_id_fk"
-
-  add_foreign_key "assessment_scores", "assessment_item_versions", name: "assessment_scores_assessment_item_version_id_fk"
-  add_foreign_key "assessment_scores", "student_assessments", name: "assessment_scores_student_assessment_id_fk"
-
   add_foreign_key "assessment_versions", "assessments", name: "assessment_versions_assessment_id_fk"
 
   add_foreign_key "banner_updates", "banner_terms", name: "banner_updates_end_term_fk", column: "end_term", primary_key: "BannerTerm"
@@ -507,10 +484,12 @@ ActiveRecord::Schema.define(version: 20160615205836) do
   add_foreign_key "prog_exits", "programs", name: "prog_exits_Program_ProgCode_fk", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "students", name: "prog_exits_student_id_fk"
 
-  add_foreign_key "student_assessments", "assessment_versions", name: "student_assessments_assessment_version_id_fk"
-  add_foreign_key "student_assessments", "students", name: "student_assessments_student_id_fk"
-
   add_foreign_key "student_files", "students", name: "student_files_student_id_fk"
+
+  add_foreign_key "student_scores", "assessment_items", name: "student_scores_assessment_item_id_fk"
+  add_foreign_key "student_scores", "assessment_versions", name: "student_scores_assessment_version_id_fk"
+  add_foreign_key "student_scores", "item_levels", name: "student_scores_item_level_id_fk"
+  add_foreign_key "student_scores", "students", name: "student_scores_student_id_fk"
 
   add_foreign_key "students", "banner_terms", name: "students_term_expl_major_fk", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", name: "students_term_graduated_fk", column: "term_graduated", primary_key: "BannerTerm"
