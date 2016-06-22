@@ -18,7 +18,6 @@ class AssessmentVersion < ActiveRecord::Base
     ### ASSOCIATIONS ###
     belongs_to :assessment
     belongs_to :student_score
-    belongs_to :assessment_item
     
     ### VALIDATIONS ###
     
