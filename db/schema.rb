@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621202428) do
+ActiveRecord::Schema.define(version: 20160622134750) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -368,6 +368,11 @@ ActiveRecord::Schema.define(version: 20160621202428) do
     t.datetime "updated_at"
   end
 
+  add_index "student_scores", ["assessment_item_id"], name: "student_scores_assessment_item_id_fk", using: :btree
+  add_index "student_scores", ["assessment_version_id"], name: "student_scores_assessment_version_id_fk", using: :btree
+  add_index "student_scores", ["item_level_id"], name: "student_scores_item_level_id_fk", using: :btree
+  add_index "student_scores", ["student_id"], name: "student_scores_student_id_fk", using: :btree
+
   create_table "students", force: true do |t|
     t.string  "Bnum",             limit: 9,   null: false
     t.string  "FirstName",        limit: 45,  null: false
@@ -480,6 +485,11 @@ ActiveRecord::Schema.define(version: 20160621202428) do
   add_foreign_key "prog_exits", "students", name: "prog_exits_student_id_fk"
 
   add_foreign_key "student_files", "students", name: "student_files_student_id_fk"
+
+  add_foreign_key "student_scores", "assessment_items", name: "student_scores_assessment_item_id_fk"
+  add_foreign_key "student_scores", "assessment_versions", name: "student_scores_assessment_version_id_fk"
+  add_foreign_key "student_scores", "item_levels", name: "student_scores_item_level_id_fk"
+  add_foreign_key "student_scores", "students", name: "student_scores_student_id_fk"
 
   add_foreign_key "students", "banner_terms", name: "students_term_expl_major_fk", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", name: "students_term_graduated_fk", column: "term_graduated", primary_key: "BannerTerm"
