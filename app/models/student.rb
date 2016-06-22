@@ -56,6 +56,8 @@ class Student < ActiveRecord::Base
 	has_many :transcripts
 	has_many :foi
 
+    has_many :student_scores
+
 	#~~~HOOKS
 	after_save :process_last_name
 
