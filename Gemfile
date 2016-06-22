@@ -74,3 +74,7 @@ gem 'active_record-acts_as' #for multi table inheritance
 # gem 'debugger', group: [:development, :test]
 gem 'annotate', github: 'ctran/annotate_models'
 gem 'andand', '~> 1.3', '>= 1.3.3'
+
+#connecting to Banner
+gem 'dbi', '~> 0.4.5'
+gem 'ruby-oci8', '~> 2.2', '>= 2.2.2'
