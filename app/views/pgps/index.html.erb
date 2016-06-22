@@ -10,7 +10,7 @@
         <caption>
           <div class="header1 col-xs-12">Professional growth plans for <%= name_details(@student)%></div></br>
 
-          <div class="header2 col-xs-12"> <%= pluralize(@pgps.size, "professional growth plan") + " found" %> </div>
+          <div class="header2 col-xs-12"> <%= pluralize(@student.pgps.size, "professional growth plan") + " found" %> </div>
             <div class="col-xs-1">
               <%= link_to new_student_pgp_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
                   <span class="large-btn-text">New Professional Growth Plan</span>
@@ -24,11 +24,6 @@
                       updates
                       close isue -->
                                 
-                  <td>
-                     <%= button_to(pgp_path(student.pgp.id), { class: "btn btn-default", method: :delete,
-                     data: {confirm: "Are you sure you want to delete this pgp?"}} ) do %>
-                      <span class="glyphicon glyphicon-trash"</span>
-                     <% end %>
+
                   </td>
-                </td>
-              </tr>
+              
