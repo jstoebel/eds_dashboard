@@ -31,6 +31,9 @@
 	- run `rake db:seed` to load constant data from fixtures. This will load `banner_terms` , `exit_codes`, `programs` and `roles`
     - run `rake db:populate` to load sample data into the development database. Note that this will truncate the entire development database.
 
+* connecting to Banner
+This app depends on a connection to Banner to update its native database natively. To do that you will need [dbi](http://ruby-dbi.rubyforge.org/rdoc/index.html) [oci8](http://www.rubydoc.info/github/kubo/ruby-oci8/file/docs/install-on-osx.md). OCI8 requires a bit more set up. Please read the docs to get started.
+
 * Testing
 
     - This uses Minitest for all tests.
