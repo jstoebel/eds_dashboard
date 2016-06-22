@@ -1,6 +1,9 @@
 class Pgp < ActiveRecord::Base
+    
     has_many :pgp_scores
     belongs_to :student
+    
+    scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
     
     validates :student_id,
         presence: {message:"There must be an active student associated."}
