@@ -1,0 +1,49 @@
+<%= link_to students_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<% @page_title = "Assessments" %>
+
+<div class="container-fluid">  
+  <table class="listing table table-striped" summary="assessments list">
+    <div class="row">  
+      <caption>  
+          <span class="header1 col-xs-12">Assessments </span><br>  
+          <span class="header2 col-xs-12"><%= @assessment.size %> found</span>  
+          <div class="col-xs-1">
+         
+          </div>
+        </caption>
+      </div>
+    <tr class="header">
+      <th>Name</th>
+    </tr>
+    <% @assessment.each do |assessment| %>
+      <% if can? :read, assessment %>
+        <td><%= assessment.name%></td>
+
+        <td class="actions">
+
+        <!-- edit assessment -->
+          <%= link_to(edit_assessment_path(assessment.id), :class => "btn btn-info action-small") do %>
+            <span class="small-btn-text"> Edit</span>
+          <% end %>
+
+        <!-- see assignments -->
+
+        <!-- example -->
+            <%# link_to edit_clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
+                  <!-- <span class="small-btn-text">Edit</span> -->
+                <%# end %>
+
+          </td>
+          <td>
+             <%= link_to(assessment_delete_path(assessment.id), :class => "btn btn-default") do %>  
+                <span class="glyphicon glyphicon-trash" ></span>
+             <% end %>         
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>                  
