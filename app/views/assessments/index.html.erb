@@ -11,7 +11,9 @@
           <span class="header1 col-xs-12">Assessments </span><br>  
           <span class="header2 col-xs-12"><%= @assessment.size %> found</span>  
           <div class="col-xs-1">
-         
+            <%= link_to new_assessment_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                <span class="large-btn-text">Add New Assessment</span>
+            <% end %>    
           </div>
         </caption>
       </div>
@@ -39,9 +41,10 @@
 
           </td>
           <td>
-             <%= link_to(assessment_delete_path(assessment.id), :class => "btn btn-default") do %>  
-                <span class="glyphicon glyphicon-trash" ></span>
-             <% end %>         
+            <%= button_to(assessment_delete_path(assessment.id), 
+              { class: "btn btn-default #{assessment.AssessmentVersion.StudentScore==nil ? "" : "disabled" }" do %>
+                <span class="glyphicon glyphicon-trash"></span>
+            <% end %> 
           </td>
         </tr>
       <% end %>

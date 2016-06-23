@@ -15,6 +15,12 @@ class AssessmentsController < ApplicationController
     @assessment = Assessment.new
     authorize! :manage, @assessment  
     @assessment.assign_attributes(assessment_params)
+    if @assessment.save
+      flash[:notice] = "Created Assessment #{@assessment.name}."
+      redirect_to(assessments_path)
+    else
+      render('new')
+    end
   end
 
   def edit
@@ -27,8 +33,8 @@ class AssessmentsController < ApplicationController
     authorize! :manage, @assessment  
     @assessment.update_attributes(assessment_params)
     if @assessment.save
-      flash[:notice] = "Updated Assessment #{@assessment.Name}."
-      redirect_to(assessment_index_path)
+      flash[:notice] = "Updated Assessment #{@assessment.name}."
+      redirect_to(assessments_path)
     else
       render ('edit')
     end

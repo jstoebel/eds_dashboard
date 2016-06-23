@@ -1,2 +1,23 @@
-<h1>Assessment#delete</h1>
-<p>Find me in app/views/assessment/delete.html.erb</p>
+<%= link_to assessments_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<div class="Assessment Delete">
+  <h2>Delete Assessment</h2>
+
+  <%= form_for(:clinical_teacher, :url => {:action => 'destroy', :id => @teacher.id}) do |f| %>
+    <p>Deleting this teacher will also delete all assignment records associated with them.</p>
+    <p><%= "Are you sure you want to permanently delete #{@teacher.FirstName + " " + @teacher.LastName}?"%> </p>
+    <p><%= "You will also delete this many assignments: #{@teacher.clinical_assignments.size}" %></p> 
+
+    <div class="form-buttons">
+        <td>
+            <%= button_to(clinical_teachers_path, { class: "btn btn-danger", method: :delete}) do %>
+            <span>Delete Teacher</span>
+            <% end %>
+        </td>
+      
+    </div>
+
+  <% end %>
+</div>
