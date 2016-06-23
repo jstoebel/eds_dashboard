@@ -19,7 +19,7 @@ specific versions of an assessment are modeled in AssessmentVersion
 class Assessment < ActiveRecord::Base
 
     ### ASSOCIATIONS ###
-    has_many :assessment_versions
+    has_many :assessment_versions, dependent: :destroy
 
     ### VALIDATIONS ###
     validates :name, :presence => true
@@ -30,5 +30,11 @@ class Assessment < ActiveRecord::Base
 
     def current_version
         return self.versions.order(:version_num).last
+    end
+            
+    def has_scores
+        vers = versions()    #should return result of versions
+        scores = vers.select { |v| v.student_scores.present?}.size > 0 #is scores greater than 0?
+        return scores    #a boolean value
     end
 end
