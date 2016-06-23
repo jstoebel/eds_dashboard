@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: item_levels
+# Table name: student_scores
 #
 #  id                 :integer          not null, primary key
 #  student_id         :integer          not null

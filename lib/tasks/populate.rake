@@ -38,7 +38,11 @@ namespace :db do
     
     #Assessment data
     assessments = FactoryGirl.create_list :assessment, 10
-
+    if Boolean.boolean 0.3
+      num_versions = Faker::Number.between(0, 5)
+      my_assessments = assessments.shuffle.slice(0, num_versions)
+      my_assessments.map { |assess| pop_assessment_versions(s, assess)}
+    end
 
     puts "creating data for students..."
     students.each do |s|
