@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160622134750) do
+ActiveRecord::Schema.define(version: 20160623143509) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -405,9 +405,10 @@ ActiveRecord::Schema.define(version: 20160622134750) do
   add_index "students", ["term_major"], name: "students_term_major_fk", using: :btree
 
   create_table "tep_advisors", force: true do |t|
-    t.string  "AdvisorBnum", limit: 9,  null: false
-    t.string  "Salutation",  limit: 45, null: false
-    t.integer "user_id",                null: false
+    t.string  "AdvisorBnum", limit: 9, null: false
+    t.string  "name"
+    t.string  "Salutation"
+    t.integer "user_id"
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
@@ -444,6 +445,20 @@ ActiveRecord::Schema.define(version: 20160622134750) do
   add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
 
   Foreigner.load
+  add_foreign_key "adm_st", "banner_terms", name: "fk_AdmST_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
+  add_foreign_key "adm_st", "student_files", name: "adm_st_student_file_id_fk"
+  add_foreign_key "adm_st", "students", name: "adm_st_student_id_fk"
+
+  add_foreign_key "adm_tep", "banner_terms", name: "fk_AdmTEP_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
+  add_foreign_key "adm_tep", "programs", name: "adm_tep_Program_ProgCode_fk", column: "Program_ProgCode"
+  add_foreign_key "adm_tep", "student_files", name: "adm_tep_student_file_id_fk"
+  add_foreign_key "adm_tep", "students", name: "adm_tep_student_id_fk"
+
+  add_foreign_key "advisor_assignments", "students", name: "advisor_assignments_student_id_fk"
+  add_foreign_key "advisor_assignments", "tep_advisors", name: "advisor_assignments_tep_advisor_id_fk"
+
+  add_foreign_key "alumni_info", "students", name: "fk_AlumniInfo_Student", column: "Student_Bnum", primary_key: "Bnum"
+
   add_foreign_key "assessment_versions", "assessments", name: "assessment_versions_assessment_id_fk"
 
   add_foreign_key "banner_updates", "banner_terms", name: "banner_updates_end_term_fk", column: "end_term", primary_key: "BannerTerm"
