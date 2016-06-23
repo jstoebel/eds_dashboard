@@ -41,20 +41,20 @@ class AssessmentsController < ApplicationController
   end
 
   def delete
-    @assessment = Assessment.find(params[:id])
+    @assessment = Assessment.find(params[:assessment_id])
     authorize! :manage, @assessment
   end
   
   def destroy
     @asssessment = Assessment.find(params[:id])
     authorize! :manage, @assessment
-    if @assessment.AssessmentVersion.StudentScore == nil
+    if @assessment.assessment_versions.StudentScore == nil
       @assessment.destroy
       flash[:notice] = "Record deleted successfully"
     else
       flash[:notice] = "Record cannot be deleted"
     end
-    redirect_to(assessment_index_path)
+    redirect_to(assessments_path)
   end
   
   private

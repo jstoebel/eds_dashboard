@@ -41,9 +41,8 @@
 
           </td>
           <td>
-            <%= button_to(assessment_delete_path(assessment.id), 
-              { class: "btn btn-default #{assessment.AssessmentVersion.StudentScore==nil ? "" : "disabled" }" do %>
-                <span class="glyphicon glyphicon-trash"></span>
+            <%= link_to(assessment_delete_path(assessment.id), :class => "btn btn-default") do %>
+              <span class="glyphicon glyphicon-trash"></span>
             <% end %> 
           </td>
         </tr>
