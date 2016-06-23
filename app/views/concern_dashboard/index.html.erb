@@ -7,24 +7,50 @@
 <div class="container-fluid">
 
     <div class="row">
+
+        <!-- PRAXISI -->
         <div class="col-xs-12 col-md-4">
+
             <div class="text-center well concern-well alert <%= "alert-#{@praxis_status}" %>">
 
                 <h4 class="text-center header2">Praxis I</h4>
-                    <div class="concern-status glyphicon <%= "glyphicon-#{@praxis_glyph}"%>"> </div>
-                    <div class="concern-description">
-                    <%= "Student has #{@praxis_msg} the Praxis I." %>
-                      <%= link_to student_praxis_results_path(@student.id),:class => "alert-link" + (@student.praxis_results.size > 0 ? "" : " disabled") do %>
-                              </br>
-                              <span> View Praxis Results 
-                                <span class="badge">
-                                  <%=@student.praxis_results.size%> 
-                                </span>
+                <div class="concern-status glyphicon <%= "glyphicon-#{@praxis_glyph}"%>"> </div>
+                <div class="concern-description">
+                  <%= link_to student_praxis_results_path(@student.id),:class => "alert-link" + (@student.praxis_results.size > 0 ? "" : " disabled") do %>
+                          </br>
+                          <span> View Praxis Results 
+                            <span class="badge">
+                              <%=@student.praxis_results.size%> 
                             </span>
-    
-                      <% end %>
-                    </div>
+                        </span>
+
+                  <% end %>
+                </div>
             </div>
-        </div>
+
+        </div> <!-- end column -->
+
+
+        <!-- ISSUES -->
+        <div class="col-xs-12 col-md-4">
+            <div class="text-center well concern-well alert <%= "alert-#{@issues_status}" %>">
+
+                <h4 class="text-center header2">Advisor Notes</h4>
+                <div class="concern-status glyphicon <%= "glyphicon-#{@issues_glyph}"%>"> </div>
+                <div class="concern-description">
+                  <%= link_to student_issues_path(@student.id),:class => "alert-link" + (@student.issues.size > 0 ? "" : " disabled") do %>
+                          </br>
+                          <span> View Advisor Notes
+                            <span class="badge">
+                              <%=@student.issues.size%> 
+                            </span>
+                        </span>
+
+                  <% end %>
+                </div>
+            </div>
+
+        </div> <!-- end column -->
+
     </div>
 </div>
