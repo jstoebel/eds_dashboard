@@ -46,10 +46,11 @@ class AssessmentsController < ApplicationController
   end
   
   def destroy
-    @asssessment = Assessment.find(params[:id])
+    @assessment = Assessment.find(params[:id])
     authorize! :manage, @assessment
-    if @assessment.assessment_versions.StudentScore == nil
+    if @assessment.has_scores == false
       @assessment.destroy
+      #delete view if no scores, confirm how many versions also deleted
       flash[:notice] = "Record deleted successfully"
     else
       flash[:notice] = "Record cannot be deleted"

@@ -22,4 +22,8 @@ class AssessmentVersion < ActiveRecord::Base
     ### VALIDATIONS ###
     
     validates_presence_of :assessment_id
+        
+    #def ver_scores
+        #return self.student_scores
+    #end
 end
