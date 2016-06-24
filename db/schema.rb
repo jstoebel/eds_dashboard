@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160623143509) do
+ActiveRecord::Schema.define(version: 20160623192247) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -444,6 +444,16 @@ ActiveRecord::Schema.define(version: 20160623143509) do
   add_index "users", ["Roles_idRoles"], name: "fk_users_Roles1_idx", using: :btree
   add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
 
+  create_table "version_habtm_items", force: true do |t|
+    t.integer  "assessment_version_id", null: false
+    t.integer  "assessment_item_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "version_habtm_items", ["assessment_item_id"], name: "version_habtm_items_assessment_item_id_fk", using: :btree
+  add_index "version_habtm_items", ["assessment_version_id"], name: "version_habtm_items_assessment_version_id_fk", using: :btree
+
   Foreigner.load
   add_foreign_key "adm_st", "banner_terms", name: "fk_AdmST_BannerTerm", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm"
   add_foreign_key "adm_st", "student_files", name: "adm_st_student_file_id_fk"
@@ -516,5 +526,8 @@ ActiveRecord::Schema.define(version: 20160623143509) do
   add_foreign_key "transcript", "students", name: "transcript_student_id_fk"
 
   add_foreign_key "users", "roles", name: "fk_users_Roles", column: "Roles_idRoles", primary_key: "idRoles"
+
+  add_foreign_key "version_habtm_items", "assessment_items", name: "version_habtm_items_assessment_item_id_fk"
+  add_foreign_key "version_habtm_items", "assessment_versions", name: "version_habtm_items_assessment_version_id_fk"
 
 end

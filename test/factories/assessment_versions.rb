@@ -14,8 +14,6 @@
 include Faker
 FactoryGirl.define do
   factory :assessment_version do
-    association :assessment    #should provide the assessment_id
-    association :version_hatm_items
-    version_num {}       #should be based upon created at?
+    assessment   #should provide the assessment_id
   end
 end
