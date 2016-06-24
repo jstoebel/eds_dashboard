@@ -18,12 +18,20 @@
             </div>
         </caption>
       </div>
-                  <td class="actions">
+          <% if @student.pgps.size > 0 %>
+  
+            <tr class="header">
+              <th>Goal</th>
+              <th>Score</th>
+            </tr>
+                
+              <td class="actions">
                     <!-- buttons
                       details
                       updates
                       close isue -->
-                                
-
-                  </td>
+                                  
+              <% end %>
+              </td>
+      
               
