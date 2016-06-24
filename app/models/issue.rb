@@ -20,6 +20,7 @@ class Issue < ActiveRecord::Base
 	#SCOPES
 	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
 	scope :visible, lambda {where(:visible => true)}
+	scope :open, lambda {where(:Open => true)}
 	
 	# HOOKS 
 	after_save :hide_updates
