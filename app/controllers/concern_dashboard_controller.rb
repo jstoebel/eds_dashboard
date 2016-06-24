@@ -5,7 +5,8 @@ class ConcernDashboardController < ApplicationController
         @student = Student.find params[:student_id]
         authorize! :be_concerned, @student
 
-        @areas = ["praxis", "issues"]#, "issues"]
+        #define what areas should be examined here. They name should corispond to a method below.
+        areas = [:praxis, :issues]
 
         #swap the key out for its value hash.
         outcomes = {
@@ -14,15 +15,15 @@ class ConcernDashboardController < ApplicationController
             false => {:alert_status => "danger", :glyph => "warning-sign"},
         }
 
-        @concerns = []
+        @concerns = {}
 
-        @areas.each do |area|
+        areas.each do |area|
             #get the status in this area
             args = self.send("#{area}_check", @student)
             if args.present?
                 outcome = outcomes[args.delete(:outcome)]
                 merged = args.merge outcome
-                @concerns << merged
+                @concerns[area] = merged
             end
 
         end
@@ -30,7 +31,7 @@ class ConcernDashboardController < ApplicationController
     end
 
     private
-
+    #here is where you define how each resource should be examined and what args are returned (if any).
     def praxis_check(stu)
 
         args = {:title => "Praxis I", :link => student_praxis_results_path(stu.id), :link_title => "View Praxis Results", :link_num => stu.praxis_results.size}
