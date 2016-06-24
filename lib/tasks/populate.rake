@@ -36,14 +36,6 @@ namespace :db do
     clinical_sites = FactoryGirl.create_list :clinical_site, 10
     clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
     
-    #Assessment data
-    assessments = FactoryGirl.create_list :assessment, 10
-    if Boolean.boolean 0.3
-      num_versions = Faker::Number.between(0, 5)
-      my_assessments = assessments.shuffle.slice(0, num_versions)
-      my_assessments.map { |assess| pop_assessment_versions(s, assess)}
-    end
-
     puts "creating data for students..."
     students.each do |s|
 
@@ -134,7 +126,22 @@ namespace :db do
         my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
 
       end
-
+      
+      #Assessment data
+      assessments = FactoryGirl.create_list :assessment, 10
+    
+      if Boolean.boolean 0.3
+        num_versions = Faker::Number.between(1, 5)    #at least one version for the scores
+        my_assessments = assessments.shuffle.slice(0, num_versions)
+        my_assessments.map { |assess| pop_assessment_version(assess)}
+      end
+    
+=begin      if Boolean.boolean 0.3    #30% chance of version having score
+        num_scores = Faker::Number.between(0, 5)
+        my_versions = assessment_versions.shuffle.slice(0, num_scores)
+        my_versions.map { |ver| pop_student_score(s, ver)}
+      end
+=end
 
       #ISSUES AND UPDATES
       if Boolean.boolean 0.3

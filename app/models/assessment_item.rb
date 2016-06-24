@@ -17,6 +17,7 @@ class AssessmentItem < ActiveRecord::Base
     
     has_many :item_levels
     has_many :student_scores
+    has_many :assessment_versions, :through => :version_habtm_items
     
     validates_presence_of :name, :slug
 end
