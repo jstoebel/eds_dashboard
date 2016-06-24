@@ -3,19 +3,19 @@
 # Table Name: pgps
 #
 #  pgp_id :integer       not null
-#  GoalName :string
-#  Description :text
-#  Plan :text
+#  goal_name :string
+#  description :text
+#  plan :text
 # 
 
 class PgpsController < ApplicationController
-    authorize_resource
     layout 'application'
+    authorize_resource
     
     def index
         @student = Student.find(params[:student_id])
         authorize! :show, @pgp
-        @pgps = @student.pgps.size
+        @pgps = @student.pgps.sorted.select {|r| can? :read, r }
         
     end
     
@@ -27,35 +27,40 @@ class PgpsController < ApplicationController
     end
     
     def edit
+        @student = Student.find(params[:student_id])
         @pgp = Pgp.find(params[:id])
         authorize! :read, @pgp
     end
-    
+
     def create
-        @pgp = Pgp.new
+        @pgp = Pgp.new  
         @pgp.update_attributes(pgp_params)
         authorize! :manage, @pgp
         if @pgp.save
-          flash[:notice] = "Created #{@pgp.goal_name}."
-          redirect_to (pgp_path)
+          flash[:notice] = "Created professional growth plan."
+          redirect_to(student_pgps_path())
         else
           flash[:notice] = "Error creating professional growth plan."
+          @student = Student.find(params[:student_id])
           render 'new'
         end
     end
     
     def new
         @pgp = Pgp.new
+        @student = Student.find(params[:student_id])
         authorize! :manage, @pgp
     end
     
     def update
+        @student = Student.find(params[:student_id])
         @pgp = Pgp.find(params[:id])
         @pgp.update_attributes(pgp_params)
     end
 
     
     def destroy
+         @pgp = Student.find(params[:student_id])
          @pgp = Pgp.find(params[:id])    #find object and assign to instance variable
          authorize! :manage, @pgp
          if @pgp.PgpScore == nil            #if TEPAdmit does not have a value
@@ -69,8 +74,8 @@ class PgpsController < ApplicationController
 
     private
     def pgp_params
-        params.require(:pgp).permit(:goal_name, :description, :plan)
+        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan, :score_submit)
     end
-
+    
 
 end

@@ -1,0 +1,46 @@
+<%= link_to(student_pgps_path(@student.id), class: "btn btn-default back-link glyphicon glyphicon-arrow-left") do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<div class="pgp new">
+
+
+  <%= form_for(:pgp, :url => student_pgps_path(@student.id) ) do |f| %>
+	<h2>Create new professional growth plan for <%=[@first_name, @last_name].join(' ')%></h2>
+  	<%= error_messages_for(@pgp) %>
+
+	<table summary="PGPs form fields">
+      <tr>
+          <td><%= f.hidden_field(:student_id, :value => @student.id) %></td>
+      </tr>
+	  <tr>
+	    <th><%= f.label(:goal_name, "Goal") %></th>
+	    <td><%= f.text_area(:goal_name) %></td>
+	  </tr>
+
+	  <tr>
+	    <th><%= f.label(:description, "Description") %></th>
+	    <td> <%= f.text_area(:description, :size => '30x10') %> </td>
+	  </tr>
+	  
+	  <tr>
+	      <th><%= f.label(:plan, "Action Plan") %></th>
+	      <td><%= f.text_area(:plan, :size => '30x10') %></td>
+	  </tr>
+
+  	<tr>
+	<th></th>
+	<td>
+    <div class="form-buttons">
+      <%= submit_tag("Create PGP") %>
+
+
+	</td>
+	</tr>
+    </div>	
+	</table>
+
+
+
+  <% end %>
+</div>
