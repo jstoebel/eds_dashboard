@@ -1,15 +1,34 @@
 require 'test_helper'
 require 'test_teardown'
 class ConcernDashboardControllerTest < ActionController::TestCase
+    include TestTeardown
+
+    allowed_roles = ["admin", "advisor"]
+
+    let(:stu){FactoryGirl.create :student}
+    let(:adv_profile){current_user.tep_advisor}
+    subject{get :index, :student_id => stu.id}
+
+    before do
+        FactoryGirl.create :advisor_assignment, {:student_id => stu.id, :tep_advisor_id => adv_profile.id }
+    end
+
+    it "returns http success" do
+    end
+
 
     describe "index success" do
 
         let(:stu){FactoryGirl.create :student}
+        let(:adv_profile){current_user.tep_advisor}
         subject{get :index, :student_id => stu.id}
+
+        before do
+            FactoryGirl.create :advisor_assignment, {:student_id => stu.id, :tep_advisor_id => adv_profile.id }
+        end
 
         it "returns http success" do
             subject
-
             assert_response :success
         end
         
@@ -72,5 +91,6 @@ class ConcernDashboardControllerTest < ActionController::TestCase
         end
 
     end
+
 
 end
