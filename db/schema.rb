@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160622134750) do
+ActiveRecord::Schema.define(version: 20160623143509) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -416,9 +416,10 @@ ActiveRecord::Schema.define(version: 20160622134750) do
   add_index "students", ["term_major"], name: "students_term_major_fk", using: :btree
 
   create_table "tep_advisors", force: true do |t|
-    t.string  "AdvisorBnum", limit: 9,  null: false
-    t.string  "Salutation",  limit: 45, null: false
-    t.integer "user_id",                null: false
+    t.string  "AdvisorBnum", limit: 9, null: false
+    t.string  "name"
+    t.string  "Salutation"
+    t.integer "user_id"
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
