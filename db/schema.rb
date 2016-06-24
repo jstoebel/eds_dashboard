@@ -405,9 +405,8 @@ ActiveRecord::Schema.define(version: 20160623143509) do
   add_index "students", ["term_major"], name: "students_term_major_fk", using: :btree
 
   create_table "tep_advisors", force: true do |t|
-    t.string  "AdvisorBnum", limit: 9, null: false
-    t.string  "name"
-    t.string  "Salutation"
+    t.string  "AdvisorBnum", limit: 9,  null: false
+    t.string  "Salutation",  limit: 45, null: false
     t.integer "user_id"
   end
 
