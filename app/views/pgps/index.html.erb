@@ -22,15 +22,22 @@
   
             <tr class="header">
               <th>Goal</th>
+              <th>Date Created</th>
               <th>Score</th>
             </tr>
-                
+            <% @pgps.each do |pgp| %>
+               <tr>
+                <td> <%= pgp.goal_name %></td>
+                <td> <%= pgp.created_at.strftime("%m/%d/%Y")%> </td>
+               </tr>
+               <% end %>
+          
               <td class="actions">
                     <!-- buttons
                       details
                       updates
                       close isue -->
-                                  
+            
               <% end %>
               </td>
       

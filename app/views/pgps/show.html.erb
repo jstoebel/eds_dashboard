@@ -1,4 +1,4 @@
-<%= link_to student_issues_path(@student.AltID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+<%= link_to student_pgps_path(@student.AltID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
 
@@ -10,20 +10,15 @@
     </div>
 
     <div class="header2">
-      <%= @issue.Name %>
+      <%= @pgp.goal_name %>
     </div>
   </caption>
 
   <tr>
-    <th>Date Opened</th>
-    <td> <%= @issue.created_at.strftime("%m/%d/%Y")%></td>
-  </tr>
-
-  <tr>
-    <th>Status</th>
-      <td class="<%= @issue.Open ? "bad_text" : "good_text" %>">
+    <th>Score</th>
+      <td class="Add Score">
         <!-- glyh here if open -->
-        <% if @issue.Open %>
+        <% if @pgp.score_submit == nil %>
 
             <div class="col-md-1">
               <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -47,18 +42,8 @@
   </tr>
 
   <tr >
-    <th>Issue Desription</th>
-    <td class="wrap"><%= @issue.Description %></td>
-  </tr>
-
-  <!-- updates button -->
-  <tr>
-    <td class="actions" colspan="2">
-      <div class="btn btn-info">
-        <%= link_to("Updates (#{@issue.issue_updates.size})", issue_issue_updates_path(@issue.IssueID), :class => 'action-small') %> 
-      </div>
-
-    </td>
+    <th>PGP Desription</th>
+    <td class="wrap"><%= @pgp.description %></td>
   </tr>
 
 

@@ -243,6 +243,7 @@ ActiveRecord::Schema.define(version: 20160623143509) do
     t.string   "goal_name"
     t.text     "description"
     t.text     "plan"
+    t.boolean  "score_submit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
