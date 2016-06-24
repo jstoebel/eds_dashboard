@@ -13,8 +13,8 @@
 =end
 
 class VersionHabtmItem < ActiveRecord::Base
-    has_and_belongs_to_many :assessment_items
-    has_and_belongs_to_many :assessment_versions
+    belongs_to :assessment_version
+    belongs_to :assessment_item
     
     validates_presence_of :assessment_version_id, :assessment_item_id
 end

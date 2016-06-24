@@ -18,7 +18,7 @@ class AssessmentVersion < ActiveRecord::Base
     ### ASSOCIATIONS ###
     belongs_to :assessment
     has_many :student_scores
-    has_and_belongs_to_many :version_habtm_items
+    has_many :assessment_items, :through => :version_habtm_items
     
     ### VALIDATIONS ###
     

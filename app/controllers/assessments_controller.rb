@@ -19,7 +19,7 @@ class AssessmentsController < ApplicationController
       flash[:notice] = "Created Assessment #{@assessment.name}."
       redirect_to(assessments_path)
     else
-      render('new')
+      render('new')    #renders new view
     end
   end
 
