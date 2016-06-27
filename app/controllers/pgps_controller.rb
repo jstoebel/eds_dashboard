@@ -27,9 +27,9 @@ class PgpsController < ApplicationController
     end
     
     def edit
-        @student = Student.find(params[:student_id])
         @pgp = Pgp.find(params[:id])
-        authorize! :read, @pgp
+        authorize! :manage, @pgp
+        @student = Student.find(params[:id])
     end
 
     def create
@@ -53,9 +53,20 @@ class PgpsController < ApplicationController
     end
     
     def update
-        @student = Student.find(params[:student_id])
+        @student = Student.find(params[:id])
         @pgp = Pgp.find(params[:id])
-        @pgp.update_attributes(pgp_params)
+        @pgp.assign_attributes(pgp_params)
+        
+        if @pgp.save
+        flash[:notice] = "PGP score successfully updated"
+        redirect_to student_pgps_path(@pgp.student.id)
+        return
+
+        else
+        flash[:notice] = "Error in scoring PGP."
+        error_update
+        return
+        end
     end
 
     
@@ -63,7 +74,7 @@ class PgpsController < ApplicationController
          @pgp = Student.find(params[:student_id])
          @pgp = Pgp.find(params[:id])    #find object and assign to instance variable
          authorize! :manage, @pgp
-         if @pgp.PgpScore == nil            #if TEPAdmit does not have a value
+         if @pgp.goal_score == nil            #if TEPAdmit does not have a value
              @pgp.destroy
              flash[:notice] = "Professional growth plan deleted successfully"
          else                               #if TEPAdmit does have a value
@@ -74,8 +85,8 @@ class PgpsController < ApplicationController
 
     private
     def pgp_params
-        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan, :score_submit)
+        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan, :goal_score, :score_reason)
     end
-    
+
 
 end
