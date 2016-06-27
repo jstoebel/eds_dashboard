@@ -23,27 +23,33 @@
                 <th><%= "Action Plan: " %></th>
                 <td><%= "#{@pgp.plan}"%></td>
             </tr>
+        </div>
+        </table><br>
+        <table>
+        <div>
             <tr>
                 <th><%= f.label(:goal_score, "Score:")%></th>
                 <td><%= f.radio_button(:goal_score, 1) %>1</td>
                 <td><%= f.radio_button(:goal_score, 2) %>2</td>
                 <td><%= f.radio_button(:goal_score, 3) %>3</td>
                 <td><%= f.radio_button(:goal_score, 4) %>4</td>
-            </tr> 
+            </tr>
+        </div>
+        </table>
+        <table>
+        <div>
             <tr>
                 <th><%= f.label(:score_reason, "Reason(s) for score: ")%></th>
                 <td><%= f.text_area(:score_reason) %></td>
             </tr>
         </div>
-
+        </table>
         <tr>
             <td>
                 <div class="form-buttons">
                     <%= submit_tag("Submit") %>
                 </div>
             </td>   
-
         </tr> 
-        
+    </table>
     <% end %>
-</table>
