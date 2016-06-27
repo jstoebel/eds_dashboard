@@ -129,7 +129,8 @@ namespace :db do
       
       #Assessment data
       assessments = FactoryGirl.create_list :assessment, 10
-    
+      
+      #Assessment versions
       if Boolean.boolean 0.3
         num_versions = Faker::Number.between(1, 5)    #at least one version for the scores
         my_assessments = assessments.shuffle.slice(0, num_versions)
