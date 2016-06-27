@@ -38,7 +38,61 @@ class AssessmentsControllerTest < ActionController::TestCase
     end
   end
   
-  test "should not post create" do
+  test "should get edit" do
+    allowed_roles.each do |r|
+      load_session(r)
+      assess = FactoryGirl.create :assessment
+      get :edit, id: assess.id 
+      assert_response :success
+      assert_equal assess, assigns(:assessment)
+    end
+  end
+
+  test "should post update" do
+    allowed_roles.each do |r|
+      load_session(r)
+      assess = FactoryGirl.create :assessment
+      assess.name = "updated name!"
+      update_params = {:name => assess.name}
+      post :update, {:id => assess.id, :assessment => update_params}
+      assert assigns(:assessment).valid?    #was assessment saved?
+      assert_equal assess, assigns(:assessment)
+      assert_redirected_to(assessments_path)
+      assert_equal flash[:notice], "Updated Assessment #{assigns(:assessment).name}."
+    end
+  end
+
+  test "should get delete" do
+    allowed_roles.each do |r|
+      load_session(r)
+      assess = FactoryGirl.create :assessment
+      get :delete, assessment_id: assess.id
+      assert_response :success
+      assert_equal assess, assigns(:assessment)
+    end
+  end
+  
+  test "should destroy assessment and versions" do 
+    allowed_roles.each do |r|
+      load_session(r)
+      assess = FactoryGirl.create :assessment
+      version = FactoryGirl.create :assessment_version, {
+        :assessment_id => assess.id
+      }    #version of assessment to test dependent deleting
+
+      post :destroy, {:id => assess.id}
+      assert_equal assess, assigns(:assessment)
+      assert_not assigns(:assessment).has_scores == true
+      assert assigns(:assessment).destroyed?
+      assigns(:assessment).assessment_versions.each{|i| assert i.destroyed?}
+      assert_equal flash[:notice], "Record deleted successfully"
+      assert_redirected_to(assessments_path)
+    end
+  end
+  
+  #Not do, invalid object/didn't save
+
+  test "should not post create, invalid object" do
     allowed_roles.each do |r|
       load_session(r)
       create_params = {:name => nil, :description => "test descrip"}
@@ -48,35 +102,62 @@ class AssessmentsControllerTest < ActionController::TestCase
     end
   end
   
+  test "should not post update, not saved" do
+    allowed_roles.each do |r|
+      load_session(r)
+      assess = FactoryGirl.create :assessment
+      assess.name = nil
+      update_params = {:name => assess.name}
+      post :update, {:id => assess.id, :assessment => update_params}
+      assert_equal assigns(:assessment), assess
+      assert_not assigns(:assessment).valid?
+      assert_response :success    #stayed on same page, rendering edit
+    end
+  end
+  
+  test "should not destroy, has scores" do
+    allowed_roles.each do |r|  ##TODO must create assesment version and scores here too
+      load_session(r)
+      assess = FactoryGirl.create :assessment, {:name => "test assessment"}
+      version = FactoryGirl.create :assessment_version, {
+        :assessment_id => assess.id
+      }
+      score = FactoryGirl.create :student_score, {
+        :assessment_version_id => version.id
+      }
+      
+      post :destroy, {:id => assess.id}
+      assert_equal assess, assigns(:assessment)
+      assert assigns(:assessment).has_scores == true
+      assert assigns(:assessment).destroyed?
+      assigns(:assessment).assessment_versions.each{
+        |i| assert i.destroyed?
+      }
+      assigns(:assessment).assessment_versions.each{
+        |i| i.student_scores.each{
+          |j| assert j.destroyed?
+        }
+      }
+      assert_equal flash[:notice], "Record deleted successfully"
+      assert_redirected_to(assessments_path)
+    end
+  end
   
   ##Unauthorized users
 
   test "should not get index bad role" do    #I think this fails because I don't know the actual allowed roles
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      assess = Assessment.all
+      get :index
       assert_redirected_to "/access_denied"
     end
   end
   
   test "should not post create bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :create
+      assert_redirected_to "/access_denied"
+    end
   end
-
-
-
-  test "should get edit" do
-    get :edit
-    assert_response :success
-  end
-
-  test "should get update" do
-    get :update
-    assert_response :success
-  end
-
-  test "should get delete" do
-    get :delete
-    assert_response :success
-  end
-
 end
