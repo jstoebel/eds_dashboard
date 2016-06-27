@@ -3,6 +3,7 @@
 # Table name: assessment_items
 #
 #  id          :integer          not null, primary key
+#  name        :string
 #  slug        :string(255)
 #  description :text
 #  created_at  :datetime
@@ -15,6 +16,7 @@ include Faker
 FactoryGirl.define do
   factory :assessment_item do
     slug Lorem.words(4).join " "
+    name Lorem.words(5).join " "
     description Lorem.paragraph
   end
 end
