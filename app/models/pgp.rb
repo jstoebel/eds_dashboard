@@ -1,6 +1,6 @@
 class Pgp < ActiveRecord::Base
+    self.table_name = 'pgps'
     
-    has_many :pgp_scores
     belongs_to :student
     
     scope :sorted, lambda {order(:created_at => :desc)}
