@@ -29,16 +29,29 @@
                <tr>
                 <td> <%= pgp.goal_name %></td>
                 <td> <%= pgp.created_at.strftime("%m/%d/%Y")%> </td>
+                          <td>
+
+                <% if pgp.goal_score == nil %>    
+
+                  <%= link_to("Score PGP", edit_pgp_path(pgp.id), :class => "action details btn btn-info action-small issues")%>
+
+                <% else %>
+
+                  <%= pgp.goal_score %>
+
+                <% end %>
+              </td>
+
+              <% end %>
+              </td>
                </tr>
-               <% end %>
+               
           
               <td class="actions">
                     <!-- buttons
                       details
                       updates
                       close isue -->
-            
-              <% end %>
-              </td>
-      
+    
+      <% end %>
               
