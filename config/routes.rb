@@ -156,8 +156,14 @@ Rails.application.routes.draw do
   end
  
   resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy]  do
+    resources :assessment_versions, only: [:index]
     get "delete"
   end
+ 
+ resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do
+   get "delete"
+   patch "update"
+ end
  
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
