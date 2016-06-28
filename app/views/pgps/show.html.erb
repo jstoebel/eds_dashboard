@@ -16,34 +16,26 @@
 
   
   <tr >
-    <th>Goal Desription</th>
+    <th>Goal Desription:</th>
     <td class="wrap"><%= @pgp.description %></td>
   </tr>
   
   <tr>
-    <th> Action Plan</th>
+    <th> Action Plan:</th>
     <td class="wrap"><%= @pgp.plan %></td>
   </tr>
 
   <tr>
-    <th>Score</th>
+    <th>Score:</th>
       <td class="Add Score">
         <!-- glyh here if open -->
         <% if @pgp.goal_score == nil %>
-
-            <div class="col-md-1">
-              <span class="glyphicon glyphicon-exclamation-sign"></span>
-            </div>
 
             <div class="col-md-1">
               Open
             </div>
 
         <% else %>
-            <div class="col-md-1" id="glyph-no-space">
-              <span class="glyphicon glyphicon-ok"></span>
-            </div>
-
             <div class="col-md-1" id="text-no-space">
               Resolved
             </div>
