@@ -22,7 +22,7 @@
               <% @tests.each do |result| %>
               <td><%= PraxisTest.find(result.praxis_test_id).TestName %></td>
               <td><%= result.test_date.strftime("%m/%d/%Y")%> </td>
-               <td class="actions">
+              <td class="actions">
                   <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
                       <span class="small-btn-text">Details</span>
                   <% end %>
@@ -30,14 +30,15 @@
                   <%= link_to edit_praxis_result_path(result.AltID), class: "btn btn-info #{result.can_alter? ? "" : "disabled"}" do %>
                       <span class="glyphicon glyphicon-pencil"></span>
                   <% end %> 
-
-                 <%= button_to praxis_result_path(result.AltID), {class: "btn btn-info #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
+                <td>
+                   <%= button_to praxis_result_path(result.AltID), {class: "btn btn-default #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
                       <span class="glyphicon glyphicon-trash"></span>
-                  <% end %> 
+                    <% end %> 
+                </td>
               </tr>
-  
+
               <% end %>
-              
+
         <% end %>
   
     </table>
