@@ -16,7 +16,6 @@ class PgpsController < ApplicationController
         @student = Student.find(params[:student_id])
         authorize! :show, @pgp
         @pgps = @student.pgps.sorted.select {|r| can? :read, r }
-        
     end
     
     def show
@@ -71,16 +70,11 @@ class PgpsController < ApplicationController
 
     
     def destroy
-         @pgp = Student.find(params[:student_id])
-         @pgp = Pgp.find(params[:id])    #find object and assign to instance variable
-         authorize! :manage, @pgp
-         if @pgp.goal_score == nil            #if TEPAdmit does not have a value
-             @pgp.destroy
-             flash[:notice] = "Professional growth plan deleted successfully"
-         else                               #if TEPAdmit does have a value
-             flash[:notice] = "Professional growth plan cannot be deleted"    #notifies user that object cannot be deleted
-         end
-         redirect_to(student_pgps_path())
+        @pgp = Pgp.find(params[:id])    
+        authorize! :manage, @pgp
+        @pgp.destroy
+        flash[:notice] = "Professional growth plan deleted successfully"
+        redirect_to(student_pgps_path(@pgp.student_id))
     end
 
     private
