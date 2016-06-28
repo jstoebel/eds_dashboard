@@ -10,15 +10,26 @@
     </div>
 
     <div class="header2">
-      <%= @pgp.goal_name %>
+      <%= "Goal Name: #{@pgp.goal_name}" %>
     </div>
   </caption>
+
+  
+  <tr >
+    <th>Goal Desription</th>
+    <td class="wrap"><%= @pgp.description %></td>
+  </tr>
+  
+  <tr>
+    <th> Action Plan</th>
+    <td class="wrap"><%= @pgp.plan %></td>
+  </tr>
 
   <tr>
     <th>Score</th>
       <td class="Add Score">
         <!-- glyh here if open -->
-        <% if @pgp.score_submit == nil %>
+        <% if @pgp.goal_score == nil %>
 
             <div class="col-md-1">
               <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -39,11 +50,6 @@
         <% end #end of status conditional %>
 
       </td>
-  </tr>
-
-  <tr >
-    <th>PGP Desription</th>
-    <td class="wrap"><%= @pgp.description %></td>
   </tr>
 
 
