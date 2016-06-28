@@ -10,40 +10,50 @@
 
     <caption>  
       <div class="header1">
-        <%= name_details(@test.student)%>
+        <%= "Praxis Details" %>
       </div>
-      
-      
-      <div class="header2">
-        <%= "Praxis Results for #{@test.praxis_test.TestName} take on #{@test.test_date.to_s}"  %>
-      </div>
+
     </caption>
-
-
     <tr>
-      <th>Score</th>
-      <td <%= (@test.test_score and @test.test_score >= @test.cut_score) ? nil : "class=bad_text" %>><%= @test.test_score%></td>
+      <th>Student:</th>
+      <td><%= "#{name_details(@test.student)}" %></td>
+    </tr>
+    <tr>
+      <th>Praxis Results for:</th>
+      <td><%= "#{@test.praxis_test.TestName}" %></td>
+    </tr>
+    
+    <tr>
+      <th>Registration Date:</th>
+      <td><%= @test.reg_date ? @test.reg_date.strftime("%m/%d/%Y") : nil%></td>
+    </tr>
+    
+    <tr>
+      <th>Paid By:</th>
+      <td><%= @test.paid_by%></td>
     </tr>
 
     <tr>
-      <th>Best Score as of Test Date</th>
+      <th>Date Taken:</th>
+      <td><%= "#{@test.test_date.to_s}" %></td>
+    </tr>
+
+
+    <tr>
+      <th>Score:</th>
+      <td><% (@test.test_score and @test.test_score >= @test.cut_score) ? nil : "class=bad_text" %><%= @test.test_score %></td>
+    </tr>
+
+    <tr>
+      <th>Best Score as of Test Date:</th>
       <td><%= @test.best_score%></td>
     </tr>
 
     <tr>
-      <th>Cut Score</th>
+      <th>Cut Score:</th>
       <td><%= @test.cut_score%></td>
     </tr>
-    
-    <tr>
-      <th>Registration Date</th>
-      <td><%= @test.reg_date ? @test.reg_date.strftime("%m/%d/%Y") : nil%></td>
-    </tr>
-
-    <tr>
-      <th>Paid By</th>
-      <td><%= @test.paid_by%></td>
-    </tr>
+  :
 
   </table>
 
@@ -70,11 +80,11 @@
               <td class="<%= (sub.pts_earned and sub.avg_low and sub.pts_earned < sub.avg_low) ? "test-fail" : "test-pass" %>"> <%= sub.pts_earned %></td>
               <td> <%= sub.pts_aval %></td>
               <td> <%= "#{sub.avg_low}-#{sub.avg_high}"%></td>
-        </tr>
+          </tr>
             <% end %>
         </table>
       <% else %>
-      <p align="center">Test section data were not found for this exam.</p>
+      <p align="center">Test section data was not found for this exam.</p>
       <% end %>
 
 
