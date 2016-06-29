@@ -27,6 +27,7 @@
     <tr>
       <th>Update</th>
       <th>Date</th>
+      <th>Addressed</th>
     </tr>
   
 
@@ -35,6 +36,10 @@
       <tr>
         <td><%=update.UpdateName%></td>
         <td> <%=update.created_at.strftime("%m/%d/%Y")%> </td>
+
+        <!-- TODO: radio button to toggle addressed field -->
+        <td> <%=update.addressed  %> </td>
+
         <td class="actions">
 
           <%= render(partial: 'details_popover', 
