@@ -8,7 +8,9 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 
+    <%# stylesheet_link_tag params[:controller] %>    
     <%= stylesheet_link_tag('application') %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
     <%# javascript_include_tag :defaults %>
 
     <%= javascript_include_tag params[:controller] %>
