@@ -28,6 +28,8 @@ class IssueUpdate < ActiveRecord::Base
 	validates :tep_advisors_AdvisorBnum,
 		:presence => { message: "Could not find an advisor profile for this user."}
 
+	validates_inclusion_of :addressed, in: [true, false]
+
 	def student
 		return self.issue.student
 	end
