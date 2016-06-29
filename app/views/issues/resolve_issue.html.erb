@@ -6,7 +6,7 @@
 <div class="issue_update edit">
 
 	<%= form_for(:issue_update, :url => issue_close_issue_path(@issue.IssueID)) do |f| %>
-	<h2>Close Issue for <%=[@first_name, @last_name].join(' ')%></h2>
+	<h2>Close Note for <%=[@first_name, @last_name].join(' ')%></h2>
   	<%= error_messages_for(@update) %>
 
 	<table summary="Issue form fields">
