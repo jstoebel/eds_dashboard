@@ -37,7 +37,7 @@ class AssessmentVersionsController < ApplicationController
   end
 
   def update
-    @version = AssessmentVersion.new
+    @version = AssessmentVersion.find(params[:id])
     authorize! :manage, @version
     @version.update_attributes(version_params)
     if @version.save
@@ -50,10 +50,20 @@ class AssessmentVersionsController < ApplicationController
   end
   
   def delete
-    
+    @version = AssessmentVersion.find(params[:assessment_version_id])
+    authorize! :manage, @version
   end
-
+  
   def destroy
+    @version = AssessmentVersion.find(params[:id])
+    authorize! :manage, @version
+    if @version.has_scores == false
+      @version.destroy
+      flash[:notice] = "Record deleted successfully"
+    else
+      flash[:notice] = "Record cannot be deleted"
+    end
+    redirect_to(assessment_versions_path)
   end
   
   def choose
@@ -64,7 +74,7 @@ class AssessmentVersionsController < ApplicationController
 
   private
   def version_params
-    params.require(:assessment_version).permit(:assessment_id, :assessment_items, :version_num)
+    params.require(:assessment_version).permit(:assessment_id, :assessment_items)
   end
   
   def form_details

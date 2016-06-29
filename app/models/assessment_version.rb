@@ -25,7 +25,7 @@ class AssessmentVersion < ActiveRecord::Base
     
     validates_presence_of :assessment_id
         
-    #def ver_scores
-        #return self.student_scores
-    #end
+    def has_scores
+        return self.student_scores > 0
+    end
 end
