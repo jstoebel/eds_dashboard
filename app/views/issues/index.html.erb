@@ -24,16 +24,21 @@
                 <tr class="header">
                   <th>Issue Name</th>
                   <th>Date Opened</th>
+                  <th> Positive/Negative</th>
                   <th>Status</th>
                 </tr>
   
                 <% @issues.each do |issue| %>
   
-                <tr>
+                <tr class="<%= issue.Open ? "alert alert-danger" : "alert alert-success"%>">
                   <td> <%= issue.Name %></td>
                   <td> <%= issue.created_at.strftime("%m/%d/%Y")%> </td>
+                  <td> 
+                  <%= issue.positive ? "Positive" : "Negative"  %>
+
+                   </td>
   
-                  <td class="<%= issue.Open ? "bad_text" : "good_text" %>">
+                  <td >
                     <!-- glyph here if open -->
                     <% if issue.Open %>
   
