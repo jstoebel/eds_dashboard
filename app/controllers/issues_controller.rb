@@ -36,6 +36,10 @@ class IssuesController < ApplicationController
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
 
+
+    @issue.Open = !@issue.positive
+
+
     if @issue.save
       flash[:notice] = "New issue opened for: #{name_details(@student)}"
       redirect_to(student_issues_path(@student.AltID)) 
@@ -86,19 +90,9 @@ class IssuesController < ApplicationController
   #same as using params[:subject] except that:
     #raises an error if :praxis_result is not present
     #allows listed attributes to be mass-assigned
-  params.require(:issue).permit(:Name, :Description)
+  params.require(:issue).permit(:Name, :Description, :positive)
   
   end
 
-  private
-  #white lists params for a new update
-  def new_update_params
-    params.require(:issue).permit(:Name, :Description)
-  end
-
-  def close_issue_params
-    params.require(:issue_update).permit(:Description)
-    
-  end
 
 end
