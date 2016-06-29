@@ -255,14 +255,19 @@ module PopulateHelper
     assignment.save
   end
 
-  def pop_student_score(stu, version)   ##need item and iteme_level factories for a student score
+  def pop_student_score(stu, level)   ##need item and iteme_level factories for a student score
+    
+    item = level.assessment_item
+    puts item.assessment_versions.inspect
+    version = item.assessment_versions.first
     score = FactoryGirl.build :student_score, {
       :student_id => stu.id,
-      :assessment_version_id => version.id
-      :assessment_item_id => 
-      :item_level_id => 
+      :assessment_version_id => version.id,
+      :assessment_item_id => level.assessment_item_id,
+      :item_level_id => level.id
     }  
     score.save
-=end
+  end
+  
 end
 
