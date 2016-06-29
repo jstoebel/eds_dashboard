@@ -36,11 +36,9 @@ class IssuesController < ApplicationController
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
 
-    if @issue.positive
-      @issue.Open = false
-    else
-      @issue.Open = true
-    end
+
+    @issue.Open = !@issue.positive
+
 
     if @issue.save
       flash[:notice] = "New issue opened for: #{name_details(@student)}"
