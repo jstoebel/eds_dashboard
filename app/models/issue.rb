@@ -18,7 +18,7 @@ class Issue < ActiveRecord::Base
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
 	
 	#SCOPES
-	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
+	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc, :positive => :asc)}
 	scope :visible, lambda {where(:visible => true)}
 	scope :open, lambda {where(:Open => true)}
 	
