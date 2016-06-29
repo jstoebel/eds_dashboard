@@ -50,7 +50,7 @@ class IssueTest < ActiveSupport::TestCase
 
 	test "sorted scope" do
 		scoped = Issue.sorted
-		expected = Issue.all.order(:Open => :desc, :created_at => :desc)
+		expected = Issue.all.order(:Open => :desc, :created_at => :desc, :positive => :asc)
 
 		assert_equal scoped.to_a, expected.to_a
 
