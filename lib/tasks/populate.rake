@@ -128,21 +128,19 @@ namespace :db do
       end
       
       #Assessment data
-      assessments = FactoryGirl.create_list :assessment, 10
-      
-      #Assessment versions
-      if Boolean.boolean 0.3
-        num_versions = Faker::Number.between(1, 5)    #at least one version for the scores
-        my_assessments = assessments.shuffle.slice(0, num_versions)
-        my_assessments.map { |assess| pop_assessment_version(assess)}
-      end
-    
-=begin      if Boolean.boolean 0.3    #30% chance of version having score
+      assessments = FactoryGirl.create_list :assessment, 5
+      versions = assessments.map{ |assess| FactoryGirl.create_list :assessment_version, 3}.flatten
+      #items can belong to or have many versions
+      #these items belong to a version
+      items = versions.map{|ver| FactoryGirl.create_list :assessment_item, 6}.flatten
+      item_levels = items.map{ |item| FactoryGirl.create_list :item_level, 1}.flatten
+
+
+      if Boolean.boolean 0.3    #30% chance of version having score
         num_scores = Faker::Number.between(0, 5)
-        my_versions = assessment_versions.shuffle.slice(0, num_scores)
+        my_versions = versions.shuffle.slice(0, num_scores)
         my_versions.map { |ver| pop_student_score(s, ver)}
       end
-=end
 
       #ISSUES AND UPDATES
       if Boolean.boolean 0.3
