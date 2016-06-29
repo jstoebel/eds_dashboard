@@ -8,7 +8,8 @@ class ConcernDashboardController < ApplicationController
         #define what areas should be examined here. They name should corispond to a method below.
         areas = [:praxis, :issues]
 
-        #swap the key out for its value hash.
+        # based on the value that the method returns, this determines some standard values
+        # for output
         outcomes = {
             nil => {:alert_status => "info", :glyph => "question-sign"},
             true => {:alert_status => "success", :glyph => "ok-sign"}, 
@@ -21,9 +22,9 @@ class ConcernDashboardController < ApplicationController
             #get the status in this area
             args = self.send("#{area}_check", @student)
             if args.present?
-                outcome = outcomes[args.delete(:outcome)]
-                merged = args.merge outcome
-                @concerns[area] = merged
+                outcome = outcomes[args.delete(:outcome)] # pop this key
+                merged = args.merge outcome # swap it for the right values in outcomes
+                @concerns[area] = merged #load into instance variable
             end
 
         end
@@ -36,11 +37,13 @@ class ConcernDashboardController < ApplicationController
 
         args = {:title => "Praxis I", :link => student_praxis_results_path(stu.id), :link_title => "View Praxis Results", :link_num => stu.praxis_results.size}
         if stu.praxis_results.blank?
+            #no praxis scores
             return args.merge({:outcome => nil, :msg => "This student has not taken the Praxis I"})
         elsif stu.praxisI_pass
             #passed praxis!
             return args.merge({:outcome => true, :msg => "This student has passed the Praxis I"})
         else
+            #not passing!
             return args.merge({:outcome => false, :msg => "This student has not passed the Praxis I"})           
         end
     end
