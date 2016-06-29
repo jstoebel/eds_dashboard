@@ -1,0 +1,14 @@
+<div class="header1">
+    Concerns Dashboard
+</div>
+<div class="header2">
+    <%= @student.name_readable%>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+      <% @concerns.each do |key, concern| %>
+        <%= render(partial: 'concern', locals: concern) %>
+      <% end %>
+    </div>
+</div>
