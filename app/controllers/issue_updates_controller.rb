@@ -48,12 +48,12 @@ class IssueUpdatesController < ApplicationController
 
     #change status of issue
     if params[:issue_updates][:issue][:status] == "Closed"
-      status = false
+      @issue.open = false
     elsif params[:issue_updates][:issue][:status] == "Open"
-      status = true
+      @issue.open = true
     end
 
-    @issue.Open = status
+    @update.addressed = false
 
     if @update.save and @issue.save
       flash[:notice] = "New update added"
