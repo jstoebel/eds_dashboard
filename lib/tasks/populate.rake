@@ -35,6 +35,14 @@ namespace :db do
     #10 sites with 3 teachers each.
     clinical_sites = FactoryGirl.create_list :clinical_site, 10
     clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
+  
+    #Assessment data
+    assessments = FactoryGirl.create_list :assessment, 5
+    versions = assessments.map{ |assess| FactoryGirl.create_list :assessment_version, 3}.flatten
+    #items can belong to or have many versions
+    #these items belong to a version
+    items = versions.map{|ver| FactoryGirl.create_list :assessment_item, 6}.flatten
+    levels = items.map{ |item| FactoryGirl.create_list :item_level, 1}.flatten
     
     puts "creating data for students..."
     students.each do |s|
@@ -126,20 +134,11 @@ namespace :db do
         my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
 
       end
-      
-      #Assessment data
-      assessments = FactoryGirl.create_list :assessment, 5
-      versions = assessments.map{ |assess| FactoryGirl.create_list :assessment_version, 3}.flatten
-      #items can belong to or have many versions
-      #these items belong to a version
-      items = versions.map{|ver| FactoryGirl.create_list :assessment_item, 6}.flatten
-      item_levels = items.map{ |item| FactoryGirl.create_list :item_level, 1}.flatten
 
-
-      if Boolean.boolean 0.3    #30% chance of version having score
+      if Boolean.boolean 0.3    
         num_scores = Faker::Number.between(0, 5)
-        my_versions = versions.shuffle.slice(0, num_scores)
-        my_versions.map { |ver| pop_student_score(s, ver)}
+        my_levels = levels.shuffle.slice(0, num_scores)
+        my_levels.map { |l| pop_student_score(s, l)}
       end
 
       #ISSUES AND UPDATES
