@@ -198,7 +198,6 @@ Rails.application.routes.draw do
     post "choose"
   end
 
-<<<<<<< HEAD
   resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
@@ -207,8 +206,6 @@ Rails.application.routes.draw do
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show]
   end
-=======
->>>>>>> master
 
   resources :student_files do
     get "download"
