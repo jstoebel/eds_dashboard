@@ -18,10 +18,8 @@ FactoryGirl.define do
     
     #create associated items
     factory :version_with_items do
-      after(:create) do |ver|
-        ver.assessment_item << FactoryGirl.create(:assessment_item)
-        FactoryGirl.create_list(:item_level, {:assessment_item_id => ver.assessment_item.id}, 3)
-      end
+      after(:create) {|ver| create_list(:assessment_item, 3, assessment_version: ver)}
+      #FactoryGirl.create_list(:item_level, {:assessment_item_id => ver.assessment_item.id}, 3)
     end
   end
 =begin #each level, associate associated item with version
