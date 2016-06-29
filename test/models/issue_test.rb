@@ -55,6 +55,13 @@ class IssueTest < ActiveSupport::TestCase
 		assert_equal scoped.to_a, expected.to_a
 
 	end
+
+	test "scope open" do
+		stu = FactoryGirl.create :student
+		[true, false].map{|v| FactoryGirl.create :issue, {:student_id => stu.id, :Open => v}}
+		assert_equal Issue.where(:student_id => stu.id).open.to_a, Issue.where(:Open => true, :student_id => stu.id).to_a
+
+	end
 	
 	test "hides updates from an issue" do
 		issue = FactoryGirl.create(:issue)
