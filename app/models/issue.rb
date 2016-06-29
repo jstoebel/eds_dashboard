@@ -26,7 +26,7 @@ class Issue < ActiveRecord::Base
 	after_save :hide_updates
     # BNUM_REGEX = /\AB00\d{6}\Z/i
     # validates :student_id,
-    # 	presence: {message: "Please enter a valid B#, (including the B00)"}
+    # 	presence: {message: "Please enter a valid B#, (including the B00)"}	
 	
 	validates :Name, 
 		presence: {message: "Please provide an issue name."}
