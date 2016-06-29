@@ -50,7 +50,6 @@ class AssessmentsController < ApplicationController
     authorize! :manage, @assessment
     if @assessment.has_scores == false
       @assessment.destroy
-      #delete view if no scores, confirm how many versions also deleted
       flash[:notice] = "Record deleted successfully"
     else
       flash[:notice] = "Record cannot be deleted"
