@@ -48,7 +48,7 @@ class IssuesControllerTest < ActionController::TestCase
         :student_id => stu.id,
         :Name => create_params[:Name],
         :Description => create_params[:Description],
-        :Open => true
+        :positive => false
         }
 
 
@@ -57,11 +57,11 @@ class IssuesControllerTest < ActionController::TestCase
       #we expect that the two records will be the same except for id
       expected_issue = Issue.new(expected_params)
       actual_issue = assigns(:issue).attributes
-
       actual_attrs = expected_params.select { |k, v| expected_params.include?(k)}
 
       assert_equal expected_params, actual_attrs
 
+      assert assigns(:issue).Open == !expected_params[:positive]
       assert assigns(:issue).present?, assigns(:issue) == nil
       assert assigns(:issue).valid?, assigns(:issue).errors.full_messages
 
