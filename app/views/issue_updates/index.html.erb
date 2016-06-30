@@ -33,6 +33,8 @@
 
     <% @updates.each do |update| %>
 
+      <%= button_to("spam", issue_update_path(update.id), method: :patch) %> 
+
       <tr>
         <td><%=update.UpdateName%></td>
         <td> <%=update.created_at.strftime("%m/%d/%Y")%> </td>
@@ -40,7 +42,14 @@
         <!-- TODO: radio button to toggle addressed field -->
         <td>
           <%=update.addressed  %>
-            <input type="checkbox" Oncolor="success" Offcolor="danger" data-off-text="no" data-on-text="yes" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>">
+
+          <%= form_tag issue_update_path(update.id), method: :patch do %>
+
+            <%= check_box_tag :addressed, {:id => "update#{update.id}", :type => "checkbox", :Oncolor => "success", :Offcolor => "danger", "data-on-text" => "addressed", :class => "bs-switch switch-#{update.addressed ? 'on' : 'off'}", :ajax_path => issue_update_path(update.id)} %>
+      <!--       
+            <input id="<%= "update#{update.id}"  %>" type="checkbox" Oncolor="success" Offcolor="danger" data-on-text="addressed" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>"> -->
+
+          <% end %>
 
         </td>
 
