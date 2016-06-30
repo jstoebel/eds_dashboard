@@ -1,0 +1,49 @@
+<%= link_to student_pgps_path(@student.AltID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<table class="vertical-table">
+  <caption>
+    
+    <div class="header1">
+      <%= "#{@first_name} #{@last_name}"%>
+    </div>
+
+    <div class="header2">
+      <%= "Goal Name: #{@pgp.goal_name}" %>
+    </div>
+  </caption>
+
+  
+  <tr >
+    <th>Goal Desription:</th>
+    <td class="wrap"><%= @pgp.description %></td>
+  </tr>
+  
+  <tr>
+    <th> Action Plan:</th>
+    <td class="wrap"><%= @pgp.plan %></td>
+  </tr>
+
+  <tr>
+    <th>Score:</th>
+      <td class="Add Score">
+        <!-- glyh here if open -->
+        <% if @pgp.goal_score == nil %>
+
+            <div class="col-md-1">
+              Open
+            </div>
+
+        <% else %>
+            <div class="col-md-1" id="text-no-space">
+              Resolved
+            </div>
+        <% end #end of status conditional %>
+
+      </td>
+  </tr>
+
+
+</table>
+
