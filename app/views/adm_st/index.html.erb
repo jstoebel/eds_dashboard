@@ -114,7 +114,7 @@
             </td>
             <td>
                 <%= button_to(adm_st_path(app.id), { class: "btn btn-default #{app.STAdmitted==nil ? "" : "disabled" }", method: :delete, data: {confirm: "Are you sure you want to delete this application?"}} ) do %>
-                     <span class="glyphicon glyphicon-trash" </span>
+                     <span class="glyphicon glyphicon-trash" ></span>
                 <% end %>
             </td>
           </tr>
