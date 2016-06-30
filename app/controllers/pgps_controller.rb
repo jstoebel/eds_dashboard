@@ -81,6 +81,12 @@ class PgpsController < ApplicationController
     def pgp_params
         params.require(:pgp).permit(:student_id, :goal_name, :description, :plan, :goal_score, :score_reason)
     end
+    
+    def error_update
+    #sends user back to edit
+        @student = Student.find(@pgp.student_id)
+        render('edit')
+    end
 
 
 end

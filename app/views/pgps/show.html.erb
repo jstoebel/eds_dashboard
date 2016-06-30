@@ -32,16 +32,21 @@
         <% if @pgp.goal_score == nil %>
 
             <div class="col-md-1">
-              Open
+              Unscored
             </div>
 
         <% else %>
-            <div class="col-md-1" id="text-no-space">
-              Resolved
-            </div>
+            <%= @pgp.goal_score %>
         <% end #end of status conditional %>
 
       </td>
+  </tr>
+  
+  <tr>
+    <th>Score Reason(s):</th>
+    <td class="Score Reason">
+      <%= @pgp.score_reason %>
+    </td>
   </tr>
 
 
