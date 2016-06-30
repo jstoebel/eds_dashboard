@@ -48,7 +48,18 @@
     
                       <% end %>
                     <% end %>
-    
+                    
+                  <% if can? :show, Pgp %>
+                    <%= link_to student_pgps_path(student.AltID), :class => "btn btn-info action-small pgps" do %>
+                          </br><span class="small-btn-text">
+                          PGPs
+                            <span class="badge">
+                              <%= student.pgps.size %>
+                            </span>
+                          </span>
+                    <% end %>
+                  <% end %>
+                  
                   <% if can? :read, Issue %>
                     <%= link_to student_issues_path(student.AltID),:class => "btn btn-info action-small issues" do %>
                           </br><span class="small-btn-text">
@@ -60,7 +71,8 @@
     
                     <% end %>
                   <% end  %>
-    
+                  <br>
+                  <br>
                   <% if can? :read, StudentFile %>
                     <%= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>
                           </br><span class="small-btn-text">
@@ -72,8 +84,6 @@
     
                     <% end %>
                   <% end %>
-    
-    
               </td>
             </tr>
           
