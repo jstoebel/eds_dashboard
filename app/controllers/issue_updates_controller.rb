@@ -106,6 +106,15 @@ class IssueUpdatesController < ApplicationController
     redirect_to(issue_issue_updates_path(@update.issue.id))
   end
   
+
+  def update
+    # user may toggle the issues addressed attr
+
+    update = IssueUpdate.find params[:id]
+    update.addressed = params[:issue_update][:addressed]
+
+  end
+
   private
   def close_issue_params
     params.require(:issue_update).permit(:Description)
