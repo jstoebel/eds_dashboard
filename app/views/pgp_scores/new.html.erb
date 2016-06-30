@@ -4,13 +4,16 @@
     </br>
 
 
-    <%= error_messages_for(@pgp) %> 
-    <%= form_for(:pgp_score, :url => edit_pgp_score_path(@pgp.id), method: :patch ) do |f| %>
+    <%= error_messages_for(@pgp_score) %> 
+    <%= form_for(:pgp_score, :url => pgp_pgp_scores_path(@pgp.id)) do |f| %>
      <table summary="pgp scoring form">
         <caption>
         <div <div class="header1 col-xl-12"> <%= "PGP Scoring"  %> </div></br>
         </caption>
         <div>
+            <tr>
+                <td><%= f.hidden_field(:pgp_id, :value => @pgp.id) %></td>
+            </tr>
             <tr>
                 <th><%= "Goal:" %></th>
                 <td><%= "#{@pgp.goal_name}" %></td>
