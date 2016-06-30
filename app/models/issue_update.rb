@@ -9,6 +9,8 @@
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  addressed                :boolean
 #
 
 class IssueUpdate < ActiveRecord::Base
