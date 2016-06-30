@@ -57,14 +57,14 @@ class PgpsController < ApplicationController
         @pgp.assign_attributes(pgp_params)
         
         if @pgp.save
-        flash[:notice] = "PGP score successfully updated"
-        redirect_to student_pgps_path(@pgp.student.id)
-        return
+            flash[:notice] = "PGP score successfully updated"
+            redirect_to student_pgps_path(@pgp.student.id)
+            return
 
         else
-        flash[:notice] = "Error in scoring PGP."
-        error_update
-        return
+            flash[:notice] = "Error in scoring PGP."
+            error_update
+            return
         end
     end
 
