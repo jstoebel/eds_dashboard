@@ -18,7 +18,7 @@ class Issue < ActiveRecord::Base
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
 	
 	#SCOPES
-	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc)}
+	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc, :positive => :asc)}
 	scope :visible, lambda {where(:visible => true)}
 	scope :open, lambda {where(:Open => true)}
 	
@@ -26,7 +26,7 @@ class Issue < ActiveRecord::Base
 	after_save :hide_updates
     # BNUM_REGEX = /\AB00\d{6}\Z/i
     # validates :student_id,
-    # 	presence: {message: "Please enter a valid B#, (including the B00)"}
+    # 	presence: {message: "Please enter a valid B#, (including the B00)"}	
 	
 	validates :Name, 
 		presence: {message: "Please provide an issue name."}
