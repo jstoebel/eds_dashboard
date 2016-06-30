@@ -16,37 +16,13 @@
 
   
   <tr >
-    <th>Goal Desription:</th>
+    <th>Goal Description:</th>
     <td class="wrap"><%= @pgp.description %></td>
   </tr>
   
   <tr>
     <th> Action Plan:</th>
     <td class="wrap"><%= @pgp.plan %></td>
-  </tr>
-
-  <tr>
-    <th>Score:</th>
-      <td class="Add Score">
-        <!-- glyh here if open -->
-        <% if @pgp.goal_score == nil %>
-
-            <div class="col-md-1">
-              Unscored
-            </div>
-
-        <% else %>
-            <%= @pgp.goal_score %>
-        <% end #end of status conditional %>
-
-      </td>
-  </tr>
-  
-  <tr>
-    <th>Score Reason(s):</th>
-    <td class="Score Reason">
-      <%= @pgp.score_reason %>
-    </td>
   </tr>
 
 
