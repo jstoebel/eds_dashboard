@@ -38,16 +38,9 @@
         <td> <%=update.created_at.strftime("%m/%d/%Y")%> </td>
 
         <!-- TODO: radio button to toggle addressed field -->
-        <td> <%=update.addressed  %> 
-          <div style="width: 104px;" class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-id-switch-state bootstrap-switch-animate bootstrap-switch-on">
-              <div style="width: 153px; margin-left: 0px;" class="bootstrap-switch-container">
-                  <span style="width: 51px;" class="bootstrap-switch-handle-on bootstrap-switch-primary">ON</span>
-                  <span style="width: 51px;" class="bootstrap-switch-label">&nbsp;</span>
-                  <span style="width: 51px;" class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span>
-                  <input id="switch-state" checked="" type="checkbox">
-              </div>
-          </div>
-
+        <td>
+          <%=update.addressed  %>
+            <input type="checkbox" Oncolor="success" Offcolor="danger" data-off-text="no" data-on-text="yes" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>">
 
         </td>
 
