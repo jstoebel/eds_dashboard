@@ -31,9 +31,7 @@
     </tr>
   
 
-    <% @updates.each do |update| %>
-
-      <%= button_to("spam", issue_update_path(update.id), method: :patch) %> 
+    <% @updates.each do |update| %> 
 
       <tr>
         <td><%=update.UpdateName%></td>
@@ -41,11 +39,12 @@
 
         <!-- TODO: radio button to toggle addressed field -->
         <td>
-          <%=update.addressed  %>
+          <%= form_tag students_path, method: :patch, remote: true do %>
+ 
+            <input id="<%='update'  +update.id.to_s%>" type="checkbox" Oncolor="success" Offcolor="danger" data-on-text="addressed" data-off-text="NEW" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>" ajax_path="<%= students_path %>">
 
-          <%= form_tag issue_update_path(update.id), method: :patch do %>
 
-            <%= check_box_tag :addressed, {:id => "update#{update.id}", :type => "checkbox", :Oncolor => "success", :Offcolor => "danger", "data-on-text" => "addressed", :class => "bs-switch switch-#{update.addressed ? 'on' : 'off'}", :ajax_path => issue_update_path(update.id)} %>
+            <%# check_box_tag "update#{update.id}", options={:type => "checkbox", :Oncolor => "success", :Offcolor => "danger", "data-on-text" => "addressed", :class => "bs-switch switch-#{update.addressed ? 'on' : 'off'}", :ajax_path => issue_update_path(update.id)} %>
       <!--       
             <input id="<%= "update#{update.id}"  %>" type="checkbox" Oncolor="success" Offcolor="danger" data-on-text="addressed" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>"> -->
 
