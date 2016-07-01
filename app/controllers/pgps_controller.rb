@@ -51,22 +51,22 @@ class PgpsController < ApplicationController
         authorize! :manage, @pgp
     end
     
-    # def update
-    #     @student = Student.find(params[:id])
-    #     @pgp = Pgp.find(params[:id])
-    #     @pgp.assign_attributes(pgp_params)
+    def update
+         @student = Student.find(params[:id])
+         @pgp = Pgp.find(params[:id])
+         @pgp.assign_attributes(pgp_params)
         
-    #     if @pgp.save
-    #         flash[:notice] = "PGP score successfully updated"
-    #         redirect_to student_pgps_path(@pgp.student.id)
-    #         return
+         if @pgp.save
+             flash[:notice] = "PGP successfully updated"
+             redirect_to student_pgps_path(@pgp.student.id)
+             return
 
-    #     else
-    #         flash[:notice] = "Error in scoring PGP."
-    #         error_update
-    #         return
-    #     end
-    # end
+         else
+             flash[:notice] = "Error in editing PGP."
+             error_update
+             return
+         end
+    end
 
     
     def destroy

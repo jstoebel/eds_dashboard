@@ -2,7 +2,8 @@ class Pgp < ActiveRecord::Base
     self.table_name = 'pgps'
     
     belongs_to :student
-    has_many :pgp_scores
+    has_many :pgp_scores, dependent: :destroy
+    
     
     scope :sorted, lambda {order(:created_at => :desc)}
     
