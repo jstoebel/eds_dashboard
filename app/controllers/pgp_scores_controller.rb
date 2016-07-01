@@ -38,23 +38,6 @@ class PgpScoresController < ApplicationController
         authorize! :manage, @pgp_score
     end 
     
-    # def update
-    #     @pgp_score = PgpScore.find(params[:id])
-    #     authorize! :manage, @pgp_score
-    #     @pgp_score.assign_attributes(pgp_score_params)
-        
-    #     if @pgp_score.save
-    #         flash[:notice] = "PGP score successfully updated"
-    #         redirect_to student_pgps_path(@pgp.id)
-    #         return
-
-    #     else
-    #         flash[:notice] = "Error in scoring PGP."
-    #         error_update
-    #         return
-    #     end    
-    # end
-    
     def show
         @pgp_score = PgpScore.find(params[:pgp_id])
         authorize! :read, @pgp_score
