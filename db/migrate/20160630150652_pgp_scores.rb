@@ -4,7 +4,7 @@ class PgpScores < ActiveRecord::Migration
       t.integer :pgp_id
       t.integer :goal_score
       t.text :score_reason
-      t.timestamps :score_date
+      t.timestamps 
     end
     add_foreign_key(:pgp_scores, :pgps)
   end

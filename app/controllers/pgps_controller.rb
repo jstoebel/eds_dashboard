@@ -90,7 +90,7 @@ class PgpsController < ApplicationController
     end
     
     def error_update
-    #sends user back to edit
+        #sends user back to edit
         @student = Student.find(@pgp.student_id)
         render('edit')
     end
