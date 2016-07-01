@@ -8,10 +8,11 @@
 
     <caption>
     	<span class="header1"> Update Assessment Version</span>
+    	<span class = "header2"><%= "#{@version.assessment.name}"%></span>
 
     </caption>
 
-	<%= render(partial: 'form', locals: {f: f}) %>
+	<%= render(partial: 'edit_form', locals: {f: f}) %>
 
 	<tr>
 		<td><%= submit_tag("Update Version") %></td>
