@@ -226,7 +226,9 @@ Rails.application.routes.draw do
   end
 
   resources :issues, shallow: true do
-    resources :issue_updates
+    resources :issue_updates do
+        patch 'update'
+    end
   end
   
   resources :pgps, shallow: true do 
