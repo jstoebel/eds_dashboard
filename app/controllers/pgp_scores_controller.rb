@@ -4,16 +4,15 @@ class PgpScoresController < ApplicationController
     
     def index
         @pgp = Pgp.find(params[:pgp_id])
-        authorize! :read, @pgp_score
-        @student = Student.find(@pgp.student.id)
-        @pgp_score = PgpScore.find(params[:pgp_id])
-        @pgp_scores = PgpScore.order(created_at: :desc)
+        authorize! :read, @pgp_score, @pgp
+        @student = @pgp.student
+        @pgp_scores = @pgp.pgp_scores.order(:created_at)
     end  
     
     def edit
         @pgp = Pgp.find(params[:id])
-        authorize! :manage, @pgp_score
-        @student = Student.find(params[:id])
+        authorize! :manage, @pgp_score, @pgp
+        @student = @pgp.student
     end
 
     
@@ -23,7 +22,7 @@ class PgpScoresController < ApplicationController
         authorize! :manage, @pgp_score
         if @pgp_score.save
           flash[:notice] = "Scored professional growth plan."
-          redirect_to(action: "index")
+          redirect_to(pgp_pgp_scores_path())
         else
           flash[:notice] = "Error creating professional growth plan."
           @student = Student.find(params[:student_id])
@@ -33,21 +32,20 @@ class PgpScoresController < ApplicationController
     
     def new 
         @pgp_score = PgpScore.new
-       # @student = Student.find(params[:student_id])
         @pgp = Pgp.find(params[:pgp_id])
-        authorize! :manage, @pgp_score
+        authorize! :manage, @pgp_score, @pgp
     end 
     
     def show
         @pgp_score = PgpScore.find(params[:pgp_id])
         authorize! :read, @pgp_score
         @student = Student.find(@pgp.student_id)
-        name_details (@student)
+        @student.name_readable
     end
     
     private
     
     def pgp_score_params
-        params.require(:pgp_score).permit(:pgp_id, :goal_score, :score_reason)
+        params.require(:pgp_score).permit(:pgp_id, :goal_score, :score_reason, :score_date)
     end
 end
