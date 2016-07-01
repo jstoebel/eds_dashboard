@@ -6,8 +6,8 @@ var toggleState = function(updateId, newState) {
         $.ajax({
             type: "PATCH", 
             dataType: "json",
-            //url: "/issue_updates/"+updateId+"?&authenticity_token="+AUTH_TOKEN,
-            data: {issue_update: {addressed : newState}},
+            url: "/issue_updates/"+updateId,
+            data: {authenticity_token : AUTH_TOKEN, issue_update: {addressed : newState}},
             success: function(response){
                 resolve(response);
             },
@@ -36,19 +36,13 @@ $(document).ready(function(){
     $(".bs-switch").on('switchChange.bootstrapSwitch', function(event, state){
         var elemId = event.target.id;
         var updateId = elemId.match(/\d/)[0];
-        console.log("swtich flipped!")
-        console.log(state);
         toggleState(updateId, state).then(function(response){
-            console.log("success!");
-            console.log(response);
+            //successfully saved record
         }).catch(function(response){
-            console.log("fail!");
+            console.log("FAILED TO UPDATE RECORD!")
             console.log(response)
-            console.log(response);
-
+            //failed to save record
         })
     })
 
 });
-
-console.log("hello");
