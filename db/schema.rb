@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630150652) do
+ActiveRecord::Schema.define(version: 20160629202930) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 20160630150652) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "visible",                  default: true, null: false
+    t.boolean  "addressed"
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
