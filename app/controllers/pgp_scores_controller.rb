@@ -6,7 +6,8 @@ class PgpScoresController < ApplicationController
         @pgp = Pgp.find(params[:pgp_id])
         authorize! :read, @pgp_score
         @student = Student.find(@pgp.student.id)
-        @pgp_scores = @student.pgp.pgp_scores.sorted.select {|r| can? :read, r }
+        @pgp_score = PgpScore.find(params[:pgp_id])
+        @pgp_scores = PgpScore.order(created_at: :desc)
     end  
     
     def edit
