@@ -16,6 +16,7 @@
 class IssueUpdate < ActiveRecord::Base
 	belongs_to :issue, foreign_key: 'Issues_IssueID'
 	belongs_to :tep_advisor, {:foreign_key => 'tep_advisors_AdvisorBnum'}
+	before_validation :add_addressed
 
 
 	scope :sorted, lambda {order(:created_at => :desc)}
@@ -30,9 +31,22 @@ class IssueUpdate < ActiveRecord::Base
 	validates :tep_advisors_AdvisorBnum,
 		:presence => { message: "Could not find an advisor profile for this user."}
 
-	validates_inclusion_of :addressed, in: [true, false]
+	validate :has_addressed
 
 	def student
 		return self.issue.student
 	end
+
+	private
+
+	def add_addressed
+		self.addressed = true if self.new_record?
+	end
+
+	def has_addressed
+		if !self.new_record? && self.addressed.nil?
+			self.errors.add(:addressed, "update must have value for addressed.")
+		end
+	end
+
 end
