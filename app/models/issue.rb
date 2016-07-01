@@ -2,14 +2,16 @@
 #
 # Table name: issues
 #
-#  IssueID                  :integer          not null, primary key
 #  student_id               :integer          not null
+#  IssueID                  :integer          not null, primary key
 #  Name                     :text             not null
 #  Description              :text             not null
 #  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  positive                 :boolean
 #
 
 class Issue < ActiveRecord::Base
