@@ -27,14 +27,31 @@
     <tr>
       <th>Update</th>
       <th>Date</th>
+      <th>Addressed</th>
     </tr>
   
 
-    <% @updates.each do |update| %>
+    <% @updates.each do |update| %> 
 
       <tr>
         <td><%=update.UpdateName%></td>
         <td> <%=update.created_at.strftime("%m/%d/%Y")%> </td>
+
+        <!-- TODO: radio button to toggle addressed field -->
+        <td>
+          <%= form_tag students_path, method: :patch, remote: true do %>
+ 
+            <input id="<%='update'  +update.id.to_s%>" type="checkbox" Oncolor="success" Offcolor="danger" data-on-text="addressed" data-off-text="NEW" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>" ajax_path="<%= students_path %>">
+
+
+            <%# check_box_tag "update#{update.id}", options={:type => "checkbox", :Oncolor => "success", :Offcolor => "danger", "data-on-text" => "addressed", :class => "bs-switch switch-#{update.addressed ? 'on' : 'off'}", :ajax_path => issue_update_path(update.id)} %>
+      <!--       
+            <input id="<%= "update#{update.id}"  %>" type="checkbox" Oncolor="success" Offcolor="danger" data-on-text="addressed" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>"> -->
+
+          <% end %>
+
+        </td>
+
         <td class="actions">
 
           <%= render(partial: 'details_popover', 
