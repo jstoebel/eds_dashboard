@@ -30,5 +30,7 @@
   UpdateName: Update1
   Description: Update1 Description
   issue: issue1
-  tep_advisors_AdvisorBnum: B00123456
+  # tep_advisors_AdvisorBnum: B00123456
+  tep_advisor: snow_advisor
+  addressed: false 
 <% end %>
