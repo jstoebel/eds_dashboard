@@ -49,12 +49,10 @@ class IssueUpdatesController < ApplicationController
 
     #change status of issue
     if params[:issue_updates][:issue][:status] == "Closed"
-      @issue.open = false
+      @issue.Open = false
     elsif params[:issue_updates][:issue][:status] == "Open"
-      @issue.open = true
+      @issue.Open = true
     end
-
-    @update.addressed = false
 
     if @update.save and @issue.save
       flash[:notice] = "New update added"
@@ -113,7 +111,6 @@ class IssueUpdatesController < ApplicationController
     update.addressed = params[:issue_update][:addressed]
     
     response = {:json => update}
-
     if update.save
       render :json => update, status: :created
     else
