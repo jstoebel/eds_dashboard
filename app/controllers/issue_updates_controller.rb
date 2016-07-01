@@ -17,7 +17,6 @@ class IssueUpdatesController < ApplicationController
   authorize_resource
   layout 'application'
 
-  
   def new
     #sets up creation of a new issue update
     @issue = Issue.find(params[:issue_id])
@@ -109,9 +108,17 @@ class IssueUpdatesController < ApplicationController
 
   def update
     # user may toggle the issues addressed attr
-
     update = IssueUpdate.find params[:id]
+    authorize! :manage, update
     update.addressed = params[:issue_update][:addressed]
+    
+    response = {:json => update}
+
+    if update.save
+      render :json => update, status: :created
+    else
+      render :json => update, status: :unprocessable_entity
+    end
 
   end
 
