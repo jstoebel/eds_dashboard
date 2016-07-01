@@ -2,7 +2,7 @@
   <i class=" link-text"> Back</i>
 <% end %>
 
-<%= form_for(@version, url: assessment_version_path(@version.id)) do |f| %>
+<%= form_for(@version, url: assessment_version_path(@version.id), :html => { :method => :put }) do |f| %>
 
 	<table summary="assessment_version form fields">
 
