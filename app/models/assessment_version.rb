@@ -24,8 +24,13 @@ class AssessmentVersion < ActiveRecord::Base
     ### VALIDATIONS ###
     
     validates_presence_of :assessment_id
+    #validates :version_num
+    
+    scope :sorted, lambda {order(:created_at => :asc)}
+    #scope :sortall, lambda {order(:assessment_id => :desc, )
         
     def has_scores
         return self.student_scores > 0
     end
+    
 end
