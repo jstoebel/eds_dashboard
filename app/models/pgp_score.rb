@@ -3,7 +3,7 @@ class PgpScore< ActiveRecord::Base
     self.table_name = 'pgp_scores'
     belongs_to :pgp
     
-    scope :sorted, lambda {order(:created_at => :desc)}
+    scope :sorted, lambda {order(:created_at)}
     
     validates_numericality_of :goal_score, greater_than: 0
     validates_numericality_of :goal_score, less_than: 5
