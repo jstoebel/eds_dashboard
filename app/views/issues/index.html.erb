@@ -24,7 +24,6 @@
                 <tr class="header">
                   <th>Issue Name</th>
                   <th>Date Opened</th>
-                  <th> Positive/Negative</th>
                   <th>Status</th>
                 </tr>
   
@@ -33,11 +32,6 @@
                 <tr class="<%= issue.Open ? "alert alert-danger" : "alert alert-success"%>">
                   <td> <%= issue.Name %></td>
                   <td> <%= issue.created_at.strftime("%m/%d/%Y")%> </td>
-                  <td> 
-                  <%= issue.positive ? "Positive" : "Negative"  %>
-
-                   </td>
-  
                   <td >
                     <!-- glyph here if open -->
                     <% if issue.Open %>

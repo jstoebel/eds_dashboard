@@ -9,13 +9,14 @@
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  addressed                :boolean
 #
 
 class IssueUpdatesController < ApplicationController
   authorize_resource
   layout 'application'
 
-  
   def new
     #sets up creation of a new issue update
     @issue = Issue.find(params[:issue_id])
@@ -48,12 +49,10 @@ class IssueUpdatesController < ApplicationController
 
     #change status of issue
     if params[:issue_updates][:issue][:status] == "Closed"
-      status = false
+      @issue.Open = false
     elsif params[:issue_updates][:issue][:status] == "Open"
-      status = true
+      @issue.Open = true
     end
-
-    @issue.Open = status
 
     if @update.save and @issue.save
       flash[:notice] = "New update added"
@@ -104,6 +103,22 @@ class IssueUpdatesController < ApplicationController
     redirect_to(issue_issue_updates_path(@update.issue.id))
   end
   
+
+  def update
+    # user may toggle the issues addressed attr
+    update = IssueUpdate.find params[:id]
+    authorize! :manage, update
+    update.addressed = params[:issue_update][:addressed]
+    
+    response = {:json => update}
+    if update.save
+      render :json => update, status: :created
+    else
+      render :json => update, status: :unprocessable_entity
+    end
+
+  end
+
   private
   def close_issue_params
     params.require(:issue_update).permit(:Description)

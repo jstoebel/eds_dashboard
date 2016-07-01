@@ -30,6 +30,7 @@ gem 'spring',        group: :development
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'bootstrap-datepicker-rails'
+gem "bootstrap-switch-rails"
 gem "paperclip", "~> 4.3"
 gem 'seed_dump'
 gem 'db_fixtures_dump'
