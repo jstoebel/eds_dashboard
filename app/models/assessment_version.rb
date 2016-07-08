@@ -27,10 +27,9 @@ class AssessmentVersion < ActiveRecord::Base
     #validates :version_num
     
     scope :sorted, lambda {order(:created_at => :asc)}
-    #scope :sortall, lambda {order(:assessment_id => :desc, )
         
     def has_scores
-        return self.student_scores > 0
+        return self.student_scores.count > 0
     end
     
 end
