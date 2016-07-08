@@ -163,20 +163,20 @@ Rails.application.routes.draw do
   resources :clinical_teachers, only: [:index, :new, :create, :edit, :update, :destroy] do
     get "delete"
   end
+  
+  resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do
+    get "delete"
+    #patch "update"
+    put "update"
+  end
  
-  resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy]  do
+  resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy], shallow: true do
     resources :assessment_versions, only: [:index] do
       #patch "update"
       #put "update"
     end
     get "delete"
   end
- 
- resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do
-   get "delete"
-   #patch "update"
-   #put "update"
- end
  
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
