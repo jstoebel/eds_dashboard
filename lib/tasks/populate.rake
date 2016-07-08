@@ -39,10 +39,6 @@ namespace :db do
     #Assessment data
     assessments = FactoryGirl.create_list :assessment, 5
     versions = assessments.map{ |assess| FactoryGirl.create_list :version_with_items, 3}.flatten
-    #items can belong to or have many versions
-    #these items belong to a version
-    #items = versions.map{|ver| FactoryGirl.create_list :assessment_item, 6}.flatten
-    #levels = items.map{ |item| FactoryGirl.create_list :item_level, 1}.flatten
     
     puts "creating data for students..."
     students.each do |s|
@@ -134,13 +130,6 @@ namespace :db do
         my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
 
       end
-      ####will have to change to accomodate version factory
-        ## making items and levels
-      #if Boolean.boolean 0.3    
-      #  num_scores = Faker::Number.between(0, 5)
-      #  my_levels = levels.shuffle.slice(0, num_scores)
-      #  my_levels.map { |l| pop_student_score(s, l)}
-      #end
 
       #ISSUES AND UPDATES
       if Boolean.boolean 0.3
