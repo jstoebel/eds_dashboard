@@ -24,12 +24,17 @@ class AssessmentVersion < ActiveRecord::Base
     ### VALIDATIONS ###
     
     validates_presence_of :assessment_id
-    #validates :version_num
     
-    scope :sorted, lambda {order(:created_at => :asc)}
-        
+    scope :sorted, lambda { order( :assessment_id => :asc, :created_at => :asc) }
+    #scope :sorted_within_assessment, lambda { |assess| where(:assessment_id => assess).order( :created_at => :asc)}
+  
     def has_scores
         return self.student_scores.count > 0
     end
     
+    def self.ver_num
+        versions = AssessmentVersion.where(assessment_id: self.assessment_id)
+        versions.sorted
+        return versions.find_index(self).to_i + 1
+    end
 end
