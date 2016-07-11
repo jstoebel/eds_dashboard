@@ -5,10 +5,10 @@ class AssessmentVersionsController < ApplicationController
     #shows all versions of a particular assessment
     if params["assessment_id"]   #we only want versions of this assessment
       @version = AssessmentVersion.where(assessment_id: params["assessment_id"]).select {|r| can? :read, r }
-      #@version.sorted
+      @version.sorted
     else
       @version = AssessmentVersion.all  #.select {|r| can? :read, r } 
-      #@version.sorted
+      @version.sorted
     end
     authorize! :read, @version
   end
@@ -45,7 +45,7 @@ class AssessmentVersionsController < ApplicationController
     if @version.save
       flash[:notice] = "Updated Version #{@version.version_num} of 
         #{Assessment.find(@version.assessment_id).name}"
-      redirect_to(assessment_version_path)
+      redirect_to(assessment_versions_path)
     else
       render('edit')
     end
