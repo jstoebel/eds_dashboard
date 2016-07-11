@@ -15,6 +15,7 @@ include Faker
 FactoryGirl.define do
   factory :assessment_version do
     assessment   #should provide the assessment_id
+    version_num ver_num
    
     factory :version_with_items do
       #create associated items and their levels
