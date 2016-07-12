@@ -4,25 +4,25 @@ class AssessmentVersionsController < ApplicationController
   def index
     #shows all versions of a particular assessment
     if params["assessment_id"]   #we only want versions of this assessment
-      @version = AssessmentVersion.where(assessment_id: params["assessment_id"]).select {|r| can? :read, r }
-      @version.sorted
+      @assessment = Assessment.find(params[:assessment_id])
+      @version = @assessment.assessment_versions.sorted.select {|r| can? :read, r }
     else
-      @version = AssessmentVersion.all  #.select {|r| can? :read, r } 
-      @version.sorted
+      @version = AssessmentVersion.all.sorted.select {|r| can? :read, r } 
     end
     authorize! :read, @version
   end
   
   def new
-    new_details
     @version = AssessmentVersion.new
     authorize! :manage, @version
+    form_setup
   end
 
   def create
     @version = AssessmentVersion.new
     authorize! :manage, @version
-    @version.update_attributes(version_params)
+    @version.update_attributes(new_params)
+    form_setup
     if @version.save
       flash[:notice] = "Created Version #{@version.version_num} of 
         #{Assessment.find(@version.assessment_id).name}"
@@ -33,15 +33,15 @@ class AssessmentVersionsController < ApplicationController
   end
 
   def edit
-    edit_details
     @version = AssessmentVersion.find(params[:id])
     authorize! :manage, @version
+    form_setup
   end
 
   def update
     @version = AssessmentVersion.find(params[:id])
     authorize! :manage, @version
-    @version.update_attributes(version_params)
+    @version.update_attributes(update_params)
     if @version.save
       flash[:notice] = "Updated Version #{@version.version_num} of 
         #{Assessment.find(@version.assessment_id).name}"
@@ -75,17 +75,16 @@ class AssessmentVersionsController < ApplicationController
   end
 
   private
-  def version_params
+  def new_params
+    params.require(:assessment_version).permit(:assessment_id, :assessment_items)
+  end
+  
+  def update_params
     params.require(:assessment_version).permit(:assessment_items)
   end
   
-  def new_details
+  def form_setup
     @assessments = Assessment.all
-    @items = AssessmentItem.all
-  end
-  
-  def edit_details
-    #should show assessment but not allow change
     @items = AssessmentItem.all
   end
 end
