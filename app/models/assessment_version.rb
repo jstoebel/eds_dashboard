@@ -22,24 +22,25 @@ class AssessmentVersion < ActiveRecord::Base
     has_many :assessment_items, :through => :version_habtm_items, dependent: :destroy
 
     ### VALIDATIONS ###
-    
-    validates_presence_of :assessment_id
+    validates :assessment_id, presence: {message: "Assessment must be selected."}
     before_validation :set_defaults
     
     scope :sorted, lambda { order( :assessment_id => :asc, :created_at => :asc) }
     #scope :sorted_within_assessment, lambda { |assess| where(:assessment_id => assess).order( :created_at => :asc)}
   
     def has_scores
-        return self.student_scores.count > 0
+        return self.student_scores.present?.size > 0
     end
     
     def set_defaults
-        versions = AssessmentVersion.where(:assessment_id => self.assessment_id)
-        if versions.empty?
-            self.version_num => 1
-        else  
-            number = versions.count + 1
-            self.version_num => number
-        end
+      @versions = AssessmentVersion.where(:assessment_id => self.assessment_id)
+      if @versions.empty?
+        self.version_num = 1
+      else
+        @versions.order(:created_at => :asc)
+        newest = @versions[-1]
+        number = newest.version_num + 1
+        self.version_num = number
+      end
     end
 end
