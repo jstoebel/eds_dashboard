@@ -23,8 +23,7 @@ class AssessmentVersion < ActiveRecord::Base
 
     ### VALIDATIONS ###
     validates :assessment_id, presence: {message: "Assessment must be selected."}
-    before_validation :set_defaults
-    
+
     scope :sorted, lambda { order( :assessment_id => :asc, :created_at => :asc) }
   
     def has_scores

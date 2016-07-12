@@ -14,6 +14,7 @@ class AssessmentVersionsController < ApplicationController
   
   def new
     @version = AssessmentVersion.new
+    @assessment = Assessment.find(params[:assessment_id])
     authorize! :manage, @version
     form_setup
   end
@@ -76,7 +77,7 @@ class AssessmentVersionsController < ApplicationController
 
   private
   def new_params
-    params.require(:assessment_version).permit(:assessment_id, :assessment_items)
+    params.require(:assessment_version).permit(:assessment_id, :assessment_items) 
   end
   
   def update_params

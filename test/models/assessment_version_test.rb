@@ -17,19 +17,24 @@ class AssessmentVersionTest < ActiveSupport::TestCase
   # end
   
   test "Not valid object, needs assessment_id" do
-    assess_ver = AssessmentVersion.new
-    assert_not assess_ver.valid?
-    assert_equal [:assessment_id], assess_ver.errors.keys
-    assert_equal [:assessment_id].map{|i| [i, ["can't be blank"]]}.to_h, 
-      assess_ver.errors.messages
+    ver = AssessmentVersion.new
+    assert_not ver.valid?
+    assert_equal [:assessment_id], ver.errors.keys
+    assert_equal [:assessment_id].map{|i| [i, ["Assessment must be selected."]]}.to_h, 
+      ver.errors.messages
   end
   
-  test do 
+  test "sorted scope" do
+    ver = FactoryGirl.create_list(:assessment_version, 3)
+    ordered_vers = ver.order
+    assert_equal ver.sorted, ordered_vers
   end
   
-  test "current version"
+  test "has_scores" do
+    
+  end
   
-  test "sorted scope" do 
+  test "version_num" do 
     
   end
 end
