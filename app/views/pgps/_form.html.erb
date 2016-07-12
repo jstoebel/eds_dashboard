@@ -1,0 +1,46 @@
+ 
+    <%= error_messages_for(@) %>
+    <tr>
+      <th> <%= f.label(:student_id, "Student")%> </th>
+      <td> <%= f.select(:student_id, @students.map {|s| [name_details(s), s.id]},
+      {prompt: "Select a student"}) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:pgp_id, "Teacher")%> </th>
+      <td> <%= f.select(:clinical_teacher_id, @teachers.map {|t| ["#{t.FirstName} #{t.LastName}", t.id]},
+      {prompt: "Select a Goal:"}) %></td> <!-- is this right? -->
+    </tr>
+
+    <!-- TODO menu for course ID goes here -->
+    
+    
+    <!-- Do we need this???
+    <tr>
+    <th> <%= f.label(:StartDate, "Start Date") %></th>
+
+    <td>    
+      <%= render(partial: 'date_picker', :locals => {
+                f: f,
+                field: :StartDate,
+                default: current_term({:exact => false, :plan_b => :forward}).StartDate
+              } )%> 
+    </td>
+    </tr>
+
+
+    <tr>
+    <th> <%= f.label(:EndDate, "End Date") %></th>
+
+    <td>    
+      <%= render(partial: 'date_picker', :locals => {
+                f: f,
+                field: :EndDate,
+                default: current_term({:exact => false, :plan_b => :forward}).EndDate
+              } )%> 
+    </td>
+    </tr>
+    -->
+
+  </table>
+ 

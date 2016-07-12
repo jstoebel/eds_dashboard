@@ -28,7 +28,15 @@
           <tr>
             <td> <%= pgp.goal_name %></td>
             <td> <%= pgp.created_at.strftime("%m/%d/%Y")%> </td>
-     
+
+            <td>
+              <% if pgp.goal_name == nil %>    
+                  <%= link_to("Score PGP", edit_pgp_path(pgp.id), :class => "action details btn btn-info action-small issues")%>
+              <% else %>
+                  <%= pgp.goal_name %>
+              <% end %>
+            </td>
+
             <td class="actions">
               <%= link_to pgp_path(pgp.id), :class => "btn btn-info action-small" do %>
                 <span class="small-btn-text">Details</span>
