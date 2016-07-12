@@ -9,6 +9,8 @@
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  addressed                :boolean
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -28,5 +30,7 @@
   UpdateName: Update1
   Description: Update1 Description
   issue: issue1
-  tep_advisors_AdvisorBnum: B00123456
+  # tep_advisors_AdvisorBnum: B00123456
+  tep_advisor: snow_advisor
+  addressed: false 
 <% end %>
