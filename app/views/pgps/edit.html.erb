@@ -6,26 +6,55 @@
 
     <%= error_messages_for(@pgp) %> 
     <%= form_for(:pgp, :url => pgp_path(@pgp.id), method: :patch ) do |f| %>
+
      <table summary="pgp edit form">
+
+     <table summary="pgp scoring form">
+         
         <caption>
         <div <div class="header1 col-xl-12"> <%= "Edit Professional Growth Plan"  %> </div></br>
         </caption>
+        
         <div>
             <tr>
                 <th><%= "Goal:" %></th>
                 <td><%= "#{@pgp.goal_name}" %></td>
             </tr>
+            
             <tr>
                 <th><%= f.label(:description, "Goal Description: ") %></th>
                 <td><%= f.text_area(:description) %></td>
             </tr>
+            
             <tr>
                 <th><%= f.label(:plan, "Action Plan: ") %></th>
                 <td><%= f.text_area(:plan)%></td>
             </tr>
+            
         </div>
         </table><br>
-
+        
+        <table>
+        <div>
+            <tr>
+                <th><%= f.label(:goal_score, "Score:")%></th>
+                <td><%= f.radio_button(:goal_score, 1) %>1</td>
+                <td><%= f.radio_button(:goal_score, 2) %>2</td>
+                <td><%= f.radio_button(:goal_score, 3) %>3</td>
+                <td><%= f.radio_button(:goal_score, 4) %>4</td>
+            </tr>
+        </div>
+        </table>
+        
+        <table>
+        <div>
+            <tr>
+                <th><%= f.label(:score_reason, "Reason(s) for score: ")%></th>
+                <td><%= f.text_area(:score_reason) %></td>
+            </tr>
+        </div>
+        </table>
+        
         <tr>
             <td>
                 <div class="form-buttons">
@@ -33,5 +62,7 @@
                 </div>
             </td>   
         </tr> 
+        
+        
     </table>
     <% end %>
