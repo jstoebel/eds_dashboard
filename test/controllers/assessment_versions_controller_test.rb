@@ -1,9 +1,18 @@
 require 'test_helper'
 
 class AssessmentVersionsControllerTest < ActionController::TestCase
+  allowed_roles = ["admin", "staff"]
   test "should get new" do
-    get :new
-    assert_response :success
+    allowed_roles.each do |r|
+      load_session(r)
+      
+      assess = Assessment.first
+      version = AssessmentVersion.new
+      get :new, :assessment_id => assessment.id
+      assert_response :success
+      assert assigns(:version).new_record?
+      assert_equal assigns(:assessment), assess
+    end
   end
 
   test "should get create" do

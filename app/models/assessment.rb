@@ -29,7 +29,7 @@ class Assessment < ActiveRecord::Base
     end
 
     def current_version
-        return self.versions.order(:version_num).last
+        return self.versions.order(:created_at => :asc).last
     end
             
     def has_scores
