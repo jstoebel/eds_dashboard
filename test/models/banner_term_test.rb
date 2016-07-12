@@ -65,9 +65,29 @@ class BannerTermTest < ActiveSupport::TestCase
         expect next_t.id.must_equal 201512
     end
 
+    it "gets next term, standard only" do
+      next_t = fall_term.next_term(standard=true)
+      expect next_t.id.must_equal 201512
+    end
+
+    it "gets next term, qty=2" do
+      next_t = summer_term.next_term(qty=2)
+      expect next_t.id.must_equal 201611
+    end
+
     it "gets prev term" do
         prev_t = spring_term.prev_term
         expect prev_t.id.must_equal 201511
+    end
+
+    it "gets prev term standard only" do
+      prev_t = BannerTerm.find(201515).prev_term(standard=true)
+      expect prev_t.id.must_equal 201512
+    end
+
+    it "gets prev term qty=2" do
+      prev_t = BannerTerm.find(201515).prev_term(qty=2)
+      expect prev_t.id.must_equal 201512
     end
 
     it "returns readable no extra text" do

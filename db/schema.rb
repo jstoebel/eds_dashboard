@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160712151524) do
+ActiveRecord::Schema.define(version: 20160712185243) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20160712151524) do
     t.datetime "StartDate",            null: false
     t.datetime "EndDate",              null: false
     t.integer  "AYStart",              null: false
+    t.boolean  "standard"
   end
 
   create_table "banner_updates", force: true do |t|
@@ -428,9 +429,8 @@ ActiveRecord::Schema.define(version: 20160712151524) do
   add_index "students", ["term_major"], name: "students_term_major_fk", using: :btree
 
   create_table "tep_advisors", force: true do |t|
-    t.string  "AdvisorBnum", limit: 9, null: false
-    t.string  "name"
-    t.string  "Salutation"
+    t.string  "AdvisorBnum", limit: 9,  null: false
+    t.string  "Salutation",  limit: 45, null: false
     t.integer "user_id"
   end
 

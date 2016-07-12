@@ -1,9 +1,9 @@
 class AdmTepController < ApplicationController
-  
+
   layout 'application'
   authorize_resource
   skip_authorize_resource :only => [:new, :choose]
-  
+
   def new
     #display menu for possible names and possible programs
 
@@ -62,7 +62,7 @@ class AdmTepController < ApplicationController
 
 
     @letter = StudentFile.create ({
-        :doc => params[:adm_tep][:letter], 
+        :doc => params[:adm_tep][:letter],
         :active => true,
         :student_id => @application.student.id
       })
@@ -96,7 +96,7 @@ class AdmTepController < ApplicationController
     #@current_term: the current term in time
     #@term: the term displayed
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
-        
+
     @applications = AdmTep.all.by_term(@term)   #fetch all applications for this term
     authorize! :read, @applications
   end
@@ -121,7 +121,7 @@ class AdmTepController < ApplicationController
     app = AdmTep.find(params[:adm_tep_id])
     authorize! :read, app
     send_file app.student_file.doc.path
-    
+
   end
 
   def destroy
@@ -136,6 +136,12 @@ class AdmTepController < ApplicationController
       flash[:notice] = "Record cannot be deleted"    #notifies user that object cannot be deleted
     end
     redirect_to(banner_term_adm_tep_index_path(@app.BannerTerm_BannerTerm))    #method(method(object.attribute)) appropriate method found through routing page
+  end
+
+  def need_apply
+    #indexs all students that currently are ready to apply
+
+
   end
 
   private
@@ -159,7 +165,7 @@ class AdmTepController < ApplicationController
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
     @student = Student.find(@application.student_id)
     name_details(@student)
-    render('edit')  
+    render('edit')
   end
 
 end

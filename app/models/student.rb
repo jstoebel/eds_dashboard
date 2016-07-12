@@ -57,7 +57,7 @@ class Student < ActiveRecord::Base
 	has_many :foi
 
     has_many :student_scores
-    
+
     has_many :pgps
 
 	#~~~HOOKS
@@ -143,12 +143,12 @@ class Student < ActiveRecord::Base
 		term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
 		classes = self.transcripts.in_term(term)
 		my_profs = classes.map { |i| i.Inst_bnum }
-		return my_profs.include?(inst_bnum) 
+		return my_profs.include?(inst_bnum)
 	end
 
 	def praxisI_pass
 	   	#output if student has passed all praxis I exams.
-   	
+
 	   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.id}
 	   	passings = self.praxis_results.select { |pr| pr.passing? }.map{ |p| p.praxis_test_id}
 	   	req_tests.each do |requirement|
@@ -193,9 +193,9 @@ class Student < ActiveRecord::Base
 
 		#   * student has not been dismissed AND
 		#	* latest FOI does not incidate that the student IS NOT seeking certification AND
-		# 	* No admit in adm_tep 
+		# 	* No admit in adm_tep
 
-		if 	(not self.was_dismissed?) and 
+		if 	(not self.was_dismissed?) and
 			(self.latest_foi == nil or self.latest_foi.seek_cert) and
 			(self.adm_tep.where(:TEPAdmit => true).size == 0)
 
@@ -219,7 +219,7 @@ class Student < ActiveRecord::Base
 		# 	A student who has left the TEP after being admited for any reason other than program completion
 		# 	Admited in adm_tep
 		# 	all adm_tep are closed
-		#   all exit reasons something other than program completion 
+		#   all exit reasons something other than program completion
 
 		elsif 	(self.open_programs.size == 0) and
 				(self.prog_exits.map{ |e| e.exit_code.ExitCode != "1849" }.all?)
@@ -281,7 +281,7 @@ class Student < ActiveRecord::Base
 		courses.each do |course|
 			credits += course.credits_earned
 			qpoints += course.quality_points
-			break if options[:last].present? && credits >= options[:last] 
+			break if options[:last].present? && credits >= options[:last]
 		end
 
 		gpa_raw = qpoints / credits
@@ -296,7 +296,7 @@ class Student < ActiveRecord::Base
 
 		suffix = pre=="was" ? "_was" : ""
 		define_method("#{pre}_eds_major?") do
-			majors = (1..2).map{|i| self.send("CurrentMajor#{i}#{suffix}")}	
+			majors = (1..2).map{|i| self.send("CurrentMajor#{i}#{suffix}")}
 			return majors.include?("Education Studies")
 		end
 
@@ -322,6 +322,32 @@ class Student < ActiveRecord::Base
 		end
 		return credits
 		# return self.transcripts.where("term_taken <= ?", last_term).inject {|sum, i| i.credits_earned + sum}
+	end
+
+	def adm_tep_ready
+		desired_major = self.latest_foi.major
+		if /PE|Music/.match(desired_major.name).present?
+
+			_150_term =
+
+
+			this_term = BannerTerm.current_term({exact: false, plan_b: :forward})
+			two_terms_ago = this_term.prev_term(standard=true, qty=2)
+
+
+		else
+			#something other than PE/Music
+		end
+
+	end
+
+	def _150_term
+		# returns the most recent term student recived a grade for EDS150
+		return Transcript.where(:student_id => self.student_id, :course_code => "EDS150").where("grade_pt IS NOT NULL").last.banner_term
+	end
+
+	def _227_228_term
+		#COMPLETE ME!
 	end
 
 	private

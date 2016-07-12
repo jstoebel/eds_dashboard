@@ -12,7 +12,7 @@
 class BannerTerm < ActiveRecord::Base
 	has_many :adm_tep, foreign_key: "BannerTerm_BannerTerm"
 	has_many :adm_st, foreign_key: "BannerTerm_BannerTerm"
-	has_many :prog_exit, foreign_key: "ExitTerm" 
+	has_many :prog_exit, foreign_key: "ExitTerm"
   has_many :clinical_assignments, foreign_key: "Term"
 
 
@@ -20,9 +20,9 @@ class BannerTerm < ActiveRecord::Base
 
   def self.current_term(options = {})
     defaults = {
-      :exact => true,         #bool, does the date need to match the term perfectly 
+      :exact => true,         #bool, does the date need to match the term perfectly
         #(dates outside of terms are rejected.)
-      :plan_b => :forward,    #If not nil, what direction should we look to find the nearest term 
+      :plan_b => :forward,    #If not nil, what direction should we look to find the nearest term
         #(if no exact match). Can be foward or back (symbol)
       :date => Date.today   #Date object
     }
@@ -52,20 +52,33 @@ class BannerTerm < ActiveRecord::Base
     end
   end
 
-  def next_term
+  def next_term(standard=false, qty=1)
     #returns the term with the next largest id
-    BannerTerm.where("BannerTerm > ?", self.BannerTerm).first
+		#standard: should only standard (fall/spring) terms be considered?
+		#qty(int): the number of terms to go forward
+		if standard
+			return BannerTerm.where("BannerTerm > ?", self.BannerTerm).where(:standard => true)[qty-1]
+		else
+			return BannerTerm.where("BannerTerm > ?", self.BannerTerm)[qty-1]
+		end
   end
 
-  def prev_term
+  def prev_term(standard=false, qty=1)
     #returns the term with the next smallest id
-    BannerTerm.where("BannerTerm < ?", self.BannerTerm).last
+		#standard: should only standard (fall/spring) terms be considered?
+		#qty(int): the number of terms to go forward
+		if standard
+			BannerTerm.where("BannerTerm < ?", self.BannerTerm).where(:standard => true)[-qty]
+		else
+			BannerTerm.where("BannerTerm < ?", self.BannerTerm)[-qty]
+		end
   end
 
   def readable
-    if self.PlainTerm =~ /\d{4}/
+		# returns a readable version of the term.
+    if self.PlainTerm =~ /\d{4}/ # if the PlainTerm has 4 digits in it we are guessing that the full year is included
       return self.PlainTerm
-    else 
+    else
       return "#{self.PlainTerm} (#{self.AYStart}-#{self.AYStart+1})"
     end
   end
