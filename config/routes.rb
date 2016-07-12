@@ -204,15 +204,21 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:index, :new, :create, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
-    resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show]
+    resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
+      resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create]
+    end
   end
+  
+
 
   resources :student_files do
     get "download"
   end
 
   resources :issues, shallow: true do
-    resources :issue_updates
+    resources :issue_updates do
+        patch 'update'
+    end
   end
   
   resources :pgps, shallow: true do 
