@@ -26,21 +26,15 @@ class AssessmentVersion < ActiveRecord::Base
     before_validation :set_defaults
     
     scope :sorted, lambda { order( :assessment_id => :asc, :created_at => :asc) }
-    #scope :sorted_within_assessment, lambda { |assess| where(:assessment_id => assess).order( :created_at => :asc)}
   
     def has_scores
         return self.student_scores.present?.size > 0
     end
     
-    def set_defaults
+    def version_num
       @versions = AssessmentVersion.where(:assessment_id => self.assessment_id)
-      if @versions.empty?
-        self.version_num = 1
-      else
-        @versions.order(:created_at => :asc)
-        newest = @versions[-1]
-        number = newest.version_num + 1
-        self.version_num = number
-      end
+      @versions.order(:created_at => :asc)
+      version_num = @versions.find_index(self) + 1
+      return version_num
     end
 end

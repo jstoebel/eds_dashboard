@@ -10,16 +10,7 @@
       <td><%= f.select(:assessment_items, @items.map{ |i| [i.name, i.id]}, 
         {:prompt => 'Select the items'}, {:multiple => true}) %></td>
     </tr>
-    
     <tr>
-      <td><textarea cols="50" rows="20" name="Item Name" id="name_id" class="form-control" style="resize:vertical;display:none"></textarea></td>
-      <td><textarea cols="50" rows="20" name="Item Slug" id="slug_id" class="form-control" style="resize:vertical;display:none"></textarea></td>
+      <td><button class="show_btn" type="button" onclick="showFields()"><b>Add new Item</b></button></td>
     </tr>
-    
-    <tr>
-      <td>
-        <button class="show_button"><b>Add new Item</b></button>
-        <script>$(".show_button").click(function(){$("#name_id", "#slug_id).toggle()})</script>
-      </td>  
       
-    </tr>

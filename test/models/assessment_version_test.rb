@@ -16,11 +16,20 @@ class AssessmentVersionTest < ActiveSupport::TestCase
   #   assert true
   # end
   
-  test "Not valid object, validations fail" do
+  test "Not valid object, needs assessment_id" do
     assess_ver = AssessmentVersion.new
     assert_not assess_ver.valid?
     assert_equal [:assessment_id], assess_ver.errors.keys
     assert_equal [:assessment_id].map{|i| [i, ["can't be blank"]]}.to_h, 
       assess_ver.errors.messages
+  end
+  
+  test do 
+  end
+  
+  test "current version"
+  
+  test "sorted scope" do 
+    
   end
 end
