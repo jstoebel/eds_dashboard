@@ -4,7 +4,7 @@
 Rails.application.config.assets.version = '1.0'
 Dir.entries("./app/assets/javascripts").each do |js|
 	if js.include? "js"		#filtering out "." and ".."
-		Rails.application.config.assets.precompile += [js[0..-8]]
+		Rails.application.config.assets.precompile += [js]
 	end
 end
 # Precompile additional assets.

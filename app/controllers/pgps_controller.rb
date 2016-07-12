@@ -52,20 +52,20 @@ class PgpsController < ApplicationController
     end
     
     def update
-        @student = Student.find(params[:id])
-        @pgp = Pgp.find(params[:id])
-        @pgp.assign_attributes(pgp_params)
+         @student = Student.find(params[:id])
+         @pgp = Pgp.find(params[:id])
+         @pgp.assign_attributes(pgp_params)
         
-        if @pgp.save
-            flash[:notice] = "PGP score successfully updated"
-            redirect_to student_pgps_path(@pgp.student.id)
-            return
+         if @pgp.save
+             flash[:notice] = "PGP successfully updated"
+             redirect_to student_pgps_path(@pgp.student.id)
+             return
 
-        else
-            flash[:notice] = "Error in scoring PGP."
-            error_update
-            return
-        end
+         else
+             flash[:notice] = "Error in editing PGP."
+             error_update
+             return
+         end
     end
 
     
@@ -76,10 +76,23 @@ class PgpsController < ApplicationController
         flash[:notice] = "Professional growth plan deleted successfully"
         redirect_to(student_pgps_path(@pgp.student_id))
     end
+    
+
 
     private
     def pgp_params
-        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan, :goal_score, :score_reason)
+        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan)
+    end
+    
+        
+    def pgp_score_params
+        params.require(:pgp_score).permit(:pgp_id, :goal_score, :score_reason)
+    end
+    
+    def error_update
+        #sends user back to edit
+        @student = Student.find(@pgp.student_id)
+        render('edit')
     end
 
 
