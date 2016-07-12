@@ -1,7 +1,7 @@
 class PgpScore< ActiveRecord::Base
     
     self.table_name = 'pgp_scores'
-    belongs_to :pgp
+    belongs_to :pgp 
     
     scope :sorted, lambda {order(:created_at)}
     
