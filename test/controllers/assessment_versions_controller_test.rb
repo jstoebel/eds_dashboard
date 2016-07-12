@@ -3,12 +3,12 @@ require 'test_helper'
 class AssessmentVersionsControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "staff"]
   test "should get new" do
+    
     allowed_roles.each do |r|
       load_session(r)
-      
-      assess = Assessment.first
+      assess = FactoryGirl.create(:assessment)
       version = AssessmentVersion.new
-      get :new, :assessment_id => assessment.id
+      get :new, :assessment_id => assess.id
       assert_response :success
       assert assigns(:version).new_record?
       assert_equal assigns(:assessment), assess
@@ -16,10 +16,19 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
   end
 
   test "should get create" do
-    get :create
-    assert_response :success
-  end
-
+    allowed_roles.each do |r|
+      load_session(r)
+      assess = FactoryGirl.create(:assessment)
+      version = AssessmentVersion.new
+      create_params = {:assessment_id => assess.id}
+      post :create, create_params
+      assessment_params = create_params[:assessment_version]
+      expected_assessment = AssessmentVersion.new assessment_params
+      assert assigns(:assessment).valid?, assigns(:assessment).inspect
+      assert_redirected_to assessment_version_path
+    end
+  end 
+  
   test "should get delete" do
     get :delete
     assert_response :success
