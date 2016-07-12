@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160712183516) do
+ActiveRecord::Schema.define(version: 20160712151524) do
 
   create_table "adm_st", force: true do |t|
     t.integer  "student_id",                       null: false
@@ -239,13 +239,21 @@ ActiveRecord::Schema.define(version: 20160712183516) do
     t.string "name"
   end
 
+  create_table "pgp_scores", force: true do |t|
+    t.integer  "pgp_id"
+    t.integer  "goal_score"
+    t.text     "score_reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pgp_scores", ["pgp_id"], name: "pgp_scores_pgp_id_fk", using: :btree
+
   create_table "pgps", force: true do |t|
     t.integer  "student_id"
     t.string   "goal_name"
     t.text     "description"
     t.text     "plan"
-    t.integer  "goal_score"
-    t.text     "score_reason"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -507,6 +515,8 @@ ActiveRecord::Schema.define(version: 20160712183516) do
   add_foreign_key "item_levels", "assessment_items", name: "item_levels_assessment_item_id_fk"
 
   add_foreign_key "last_names", "students", name: "last_names_student_id_fk"
+
+  add_foreign_key "pgp_scores", "pgps", name: "pgp_scores_pgp_id_fk"
 
   add_foreign_key "pgps", "students", name: "pgps_student_id_fk"
 
