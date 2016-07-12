@@ -26,12 +26,22 @@ class AssessmentVersionTest < ActiveSupport::TestCase
   
   test "sorted scope" do
     ver = FactoryGirl.create_list(:assessment_version, 3)
-    ordered_vers = ver.order
-    assert_equal ver.sorted, ordered_vers
+    ver.push(FactoryGirl.create(:assessment_version, :assessment_id => ver[1].assessment_id))
+    ordered_vers = ver.sort_by { |a| [a.assessment_id, a.created_at]}
+    puts ordered_vers.inspect
+    assert (0..2).each do |i|
+      ordered_vers[i].assessment_id < ordered_vers[i+1].assessment_id
+    end
+=begin    assert (0..2).each do |i|
+      ordered_vers[i].assessment_id < ordered_vers[i+1].assessment_id
+=end
+    assert_equal ver.sorted, ordered_vers  ##Ask Jacob how to test scopes
   end
   
   test "has_scores" do
-    
+    ver = FactoryGirl.create :version_with_items
+    score = ver.student_scores.present?.size < 0
+    assert_equal ver.has_scores, score
   end
   
   test "version_num" do 
