@@ -5,6 +5,8 @@ class CreatePgps < ActiveRecord::Migration
       t.string :goal_name
       t.text :description
       t.text :plan
+      t.integer :goal_score
+      t.text :score_reason
       t.timestamps :created_at
     end
     add_foreign_key(:pgps, :students)
