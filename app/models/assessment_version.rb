@@ -24,10 +24,10 @@ class AssessmentVersion < ActiveRecord::Base
     ### VALIDATIONS ###
     validates :assessment_id, presence: {message: "Assessment must be selected."}
 
-    scope :sorted, lambda { order( :assessment_id => :asc, :created_at => :asc) }
+    scope :sorted, lambda {order(:assessment_id => :asc, :created_at => :asc)}
   
     def has_scores
-        return self.student_scores.present?.size > 0
+        return self.student_scores.present?
     end
     
     def version_num

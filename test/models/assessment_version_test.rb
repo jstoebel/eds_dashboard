@@ -25,26 +25,36 @@ class AssessmentVersionTest < ActiveSupport::TestCase
   end
   
   test "sorted scope" do
-    ver = FactoryGirl.create_list(:assessment_version, 3)
-    ver.push(FactoryGirl.create(:assessment_version, :assessment_id => ver[1].assessment_id))
-    ordered_vers = ver.sort_by { |a| [a.assessment_id, a.created_at]}
-    puts ordered_vers.inspect
-    assert (0..2).each do |i|
+    num_ver = 3
+    num_loop = num_ver-1
+    ver = FactoryGirl.create_list(:assessment_version, num_ver)
+    sleep(2)    #so created_at will be different to check ordering
+    #add sibling of element in index 1 to front of array
+    ver.unshift(FactoryGirl.create(:assessment_version, :assessment_id => ver[1].assessment_id))
+    ordered_vers = ver.sort_by{ |a| [a.assessment_id, a.created_at]}    #first by assessment_id, then by created_at
+    sort_ver = ver.sorted
+    assert (0..num_loop).each do |i|
       ordered_vers[i].assessment_id < ordered_vers[i+1].assessment_id
     end
-=begin    assert (0..2).each do |i|
-      ordered_vers[i].assessment_id < ordered_vers[i+1].assessment_id
-=end
-    assert_equal ver.sorted, ordered_vers  ##Ask Jacob how to test scopes
+    (0..num_loop).each{|i| assert ordered_vers[i].created_at < ordered_vers[i+1].created_at.where(ordered_vers[i].assessment_id == ordered_vers[i+1].assessment_id)}
+    assert_equal ordered_vers, sort_ver
   end
   
   test "has_scores" do
     ver = FactoryGirl.create :version_with_items
-    score = ver.student_scores.present?.size < 0
+    score = ver.student_scores.present?
     assert_equal ver.has_scores, score
   end
   
-  test "version_num" do 
-    
+  test "version_num" do
+    ver = FactoryGirl.create :assessment_version
+    assess = ver.assessment
+    sleep(2)
+    sib_ver = FactoryGirl.create :assessment_version, :assessment_id => assess.id
+    vers = assess.assessment_versions
+    vers.sort_by{|v| v.created_at}
+    expected = vers.find_index(sib_ver) + 1
+    actual = sib_ver.version_num
+    assert_equal expected, actual
   end
 end
