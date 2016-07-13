@@ -16,11 +16,14 @@ module PopulateHelper
             eds_only: eds_only
             }
         end
-        
+
     end
 
     def pop_adm_tep(stu, admit)
       #they're applying!
+
+      #give all students EDS150 and EDS227, grade=3.0
+
 
       date_apply = Faker::Time.between(3.years.ago, 2.years.ago)
       term = BannerTerm.current_term(options={
@@ -28,10 +31,20 @@ module PopulateHelper
         exact: false,
         plan_b: :back})
 
+      [150, 227].each do |code|
+        course_attrs = FactoryGirl.attributes_for :transcript, {
+          :student_id => stu.id,
+          :course_code => "EDS#{code}",
+          :term_taken => term.prev_term(standard=true).id,
+          :grade_pt => 3.0
+        }
+        Transcript.create course_attrs
+      end
+
       num_programs = (Faker::Boolean.boolean 0.1) ? 2 : 1
       my_programs = Program.all.shuffle.slice(0, num_programs)
 
-      app_attrs = my_programs.each.map { |prog| 
+      app_attrs = my_programs.each.map { |prog|
         FactoryGirl.build :adm_tep, {
           :student_id => stu.id,
           :Program_ProgCode => prog.id,
@@ -39,17 +52,16 @@ module PopulateHelper
           :TEPAdmit => admit,
           :TEPAdmitDate => (admit ? date_apply : nil),
           :GPA => nil,
-          :GPA_last30 => nil, 
+          :GPA_last30 => nil,
           :EarnedCredits => nil,
-          :student_file_id => (admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil) 
+          :student_file_id => (admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
         }
       }
-    
+
       if !(admit == false)
         #student qualifies for admission
         gpa = 3.0 #good enough GPA
         praxis_pass = true #pass the praxis
-
       else
         #student is denied admission
         gpa = 2.0 #not good enough GPA
@@ -130,7 +142,7 @@ module PopulateHelper
 
         if num_apps == 2
           #this is the first app, and always fails
-          
+
           app = FactoryGirl.attributes_for :adm_st, {
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
@@ -159,7 +171,7 @@ module PopulateHelper
 
         st_admit_attrs = {STAdmitted: st_admit}
 
-        final_app = AdmSt.create st_app_attrs.merge(st_admit_attrs) 
+        final_app = AdmSt.create st_app_attrs.merge(st_admit_attrs)
         if final_app.errors.present?
           puts final_app.errors.full_messages
           puts final_app.inspect
@@ -173,7 +185,7 @@ module PopulateHelper
 
         if will_drop #if this is false student is still eligible to apply
           progs_to_close = stu.open_programs
-        
+
           drop_exit_code = ExitCode.find_by :ExitCode => "1826"
           progs_to_close.each do |prog|
             exit_attrs = FactoryGirl.create :prog_exit, {
@@ -181,7 +193,7 @@ module PopulateHelper
               Program_ProgCode: prog.program.id,
               ExitCode_ExitCode: drop_exit_code.id,
               ExitDate: st_date_apply,
-              RecommendDate: nil              
+              RecommendDate: nil
             }
 
           end
@@ -189,7 +201,7 @@ module PopulateHelper
         end
 
       end
-      
+
     end
 
   def exit_from_st(stu, completed)
@@ -197,7 +209,7 @@ module PopulateHelper
     # completed: if the student successfully completed their programs
     # can be true, false or ni
 
-    
+
 
     exit_date = Faker::Time.between(1.years.ago, 1.month.ago)
 
@@ -233,8 +245,8 @@ module PopulateHelper
   end
 
   def pop_clinical_assignment(stu, teacher)
-    
-    
+
+
     start_date = Faker::Time.between(4.years.ago, Date.today)
     term = BannerTerm.current_term({
       :exact => false,

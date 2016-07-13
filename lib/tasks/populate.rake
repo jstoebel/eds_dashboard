@@ -23,7 +23,7 @@ namespace :db do
 
         })
     admin_tep_profile = FactoryGirl.create :tep_advisor, {:user_id => 1}
-    
+
     advisors = FactoryGirl.create_pair :advisor
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
@@ -39,7 +39,7 @@ namespace :db do
     puts "creating data for students..."
     students.each do |s|
 
-      print "#{s.name_readable}"
+      print s.name_readable
       #decide the fate of each student going through the program
 
       # ADVISOR ASSIGNMENTS
@@ -97,7 +97,6 @@ namespace :db do
         pop_adm_tep s, paths.sample
       else
         #give them the course work anyway.
-
         pop_transcript s, 12, 3.0, 4.years.ago, Date.today
       end
 
@@ -117,7 +116,7 @@ namespace :db do
         exit_from_st(s, paths.sample)
       end
 
-      #clinical_assignments 
+      #clinical_assignments
       # 30% chance of having clinical_assignments
       if Boolean.boolean 0.3
 
@@ -138,7 +137,7 @@ namespace :db do
         my_issues = num_issues.times.map {|n| (FactoryGirl.build :issue, { :student_id => s.id, :tep_advisors_AdvisorBnum => my_advisors.sample.id})}
         my_issues.each {|n| n.save}
 
-        my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3), 
+        my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3),
           { :Issues_IssueID => iss.id,
             :tep_advisors_AdvisorBnum => my_advisors.sample.id
           }
@@ -147,7 +146,7 @@ namespace :db do
       end
 
       puts " -> done."
-    end 
+    end
     t1 = Time.now
     puts "[#{t1}]Populate complete. Time=#{t1 - t0}"
 
@@ -159,7 +158,7 @@ namespace :db do
     conn = ActiveRecord::Base.connection
     tables = conn.execute("show tables").map { |r| r[0] }
     tables.delete "schema_migrations"
-    
+
     conn.execute("SET FOREIGN_KEY_CHECKS = 0")
 
     tables.each do |t|
@@ -167,7 +166,7 @@ namespace :db do
     end
 
     conn.execute("SET FOREIGN_KEY_CHECKS = 1")
-  
+
   end
 
 
