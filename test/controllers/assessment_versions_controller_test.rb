@@ -12,7 +12,6 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
       assert_response :success
       assert assigns(:version).new_record?
       assert_equal assigns(:assessment), assess
-      assert_equal assigns(:versom), version
     end
   end
 
@@ -31,8 +30,16 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
   end 
   
   test "should get delete" do
-    get :delete
-    assert_response :success
+    allowed_roles.each do |r|
+      load_session(r)
+      assess = FactoryGirl.create :assessment
+      version = FactoryGirl.create :assessment_version
+      post :delete, {:assessment_version_id => version.id}
+      assert_equal version, assigns(:version)
+      assert assigns(:version).destroyed?
+      assert_equal flash[:notice], "Record deleted successfully"
+      assert_redirected_to assessment_assessment_versions_path(assess.id)
+    end
   end
 
   test "should get destroy" do

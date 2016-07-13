@@ -32,11 +32,17 @@ class AssessmentVersionTest < ActiveSupport::TestCase
     #add sibling of element in index 1 to front of array
     ver.unshift(FactoryGirl.create(:assessment_version, :assessment_id => ver[1].assessment_id))
     ordered_vers = ver.sort_by{ |a| [a.assessment_id, a.created_at]}    #first by assessment_id, then by created_at
-    sort_ver = ver.sorted
+    sort_ver = AssessmentVersion.sorted
+=begin    
     assert (0..num_loop).each do |i|
       ordered_vers[i].assessment_id < ordered_vers[i+1].assessment_id
     end
-    (0..num_loop).each{|i| assert ordered_vers[i].created_at < ordered_vers[i+1].created_at.where(ordered_vers[i].assessment_id == ordered_vers[i+1].assessment_id)}
+    (0..num_loop).each do |i|
+      if ordered_vers[i].assessment_id == ordered_vers[i+1].assessment_id
+        assert ordered_vers[i].created_at < ordered_vers[i+1].created_at
+      end
+    end
+=end
     assert_equal ordered_vers, sort_ver
   end
   
