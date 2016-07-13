@@ -140,7 +140,8 @@ class AdmTepController < ApplicationController
 
   def need_apply
     #indexs all students that currently are ready to apply
-
+    
+    @students = Student.all.select{|s| s.adm_tep_ready?}
 
   end
 

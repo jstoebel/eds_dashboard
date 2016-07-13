@@ -329,11 +329,11 @@ class Student < ActiveRecord::Base
 		# Music/PE two standard terms out from 150 completion
 		# everyone else: taken eds150 and 227/228
 
-		desired_major = self.latest_foi.major
+		desired_major = self.latest_foi.andand.major
 		requirements = [self.prog_status == "Prospective",
 			self.EnrollmentStatus == "Active Student"]
 
-		if /PE|Music/ =~ (desired_major.name)
+		if /PE|Music/ =~ (desired_major.andand.name)
 
 			this_term = BannerTerm.current_term({exact: false, plan_b: :forward})
 			two_terms_ago = this_term.prev_term(standard=true, qty=2)

@@ -1,0 +1,32 @@
+<%= @students %>
+<%= link_to students_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<div class="container-fluid">
+
+  <table class="listing summary adm_tep list table table-striped">
+
+    <caption>
+        <div class="row">
+          <div class="header1 col-xs-12">
+             Students needing to apply to TEP
+           </div></br>
+        </div>
+    </caption>
+
+    <% if @students.size > 0  %>
+
+      <tr class="header">
+        <th> Name </th>
+        <th>Program</th>
+        <th> Sufficient GPA</th>
+        <th>Sufficient Credits</th>
+        <th>Praxis Pass</th>
+      </tr>
+
+      
+
+
+    <% end %>
+</div>   <!-- end container -->
