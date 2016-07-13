@@ -53,9 +53,9 @@ group :development do
     gem 'capistrano-passenger'
     gem 'capistrano-rbenv', '~> 2.0'
     # gem 'capistrano-rvm',       require: false
-    gem 'capistrano-rails'    
-    gem 'capistrano-bundler' 
-    gem 'capistrano3-puma' 
+    gem 'capistrano-rails'
+    gem 'capistrano-bundler'
+    gem 'capistrano3-puma'
     gem  'capistrano-ext'
     gem 'rails-erd'
 end
@@ -75,3 +75,4 @@ gem 'active_record-acts_as' #for multi table inheritance
 # gem 'debugger', group: [:development, :test]
 gem 'annotate', github: 'ctran/annotate_models'
 gem 'andand', '~> 1.3', '>= 1.3.3'
+gem 'activerecord_any_of'
