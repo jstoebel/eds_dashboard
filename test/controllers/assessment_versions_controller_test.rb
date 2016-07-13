@@ -12,6 +12,7 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
       assert_response :success
       assert assigns(:version).new_record?
       assert_equal assigns(:assessment), assess
+      assert_equal assigns(:versom), version
     end
   end
 
