@@ -324,30 +324,47 @@ class Student < ActiveRecord::Base
 		# return self.transcripts.where("term_taken <= ?", last_term).inject {|sum, i| i.credits_earned + sum}
 	end
 
-	def adm_tep_ready
+	def adm_tep_ready?
+		#is this student possibly tep ready?
+		# Music/PE two standard terms out from 150 completion
+		# everyone else: taken eds150 and 227/228
+
 		desired_major = self.latest_foi.major
-		if /PE|Music/.match(desired_major.name).present?
+		requirements = [self.prog_status == "Prospective",
+			self.EnrollmentStatus == "Active Student"]
 
-			_150_term =
-
+		if /PE|Music/ =~ (desired_major.name)
 
 			this_term = BannerTerm.current_term({exact: false, plan_b: :forward})
 			two_terms_ago = this_term.prev_term(standard=true, qty=2)
 
+			if self._150_term
+				#EDS150 needs to be two standard terms out.
+				requirements << (two_terms_ago.id >= self._150_term.id)
+			else
+				return false #student hasn't taken EDS150 yet!
+			end
 
 		else
 			#something other than PE/Music
+			requirements += [self._150_term, self._227_228_term]
 		end
+		return requirements.all?
 
 	end
 
 	def _150_term
 		# returns the most recent term student recived a grade for EDS150
-		return Transcript.where(:student_id => self.student_id, :course_code => "EDS150").where("grade_pt IS NOT NULL").last.banner_term
+		_150_courses = Transcript.where({:student_id => self.id,
+			:course_code => "EDS150"}).order(:term_taken)
+		return _150_courses.where.not({grade_pt: nil}).last.andand.banner_term
 	end
 
 	def _227_228_term
-		#COMPLETE ME!
+		# returns the most recent term student recived a grade for EDS227 or 228
+		courses = Transcript.where(:student_id => self.id).where.any_of({course_code: "EDS227"},
+			{course_code: "EDS228"}).order(:term_taken)
+		return courses.where.not({grade_pt: nil}).last.andand.banner_term
 	end
 
 	private

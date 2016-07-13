@@ -36,7 +36,7 @@ class StudentTest < ActiveSupport::TestCase
 	let(:stu) {FactoryGirl.create :student}
 
 	test "by_last scope" do
-		
+
 		expected = Student.all.order(LastName: :asc)
 		actual = Student.by_last
 		assert_equal(expected.slice(0, expected.size), actual.slice(0, actual.size))
@@ -77,7 +77,7 @@ class StudentTest < ActiveSupport::TestCase
 	end
 
 	test "is student of passes" do
-		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})		
+		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})
 
 		#update course with the term that the model expects in order to pass
 		course = Transcript.first
@@ -104,7 +104,7 @@ class StudentTest < ActiveSupport::TestCase
 
 	test "is student of fails not student" do
 
-		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})		
+		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})
 
 		#fails because student doesn't have this prof (in fact the Bnum is completly bogus)
 		course = Transcript.first
@@ -125,10 +125,10 @@ class StudentTest < ActiveSupport::TestCase
 
 		   	req_tests.each do |requirement|
 		   		if not all_passed.include? requirement
-		   			passing = false	
+		   			passing = false
 	   			end
 		   	end
-	   	
+
 			assert_equal stu.praxisI_pass, passing
 		end
 	end
@@ -149,7 +149,7 @@ class StudentTest < ActiveSupport::TestCase
 		stu = Student.first
 		stu.EnrollmentStatus = "Active Student"
 		stu.save
-		assert_not stu.was_dismissed?		
+		assert_not stu.was_dismissed?
 	end
 
 	test "returns prospective no foi" do
@@ -228,7 +228,7 @@ class StudentTest < ActiveSupport::TestCase
 		my_exit.RecommendDate = nil
 		new_exit = ProgExit.new my_exit.attributes
 
-		#make sure the new 
+		#make sure the new
 		assert new_exit.save, new_exit.errors.full_messages
 
 		assert_equal "Dropped", stu.prog_status
@@ -237,14 +237,14 @@ class StudentTest < ActiveSupport::TestCase
 
 	test "returns completer" do
 		completer_code = ExitCode.find_by :ExitCode => "1849"
-		my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id 
+		my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id
 		stu = my_exit.student
 		assert_equal "Completer", stu.prog_status
 	end
 
 	test "returns completer with one drop" do
 		completer_code = ExitCode.find_by :ExitCode => "1849"
-		my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id 
+		my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id
 		stu = my_exit.student
 		pop_praxisI stu, true		#make student pass the praxis
 		old_app = my_exit.adm_tep
@@ -268,7 +268,7 @@ class StudentTest < ActiveSupport::TestCase
 		stu = Student.first
 		apps = stu.adm_tep.where(:TEPAdmit => true)
 		expected = apps.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
-		
+
 		assert_equal expected.to_a, stu.open_programs.to_a
 	end
 
@@ -279,11 +279,11 @@ class StudentTest < ActiveSupport::TestCase
 			})
 
 		stu = courses[0].student
-		assert_equal 4.0, stu.gpa 
+		assert_equal 4.0, stu.gpa
 	end
 
 	test "gpa with term limit" do
-		
+
 
 		first_course = FactoryGirl.create :transcript, {
 			term_taken: BannerTerm.first.id,
@@ -340,7 +340,7 @@ class StudentTest < ActiveSupport::TestCase
 
 			it "to non major" do
 				major_student.CurrentMajor1 = "English"
-				assert major_student.was_eds_major?				
+				assert major_student.was_eds_major?
 				assert_not major_student.is_eds_major?
 			end
 		end
@@ -350,7 +350,7 @@ class StudentTest < ActiveSupport::TestCase
 		describe "from non major" do
 			it "to non major" do
 				non_major.CurrentMajor1 = "English"
-				assert_not non_major.was_eds_major?		
+				assert_not non_major.was_eds_major?
 				assert_not non_major.is_eds_major?
 			end
 
@@ -366,7 +366,7 @@ class StudentTest < ActiveSupport::TestCase
 
 	describe "cert_concentration" do
 		let(:cert_student){FactoryGirl.create :student, {:concentration1 => "Middle Grades Science Cert"}}
-		
+
 		describe "from cert" do
 			it "to cert" do
 				cert_student.concentration1 = "Middle Grades Science Cert"
@@ -398,7 +398,7 @@ class StudentTest < ActiveSupport::TestCase
 		end
 	end
 
-	let(:students){ 
+	let(:students){
 		[
 	        {
 	            "Bnum"=> "B00999992",
@@ -421,7 +421,7 @@ class StudentTest < ActiveSupport::TestCase
 	            "hispanic"=> true,
 	            "term_expl_major"=> 201411,
 	            "term_major"=> 201511
-	        }, 
+	        },
 
 	        {
 	            "Bnum"=> "B00999991",
@@ -444,7 +444,7 @@ class StudentTest < ActiveSupport::TestCase
 	            "hispanic"=> true,
 	            "term_expl_major"=> 201411,
 	            "term_major"=> 201511
-	        }  
+	        }
 
 		]}
 
@@ -472,7 +472,7 @@ class StudentTest < ActiveSupport::TestCase
 
 		#both students should have changed their major
 		assert update_attrs.map{ |attr| Student.find(attr[:id]).CurrentMajor1  == "new major"}.all?
-	
+
 	end
 
 	it "does not batch update students failed validation" do
@@ -480,7 +480,7 @@ class StudentTest < ActiveSupport::TestCase
 
 		#create 2 students
 		stus = FactoryGirl.create_list :student, 2
-		update_attrs = stus.map{|s| {:id => s.id, :EnrollmentStatus => nil}}	
+		update_attrs = stus.map{|s| {:id => s.id, :EnrollmentStatus => nil}}
 
 
 		result = Student.batch_update(update_attrs)
@@ -491,17 +491,117 @@ class StudentTest < ActiveSupport::TestCase
 
 	it "does not batch update students can't find record" do
 		stus = FactoryGirl.create_list :student, 1
-		update_attrs = stus.map{|s| {:id => "blah", :CurrentMajor1 => "new major"}}	
+		update_attrs = stus.map{|s| {:id => "blah", :CurrentMajor1 => "new major"}}
 		result = Student.batch_update(update_attrs)
 		assert_equal false, result[:success]
 		assert_equal "Couldn't find Student with 'id'=#{update_attrs[0][:id]}", result[:msg]
 	end
 
-    test "Object not valid, validations failed" do 
+  test "Object not valid, validations failed" do
 	  stu=Student.new
 	  assert_not stu.valid?
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus], stu.errors.keys
-	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus].map{|i| [i, ["can't be blank"]]}.to_h, 
+	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus].map{|i| [i, ["can't be blank"]]}.to_h,
 	    stu.errors.messages
-	end 
+	end
+
+	test "_150_term" do
+		course = FactoryGirl.create :transcript, {course_code: "EDS150", grade_pt: 3.0}
+		stu = course.student
+		assert !stu._150_term.nil?
+	end
+
+	test "_150_term returns nil" do
+		stu = FactoryGirl.create :student
+		assert stu._150_term.nil?
+	end
+
+	test "_227_228_term" do
+		course = FactoryGirl.create :transcript, {course_code: "EDS227", grade_pt: 3.0}
+		stu = course.student
+		assert !stu._227_228_term.nil?
+	end
+
+	test "_227_228_term returns nil" do
+		stu = FactoryGirl.create :student
+		assert stu._227_228_term.nil?
+	end
+
+	describe "adm_tep_ready" do
+
+		describe "music/pe" do
+
+			stu = FactoryGirl.create :student
+			major = Major.find_by name: "PE"
+			foi = FactoryGirl.create :foi, {student_id: stu.id,
+				major_id: major.id
+			}
+			let(:stu){stu}
+
+			it "returns true" do
+				# student must be two terms out from eds 150
+				this_term = BannerTerm.current_term(exact: false, plan_b: :forward)
+				two_standards_back = this_term.prev_term(standard=true, qty=2)
+
+				course = FactoryGirl.create :transcript, {student_id: stu.id,
+					course_code: "EDS150",
+					term_taken: two_standards_back.id,
+					grade_pt: 3.0
+				}
+
+				assert stu.adm_tep_ready?
+			end
+
+			it "returns false < 2 terms out" do
+				# student must be two terms out from eds 150
+				this_term = BannerTerm.current_term(exact: false, plan_b: :forward)
+				two_standards_back = this_term.prev_term(standard=true, qty=1)
+
+				course = FactoryGirl.create :transcript, {student_id: stu.id,
+					course_code: "EDS150",
+					term_taken: two_standards_back.id,
+					grade_pt: 3.0
+				}
+				assert_not stu.adm_tep_ready?
+
+			end
+
+			it "returns false, no eds150" do
+				assert_not stu.adm_tep_ready?
+			end
+
+		end
+
+		describe "non music/pe" do
+
+			stu = FactoryGirl.create :student
+			major = Major.find_by name: "Elementary (P-5)"
+			foi = FactoryGirl.create :foi, {student_id: stu.id,
+				major_id: major.id
+			}
+			let(:stu){stu}
+			let(:this_term){BannerTerm.current_term(exact: false, plan_b: :forward)}
+
+
+			it "returns true" do
+
+				["150", "227"].each do |code|
+					course = FactoryGirl.create :transcript, {student_id: stu.id,
+						course_code: "EDS#{code}",
+						term_taken: this_term.id,
+						grade_pt: 3.0
+					}
+				end
+
+				assert stu.adm_tep_ready?
+
+			end
+
+			it "returns false" do
+				assert_not stu.adm_tep_ready?
+			end
+
+		end
+	end
+
 end

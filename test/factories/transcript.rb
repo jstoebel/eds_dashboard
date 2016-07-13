@@ -29,7 +29,7 @@ FactoryGirl.define do
 
     #must provide a term
     term_taken {BannerTerm.first.andand.id}
-    
+
     grade_pt {[4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0, nil].sample}
     credits_earned 4.0
     credits_attempted 4.0
