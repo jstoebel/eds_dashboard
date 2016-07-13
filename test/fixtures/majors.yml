@@ -6,26 +6,26 @@
 #  name :string(255)
 #
 
-<% majors = ["Art",
+<% majors = ["Art", #0
 "Biology",
 "Chemistry",
 "Elementary (P-5)",
 "Engineering and Technology",
-"English (8-12)",
+"English (8-12)", #5
 "Math (5-9)",
 "Math (8-12)",
 "Music-Instrumental",
 "Music-Vocal",
-"PE",
+"PE", #10
 "PE/Health",
 "Physics",
 "Science (5-9)",
 "Social Studies (8-12)",
-"Undecided"]%>
+"Undecided" #15
+]%>
 
 <% majors.each_with_index do |val, index| %>
 <%= "major_#{index}:" %>
   name: <%= val %>
 
 <% end %>
-

@@ -1,0 +1,63 @@
+art:
+  major: major_0
+  program: Program_4
+
+biology:
+  major: major_1
+  program: Program_13
+
+chemistry:
+  major: major_2
+  program: Program_19
+
+p5:
+  major: major_3
+  program: Program_1
+
+engineering:
+  major: major_4
+  program: Program_22
+
+english:
+  major: major_5
+  program: Program_2
+
+ms_math:
+  major: major_6
+  program:  Program_6
+
+hs_math:
+  major: major_7
+  program: Program_16
+
+music_inst:
+  major: major_8
+  program: Program_11
+
+music_vocal:
+  major: major_9
+  program: Program_23
+
+pe:
+  major: major_10
+  program: Program_17
+
+pe_health_1:
+  major: major_11
+  program: Program_17
+
+pe_health_2:
+  major: major_11
+  program: Program_8
+
+physics:
+  major: major_12
+  program: Program_18
+
+ms_science:
+  major: major_13
+  program: Program_9
+
+social_studies:
+  major: major_14
+  program: Program_20

@@ -8,4 +8,5 @@
 
 class Major < ActiveRecord::Base
     has_many :foi
+    has_many :majors_programs
 end
