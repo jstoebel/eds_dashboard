@@ -66,7 +66,7 @@ class AssessmentVersionsController < ApplicationController
     else
       flash[:notice] = "Record cannot be deleted"
     end
-    redirect_to(assessment_versions_path)
+    redirect_to(assessment_assessment_versions_path(assessment.id))
   end
   
   def choose
