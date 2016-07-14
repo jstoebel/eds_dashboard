@@ -24,4 +24,15 @@ class AssessmentItem < ActiveRecord::Base
     has_many :assessment_versions, :through => :version_habtm_items
     
     validates_presence_of :name, :slug
+    
+    def scores
+      @versions = self.assessment_versions
+      @versions.each do |v| 
+          score = v.has_scores
+          if score == true
+              return score
+          end
+      end
+    end
+    
 end
