@@ -32,6 +32,7 @@ class AssessmentItemsController < ApplicationController
     # based on levels provided add and remove as needed
     # to edit the content of an item_level see the item_levels controller
     @item = AssessmentItem.find(params[:id])
+    @levels = ItemLevel.
     if item.scores == true
       @item.freeze
     else
@@ -55,6 +56,6 @@ class AssessmentItemsController < ApplicationController
   end
   
   def update_params
-    params.require(:assessment_item).permit(:)
+    params.require(:assessment_item).permit(:slug, :description, :name)
   end
 end
