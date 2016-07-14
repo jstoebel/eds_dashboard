@@ -135,6 +135,12 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
+  get 'item_levels/update'
+
+  get 'item_levels/new'
+
+  get 'item_levels/delete'
+
   #A resource must be top level before it can be nested in another resource (I think)
 
   resources :students, only: [:index, :show], shallow: true do
