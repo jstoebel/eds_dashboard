@@ -12,25 +12,32 @@ class AssessmentItemsController < ApplicationController
   def create
     # creates an assessment_item
     # TODO: also create the associated item_levels
+    
+    @item = AssessmentItem.new(create_params)
+    @level = ItemLevel.new(level_params), {:assessment_item_id => @item.id}
 
-    item = AssessmentItem.new create_params
-
-
-    if item.save
-      render json: item, status: :created
+    if @item.save
+      render json: @item, status: :created
     else
-      render json: item.errors.full_messages, status: :unprocessable_entity
+      render json: @item.errors.full_messages, status: :unprocessable_entity
     end
-
+    
   end
 
   def update
+
     # update an assessment item
       # the models needs to validate that the item is not currently associated
       # with any assessments that have any scores. See Jacob for questions.
     # based on levels provided add and remove as needed
     # to edit the content of an item_level see the item_levels controller
-
+    @item = AssessmentItem.find(params[:id])
+    if item.scores == true
+      @item.freeze
+    else
+      @item.update_attributes(update_params)
+      
+    end
   end
 
   def destroy
@@ -42,6 +49,12 @@ class AssessmentItemsController < ApplicationController
   def create_params
     params.require(:assessment_item).permit(:slug, :description, :name)
   end
-
-
+  
+  def level_params
+    params.require(:item_level).permit(:assessment_item_id, :descriptor, :level)
+  end
+  
+  def update_params
+    params.require(:assessment_item).permit(:)
+  end
 end
