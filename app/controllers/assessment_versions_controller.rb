@@ -29,7 +29,7 @@ class AssessmentVersionsController < ApplicationController
     if @version.save
       flash[:notice] = "Created Version #{@version.version_num} of 
         #{Assessment.find(@version.assessment_id).name}"
-      redirect_to(assessment_versions_path)
+      redirect_to(assessment_assessment_versions_path(:assessment_id))
     else
       render('new')
     end
@@ -42,6 +42,8 @@ class AssessmentVersionsController < ApplicationController
   end
 
   def update
+    ###Update may not go in version. Updating associated
+    # objects rather than attributes, so may belong in habtm table.
     @version = AssessmentVersion.find(params[:id])
     authorize! :manage, @version
     @version.update_attributes(update_params)
@@ -68,7 +70,7 @@ class AssessmentVersionsController < ApplicationController
     else
       flash[:notice] = "Record cannot be deleted"
     end
-    redirect_to(assessment_assessment_versions_path(assessment.id))
+    redirect_to(assessment_assessment_versions_path(@version.assessment_id))
   end
   
   def choose
