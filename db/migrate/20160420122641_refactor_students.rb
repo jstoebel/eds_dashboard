@@ -3,7 +3,7 @@ class RefactorStudents < ActiveRecord::Migration
     #===========
     #STUDENTS (make Bnum a unique )
     #===========
-    execute %q(ALTER TABLE `students` 
+    execute %q(ALTER TABLE `students`
     DROP INDEX `AltID_UNIQUE`,
     DROP COLUMN `AltID`,
     ADD UNIQUE INDEX `Bnum_UNIQUE` (`Bnum` ASC),
@@ -15,7 +15,7 @@ class RefactorStudents < ActiveRecord::Migration
         #drop the fk pointing to students and its column
         # create a new column: student_id
         #create a new fk to point to new students.id
-    
+
     #adm_st
     remove_foreign_key :adm_st, :name => "fk_AdmST_Student"
     remove_column :adm_st, :Student_Bnum
@@ -26,7 +26,7 @@ class RefactorStudents < ActiveRecord::Migration
     remove_foreign_key :adm_tep, :name => "fk_AdmTEP_Student"
     remove_column :adm_tep, :Student_Bnum
     add_column :adm_tep, :student_id, :integer, :first => true
-    add_foreign_key :adm_tep, :students 
+    add_foreign_key :adm_tep, :students
 
     # advisor_assignments -> covered in later migration?
 
@@ -43,7 +43,7 @@ class RefactorStudents < ActiveRecord::Migration
     add_foreign_key :employment, :students
 
     # forms_of_intention
-    remove_foreign_key :forms_of_intention, :name => "forms_of_intention_student_id_fk"
+    remove_foreign_key :forms_of_intention, column: :student_id
     change_column :forms_of_intention, :student_id, :integer
     add_foreign_key :forms_of_intention, :students
 
@@ -115,11 +115,11 @@ class RefactorStudents < ActiveRecord::Migration
 
     remove_foreign_key :employment, :students
     remove_column :employment, :student_id
-    add_column :employment, :Student_Bnum, :string    
+    add_column :employment, :Student_Bnum, :string
 
     remove_foreign_key :clinical_assignments, :students
     remove_column :clinical_assignments, :student_id
-    add_column :clinical_assignments, :Bnum, :string    
+    add_column :clinical_assignments, :Bnum, :string
 
     remove_foreign_key :adm_tep, :students
     remove_column :adm_tep, :student_id
@@ -127,9 +127,9 @@ class RefactorStudents < ActiveRecord::Migration
 
     remove_foreign_key :adm_st, :students
     remove_column :adm_st, :student_id
-    add_column :adm_st, :Student_Bnum, :string      
+    add_column :adm_st, :Student_Bnum, :string
 
-    execute %q(ALTER TABLE `students` 
+    execute %q(ALTER TABLE `students`
     DROP PRIMARY KEY ,
     DROP COLUMN `id` ,
     DROP INDEX `Bnum_UNIQUE` ,
@@ -137,7 +137,7 @@ class RefactorStudents < ActiveRecord::Migration
     ADD COLUMN `AltID` INT NOT NULL AUTO_INCREMENT AFTER `CPO` ,
     ADD UNIQUE INDEX `AltID_UNIQUE` (`AltID` ASC);
     )
-    
+
     #add old fks once everything is changed back
     add_foreign_key "clinical_assignments", "students", name: "fk_ClinicalAssignments_Student", column: "Bnum", primary_key: "Bnum"
     add_foreign_key "praxis_results", "students", name: "fk_praxis_results_students", primary_key: "Bnum"
