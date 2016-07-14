@@ -42,7 +42,7 @@ gem 'lograge'
 gem 'minitest-fail-fast'
 
 #for working out foreign keys!!1
-gem 'foreigner', '~> 1.7', '>= 1.7.4'
+# gem 'foreigner', '~> 1.7', '>= 1.7.4'
 gem 'immigrant'
 # Use unicorn as the app server
 # gem 'unicorn'
