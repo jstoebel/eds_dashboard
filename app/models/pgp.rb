@@ -16,4 +16,7 @@ class Pgp < ActiveRecord::Base
     validates :plan,
         presence: {message:"Please enter a plan."}
 
+    def latest_score
+        self.pgp_scores.order(:created_at).first
+    end
 end
