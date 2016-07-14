@@ -144,21 +144,23 @@ Rails.application.routes.draw do
   match "/access_denied" => "access#access_denied", :via => :get
   match "/logout" => "access#logout", :via => :post
 
-  resources :praxis_results, only: [:new, :create] 
+  resources :praxis_results, only: [:new, :create]
 
   resources :clinical_sites, only: [:index, :edit, :update, :new, :create, :destroy], shallow: true do
     resources :clinical_teachers, only: [:index]
     get "delete"
   end
-  
+
   resources :clinical_teachers, only: [:index, :new, :create, :edit, :update, :destroy] do
     get "delete"
   end
- 
+
   resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy]  do
     get "delete"
   end
- 
+
+  resources :assessment_items, only: [:index, :show, :create, :update, :destroy]
+
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
@@ -214,7 +216,7 @@ Rails.application.routes.draw do
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
   end
-  
+
   #~~~API ROUTES
   # credit: The code was found here: http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
   namespace :api, defaults: {formats: 'json'} do
@@ -236,9 +238,9 @@ Rails.application.routes.draw do
   			end
   		end
 
-        resource :banner_update, :only => [:create] 
+        resource :banner_update, :only => [:create]
 
-  	end 
+  	end
   end
 
   root 'access#index'
