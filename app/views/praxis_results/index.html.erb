@@ -30,12 +30,13 @@
                   <%= link_to edit_praxis_result_path(result.AltID), class: "btn btn-info #{result.can_alter? ? "" : "disabled"}" do %>
                       <span class="glyphicon glyphicon-pencil"></span>
                   <% end %> 
-
-                 <%= button_to praxis_result_path(result.AltID), {class: "btn btn-info #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
-                      <span class="glyphicon glyphicon-trash"></span>
-                  <% end %> 
+                  <td>
+                     <%= button_to praxis_result_path(result.AltID), {class: "btn btn-default #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
+                        <span class="glyphicon glyphicon-trash"></span>
+                      <% end %> 
+                  </td>
               </tr>
-  
+              
               <% end %>
               
         <% end %>

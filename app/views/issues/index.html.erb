@@ -29,11 +29,10 @@
   
                 <% @issues.each do |issue| %>
   
-                <tr>
+                <tr class="<%= issue.Open ? "alert alert-danger" : "alert alert-success"%>">
                   <td> <%= issue.Name %></td>
                   <td> <%= issue.created_at.strftime("%m/%d/%Y")%> </td>
-  
-                  <td class="<%= issue.Open ? "bad_text" : "good_text" %>">
+                  <td >
                     <!-- glyph here if open -->
                     <% if issue.Open %>
   
@@ -83,7 +82,7 @@
                   
                   <td>
                      <%= button_to(issue_path(issue.id), { class: "btn btn-default", method: :delete, data: {confirm: "Are you sure you want to delete this issue?"}} ) do %>
-                      <span class="glyphicon glyphicon-trash" style="color:red"</span>
+                      <span class="glyphicon glyphicon-trash"</span>
                      <% end %>
                   </td>
                 

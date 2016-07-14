@@ -19,6 +19,7 @@
       </div>
     <tr class="header">
       <th>Name</th>
+      <th>Description</th>
     </tr>
     <% @assessment.each do |assessment| %>
       <% if can? :read, assessment %>
@@ -32,22 +33,18 @@
             <span class="small-btn-text"> Edit</span>
           <% end %>
 
-        <!-- see assignments -->
-
-        <!-- example -->
+            <!-- example -->
             <%# link_to edit_clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
                   <!-- <span class="small-btn-text">Edit</span> -->
                 <%# end %>
-        
-          <!-- Button to view assessment versions<%# link_to(), :class => "btn btn-info action-small"
-            +(assessment.assessment_versions.size > 0 ? "" : "disabled") do%>
-            <span class = "small-btn-text">Versions<span class = "badge"> <%# assessment.assessment_versions.size%></span>
-            </span>
-          <%#end%>
+            <!-- versions -->
+            <%= link_to(assessment_assessment_versions_path(assessment.id), :class => "btn btn-info action-small #{assessment.assessment_versions.size > 0 ? "" : "disabled"}") do%>
+              <span class = "small-btn-text">Versions
+                <span class = "badge"> <%= assessment.assessment_versions.size %></span>
+              </span>
+            <%end%>
             
-                -->  
-        
-        
+            <!-- delete -->
             <%= button_to(assessment_delete_path(assessment.id), 
               { class: "btn btn-default #{assessment.has_scores==false ? "" : "disabled"}", method: :get}) do %>
               <span class="glyphicon glyphicon-trash"></span>

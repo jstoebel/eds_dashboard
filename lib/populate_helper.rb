@@ -253,23 +253,6 @@ module PopulateHelper
     }
 
     assignment.save
-
   end
-  
-  def pop_assessment_version(assessment)
-    version = FactoryGirl.build :assessment_version, {
-      :assessment_id => assessment.id
-    }
-    version.save
-  end
-  
-=begin def pop_student_score(stu, version)   ##need item and iteme_level factories for a student score
-    score = FactoryGirl.build :student_score, {
-      :student_id => stu.id,
-      :assessment_version_id => version.id
-    }  
-    score.save
-  end
-=end
 end
 
