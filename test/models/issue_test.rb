@@ -2,14 +2,16 @@
 #
 # Table name: issues
 #
-#  IssueID                  :integer          not null, primary key
 #  student_id               :integer          not null
+#  IssueID                  :integer          not null, primary key
 #  Name                     :text             not null
 #  Description              :text             not null
 #  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  positive                 :boolean
 #
 
 require 'test_helper'
@@ -50,9 +52,16 @@ class IssueTest < ActiveSupport::TestCase
 
 	test "sorted scope" do
 		scoped = Issue.sorted
-		expected = Issue.all.order(:Open => :desc, :created_at => :desc)
+		expected = Issue.all.order(:Open => :desc, :created_at => :desc, :positive => :asc)
 
 		assert_equal scoped.to_a, expected.to_a
+
+	end
+
+	test "scope open" do
+		stu = FactoryGirl.create :student
+		[true, false].map{|v| FactoryGirl.create :issue, {:student_id => stu.id, :Open => v}}
+		assert_equal Issue.where(:student_id => stu.id).open.to_a, Issue.where(:Open => true, :student_id => stu.id).to_a
 
 	end
 	

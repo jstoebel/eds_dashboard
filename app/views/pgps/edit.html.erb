@@ -1,0 +1,37 @@
+<%= link_to student_pgps_path(@pgp.student.id), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+    </br>
+
+
+    <%= error_messages_for(@pgp) %> 
+    <%= form_for(:pgp, :url => pgp_path(@pgp.id), method: :patch ) do |f| %>
+     <table summary="pgp edit form">
+        <caption>
+        <div <div class="header1 col-xl-12"> <%= "Edit Professional Growth Plan"  %> </div></br>
+        </caption>
+        <div>
+            <tr>
+                <th><%= "Goal:" %></th>
+                <td><%= "#{@pgp.goal_name}" %></td>
+            </tr>
+            <tr>
+                <th><%= f.label(:description, "Goal Description: ") %></th>
+                <td><%= f.text_area(:description) %></td>
+            </tr>
+            <tr>
+                <th><%= f.label(:plan, "Action Plan: ") %></th>
+                <td><%= f.text_area(:plan)%></td>
+            </tr>
+        </div>
+        </table><br>
+
+        <tr>
+            <td>
+                <div class="form-buttons">
+                    <%= submit_tag("Submit") %>
+                </div>
+            </td>   
+        </tr> 
+    </table>
+    <% end %>
