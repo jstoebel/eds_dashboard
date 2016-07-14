@@ -88,7 +88,7 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
   end
 
 =begin  test "should post update" do
-
+##still unsure about updating, since can only update assessment_items
     allowed_roles.each do |r|
       load_session(r)
       version = FactoryGirl.create :assessment_version
@@ -108,23 +108,82 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
       load_session(r)
       get :index
-      assert_response :success
-      assert_equal assigns(:version), AssessmentVersion.all
+      assert_equal flash[:notice], "You are not authorized to access this page."
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+  test "should not get new bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :new
+      assert_equal flash[:notice], "You are not authorized to access this page."
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+  test "should not post create bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :create
+      assert_equal flash[:notice], "You are not authorized to access this page."
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+=begin 
+##still unsure about updating, since can only update assessment_items
+  test "should not post update, bad role" do
+    version = FactoryGirl.create :assessment_version
+    update_params = {: => "updated name", :description => "updated description"}
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :update, {:id => version.id, :assessment => update_params}
+      assert_redirected_to "/access_denied"
+    end
+=end
+  
+  test "should not get delete bad role" do
+    version = FactoryGirl.create :assessment_version
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      get :delete, {:assessment_version_id => version.id}
+      assert_equal flash[:notice], "You are not authorized to access this page."
+      assert_redirected_to "/access_denied"
     end
   end
 
   test "should not delete bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      assess = FactoryGirl.create :assessment
       version = FactoryGirl.create :assessment_version
-      post :delete, {:assessment_version_id => version.id}
+      post :destroy, {:id => version.id}
+      assert version.present?
       assert_equal flash[:notice], "You are not authorized to access this page."
       assert_redirected_to "/access_denied"
     end
   end
   
+  #Bad params
+  
   test "should not delete has scores" do
+    allowed_roles.each do |r|
+      load_session(r)
+      version = FactoryGirl.create :version_with_items
+      post :destroy, {:id => version.id}
+      assert has_scores == true
+      assert_equal flash[:notice], "Record cannot be deleted"
+      assert_redirected_to(assessment_assessment_versions_path(version.assessment_id))
+    end
   end
   
+  test "should not post create, no assessment" do 
+    allowed_roles.each do |r|
+      load_session(r)
+      create_params = {:assessment_id => nil}
+      post :create, {:assessment_version => create_params}
+      assert_not assigns(:version).valid?
+      assert_response(200)    #assert on the same page
+    end
+  end
 end
