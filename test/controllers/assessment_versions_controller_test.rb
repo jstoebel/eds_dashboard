@@ -169,9 +169,8 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
   test "should not delete has scores" do
     allowed_roles.each do |r|
       load_session(r)
-      version = FactoryGirl.create :version_with_items
+      version = FactoryGirl.create :version_with_items, {:student_score => true}
       post :destroy, {:id => version.id}
-      assert has_scores == true
       assert_equal flash[:notice], "Record cannot be deleted"
       assert_redirected_to(assessment_assessment_versions_path(version.assessment_id))
     end
