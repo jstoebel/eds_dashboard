@@ -23,6 +23,7 @@
           <tr class="header">
             <th>Goal</th>
             <th>Date Created</th>
+            <th>Goal Score</th>
           </tr>
           <% @pgps.each do |pgp| %>
           <tr>
@@ -30,10 +31,10 @@
             <td> <%= pgp.created_at.strftime("%m/%d/%Y")%> </td>
 
             <td>
-              <% if pgp.goal_name == nil %>    
-                  <%= link_to("Score PGP", edit_pgp_path(pgp.id), :class => "action details btn btn-info action-small issues")%>
+              <% if pgp.latest_score.nil? %>    
+                  No Score
               <% else %>
-                  <%= pgp.goal_name %>
+                  <%= pgp.latest_score.goal_score %>
               <% end %>
             </td>
 
@@ -41,6 +42,7 @@
               <%= link_to pgp_path(pgp.id), :class => "btn btn-info action-small" do %>
                 <span class="small-btn-text">Details</span>
                 <% end %>
+                
               <%= link_to("Score PGP", new_pgp_pgp_score_path(pgp.id), :class => "action details btn btn-info action-small issues")%>
               
               <%= link_to("View Scores", pgp_pgp_scores_path(pgp.id), :class => "action details btn btn-info action-small issues")%>
