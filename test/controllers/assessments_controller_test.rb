@@ -5,7 +5,7 @@ require 'test_teardown'
 
 class AssessmentsControllerTest < ActionController::TestCase
 
-  allowed_roles = ["admin", "advisor", "staff", "student labor"]
+  allowed_roles = ["admin", "staff"]
   
   test "should get index" do
     allowed_roles.each do |r|

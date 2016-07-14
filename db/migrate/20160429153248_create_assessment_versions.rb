@@ -5,7 +5,7 @@ class CreateAssessmentVersions < ActiveRecord::Migration
       t.integer :version_num
       t.timestamps
     end
-
+    
     add_foreign_key :assessment_versions, :assessments
   end
 

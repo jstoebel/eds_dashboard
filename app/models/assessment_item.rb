@@ -9,6 +9,7 @@
 #  description :text
 #  created_at  :datetime
 #  updated_at  :datetime
+#  name        :string(255)
 #
 
 =begin
@@ -19,6 +20,7 @@ class AssessmentItem < ActiveRecord::Base
     
     has_many :item_levels
     has_many :student_scores
+    has_many :version_habtm_items
     has_many :assessment_versions, :through => :version_habtm_items
     
     validates_presence_of :name, :slug
