@@ -103,8 +103,6 @@ GEM
       railties (>= 3.0.0)
     faker (1.6.5)
       i18n (~> 0.5)
-    foreigner (1.7.4)
-      activerecord (>= 3.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hike (1.2.3)
@@ -254,7 +252,6 @@ DEPENDENCIES
   db_fixtures_dump
   factory_girl_rails (~> 4.0)
   faker (~> 1.6, >= 1.6.3)
-  foreigner (~> 1.7, >= 1.7.4)
   immigrant
   jbuilder (~> 2.0)
   jquery-rails
