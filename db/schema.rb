@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 20160712183516) do
     t.string   "name",        limit: 255
   end
 
-  create_table "assessment_versions", force: true do |t|
-    t.integer  "assessment_id", null: false
+  create_table "assessment_versions", force: :cascade do |t|
+    t.integer  "assessment_id", limit: 4, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -465,6 +465,16 @@ ActiveRecord::Schema.define(version: 20160712183516) do
   add_index "users", ["Roles_idRoles"], name: "fk_users_Roles1_idx", using: :btree
   add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
 
+  create_table "version_habtm_items", force: :cascade do |t|
+    t.integer  "assessment_version_id", limit: 4, null: false
+    t.integer  "assessment_item_id",    limit: 4, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "version_habtm_items", ["assessment_item_id"], name: "fk_rails_5d2c803ddf", using: :btree
+  add_index "version_habtm_items", ["assessment_version_id"], name: "fk_rails_c41fee807a", using: :btree
+
   add_foreign_key "adm_st", "banner_terms", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm", name: "fk_AdmST_BannerTerm"
   add_foreign_key "adm_st", "student_files"
   add_foreign_key "adm_st", "students"
@@ -514,4 +524,6 @@ ActiveRecord::Schema.define(version: 20160712183516) do
   add_foreign_key "transcript", "banner_terms", column: "term_taken", primary_key: "BannerTerm", name: "fk_transcript_banner_terms"
   add_foreign_key "transcript", "students"
   add_foreign_key "users", "roles", column: "Roles_idRoles", primary_key: "idRoles", name: "fk_users_Roles"
+  add_foreign_key "version_habtm_items", "assessment_items"
+  add_foreign_key "version_habtm_items", "assessment_versions"
 end

@@ -2,8 +2,10 @@ class ItemLevelsController < ApplicationController
   def update
   end
 
-  def new
+  def create
     @level = ItemLevel.new(create_params)
+    @item = AssessmentItem.find(params[:assessment_item_id])
+    authorize! :manage, @level
 
   end
 
