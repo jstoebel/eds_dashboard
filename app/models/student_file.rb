@@ -26,12 +26,11 @@ class StudentFile < ActiveRecord::Base
   	validates_attachment_file_name :doc, :matches => [/doc\Z/, /docx\Z/, /pdf\Z/, /txt\Z/],
     	:message => "Attached file must be a Word Document, PDF or plain text document."
 
-    validates :doc_file_name, :uniqueness => {scope: :student_id, message: "Document with this name already exists for this student"}
+    # validates :doc_file_name, :uniqueness => {scope: :student_id, message: "Document with this name already exists for this student"}
 
 	scope :active, lambda {where(:active => true) }
 
     private
-
     def check_file_unique
         #if file isn't unique for this student, append a number to the file end (example letter.docx and letter-1.docx)
 
