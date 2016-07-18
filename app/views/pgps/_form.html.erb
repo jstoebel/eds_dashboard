@@ -1,18 +1,29 @@
- 
-    <%= error_messages_for(@) %>
-    <tr>
-      <th> <%= f.label(:student_id, "Student")%> </th>
-      <td> <%= f.select(:student_id, @students.map {|s| [name_details(s), s.id]},
-      {prompt: "Select a student"}) %></td>
-    </tr>
 
-    <tr>
-      <th> <%= f.label(:pgp_id, "Teacher")%> </th>
-      <td> <%= f.select(:clinical_teacher_id, @teachers.map {|t| ["#{t.FirstName} #{t.LastName}", t.id]},
-      {prompt: "Select a Goal:"}) %></td> <!-- is this right? -->
-    </tr>
 
-   
+  <!-- <%= form_for(:pgp, :url => edit_pgp_path(@student.AltID) ) do |f| %> -->
+	<h2><%= "Edit professional growth plan for #{@student.name_readable}" %></h2>
+  	<%= error_messages_for(@pgp) %>
 
-  </table>
- 
+	<table summary="PGPs form fields">
+      <tr>
+          <td><%= f.hidden_field(:student_id, :value => @student.id) %></td>
+      </tr>
+	  <tr>
+	    <th><%= f.label(:goal_name, "Goal") %></th>
+	    <td><%= f.text_area(:goal_name) %></td>
+	  </tr>
+
+	  <tr>
+	    <th><%= f.label(:description, "Description") %></th>
+	    <td> <%= f.text_area(:description, :size => '30x10') %> </td>
+	  </tr>
+	  
+	  <tr>
+	      <th><%= f.label(:plan, "Action Plan") %></th>
+	      <td><%= f.text_area(:plan, :size => '30x10') %></td>
+	  </tr>
+	  
+	  
+	</table>
+	
+<% end %>

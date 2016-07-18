@@ -28,7 +28,7 @@ class PgpsController < ApplicationController
     def edit
         @pgp = Pgp.find(params[:id])
         authorize! :manage, @pgp
-        @student = Student.find(params[:id])
+        @student = @pgp.student
     end
 
     def create
