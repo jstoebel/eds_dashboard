@@ -19,4 +19,8 @@ class Pgp < ActiveRecord::Base
     def latest_score
         self.pgp_scores.order(:created_at).first
     end
+    
+
+    # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
+    
 end
