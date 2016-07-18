@@ -1,4 +1,5 @@
 class AssessmentItemsController < ApplicationController
+  authorize_resource
   protect_from_forgery with: :null_session
   respond_to :json
   def index
@@ -38,38 +39,10 @@ class AssessmentItemsController < ApplicationController
       render json: @item.errors.full_messages, status: :unprocessable_entity
     else
       @item.update_attributes(update_params)
-      convert_levels = old_levels.map {|l| l.attributes}
-=begin      puts "*"*50
-      
-      old_levels = ItemLevel.all.size
-      puts "THERE ARE #{old_levels} levels"
-      
-      #level_params.each do |level|
-      #  level.each{|l| puts l.class}
-
-      #end
-      
-      #puts "NOW THERE ARE #{ItemLevel.all.size} levels"
-      
-      # items_array = level_params.to_a
-      # items_array.each do |item|
-      #   puts "LOOP!"
-      #   item.each do |i|
-      #     puts i
-      #     puts i.class
-    
-      #   end
-      # end
-
-      #1/0
-=end
-      puts "*"*50
-      #puts level_params.inspect
-      puts level_params.class
-      puts(level_params - convert_levels)
-      (level_params - convert_levels).each{|l| puts l}#ItemLevel.create(l)}#puts l.to_h.inspect} #{ |l| ItemLevel.create(l)}
-      (convert_levels - level_params).each { |l| ItemLevel.find(l["id"]).destroy }
-
+      convert_levels = old_levels.map {|l| l.attributes}    #array
+      new_levels = JSON.parse(request.raw_post)["assessment_item"]["item_level_attributes"]    #array
+      (new_levels - convert_levels).each{|l| ItemLevel.create(l)}
+      (convert_levels - new_levels).each { |l| ItemLevel.find(l["id"]).destroy }
       if @item.save
         render json: @item, status: :ok
       else
@@ -89,7 +62,7 @@ class AssessmentItemsController < ApplicationController
   end
   
   def level_params
-    params.require(:assessment_item).permit(:item_levels => [:descriptor, :level])
+    params.require(:assessment_item).permit(:item_levels => [:descriptor, :level, :ord])
   end
   
   def update_params
