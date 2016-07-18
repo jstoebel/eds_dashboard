@@ -33,6 +33,8 @@ class AssessmentItemsController < ApplicationController
       # with any assessments that have any scores. See Jacob for questions.
     # based on levels provided add and remove as needed
     # to edit the content of an item_level see the item_levels controller
+    puts params.inspect
+    puts params.class
     @item = AssessmentItem.find(params[:id])
     old_levels = @item.item_levels    #active record collection. map to convert to arry
     if @item.has_scores?
@@ -40,7 +42,7 @@ class AssessmentItemsController < ApplicationController
     else
       @item.update_attributes(update_params)
       convert_levels = old_levels.map {|l| l.attributes}    #array
-      new_levels = JSON.parse(request.raw_post)["assessment_item"]["item_level_attributes"]    #array
+      new_levels = JSON.parse(request.raw_post, :quirks_mode => true)["assessment_item"]["item_level_attributes"]    #array
       (new_levels - convert_levels).each{|l| ItemLevel.create(l)}
       (convert_levels - new_levels).each { |l| ItemLevel.find(l["id"]).destroy }
       if @item.save
@@ -62,7 +64,7 @@ class AssessmentItemsController < ApplicationController
   end
   
   def level_params
-    params.require(:assessment_item).permit(:item_levels => [:descriptor, :level, :ord])
+    params.require(:assessment_item).permit(:item_levels => [:assessment_item_id, :descriptor, :level, :ord])
   end
   
   def update_params
