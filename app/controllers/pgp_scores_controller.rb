@@ -7,7 +7,7 @@ class PgpScoresController < ApplicationController
         authorize! :read, @pgp_score
         authorize! :read, @pgp
         @student = @pgp.student
-        @pgp_scores = @pgp.pgp_scores.order(:created_at)
+        @pgp_scores = @pgp.pgp_scores.order(:created_at).reverse_order
     end  
     
     def edit
