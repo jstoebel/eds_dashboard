@@ -20,10 +20,11 @@ class AssessmentItemsControllerTest < ActionController::TestCase
         
         update_params = {
             "assessment_item" => {
+                "id" => "#{item.id}",
                 "slug"=> "NewSlug", 
                 "description" => "New description", 
                 "name" => "New Name", 
-                "item_level_attributes" => [{
+                "item_levels" => [{
                     "descriptor" => "descriptor", 
                     "level" => "Word String", 
                     "ord" => "3"}]

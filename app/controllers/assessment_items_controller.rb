@@ -32,18 +32,23 @@ class AssessmentItemsController < ApplicationController
       # with any assessments that have any scores. See Jacob for questions.
     # based on levels provided add and remove as needed
     # # to edit the content of an item_level see the item_levels controller
-    
-    new_params = update_params.to_h    #from ActionController::Parameters to hash
-    puts new_params.inspect
-    @item = AssessmentItem.find(new_params["id"])
+
+    hashed_params = {}
+    hashed_params[:slug] = params[:assessment_item][:slug]
+    hashed_params[:description] = params[:assessment_item][:description]
+    hashed_params[:name] = params[:assessment_item][:name]
+    puts "*"*30
+    puts hashed_params.inspect
+
+    @item = AssessmentItem.find(params[:assessment_item][:id])
     old_levels = @item.item_levels    #active record collection. map to convert to arry
     convert_levels = old_levels.map {|l| l.attributes}    #array of hashes
 
     if @item.has_scores?
       render json: @item.errors.full_messages, status: :unprocessable_entity
     else
-      @item.update_attributes(new_params)
-      new_levels = JSON.parse(request.raw_post, :quirks_mode => true)["assessment_item"]["item_levels"]    #array of hashes
+      @item.update_attributes(hashed_params)
+      new_levels = params[:assessment_item][:item_levels_attributes] do |i| #array of hashes
       
       (new_levels - convert_levels).each{|l| ItemLevel.create(l)}
       (convert_levels - new_levels).each{ |l| ItemLevel.find(l["id"]).destroy}
@@ -67,12 +72,12 @@ class AssessmentItemsController < ApplicationController
   end
   
   def level_params(lvl)
-    lvl.require(:assessment_item).permit(:item_levels => [:assessment_item_id, :descriptor, :level, :ord])
+    lvl.require(:assessment_item).permit(:item_levels_attributes => [:assessment_item_id, :descriptor, :level, :ord])
     #params.require(:assessment_item).permit(:item_levels => [:assessment_item_id, :descriptor, :level, :ord])
   end
   
   def update_params
     #item.permit(:id, :slug, :description, :name)
-    params.require(:assessment_item).permit(:id, :slug, :description, :name, :item_levels)
+    params.require(:assessment_item).permit(:id, :slug, :description, :name, :item_levels_attributes => [:descriptor, :level, :ord])
   end
 end
