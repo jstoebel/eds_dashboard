@@ -9,6 +9,7 @@ class PgpScore< ActiveRecord::Base
     validates_numericality_of :goal_score, less_than: 5
     validates :score_reason,
         presence: {message: "Please enter a score reason."}
+
         
     def student
         self.pgp.student
@@ -17,5 +18,5 @@ class PgpScore< ActiveRecord::Base
     def latest_score
         self.pgp_scores.order(:created_at).first
     end
-    
+
 end

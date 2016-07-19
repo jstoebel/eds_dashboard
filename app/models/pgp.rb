@@ -15,12 +15,16 @@ class Pgp < ActiveRecord::Base
         presence: {message:"Please enter a description."}
     validates :plan,
         presence: {message:"Please enter a plan."}
+    
 
     def latest_score
-        self.pgp_scores.order(:created_at).first
+        self.pgp_scores.order(:updated_at).first
     end
     
+    def score_of_the_latest_pgp
+        self.goal_score.order(:updated_at).first
+    end
 
     # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
-    
+
 end
