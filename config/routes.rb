@@ -169,6 +169,14 @@ Rails.application.routes.draw do
   resources :clinical_teachers, only: [:index, :new, :create, :edit, :update, :destroy] do
     get "delete"
   end
+
+  resources :assessment_items, only: [:index, :show, :create, :destroy] do
+  end
+      
+  match 'assessment_items/update', :via => :patch
+      
+  resources :item_levels, only: [:create]
+
   resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do
     get "delete"
     #patch "update"
@@ -184,7 +192,7 @@ Rails.application.routes.draw do
     get "delete"
   end
 
-  resources :assessment_items, only: [:index, :show, :create, :update, :destroy]
+
 
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 
@@ -274,7 +282,9 @@ Rails.application.routes.draw do
 	  			post "batch_upsert"
   			end
   		end
-
+      
+        
+ 
         resource :banner_update, :only => [:create]
 
   	end
