@@ -410,7 +410,7 @@ ActiveRecord::Schema.define(version: 20160720160651) do
     t.string  "CurrentMajor2",    limit: 45
     t.string  "concentration2",   limit: 255
     t.string  "CellPhone",        limit: 45
-    t.string  "CurrentMinors",    limit: 45
+    t.string  "CurrentMinors",    limit: 255
     t.string  "Email",            limit: 100
     t.string  "CPO",              limit: 45
     t.text    "withdrawals",      limit: 65535
