@@ -16,8 +16,8 @@ class AssessmentItemsControllerTest < ActionController::TestCase
       allowed_roles.each do |r|
         load_session(r)
         item = FactoryGirl.create :assessment_item
-        puts item.item_levels.inspect
         old_lvl = FactoryGirl.create :item_level, {:assessment_item_id => item.id}
+        
         update_params = {
             "assessment_item" => {
                 "id" => "#{item.id}",
@@ -33,17 +33,21 @@ class AssessmentItemsControllerTest < ActionController::TestCase
         patch :update, update_params #{format: :json}
         assert_response :success
         assert_equal assigns(:item), item
-        
-        
-        #assert old_lvl.destroyed?
-        puts update_params[:assessment_item].inspect
-        assert_equal assigns(:item).item_levels.map{|i| i.attributes}, update_params[:assessment_item][:item_level_attributes]
-        #assert new created
-        #puts "here are the attributes"
-        #attri = 
-        #puts attri.inspect
-        #assert_equal assigns(:item).item_levels.map{|k| k.attributes}, 
         assert_equal @response.body, assigns(:item).to_json
+        
+        new_lvls = ItemLevel.where(:assessment_item_id => assigns(:item).id)
+        lvls_attributes = []
+        new_lvls.map do |i|
+            lvl = {}
+            lvl["descriptor"] = i["descriptor"]
+            lvl["level"] = i["level"]
+            lvl["ord"] = i["ord"].to_s  #must be string to compare with json
+            lvls_attributes.push(lvl)
+        end
+        #assert new created
+        assert_equal lvls_attributes, update_params["assessment_item"]["item_levels_attributes"]
+        #assert old destroyed
+        assert assigns(:old_levels).destroyed?
       end
     end
 end
