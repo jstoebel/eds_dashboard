@@ -44,8 +44,8 @@ class AssessmentItemsController < ApplicationController
     hashed_params[:name] = params[:assessment_item][:name]
 
     @item = AssessmentItem.find(params[:assessment_item][:id])
-    old_levels = @item.item_levels    #active record collection. map to convert to arry
-    convert_levels = old_levels.map {|l| l.attributes}    #array of hashes
+    @old_levels = @item.item_levels    #active record collection. map to convert to arry
+    convert_levels = @old_levels.map {|l| l.attributes}    #array of hashes
 
     if @item.has_scores?
       render json: @item.errors.full_messages, status: :unprocessable_entity
@@ -59,9 +59,14 @@ class AssessmentItemsController < ApplicationController
         lvl_hash[:ord] = i[:ord]
         new_levels.push(lvl_hash)
       end
-      puts "*"*50
       (new_levels - convert_levels).each{|l| @item.item_levels.new(l).save}
-      (convert_levels - new_levels).each{ |l| ItemLevel.find(l["id"]).destroy!}
+
+      puts (convert_levels-new_levels).inspect
+      (convert_levels - new_levels).each do |l|
+        puts ItemLevel.find(l["id"]).inspect
+        ItemLevel.destroy(l["id"])
+        
+      end
       
       if @item.save
         render json: @item, status: :ok
