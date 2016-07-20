@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160712151524) do
+ActiveRecord::Schema.define(version: 20160720160651) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20160712151524) do
     t.integer  "student_id",            limit: 4,     null: false
     t.integer  "Program_ProgCode",      limit: 4,     null: false
     t.integer  "BannerTerm_BannerTerm", limit: 4,     null: false
-    t.integer  "Attempt",               limit: 4,     null: false
+    t.integer  "Attempt",               limit: 4
     t.float    "GPA",                   limit: 24
     t.float    "GPA_last30",            limit: 24
     t.integer  "EarnedCredits",         limit: 4
