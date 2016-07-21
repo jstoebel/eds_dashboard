@@ -62,18 +62,6 @@
                     <% else %>
                       <% actions.push({disable: true, menu_name: "Files (#{student.student_files.active.size})", link_url: student_student_files_path(student.AltID),}) %>
                     <% end %>
-                    <% if can? :read, StudentFile %>
-                      <%= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-                          </br><span class="small-btn-text">
-                          Files
-                            <span class="badge">
-                              <%=student.student_files.active.size%>
-                            </span>
-                          </span>
-    
-                    <% end %>
-                  <% end %>
-                  
                   <%= render(partial: 'dropdown', locals: {:actions => actions}) %>
               </td>
             </tr>
