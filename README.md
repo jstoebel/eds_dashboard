@@ -12,6 +12,7 @@ Ruby version: 2.1, Rails Version 4.1
 
 - In windows: create a dump.sql file from access using bullzip. 
 - Make a python script to read these data and populate to the existing production database.
+- Current TEP advisors need to be added (not included since they contain B#s)
    
 
 - Updates to the schema:
