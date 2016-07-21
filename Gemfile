@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'bootstrap-datepicker-rails'
@@ -49,6 +49,7 @@ gem 'immigrant'
 
 # Use Capistrano for deployment
 group :development do
+    gem 'spring'
     gem 'capistrano', '~> 3.1'
     gem 'capistrano-passenger'
     gem 'capistrano-rbenv', '~> 2.0'
@@ -64,6 +65,7 @@ group :test do
   gem 'minitest-spec-rails'
 end
 
+
 gem 'database_cleaner', '~> 1.5', '>= 1.5.1'
 gem "factory_girl_rails", "~> 4.0"
 gem 'faker', '~> 1.6', '>= 1.6.3'
@@ -78,6 +80,8 @@ gem 'andand', '~> 1.3', '>= 1.3.3'
 
 #connecting to Banner
 gem 'dbi', '~> 0.4.5'
-gem 'ruby-oci8', '~> 2.2', '>= 2.2.2'
+
+#exclude from codeship build and c9 env
+gem 'ruby-oci8', '~> 2.2', '>= 2.2.2',  :group => [:cs_exclude, :c9_exclude]
 
 gem 'responders', '~> 2.0'
