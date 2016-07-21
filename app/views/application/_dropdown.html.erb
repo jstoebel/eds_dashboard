@@ -3,7 +3,8 @@
   <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <% actions.each do |ref| %>
-        <%= link_to("#{ref[:menu_name]}", ref[:link_url])%>
+        <%= link_to_if( ref.key?(:disable)==false, "#{ref[:menu_name]}", ref[:link_url])%>
+        <br>
       <% end %>
   </ul>
 </div>
