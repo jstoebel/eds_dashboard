@@ -28,62 +28,63 @@
               <td><%= student.LastName %> <%= student.PrevLast.present? ? "(#{student.PrevLast})" : nil %></td>
               <td><%= student.prog_status %></td>
               <td class="actions">
-    
-                  <% if can? :show, Student %>
-                    <%= link_to student_path(student.AltID), :class => "btn btn-info action-small" do %>
-                          </br><span class="small-btn-text">Details</span>
-                    <% end %>
-                  <% end  %>
+                  <% actions =[{menu_name: "Details", link_url: "/students_url(#{student.AltID})" }] %>
+    	            <%= render(partial: 'dropdown', locals: {:actions => actions}) %>
+                  <!--<%# if can? :show, Student %>
+                  <!--  <%#= link_to student_path(student.AltID), :class => "btn btn-info action-small" do %>-->
+                  <!--        </br><span class="small-btn-text">Details</span>-->
+                  <!--  <%# end %>-->
+                  <!--<%#end  %>-->
     
     
                     <!-- TODO grayed out button if no praxis results, issues -->
-                    <% if can? :index, PraxisResult %>
-                      <%= link_to student_praxis_results_path(student.AltID),:class => "btn btn-info action-small praxis" + (student.praxis_results.size > 0 ? "" : " disabled") do %>
-                              </br>
-                              <span class="small-btn-text"> Praxis Results 
-                                <span class="badge">
-                                  <%=student.praxis_results.size%> 
-                                </span>
-                            </span>
+                  <!--  <%# #if can? :index, PraxisResult %>-->
+                  <!--    <%#= link_to student_praxis_results_path(student.AltID),:class => "btn btn-info action-small praxis" + (student.praxis_results.size > 0 ? "" : " disabled") do %>-->
+                  <!--            </br>-->
+                  <!--            <span class="small-btn-text"> Praxis Results -->
+                  <!--              <span class="badge">-->
+                  <!--                <%#=student.praxis_results.size%> -->
+                  <!--              </span>-->
+                  <!--          </span>-->
     
-                      <% end %>
-                    <% end %>
+                  <!--    <%# end %>-->
+                  <!--  <%# end %>-->
                     
-                  <% if can? :show, Pgp %>
-                    <%= link_to student_pgps_path(student.AltID), :class => "btn btn-info action-small pgps" do %>
-                          </br><span class="small-btn-text">
-                          PGPs
-                            <span class="badge">
-                              <%= student.pgps.size %>
-                            </span>
-                          </span>
-                    <% end %>
-                  <% end %>
+                  <!--<%# if can? :show, Pgp %>-->
+                  <!--  <%#= link_to student_pgps_path(student.AltID), :class => "btn btn-info action-small pgps" do %>-->
+                  <!--        </br><span class="small-btn-text">-->
+                  <!--        PGPs-->
+                  <!--          <span class="badge">-->
+                  <!--            <%#= student.pgps.size %>-->
+                  <!--          </span>-->
+                  <!--        </span>-->
+                  <!--  <%# end %>-->
+                  <!--<%# end %>-->
                   
-                  <% if can? :read, Issue %>
-                    <%= link_to student_issues_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-                          </br><span class="small-btn-text">
-                          Issues
-                            <span class="badge">
-                              <%=student.issues.select{|u| u.visible}.size%>
-                            </span>
-                          </span>
+                  <!--<%# if can? :read, Issue %>-->
+                  <!--  <%#= link_to student_issues_path(student.AltID),:class => "btn btn-info action-small issues" do %>-->
+                  <!--        </br><span class="small-btn-text">-->
+                  <!--        Issues-->
+                  <!--          <span class="badge">-->
+                  <!--            <%#=student.issues.select{|u| u.visible}.size%>-->
+                  <!--          </span>-->
+                  <!--        </span>-->
     
-                    <% end %>
-                  <% end  %>
-                  <br>
-                  <br>
-                  <% if can? :read, StudentFile %>
-                    <%= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-                          </br><span class="small-btn-text">
-                          Files
-                            <span class="badge">
-                              <%=student.student_files.active.size%>
-                            </span>
-                          </span>
+                  <!--  <%# end %>-->
+                  <!--<%# end  %>-->
+                  <!--<br>-->
+                  <!--<br>-->
+                  <!--<%# if can? :read, StudentFile %>-->
+                  <!--  <%#= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>-->
+                  <!--        </br><span class="small-btn-text">-->
+                  <!--        Files-->
+                  <!--          <span class="badge">-->
+                  <!--            <%#=student.student_files.active.size%>-->
+                  <!--          </span>-->
+                  <!--        </span>-->
     
-                    <% end %>
-                  <% end %>
+                  <!--  <%# end %>-->
+                  <!--<%# end %>-->
               </td>
             </tr>
           
