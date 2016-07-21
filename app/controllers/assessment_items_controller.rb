@@ -39,9 +39,12 @@ class AssessmentItemsController < ApplicationController
     hashed_params = {}
     
     #puts params.inspect
+    hashed_params[:id] = params[:assessment_item][:id]
     hashed_params[:slug] = params[:assessment_item][:slug]
     hashed_params[:description] = params[:assessment_item][:description]
     hashed_params[:name] = params[:assessment_item][:name]
+
+    puts hashed_params
 
     @item = AssessmentItem.find(params[:assessment_item][:id])
     @old_levels = @item.item_levels    #active record collection. map to convert to arry
