@@ -30,7 +30,7 @@ base: &base
   FirstName: Jacob
   LastName: Stoebel
   Email: jacob.stoebel@berea.edu
-  subject: English
+  Subject: English
   clinical_site: one
   Rank: 1
   YearsExp: 1

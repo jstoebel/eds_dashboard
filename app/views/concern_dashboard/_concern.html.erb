@@ -1,0 +1,37 @@
+<!-- partial for a single concern
+
+expected inputs:
+    #OUTCOME SPECIFIC
+    alert_status: either success, warning or info
+    glyph: the glyph to use minus "glyphicon-"
+    msg: the message to display
+
+    #NON OUTCOME SPECIFIC
+    title: the title name of the well
+    link: the link for more information
+    link_title: the title of the link
+    link_num: the number to display in a badge next to the link
+ -->
+
+<div class="col-xs-12 col-md-4">
+
+    <div class="text-center well concern-well alert <%= "alert-#{alert_status}" %>">
+
+        <h4 class="text-center header2"> <%= title %> </h4>
+        <div class="concern-status glyphicon <%= "glyphicon-#{glyph}"%>"> </div>
+        <div class="concern-description">
+          <span><%= msg %></span>
+          <%= link_to link, :class => "alert-link" do %>
+                  </br>
+                  <span> <%= link_title %>
+                    <span class="badge">
+                      <%= link_num %> 
+                    </span>
+                </span>
+
+          <% end %>
+        </div>
+    </div>
+
+</div> <!-- end column -->
+

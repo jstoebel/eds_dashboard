@@ -15,6 +15,10 @@ class Ability
         advisor_check(user, resource)
       end
 
+      can :be_concerned, Student do |resource| #permission to be used in the concerns_dashboard
+        advisor_check(user, resource)
+      end 
+
       can :manage, [ClinicalTeacher, ClinicalSite]
 
       can :read, [Student, PraxisResult, PraxisSubtestResult] do |resource|
