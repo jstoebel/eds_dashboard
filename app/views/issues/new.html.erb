@@ -6,7 +6,7 @@
 
 
   <%= form_for(:issue, :url => student_issues_path(@student.AltID) ) do |f| %>
-	<h2>Open New Issue for <%=[@first_name, @last_name].join(' ')%></h2>
+	<h2>Open Advisor Note for <%=@student.name_readable%></h2>
   	<%= error_messages_for(@issue) %>
 
 	<table summary="Issue form fields">
@@ -20,6 +20,12 @@
 	    <th><%= f.label(:Description, "Description") %></th>
 	    <td> <%= f.text_area(:Description, :size => '30x10') %> </td>
 	  </tr>
+
+    <tr>
+        <th><%= f.label(:positive, "Is this a positive note?") %></th>
+        <td> <%= f.check_box(:positive, ) %> </td>
+    </tr>
+
 
   	<tr>
 	<th></th>
