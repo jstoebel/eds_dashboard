@@ -20,7 +20,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
         
         update_params = {
             "assessment_item" => {
-                "id" => "#{item.id}",
+                "id" => item.id,
                 "slug"=> "NewSlug", 
                 "description" => "New description", 
                 "name" => "New Name", 
