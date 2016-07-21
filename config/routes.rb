@@ -137,6 +137,15 @@ Rails.application.routes.draw do
 
   #A resource must be top level before it can be nested in another resource (I think)
 
+  resources :students, only: [:index, :show], shallow: true do
+    resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
+      get "delete"
+    end
+    resources :issues, only: [:index, :new, :create, :destroy]
+    resources :student_files, only: [:new, :create, :index, :delete, :destroy]
+    resources :concern_dashboard, only: [:index], :path => "concerns"
+  end
+
   match 'prog_exits/get_programs', via: [:post, :get]
 
   resources :access, only: [:index]
@@ -156,6 +165,7 @@ Rails.application.routes.draw do
   end
   
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
+
 
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
@@ -194,14 +204,25 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:index, :new, :create, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
+    resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
+      resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create]
+    end
   end
+  
+
 
   resources :student_files do
     get "download"
   end
 
   resources :issues, shallow: true do
-    resources :issue_updates
+    resources :issue_updates do
+        patch 'update'
+    end
+  end
+  
+  resources :pgps, shallow: true do 
+    resources :pgp_scores
   end
 
   resources :banner_terms, shallow: true do
@@ -239,4 +260,5 @@ Rails.application.routes.draw do
   end
 
   root 'access#index'
+
 end
