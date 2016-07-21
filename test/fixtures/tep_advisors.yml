@@ -18,10 +18,14 @@
 #
 snow_advisor:
   AdvisorBnum: B00999999
+  first_name: Jon
+  last_name: Snow
   Salutation: Lord Commander
   user: jon_snow
 
 arryn_advisor:
   AdvisorBnum: B00888888
+  first_name: Jon
+  last_name: Arryn
   Salutation: Lord Hand
   user: jon_arryn
