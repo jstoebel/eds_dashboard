@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160720160651) do
+ActiveRecord::Schema.define(version: 20160721170345) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -428,9 +428,11 @@ ActiveRecord::Schema.define(version: 20160720160651) do
   add_index "students", ["term_major"], name: "fk_rails_02beb2ceb0", using: :btree
 
   create_table "tep_advisors", force: :cascade do |t|
-    t.string  "AdvisorBnum", limit: 9,  null: false
-    t.string  "Salutation",  limit: 45, null: false
+    t.string  "AdvisorBnum", limit: 9,   null: false
+    t.string  "Salutation",  limit: 45,  null: false
     t.integer "user_id",     limit: 4
+    t.string  "first_name",  limit: 255, null: false
+    t.string  "last_name",   limit: 255, null: false
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
