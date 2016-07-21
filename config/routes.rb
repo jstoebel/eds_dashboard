@@ -170,7 +170,7 @@ Rails.application.routes.draw do
     get "delete"
   end
 
-  resources :assessment_items, only: [:index, :show, :create, :destroy] do
+  resources :assessment_items, only: [:index, :show, :create, :destroy, :update] do
   end
       
   match 'assessment_items/update', :via => :patch
