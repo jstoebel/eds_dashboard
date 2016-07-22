@@ -40,6 +40,9 @@ class Student < ActiveRecord::Base
 	has_many :prog_exits
 	has_many :clinical_assignments
 	has_many :student_files
+	
+	has_many :adm_tep
+	has_many :programs, :through => :adm_tep
 
 	has_many :advisor_assignments
 	has_many :tep_advisors
