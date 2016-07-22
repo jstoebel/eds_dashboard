@@ -18,6 +18,9 @@ level name and level number
 =end
 
 class ItemLevel < ActiveRecord::Base
+            
+    before_validation :check_scores #test that does stop, that doesn't when shouldn't
+    before_destroy :check_scores
     
     has_many :student_scores
     belongs_to :assessment_item

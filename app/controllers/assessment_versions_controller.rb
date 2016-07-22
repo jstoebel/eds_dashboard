@@ -20,8 +20,6 @@ class AssessmentVersionsController < ApplicationController
   end
 
   def create
-    #puts params.inspect #DELETE ME!
-    
     @version = AssessmentVersion.new
     authorize! :manage, @version
     @version.update_attributes(new_params)
