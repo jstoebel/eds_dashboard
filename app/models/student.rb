@@ -37,7 +37,6 @@ class Student < ActiveRecord::Base
 	has_many :issue_updates
 
 	has_many :adm_st
-	has_many :prog_exits
 	has_many :clinical_assignments
 	has_many :student_files
 	
@@ -139,6 +138,8 @@ class Student < ActiveRecord::Base
 
 ####~~~Model Methods with Associations~~~##################################################
 
+
+
 	####~~~Praxis Associations and Methods~~~##############################################
 	
 	has_many :praxis_results
@@ -200,6 +201,7 @@ class Student < ActiveRecord::Base
 	####~~~FOI associations and methods~~~#################################################
 	
 	has_many :foi
+	has_many :prog_exits
 
 	def prog_status
 		#Program Statuses
@@ -211,15 +213,16 @@ class Student < ActiveRecord::Base
 
 		if 	(not self.was_dismissed?) and 
 			(self.latest_foi == nil or self.latest_foi.seek_cert) and
-			(self.adm_tep.where(:TEPAdmit => true).size == 0) 
-			#and (not self.EnrollmentStatus == "Graduated" or self.EnrollmentStatus == "Transfered")
-
+			(self.adm_tep.where(:TEPAdmit => true).size == 0) and
+			(not graduated or transfer)
+			
 			return "Prospective"
 			
 		#Add that student has not graduated 
 		#Use enrollment status var
 		#Also if they have transfered 
 		#graduated? or transferred? possible var names to create and use
+		#create methods for graduated and wd-transferring
 
 
 		# Not applying: any of the following
@@ -381,6 +384,20 @@ class Student < ActiveRecord::Base
 			return false
 		end
 
+	end
+	
+	##########################################################################
+	
+	
+	
+	####~~~Enrollment Methods~~~##############################################
+	
+	def graduated
+		self.EnrollmentStatus == "Graduated"
+	end
+	
+	def transfer
+		self.EnrollmentStatus == "WD-Transferring"
 	end
 	
 	##########################################################################
