@@ -208,9 +208,15 @@ class Student < ActiveRecord::Base
 
 		if 	(not self.was_dismissed?) and 
 			(self.latest_foi == nil or self.latest_foi.seek_cert) and
-			(self.adm_tep.where(:TEPAdmit => true).size == 0)
+			(self.adm_tep.where(:TEPAdmit => true).size == 0) 
+			#and (not self.EnrollmentStatus == "Graduated" or self.EnrollmentStatus == "Transfered")
 
 			return "Prospective"
+			
+		#Add that student has not graduated 
+		#Use enrollment status var
+		#Also if they have transfered 
+		#graduated? or transferred? possible var names to create and use
 
 
 		# Not applying: any of the following
