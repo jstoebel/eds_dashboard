@@ -14,18 +14,22 @@ class AssessmentItemsController < ApplicationController
     # creates an assessment_item
     # TODO: also create the associated item_levels
     
-    @item = AssessmentItem.new(create_params)
-    @level = ItemLevel.new(level_params), {:assessment_item_id => @item.id}
-    @item.update_attributes(create_params)
-    @level.update_attributes(level_params)
+    @item = AssessmentItem.new
     authorize! :manage, @item
-    # @level.inspect
+    @level = ItemLevel.new
+    authorize! :manage, @level
+    @item.update_attributes(create_params)
+    
+    
+    @level.update_attributes(level_params[:item_levels_attributes])
+    #puts create_params[:item_levels_attributes].inspect
+    #level_params[:item_levels_attributes].each{|new_lvl_params| @level.each{|l| l.update_attributes(new_lvl_params)}}
+
     if @item.save
       render json: @item, status: :created
     else
       render json: @item.errors.full_messages, status: :unprocessable_entity
     end
-    
   end
 
   def update
@@ -38,7 +42,6 @@ class AssessmentItemsController < ApplicationController
 
     hashed_params = {}
     
-    #puts params.inspect
     hashed_params[:slug] = params[:assessment_item][:slug]
     hashed_params[:description] = params[:assessment_item][:description]
     hashed_params[:name] = params[:assessment_item][:name]
@@ -77,18 +80,15 @@ class AssessmentItemsController < ApplicationController
   end
 
   private
-
   def create_params
     params.require(:assessment_item).permit(:slug, :description, :name)
   end
   
   def level_params
     params.require(:assessment_item).permit(:item_levels_attributes => [:assessment_item_id, :descriptor, :level, :ord])
-    #params.require(:assessment_item).permit(:item_levels => [:assessment_item_id, :descriptor, :level, :ord])
   end
   
   def update_params
-    #item.permit(:id, :slug, :description, :name)
     params.require(:assessment_item).permit(:id, :slug, :description, :name, :item_levels_attributes => [:descriptor, :level, :ord])
   end
 end

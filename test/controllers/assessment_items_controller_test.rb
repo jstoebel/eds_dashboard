@@ -5,10 +5,13 @@ class AssessmentItemsControllerTest < ActionController::TestCase
     include TestTeardown
     allowed_roles = ["admin", "staff"]
     
-    test "should get create" do
+    test "should post create" do
         allowed_roles.each do |r|
-            load_session(r)
-           
+          load_session(r)
+          create_params = {:slug => "test slug", :name => "test name", :}
+          post :create, {:assessment_item, => create_params}
+          assert assigns(:item).valid?
+          assert assigns(:levels)
         end
     end
     
@@ -52,5 +55,8 @@ class AssessmentItemsControllerTest < ActionController::TestCase
         puts assigns(:to_delete).inspect
         assigns(:to_delete).each{|l| assert_not ItemLevel.exists? l.id}
       end
+    end
+    
+    test "Update - should not delete old levels, has scores" do 
     end
 end
