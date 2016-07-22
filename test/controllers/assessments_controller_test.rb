@@ -27,7 +27,6 @@ class AssessmentsControllerTest < ActionController::TestCase
   end
   
   test "should post create" do
-    #How does this test whether saved?
     allowed_roles.each do |r|
       load_session(r)
       create_params = {:name => "test name", :description => "test descrip"}
