@@ -1,0 +1,11 @@
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
+  <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <% actions.each do |ref| %>
+        <%= link_to_if( ref.key?(:disable)==false, "#{ref[:menu_name]}", ref[:link_url])%>
+        <br>
+      <% end %>
+  </ul>
+</div>
+  
