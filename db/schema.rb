@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721170345) do
+ActiveRecord::Schema.define(version: 20160722160612) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
     t.integer  "BannerTerm_BannerTerm", limit: 4
-    t.integer  "Attempt",               limit: 4,     null: false
+    t.integer  "Attempt",               limit: 4
     t.float    "OverallGPA",            limit: 24
     t.float    "CoreGPA",               limit: 24
     t.boolean  "STAdmitted"
