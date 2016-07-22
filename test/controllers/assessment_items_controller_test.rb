@@ -18,6 +18,8 @@ class AssessmentItemsControllerTest < ActionController::TestCase
         item = FactoryGirl.create :assessment_item
         old_lvl = FactoryGirl.create :item_level, {:assessment_item_id => item.id}
         
+        assert old_lvl.save
+        
         update_params = {
             "assessment_item" => {
                 "id" => "#{item.id}",
@@ -46,8 +48,9 @@ class AssessmentItemsControllerTest < ActionController::TestCase
         end
         #assert new created
         assert_equal lvls_attributes, update_params["assessment_item"]["item_levels_attributes"]
-        #assert old destroyed
-        assert assigns(:old_levels).destroyed?
+        puts "old_levels"
+        puts assigns(:to_delete).inspect
+        assigns(:to_delete).each{|l| assert_not ItemLevel.exists? l.id}
       end
     end
 end
