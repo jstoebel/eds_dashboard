@@ -46,6 +46,8 @@ class AssessmentItem < ActiveRecord::Base
         if self.has_scores?
             self.errors.add(:base, "Can't modify item. Has associated scores.")
             return false
+        else
+            return true
         end
     end
 end
