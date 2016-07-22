@@ -13,8 +13,10 @@ Ruby version: 2.1, Rails Version 4.1
 - In windows: create a dump.sql file from access using bullzip. 
 - Make a python script to read these data and populate to the existing production database.
 - Current TEP advisors need to be added (not included since they contain B#s)
-- Updates to the schema:
-We are using migrations to properly version the schema. When pushing new migrations be sure to also push the most up to data schema.rb.
+- Dump the data to a .sql file: `mysqldump -u edsaccess -p eds_development --ignore-table=eds_development.schema_migrations --no-create-info  > ~/eds_move/bootstrap_secure/freeze_data_for_eds.sql`
+-Load data into production!
+
+
 
 
 ### Database initialization
