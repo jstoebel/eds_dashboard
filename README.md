@@ -14,7 +14,7 @@ Ruby version: 2.1, Rails Version 4.1
 - Make a python script to read these data and populate to the existing production database.
 - Current TEP advisors need to be added (not included since they contain B#s)
 - Dump the data to a .sql file: `mysqldump -u edsaccess -p eds_development --ignore-table=eds_development.schema_migrations --no-create-info  > ~/eds_move/bootstrap_secure/freeze_data_for_eds.sql`
--Load data into production!
+- Load data into production!
 
 
 
