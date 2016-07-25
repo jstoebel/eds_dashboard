@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :pgp do
-    student
+    association :student
     goal_name "Goal here!"
     description "descrip here!"
     plan "plan here!"
