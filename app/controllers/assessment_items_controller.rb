@@ -2,8 +2,14 @@ class AssessmentItemsController < ApplicationController
   authorize_resource
   protect_from_forgery with: :null_session
   respond_to :json
+  
   def index
-
+    #shows all items of a particular version
+    @version = AssessmentVersion.find(params[:assessment_version_id])
+    authorize! :read, @version
+    @item = @version.assessment_items.sorted.select {|r| can? :read, r }
+    authorize! :read, @item
+    render json: @item, status: :success
   end
 
   def show
@@ -11,26 +17,43 @@ class AssessmentItemsController < ApplicationController
   end
 
   def create
-    # creates an assessment_item
-    # TODO: also create the associated item_levels
     
     @item = AssessmentItem.new
     authorize! :manage, @item
-    @level = ItemLevel.new
-    authorize! :manage, @level
-    @item.update_attributes(create_params)
+  end
     
-    
-    @level.update_attributes(level_params[:item_levels_attributes])
-    #puts create_params[:item_levels_attributes].inspect
-    #level_params[:item_levels_attributes].each{|new_lvl_params| @level.each{|l| l.update_attributes(new_lvl_params)}}
+=begin    # creates an assessment_item
 
+    #whitelisting for item
+    hashed_params = {}
+    
+    hashed_params[:slug] = params[:assessment_item][:slug]
+    hashed_params[:description] = params[:assessment_item][:description]
+    hashed_params[:name] = params[:assessment_item][:name]
+    
+    @item = AssessmentItem.new
+    authorize! :manage, @item
+    
+    @item.update_attributes(hashed_params)
+    
+    #whitelisting for level
+    new_levels = []
+    params[:assessment_item][:item_levels_attributes].map do |i|
+      lvl_hash = {}
+      lvl_hash[:descriptor] = i[:descriptor]
+      lvl_hash[:level] = i[:level]
+      lvl_hash[:ord] = i[:ord]
+      new_levels.push(lvl_hash)
+    end
+    
+    new_levels.each{|l| @item.item_levels.new(l).save}
+    
     if @item.save
       render json: @item, status: :created
     else
       render json: @item.errors.full_messages, status: :unprocessable_entity
     end
-  end
+end
 
   def update
     
@@ -73,7 +96,7 @@ class AssessmentItemsController < ApplicationController
         render json: @item.errors.full_messages, status: :unprocessable_entity
       end
     end
-  end
+=end
 
   def destroy
 
@@ -81,11 +104,11 @@ class AssessmentItemsController < ApplicationController
 
   private
   def create_params
-    params.require(:assessment_item).permit(:slug, :description, :name)
+    params.require(:assessment_item).permit(:slug, :description, :name, :item_levels_attributes => [:descriptor, :level, :ord])
   end
   
   def level_params
-    params.require(:assessment_item).permit(:item_levels_attributes => [:assessment_item_id, :descriptor, :level, :ord])
+    params.require(:assessment_item).permit(:item_levels_attributes => [:descriptor, :level, :ord])
   end
   
   def update_params

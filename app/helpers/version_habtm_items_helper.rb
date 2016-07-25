@@ -1,0 +1,2 @@
+module VersionHabtmItemsHelper
+end

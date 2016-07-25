@@ -31,7 +31,7 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       assess = FactoryGirl.create(:assessment)
-      version = AssessmentVersion.new
+      #version = AssessmentVersion.new
       get :new, :assessment_id => assess.id
       assert_response :success
       assert assigns(:version).new_record?

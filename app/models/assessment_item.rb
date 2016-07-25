@@ -28,6 +28,8 @@ class AssessmentItem < ActiveRecord::Base
     accepts_nested_attributes_for :item_levels
     
     validates_presence_of :name, :slug
+    
+    scope :sorted, lambda {order(:name => :asc)}
 
     def has_scores?
       #Determines whether item is on version associated with score. Returns true if so
@@ -40,7 +42,10 @@ class AssessmentItem < ActiveRecord::Base
       end
       return false
     end
+    
     private
+
+    
     def check_scores
         if self.has_scores?
             self.errors.add(:base, "Can't modify item. Has associated scores.")
