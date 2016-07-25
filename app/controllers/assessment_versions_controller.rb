@@ -83,7 +83,7 @@ class AssessmentVersionsController < ApplicationController
   end
   
   def update_params
-    params.require(:assessment_version).permit(:assessment_items)
+    params.require(:assessment_version).permit(:assessment_item_ids => [])
   end
   
   def form_setup

@@ -170,7 +170,7 @@ Rails.application.routes.draw do
     get "delete"
   end
 
-  resources :assessment_items, only: [:index, :show, :create, :destroy] do
+  resources :assessment_items, only: [ :show, :create, :destroy] do
   end
       
   match 'assessment_items/update', :via => :patch
@@ -178,6 +178,7 @@ Rails.application.routes.draw do
   resources :item_levels, only: [:create]
 
   resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do
+    resources :assessment_items, only: [:index]
     get "delete"
     #patch "update"
     put "update"
