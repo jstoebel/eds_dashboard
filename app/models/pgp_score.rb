@@ -18,5 +18,8 @@ class PgpScore< ActiveRecord::Base
     def latest_score
         self.pgp_scores.order(:created_at).first
     end
-
+    
+    def score_check
+        
+    end
 end
