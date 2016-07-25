@@ -160,6 +160,26 @@ class StudentTest < ActiveSupport::TestCase
 		s.save
 		assert_equal "Prospective", s.prog_status
 	end
+	
+	test "should not return perspective - enrollmentstatus graduated" do
+		Foi.delete_all
+		AdmTep.delete_all
+		s = Student.first
+		s.EnrollmentStatus = "Graduated"
+		s.save
+		assert_equal "Dropped", s.prog_status
+	end 
+	
+	test "should not return perspective - enrollmentstatus transfered" do 
+		Foi.delete_all
+		AdmTep.delete_all
+		s = Student.first
+		s.EnrollmentStatus = "WD-Transferring"
+		s.save 
+		assert_equal "Dropped", s.prog_status
+	end
+	
+		
 
 	test "returns prospective positive foi" do
 		stu = Student.first
