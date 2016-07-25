@@ -1,6 +1,9 @@
 class Pgp < ActiveRecord::Base
     self.table_name = 'pgps'
     
+    before_save :pgp_scored_check
+    before_destroy :pgp_scored_check
+    
     belongs_to :student
     has_many :pgp_scores, dependent: :destroy
     
@@ -16,15 +19,21 @@ class Pgp < ActiveRecord::Base
     validates :plan,
         presence: {message:"Please enter a plan."}
     
-
+    
     def latest_score
-        self.pgp_scores.order(:updated_at).first
+        self.pgp_scores.order(created_at: :desc).first
     end
     
-    def score_of_the_latest_pgp
-        self.goal_score.order(:updated_at).first
-    end
-
+    def pgp_scored_check
+        puts "SHOULDN'T DESTROY!"
     # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
+        if self.pgp_scores.present?
+           self.errors.add(:base, "Unable to alter due to scoring ")
+           return false
+        else
+            return true
+        end
+    end
+    
 
 end

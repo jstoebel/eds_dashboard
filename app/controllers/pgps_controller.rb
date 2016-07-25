@@ -73,8 +73,13 @@ class PgpsController < ApplicationController
         @pgp = Pgp.find(params[:id])    
         authorize! :manage, @pgp
         @pgp.destroy
-        flash[:notice] = "Professional growth plan deleted successfully"
-        redirect_to(student_pgps_path(@pgp.student_id))
+        if @pgp.destroyed?
+            flash[:notice] = "Professional growth plan deleted successfully"
+            redirect_to(student_pgps_path(@pgp.student_id))
+        else
+            flash[:notice] = "Professional growth plan unable to be deleted due to being scored"
+            redirect_to(student_pgps_path(@pgp.student_id))
+        end
     end
     
 
