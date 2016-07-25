@@ -213,7 +213,7 @@ class Student < ActiveRecord::Base
 		enrollment = [(not self.was_dismissed?),
 			(self.latest_foi == nil or self.latest_foi.seek_cert),
 			(self.adm_tep.where(:TEPAdmit => true).size == 0),
-			(not graduated), (not transfer)]
+			(not graduated), (not transfered)]
 
 		if enrollment.all?
 			
@@ -398,15 +398,8 @@ class Student < ActiveRecord::Base
 		self.EnrollmentStatus == "Graduated"
 	end
 	
-	def transfer
+	def transfered
 		self.EnrollmentStatus == "WD-Transferring"
-	end
-	
-	def enroll
-		enrollment = [(not self.was_dismissed?),
-			(self.latest_foi == nil or self.latest_foi.seek_cert),
-			(self.adm_tep.where(:TEPAdmit => true).size == 0),
-			(not graduated), (not transfer)].all?	
 	end
 	
 	##########################################################################
