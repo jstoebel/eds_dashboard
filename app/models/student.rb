@@ -210,13 +210,15 @@ class Student < ActiveRecord::Base
 		#   * student has not been dismissed AND
 		#	* latest FOI does not incidate that the student IS NOT seeking certification AND
 		# 	* No admit in adm_tep 
+		enrollment = [(not self.was_dismissed?),
+			(self.latest_foi == nil or self.latest_foi.seek_cert),
+			(self.adm_tep.where(:TEPAdmit => true).size == 0),
+			(not graduated), (not transfer)]
 
-		if 	(not self.was_dismissed?) and 
-			(self.latest_foi == nil or self.latest_foi.seek_cert) and
-			(self.adm_tep.where(:TEPAdmit => true).size == 0) and
-			(not graduated or transfer)
+		if enrollment.all?
 			
 			return "Prospective"
+			
 			
 		#Add that student has not graduated 
 		#Use enrollment status var
@@ -398,6 +400,13 @@ class Student < ActiveRecord::Base
 	
 	def transfer
 		self.EnrollmentStatus == "WD-Transferring"
+	end
+	
+	def enroll
+		enrollment = [(not self.was_dismissed?),
+			(self.latest_foi == nil or self.latest_foi.seek_cert),
+			(self.adm_tep.where(:TEPAdmit => true).size == 0),
+			(not graduated), (not transfer)].all?	
 	end
 	
 	##########################################################################
