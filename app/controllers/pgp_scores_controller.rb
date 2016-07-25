@@ -10,6 +10,14 @@ class PgpScoresController < ApplicationController
         @pgp_scores = @pgp.pgp_scores.order(:created_at).reverse_order
     end  
     
+    def show
+        @pgp_score = PgpScore.find(params[:pgp_id])
+        authorize! :read, @pgp_score
+        authorize! :read, @pgp
+        @student = Student.find(@pgp.student_id)
+        @student.name_readable
+    end
+    
     def edit
         @pgp = Pgp.find(params[:id])
         authorize! :manage, @pgp_score
@@ -17,7 +25,31 @@ class PgpScoresController < ApplicationController
         @student = @pgp.student
     end
 
+    # TODO Update
+    def update
+         @student = Student.find(params[:id])
+         @pgp = Pgp.find(params[:id])
+         @pgp.assign_attributes(pgp_params)
+        
+         if @pgp.save
+             flash[:notice] = "PGP score successfully updated"
+             redirect_to student_pgps_path(@pgp.student.id)
+             return
+
+         else
+             flash[:notice] = "Error in updating PGP score."
+             error_update
+             return
+         end
+    end
     
+    def new 
+        @pgp_score = PgpScore.new
+        @pgp = Pgp.find(params[:pgp_id])
+        authorize! :manage, @pgp_score
+        authorize! :manage, @pgp
+    end 
+
     def create
         @pgp_score = PgpScore.new  
         @pgp_score.update_attributes(pgp_score_params)
@@ -33,21 +65,11 @@ class PgpScoresController < ApplicationController
         end
     end
     
-    def new 
-        @pgp_score = PgpScore.new
-        @pgp = Pgp.find(params[:pgp_id])
-        authorize! :manage, @pgp_score
-        authorize! :manage, @pgp
-    end 
+    # TODO Destory
+    def destroy
     
-    def show
-        @pgp_score = PgpScore.find(params[:pgp_id])
-        authorize! :read, @pgp_score
-        authorize! :read, @pgp
-        @student = Student.find(@pgp.student_id)
-        @student.name_readable
     end
-    
+
     private
     
     def pgp_score_params
