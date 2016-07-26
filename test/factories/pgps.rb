@@ -3,8 +3,8 @@
 FactoryGirl.define do
   factory :pgp do
     association :student
-    goal_name "Goal here!"
-    description "descrip here!"
-    plan "plan here!"
+    goal_name {"#{Faker::Name.name}"}
+    description {"#{Faker::Name.name}"}
+    plan {"#{Faker::Name.name}"}
   end
 end
