@@ -1,7 +1,6 @@
   	<h2><%= "Edit professional growth plan for #{@student.name_readable}" %></h2>
         <%= error_messages_for(@pgp_score) %> 
-    <%= form_for(@pgp, :url => pgp_score_path(@pgp.id), method: :patch ) do |f| %>
-
+    
      <table summary="pgp scoring form">
          
 
@@ -11,18 +10,18 @@
         
         <div>
             <tr>
-                <th><%= "Goal:" %></th>
+                <th><%= f.label(:goal_name, "Goal:")%></th>
                 <td><%= "#{@pgp.goal_name}" %></td>
             </tr>
             
             <tr>
                 <th><%= f.label(:description, "Goal Description: ") %></th>
-                <td><%= f.text_area(:description) %></td>
+                <td><%= "#{@pgp.description}" %></td>
             </tr>
             
             <tr>
                 <th><%= f.label(:plan, "Action Plan: ") %></th>
-                <td><%= f.text_area(:plan)%></td>
+                <td><%= "#{@pgp.plan}" %></td>
             </tr>
             
         </div>
@@ -48,14 +47,5 @@
             </tr>
         </div>
         </table>
-        
-        <tr>
-            <td>
-                <div class="form-buttons">
-                    <%= submit_tag("Submit") %>
-                </div>
-            </td>   
-        </tr> 
-        
-        
+
     </table>
