@@ -13,105 +13,50 @@ class AssessmentItemsController < ApplicationController
   end
 
   def show
-
+    @item = AssessmentItem.find(params[:id])
+    authorize! :read, @item
+    render json: @item, status: :success
   end
 
   def create
-    
     @item = AssessmentItem.new
     authorize! :manage, @item
-  end
-    
-=begin    # creates an assessment_item
-
-    #whitelisting for item
-    hashed_params = {}
-    
-    hashed_params[:slug] = params[:assessment_item][:slug]
-    hashed_params[:description] = params[:assessment_item][:description]
-    hashed_params[:name] = params[:assessment_item][:name]
-    
-    @item = AssessmentItem.new
-    authorize! :manage, @item
-    
-    @item.update_attributes(hashed_params)
-    
-    #whitelisting for level
-    new_levels = []
-    params[:assessment_item][:item_levels_attributes].map do |i|
-      lvl_hash = {}
-      lvl_hash[:descriptor] = i[:descriptor]
-      lvl_hash[:level] = i[:level]
-      lvl_hash[:ord] = i[:ord]
-      new_levels.push(lvl_hash)
-    end
-    
-    new_levels.each{|l| @item.item_levels.new(l).save}
-    
+    @item.update_attributes(create_params)
     if @item.save
-      render json: @item, status: :created
+      render json: @item, status: :ok
     else
       render json: @item.errors.full_messages, status: :unprocessable_entity
     end
-end
-
+  end
+  
   def update
-    
-    # update an assessment item
-      # the models needs to validate that the item is not currently associated
-      # with any assessments that have any scores. See Jacob for questions.
-    # based on levels provided add and remove as needed
-    # # to edit the content of an item_level see the item_levels controller
-
-    hashed_params = {}
-    
-    hashed_params[:slug] = params[:assessment_item][:slug]
-    hashed_params[:description] = params[:assessment_item][:description]
-    hashed_params[:name] = params[:assessment_item][:name]
-
-    @item = AssessmentItem.find(params[:assessment_item][:id])
-    old_levels = @item.item_levels    #active record collection. map to convert to arry
-    @to_delete = old_levels.to_a
-    puts @to_delete.class
-    convert_levels = old_levels.map {|l| l.attributes}    #array of hashes
-
-    if @item.has_scores?
-      render json: @item.errors.full_messages, status: :unprocessable_entity
-    else
-      @item.assign_attributes(hashed_params)
-      new_levels = []
-      params[:assessment_item][:item_levels_attributes].map do |i|
-        lvl_hash = {}
-        lvl_hash[:descriptor] = i[:descriptor]
-        lvl_hash[:level] = i[:level]
-        lvl_hash[:ord] = i[:ord]
-        new_levels.push(lvl_hash)
-      end
-      (new_levels - convert_levels).each{|l| @item.item_levels.new(l).save}
-      (convert_levels - new_levels).each{|l| ItemLevel.destroy(l["id"])}
-      
+    @item = AssessmentItem.find(update_params[:id])
+    authorize! :manage, @item
+    if @item.has_scores? == false    #before_validation in model should take care of this
+      @item.update_attributes(update_params)
       if @item.save
-        render json: @item, status: :ok
+        render json: @item, status: :created
       else
         render json: @item.errors.full_messages, status: :unprocessable_entity
       end
+    else
+      render json: @item.errors.full_messages, status: :unprocessable_entity
     end
-=end
-
-  def destroy
-
   end
+  
+  def destroy
+    @item = AssessmentItem.find(params[:id])
+    authorize! :manage, @item
+    @item.destroy!
+    render json: @item, status: :success
+  end  
 
   private
   def create_params
-    params.require(:assessment_item).permit(:slug, :description, :name, :item_levels_attributes => [:descriptor, :level, :ord])
-  end
-  
-  def level_params
-    params.require(:assessment_item).permit(:item_levels_attributes => [:descriptor, :level, :ord])
+    params.require(:assessment_item).permit(:slug, :description, :name)
   end
   
   def update_params
-    params.require(:assessment_item).permit(:id, :slug, :description, :name, :item_levels_attributes => [:descriptor, :level, :ord])
+    params.require(:assessment_item).permit(:id, :slug, :description, :name)
   end
 end

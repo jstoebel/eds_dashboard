@@ -12,6 +12,11 @@ class AssessmentVersionsController < ApplicationController
     authorize! :read, @version
   end
   
+  def show
+    @version = AssessmentVersion.find(params[:id])
+    authorize! :read, @version
+  end
+  
   def new
     @version = AssessmentVersion.new
     @assessment = Assessment.find(params[:assessment_id])
