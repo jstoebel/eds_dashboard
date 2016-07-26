@@ -19,7 +19,7 @@ represents a single item that can belong to any number of different assessments
 class AssessmentItem < ActiveRecord::Base
         
     before_validation :check_scores #test that does stop, that doesn't when shouldn't
-    #before_destroy :check_scores
+    before_destroy :check_scores
     
     has_many :item_levels, dependent: :destroy, autosave: true
     has_many :student_scores
@@ -46,14 +46,14 @@ class AssessmentItem < ActiveRecord::Base
     private
 
     def check_scores
-        puts "score"
-        puts self.has_scores?
+        # puts "score"
+        # puts self.has_scores?
         if self.has_scores?
           puts "you shouldnt see this"
           self.errors.add(:base, "Can't modify item. Has associated scores.")
           return false
         else
-          puts true 
+        #   puts true 
           return true
         end
     end
