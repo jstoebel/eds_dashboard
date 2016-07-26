@@ -1,7 +1,7 @@
 class Pgp < ActiveRecord::Base
     self.table_name = 'pgps'
     
-    before_save :pgp_scored_check
+    
     before_destroy :pgp_scored_check
     
     belongs_to :student
@@ -34,6 +34,6 @@ class Pgp < ActiveRecord::Base
             return true
         end
     end
-    
+
 
 end

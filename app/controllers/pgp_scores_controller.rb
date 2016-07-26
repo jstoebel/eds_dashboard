@@ -20,20 +20,21 @@ class PgpScoresController < ApplicationController
     
     def edit
         @pgp = Pgp.find(params[:id])
+        @pgp_score = PgpScore.find(params[:id])
         authorize! :manage, @pgp_score
         authorize! :manage, @pgp
-        @student = @pgp.student
+        @student = Student.find(@pgp.student_id)
     end
 
 # TODO Update  correct? needs testing
     def update
          @student = Student.find(params[:id])
          @pgp_score = PgpScore.find(params[:id])
-         @pgp.assign_attributes(pgp_params)
+         @pgp_score.assign_attributes(pgp_score_params)
         
          if @pgp_score.save
              flash[:notice] = "PGP score successfully updated"
-             redirect_to pgp_score_path(@pgp.student.id)
+             redirect_to pgp_pgp_scores_path(@pgp_score.id)
              return
 
          else

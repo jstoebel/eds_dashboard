@@ -1,4 +1,4 @@
-<%= link_to pgp_path(@student), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+<%= link_to student_pgps_path(@student.AltID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
 <%= form_for(@pgp, url: pgp_path(@pgp.id)) do |f| %>
