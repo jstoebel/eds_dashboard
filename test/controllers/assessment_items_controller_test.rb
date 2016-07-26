@@ -27,8 +27,16 @@ class AssessmentItemsControllerTest < ActionController::TestCase
         end
     end
     
+    test "Should post create" do
+        
+        
+    end
+    
     test "Should patch update" do
     
+    end
+    
+    test "Should not patch update, has scores" do
     end
     
     test "Should not get index, bad role" do
