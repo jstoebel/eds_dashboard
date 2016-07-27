@@ -158,7 +158,6 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
       load_session(r)
       version = FactoryGirl.create :assessment_version
       post :destroy, {:id => version.id}
-      assert version.present?
       assert_equal flash[:notice], "You are not authorized to access this page."
       assert_redirected_to "/access_denied"
     end
@@ -172,6 +171,7 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
       version = FactoryGirl.create :version_with_items
       stu_score = FactoryGirl.create :student_score, {:assessment_version_id => version.id}
       post :destroy, {:id => version.id}
+      assert assigns(:version).present?
       assert_equal flash[:notice], "Record cannot be deleted"
       assert_redirected_to(assessment_assessment_versions_path(version.assessment_id))
     end
