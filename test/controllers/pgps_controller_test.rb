@@ -29,6 +29,22 @@ class PgpsControllerTest < ActionController::TestCase
     end
   end
       
+  test "should create pgp" do 
+    allowed_roles.each do |r|
+      load_session(r)
+      stu = FactoryGirl.create :student
+      #pgp = FactoryGirl.create :pgp
+      create_pgp = {:pgp => {:student_id => stu.id,
+      :goal_name => "Test Name",
+      :description => "Test Descript",
+      :plan => "Test plan"}
+      }
+      post :create, create_pgp
+      assert assigns(:pgp).valid?
+      assert_equal flash[:notice], "Created professional growth plan."
+      assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
+    end
+  end
   
   test "bad role shoud not create pgp" do 
     (roles - allowed_roles).each do |r|
@@ -42,7 +58,23 @@ class PgpsControllerTest < ActionController::TestCase
     end
   end
   
-  test "should not edit - bad role" do 
+  test "should update pgp" do 
+    
+    stu = FactoryGirl.create :student
+  
+    allowed_roles.each do |r|
+      load_session(r)
+      
+    pgp = FactoryGirl.create :pgp, 
+    {:student_id => stu.id, :goal_name => "test name",:description => "nil", :plan => "nil"}
+    expected_attr = {:description => "new descript", :plan => "new plan"}
+    post :update, {:id => pgp.id, :pgp => expected_attr}
+    assert_equal(assigns(:pgp), pgp)
+    assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
+    end
+  end
+  
+  test "should not edit/update - bad role" do 
     (roles - allowed_roles).each do |r|
       load_session(r)
     stu = FactoryGirl.create :student
@@ -79,13 +111,13 @@ class PgpsControllerTest < ActionController::TestCase
   test "shouldn't delete - has scores" do 
     allowed_roles.each do |r|
       load_session(r)
-    stu = FactoryGirl.create :student
-    pgp = FactoryGirl.create :pgp
-    scores = FactoryGirl.create :pgp_score
-    post :destroy, {:id => pgp.id}
-    assert_equal flash[:notice], "Unable to alter due to scoring "
+    score = FactoryGirl.create :pgp_score
+    post :destroy, {:id => score.pgp.id}
+    assert_equal flash[:notice], "Professional growth plan unable to be deleted due to being scored"
     end
   end
+  
+
     
     
   

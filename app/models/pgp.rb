@@ -25,7 +25,6 @@ class Pgp < ActiveRecord::Base
     end
     
     def pgp_scored_check
-        puts "SHOULDN'T DESTROY!"
     # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
         if self.pgp_scores.present?
            self.errors.add(:base, "Unable to alter due to scoring ")
