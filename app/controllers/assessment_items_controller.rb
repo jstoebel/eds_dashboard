@@ -9,13 +9,13 @@ class AssessmentItemsController < ApplicationController
     authorize! :read, @version
     @item = @version.assessment_items.sorted.select {|r| can? :read, r }
     authorize! :read, @item
-    render json: @item, status: :success
+    render json: @item, status: :ok
   end
 
   def show
     @item = AssessmentItem.find(params[:id])
     authorize! :read, @item
-    render json: @item, status: :success
+    render json: @item, status: :ok
   end
 
   def create
@@ -23,7 +23,7 @@ class AssessmentItemsController < ApplicationController
     authorize! :manage, @item
     @item.update_attributes(create_params)
     if @item.save
-      render json: @item, status: :ok
+      render json: @item, status: :created
     else
       render json: @item.errors.full_messages, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class AssessmentItemsController < ApplicationController
     if @item.has_scores? == false    #before_validation in model should take care of this
       @item.update_attributes(update_params)
       if @item.save
-        render json: @item, status: :created
+        render json: @item, status: :ok
       else
         render json: @item.errors.full_messages, status: :unprocessable_entity
       end
@@ -47,8 +47,11 @@ class AssessmentItemsController < ApplicationController
   def destroy
     @item = AssessmentItem.find(params[:id])
     authorize! :manage, @item
-    @item.destroy!
-    render json: @item, status: :success
+    if @item.destroy
+      render json: :nothing, status: :no_content
+    else
+      render json: @item.errors.full_messages, status: :unprocessable_entity
+    end
   end  
 
   private

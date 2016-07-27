@@ -46,14 +46,10 @@ class AssessmentItem < ActiveRecord::Base
     private
 
     def check_scores
-        # puts "score"
-        # puts self.has_scores?
         if self.has_scores?
-          puts "you shouldnt see this"
           self.errors.add(:base, "Can't modify item. Has associated scores.")
           return false
         else
-        #   puts true 
           return true
         end
     end

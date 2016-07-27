@@ -17,20 +17,16 @@ FactoryGirl.define do
     assessment   #should provide the assessment_id
     
     factory :version_with_items do
-      # transient do
-      #   item_count 2
-      # end
       after(:create) do |version|
         version.assessment_items << FactoryGirl.create_list(:assessment_item, 4)  #items for versions
-        
         version.assessment_items.each do |i|
           i.item_levels << FactoryGirl.create_list(:item_level, 4)    #levels for each item
         end
-        version.assessment_items.each do |j|    #for each item
+        version.assessment_items.each do |item|    #for each item
           num_scores = Faker::Number.between(0, 3)
-          levels = j.item_levels.shuffle.slice(0, num_scores)
+          levels = item.item_levels.shuffle.slice(0, num_scores)
           levels.each do |l|
-            l.student_scores << FactoryGirl.create(:student_score, {:assessment_item_id => l.assessment_item.id, :assessment_version_id => version.id})
+            l.student_scores << FactoryGirl.create(:student_score, {:assessment_item_id => item.id, :assessment_version_id => version.id})
           end
         end
         version.save
@@ -38,12 +34,3 @@ FactoryGirl.define do
     end
   end
 end
-    
-    #factory :version_with_items do
-      #create associated items and their levels
-      #transient do
-        #assessment_items_count 3
-      #end
-   
-      #after(:create) do |version, evaluator|
-        #create_list(:assessment_item_with_levels, evaluator.assessment_items_count, assessment_versions: [version])
