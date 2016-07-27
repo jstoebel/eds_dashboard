@@ -67,9 +67,17 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             load_session(r)
             level = FactoryGirl.create :item_level
             item = level.assessment_item
+            #item.save!
+            puts "item"
+            puts item.item_levels.inspect
             post :destroy, {:id => item.id}
             assert_equal item, assigns(:item)
-            #assert item.item_levels.size == 1
+            
+            puts item.item_levels.inspect
+            
+            puts "@item"
+            puts assigns(:item).item_levels.inspect
+
             assert_equal item.item_levels, assigns(:item).item_levels
             assert assigns(:item).destroyed?
             assert assigns(:item).item_levels.each{ |l| l.destroyed? }
