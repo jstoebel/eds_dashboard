@@ -40,7 +40,17 @@ class PgpTest < ActiveSupport::TestCase
   test "score check pass" do
     pgp = pgp.new
     pgp.pgp_scores = nil
+    pgp.destroy
+    assert_same(pgp.destroyed?, true)
     
+  end
+  
+  test "score check fail" do
+    
+  end
+  
+  test "latest score is correct" do
+  
   end
   
 end

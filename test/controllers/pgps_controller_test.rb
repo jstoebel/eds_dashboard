@@ -33,7 +33,6 @@ class PgpsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       stu = FactoryGirl.create :student
-      #pgp = FactoryGirl.create :pgp
       create_pgp = {:pgp => {:student_id => stu.id,
       :goal_name => "Test Name",
       :description => "Test Descript",
