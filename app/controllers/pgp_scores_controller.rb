@@ -58,7 +58,7 @@ class PgpScoresController < ApplicationController
         authorize! :manage, @pgp
         if @pgp_score.save
           flash[:notice] = "Scored professional growth plan."
-          redirect_to(pgp_pgp_scores_path())
+          redirect_to(pgp_pgp_scores_path(@pgp_score.pgp_id))
         else
           flash[:notice] = "Error creating professional growth plan."
           @student = Student.find(params[:student_id])
