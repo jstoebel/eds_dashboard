@@ -19,14 +19,5 @@ FactoryGirl.define do
     descriptor Lorem.paragraph
     level Lorem.word
     ord Number.between(1, 4)
-    
-    # factory :item_level_with_scores do
-    #   transient do
-    #     student_score_count 3
-    #   end
-    #   after(:create) do |level, enumerator|
-    #     create_list(:student_score, evaluator.student_score_count, item_levels: [level])
-    #   end
-    # end
   end
 end
