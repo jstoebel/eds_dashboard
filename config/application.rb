@@ -2,6 +2,10 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+secrets_file = '/home/stoebelj/.eds_secrets.yml'
+SECRET = File.exists?(secrets_file) ? YAML.load_file(secrets_file) : {}
+
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
