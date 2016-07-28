@@ -1,0 +1,14 @@
+Run options: --seed 15486
+
+# Running:
+
+....E..
+
+Finished in 0.089202s, 78.4736 runs/s, 56.0526 assertions/s.
+
+  1) Error:
+PgpTest#test_0006_can't update because a score exists:
+NoMethodError: undefined method `pgp' for nil:NilClass
+    test/models/pgp_test.rb:49:in `block in <class:PgpTest>'
+
+7 runs, 5 assertions, 0 failures, 1 errors, 0 skips
