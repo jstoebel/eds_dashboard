@@ -28,13 +28,13 @@ class PgpScoresController < ApplicationController
 
 # TODO Update  correct? needs testing
     def update
-         @student = Student.find(params[:id])
          @pgp_score = PgpScore.find(params[:id])
+         @pgp = @pgp_score.pgp
          @pgp_score.assign_attributes(pgp_score_params)
         
          if @pgp_score.save
              flash[:notice] = "PGP score successfully updated"
-             redirect_to pgp_pgp_scores_path(@pgp_score.id)
+             redirect_to pgp_pgp_scores_path(@pgp_score.pgp_id)
              return
 
          else
@@ -60,7 +60,7 @@ class PgpScoresController < ApplicationController
           flash[:notice] = "Scored professional growth plan."
           redirect_to(pgp_pgp_scores_path(@pgp_score.pgp_id))
         else
-          flash[:notice] = "Error creating professional growth plan."
+          flash[:notice] = "Error scoring professional growth plan."
           @student = Student.find(params[:student_id])
           render 'new'
         end
@@ -69,11 +69,16 @@ class PgpScoresController < ApplicationController
 # TODO Destory   correct? needs testing
     def destroy
         @pgp_score = PgpScore.find(params[:id])
-        authorize! :manage, @pgp_score # added after test --> check w/JS #read,write, and manage
-        @pgp_score.visible = false
-        @pgp_score.save
-        flash[:notice] = "Deleted Successfully!"
-        redirect_to(pgp_pgp_scores_path(@pgp_score.student.id))
+        authorize! :manage, @pgp_score
+        authorize! :manage, @pgp
+        # added after test --> check w/JS #read,write, and manage
+        @pgp_score.destroy
+        if @pgp_score.destroyed?
+            flash[:notice] = "Deleted Successfully"
+        else
+            flash[:notice] = "Error in Deleting PGP Score"
+        end
+        redirect_to(pgp_pgp_scores_path(@pgp_score.pgp_id))
     end
 
     private
