@@ -38,19 +38,25 @@ class PgpTest < ActiveSupport::TestCase
   end
   
   test "score check pass" do
-    pgp = pgp.new
-    pgp.pgp_scores = nil
+    pgp = Pgp.new
     pgp.destroy
     assert_same(pgp.destroyed?, true)
     
   end
   
-  test "score check fail" do
-    
+  test "can't update because a score exists" do
+    score = FactoryGirl.create :pgp_score  #before we can have pgp_score, we need a pgp and a student  student(root, has many pgps) => pgp(has many pgp_scores) => pgp_score
+    assert_not score.pgp.destroy
   end
   
-  test "latest score is correct" do
-  
-  end
+  test "is the latest score correct" do
+    num_scores = 3
+    score = FactoryGirl.create_list(:pgp_score, num_scores)
+    sleep(2)
+    score.unshift(FactoryGirl.create(:pgp_score))
+    ordered_score = score.sort_by{ |a| [a.pgp_id, a.created_at]}
+    sort_ver = PgpScore.sorted
+    assert_equal ordered_score, sort_ver
+  end 
   
 end
