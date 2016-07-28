@@ -42,15 +42,13 @@ class AssessmentItem < ActiveRecord::Base
       end
       return false
     end
-    
-    private
 
     def check_scores
         if self.has_scores?
           self.errors.add(:base, "Can't modify item. Has associated scores.")
           return false
         else
-          return true
+          return true    #if there are no scores/can delete
         end
     end
 end
