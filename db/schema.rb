@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722160612) do
+ActiveRecord::Schema.define(version: 20160728194840) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -222,6 +222,7 @@ ActiveRecord::Schema.define(version: 20160722160612) do
     t.integer  "ord",                limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "cut_score"
   end
 
   add_index "item_levels", ["assessment_item_id"], name: "fk_rails_e6a2147994", using: :btree
