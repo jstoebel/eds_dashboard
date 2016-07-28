@@ -15,7 +15,7 @@ class AssessmentVersionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
-  
+
   test "Not valid object, needs assessment_id" do
     ver = AssessmentVersion.new
     assert_not ver.valid?

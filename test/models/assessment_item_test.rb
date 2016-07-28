@@ -33,23 +33,36 @@ class AssessmentItemTest < ActiveSupport::TestCase
       assess_item.errors.messages
   end
   
+  test "Sorted scope" do
+    num_item = 3
+    items = FactoryGirl.create_list(:assessment_item, num_item)
+    ordered_items = items.sort_by{ |i| i.name }
+    assert_equal ordered_items, AssessmentItem.sorted
+  end
+  
   test "has_scores? is true" do
     ver = FactoryGirl.create :version_with_items
     item = ver.student_scores.first.assessment_item
-    item.assessment_versions.each do |v|
-      if v.has_scores == true
-        outcome = v.has_scores
-        break
-      end
-    end
-    puts outcome
-    assert_equal item.has_scores?, outcome
+    scores = item.assessment_versions.select {|v| v.student_scores.present?}.size > 0 #are there are any scores attached to any versions?
+    assert_equal item.has_scores?, scores
   end
   
-  test "has_scores? is false" do 
+  test "has_scores? is false" do
+    item = FactoryGirl.create :assessment_item
+    #are there are any scores attached to any versions?
+    scores = item.assessment_versions.select {|v| v.student_scores.present?}.size > 0
+    assert_equal item.has_scores?, scores
   end
   
   test "check_scores" do
-    
+    #check_scores returns true if no scores and false if has scores
+    ver = FactoryGirl.create :version_with_items
+    with_score = ver.student_scores.first.assessment_item
+    no_score = FactoryGirl.create :assessment_item
+    items = [with_score, no_score]
+    item = items.sample(1).first
+    #are there no scores? Because check_scores returns true if can destroy/no scores
+    scores = item.assessment_versions.select{|v| v.student_scores.present?}.size == 0
+    assert_equal item.check_scores, scores
   end
 end
