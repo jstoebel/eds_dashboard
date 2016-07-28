@@ -12,6 +12,14 @@
 require 'test_helper'
 
 class AssessmentTest < ActiveSupport::TestCase
+  
+  test "Should destroy dependent versions" do
+    ver = FactoryGirl.create :assessment_version
+    assess = ver.assessment
+    assess.destroy!
+    assert assess.destroyed?
+    assert_not AssessmentVersion.exists?(ver.id)
+  end
 
   test "not valid object, needs name" do
     assess = Assessment.new
