@@ -71,19 +71,15 @@ class AssessmentsControllerTest < ActionController::TestCase
     end
   end
   
-  test "should destroy assessment and versions" do 
+  test "should destroy assessment" do
+    #Should destroy assessment and dependent versions tested in model test
     allowed_roles.each do |r|
       load_session(r)
       assess = FactoryGirl.create :assessment
-      version = FactoryGirl.create :assessment_version, {
-        :assessment_id => assess.id
-      }    #version of assessment to test dependent deleting
-
       post :destroy, {:id => assess.id}
       assert_equal assess, assigns(:assessment)
-      assert_not assigns(:assessment).has_scores == true
+      assert assigns(:assessment).has_scores == false
       assert assigns(:assessment).destroyed?
-      assigns(:assessment).assessment_versions.each{|i| assert i.destroyed?}
       assert_equal flash[:notice], "Record deleted successfully"
       assert_redirected_to(assessments_path)
     end

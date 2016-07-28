@@ -50,37 +50,13 @@ class AssessmentItemsControllerTest < ActionController::TestCase
     end
     
     test "Should destroy item" do
+        ##Should destroy item and dependents tested in model
         allowed_roles.each do |r|
             load_session(r)
             item = FactoryGirl.create :assessment_item
             post :destroy, {:id => item.id}
             assert_equal item, assigns(:item)
             assert assigns(:item).destroyed?
-            assert_response :no_content
-        end
-    end
-    
-    test "Should destroy item and associated levels" do
-        ##item.item_levels.inspect gives empty Collection, but level.assessment_item_id == item.id
-        ##find out why
-        allowed_roles.each do |r|
-            load_session(r)
-            level = FactoryGirl.create :item_level
-            item = level.assessment_item
-            #item.save!
-            puts "item"
-            puts item.item_levels.inspect
-            post :destroy, {:id => item.id}
-            assert_equal item, assigns(:item)
-            
-            puts item.item_levels.inspect
-            
-            puts "@item"
-            puts assigns(:item).item_levels.inspect
-
-            assert_equal item.item_levels, assigns(:item).item_levels
-            assert assigns(:item).destroyed?
-            assert assigns(:item).item_levels.each{ |l| l.destroyed? }
             assert_response :no_content
         end
     end
