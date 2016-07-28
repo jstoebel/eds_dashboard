@@ -16,7 +16,7 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 .DS_Store
-
+passenger.*.pid.lock
 
 #not checking in database.yaml since different deployments need to configure it differently (c9.io users)
 config/database.yml
