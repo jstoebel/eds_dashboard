@@ -135,12 +135,6 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
-  get 'item_levels/update'
-
-  get 'item_levels/new'
-
-  get 'item_levels/delete'
-
   #A resource must be top level before it can be nested in another resource (I think)
 
   resources :students, only: [:index, :show], shallow: true do
@@ -175,10 +169,13 @@ Rails.application.routes.draw do
       
   match 'assessment_items/update', :via => :patch
       
-  resources :item_levels, only: [:create]
+  resources :item_levels, only: [:show, :create, :destroy] do
+  end
 
   resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do
-    resources :assessment_items, only: [:index]
+    resources :assessment_items, only: [:index] do
+      resources :item_levels, only: [:index]
+    end
     get "delete"
     #patch "update"
     put "update"
@@ -192,8 +189,6 @@ Rails.application.routes.draw do
 
     get "delete"
   end
-
-
 
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
 

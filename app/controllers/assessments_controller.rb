@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: assessments
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  description :text(65535)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class AssessmentsController < ApplicationController
   authorize_resource
   

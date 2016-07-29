@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: assessment_versions
+#
+#  id            :integer          not null, primary key
+#  assessment_id :integer          not null
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
 require 'test_helper'
 
 class AssessmentVersionsControllerTest < ActionController::TestCase

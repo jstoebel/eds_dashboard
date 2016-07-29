@@ -39,6 +39,7 @@ namespace :db do
     #Assessment data
     assessments = FactoryGirl.create_list :assessment, 5
     versions = assessments.map{ |assess| FactoryGirl.create_list :version_with_items, 3}.flatten
+    levels = FactoryGirl.create_list :item_level, 2
     
     puts "creating data for students..."
     students.each do |s|
