@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: assessment_items
+#
+#  id          :integer          not null, primary key
+#  slug        :string(255)
+#  description :text(65535)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  name        :string(255)
+#
+
 class AssessmentItemsController < ApplicationController
   authorize_resource
   protect_from_forgery with: :null_session
