@@ -34,6 +34,9 @@ require 'factory_girl'
 class StudentTest < ActiveSupport::TestCase
 
 	let(:stu) {FactoryGirl.create :student}
+	
+	
+	######################################~~~TESTS FOR SCOPES~~~##########################################
 
 	test "by_last scope" do
 		
@@ -116,6 +119,10 @@ class StudentTest < ActiveSupport::TestCase
 		prof_bnum = course.Inst_bnum
 		assert stu.is_student_of?("bogus bnum") == false
 	end
+	
+	######################################################################################################
+	
+	
 
 	test "praxisI_pass" do
 		Student.all.each do |stu|
@@ -132,6 +139,8 @@ class StudentTest < ActiveSupport::TestCase
 			assert_equal stu.praxisI_pass, passing
 		end
 	end
+
+	################################~~~TESTS for Prog_Status~~~#######################################
 
 	test "latest_foi" do
 		stu = Foi.first.student
@@ -167,7 +176,7 @@ class StudentTest < ActiveSupport::TestCase
 		s = Student.first
 		s.EnrollmentStatus = "Graduated"
 		s.save
-		assert_equal "Dropped", s.prog_status
+		assert_equal "Not applying", s.prog_status
 	end 
 	
 	test "should not return perspective - enrollmentstatus transfered" do 
@@ -176,7 +185,7 @@ class StudentTest < ActiveSupport::TestCase
 		s = Student.first
 		s.EnrollmentStatus = "WD-Transferring"
 		s.save 
-		assert_equal "Dropped", s.prog_status
+		assert_equal "Not applying", s.prog_status
 	end
 	
 		
@@ -283,6 +292,8 @@ class StudentTest < ActiveSupport::TestCase
 		assert second_adm.save, second_adm.errors.full_messages
 
 	end
+	
+	######################################################################################################
 
 	test "open_programs" do
 		stu = Student.first
