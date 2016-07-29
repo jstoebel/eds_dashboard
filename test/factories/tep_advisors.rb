@@ -4,9 +4,10 @@
 #
 #  id          :integer          not null, primary key
 #  AdvisorBnum :string(9)        not null
-#  name        :string(255)
-#  Salutation  :string(255)
+#  Salutation  :string(45)       not null
 #  user_id     :integer
+#  first_name  :string(255)      not null
+#  last_name   :string(255)      not null
 #
 
 include Faker

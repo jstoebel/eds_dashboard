@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  slug        :string(255)
-#  description :text
+#  description :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
 #  name        :string(255)

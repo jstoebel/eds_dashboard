@@ -4,11 +4,12 @@
 #
 #  id                 :integer          not null, primary key
 #  assessment_item_id :integer          not null
-#  descriptor         :text
+#  descriptor         :text(65535)
 #  level              :string(255)
 #  ord                :integer
 #  created_at         :datetime
 #  updated_at         :datetime
+#  cut_score          :boolean
 #
 
 =begin
@@ -26,9 +27,8 @@ class ItemLevel < ActiveRecord::Base
     belongs_to :assessment_item
 
     validates_presence_of :descriptor, :level, :assessment_item_id
-        
-    before_validation :check_scores #test that does stop, that doesn't when shouldn't
-    before_destroy :check_scores
+    
+    scope :sorted, lambda {order(:ord => :asc)}
     
     def has_scores?
       return self.student_scores.present?

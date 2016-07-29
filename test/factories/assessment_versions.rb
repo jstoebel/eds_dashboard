@@ -4,7 +4,6 @@
 #
 #  id            :integer          not null, primary key
 #  assessment_id :integer          not null
-#  version_num   :integer          not null
 #  created_at    :datetime
 #  updated_at    :datetime
 #
