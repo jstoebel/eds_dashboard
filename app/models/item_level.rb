@@ -27,6 +27,7 @@ class ItemLevel < ActiveRecord::Base
     belongs_to :assessment_item
 
     validates_presence_of :descriptor, :level, :assessment_item_id
+    validates_uniqueness_of :ord, scope: :assessment_item_id
     
     scope :sorted, lambda {order(:ord => :asc)}
     
@@ -37,7 +38,7 @@ class ItemLevel < ActiveRecord::Base
     private
     def check_scores
         if self.has_scores?    #if true
-          self.errors.add(:base, "Can't delete level. Has associated scores.")   
+          self.errors.add(:base, "Can't modify level. Has associated scores.")   
           return false
       end
   end

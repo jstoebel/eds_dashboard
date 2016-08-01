@@ -169,7 +169,7 @@ Rails.application.routes.draw do
       
   match 'assessment_items/update', :via => :patch
       
-  resources :item_levels, only: [:show, :create, :destroy] do
+  resources :item_levels, only: [:show, :create, :update, :destroy] do
   end
 
   resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do

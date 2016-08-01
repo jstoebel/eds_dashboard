@@ -29,7 +29,7 @@ class ItemLevelsController < ApplicationController
   def show
     @level = ItemLevel.find(params[:id])
     authorize! :read, @level
-    render json: @level
+    render json: @level, status: :ok
   end
 
   def create
@@ -38,31 +38,51 @@ class ItemLevelsController < ApplicationController
     @level.update_attributes(create_params)
     @item = AssessmentItem.find(create_params[:assessment_item_id])
     authorize! :manage, @item
-    render json: @level, status: :ok
+    if @level.save
+      render json: @level, status: :created
+    else
+      render json: @item.errors.full_messages, status: :unprocessable_entity
+    end
   end
   
   def update
-    
+    @level = ItemLevel.find(params[:id])
+    authorize! :manage, @level
+    if @level.has_scores? == false    #before_validation in model should take care of this
+      @level.update_attributes(update_params)
+      if @level.save
+        render json: @level, status: :ok
+      else
+        render json: @level.errors.full_messages, status: :unprocessable_entity
+      end
+    else
+      render json: @level.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def destroy
     @level = ItemLevel.find(params[:id])
-    @item = AssessmentItem.find(params[:assessment_item_id])
     authorize! :manage, @level
-    if @level.has_scores?
-      render json: @level.errors.full_messages, status: :unprocessable_entity
+    @item = AssessmentItem.find(@level.assessment_item_id)
+    authorize! :manage, @item
+    if @item.has_scores? == false
+      if @level.destroy
+        #Only time level can be destroyed
+        render json: @item, status: :ok
+      else
+        render json: @level.errors.full_messages, status: :unprocessable_entity
+      end
     else 
-      @level.destroy 
-      render json: @item, status: :ok
+      render json: @level.errors.full_messages, status: :unprocessable_entity
     end
   end
   
   private
-  
   def create_params
-    params.require(:item_level).permit(:assessment_item_id, :descriptor, :level, :ord, :cut_score)
+    params.require(:item_level).permit(:assessment_item_id, :descriptor, :level, :ord)
   end
-  def update_params
   
+  def update_params
+    params.require(:item_level).permit(:assessment_item_id, :descriptor, :level, :ord)
   end
 end

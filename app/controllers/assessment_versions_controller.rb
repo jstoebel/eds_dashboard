@@ -20,38 +20,26 @@ class AssessmentVersionsController < ApplicationController
       @version = AssessmentVersion.all.sorted.select {|r| can? :read, r } 
     end
     authorize! :read, @version
+    render json: @version, status: :ok
   end
   
   def show
     @version = AssessmentVersion.find(params[:id])
     authorize! :read, @version
+    render json: @version, status: :ok
   end
   
-  def new
-    @version = AssessmentVersion.new
-    @assessment = Assessment.find(params[:assessment_id])
-    authorize! :manage, @version
-    form_setup
-  end
-
   def create
     @version = AssessmentVersion.new
     authorize! :manage, @version
     @version.update_attributes(new_params)
-    form_setup
     if @version.save
-      flash[:notice] = "Created Version #{@version.version_num} of 
-        #{Assessment.find(@version.assessment_id).name}"
-      redirect_to(assessment_assessment_versions_path(:assessment_id))
+      #flash[:notice] = "Created Version #{@version.version_num} of 
+      #{Assessment.find(@version.assessment_id).name}"
+      render json: @version, status: :created
     else
-      render('new')
+      render json: @version.errors.full_messages, status: :unprocessable_entity
     end
-  end
-
-  def edit
-    @version = AssessmentVersion.find(params[:id])
-    authorize! :manage, @version
-    form_setup
   end
 
   def update
@@ -61,36 +49,28 @@ class AssessmentVersionsController < ApplicationController
     authorize! :manage, @version
     @version.update_attributes(update_params)
     if @version.save
-      flash[:notice] = "Updated Version #{@version.version_num} of 
-        #{Assessment.find(@version.assessment_id).name}"
-      redirect_to(assessment_versions_path)
+      render json: @version, status: :ok
     else
-      render('edit')
+      render json: @version.errors.full_messages, status: :unprocessable_entity
     end
   end
-  
-  def delete
-    @version = AssessmentVersion.find(params[:assessment_version_id])
-    authorize! :manage, @version
-  end
-  
+
   def destroy
     @version = AssessmentVersion.find(params[:id])
     authorize! :manage, @version
     if @version.has_scores == false
       @version.destroy
-      flash[:notice] = "Record deleted successfully"
+      render json: @version, status: :ok
     else
-      flash[:notice] = "Record cannot be deleted"
+      render json: @version.errors.full_messages, status: :unprocessable_entity
     end
-    redirect_to(assessment_assessment_versions_path(@version.assessment_id))
   end
   
-  def choose
-    #display versions for an assessment.
-	  @assessment = params[:assesment][:assessment_versions]
-	  redirect_to(assessment_versions_index_path(@assessment))
-  end
+  # def choose
+  #   #display versions for an assessment.
+	 # @assessment = params[:assesment][:assessment_versions]
+	 # redirect_to(assessment_versions_index_path(@assessment))
+  # end
 
   private
   def new_params
@@ -101,9 +81,9 @@ class AssessmentVersionsController < ApplicationController
     params.require(:assessment_version).permit(:assessment_item_ids => [])
   end
   
-  def form_setup
-    @assessments = Assessment.all
-    @items = AssessmentItem.all
-  end
+  # def form_setup
+  #   @assessments = Assessment.all
+  #   @items = AssessmentItem.all
+  # end
 end
 
