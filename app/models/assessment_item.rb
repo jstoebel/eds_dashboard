@@ -16,7 +16,7 @@ represents a single item that can belong to any number of different assessments
 
 class AssessmentItem < ActiveRecord::Base
         
-    before_validation :check_scores #test that does stop, that doesn't when shouldn't
+    before_validation :check_scores
     before_destroy :check_scores
     
     has_many :item_levels, dependent: :destroy, autosave: true
