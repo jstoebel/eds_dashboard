@@ -23,7 +23,7 @@ class ItemLevelsController < ApplicationController
     authorize! :read, @item
     @level = @item.item_levels.sorted.select{|r| can? :read, r}
     authorize! :read, @level
-    render json: @item, status: :ok
+    render json: @level, status: :ok
   end
   
   def show
@@ -36,25 +36,19 @@ class ItemLevelsController < ApplicationController
     @level = ItemLevel.new
     authorize! :manage, @level
     @level.update_attributes(create_params)
-    @item = AssessmentItem.find(create_params[:assessment_item_id])
-    authorize! :manage, @item
     if @level.save
       render json: @level, status: :created
     else
-      render json: @item.errors.full_messages, status: :unprocessable_entity
+      render json: @level.errors.full_messages, status: :unprocessable_entity
     end
   end
   
   def update
     @level = ItemLevel.find(params[:id])
     authorize! :manage, @level
-    if @level.has_scores? == false    #before_validation in model should take care of this
-      @level.update_attributes(update_params)
-      if @level.save
-        render json: @level, status: :ok
-      else
-        render json: @level.errors.full_messages, status: :unprocessable_entity
-      end
+    @level.update_attributes(update_params)
+    if @level.save
+      render json: @level, status: :ok
     else
       render json: @level.errors.full_messages, status: :unprocessable_entity
     end
@@ -65,14 +59,10 @@ class ItemLevelsController < ApplicationController
     authorize! :manage, @level
     @item = AssessmentItem.find(@level.assessment_item_id)
     authorize! :manage, @item
-    if @item.has_scores? == false
-      if @level.destroy
-        #Only time level can be destroyed
-        render json: @item, status: :ok
-      else
-        render json: @level.errors.full_messages, status: :unprocessable_entity
-      end
-    else 
+    if @level.destroy
+      #Only time level can be destroyed
+      render json: :nothing, status: :no_content
+    else
       render json: @level.errors.full_messages, status: :unprocessable_entity
     end
   end

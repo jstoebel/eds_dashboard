@@ -31,15 +31,21 @@ class ItemLevel < ActiveRecord::Base
     
     scope :sorted, lambda {order(:ord => :asc)}
     
-    def has_scores?
+    def lvl_scores?
+      #returns true if level has scores
       return self.student_scores.present?
     end
     
-    private
     def check_scores
-        if self.has_scores?    #if true
-          self.errors.add(:base, "Can't modify level. Has associated scores.")   
-          return false
+      if self.lvl_scores?    #if level has associated
+        self.errors.add(:base, "Can't modify level. Has associated scores.")   
+        return false
+      #if item has associated on any versions
+      elsif self.assessment_item.has_scores? #there are associated scores
+        self.errors.add(:base, "Can't modify level. The associated item has associated scores.")
+        return false
+      else
+        return true
       end
-  end
+    end
 end
