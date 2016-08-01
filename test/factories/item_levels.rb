@@ -20,5 +20,11 @@ FactoryGirl.define do
     descriptor Lorem.paragraph
     level Lorem.word
     ord Number.between(1, 4)
+    cut_score { if ord < 2
+                  true
+      else
+                  false
+      end
+    }
   end
 end
