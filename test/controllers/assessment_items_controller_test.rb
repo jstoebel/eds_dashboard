@@ -45,6 +45,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             create_params = {:slug => "test slug", :description => "test description", :name => "test name"} 
             post :create, {:assessment_item => create_params}
             assert assigns(:item).valid?
+            assert_equal @response.body, assigns(:item).to_json
             assert_response :created
         end
     end
@@ -57,6 +58,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             patch :update, {:assessment_item => update_params}
             assert assigns(:item).valid?
             assert_equal item, assigns(:item)
+            assert_equal @response.body, assigns(:item).to_json
             assert_response :ok
         end
     end
@@ -126,6 +128,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             create_params = {:slug => nil, :description => "test description", :name => "test name"} 
             post :create, {:assessment_item => create_params}
             assert_not assigns(:item).valid?
+            assert_equal @response.body, assigns(:item).errors.full_messages.to_json
             assert_response :unprocessable_entity
         end
     end
@@ -137,6 +140,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             update_params = {:id => item.id, :slug => nil}
             patch :update, {:assessment_item => update_params}
             assert_equal item, assigns(:item)
+            assert_equal @response.body, assigns(:item).errors.full_messages.to_json
             assert_response :unprocessable_entity
         end
     end
@@ -149,6 +153,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             patch :update, {:assessment_item => update_params}
             assert_equal item, assigns(:item)
             assert_not assigns(:item).valid?
+            assert_equal @response.body, assigns(:item).errors.full_messages.to_json
             assert_response :unprocessable_entity
         end
     end
@@ -160,6 +165,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             post :destroy, :id => item.id
             assert_equal item, assigns(:item)
             assert assigns(:item).present?
+            assert_equal @response.body, assigns(:item).errors.full_messages.to_json
             assert_response :unprocessable_entity
         end
     end

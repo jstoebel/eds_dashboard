@@ -44,13 +44,9 @@ class AssessmentItemsController < ApplicationController
   def update
     @item = AssessmentItem.find(update_params[:id])
     authorize! :manage, @item
-    if @item.has_scores? == false    #before_validation in model should take care of this
-      @item.update_attributes(update_params)
-      if @item.save
-        render json: @item, status: :ok
-      else
-        render json: @item.errors.full_messages, status: :unprocessable_entity
-      end
+    @item.update_attributes(update_params)
+    if @item.save
+      render json: @item, status: :ok
     else
       render json: @item.errors.full_messages, status: :unprocessable_entity
     end
