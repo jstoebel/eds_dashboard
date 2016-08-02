@@ -28,6 +28,7 @@ class ItemLevel < ActiveRecord::Base
 
     validates_presence_of :descriptor, :level, :assessment_item_id
     validates_uniqueness_of :ord, scope: :assessment_item_id
+    #validates_associated :assessment_item
     
     scope :sorted, lambda {order(:ord => :asc)}
     
