@@ -43,10 +43,11 @@ class ItemLevelsControllerTest < ActionController::TestCase
     end
   end
   
-  test "should create new Item Level" do
+  test "should post create" do
     allowed_roles.each do |r|
       load_session(r)
-      create_param_filler = {:assessment_item_id => "21",
+      item = FactoryGirl.create :assessment_item
+      create_param_filler = {:assessment_item_id => "#{item.id}",
         :descriptor => "This Description",
         :level => "good",
         :ord => "1"
@@ -62,12 +63,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       level = FactoryGirl.create :item_level
-      #create associated version since update checks that the versions have no scores
-      # to ensure that the item can be modified
-      ver = FactoryGirl.create(:assessment_version)
-      ver.save!
-      level.assessment_item.assessment_versions << ver
-      update_params = {:assessment_item_id => "2", :descriptor => "test update descriptor", :level => "test update lvl", :ord => "2"}
+      update_params = {:assessment_item_id => "#{level.assessment_item.id}", :descriptor => "test update descriptor", :level => "test update lvl", :ord => "2"}
       patch :update, {:id => level.id, :item_level => update_params}
       assert assigns(:level).valid?
       assert_equal level, assigns(:level)
@@ -76,15 +72,14 @@ class ItemLevelsControllerTest < ActionController::TestCase
     end
   end
       
-  test "should post destroy level" do
+  test "should post destroy" do
     allowed_roles.each do |r|
       load_session(r)
-        level = FactoryGirl.create :item_level
-        level.assessment_item = FactoryGirl.create(:assessment_item)
-        post :destroy, {:id => level.id}
-        assert_equal level, assigns(:level)
-        assert assigns(:level).destroyed?
-        assert_response :no_content
+      level = FactoryGirl.create :item_level
+      post :destroy, {:id => level.id}
+      assert_equal level, assigns(:level)
+      assert assigns(:level).destroyed?
+      assert_response :no_content
     end
   end
   
