@@ -20,7 +20,7 @@ level name and level number
 
 class ItemLevel < ActiveRecord::Base
             
-    before_validation :check_scores #test that does stop, that doesn't when shouldn't
+    before_validation :check_scores, if: :has_item_id?
     before_destroy :check_scores
     
     has_many :student_scores
@@ -28,12 +28,15 @@ class ItemLevel < ActiveRecord::Base
 
     validates_presence_of :descriptor, :level, :assessment_item_id
     validates_uniqueness_of :ord, scope: :assessment_item_id
-    #validates_associated :assessment_item
-    
+
     scope :sorted, lambda {order(:ord => :asc)}
     
+    def has_item_id?
+      return self.assessment_item_id != nil
+    end
+    
     def lvl_scores?
-      #returns true if level has scores
+      #returns true if level has scores 
       return self.student_scores.present?
     end
     

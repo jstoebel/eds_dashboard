@@ -13,39 +13,41 @@ require 'test_helper'
 class AssessmentVersionsControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "staff"]
   
-  def assert_form_setup
-    assert_equal assigns(:assessments), Assessment.all
-    assert_equal assigns(:items), AssessmentItem.all
-  end
+  # def assert_form_setup
+  #   assert_equal assigns(:assessments), Assessment.all
+  #   assert_equal assigns(:items), AssessmentItem.all
+  # end
   
   test "should get index for versions of same assessment" do
     assess = FactoryGirl.create :assessment
     allowed_roles.each do |r|
       load_session(r)
       get :index, params: {assessment_id: assess.id}
-      assert_response :success
       assert_equal assigns(:version), AssessmentVersion.where(:assessment_id => assess.id)
+      assert_response :ok
+      assert_equal @response.body, assigns(:version).to_json
     end
   end
   
   test "should get index" do
     allowed_roles.each do |r|
       load_session(r)
+      version = AssessmentVersion.all
       get :index
-      assert_response :success
+      assert_equal @response.body, assigns(:version).to_json
       assert_equal assigns(:version), AssessmentVersion.all
+      assert_response :ok
     end
   end
   
-  test "should get new" do
+  test "should get show" do
     allowed_roles.each do |r|
       load_session(r)
-      assess = FactoryGirl.create(:assessment)
-      #version = AssessmentVersion.new
-      get :new, :assessment_id => assess.id
-      assert_response :success
-      assert assigns(:version).new_record?
-      assert_equal assigns(:assessment), assess
+      ver = FactoryGirl.create(:assessment_version)
+      get :show, :id => ver.id
+      assert_equal assigns(:version), ver
+      assert_equal @response.body, assigns(:version).to_json
+      assert_response :ok
     end
   end
 
@@ -53,47 +55,23 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       assess = FactoryGirl.create(:assessment)
-      version = AssessmentVersion.new
       create_params = {:assessment_version => {:assessment_id => assess.id}}
       post :create, create_params
-      #assert_response :success
-      assessment_params = create_params[:assessment_version]
-      expected_assessment = AssessmentVersion.new assessment_params
-      assert assigns(:version).valid?, assigns(:version).inspect
-      assert_redirected_to assessment_assessment_versions_path(:assessment_id)
-    end
-  end 
-  
-  test "should get delete" do
-    allowed_roles.each do |r|
-      load_session(r)
-      version = FactoryGirl.create :assessment_version
-      get :delete, assessment_version_id: version.id
-      assert_response :success
-      assert_equal assigns(:version), version
+      assert_equal assess, assigns(:version).assessment
+      assert assigns(:version).valid?
+      assert_equal @response.body, assigns(:version).to_json
+      assert_response :created
     end
   end
   
-  test "should delete" do
+  test "should post destroy" do
     allowed_roles.each do |r|
       load_session(r)
       version = FactoryGirl.create :assessment_version
       post :destroy, id: version.id
       assert_equal version, assigns(:version)
       assert assigns(:version).destroyed?
-      assert_redirected_to assessment_assessment_versions_path(assigns(:version).assessment_id)
-      assert_equal flash[:notice], "Record deleted successfully"
-    end
-  end
-  
-   test "should get edit" do
-    allowed_roles.each do |r|
-      load_session(r)
-      version = FactoryGirl.create :assessment_version
-      get :edit, :id => version.id
-      assert_response :success
-      assert_form_setup
-      assert_equal assigns(:version), version
+      assert_response :no_content
     end
   end
 
@@ -118,16 +96,15 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
       load_session(r)
       get :index
-      assert_equal flash[:notice], "You are not authorized to access this page."
       assert_redirected_to "/access_denied"
     end
   end
   
-  test "should not get new bad role" do
+  test "should not get show bad role" do
+    version = FactoryGirl.create :assessment_version
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :new
-      assert_equal flash[:notice], "You are not authorized to access this page."
+      get :show, :id => version.id
       assert_redirected_to "/access_denied"
     end
   end
@@ -136,7 +113,6 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
       load_session(r)
       post :create
-      assert_equal flash[:notice], "You are not authorized to access this page."
       assert_redirected_to "/access_denied"
     end
   end
@@ -153,47 +129,38 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     end
 =end
   
-  test "should not get delete bad role" do
-    version = FactoryGirl.create :assessment_version
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      get :delete, {:assessment_version_id => version.id}
-      assert_equal flash[:notice], "You are not authorized to access this page."
-      assert_redirected_to "/access_denied"
-    end
-  end
-
-  test "should not delete bad role" do
+  test "should not destroy bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
       version = FactoryGirl.create :assessment_version
       post :destroy, {:id => version.id}
-      assert_equal flash[:notice], "You are not authorized to access this page."
       assert_redirected_to "/access_denied"
     end
   end
   
   #Bad params
   
-  test "should not delete has scores" do
+  test "should not destroy has scores" do
     allowed_roles.each do |r|
       load_session(r)
       version = FactoryGirl.create :version_with_items
       stu_score = FactoryGirl.create :student_score, {:assessment_version_id => version.id}
       post :destroy, {:id => version.id}
       assert assigns(:version).present?
-      assert_equal flash[:notice], "Record cannot be deleted"
-      assert_redirected_to(assessment_assessment_versions_path(version.assessment_id))
+      assert_equal @response.body, assigns(:version).errors.full_messages.to_json
+      assert_response :unprocessable_entity
     end
   end
+  
+  ##likely need for update
   
   test "should not post create, no assessment" do 
     allowed_roles.each do |r|
       load_session(r)
       create_params = {:assessment_id => nil}
       post :create, {:assessment_version => create_params}
-      assert_not assigns(:version).valid?
-      assert_response(200)    #assert on the same page
+      assert_equal @response.body, assigns(:version).errors.full_messages.to_json
+      assert_response :unprocessable_entity
     end
   end
 end

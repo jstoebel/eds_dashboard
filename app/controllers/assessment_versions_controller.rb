@@ -62,7 +62,7 @@ class AssessmentVersionsController < ApplicationController
     authorize! :manage, @version
     if @version.has_scores == false
       @version.destroy
-      render json: @version, status: :ok
+      render json: :nothing, status: :no_content
     else
       render json: @version.errors.full_messages, status: :unprocessable_entity
     end
