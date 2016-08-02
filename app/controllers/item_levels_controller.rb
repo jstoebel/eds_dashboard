@@ -57,8 +57,8 @@ class ItemLevelsController < ApplicationController
   def destroy
     @level = ItemLevel.find(params[:id])
     authorize! :manage, @level
-    @item = AssessmentItem.find(@level.assessment_item_id)
-    authorize! :manage, @item
+    #@item = AssessmentItem.find(@level.assessment_item_id)
+    #authorize! :manage, @item
     if @level.destroy
       #Only time level can be destroyed
       render json: :nothing, status: :no_content

@@ -84,11 +84,100 @@ class ItemLevelsControllerTest < ActionController::TestCase
   end
   
   #Bad Roles
-    
-  test "should not create new due to role" do
-    
+  test "Should not get index, bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      ver = FactoryGirl.create :version_with_items
+      item = ver.assessment_items.first
+      get :index, {:assessment_version_id => ver.id, :assessment_item_id => item.id}
+      assert_redirected_to "/access_denied"
+    end
   end
-
-  #Bad Params/Can't save
+    
+  test "should not get show, bad role" do
+    level = FactoryGirl.create :item_level
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      level = FactoryGirl.create :item_level
+      get :show, :id => level.id
+      assert_redirected_to "/access_denied"
+    end
+  end
   
+  test "Should not post create, bad role" do
+    item = FactoryGirl.create :assessment_item
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      create_param_filler = {:assessment_item_id => "#{item.id}",
+        :descriptor => "This Description",
+        :level => "good",
+        :ord => "1"
+      }
+      post :create, {:item_level => create_param_filler}
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+   test "Should not patch update, bad role" do
+    level = FactoryGirl.create :item_level
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      update_params = {:assessment_item_id => "#{level.assessment_item.id}", :descriptor => "test update descriptor", :level => "test not update lvl", :ord => "2"}
+      patch :update, {:id => level.id, :item_level => update_params}
+      assert_redirected_to "/access_denied"
+    end
+  end
+      
+  test "should not post destroy, bad role" do
+    level = FactoryGirl.create :item_level
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      post :destroy, {:id => level.id}
+      assert_redirected_to "/access_denied"
+    end
+  end
+  
+  #Has scores
+    test "Should not post create, item has scores" do
+    allowed_roles.each do |r|
+      load_session(r)
+      ver = FactoryGirl.create :version_with_items
+      item = ver.assessment_items.first    #this item has scores
+      create_param_filler = {:assessment_item_id => "#{item.id}",
+        :descriptor => "This Description",
+        :level => "test create level",
+        :ord => "2"
+      }
+      post :create, {:item_level => create_param_filler}
+      assert_not assigns(:level).valid?
+      assert_equal @response.body, assigns(:level).errors.full_messages.to_json
+      assert_response :unprocessable_entity
+    end
+  end
+  
+   test "Should not patch update, has scores" do
+    allowed_roles.each do |r|
+      load_session(r)
+      item = FactoryGirl.create(:version_with_items).assessment_items.first
+      level = item.item_levels.first
+      update_params = {:assessment_item_id => "#{level.assessment_item.id}", :descriptor => "test update descriptor", :level => "test not update lvl", :ord => "2"}
+      patch :update, {:id => level.id, :item_level => update_params}
+      assert_not assigns(:level).valid?
+      assert_equal @response.body, assigns(:level).errors.full_messages.to_json
+      assert_response :unprocessable_entity
+    end
+  end
+      
+  test "should not post destroy, item has scores" do
+    allowed_roles.each do |r|
+      load_session(r)
+      item = FactoryGirl.create(:version_with_items).assessment_items.first
+      level = item.item_levels.first
+      post :destroy, :id => level.id
+      assert_equal level, assigns(:level)
+      assert assigns(:level).present?
+      assert_equal @response.body, assigns(:level).errors.full_messages.to_json
+      assert_response :unprocessable_entity
+    end
+  end
 end
