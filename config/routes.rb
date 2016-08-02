@@ -172,7 +172,7 @@ Rails.application.routes.draw do
   resources :item_levels, only: [:show, :create, :update, :destroy] do
   end
 
-  resources :assessment_versions, only: [:index, :new, :create, :edit, :update, :delete, :destroy] do
+  resources :assessment_versions, only: [:index, :create, :show, :update, :destroy] do
     resources :assessment_items, only: [:index] do
       resources :item_levels, only: [:index]
     end
