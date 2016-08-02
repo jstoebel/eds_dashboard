@@ -98,7 +98,6 @@ class ItemLevelsControllerTest < ActionController::TestCase
     level = FactoryGirl.create :item_level
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      level = FactoryGirl.create :item_level
       get :show, :id => level.id
       assert_redirected_to "/access_denied"
     end
