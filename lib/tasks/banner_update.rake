@@ -1,5 +1,4 @@
 require 'dbi'
-
 task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |t, args|
   # updates banner pulling all students who were enrolled in EDS 150 in any of
   # the terms between start_term and end_term
@@ -13,37 +12,32 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
       # update log
 
     DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod", SECRET["BANNER_UN"], SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_FILTER_TERM = 201512"
+        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_FILTER_TERM=201412"
 
         visited_students = []
         existing_students = Student.all
 
         dbh.select_all(sql) do |row|
 
+          puts row['SAVEDSD_INSTRUCTOR']
+
+          bnum = row['SZVEDSD_ID']
           row_service = ProcessStudent.new row
-          stu = row_service.stu
 
           #STUDENT LEVEL
-          if !visited_students.include? stu
+          if !visited_students.include? bnum
             # student level info
-            visited_students << stu
+            visited_students << bnum
 
-            # insert or update?
-            if existing_students.include? stu
-
-              begin
-                row_service.update
-              rescue ActiveRecord::RecordInvalid => exception
-                log_error exception
-              end
-
-
-
-            else
-              #insert
-              # row_service.insert
+            begin
+              row_service.upsert
+            rescue ActiveRecord::RecordInvalid => exception
+              p "caught exception!"
+              p exception.to_s
+              log_error exception
             end
 
+            # update advisor assignments
             begin
               row_service.update_advisor_assignments
             rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => exception
@@ -54,7 +48,7 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
           end
 
           # ROW BY ROW (TRANSCRIPT)
-
+          row_service.upsert_course
 
         end
     end

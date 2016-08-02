@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802151758) do
+ActiveRecord::Schema.define(version: 20160802213936) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -450,7 +450,7 @@ ActiveRecord::Schema.define(version: 20160802151758) do
     t.float   "credits_attempted", limit: 24
     t.float   "credits_earned",    limit: 24
     t.string  "reg_status",        limit: 45
-    t.string  "Inst_bnum",         limit: 45
+    t.string  "instructors",       limit: 45
     t.boolean "gpa_include",                   null: false
   end
 
