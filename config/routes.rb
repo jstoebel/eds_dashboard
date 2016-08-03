@@ -177,16 +177,14 @@ Rails.application.routes.draw do
       resources :item_levels, only: [:index]
     end
     get "delete"
-    #patch "update"
     put "update"
   end
+  
+  resources :version_habtm_items, only: [:create, :destroy]
 
   resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy], shallow: true do
     resources :assessment_versions, only: [:index] do
-      #patch "update"
-      #put "update"
     end
-
     get "delete"
   end
 

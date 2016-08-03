@@ -14,38 +14,30 @@ class VersionHabtmItemsController < ApplicationController
   protect_from_forgery with: :null_session
   respond_to :json
   
-=begin  def create
-      
-      @version = AssessmentVersion.new
-      authorize! :manage, @version
-      @version.update_attributes(ver_params)
-      #add existing items to version
-      
-      
-      @related = VersionHabtmItem.new
-    
-      @related.update_attributes(update_params)
-
-      @item = AssessmentVersion.find(params)
-      
+  def create
+    @item_ver = VersionHabtmItem.new
+    authorize! :manage, @item_ver
+    @item_ver.update_attributes(create_params)
+    if @item_ver.save
+      render json: @item_ver, status: :created
+    else
+      render json: @item_ver.errors.full_messages, status: :unprocessable_entity
+    end
   end
   
   def destroy
-      #remove existing items from the version
-      @item = 
+    #remove existing items from the version
+    @item_ver = VersionHabtmItem.find(params[:id])
+    authorize! :manage, @item_ver
+    if @item_ver.destroy
+      render json: :nothing, status: :no_content
+    else
+      render json: @item_ver.errors.full_messages, status: :unprocessable_entity
+    end
   end
   
   private
-  
-  def item_params
+  def create_params
+      params.require(:version_habtm_items).permit(:assessment_version_id, :assessment_item_id)
   end
-  
-  def ver_params
-      params.require(:assessment_version).permit(:)
-  end
-  
-      
-  def update_params
-      params.require(:version_habtm_items).permit(:assessment_version_id, assessment_item_id)
-=end
 end

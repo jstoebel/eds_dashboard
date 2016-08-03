@@ -45,8 +45,7 @@ class AssessmentVersionsController < ApplicationController
   end
 
   def update
-    ###Update may not go in version. Updating associated
-    # objects rather than attributes, so may belong in habtm table.
+    #update the assessment the version is associated with
     @version = AssessmentVersion.find(params[:id])
     authorize! :manage, @version
     @version.update_attributes(update_params)
@@ -67,12 +66,6 @@ class AssessmentVersionsController < ApplicationController
       render json: @version.errors.full_messages, status: :unprocessable_entity
     end
   end
-  
-  # def choose
-  #   #display versions for an assessment.
-	 # @assessment = params[:assesment][:assessment_versions]
-	 # redirect_to(assessment_versions_index_path(@assessment))
-  # end
 
   private
   def new_params
@@ -80,12 +73,7 @@ class AssessmentVersionsController < ApplicationController
   end
   
   def update_params
-    params.require(:assessment_version).permit(:assessment_item_ids => [])
+    params.require(:assessment_version).permit(:assessment_id)
   end
-  
-  # def form_setup
-  #   @assessments = Assessment.all
-  #   @items = AssessmentItem.all
-  # end
 end
 
