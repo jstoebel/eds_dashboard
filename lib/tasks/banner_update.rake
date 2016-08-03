@@ -11,15 +11,19 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
       # upsert transcript
       # update log
 
-    DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod", SECRET["BANNER_UN"], SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_FILTER_TERM=201412"
+    terms = BannerTerm.where({:BannerTerm => args[:start_term]..args[:end_term]})
+
+    terms.each do |t|
+
+      puts "Query for #{t.BannerTerm}"
+
+      DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod", SECRET["BANNER_UN"], SECRET["BANNER_PW"]) do |dbh|
+        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_FILTER_TERM=#{t.BannerTerm}"
 
         visited_students = []
         existing_students = Student.all
 
         dbh.select_all(sql) do |row|
-
-          puts row['SAVEDSD_INSTRUCTOR']
 
           bnum = row['SZVEDSD_ID']
           row_service = ProcessStudent.new row
@@ -32,8 +36,7 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
             begin
               row_service.upsert
             rescue ActiveRecord::RecordInvalid => exception
-              p "caught exception!"
-              p exception.to_s
+              p "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}"
               log_error exception
             end
 
@@ -41,17 +44,26 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
             begin
               row_service.update_advisor_assignments
             rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => exception
-              log_error exception
 
+              p "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}"
+              log_error exception
             end
 
           end
 
           # ROW BY ROW (TRANSCRIPT)
-          row_service.upsert_course
+          begin
+            row_service.upsert_course
+          rescue ActiveRecord::RecordInvalid => exception
+            p "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}"
+            log_error exception
+          end
 
-        end
-    end
+        end #row
+      end #connection
+
+    end # main loop
+
 end
 
 
