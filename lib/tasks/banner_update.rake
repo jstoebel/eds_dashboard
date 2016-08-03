@@ -11,57 +11,59 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
       # upsert transcript
       # update log
 
+
     terms = BannerTerm.where({:BannerTerm => args[:start_term]..args[:end_term]})
 
     terms.each do |t|
 
       puts "Query for #{t.BannerTerm}"
 
-      DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod", SECRET["BANNER_UN"], SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_FILTER_TERM=#{t.BannerTerm}"
+      conn = BannerConnection.new t.BannerTerm
+      rows = conn.get_results
 
-        visited_students = []
-        existing_students = Student.all
+      visited_students = []
+      existing_students = Student.all
 
-        dbh.select_all(sql) do |row|
+      rows.each do |row|
 
-          bnum = row['SZVEDSD_ID']
-          row_service = ProcessStudent.new row
+        bnum = row['SZVEDSD_ID']
+        puts row.to_h
+        1/0
 
-          #STUDENT LEVEL
-          if !visited_students.include? bnum
-            # student level info
-            visited_students << bnum
+        # row_service = ProcessStudent.new row
+        #
+        # #STUDENT LEVEL
+        # if !visited_students.include? bnum
+        #   # student level info
+        #   visited_students << bnum
+        #
+        #   begin
+        #     row_service.upsert
+        #   rescue ActiveRecord::RecordInvalid => exception
+        #     p "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}"
+        #     log_error exception
+        #   end
+        #
+        #   # update advisor assignments
+        #   begin
+        #     row_service.update_advisor_assignments
+        #   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => exception
+        #
+        #     p "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}"
+        #     log_error exception
+        #   end
 
-            begin
-              row_service.upsert
-            rescue ActiveRecord::RecordInvalid => exception
-              p "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}"
-              log_error exception
-            end
+        # end
+        #
+        # # ROW BY ROW (TRANSCRIPT)
+        # begin
+        #   row_service.upsert_course
+        # rescue ActiveRecord::RecordInvalid => exception
+        #   p "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}"
+        #   log_error exception
+        # end
 
-            # update advisor assignments
-            begin
-              row_service.update_advisor_assignments
-            rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => exception
-
-              p "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}"
-              log_error exception
-            end
-
-          end
-
-          # ROW BY ROW (TRANSCRIPT)
-          begin
-            row_service.upsert_course
-          rescue ActiveRecord::RecordInvalid => exception
-            p "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}"
-            log_error exception
-          end
-
-        end #row
-      end #connection
-
+      end #row
     end # main loop
 
 end
