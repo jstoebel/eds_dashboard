@@ -8,7 +8,7 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 
-    <%# stylesheet_link_tag params[:controller] %>    
+    <%# stylesheet_link_tag params[:controller] %>
     <%= stylesheet_link_tag('application') %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%# javascript_include_tag :defaults %>
@@ -31,7 +31,7 @@
 
         <%= form_tag("/access/change_psudo_status") do -%>
             <p class="navbar-text pull-left">
-            <%= select_tag "view_as", 
+            <%= select_tag "view_as",
                 options_for_select(
                     Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
                     session[:view_as] #sets the default
@@ -42,17 +42,17 @@
                %>
             </p>
           <% end -%>
-      
+
         <% end %>
       </div>
 
-      <div class="col-xs-12 col-md-3 col-md-offset-6">      
+      <div class="col-xs-12 col-md-3 col-md-offset-6">
         <p class="navbar-text pull-right">
           Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
-        </p>  
+        </p>
       </div>
-        
-      <div class="col-xs-12 col-md-1 pull-right">   
+
+      <div class="col-xs-12 col-md-1 pull-right">
         <%= form_tag("/logout", method: "post") do  %>
           <%= submit_tag("Logout", id: "logout-btn", data: { confirm: 'Are you sure you want to logout?' }) %>
         <% end  %>
@@ -85,11 +85,11 @@
         </div>
       <% end %>
 <div class="yield">  <%= yield %> </div>
-	
+
 		<!--After yield -->
-		
-		
-		
-		
+
+
+
+
 
 </html>
