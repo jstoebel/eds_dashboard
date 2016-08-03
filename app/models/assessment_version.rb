@@ -26,6 +26,7 @@ class AssessmentVersion < ActiveRecord::Base
     scope :sorted, lambda {order(:assessment_id => :asc, :created_at => :asc)}
   
     def has_scores
+        #returns true if there are scores in the array
         return self.student_scores.present?
     end
     
