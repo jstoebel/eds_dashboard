@@ -19,7 +19,7 @@ FactoryGirl.define do
     assessment_item
     descriptor Lorem.paragraph
     level Lorem.word
-    ord Number.between(1, 4)
+    sequence(:ord, (1..4).cycle)
     cut_score { if ord < 2
                   true
       else
