@@ -439,19 +439,19 @@ ActiveRecord::Schema.define(version: 20160802213936) do
   add_index "tep_advisors", ["user_id"], name: "fk_rails_50ba8b67f4", using: :btree
 
   create_table "transcript", force: :cascade do |t|
-    t.integer "student_id",        limit: 4,   null: false
-    t.string  "crn",               limit: 45,  null: false
-    t.string  "course_code",       limit: 45,  null: false
+    t.integer "student_id",        limit: 4,     null: false
+    t.string  "crn",               limit: 45,    null: false
+    t.string  "course_code",       limit: 45,    null: false
     t.string  "course_name",       limit: 100
-    t.integer "term_taken",        limit: 4,   null: false
+    t.integer "term_taken",        limit: 4,     null: false
     t.float   "grade_pt",          limit: 24
     t.string  "grade_ltr",         limit: 2
     t.float   "quality_points",    limit: 24
     t.float   "credits_attempted", limit: 24
     t.float   "credits_earned",    limit: 24
     t.string  "reg_status",        limit: 45
-    t.string  "instructors",       limit: 45
-    t.boolean "gpa_include",                   null: false
+    t.text    "instructors",       limit: 65535
+    t.boolean "gpa_include",                     null: false
   end
 
   add_index "transcript", ["student_id", "crn", "term_taken"], name: "index_transcript_on_student_id_and_crn_and_term_taken", unique: true, using: :btree
