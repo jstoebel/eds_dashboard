@@ -11,6 +11,7 @@ class ProcessStudent
 
    def upsert
      # upserts a student.
+    #  puts "Upserting student record for #{@stu.name_readable}..."
 
       @stu.update_attributes!({:FirstName => @row['SZVEDSD_FIRST_NAME'],
         :MiddleName => @row['SZVEDSD_MIDDLE_NAME'],
@@ -43,16 +44,15 @@ class ProcessStudent
         # TODO EMAIL ALERT!
      end
 
-    #  puts "Upserted record for #{@stu.name_readable}"
+    #  puts "\t -> done!"
 
    end
 
    def update_advisor_assignments
      # determines any changes in advisor assignments and adds/removes to match.
      # example: FirstName LastName {Primary-B00xxxxxx}; FirstName LastName {Minor-B00xxxxxx}
-     puts "updating advisors for #{@stu.name_readable}: #{@stu.Bnum}"
+    #  puts "updating advisors for #{@stu.name_readable}: #{@stu.Bnum}"
      advisors_raw = @row['SZVEDSD_ADVISOR']
-     puts advisors_raw
      if advisors_raw.present?
        advisors = advisors_raw.split ";" # array of each advisor with B#
        info = advisors_raw.split(";").map{ |adv| adv.match(/\{(.+)\}/i)[1] } # array like this ["Primary-B00xxxxxx", "Minor-B00xxxxxx"]
@@ -88,9 +88,14 @@ class ProcessStudent
        end
      end
 
+    #  puts "\t -> done!"
+
    end
 
    def upsert_course
+
+    #  puts "Upserting course for #{@stu.name_readable}: #{@stu.Bnum}"
+
      term_raw = @row['SZVEDSD_TERM_TAKEN']  #looks like this 201512 - Spring Term 2016
      #split at first dash
      term = term_raw.slice(0, term_raw.index('-')).strip
@@ -98,7 +103,7 @@ class ProcessStudent
      course_raw = @row['SZVEDSD_COURSE']    # looks like this SOC 220X  - Social Problems
      delim = course_raw.index('-')
      course_code, course_name = [course_raw[0..delim-1], course_raw[delim + 1..-1]].map{|i| i.strip}
-
+     course_code.gsub!(" ", "")  #course code should look like "SOC220X"
 
      grade_ltr = @row['SZVEDSD_GRADE']
      grade_pt = Transcript.g_to_l(grade_ltr)
@@ -111,15 +116,16 @@ class ProcessStudent
      @course.update_attributes!({:course_code => course_code,
         :course_name => course_name,
         :grade_pt => grade_pt,
-        :grade_ltr grade_ltr,
+        :grade_ltr => grade_ltr,
         :credits_attempted => @row['SZVEDSD_CREDITS_ATTEMPTED'],
         :credits_earned => @row['SZVEDSD_CREDITS_EARNED'],
         :reg_status => @row['SZVEDSD_REGISTRATION_STAT'],
         :instructors => @row['SAVEDSD_INSTRUCTOR'], # example format FirstName LastName {B00123456}; FirstName LastName {B00687001}
-        :gpa_include => @row['SZVEDSD_GPA_IND']
+        :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'include' ? true : false
       })
 
 
+    # puts "\t -> done!"
    end
 
 end
