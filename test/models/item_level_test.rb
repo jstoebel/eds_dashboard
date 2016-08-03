@@ -32,17 +32,20 @@ class ItemLevelTest < ActiveSupport::TestCase
      #test that the :ord attribute of levels of an item are unique
      item = FactoryGirl.create :assessment_item
      levels = FactoryGirl.create_list(:item_level, 4, :assessment_item_id => item.id)
-     levels.each{|l| assert l.ord }
-
+     orders = []
+     levels.each{|l| orders.push(l.ord)}
+     #asserts unique values in array are equal to the original array
+     assert_equal orders.uniq, orders
    end
   
   test "ord is not unique, error" do
-    #test that the :ord attribute of levels of an item are unique
+    #test that error occurs due to duplicate :ord attributes
     item = FactoryGirl.create :assessment_item
     levels = FactoryGirl.create_list(:item_level, 4, :assessment_item_id => item.id)
-    lvl = FactoryGirl.build :item_level, {:assessment_item_id => item.id, :ord => levels.first.ord} 
+    lvl = FactoryGirl.build :item_level, {:assessment_item_id => item.id, :ord => levels.first.ord}
+    assert_not lvl.valid?
     assert_equal [:ord].map{|i| [i, ["has already been taken"]]}.to_h, 
-    lvl.errors.messages
+      lvl.errors.messages
    end
   
   test "Sorted scope" do
