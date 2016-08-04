@@ -109,8 +109,4 @@ class ItemLevelTest < ActiveSupport::TestCase
     assert level.lvl_scores? == false
     assert_equal level.check_scores, item_score
   end
-
-
-
-
 end
