@@ -13,13 +13,17 @@
 =end
 
 class VersionHabtmItem < ActiveRecord::Base
-    before_validation :ver_locked
+    before_validation :ver_locked, if: :has_version_id?
     before_destroy :ver_locked
     
     belongs_to :assessment_version
     belongs_to :assessment_item
     
     validates_presence_of :assessment_version_id, :assessment_item_id
+    
+    def has_version_id?
+      return self.assessment_version_id != nil
+    end
     
     def ver_locked
         #returns false if version is locked and cannot be validated
