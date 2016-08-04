@@ -14,6 +14,14 @@ class AssessmentVersionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  
+  test "Should destroy dependent version_habtm_items" do
+    item_ver = FactoryGirl.create :version_habtm_item
+    ver = AssessmentVersion.find_by(:id => item_ver.assessment_version_id)
+    ver.destroy!
+    assert ver.destroyed?
+    assert_not VersionHabtmItem.exists?(item_ver.id)
+  end
 
   test "Not valid object, needs assessment_id" do
     ver = AssessmentVersion.new

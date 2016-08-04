@@ -75,20 +75,18 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     end
   end
 
-=begin  test "should post update" do
-##still unsure about updating, since can only update assessment_items
+  test "should post update" do
     allowed_roles.each do |r|
       load_session(r)
       version = FactoryGirl.create :assessment_version
-      item = FactoryGirl.create :assessment_item
-      version.assessment_items.id = item
-      #edit_params = {:assessment_items => AssessmentItem.find(item.id)}}
-      post :update, {:id => version.id, :assessment_version => edit_params}
-      assert_redirected_to(assessment_versions_path)
-      assert_equal flash[:notice], "Updated Version #{version.version_num} of #{Assessment.find(version.assessment_id).name}"
+      new_assess = FactoryGirl.create :assessment
+      update_params = {:assessment_id => new_assess.id}
+      post :update, {:id => version.id, :assessment_version => update_params}
       assert_equal assigns(:version), version
+      assert_equal @response.body, assigns(:version).to_json
+      assert_response :ok
     end
-=end
+  end
   
   ##Bad roles
   
@@ -116,18 +114,17 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
-=begin 
-##still unsure about updating, since can only update assessment_items
+
   test "should not post update, bad role" do
     version = FactoryGirl.create :assessment_version
-    update_params = {: => "updated name", :description => "updated description"}
+    new_assess = FactoryGirl.create :assessment
+    update_params = {:assessment_id => new_assess.id}
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      post :update, {:id => version.id, :assessment => update_params}
+      post :update, {:id => version.id, :assessment_version => update_params}
       assert_redirected_to "/access_denied"
     end
-=end
+  end
   
   test "should not destroy bad role" do
     (role_names - allowed_roles).each do |r|
@@ -152,7 +149,18 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     end
   end
   
-  ##likely need for update
+  test "should not post update, no assessment" do
+    allowed_roles.each do |r|
+      load_session(r)
+      version = FactoryGirl.create :assessment_version
+      update_params = {:assessment_id => nil}
+      post :update, {:id => version.id, :assessment_version => update_params}
+      assert_equal assigns(:version), version
+      assert_not assigns(:version).valid?
+      assert_equal @response.body, assigns(:version).errors.full_messages.to_json
+      assert_response :unprocessable_entity
+    end
+  end
   
   test "should not post create, no assessment" do 
     allowed_roles.each do |r|
