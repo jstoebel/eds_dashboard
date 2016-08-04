@@ -32,7 +32,7 @@ class VersionHabtmItemsControllerTest < ActionController::TestCase
   test "Should destroy" do
     allowed_roles.each do |r|
       load_session(r)
-      item_ver = FactoryGirl.create :version_habtm_item
+      item_ver = FactoryGirl.create(:version_habtm_item)
       post :destroy, :id => item_ver.id
       assert_equal item_ver, assigns(:item_ver)
       assert assigns(:item_ver).destroyed?
@@ -53,43 +53,41 @@ class VersionHabtmItemsControllerTest < ActionController::TestCase
   end
   
   test "should not post destory, bad role" do
-    item_ver = FactoryGirl.create :version_habtm_item
+    item_ver = FactoryGirl.create(:version_habtm_item)
     (role_names - allowed_roles).each do |r|
       load_session(r)
       post :destroy, {:id => item_ver.id}
       assert_redirected_to "/access_denied"
     end
   end
-  #Fail
   
-  test "Should not post create, can't save" do
+  #Fail, bad params
+  test "Should not post create, no assessment_version_id" do
+    item = FactoryGirl.create :assessment_item
     allowed_roles.each do |r|
       load_session(r)
-      ver = FactoryGirl.create :version_with_items
-      item = ver.assessment_item.first
-      create_param_filler = {:assessment_item => "#{item.id}",
-        :descriptor => "This Description",
-        :level => "test create level",
-        :ord => "2"
+      create_param_filler = {
+        :assessment_version_id => nil,
+        :assessment_item_id => item.id
       }
-      post :create, {:item_level => create_param_filler}
-      # assert_not assigns(item).valid?
-     
-      assert_equal @response.body, assigns(:level).errors.full_messages.to_json
+      post :create, {:version_habtm_items => create_param_filler}
+      assert_not assigns(:item_ver).valid?
+      assert_equal @response.body, assigns(:item_ver).errors.full_messages.to_json
       assert_response :unprocessable_entity 
     end
   end
   
-  test "Should not destroy, " do
-    item_ver = FactoryGirl.create :version_with_items
+  test "Should not destroy, has scores" do
+    ver = FactoryGirl.create :version_with_items    #has scores
+    item_ver = VersionHabtmItem.find_by(assessment_version_id: ver.id)
+    puts item_ver.inspect
     allowed_roles.each do |r|
       load_session(r)
-      post :destroy, :id => item_ver
-      # assert_equal item_ver, assigns(:item_ver)
-      # assert assigns(:item_ver).present?
+      post :destroy, :id => item_ver.id
+      assert_equal item_ver, assigns(:item_ver)
+      assert assigns(:item_ver).present?
       assert_equal @response.body, assigns(:item_ver).errors.full_messages.to_json
       assert_response :unprocessable_entity
     end
   end
-  
 end
