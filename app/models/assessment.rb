@@ -33,6 +33,7 @@ class Assessment < ActiveRecord::Base
     end
             
     def has_scores
+        #returns true if has scores, false if not
         vers = versions()    #should return result of versions
         scores = vers.select { |v| v.student_scores.present?}.size > 0 #is scores greater than 0?
         return scores    #a boolean value
