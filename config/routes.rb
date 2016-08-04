@@ -209,7 +209,12 @@ Rails.application.routes.draw do
     end
   end
   
-
+  resources :fois, only: [:index, :import]
+  
+    
+  resources :fois do
+    collection { post :import }
+  end
 
   resources :student_files do
     get "download"

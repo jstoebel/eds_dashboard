@@ -1,0 +1,26 @@
+<h1>Form of Intention</h1>
+
+<table id="products">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>B#</th>
+    <th>Major</th>
+    <th>Seeking Cert.</th>
+  </tr>
+<% @foi.each do |foi| %>
+  <tr>
+    <td><%= foi.student.FirstName %></td>
+    <td><%= foi.student.LastName %></td>
+    <td><%= foi.student.Student_Bnum %></td>
+    <td><%= foi.student.CurrentMajor1%></td>
+  </tr>
+<% end %>
+</table>
+
+<h2>Import FOIs</h2>
+
+<%= form_tag import_fois_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>
