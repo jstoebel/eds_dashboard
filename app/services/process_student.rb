@@ -9,29 +9,29 @@ class ProcessStudent
      @stu = Student.find_or_initialize_by :Bnum => row['SZVEDSD_ID']
    end
 
-   def upsert
+   def upsert_student
      # upserts a student.
     #  puts "Upserting student record for #{@stu.name_readable}..."
 
       @stu.update_attributes!({:FirstName => @row['SZVEDSD_FIRST_NAME'],
         :MiddleName => @row['SZVEDSD_MIDDLE_NAME'],
         :LastName => @row['SZVEDSD_LAST_NAME'],
-       :EnrollmentStatus => @row['SZVEDSD_ENROLL_STAT'],
-       :Classification => @row['SZVEDSD_CLASSIFICATION'],
-       :CurrentMajor1 => @row['SZVEDSD_PRIMARY_MAJOR'],
-       :concentration1 => @row['SZVEDSD_PRIMARY_MAJOR_CONC '],
-       :CurrentMajor2 => @row['SZVEDSD_SECONDARY_MAJOR'],
-       :concentration2 => @row['SZVEDSD_SECONDARY_MAJOR_CONC'],
-       :CurrentMinors => @row['SZVEDSD_MINORS'],
-       :Email => @row['SZVEDSD_EMAIL'],
-       :CPO => @row['SZVEDSD_CPO'],
-       :withdraws => @row['SZVEDSD_WITHDRAWALS'],
-       :term_graduated => @row['SZVEDSD_TERM_GRADUATED'],
-       :gender => @row['SZVEDSD_GENDER'],
-       :race => @row['SZVEDSD_RACE'],
-       :hispanic => @row['SZVEDSD_HISPANIC'].downcase=='yes' ? true : false,
-       :term_expl_major => @row['SZVEDSD_TERM_EDS_EXPLOR_MJR'],
-       :term_major => @row['SZVEDSD_TERM_DECLARED_EDS_MJR']
+        :EnrollmentStatus => @row['SZVEDSD_ENROLL_STAT'],
+        :Classification => @row['SZVEDSD_CLASSIFICATION'],
+        :CurrentMajor1 => @row['SZVEDSD_PRIMARY_MAJOR'],
+        :concentration1 => @row['SZVEDSD_PRIMARY_MAJOR_CONC '],
+        :CurrentMajor2 => @row['SZVEDSD_SECONDARY_MAJOR'],
+        :concentration2 => @row['SZVEDSD_SECONDARY_MAJOR_CONC'],
+        :CurrentMinors => @row['SZVEDSD_MINORS'],
+        :Email => @row['SZVEDSD_EMAIL'],
+        :CPO => @row['SZVEDSD_CPO'],
+        :withdraws => @row['SZVEDSD_WITHDRAWALS'],
+        :term_graduated => @row['SZVEDSD_TERM_GRADUATED'],
+        :gender => @row['SZVEDSD_GENDER'],
+        :race => @row['SZVEDSD_RACE'],
+        :hispanic => @row['SZVEDSD_HISPANIC'].andand.downcase=='yes' ? true : false,
+        :term_expl_major => @row['SZVEDSD_TERM_EDS_EXPLOR_MJR'],
+        :term_major => @row['SZVEDSD_TERM_DECLARED_EDS_MJR']
      })
 
      # email alert if candidate appears to have left program according to concentration change
@@ -124,8 +124,6 @@ class ProcessStudent
         :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'include' ? true : false
       })
 
-
-    # puts "\t -> done!"
    end
 
 end
