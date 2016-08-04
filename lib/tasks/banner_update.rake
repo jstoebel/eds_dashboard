@@ -26,42 +26,38 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
 
       rows.each do |row|
 
-        bnum = row['SZVEDSD_ID']
-        puts row.to_h
-        1/0
+        row_service = ProcessStudent.new row
 
-        # row_service = ProcessStudent.new row
-        #
-        # #STUDENT LEVEL
-        # if !visited_students.include? bnum
-        #   # student level info
-        #   visited_students << bnum
-        #
-        #   begin
-        #     row_service.upsert
-        #   rescue ActiveRecord::RecordInvalid => exception
-        #     p "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}"
-        #     log_error exception
-        #   end
-        #
-        #   # update advisor assignments
-        #   begin
-        #     row_service.update_advisor_assignments
-        #   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => exception
-        #
-        #     p "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}"
-        #     log_error exception
-        #   end
+        #STUDENT LEVEL
+        if !visited_students.include? bnum
+          # student level info
+          visited_students << bnum
 
-        # end
-        #
-        # # ROW BY ROW (TRANSCRIPT)
-        # begin
-        #   row_service.upsert_course
-        # rescue ActiveRecord::RecordInvalid => exception
-        #   p "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}"
-        #   log_error exception
-        # end
+          begin
+            row_service.upsert_student
+          rescue ActiveRecord::RecordInvalid => exception
+            p "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}"
+            log_error exception
+          end
+
+          # update advisor assignments
+          begin
+            row_service.update_advisor_assignments
+          rescue ActiveRecord::StatementInvalid => exception
+
+            p "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}"
+            log_error exception
+          end
+
+        end
+
+        # ROW BY ROW (TRANSCRIPT)
+        begin
+          row_service.upsert_course
+        rescue ActiveRecord::RecordInvalid => exception
+          p "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}"
+          log_error exception
+        end
 
       end #row
     end # main loop
