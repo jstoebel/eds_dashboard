@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722160612) do
+ActiveRecord::Schema.define(version: 20160802151758) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -413,7 +413,7 @@ ActiveRecord::Schema.define(version: 20160722160612) do
     t.string  "CurrentMinors",    limit: 255
     t.string  "Email",            limit: 100
     t.string  "CPO",              limit: 45
-    t.text    "withdrawals",      limit: 65535
+    t.text    "withdraws",        limit: 65535
     t.integer "term_graduated",   limit: 4
     t.string  "gender",           limit: 255
     t.string  "race",             limit: 255
