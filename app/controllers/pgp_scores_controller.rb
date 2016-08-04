@@ -11,11 +11,11 @@ class PgpScoresController < ApplicationController
     end  
     
     def show
+        @pgp = Pgp.find(params[:pgp_id])
         @pgp_score = PgpScore.find(params[:pgp_id])
         authorize! :read, @pgp_score
         authorize! :read, @pgp
         @student = Student.find(@pgp.student_id)
-        @student.name_readable
     end
     
     def edit
@@ -26,7 +26,6 @@ class PgpScoresController < ApplicationController
         @student = Student.find(@pgp.student_id)
     end
 
-# TODO Update  correct? needs testing
     def update
          @pgp_score = PgpScore.find(params[:id])
          @pgp = @pgp_score.pgp
@@ -66,7 +65,6 @@ class PgpScoresController < ApplicationController
         end
     end
     
-# TODO Destory   correct? needs testing
     def destroy
         @pgp_score = PgpScore.find(params[:id])
         authorize! :manage, @pgp_score
