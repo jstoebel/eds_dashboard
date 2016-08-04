@@ -67,6 +67,7 @@ class AssessmentItemsController < ApplicationController
     params.require(:assessment_item).permit(:slug, :description, :name)
   end
   
+
   def update_params
     params.require(:assessment_item).permit(:id, :slug, :description, :name)
   end
