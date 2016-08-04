@@ -34,10 +34,8 @@ class AssessmentVersionsController < ApplicationController
   def create
     @version = AssessmentVersion.new
     authorize! :manage, @version
-    @version.update_attributes(new_params)
+    @version.update_attributes(ver_params)
     if @version.save
-      #flash[:notice] = "Created Version #{@version.version_num} of 
-      #{Assessment.find(@version.assessment_id).name}"
       render json: @version, status: :created
     else
       render json: @version.errors.full_messages, status: :unprocessable_entity
@@ -48,7 +46,7 @@ class AssessmentVersionsController < ApplicationController
     #update the assessment the version is associated with
     @version = AssessmentVersion.find(params[:id])
     authorize! :manage, @version
-    @version.update_attributes(update_params)
+    @version.update_attributes(ver_params)
     if @version.save
       render json: @version, status: :ok
     else
@@ -68,12 +66,8 @@ class AssessmentVersionsController < ApplicationController
   end
 
   private
-  def new_params
+  def ver_params
     params.require(:assessment_version).permit(:assessment_id) 
-  end
-  
-  def update_params
-    params.require(:assessment_version).permit(:assessment_id)
   end
 end
 
