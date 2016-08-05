@@ -11,11 +11,10 @@ class PgpsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       stu = FactoryGirl.create :student
-      pgp = FactoryGirl.create :pgp
-      
       get :index, {:student_id => stu.id}
       assert_response :success
-      assert_equal assigns(:pgp).to_a, Pgp.all.to_a
+      expected_pgp = Pgp.all
+      assert_equal assigns(:pgps).to_a, expected_pgp.to_a
       
     end
   end
@@ -113,7 +112,7 @@ class PgpsControllerTest < ActionController::TestCase
       load_session(r)
       score = FactoryGirl.create :pgp_score
       post :destroy, {:id => score.pgp.id}
-      assert_equal flash[:notice], "Professional growth plan unable to be deleted due to being scored"
+      assert_equal flash[:notice], "Unable to alter due to scoring"
     end
   end
   
