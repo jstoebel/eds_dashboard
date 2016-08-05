@@ -24,8 +24,8 @@ class PgpsControllerTest < ActionController::TestCase
       load_session(r)
       stu = FactoryGirl.create :student
       pgp = FactoryGirl.create :pgp
-      
       get :index, {:student_id => stu.id}
+      redirect_to "access_denied/"
     end
   end
       
@@ -33,14 +33,14 @@ class PgpsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       stu = FactoryGirl.create :student
-      create_pgp = {:pgp => {:student_id => stu.id,
-      :goal_name => "Test Name",
-      :description => "Test Descript",
-      :plan => "Test plan"}
-      }
-      post :create, create_pgp
+      pgp_attrs = {"student_id" => stu.id,
+      "goal_name" => "Test Name",
+      "description" => "Test Descript",
+      "plan" => "Test plan"}
+      post :create, {:pgp=> pgp_attrs}
       assert assigns(:pgp).valid?
       assert_equal flash[:notice], "Created professional growth plan."
+      assert_equal assigns(:pgp).attributes.except("id", "created_at", "updated_at"), pgp_attrs
       assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
     end
   end
@@ -53,6 +53,7 @@ class PgpsControllerTest < ActionController::TestCase
       post :create, {:student_id => stu.id}
       assert_redirected_to student_pgps_path
       assert_equal assigns(:pgp), pgp.id
+      assert_redirected_to "access_denied/"
       assert_equal flash[:notice], "Error creating professional growth plan."
     end
   end
@@ -69,21 +70,38 @@ class PgpsControllerTest < ActionController::TestCase
       expected_attr = {:description => "new descript", :plan => "new plan"}
       post :update, {:id => pgp.id, :pgp => expected_attr}
       assert_equal(assigns(:pgp), pgp)
+      assert_equal flash[:notice], "PGP successfully updated"
       assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
+      
     end
   end
   
-  test "should not edit/update - bad role" do 
+  test "should not update bad role" do 
+    stu = FactoryGirl.create :student
+    
+    (roles - allowed_roles).each do |r|
+      load_session(r)
+      
+      pgp = FactoryGirl.create :pgp, 
+      {:student_id => stu.id, :goal_name => "test name",:description => "nil", :plan => "nil"}
+      expected_attr = {:description => "new descript", :plan => "new plan"}
+      post :update, {:id => pgp.id, :pgp => expected_attr}
+      assert_redirected_to "access_denied/"
+    end
+  end
+      
+  
+  test "should not edit - bad role" do 
     (roles - allowed_roles).each do |r|
       load_session(r)
       stu = FactoryGirl.create :student
       pgp = FactoryGirl.create :pgp
       post :edit, {:pgp => pgp.id}
-      assert_equal flash[:notice] = "Error in editing PGP."
+      assert_redirected_to "access_denied/"
     end
   end
   
-  test "Should Delete PGP" do 
+  test "Should destroy PGP" do 
     allowed_roles.each do |r|
       load_session(r)
       stu = FactoryGirl.create :student
@@ -96,18 +114,18 @@ class PgpsControllerTest < ActionController::TestCase
     end
   end
   
-  test "Should not delete - bad role" do 
+  test "Should not destroy - bad role" do 
     (roles - allowed_roles).each do |r|
       load_session(r)
       stu = FactoryGirl.create :student
       pgp = FactoryGirl.create :pgp 
       post :destroy, {:id => pgp.id}
       assert_equal flash[:notice], "Professional growth plan unable to be deleted due to being scored"
-      assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
+      assert_redirected_to "access_denied/"
     end
   end
   
-  test "shouldn't delete - has scores" do 
+  test "shouldn't destroy - has scores" do 
     allowed_roles.each do |r|
       load_session(r)
       score = FactoryGirl.create :pgp_score
