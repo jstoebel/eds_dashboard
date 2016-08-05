@@ -96,4 +96,13 @@ class Transcript < ActiveRecord::Base
         end
     end
 
+
+		#~~~INSTANCE METHODS ~~~#
+
+		def inst_bnums
+			# returns an array of instructor B#s for this course
+			profs_raw = self.instructors.split ";"
+			return profs_raw.map{|r| r.match(/\{(.+)\}/)[1]}
+		end
+
 end
