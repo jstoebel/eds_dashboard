@@ -11,7 +11,7 @@ class PgpScoresController < ApplicationController
     end  
     
     def show
-        @pgp = Pgp.find(params[:pgp_id])
+        @pgp = Pgp.find(params[:id])
         @pgp_score = PgpScore.find(params[:pgp_id])
         authorize! :read, @pgp_score
         authorize! :read, @pgp
@@ -29,6 +29,8 @@ class PgpScoresController < ApplicationController
     def update
          @pgp_score = PgpScore.find(params[:id])
          @pgp = @pgp_score.pgp
+         authorize! :manage, @pgp_score
+         authorize! :manage, @pgp
          @pgp_score.assign_attributes(pgp_score_params)
         
          if @pgp_score.save
@@ -38,7 +40,7 @@ class PgpScoresController < ApplicationController
 
          else
              flash[:notice] = "Error in updating PGP score."
-             error_update
+             render "edit"
              return
          end
     end
