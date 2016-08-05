@@ -15,16 +15,16 @@ require 'application_controller'
 require 'test_teardown'
 
 class AssessmentsControllerTest < ActionController::TestCase
-
+  include TestTeardown
   allowed_roles = ["admin", "staff"]
   
   test "should get index" do
+    assess = FactoryGirl.create_list(:assessment, 5)
     allowed_roles.each do |r|
       load_session(r)
-      assess = Assessment.all
       get :index
-      assert_response :success
       assert_equal assigns(:assessment), assess
+      assert_response :success
     end
   end
   

@@ -174,7 +174,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       level = item.item_levels.first
       post :destroy, :id => level.id
       assert_equal level, assigns(:level)
-      assert assigns(:level).present?
+      assert_not assigns(:level).destroyed?
       assert_equal @response.body, assigns(:level).errors.full_messages.to_json
       assert_response :unprocessable_entity
     end
