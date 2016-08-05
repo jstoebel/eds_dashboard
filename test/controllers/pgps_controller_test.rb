@@ -54,7 +54,6 @@ class PgpsControllerTest < ActionController::TestCase
       assert_redirected_to student_pgps_path
       assert_equal assigns(:pgp), pgp.id
       assert_redirected_to "access_denied/"
-      assert_equal flash[:notice], "Error creating professional growth plan."
     end
   end
   
@@ -128,9 +127,11 @@ class PgpsControllerTest < ActionController::TestCase
   test "shouldn't destroy - has scores" do 
     allowed_roles.each do |r|
       load_session(r)
-      score = FactoryGirl.create :pgp_score
-      post :destroy, {:id => score.pgp.id}
+      pgp = FactoryGirl.create :pgp
+      score = FactoryGirl.create :pgp_score, {:pgp_id => pgp.id}
+      post :destroy, {:id => pgp.id}
       assert_equal flash[:notice], "Unable to alter due to scoring"
+      assert_equal assigns(:pgp), pgp
     end
   end
   
