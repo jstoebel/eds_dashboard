@@ -55,10 +55,11 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       assess = FactoryGirl.create(:assessment)
-      create_params = {:assessment_version => {:assessment_id => assess.id}}
-      post :create, create_params
+      create_params = {:assessment_id => assess.id}
+      post :create, {:assessment_version => create_params}
       assert_equal assess, assigns(:version).assessment
       assert assigns(:version).valid?
+      create_params.each_key{|attri| assert_equal create_params[attri], assigns(:version).attributes["#{attri}"]}
       assert_equal @response.body, assigns(:version).to_json
       assert_response :created
     end
@@ -83,6 +84,7 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
       update_params = {:assessment_id => new_assess.id}
       post :update, {:id => version.id, :assessment_version => update_params}
       assert_equal assigns(:version), version
+      update_params.each_key{|attri| assert_equal update_params[attri], assigns(:version).attributes["#{attri}"]}
       assert_equal @response.body, assigns(:version).to_json
       assert_response :ok
     end

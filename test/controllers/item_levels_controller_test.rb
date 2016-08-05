@@ -47,13 +47,14 @@ class ItemLevelsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       item = FactoryGirl.create :assessment_item
-      create_param_filler = {:assessment_item_id => "#{item.id}",
+      create_params = {:assessment_item_id => item.id,
         :descriptor => "This Description",
         :level => "good",
-        :ord => "1"
+        :ord => 1
       }
-      post :create, {:item_level => create_param_filler}
+      post :create, {:item_level => create_params}
       assert assigns(:level).valid?
+      create_params.each_key{|attri| assert_equal create_params[attri], assigns(:level).attributes["#{attri}"]}
       assert_equal @response.body, assigns(:level).to_json
       assert_response :created
     end
@@ -63,10 +64,11 @@ class ItemLevelsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       level = FactoryGirl.create :item_level
-      update_params = {:assessment_item_id => "#{level.assessment_item.id}", :descriptor => "test update descriptor", :level => "test update lvl", :ord => "2"}
+      update_params = {:assessment_item_id => level.assessment_item.id, :descriptor => "test update descriptor", :level => "test update lvl", :ord => 2}
       patch :update, {:id => level.id, :item_level => update_params}
       assert assigns(:level).valid?
       assert_equal level, assigns(:level)
+      update_params.each_key{|attri| assert_equal update_params[attri], assigns(:level).attributes["#{attri}"]}
       assert_equal @response.body, assigns(:level).to_json
       assert_response :ok
     end

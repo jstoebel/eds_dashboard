@@ -43,6 +43,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       create_params = {:name => "test name", :description => "test descrip"}
       post :create, {:assessment => create_params}
       assert assigns(:assessment).valid?
+      create_params.each_key{|attri| assert_equal create_params[attri], assigns(:assessment).attributes["#{attri}"]}
       assert_redirected_to(assessments_path)
       assert_equal flash[:notice], "Created Assessment #{assigns(:assessment).name}."
     end
@@ -67,6 +68,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       post :update, {:id => assess.id, :assessment => update_params}
       assert assigns(:assessment).valid?    #was assessment saved?
       assert_equal assess, assigns(:assessment)
+      update_params.each_key{|attri| assert_equal update_params[attri], assigns(:assessment).attributes["#{attri}"]}
       assert_redirected_to(assessments_path)
       assert_equal flash[:notice], "Updated Assessment #{assigns(:assessment).name}."
     end
