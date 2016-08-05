@@ -15,6 +15,7 @@ class PgpsControllerTest < ActionController::TestCase
       
       get :index, {:student_id => stu.id}
       assert_response :success
+      assert_equal assigns(:pgp).to_a, Pgp.all.to_a
       
     end
   end
