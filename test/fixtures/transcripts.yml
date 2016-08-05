@@ -31,5 +31,5 @@ one:
   course_code: EDS150
   term_taken: BannerTerm_262
   credits_earned: 4.0
-  Inst_bnum: B00123456
+  instructors: FirstName LastName {B00123456}
   gpa_include: true
