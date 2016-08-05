@@ -2,25 +2,23 @@ require 'test_helper'
 
 class PgpScoreTest < ActiveSupport::TestCase
     
-    test "score is greater than zero validation" do 
-       score = PgpScore.new
-       score.goal_score = 0
-       score.valid?
-       assert_equal([], score.errors[:pgp_id])
+    test "score is zero validation" do 
+       score = PgpScore.new({:goal_score => 0})
+       assert_not score.valid?, score.errors.full_messages
+       assert_equal(["must be greater than 0"], score.errors[:goal_score])
+     
     end
     
-    test "score is less than five" do 
-        score = PgpScore.new
-        score.goal_score = 5
-        score.valid?
-        assert_equal([], score.errors[:pgp_id])
+    test "score is five" do 
+        score = PgpScore.new({:goal_score => 5})
+        assert_not score.valid?, score.errors.full_messages
+        assert_equal(["must be less than 5"], score.errors[:goal_score])
     end
     
     test "validation for score reason" do 
-        score = PgpScore.new
-        score.score_reason = ""
-        score.valid?
-        assert_equal(["Please enter a score reason."], score.errors[:pgp_id])
+        score = PgpScore.new({:score_reason => ""})
+        assert_not score.valid?, score.errors.full_messages
+        assert_equal(["Please enter a score reason."], score.errors[:score_reason])
     end
     
 end
