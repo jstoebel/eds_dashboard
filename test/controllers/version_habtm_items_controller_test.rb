@@ -21,9 +21,10 @@ class VersionHabtmItemsControllerTest < ActionController::TestCase
       load_session(r)
       ver = FactoryGirl.create :assessment_version
       item = FactoryGirl.create :assessment_item
-      create_filler = {:assessment_version_id => ver.id, :assessment_item_id => item.id}
-      post :create, {:version_habtm_items => create_filler}
+      create_params = {:assessment_version_id => ver.id, :assessment_item_id => item.id}
+      post :create, {:version_habtm_items => create_params}
       assert assigns(:item_ver).valid?
+      create_params.each_key{|attri| assert_equal create_params[attri], assigns(:item_ver).attributes["#{attri}"]}
       assert_equal @response.body, assigns(:item_ver).to_json
       assert_response :created
     end

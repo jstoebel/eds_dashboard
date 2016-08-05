@@ -45,6 +45,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             create_params = {:slug => "test slug", :description => "test description", :name => "test name"} 
             post :create, {:assessment_item => create_params}
             assert assigns(:item).valid?
+            create_params.each_key{|attri| assert_equal create_params[attri], assigns(:item).attributes["#{attri}"]}
             assert_equal @response.body, assigns(:item).to_json
             assert_response :created
         end
@@ -58,6 +59,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             patch :update, {:assessment_item => update_params}
             assert assigns(:item).valid?
             assert_equal item, assigns(:item)
+            update_params.each_key{|attri| assert_equal update_params[attri], assigns(:item).attributes["#{attri}"]}
             assert_equal @response.body, assigns(:item).to_json
             assert_response :ok
         end
