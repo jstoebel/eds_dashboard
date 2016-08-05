@@ -317,10 +317,6 @@ class Student < ActiveRecord::Base
 		term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
 		classes = self.transcripts.in_term(term)
 		my_profs = classes.map{|c| c.inst_bnums}.flatten
-
-		# my_profs_raw = classes.map { |i| i.instructors.split ";" }.flatten
-		# my_profs = my_profs_raw.map { |r| r.match(/\{(.+)\}/)[1] }  #pull the B# out from the {}
-
 		return my_profs.include?(inst_bnum)
 	end
 
