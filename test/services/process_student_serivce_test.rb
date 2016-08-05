@@ -74,64 +74,65 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
   end
 
   ###TESTS FOR UPSERT###
+  describe "upsert_student" do
+    it "creates a new student" do
 
-  test "creates a new student" do
+      stu_count0 = Student.all.size
+      new_stu = FactoryGirl.attributes_for :student
 
-    stu_count0 = Student.all.size
-    new_stu = FactoryGirl.attributes_for :student
+      new_attrs = {
+        "SZVEDSD_ID" => new_stu[:Bnum],
+        "SZVEDSD_LAST_NAME" => new_stu[:LastName],
+        "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
+        "SZVEDSD_ENROLL_STAT" => "Active Student",
+      }
 
-    new_attrs = {
-      "SZVEDSD_ID" => new_stu[:Bnum],
-      "SZVEDSD_LAST_NAME" => new_stu[:LastName],
-      "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
-      "SZVEDSD_ENROLL_STAT" => "Active Student",
-    }
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      row_service.upsert_student
 
-    row = @row_template.merge new_attrs
-    row_service = ProcessStudent.new row
-    row_service.upsert_student
+      expect Student.all.size == stu_count0 + 1
 
-    expect Student.all.size == stu_count0 + 1
+      stu = Student.find_by :Bnum => new_stu[:Bnum]
+      filter_attrs = [:Bnum, :LastName, :FirstName, :EnrollmentStatus]
 
-    stu = Student.find_by :Bnum => new_stu[:Bnum]
-    filter_attrs = [:Bnum, :LastName, :FirstName, :EnrollmentStatus]
+      #created student and student found in DB should match across these params
+      assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
 
-    #created student and student found in DB should match across these params
-    assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
+    end
 
-  end
+    it "updates a student" do
 
-  test "updates a student" do
+      stu_count0 = Student.all.size
+      new_stu = FactoryGirl.create :student
 
-    stu_count0 = Student.all.size
-    new_stu = FactoryGirl.create :student
+      new_attrs = {
+        "SZVEDSD_ID" => new_stu[:Bnum],
+        "SZVEDSD_LAST_NAME" => new_stu[:LastName] + "!!!!",
+        "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
+        "SZVEDSD_ENROLL_STAT" => "Active Student",
+      }
 
-    new_attrs = {
-      "SZVEDSD_ID" => new_stu[:Bnum],
-      "SZVEDSD_LAST_NAME" => new_stu[:LastName] + "!!!!",
-      "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
-      "SZVEDSD_ENROLL_STAT" => "Active Student",
-    }
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      row_service.upsert_student
 
-    row = @row_template.merge new_attrs
-    row_service = ProcessStudent.new row
-    row_service.upsert_student
+      expect Student.all.size == stu_count0
 
-    expect Student.all.size == stu_count0
+      stu = Student.find_by :Bnum => new_stu[:Bnum]
+      filter_attrs = [:LastName]
 
-    stu = Student.find_by :Bnum => new_stu[:Bnum]
-    filter_attrs = [:LastName]
+      #created student and student found in DB should match across these params
+      assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
 
-    #created student and student found in DB should match across these params
-    assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
+    end
 
-  end
+    it "does not upsert student, throws exception" do
 
-  test "does not upsert student, throws exception" do
+      row_service = ProcessStudent.new @row_template  # passing in empy row
+      assert_raises(ActiveRecord::RecordInvalid) {row_service.upsert_student}
 
-    row_service = ProcessStudent.new @row_template  # passing in empy row
-    assert_raises(ActiveRecord::RecordInvalid) {row_service.upsert_student}
-
+    end
   end
 
   ###TESTS FOR UPSERT ADVISOR_ASSIGNMENTS###
@@ -208,25 +209,56 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
 
   ###TESTS FOR UPSERT COURSE
 
-  it "inserts new course" do
-    course = FactoryGirl.attributes_for :transcript
-    term = BannerTerm.find course[:term_taken]
+  describe "upsert_transcript" do
 
-    new_attrs={
-      'SZVEDSD_TERM_TAKEN' => "#{term.id} - #{term.PlainTerm}",
-      'SZVEDSD_COURSE' => course[:course_code].insert(3, " "),
-      'SZVEDSD_GRADE' => course[:grade_pt],
-      'SZVEDSD_CRN' => course[:crn],
-      'SZVEDSD_CREDITS_ATTEMPTED' => course[:credits_attempted],
-      'SZVEDSD_CREDITS_EARNED' => course[:credits_earned],
-      'SZVEDSD_REGISTRATION_STAT' => course[:reg_status],
-      'SAVEDSD_INSTRUCTOR' => course[:instructors]
-      'SZVEDSD_GPA_IND' => course[:gpa_include]
-    }
+    before do
+      @course = FactoryGirl.build :transcript, {:grade_ltr => 'C', :grade_pt => 2.0}
+      term = BannerTerm.find @course[:term_taken]
+      new_attrs={
+        'SZVEDSD_ID' => @course.student.Bnum,
+        'SZVEDSD_TERM_TAKEN' => "#{term.id} - #{term.PlainTerm}",
+        'SZVEDSD_COURSE' => "#{@course[:course_code].insert(3, " ")} - #{@course[:course_name]}",
+        'SZVEDSD_GRADE' => @course[:grade_ltr],
+        'SZVEDSD_CRN' => @course[:crn],
+        'SZVEDSD_CREDITS_ATTEMPTED' => @course[:credits_attempted],
+        'SZVEDSD_CREDITS_EARNED' => @course[:credits_earned],
+        'SZVEDSD_REGISTRATION_STAT' => @course[:reg_status],
+        'SAVEDSD_INSTRUCTOR' => @course[:instructors],
+        'SZVEDSD_GPA_IND' => @course[:gpa_include] ? "Include" : "Exclude"
+      }
 
-  end
+      @inter_row = @row_template.merge new_attrs
+    end
 
-  it "updates existing course" do
+    it "inserts new course" do
+
+      t0 = Transcript.all.size
+
+      row_service = ProcessStudent.new @inter_row
+      row_service.upsert_course
+
+      assert_equal Transcript.all.size, t0+1
+
+    end
+
+    it "updates existing course" do
+      @course.save
+      t0 = Transcript.all.size
+
+
+
+      as_for_everyone={
+        'SZVEDSD_GRADE' => 'A'
+      }
+
+      final_row = @inter_row.merge as_for_everyone
+      row_service = ProcessStudent.new final_row
+      row_service.upsert_course
+
+      assert_equal Transcript.all.size, t0  #don't add a new course
+      assert_equal (Transcript.find @course.id).grade_ltr, as_for_everyone['SZVEDSD_GRADE']
+
+    end
 
   end
 

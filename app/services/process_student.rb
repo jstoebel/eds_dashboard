@@ -102,6 +102,7 @@ class ProcessStudent
 
      course_raw = @row['SZVEDSD_COURSE']    # looks like this SOC 220X  - Social Problems
      delim = course_raw.index('-')
+
      course_code, course_name = [course_raw[0..delim-1], course_raw[delim + 1..-1]].map{|i| i.strip}
      course_code.gsub!(" ", "")  #course code should look like "SOC220X"
 
