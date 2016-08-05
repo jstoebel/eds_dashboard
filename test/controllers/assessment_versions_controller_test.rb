@@ -143,7 +143,7 @@ class AssessmentVersionsControllerTest < ActionController::TestCase
       version = FactoryGirl.create :version_with_items
       stu_score = FactoryGirl.create :student_score, {:assessment_version_id => version.id}
       post :destroy, {:id => version.id}
-      assert assigns(:version).present?
+      assert_not assigns(:version).destroyed?
       assert_equal @response.body, assigns(:version).errors.full_messages.to_json
       assert_response :unprocessable_entity
     end

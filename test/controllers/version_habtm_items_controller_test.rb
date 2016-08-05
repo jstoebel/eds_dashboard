@@ -80,12 +80,11 @@ class VersionHabtmItemsControllerTest < ActionController::TestCase
   test "Should not destroy, has scores" do
     ver = FactoryGirl.create :version_with_items    #has scores
     item_ver = VersionHabtmItem.find_by(assessment_version_id: ver.id)
-    puts item_ver.inspect
     allowed_roles.each do |r|
       load_session(r)
       post :destroy, :id => item_ver.id
       assert_equal item_ver, assigns(:item_ver)
-      assert assigns(:item_ver).present?
+      assert_not assigns(:item_ver).destroyed?
       assert_equal @response.body, assigns(:item_ver).errors.full_messages.to_json
       assert_response :unprocessable_entity
     end

@@ -164,7 +164,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             item = FactoryGirl.create(:version_with_items).assessment_items.first
             post :destroy, :id => item.id
             assert_equal item, assigns(:item)
-            assert assigns(:item).present?
+            assert_not assigns(:item).destroyed?
             assert_equal @response.body, assigns(:item).errors.full_messages.to_json
             assert_response :unprocessable_entity
         end

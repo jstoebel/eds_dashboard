@@ -17,7 +17,8 @@ specific versions of an assessment are modeled in AssessmentVersion
 =end
 
 class Assessment < ActiveRecord::Base
-
+    before_destroy :can_destroy
+    
     ### ASSOCIATIONS ###
     has_many :assessment_versions, dependent: :destroy
 
@@ -37,5 +38,15 @@ class Assessment < ActiveRecord::Base
         vers = versions()    #should return result of versions
         scores = vers.select { |v| v.student_scores.present?}.size > 0 #is scores greater than 0?
         return scores    #a boolean value
+    end
+    
+    def can_destroy
+        #returns false if has scores and cannot delete
+        #returns true if does not have scores and can delete
+        if self.has_scores == true
+            return false
+        else
+            return true
+        end
     end
 end

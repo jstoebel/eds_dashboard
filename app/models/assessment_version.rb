@@ -13,7 +13,8 @@ Represents a specific version of a paticular assessment
 =end
 
 class AssessmentVersion < ActiveRecord::Base
-
+    before_destroy :can_destroy
+    
     ### ASSOCIATIONS ###
     belongs_to :assessment
     has_many :student_scores
@@ -35,5 +36,15 @@ class AssessmentVersion < ActiveRecord::Base
       @versions.order(:created_at => :asc)
       version_num = @versions.find_index(self) + 1
       return version_num
+    end
+    
+    def can_destroy
+        #returns false if has scores and cannot delete
+        #returns true if does not have scores and can delete
+        if self.has_scores == true
+            return false
+        else
+            return true
+        end
     end
 end
