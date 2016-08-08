@@ -101,12 +101,12 @@ class ItemLevelTest < ActiveSupport::TestCase
   
   test "check scores returns false, item has scores" do
     #level has no scores, but item does
-    item = FactoryGirl.create(:version_with_items).assessment_items.first
+    item = FactoryGirl.create(:version_with_items).student_scores.first.assessment_item
     #level doesn't have scores, but parent item does
     level = item.item_levels.select{|l| l.student_scores.empty?}.first
     #has_scores? returns true since item has scores. item_score == false
-    item_score = item.has_scores? == false
-    assert level.lvl_scores? == false
-    assert_equal level.check_scores, item_score
+    assert item.has_scores?
+    assert_not level.lvl_scores?
+    assert_not level.check_scores
   end
 end

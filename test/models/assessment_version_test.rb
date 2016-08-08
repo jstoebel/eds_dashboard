@@ -42,10 +42,14 @@ class AssessmentVersionTest < ActiveSupport::TestCase
     assert_equal ordered_vers, sort_ver
   end
   
-  test "has_scores" do
+  test "has_scores returns true" do
     ver = FactoryGirl.create :version_with_items
-    score = ver.student_scores.present?
-    assert_equal ver.has_scores, score
+    assert ver.has_scores
+  end
+  
+  test "has_scores returns false" do
+    ver = FactoryGirl.create :assessment_version
+    assert_not ver.has_scores
   end
   
   test "version_num" do
