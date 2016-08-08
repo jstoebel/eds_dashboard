@@ -44,7 +44,6 @@ class ProcessStudent
         # TODO EMAIL ALERT!
      end
 
-
    end
 
    def update_advisor_assignments
