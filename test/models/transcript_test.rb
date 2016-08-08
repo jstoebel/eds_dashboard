@@ -36,7 +36,7 @@ class TranscriptTest < ActiveSupport::TestCase
         t2 = FactoryGirl.build :transcript, attrs
 
         assert_not t2.valid?
-        assert_equal ["Crn student may not have duplicates of the same course in the same term."], t2.errors.full_messages 
+        assert_equal ["Crn student may not have duplicates of the same course in the same term."], t2.errors.full_messages
     end
 
     test "sets quality points" do
@@ -56,7 +56,7 @@ class TranscriptTest < ActiveSupport::TestCase
     end
 
     it "converts letter to grade" do
-       expect four_point_oh.must_equal 4.0 
+       expect four_point_oh.must_equal 4.0
     end
 
     it "converts grade to letter" do
@@ -75,6 +75,13 @@ class TranscriptTest < ActiveSupport::TestCase
 
             end
         end
+    end
+
+    it "returns inst_bnums" do
+      course = FactoryGirl.create :transcript
+      expected_bnums = course.instructors.split(";").map{|r| r.match(/\{(.+)\}/)[1]}
+      assert_equal expected_bnums, course.inst_bnums
+
     end
 
 
