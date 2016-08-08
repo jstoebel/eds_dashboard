@@ -7,42 +7,49 @@ class PgpScoresController < ApplicationController
         authorize! :read, @pgp_score
         authorize! :read, @pgp
         @student = @pgp.student
-        @pgp_scores = @pgp.pgp_scores.order(:created_at).reverse_order
+        @pgp_scores = @pgp.pgp_scores.order(:created_at)
     end  
-    
-    def show
-        @pgp = Pgp.find(params[:id])
-        @pgp_score = PgpScore.find(params[:pgp_id])
-        authorize! :read, @pgp_score
-        authorize! :read, @pgp
-        @student = Student.find(@pgp.student_id)
-    end
     
     def edit
         @pgp = Pgp.find(params[:id])
-        @pgp_score = PgpScore.find(params[:id])
+        @pgp_score = @pgp.pgp_score
         authorize! :manage, @pgp_score
         authorize! :manage, @pgp
-        @student = Student.find(@pgp.student_id)
+        @student = @pgp.student
+        authorize! :read, @student
+    end
+    
+    def update
+        @pgp_score = PgpScore.find(params[:id])
+        @pgp = @pgp_score.pgp
+        authorize! :manage, @pgp_score
+        authorize! :manage, @pgp
+        @pgp_score.assign_attributes(pgp_score_params)
+        
+        if @pgp_score.save
+            flash[:notice] = "PGP score successfully updated"
+            redirect_to pgp_pgp_scores_path(@pgp_score.pgp_id)
+            return
+        else
+            flash[:notice] = "Error in updating PGP score."
+            render "edit"
+            return
+        end
     end
 
-    def update
-         @pgp_score = PgpScore.find(params[:id])
-         @pgp = @pgp_score.pgp
-         authorize! :manage, @pgp_score
-         authorize! :manage, @pgp
-         @pgp_score.assign_attributes(pgp_score_params)
-        
-         if @pgp_score.save
-             flash[:notice] = "PGP score successfully updated"
-             redirect_to pgp_pgp_scores_path(@pgp_score.pgp_id)
-             return
-
-         else
-             flash[:notice] = "Error in updating PGP score."
-             render "edit"
-             return
-         end
+    
+    def create
+        @pgp_score = PgpScore.new  
+        authorize! :manage, @pgp_score
+        @pgp_score.assign_attributes(pgp_score_params)
+        if @pgp_score.save
+          flash[:notice] = "Scored professional growth plan."
+          redirect_to(pgp_pgp_scores_path())
+        else
+          flash[:notice] = "Error creating professional growth plan."
+          @student = Student.find(params[:student_id])
+          render 'new'
+        end
     end
     
     def new 
@@ -51,20 +58,13 @@ class PgpScoresController < ApplicationController
         authorize! :manage, @pgp_score
         authorize! :manage, @pgp
     end 
-
-    def create
-        @pgp_score = PgpScore.new  
-        @pgp_score.update_attributes(pgp_score_params)
-        authorize! :manage, @pgp_score
-        authorize! :manage, @pgp
-        if @pgp_score.save
-          flash[:notice] = "Scored professional growth plan."
-          redirect_to(pgp_pgp_scores_path(@pgp_score.pgp_id))
-        else
-          flash[:notice] = "Error scoring professional growth plan."
-          @student = Student.find(params[:student_id])
-          render 'new'
-        end
+    
+    def show
+        @pgp_score = PgpScore.find(params[:pgp_id])
+        authorize! :read, @pgp_score
+        @student = Student.find(@pgp.student_id)
+        authorize! :read, @student
+        @student.name_readable
     end
     
     def destroy
@@ -80,7 +80,7 @@ class PgpScoresController < ApplicationController
         end
         redirect_to(pgp_pgp_scores_path(@pgp_score.pgp_id))
     end
-
+    
     private
     
     def pgp_score_params
