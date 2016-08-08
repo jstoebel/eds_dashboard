@@ -19,7 +19,7 @@
 #  CurrentMinors    :string(255)
 #  Email            :string(100)
 #  CPO              :string(45)
-#  withdrawals      :text(65535)
+#  withdraws        :text(65535)
 #  term_graduated   :integer
 #  gender           :string(255)
 #  race             :string(255)
@@ -33,7 +33,19 @@ include Faker
 FactoryGirl.define do
   factory :student do
 
-    sequence(:Bnum) { |n| "B00#{n.to_s.rjust(6, '0')}" }
+    # sequence(:Bnum) { |n| "B00#{n.to_s.rjust(6, '0')}" }
+
+    Bnum do
+      bnums = Student.all.pluck :Bnum
+
+      while true do
+        random_n = Number.between(0, 10**6)
+        bnum = "B00#{random_n.to_s.rjust(6, '0')}"
+        break if !bnums.include? bnum
+      end
+      bnum
+    end
+
     FirstName {Name.first_name}
     LastName {Name.last_name}
     EnrollmentStatus "Active Student"
