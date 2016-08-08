@@ -1,0 +1,24 @@
+  	<h2><%= "Edit professional growth plan for #{@student.name_readable}" %></h2>
+    	<%= error_messages_for(@pgp) %>
+  
+  	<table summary="PGPs form fields">
+        <tr>
+            <td><%= f.hidden_field(:student_id, :value => @student.id) %></td>
+        </tr>
+  	  <tr>
+  	    <th><%= f.label(:goal_name, "Goal") %></th>
+  	    <td><%= f.label("#{@pgp.goal_name}") %></td>
+  	  </tr>
+  
+  	  <tr>
+  	    <th><%= f.label(:description, "Description") %></th>
+  	    <td> <%= f.text_area(:description, :size => '30x10') %> </td>
+  	  </tr>
+  	  
+  	  <tr>
+  	      <th><%= f.label(:plan, "Action Plan") %></th>
+  	      <td><%= f.text_area(:plan, :size => '30x10') %></td>
+  	  </tr>
+  	  
+	  
+	  </table>
