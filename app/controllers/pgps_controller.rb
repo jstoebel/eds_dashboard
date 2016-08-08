@@ -38,7 +38,7 @@ class PgpsController < ApplicationController
     def create
         @pgp = Pgp.new  
         authorize! :manage, @pgp
-        @pgp.assigns_attributes(pgp_params)
+        @pgp.assign_attributes(pgp_params)
         if @pgp.save
           flash[:notice] = "Created professional growth plan."
           redirect_to(student_pgps_path(@pgp.student_id))
