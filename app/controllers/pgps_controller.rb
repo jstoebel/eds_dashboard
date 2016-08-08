@@ -31,16 +31,17 @@ class PgpsController < ApplicationController
     def edit
         @pgp = Pgp.find(params[:id])
         authorize! :manage, @pgp
-        @student = Student.find(params[:id])
+        @student = @pgp.student
+        authorize! :manage, @student
     end
 
     def create
         @pgp = Pgp.new  
-        @pgp.update_attributes(pgp_params)
         authorize! :manage, @pgp
+        @pgp.assign_attributes(pgp_params)
         if @pgp.save
           flash[:notice] = "Created professional growth plan."
-          redirect_to(student_pgps_path())
+          redirect_to(student_pgps_path(@pgp.student_id))
         else
           flash[:notice] = "Error creating professional growth plan."
           @student = Student.find(params[:student_id])
@@ -50,13 +51,16 @@ class PgpsController < ApplicationController
     
     def new
         @pgp = Pgp.new
-        @student = Student.find(params[:student_id])
         authorize! :manage, @pgp
+        @student = Student.find(params[:student_id])
+        
     end
     
     def update
-         @student = Student.find(params[:id])
          @pgp = Pgp.find(params[:id])
+         authorize! :manage, @pgp
+         @student = @pgp.student
+         authorize! :manage, @student
          @pgp.assign_attributes(pgp_params)
         
          if @pgp.save
@@ -76,7 +80,11 @@ class PgpsController < ApplicationController
         @pgp = Pgp.find(params[:id])    
         authorize! :manage, @pgp
         @pgp.destroy
-        flash[:notice] = "Professional growth plan deleted successfully"
+        if @pgp.destroyed?
+            flash[:notice] = "Professional growth plan deleted successfully"
+        else
+            flash[:notice] = "Unable to alter due to scoring"
+        end
         redirect_to(student_pgps_path(@pgp.student_id))
     end
     
