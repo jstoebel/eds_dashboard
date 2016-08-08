@@ -23,15 +23,18 @@ class StudentScoresController < ApplicationController
   end
   
   def import
-    spreadsheet = open_spreadsheet(file)
-    authorize! :manage, @assessment 
-    header = spreadsheet.row(1)
-    (2..spreadsheet.last_row).each do |i|
-      [spreadsheet.row(i)]
-    end
-      version_update = find_by_id(row["B#"]) || new
-      version_update.attributes = row.to_hash.slice(*accessible_attributes)
-      version_update.save!
+    StudentScore.import(params[:file])
+    render 'index'
+    
+    # spreadsheet = open_spreadsheet(file)
+    # authorize! :manage, @assessment 
+    # header = spreadsheet.row(1)
+    # (2..spreadsheet.last_row).each do |i|
+    #   [spreadsheet.row(i)]
+    # end
+    #   version_update = find_by_id(row["B#"]) || new
+    #   version_update.attributes = row.to_hash.slice(*accessible_attributes)
+    #   version_update.save!
   end
   
   private

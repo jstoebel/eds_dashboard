@@ -13,10 +13,15 @@
           <tr class="header">
             <th>Student</th>
             <th>Assessment Item</th>
-            <th>Item Level</th>
+            <th>Score</th>
+            <th>Score Description</th>
           </tr>
           <% @score.each do |score| %>
-                
-              <td><%= Student.find(score.student_id).FirstName %></td>
-              <td><%= Student.find(score.student_id).LastName %></td>
+              <tr>  
+                <td><%= Student.find(score.student_id).FirstName %>
+                  <%= Student.find(score.student_id).LastName %></td>
+                <td><%= score.assessment_item_id %></td>
+                <td><%= score.item_level.ord %></td>
+                <td><%= score.item_level.level %></td>
+              </tr>
           <% end %>

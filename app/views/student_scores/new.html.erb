@@ -3,7 +3,7 @@
 
 <% @versions.each do |ver| %>
   <% actions.push({menu_name: "Version #{ver.version_num} of #{ver.assessment.name}" , 
-    link_url: import_assessment_version_student_scores_path(ver.id)}) %>
+    link_url: import_assessment_version_student_scores_path}) %>
 <% end %>
 
 <%= render(partial: 'dropdown', locals: {:actions => actions}) %>

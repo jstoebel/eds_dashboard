@@ -21,4 +21,10 @@ class StudentScore < ActiveRecord::Base
     belongs_to :assessment_item
     
     validates_presence_of :student_id, :assessment_version_id, :assessment_item_id, :item_level_id
+    
+    def import_create(file)
+        CSV.foreach(file.path, headers: true) do |row|
+            StudentScore.create! row.to_hash
+        end
+    end
 end
