@@ -43,6 +43,8 @@
                 <span class="small-btn-text">Details</span>
                 <% end %>
                 
+              <%= link_to("Edit PGP", edit_pgp_path(pgp.id), :class => "action details btn btn-info action-small issues")%>
+                
               <%= link_to("Score PGP", new_pgp_pgp_score_path(pgp.id), :class => "action details btn btn-info action-small issues")%>
               
               <%= link_to("View Scores", pgp_pgp_scores_path(pgp.id), :class => "action details btn btn-info action-small issues")%>

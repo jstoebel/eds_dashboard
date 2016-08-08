@@ -28,13 +28,14 @@ class PgpsController < ApplicationController
     def edit
         @pgp = Pgp.find(params[:id])
         authorize! :manage, @pgp
-        @student = Student.find(params[:id])
+        @student = @pgp.student
+        authorize! :manage, @student
     end
 
     def create
         @pgp = Pgp.new  
         authorize! :manage, @pgp
-        @pgp.update_attributes(pgp_params)
+        @pgp.assigns_attributes(pgp_params)
         if @pgp.save
           flash[:notice] = "Created professional growth plan."
           redirect_to(student_pgps_path(@pgp.student_id))
