@@ -229,7 +229,7 @@ Rails.application.routes.draw do
     resources :issues, only: [:index, :new, :create, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
-      resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create]
+      resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
     end
   end
 
