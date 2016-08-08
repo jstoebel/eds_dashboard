@@ -16,14 +16,16 @@ class User < ActiveRecord::Base
 
 	#associations
 	belongs_to :role, foreign_key: "Roles_idRoles"
-
   has_one :tep_advisor
+
+	#validations
+	validates_presence_of :Email
 
 	#scopes
 
 	def role_name
 		return self.role.RoleName
-	end	
+	end
 
   # User::Roles
   # The available roles
@@ -32,9 +34,9 @@ class User < ActiveRecord::Base
   def is?(other)
   	#returns what role the user is currently representing.
   	#if user is admin and they have a :view_as in their session hash, return that psudo role
-  	#pre: 
+  	#pre:
   		#other: role (string) we are comparing to
-  	#post: 
+  	#post:
 
   	if self.role_name == 'admin' and self.view_as.present?
   		#return the psudo role

@@ -8,6 +8,7 @@
 #  user_id     :integer
 #  first_name  :string(255)      not null
 #  last_name   :string(255)      not null
+#  email       :string(255)
 #
 
 include Faker
@@ -18,5 +19,6 @@ FactoryGirl.define do
     last_name {Faker::Name.last_name}
     Salutation {first_name}
     association :user, factory: :advisor
+    email {Faker::Internet.email}
   end
 end
