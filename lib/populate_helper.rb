@@ -18,7 +18,7 @@ module PopulateHelper
         end
 
     end
-
+  
     def pop_adm_tep(stu, admit)
       #they're applying!
 
@@ -55,7 +55,7 @@ module PopulateHelper
         gpa = 2.0 #not good enough GPA
         praxis_pass = false #fail praxis
       end
-
+      
       pop_transcript stu, 12, gpa, term.StartDate - 200, term.EndDate
       pop_praxisI stu, date_apply - 30, praxis_pass
 
