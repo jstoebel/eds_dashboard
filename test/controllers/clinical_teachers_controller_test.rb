@@ -20,8 +20,8 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "advisor", "staff", "student labor"]
 
   def assert_form_details
-        py_assert assigns(:sites), ClinicalSite.all
-        py_assert assigns(:subjects), Program.where(Current: true)
+        assert_equal assigns(:sites), ClinicalSite.all
+        assert_equal assigns(:subjects), Program.where(Current: true)
   end
 
   test "should get index" do
@@ -30,7 +30,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       load_session(r)
       get :index
       assert_response :success
-      py_assert assigns(:teachers), ClinicalTeacher.all
+      assert_equal assigns(:teachers), ClinicalTeacher.all
     end
   end
 
@@ -46,7 +46,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       get :edit, :id => teacher.id
       assert_response :success
       assert_form_details
-      py_assert assigns(:teacher), teacher
+      assert_equal assigns(:teacher), teacher
     end
   end
 
@@ -61,8 +61,8 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       #post!
       post :update, {:id => teacher.id, :clinical_teacher => update_params}
       assert_redirected_to clinical_teachers_path
-      py_assert assigns(:teacher), teacher
-      py_assert flash[:notice], "Updated Teacher #{teacher.FirstName} #{teacher.LastName}."
+      assert_equal assigns(:teacher), teacher
+      assert_equal flash[:notice], "Updated Teacher #{teacher.FirstName} #{teacher.LastName}."
     end
   end
 
