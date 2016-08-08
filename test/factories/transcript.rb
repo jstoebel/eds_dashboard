@@ -29,10 +29,11 @@ FactoryGirl.define do
 
     #must provide a term
     term_taken {BannerTerm.first.andand.id}
-    
+
     grade_pt {[4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0, nil].sample}
     credits_earned 4.0
     credits_attempted 4.0
     gpa_include true
+    instructors { 2.times.map{"#{Name.first_name} #{Name.last_name} {#{"B00"+Number.between(0, 10**6).to_s.rjust(6, '0')}}"}.join("; ") } #format FirstName LastName {B00123456}; FirstName LastName {B00687001}
   end
 end
