@@ -54,19 +54,15 @@ class AssessmentItemTest < ActiveSupport::TestCase
     assert_equal item.has_scores?, scores
   end
   
+   test "check_scores returns true" do
+     #check_scores returns true if no scores and false if has scores
+     no_score = FactoryGirl.create :assessment_item
+     assert no_score.check_scores
+   end
+  
   test "check_scores returns false" do
-    #Rewrite as two
-    #check_scores returns true if no scores and false if has scores
     ver = FactoryGirl.create :version_with_items
     with_score = ver.student_scores.first.assessment_item
-    no_score = FactoryGirl.create :assessment_item
-    items = [with_score, no_score]
-    item = items.sample(1).first
-    #are there no scores? Because check_scores returns true if can destroy/no scores
-    scores = item.assessment_versions.select{|v| v.student_scores.present?}.size == 0
-    assert_equal item.check_scores, scores
+    assert_not with_score.check_scores
   end
-  
-  test "check_scores
-  "
 end
