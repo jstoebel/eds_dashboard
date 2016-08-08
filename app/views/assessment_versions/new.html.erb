@@ -1,0 +1,19 @@
+<%= link_to assessment_versions_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<%= form_for(@version, url: assessment_versions_path) do |f| %>
+
+	<table summary="assessment_version form fields">
+
+    <caption>
+    	<span class="header1"> Create New Assessment Version</span>
+    </caption>
+
+	<%= render(partial: 'form', locals: {f: f}) %>
+
+	<tr>
+		<td><%= submit_tag("Create Version") %></td>
+	</tr>
+
+<% end %>

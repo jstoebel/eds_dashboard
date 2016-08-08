@@ -35,7 +35,12 @@ namespace :db do
     #10 sites with 3 teachers each.
     clinical_sites = FactoryGirl.create_list :clinical_site, 10
     clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
-
+  
+    #Assessment data
+    assessments = FactoryGirl.create_list :assessment, 5
+    versions = assessments.map{ |assess| FactoryGirl.create_list :version_with_items, 3}.flatten
+    levels = FactoryGirl.create_list :item_level, 2
+    
     puts "creating data for students..."
     students.each do |s|
 
@@ -126,7 +131,6 @@ namespace :db do
         my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
 
       end
-
 
       #ISSUES AND UPDATES
       if Boolean.boolean 0.3

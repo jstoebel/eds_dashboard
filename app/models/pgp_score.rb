@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: pgp_scores
+#
+#  id           :integer          not null, primary key
+#  pgp_id       :integer
+#  goal_score   :integer
+#  score_reason :text(65535)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 class PgpScore< ActiveRecord::Base
     
     self.table_name = 'pgp_scores'
@@ -19,8 +31,5 @@ class PgpScore< ActiveRecord::Base
     def latest_score
         self.pgp_scores.order(:created_at).first
     end
-    
-    def score_check
-        
-    end
+
 end
