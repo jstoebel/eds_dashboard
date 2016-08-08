@@ -1,0 +1,16 @@
+     <%= error_messages_for(@version) %>
+    
+    <tr>
+      <th> <%= f.label(:assessment_id, "Assessment")%> </th>
+      <td> <%= f.select(:assessment_id, @assessments.map{ |a| ["#{a.name}", a.id]}, {:prompt => 'Select an assessment'}) %></td>
+    </tr>
+
+    <tr>
+      <th> <%= f.label(:assessment_items, "Items")%> </th>
+      <td><%= f.select(:assessment_items, @items.map{ |i| [i.name, i.id]}, 
+        {:prompt => 'Select the items'}, {:multiple => true}) %></td>
+    </tr>
+    <tr>
+      <td><button class="show_btn" type="button" onclick="showFields()"><b>Add new Item</b></button></td>
+    </tr>
+      
