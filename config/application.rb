@@ -26,7 +26,7 @@ module Eds
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-
+    config.action_mailer.raise_delivery_errors = true
     config.action_mailer.delivery_method = :smtp
     # SMTP settings for mailgun
     ActionMailer::Base.smtp_settings = {
@@ -35,7 +35,8 @@ module Eds
       :domain         => SECRET['APP_EMAIL_DOMAIN'],
       :user_name      => SECRET['APP_EMAIL_USERNAME'],
       :password       => SECRET['APP_EMAIL_PASSWORD'],
-      :authentication => :plain,
+      :authentication => :login,
+      :enable_starttls_auto => true
     }
 
   end
