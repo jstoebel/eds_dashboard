@@ -1,13 +1,8 @@
-  	<h2><%= "Edit professional growth plan for #{@student.name_readable}" %></h2>
+  	<h2><%= "Edit professional growth plan score for #{@student.name_readable}" %></h2>
         <%= error_messages_for(@pgp_score) %> 
     
      <table summary="pgp scoring form">
-         
 
-        <caption>
-        <div <div class="header1 col-xl-12"> <%= "Edit Professional Growth Plan"  %> </div></br>
-        </caption>
-        
         <div>
             <tr>
                 <th><%= f.label(:goal_name, "Goal:")%></th>

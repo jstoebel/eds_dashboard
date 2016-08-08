@@ -33,7 +33,7 @@
                 <td> <%= pgp_score.created_at.strftime("%m/%d/%Y")%> </td>
 
                 <td>
-                   <%= link_to("Edit PGP Score", edit_pgp_score_path(@pgp.id), :class => "action details btn btn-info action-small issues") %>
+                   <%= link_to("Edit PGP Score", edit_pgp_score_path(pgp_score.id), :class => "action details btn btn-info action-small issues") %>
                 </td>
               </tr>
           <% end %>

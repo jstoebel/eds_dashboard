@@ -23,8 +23,8 @@ class PgpScoresController < ApplicationController
     end  
     
     def edit
-        @pgp = Pgp.find(params[:id])
         @pgp_score = PgpScore.find(params[:id])
+        @pgp = @pgp_score.pgp
         authorize! :manage, @pgp_score
         authorize! :manage, @pgp
         @student = @pgp.student
