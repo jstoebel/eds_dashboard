@@ -54,7 +54,8 @@ class AssessmentItemTest < ActiveSupport::TestCase
     assert_equal item.has_scores?, scores
   end
   
-  test "check_scores" do
+  test "check_scores returns false" do
+    #Rewrite as two
     #check_scores returns true if no scores and false if has scores
     ver = FactoryGirl.create :version_with_items
     with_score = ver.student_scores.first.assessment_item
@@ -65,4 +66,7 @@ class AssessmentItemTest < ActiveSupport::TestCase
     scores = item.assessment_versions.select{|v| v.student_scores.present?}.size == 0
     assert_equal item.check_scores, scores
   end
+  
+  test "check_scores
+  "
 end
