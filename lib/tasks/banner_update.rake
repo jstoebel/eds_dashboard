@@ -62,6 +62,8 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
       end #row
     end # main loop
 
+    #TODO new BannerUpdate
+
 end
 
 
