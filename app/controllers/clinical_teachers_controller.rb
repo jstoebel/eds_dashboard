@@ -52,7 +52,6 @@ class ClinicalTeachersController < ApplicationController
   def new
     form_details
     @teacher = ClinicalTeacher.new
-
   end
 
   def create

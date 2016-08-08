@@ -9,7 +9,7 @@
         <table class="table table-striped">
           <div class="row">      
             <caption>
-              <div class="header1 col-xs-12">Professional growth plan scores</div></br>
+              <div class="header1 col-xs-12">Professional growth plan scores for <%="#{@student.FirstName} #{@student.LastName}"%></div></br>
 
               <div class="header2 col-xs-12"> <%= pluralize(@pgp.pgp_scores.size, "PGP score") + " found" %> </div>
                 <div class="col-xs-1">
@@ -24,12 +24,18 @@
                 <th>Score Reason(s)</th>
                 <th>Date Scored</th>
               </tr>
-              <% @pgp.pgp_scores.each do |pgp_score| %>
+              <% @pgp_scores.each do |pgp_score| %>
+              
+              
               <tr>
                 <td> <%= pgp_score.goal_score %></td>
                 <td> <%= pgp_score.score_reason %></td>
-                <td> <%= pgp_score.created_at%> </td>
+                <td> <%= pgp_score.created_at.strftime("%m/%d/%Y")%> </td>
+
+                <td>
+                   <%= link_to("Edit PGP Score", edit_pgp_score_path(pgp_score.id), :class => "action details btn btn-info action-small issues") %>
+                </td>
               </tr>
-             <% end %>
+          <% end %>
         </table>
       </div>

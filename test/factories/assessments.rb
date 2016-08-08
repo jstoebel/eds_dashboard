@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  name        :string(255)
-#  description :text
+#  description :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
 #
@@ -14,8 +14,7 @@
 include Faker
 FactoryGirl.define do
   factory :assessment do
-    name Lorem.words(4).join " "
-    description Lorem.paragraph
-
+    name {Lorem.words(4).join " "}
+    description {Lorem.paragraph}
   end
 end
