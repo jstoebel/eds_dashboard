@@ -19,7 +19,7 @@
 #  CurrentMinors    :string(255)
 #  Email            :string(100)
 #  CPO              :string(45)
-#  withdrawals      :text(65535)
+#  withdraws        :text(65535)
 #  term_graduated   :integer
 #  gender           :string(255)
 #  race             :string(255)
@@ -44,11 +44,11 @@ class Student < ActiveRecord::Base
 	has_many :programs, :through => :adm_tep
 
 	has_many :advisor_assignments
-	has_many :tep_advisors
+	has_many :tep_advisors, :through => :advisor_assignments
 
-    has_many :student_scores
+  has_many :student_scores
 
-    has_many :pgps
+  has_many :pgps
 
 ###################################################################################################
 

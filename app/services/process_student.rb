@@ -44,7 +44,6 @@ class ProcessStudent
         # TODO EMAIL ALERT!
      end
 
-    #  puts "\t -> done!"
 
    end
 
@@ -87,8 +86,6 @@ class ProcessStudent
          assignment.destroy!
        end
      end
-
-    #  puts "\t -> done!"
 
    end
 
