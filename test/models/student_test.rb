@@ -86,7 +86,7 @@ class StudentTest < ActiveSupport::TestCase
 		course.save
 
 		stu = course.student
-		prof_bnum = course.Inst_bnum
+		prof_bnum = course.inst_bnums[0]
 		assert stu.is_student_of?(prof_bnum), "inst B# is " + prof_bnum
 	end
 
@@ -98,7 +98,7 @@ class StudentTest < ActiveSupport::TestCase
 		assert course.valid?
 		course.save
 		stu = course.student
-		prof_bnum = course.Inst_bnum
+		prof_bnum = course.instructors
 		assert stu.is_student_of?(prof_bnum) == false
 	end
 
@@ -113,7 +113,7 @@ class StudentTest < ActiveSupport::TestCase
 		course.save
 
 		stu = course.student
-		prof_bnum = course.Inst_bnum
+		prof_bnum = course.instructors
 		assert stu.is_student_of?("bogus bnum") == false
 	end
 
