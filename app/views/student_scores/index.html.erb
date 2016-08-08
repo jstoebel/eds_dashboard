@@ -1,0 +1,22 @@
+<% @page_title = "Student Scores" %>
+
+<div class="student scores index">
+  
+    <div class="container">
+      <table class="listing table table-striped" summary="Student Scores">
+        <div class="row">          
+          <caption>
+            <div class="header1 col-xs-12">Version Scores</div></br>
+            <div class="header2 col-xs-12"><%= @score.size %> found</div></br>     
+          </caption>
+        </div>
+          <tr class="header">
+            <th>Student</th>
+            <th>Assessment Item</th>
+            <th>Item Level</th>
+          </tr>
+          <% @score.each do |score| %>
+                
+              <td><%= Student.find(score.student_id).FirstName %></td>
+              <td><%= Student.find(score.student_id).LastName %></td>
+          <% end %>

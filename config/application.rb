@@ -1,5 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
+require 'csv'
 require 'rails/all'
 
 secrets_file = '/home/stoebelj/.eds_secrets.yml'

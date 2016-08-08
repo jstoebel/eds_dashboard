@@ -85,3 +85,5 @@ gem 'dbi', '~> 0.4.5'
 gem 'ruby-oci8', '~> 2.2', '>= 2.2.2',  :group => :cs_c9_exclude
 
 gem 'responders', '~> 2.0'
+
+gem 'roo'

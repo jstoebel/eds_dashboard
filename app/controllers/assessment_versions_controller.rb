@@ -17,6 +17,7 @@ class AssessmentVersionsController < ApplicationController
     #shows all versions of a particular assessment
     if params["assessment_id"]   #we only want versions of this assessment
       @assessment = Assessment.find(params[:assessment_id])
+      authorize! :read, @assessment
       @version = @assessment.assessment_versions.sorted.select {|r| can? :read, r }
     else
       @version = AssessmentVersion.all.sorted.select {|r| can? :read, r } 

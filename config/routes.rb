@@ -171,10 +171,16 @@ Rails.application.routes.draw do
       
   resources :item_levels, only: [:show, :create, :update, :destroy] do
   end
-
+  
+  resources :student_scores, only: [:new, :show] do
+  end
+  
   resources :assessment_versions, only: [:index, :create, :show, :update, :destroy] do
     resources :assessment_items, only: [:index] do
       resources :item_levels, only: [:index]
+    end
+    resources :student_scores, only: [:index] do
+      collection { post :import}
     end
     get "delete"
     put "update"
