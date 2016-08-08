@@ -1,4 +1,4 @@
-class BannerUpdate < ApplicationMailer
+class BannerUpdateMailer < ApplicationMailer
 
   def notify_possible_drop(stu, adv)
     # stu (Student object) that this email is about
@@ -7,7 +7,7 @@ class BannerUpdate < ApplicationMailer
     @stu = stu
     @adv = adv
     mail(:to => adv.get_email,
-      :cc => ["stoebelj@berea.edu", "rosenbarkerl@berea.edu"],
+      :cc => ["stoebelj@berea.edu"], #, "rosenbarkerl@berea.edu"],
       :subject => "Possible TEP status change for #{@stu.name_readable}")
   end
 end
