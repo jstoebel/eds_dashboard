@@ -1,5 +1,4 @@
 require 'dbi'
-
 task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |t, args|
   # updates banner pulling all students who were enrolled in EDS 150 in any of
   # the terms between start_term and end_term
@@ -12,52 +11,57 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
       # upsert transcript
       # update log
 
-    DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod", SECRET["BANNER_UN"], SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_FILTER_TERM = 201512"
 
-        visited_students = []
-        existing_students = Student.all
+    terms = BannerTerm.where({:BannerTerm => args[:start_term]..args[:end_term]})
 
-        dbh.select_all(sql) do |row|
+    terms.each do |t|
 
-          row_service = ProcessStudent.new row
-          stu = row_service.stu
+      puts "Query for #{t.BannerTerm}"
 
-          #STUDENT LEVEL
-          if !visited_students.include? stu
-            # student level info
-            visited_students << stu
+      conn = BannerConnection.new t.BannerTerm
+      rows = conn.get_results
 
-            # insert or update?
-            if existing_students.include? stu
+      visited_students = []
+      existing_students = Student.all
 
-              begin
-                row_service.update
-              rescue ActiveRecord::RecordInvalid => exception
-                log_error exception
-              end
+      rows.each do |row|
 
+        row_service = ProcessStudent.new row
 
+        #STUDENT LEVEL
+        if !visited_students.include? bnum
+          # student level info
+          visited_students << bnum
 
-            else
-              #insert
-              # row_service.insert
-            end
-
-            begin
-              row_service.update_advisor_assignments
-            rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => exception
-              log_error exception
-
-            end
-
+          begin
+            row_service.upsert_student
+          rescue ActiveRecord::RecordInvalid => exception
+            p "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}"
+            log_error exception
           end
 
-          # ROW BY ROW (TRANSCRIPT)
+          # update advisor assignments
+          begin
+            row_service.update_advisor_assignments
+          rescue ActiveRecord::StatementInvalid => exception
 
+            p "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}"
+            log_error exception
+          end
 
         end
-    end
+
+        # ROW BY ROW (TRANSCRIPT)
+        begin
+          row_service.upsert_course
+        rescue ActiveRecord::RecordInvalid => exception
+          p "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}"
+          log_error exception
+        end
+
+      end #row
+    end # main loop
+
 end
 
 
