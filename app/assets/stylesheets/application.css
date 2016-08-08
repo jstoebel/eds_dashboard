@@ -247,8 +247,10 @@ a:hover { text-decoration: underline; }
     }
 
     .small-btn-text {
-      font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; 
+      font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;
+      font-size: 12pt;
       width: 100%;
+      color: black;
     }
 
   /*Large buttons*/

@@ -1,12 +1,15 @@
 # == Schema Information
 #
-# Table Name: pgps
+# Table name: pgps
 #
-#  pgp_id :integer       not null
-#  goal_name :string
-#  description :text
-#  plan :text
-# 
+#  id          :integer          not null, primary key
+#  student_id  :integer
+#  goal_name   :string(255)
+#  description :text(65535)
+#  plan        :text(65535)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
 
 class PgpsController < ApplicationController
     layout 'application'

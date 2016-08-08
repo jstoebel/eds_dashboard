@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  slug        :string(255)
-#  description :text
+#  description :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
 #  name        :string(255)
@@ -15,7 +15,8 @@ include Faker
 
 FactoryGirl.define do
   factory :assessment_item do
-    slug Lorem.words(4).join " "
-    description Lorem.paragraph
+    slug {Lorem.words(4).join " "}  #Lazy load, calls every time executed
+    name {Lorem.words(5).join " "}
+    description {Lorem.paragraph}
   end
 end

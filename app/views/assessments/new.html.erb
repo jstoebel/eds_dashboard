@@ -1,0 +1,20 @@
+<%= link_to assessments_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<%= form_for(@assessment, url: assessments_path(@assessment.id)) do |f| %>
+
+	<table summary="Assessments form fields">
+
+    <caption>
+    	<span class="header1"> Create New Assessment</span>
+
+    </caption>
+
+	<%= render(partial: 'form', locals: {f: f}) %>
+
+	<tr>
+		<td><%= submit_tag("Create Assessment") %></td>
+	</tr>
+
+<% end %>

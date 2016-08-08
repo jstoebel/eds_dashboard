@@ -2,16 +2,16 @@
 #
 # Table name: adm_st
 #
-#  student_id            :integer          not null
 #  id                    :integer          not null, primary key
+#  student_id            :integer          not null
 #  BannerTerm_BannerTerm :integer
-#  Attempt               :integer          not null
+#  Attempt               :integer
 #  OverallGPA            :float(24)
 #  CoreGPA               :float(24)
 #  STAdmitted            :boolean
 #  STAdmitDate           :datetime
 #  STTerm                :integer
-#  Notes                 :text
+#  Notes                 :text(65535)
 #  background_check      :boolean
 #  beh_train             :boolean
 #  conf_train            :boolean
