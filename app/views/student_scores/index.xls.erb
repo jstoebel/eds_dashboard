@@ -1,0 +1,21 @@
+<% @page_title = "Scores Excel" %>
+
+      <table border="1">
+          <tr class="header">
+            <th>Bnum</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>assessment_version_id</th>
+            <% @version.assessment_items.each do |item| %>
+              <th><%= "assessment_item_id: #{item.id}"%> </th>
+            <% end %>
+          </tr>
+            <% @score.each do |score| %>
+                <tr>
+                <td><%= Student.find(score.student_id).Bnum %></td>
+                <td><%= Student.find(score.student_id).FirstName %></td>
+                <td><%= Student.find(score.student_id).LastName %></td>
+                <td><%= score.assessment_version_id %></td>
+                <td><%= score.item_level.ord %></td>
+              </tr>
+            <% end %>

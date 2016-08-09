@@ -1,7 +1,11 @@
 <% @page_title = "Student Scores" %>
 
 <div class="student scores index">
-  
+  <p>
+    Download:
+    <%= link_to "CSV", assessment_version_student_scores_path(format: "csv") %>
+    <%= link_to "Excel", assessment_version_student_scores_path(format: "xls") %>
+  </p>
     <div class="container">
       <table class="listing table table-striped" summary="Student Scores">
         <div class="row">          
@@ -16,12 +20,20 @@
             <th>Score</th>
             <th>Score Description</th>
           </tr>
-          <% @score.each do |score| %>
-              <tr>  
+            <% @score.each do |score| %>
+                <tr>
                 <td><%= Student.find(score.student_id).FirstName %>
                   <%= Student.find(score.student_id).LastName %></td>
                 <td><%= score.assessment_item_id %></td>
                 <td><%= score.item_level.ord %></td>
                 <td><%= score.item_level.level %></td>
               </tr>
-          <% end %>
+            <% end %>
+          <tr>
+            <td>
+              <%= form_tag import_assessment_version_student_scores_path(@version.id), multipart: true do %>  
+                <%= file_field_tag :file %>
+                <%= submit_tag "Upload New Scores" %>
+              <% end %>  
+            </td>
+          </tr>

@@ -7,6 +7,11 @@ class StudentScoresController < ApplicationController
     #TODOadd sorted here after defining scope
     @score = @version.student_scores.select{|r| can? :read, r}
     authorize! :read, @score
+    respond_to do |format|
+      format.html
+      format.csv{send_data @score.to_csv}
+      format.xls
+    end
   end
   
   def new
@@ -23,11 +28,11 @@ class StudentScoresController < ApplicationController
   end
   
   def import
-    StudentScore.import(params[:file])
+    StudentScore.import_create(params[:file])
+    flash[:alert] = "Scores Uploaded Successfully"
     render 'index'
     
     # spreadsheet = open_spreadsheet(file)
-    # authorize! :manage, @assessment 
     # header = spreadsheet.row(1)
     # (2..spreadsheet.last_row).each do |i|
     #   [spreadsheet.row(i)]
