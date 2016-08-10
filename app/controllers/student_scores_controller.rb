@@ -9,7 +9,7 @@ class StudentScoresController < ApplicationController
     authorize! :read, @score
     respond_to do |format|
       format.html
-      format.csv{send_data @score.to_csv}
+      format.csv {send_data @score.to_csv}
       format.xls
     end
   end
@@ -28,9 +28,9 @@ class StudentScoresController < ApplicationController
   end
   
   def import
-    StudentScore.import_create(params[:file])
+    @score = StudentScore.import_create(params[:file])
     flash[:alert] = "Scores Uploaded Successfully"
-    render 'index'
+    redirect_to assessment_version_student_scores_path(@score.first.assessment_version_id)
     
     # spreadsheet = open_spreadsheet(file)
     # header = spreadsheet.row(1)
