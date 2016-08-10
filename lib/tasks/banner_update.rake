@@ -1,7 +1,8 @@
 require 'dbi'
-task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |t, args|
+task :banner_update, [:start_term, :end_term] => :environment do |t, args|
   # updates banner pulling all students who were enrolled in EDS 150 in any of
   # the terms between start_term and end_term
+  # call this task like this rake banner_update[:start_term, :end_term] RAILS_ENV=production
 
   # specific steps:
     # for each term
@@ -11,8 +12,14 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
       # upsert transcript
       # update log
 
+    start_term = args[:start_term]
+    end_term = args[:end_term]
 
-    terms = BannerTerm.where({:BannerTerm => args[:start_term]..args[:end_term]})
+    if start_term.nil? || end_term.nil?
+      fail "a start and end term must be supplied."
+    end
+
+    terms = BannerTerm.where({:BannerTerm => start_term..end_term})
 
     terms.each do |t|
 
@@ -26,6 +33,8 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
 
       rows.each do |row|
 
+        bnum = row["SZVEDSD_ID"]
+
         row_service = ProcessStudent.new row
 
         #STUDENT LEVEL
@@ -36,8 +45,7 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
           begin
             row_service.upsert_student
           rescue ActiveRecord::RecordInvalid => exception
-            p "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}"
-            log_error exception
+            log_error exception, "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}", t
           end
 
           # update advisor assignments
@@ -45,8 +53,7 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
             row_service.update_advisor_assignments
           rescue ActiveRecord::StatementInvalid => exception
 
-            p "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}"
-            log_error exception
+            log_error exception, "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}", t
           end
 
         end
@@ -55,22 +62,27 @@ task :banner_update, [:start_term, :end_term, :send_emails] => :environment do |
         begin
           row_service.upsert_course
         rescue ActiveRecord::RecordInvalid => exception
-          p "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}"
-          log_error exception
+          log_error exception, "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}", t
         end
 
       end #row
     end # main loop
 
-    #TODO new BannerUpdate
+    begin
+      BannerUpdate.create!({
+        start_term: start_term,
+        end_term: end_term
+        })
+    rescue ActiveRecord::RecordInvalid => exception
+      log_error exception, "Error trying to create new BannerUpdate", t
+    end
 
 end
 
-
-
-def log_error(exception)
+def log_error(exception, context_message, task)
     # logs exception tagged with the task name and timestamp
     # exception includes a class, message and backtrace
+    # task, the rake task where the exception was thrown
 
     # more info: http://blog.bigbinary.com/2014/03/03/logger-formatting-in-rails.html
     # and http://guides.rubyonrails.org/debugging_rails_applications.html#tagged-logging
@@ -79,5 +91,6 @@ def log_error(exception)
       Rails.logger.info exception.class.to_s
       Rails.logger.info exception.to_s
       Rails.logger.info exception.backtrace.join("\n")
+      Rails.logger.info context_message
      }
 end

@@ -41,7 +41,7 @@ class ProcessStudent
         (@stu.open_programs)
         puts "EMAIL ALERT: #{@stu.name_readable} is not a TEP student any more!"
 
-        @stu.tep_advisors.each |adv| do
+        @stu.tep_advisors.each do |adv|
           BannerUpdateMailer.possible_drop(@stu, adv).deliver_now
         end
      end
