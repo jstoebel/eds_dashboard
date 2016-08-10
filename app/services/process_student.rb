@@ -36,12 +36,14 @@ class ProcessStudent
 
      # email alert if candidate appears to have left program according to concentration change
      # dismissed, or transfer
-
      if ((@stu.was_eds_major? && !@stu.is_eds_major?) ||
         (@stu.was_cert_concentration? && !@stu.is_cert_concentration?)) &&
         (@stu.open_programs)
         puts "EMAIL ALERT: #{@stu.name_readable} is not a TEP student any more!"
-        # TODO EMAIL ALERT!
+
+        @stu.tep_advisors.each |adv| do
+          BannerUpdateMailer.possible_drop(@stu, adv).deliver_now
+        end
      end
 
    end
