@@ -1,4 +1,4 @@
-<% @page_title = "Scores Excel" %>
+<% @page_title = "Blank Template" %>
 
       <table border="1">
           <tr class="header">
@@ -10,12 +10,3 @@
               <th><%= "assessment_item_id: #{item.id}"%> </th>
             <% end %>
           </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <% (1..10).each do |ver %>
-                <td><%= score.assessment_version_id %></td>
-                <td><%= score.item_level.ord %></td>
-              </tr>
-            <% end %>

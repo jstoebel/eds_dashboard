@@ -15,6 +15,7 @@
 =end
 
 class StudentScore < ActiveRecord::Base
+    
     belongs_to :student
     belongs_to :assessment_version
     belongs_to :item_level
@@ -47,12 +48,10 @@ class StudentScore < ActiveRecord::Base
               ver_id = row["assessment_version_id"]
               item_id = row.headers[score].to_s.split(" ").slice(1)
               lev_id = AssessmentItem.find(item_id).item_levels.find_by(ord: row[row.headers[score]]).id
-            
               attribute_array.push(["student_id", stu_id], ["assessment_version_id", ver_id], ["assessment_item_id", item_id], ["item_level_id", lev_id])
-              puts attribute_array.inspect
-              puts attribute_array.to_h.inspect
-              #TODO will have to make sure only accessible attributes
-              StudentScore.create! attribute_array.to_h
+              ## Whitelisting example found at https://github.com/rails/strong_parameters
+              parameters = ActionController::Parameters.new(attribute_array.to_h)
+              StudentScore.create(parameters.permit(:student_id, :assessment_version_id, :assessment_item_id, :item_level_id))
             end
         end
     end
