@@ -42,7 +42,7 @@ class ProcessStudent
         puts "EMAIL ALERT: #{@stu.name_readable} is not a TEP student any more!"
 
         @stu.tep_advisors.each do |adv|
-          BannerUpdateMailer.possible_drop(@stu, adv).deliver_now
+          # BannerUpdateMailer.possible_drop(@stu, adv).deliver_now #FIXME UNCOOMMENT!
         end
      end
 
@@ -73,6 +73,8 @@ class ProcessStudent
          AdvisorAssignment.create({:student_id => stu.id,
              :tep_advisor_id => adv.id
          })
+         puts "EMAIL ALERT! #{@stu.name_readable} was added to #{adv.Salutation}"
+        #  BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now # FIXME uncomment!
        end
      end
 
@@ -85,6 +87,8 @@ class ProcessStudent
              :tep_advisor_id => adv.id
          })
          assignment.destroy!
+         puts "EMAIL ALERT! #{@stu.name_readable} was removed from #{adv.Salutation}"
+        #  BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now  # FIXME uncomment!
        end
      end
 

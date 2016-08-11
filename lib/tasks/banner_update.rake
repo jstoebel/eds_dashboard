@@ -1,5 +1,5 @@
 require 'dbi'
-task :banner_update, [:start_term, :end_term] => :environment do |t, args|
+task :banner_update, [:start_term, :end_term] => :environment do |task, args|
   # updates banner pulling all students who were enrolled in EDS 150 in any of
   # the terms between start_term and end_term
   # call this task like this rake banner_update[:start_term, :end_term] RAILS_ENV=production
@@ -11,7 +11,6 @@ task :banner_update, [:start_term, :end_term] => :environment do |t, args|
         # update existing students
       # upsert transcript
       # update log
-
     start_term = args[:start_term]
     end_term = args[:end_term]
 
@@ -19,6 +18,7 @@ task :banner_update, [:start_term, :end_term] => :environment do |t, args|
       fail "a start and end term must be supplied."
     end
 
+    error_count = 0
     terms = BannerTerm.where({:BannerTerm => start_term..end_term})
 
     terms.each do |t|
@@ -45,15 +45,16 @@ task :banner_update, [:start_term, :end_term] => :environment do |t, args|
           begin
             row_service.upsert_student
           rescue ActiveRecord::RecordInvalid => exception
-            log_error exception, "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}", t
+            log_error exception, "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}", task
+            error_count += 1
           end
 
           # update advisor assignments
           begin
             row_service.update_advisor_assignments
           rescue ActiveRecord::StatementInvalid => exception
-
-            log_error exception, "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}", t
+            log_error exception, "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}", task
+            error_count += 1
           end
 
         end
@@ -62,7 +63,8 @@ task :banner_update, [:start_term, :end_term] => :environment do |t, args|
         begin
           row_service.upsert_course
         rescue ActiveRecord::RecordInvalid => exception
-          log_error exception, "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}", t
+          log_error exception, "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}", task
+          error_count += 1
         end
 
       end #row
@@ -75,7 +77,10 @@ task :banner_update, [:start_term, :end_term] => :environment do |t, args|
         })
     rescue ActiveRecord::RecordInvalid => exception
       log_error exception, "Error trying to create new BannerUpdate", t
+      error_count += 1
     end
+
+    BannerUpdateMailer.update_done(task.timestamp, error_count).deliver_now
 
 end
 
