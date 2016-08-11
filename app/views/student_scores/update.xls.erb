@@ -1,0 +1,26 @@
+<% @page_title = "Update Excel Sheet" %>
+
+      <table border="1">
+          <tr class="header">
+            <th>Bnumss</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>assessment_version_id</th>
+            <% @version.assessment_items.each do |item| %>
+              <th><%= "assessment_item_id: #{item.id}"%> </th>
+            <% end %>
+          </tr>
+            <% @scores.each do |score| %>
+                <tr>
+                <td><%= Student.find(score.student_id).Bnum %></td>
+                <td><%= Student.find(score.student_id).FirstName %></td>
+                <td><%= Student.find(score.student_id).LastName %></td>
+                <td><%= score.assessment_version_id %></td>  
+                  <% for score.item_level.each do || %>
+                    <tr>
+                    <td><%= score.item_level.ord %></td>  <!--Problem is here. puts all ord under same item. 
+                ord value should go under header that matches level parent item.id-->
+                    
+                    </tr>
+              </tr>
+            <% end %>

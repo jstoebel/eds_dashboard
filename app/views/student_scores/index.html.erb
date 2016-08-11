@@ -4,15 +4,14 @@
   <p>
     Download:
     <%= link_to "CSV", assessment_version_student_scores_path(format: "csv") %>
-    <%= link_to "Excel", assessment_version_student_scores_path(format: "xls") %>
-    <%= link_to "Blank Template", assessment_version_student_scores_path(format: "xlsx") %>
+    <%= link_to "Blank Template", assessment_version_student_scores_path(format: "xls") %>
   </p>
     <div class="container">
       <table class="listing table table-striped" summary="Student Scores">
         <div class="row">          
           <caption>
             <div class="header1 col-xs-12">Version Scores</div></br>
-            <div class="header2 col-xs-12"><%= @score.size %> found</div></br>     
+            <div class="header2 col-xs-12"><%= @scores.size %> found</div></br>     
           </caption>
         </div>
           <tr class="header">
@@ -21,7 +20,7 @@
             <th>Score</th>
             <th>Score Description</th>
           </tr>
-            <% @score.each do |score| %>
+            <% @scores.each do |score| %>
                 <tr>
                 <td><%= Student.find(score.student_id).FirstName %>
                   <%= Student.find(score.student_id).LastName %></td>

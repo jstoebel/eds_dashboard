@@ -10,12 +10,14 @@
               <th><%= "assessment_item_id: #{item.id}"%> </th>
             <% end %>
           </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <% (1..10).each do |ver %>
-                <td><%= score.assessment_version_id %></td>
-                <td><%= score.item_level.ord %></td>
-              </tr>
-            <% end %>
+          <% (1..10).each do |ver| %>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><%= @version.id %></td>
+              <% @version.assessment_items.each do |item| %>
+                <td></td>
+              <% end %>
+            </tr>
+          <% end %>
