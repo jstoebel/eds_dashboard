@@ -211,10 +211,31 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       row_service.update_advisor_assignments
 
       assert_equal @stu.advisor_assignments.size, @advisors.size
-      @advisors.each{|a| assert @stu.is_advisee_of a}
+
+      advisor_emails = ActionMailer::Base.deliveries
+      assert_equal advisor_emails.size, @advisors.size
+
+      #asertions for each advisor
+      @advisors.each_with_index do |adv, i|
+        assert @stu.is_advisee_of adv
+        adv_email = advisor_emails[i]
+        assert_equal [adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
+      end
+
     end
 
     it "removes all advisors" do
+
+      # assign advisors to stu
+
+
+      @advisors.each{|adv| AdvisorAssignment.create!({
+          :student_id => @stu.id,
+          :tep_advisor_id => adv.id
+        })}
+
       new_attrs = {
         "SZVEDSD_ID" => @stu.Bnum
       } # no advisors!
@@ -223,12 +244,23 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       row_service = ProcessStudent.new row
       row_service.update_advisor_assignments
 
+
+
       assert_equal @stu.advisor_assignments.size, 0
-      @advisors.each{|a| assert_not @stu.is_advisee_of a}
+
+      # advisor_emails = ActionMailer::Base.deliveries
+
+      # assertions for each advisor
+      # assert_equal advisor_emails.size, @advisors.size
+      @advisors.each_with_index do |adv, i|
+        assert_not @stu.is_advisee_of adv
+        # adv_email = advisor_emails[i]
+        # assert_equal [adv.get_email],  adv_email.to
+        # assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        # assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
+      end
 
     end
-
-
 
     it "doesn't create assignment - throws StatementInvalid" do
 
