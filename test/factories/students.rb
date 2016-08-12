@@ -50,5 +50,51 @@ FactoryGirl.define do
     LastName {Name.last_name}
     EnrollmentStatus "Active Student"
 
+    factory :admitted_student do
+      after(:create) do |stu|
+        # give course work, 12 courses
+
+        course_term  = BannerTerm.find 201511
+
+        courses = FactoryGirl.create_list :transcript, 12, {:student_id => stu.id,
+          :grade_pt => 4.0,
+          :grade_ltr => "A",
+          :credits_earned =>  4.0,
+          :term_taken => course_term.id,
+          :gpa_include => true
+        }
+      end
+
+      after(:create) do |stu|
+        test_term = stu.transcripts.first.banner_term
+        date_taken = test_term.StartDate
+        p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
+
+        praxis_attrs = p1_tests.map { |test|
+          FactoryGirl.attributes_for :praxis_result, {
+            :student_id => stu.id,
+            :praxis_test_id =>  test.id,
+            :test_score => 101,
+            :cut_score => 100,
+            :test_date => date_taken,
+            :reg_date => date_taken
+          }
+        }
+
+        praxis_attrs.map { |t| PraxisResult.create t }
+      end
+
+      after(:create) do |stu|
+        apply_term = stu.transcripts.first.banner_term.next_term
+
+        app = FactoryGirl.create :adm_tep, {
+          :student_id => stu.id,
+          :TEPAdmitDate => apply_term.StartDate,
+          :Program_ProgCode => Program.first.id,
+          :BannerTerm_BannerTerm => apply_term.id
+        }
+      end
+
+    end
   end
 end

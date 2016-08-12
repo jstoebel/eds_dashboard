@@ -340,19 +340,15 @@ class Student < ActiveRecord::Base
 	    options = defaults.merge(options)
 
 
-		courses = Transcript.where({
-				:student_id => self.id,
-				:gpa_include => true,
-			}).where("grade_pt is not null")
+
+		courses = self.transcripts.where("grade_pt is not null").order(term_taken: :desc).order!(quality_points: :desc)
 
 		#filter by term if one is given
-		courses.where!("term_taken <= ?", options[:term]) if options[:term]
-
-		#order by term and q points if last was given
-		courses.order!(term_taken: :desc).order!(quality_points: :desc) if options[:last]
+		courses = courses.where("term_taken <= ?", options[:term]) if options[:term]
 
 		credits = 0
 		qpoints = 0
+
 		courses.each do |course|
 			credits += course.credits_earned
 			qpoints += course.quality_points
