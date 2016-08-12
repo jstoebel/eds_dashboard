@@ -45,7 +45,7 @@ task :banner_update, [:start_term, :end_term] => :environment do |task, args|
           begin
             row_service.upsert_student
           rescue ActiveRecord::RecordInvalid => exception
-            log_error exception, "Error trying to upsert student #{row_service.stu.name_readable}: #{exception.to_s}", task
+            log_error exception, "Error trying to upsert student #{row_service.stu.name_readable}(#{bnum}): #{exception.to_s}", task
             error_count += 1
           end
 
@@ -53,7 +53,7 @@ task :banner_update, [:start_term, :end_term] => :environment do |task, args|
           begin
             row_service.update_advisor_assignments
           rescue ActiveRecord::StatementInvalid => exception
-            log_error exception, "Error trying to update advisor assginements for #{row_service.stu.name_readable}: #{exception.to_s}", task
+            log_error exception, "Error trying to update advisor assginements for #{row_service.stu.name_readable}(#{bnum}): #{exception.to_s}", task
             error_count += 1
           end
 
@@ -63,7 +63,7 @@ task :banner_update, [:start_term, :end_term] => :environment do |task, args|
         begin
           row_service.upsert_course
         rescue ActiveRecord::RecordInvalid => exception
-          log_error exception, "Error trying to upsert course for #{row_service.stu.name_readable}: #{exception.to_s}", task
+          log_error exception, "Error trying to upsert course for #{row_service.stu.name_readable}(#{bnum}): #{exception.to_s}", task
           error_count += 1
         end
 
@@ -83,6 +83,21 @@ task :banner_update, [:start_term, :end_term] => :environment do |task, args|
     BannerUpdateMailer.update_done(task.timestamp, error_count).deliver_now
 
 end
+
+task :full_banner_update => :environment do |task, args|
+  # determines all terms in last 10 years and calls banner_update with them.
+
+  start_term = BannerTerm.current_term({:exact => false,
+    :plan_b => :back,
+    :date => 10.years.ago})
+
+  end_term = BannerTerm.current_term({:exact => false,
+    :plan_b => :forward})
+
+    Rake::Task["banner_update"].invoke(start_term.id, end_term.id)
+
+end
+
 
 def log_error(exception, context_message, task)
     # logs exception tagged with the task name and timestamp
