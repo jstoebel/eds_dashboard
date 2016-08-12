@@ -3,7 +3,7 @@ require 'test_helper'
 class ProcessStudentServiceTest < ActiveSupport::TestCase
 
   setup do
-
+    ActionMailer::Base.deliveries.clear
     @row_template = {
       "SZVEDSD_ID" => nil,
       "SZVEDSD_LAST_NAME" => nil,
@@ -133,6 +133,59 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       assert_raises(ActiveRecord::RecordInvalid) {row_service.upsert_student}
 
     end
+
+    describe "detects dropping out of program" do
+
+      before do
+        @stu = FactoryGirl.create :admitted_student
+        @adv = FactoryGirl.create :tep_advisor
+        FactoryGirl.create :advisor_assignment, {:student_id => @stu.id,
+          :tep_advisor_id => @adv.id
+        }
+
+        @drop_attrs = @row_template.merge({
+          "SZVEDSD_ID" => @stu[:Bnum],
+          "SZVEDSD_LAST_NAME" => @stu[:LastName],
+          "SZVEDSD_FIRST_NAME" => @stu[:FirstName],
+          "SZVEDSD_ENROLL_STAT" => @stu[:EnrollmentStatus],
+        })
+
+      end
+
+      it "detectes dropped major" do
+        # need an EDS major who is admitted to the TEP
+
+        @stu.update_attributes({:CurrentMajor1 => "Education Studies"})  #start off as EDS major
+
+        row_service = ProcessStudent.new @drop_attrs
+        row_service.upsert_student
+
+        assert_equal 1, @stu.tep_advisors.size
+        adv_email = ActionMailer::Base.deliveries.last
+
+        assert_equal [@adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+      it "detectes dropped concentration" do
+        # need an EDS major who is admitted to the TEP
+
+        @stu.update_attributes({:concentration1 => "Middle Grades Science Cert"})
+
+        row_service = ProcessStudent.new @drop_attrs
+        row_service.upsert_student
+
+        assert_equal 1, @stu.tep_advisors.size
+        adv_email = ActionMailer::Base.deliveries.last
+
+        assert_equal [@adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+    end
+
   end
 
   ###TESTS FOR UPSERT ADVISOR_ASSIGNMENTS###

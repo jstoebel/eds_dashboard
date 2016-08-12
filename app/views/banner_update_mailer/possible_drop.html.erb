@@ -17,6 +17,7 @@ Dear <%= "#{@adv.first_name} #{@adv.last_name}" %>, </br>
 <p>
   <h2><%= @stu.name_readable %></h2>
   Current Majors:  <%= (1..2).map{|n| @stu.send("CurrentMajor#{n}")}.join("; ") %> </br>
+  Current concentrations: <%= (1..2).map{|n| @stu.send("concentration#{n}")}.join("; ") %> </br>
   Current Enrollment Status: <%= @stu.EnrollmentStatus %> </br>
   Programs: <%= @stu.programs.map{|p| p.EDSProgName}.join("; ") %>
 </p>
