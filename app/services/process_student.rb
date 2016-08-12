@@ -11,9 +11,8 @@ class ProcessStudent
 
    def upsert_student
      # upserts a student.
-    #  puts "Upserting student record for #{@stu.name_readable}..."
 
-      @stu.update_attributes!({:FirstName => @row['SZVEDSD_FIRST_NAME'],
+      @stu.assign_attributes({:FirstName => @row['SZVEDSD_FIRST_NAME'],
         :MiddleName => @row['SZVEDSD_MIDDLE_NAME'],
         :LastName => @row['SZVEDSD_LAST_NAME'],
         :EnrollmentStatus => @row['SZVEDSD_ENROLL_STAT'],
@@ -36,22 +35,23 @@ class ProcessStudent
 
      # email alert if candidate appears to have left program according to concentration change
      # dismissed, or transfer
+
      if ((@stu.was_eds_major? && !@stu.is_eds_major?) ||
         (@stu.was_cert_concentration? && !@stu.is_cert_concentration?)) &&
         (@stu.open_programs)
-        puts "EMAIL ALERT: #{@stu.name_readable} is not a TEP student any more!"
-
         @stu.tep_advisors.each do |adv|
-          # BannerUpdateMailer.possible_drop(@stu, adv).deliver_now #FIXME UNCOOMMENT!
+          BannerUpdateMailer.possible_drop(@stu, adv).deliver_now
         end
      end
+
+     @stu.save!
 
    end
 
    def update_advisor_assignments
      # determines any changes in advisor assignments and adds/removes to match.
      # example: FirstName LastName {Primary-B00xxxxxx}; FirstName LastName {Minor-B00xxxxxx}
-    #  puts "updating advisors for #{@stu.name_readable}: #{@stu.Bnum}"
+
      advisors_raw = @row['SZVEDSD_ADVISOR']
      if advisors_raw.present?
        advisors = advisors_raw.split ";" # array of each advisor with B#
@@ -73,8 +73,7 @@ class ProcessStudent
          AdvisorAssignment.create({:student_id => stu.id,
              :tep_advisor_id => adv.id
          })
-         puts "EMAIL ALERT! #{@stu.name_readable} was added to #{adv.Salutation}"
-        #  BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now # FIXME uncomment!
+         BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now
        end
      end
 
@@ -87,8 +86,7 @@ class ProcessStudent
              :tep_advisor_id => adv.id
          })
          assignment.destroy!
-         puts "EMAIL ALERT! #{@stu.name_readable} was removed from #{adv.Salutation}"
-        #  BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now  # FIXME uncomment!
+         BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now
        end
      end
 
@@ -96,7 +94,6 @@ class ProcessStudent
 
    def upsert_course
 
-    #  puts "Upserting course for #{@stu.name_readable}: #{@stu.Bnum}"
 
      term_raw = @row['SZVEDSD_TERM_TAKEN']  #looks like this 201512 - Spring Term 2016
      #split at first dash

@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "EDS_Dashboard@berea.edu", reply_to: "stoebelj@berea.edu"
+  default from: SECRET["APP_EMAIL_ADDRESS"], reply_to: SECRET["APP_ADMIN_EMAIL"]
   layout 'mailer'
 end
