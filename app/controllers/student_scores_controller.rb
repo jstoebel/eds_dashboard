@@ -31,8 +31,13 @@ class StudentScoresController < ApplicationController
     #import_create method returns list with ver_id as ver_and_matches[0]
     #if exact name is not found, list of possible students is returned as [1]
     ver_and_matches = StudentScore.import_create(params[:file])
-    flash[:alert] = "Scores Uploaded Successfully"
-    redirect_to :action => "index", :assessment_version_id => ver_and_matches[0]
+    if ver_and_matches[1] != []
+      @score_info = ver_and_matches[1][1]
+      render 'select_stu'
+    else
+      flash[:alert] = "Scores Uploaded Successfully"
+      redirect_to :action => "index", :assessment_version_id => ver_and_matches[0]
+    end
   end
   
   private

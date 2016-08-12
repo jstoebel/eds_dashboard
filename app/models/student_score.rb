@@ -50,7 +50,7 @@ class StudentScore < ActiveRecord::Base
               ver_id = row["assessment_version_id"]
               item_id = row.headers[score].to_s.split(" ").slice(1)
               lev_id = AssessmentItem.find(item_id).item_levels.find_by(ord: row[row.headers[score]]).id
-
+              attribute_array.push(["assessment_version_id", ver_id], ["assessment_item_id", item_id], ["item_level_id", lev_id])
               ##TODO Bnum not provided but may be in future
               #stu_id found through first name last name match
               #else not perfect match
@@ -58,12 +58,16 @@ class StudentScore < ActiveRecord::Base
               #if only one match, give student id
               #else, display screen picking student, assign that stu_id
 
-              stu_id = Student.find_by(Bnum: row["Bnum"]).id
-              #if Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]) == nil
-              #stu_id = 
-              #end
+              #stu_id = Student.find_by(Bnum: row["Bnum"]).id
+              if Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]) == nil
+                #find_stu returns list of 
+                ver_and_matches.push( [ attribute_array, find_stu(row["FirstName"], row["LastName"]) ] )
+                next    #goes to next iteration
+              else
+                 stu_id = Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]).id
+              end
   
-              attribute_array.push(["student_id", stu_id], ["assessment_version_id", ver_id], ["assessment_item_id", item_id], ["item_level_id", lev_id])
+              attribute_array.push(["student_id", stu_id])
               ## Whitelisting example found at https://github.com/rails/strong_parameters
               parameters = ActionController::Parameters.new(attribute_array.to_h)
               StudentScore.create(parameters.permit(:student_id, :assessment_version_id, :assessment_item_id, :item_level_id))
@@ -79,8 +83,10 @@ class StudentScore < ActiveRecord::Base
     end
         
     
-    # def find_stu(first)
-    #     Student.find_by(FirstName)
-    #     Student.find_by(LastName)
-    # end
+    def find_stu(first, last)
+        #method takes first and last name, returns list of possible matching students
+    #   Student.find_by(FirstName)
+    #   Student.find_by(LastName)
+    #  return 
+    end
 end
