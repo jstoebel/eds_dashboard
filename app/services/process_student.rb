@@ -79,6 +79,8 @@ class ProcessStudent
 
      delete_me = current_bnums - new_bnums # in current and not in new
 
+
+
      delete_me.each do |bnum|
        adv = TepAdvisor.find_by :AdvisorBnum => bnum
        if !adv.nil?
