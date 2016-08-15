@@ -51,17 +51,12 @@ class StudentScore < ActiveRecord::Base
               item_id = row.headers[score].to_s.split(" ").slice(1)
               lev_id = AssessmentItem.find(item_id).item_levels.find_by(ord: row[row.headers[score]]).id
               attribute_array.push(["assessment_version_id", ver_id], ["assessment_item_id", item_id], ["item_level_id", lev_id])
-              ##TODO Bnum not provided but may be in future
-              #stu_id found through first name last name match
-              #else not perfect match
-              #call find_stu, compare to preferred, last-names, etc
-              #if only one match, give student id
-              #else, display screen picking student, assign that stu_id
+
 
               #stu_id = Student.find_by(Bnum: row["Bnum"]).id
               if Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]) == nil
                 #find_stu returns list of 
-                ver_and_matches.push( [ attribute_array, find_stu(row["FirstName"], row["LastName"]) ] )
+                ver_and_matches.push([ attribute_array, find_stu(row["FirstName"], row["LastName"]) ] )
                 next    #goes to next iteration
               else
                  stu_id = Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]).id
@@ -85,8 +80,16 @@ class StudentScore < ActiveRecord::Base
     
     def find_stu(first, last)
         #method takes first and last name, returns list of possible matching students
-    #   Student.find_by(FirstName)
+        pos_matches = []
+        pos_matches.push(Student.where({ FirstName: %first or LastName: %last) #Student.find_by(FirstName)
     #   Student.find_by(LastName)
     #  return 
+    
+    ##TODO Bnum not provided but may be in future
+      #stu_id found through first name last name match
+      #else not perfect match
+      #call find_stu, compare to preferred, last-names, etc
+      #if only one match, give student id
+      #else, display screen picking student, assign that stu_id
     end
 end
