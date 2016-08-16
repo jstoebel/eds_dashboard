@@ -1,0 +1,8 @@
+     <%= error_messages_for(@version) %>
+    
+    <tr>
+      <th> <%= f.label(:assessment_items, "Items")%> </th>
+      <td> <%= f.select(:assessment_items, @items.map {|i| [i.name, i.id]}, {:prompt => 'Select the items'}, {:multiple => true}) %></td>
+    </tr>
+  
+  </table>
