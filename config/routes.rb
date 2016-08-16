@@ -232,18 +232,12 @@ Rails.application.routes.draw do
       resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
     end
   end
-<<<<<<< HEAD
   
   resources :fois, only: [:index, :import]
   
-    
   resources :fois do
     collection { post :import }
   end
-=======
-
-
->>>>>>> master
 
   resources :student_files do
     get "download"

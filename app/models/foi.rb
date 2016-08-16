@@ -18,23 +18,19 @@ class Foi < ActiveRecord::Base
   belongs_to :student
   belongs_to :major
 
-  def self.import(foi_file)
-    foi_spreadsheet = open_spreadsheet(foi_file)
-    header = foi_spreadsheet.row(2)
-      (3..spreadsheet.last_row).each do |i|
-        row = Hash [[header, spreadsheet.row(i)].transpose]
-        CSV.foreach(foi_file.path, headers: true) do |row|
-        Foi.create! row.to_hash.slice(*accessible_attributes)
-        Foi.save
-      end
-    end
-  end
+  require 'csv'
 
-  def self.open_spreadsheet(foi_file)
-    case Foi_file.extname(foi_file.original_filename)
-    when ".csv" then Csv.new(file.path, nil, :ignore)
-    else raise "Unknown file type: #{foi_file.original_filename}"
+  def self.import(file)
+    #CSV.foreach(file.path, headers: true) do |row|
+    foi_csv = CSV.read(file.path)
+    foi_csv[2..foi_csv.length].each do |x|
+      attribute_array = [:bnum => "Q1.2_3 - B#"]
+      foi_hash = x.headers[foi_csv].to_h.slice(:bnum, :new_form) # exclude the price field
+      student = Student.find_by(Bnum: attribute_array).id
+      foi = Foi.where(student = foi_hash["Q1.2_3 - B#"])
+      Foi.create
+      foi.update_attributes(foi_hash)
     end
-  end
+  end # end self.import(file)
   
 end
