@@ -176,28 +176,16 @@ class StudentTest < ActiveSupport::TestCase
 		s = Student.first
 		s.EnrollmentStatus = "Graduated"
 		s.save
-<<<<<<< HEAD
 		assert_equal "Not applying", s.prog_status
 	end 
-	
-	test "should not return perspective - enrollmentstatus transfered" do 
-=======
-		assert_equal "Dropped", s.prog_status
-	end
 
 	test "should not return perspective - enrollmentstatus transfered" do
->>>>>>> master
 		Foi.delete_all
 		AdmTep.delete_all
 		s = Student.first
 		s.EnrollmentStatus = "WD-Transferring"
-<<<<<<< HEAD
 		s.save 
 		assert_equal "Not applying", s.prog_status
-=======
-		s.save
-		assert_equal "Dropped", s.prog_status
->>>>>>> master
 	end
 
 
@@ -241,7 +229,6 @@ class StudentTest < ActiveSupport::TestCase
 	test "returns not applying dismissed" do
 		stu = Student.first
 		Foi.delete_all
-
 		stu.EnrollmentStatus = "Dismissed - Academic"
 		stu.save
 		assert_equal "Not applying", stu.prog_status
