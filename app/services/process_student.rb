@@ -11,9 +11,8 @@ class ProcessStudent
 
    def upsert_student
      # upserts a student.
-    #  puts "Upserting student record for #{@stu.name_readable}..."
 
-      @stu.update_attributes!({:FirstName => @row['SZVEDSD_FIRST_NAME'],
+      @stu.assign_attributes({:FirstName => @row['SZVEDSD_FIRST_NAME'],
         :MiddleName => @row['SZVEDSD_MIDDLE_NAME'],
         :LastName => @row['SZVEDSD_LAST_NAME'],
         :EnrollmentStatus => @row['SZVEDSD_ENROLL_STAT'],
@@ -40,18 +39,19 @@ class ProcessStudent
      if ((@stu.was_eds_major? && !@stu.is_eds_major?) ||
         (@stu.was_cert_concentration? && !@stu.is_cert_concentration?)) &&
         (@stu.open_programs)
-        puts "EMAIL ALERT: #{@stu.name_readable} is not a TEP student any more!"
-        # TODO EMAIL ALERT!
+        @stu.tep_advisors.each do |adv|
+          BannerUpdateMailer.possible_drop(@stu, adv).deliver_now
+        end
      end
 
-    #  puts "\t -> done!"
+     @stu.save!
 
    end
 
    def update_advisor_assignments
      # determines any changes in advisor assignments and adds/removes to match.
      # example: FirstName LastName {Primary-B00xxxxxx}; FirstName LastName {Minor-B00xxxxxx}
-    #  puts "updating advisors for #{@stu.name_readable}: #{@stu.Bnum}"
+
      advisors_raw = @row['SZVEDSD_ADVISOR']
      if advisors_raw.present?
        advisors = advisors_raw.split ";" # array of each advisor with B#
@@ -73,10 +73,13 @@ class ProcessStudent
          AdvisorAssignment.create({:student_id => stu.id,
              :tep_advisor_id => adv.id
          })
+         BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now
        end
      end
 
      delete_me = current_bnums - new_bnums # in current and not in new
+
+
 
      delete_me.each do |bnum|
        adv = TepAdvisor.find_by :AdvisorBnum => bnum
@@ -85,16 +88,14 @@ class ProcessStudent
              :tep_advisor_id => adv.id
          })
          assignment.destroy!
+         BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now
        end
      end
-
-    #  puts "\t -> done!"
 
    end
 
    def upsert_course
 
-    #  puts "Upserting course for #{@stu.name_readable}: #{@stu.Bnum}"
 
      term_raw = @row['SZVEDSD_TERM_TAKEN']  #looks like this 201512 - Spring Term 2016
      #split at first dash

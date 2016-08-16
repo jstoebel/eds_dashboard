@@ -6,7 +6,6 @@ require 'rails/all'
 secrets_file = '/home/stoebelj/.eds_secrets.yml'
 SECRET = File.exists?(secrets_file) ? YAML.load_file(secrets_file) : {}
 
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -27,5 +26,18 @@ module Eds
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.delivery_method = :smtp
+    # SMTP settings for mailgun
+    ActionMailer::Base.smtp_settings = {
+      :port           => 587,
+      :address        => "smtp.office365.com",
+      :domain         => SECRET['APP_EMAIL_DOMAIN'],
+      :user_name      => SECRET['APP_EMAIL_USERNAME'],
+      :password       => SECRET['APP_EMAIL_PASSWORD'],
+      :authentication => :login,
+      :enable_starttls_auto => true
+    }
+
   end
 end

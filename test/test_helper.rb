@@ -5,6 +5,17 @@ require 'rails/test_help'
 require 'minitest/unit'
 require 'mocha/mini_test'
 
+
+# mocking out secrets needed in the test suite.
+test_secrets = {
+  "APP_EMAIL_DOMAIN" => "test.com",
+  "APP_EMAIL_USERNAME" => "test_user@test.com",
+  "APP_EMAIL_ADDRESS" => "test_user@test.com",
+  "APP_EMAIL_PASSWORD" => "password123",
+  "APP_ADMIN_EMAIL" => "admin@test.com"
+}
+
+SECRET.merge! test_secrets
 class ActiveSupport::TestCase
   Rake::Task["db:seed"].execute
   Rake::Task["db:fixtures:load"].execute

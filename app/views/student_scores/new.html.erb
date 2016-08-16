@@ -12,5 +12,7 @@
 
   </p>
     <br>
-    <%= link_to 'Update Current Template', assessment_version_update_path( :action => actions, :controller => "assessment_versions", :assessment_version_id => 'assessment_version_student_scores_path(ver.id)', format: "xls") %>
+    <%= link_to 'Update Current Template', assessment_version_student_scores_path(format: "xls") %>
+    <%= link_to "Blank Template", assessment_version_student_scores_path(format: "xls") %>
+    
     </br>

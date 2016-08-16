@@ -88,6 +88,7 @@ gem 'zip-zip'
 gem 'rubyzip', :require => 'zip'
 
 gem 'responders', '~> 2.0'
+gem 'whenever', :require => false
 
 gem 'roo'
 

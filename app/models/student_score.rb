@@ -52,7 +52,6 @@ class StudentScore < ActiveRecord::Base
               lev_id = AssessmentItem.find(item_id).item_levels.find_by(ord: row[row.headers[score]]).id
               attribute_array.push(["assessment_version_id", ver_id], ["assessment_item_id", item_id], ["item_level_id", lev_id])
 
-
               #stu_id = Student.find_by(Bnum: row["Bnum"]).id
               if Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]) == nil
                 #find_stu returns list of 
@@ -79,11 +78,11 @@ class StudentScore < ActiveRecord::Base
         
     
     def find_stu(first, last)
-        #method takes first and last name, returns list of possible matching students
-        pos_matches = []
-        pos_matches.push(Student.where({ FirstName: %first or LastName: %last) #Student.find_by(FirstName)
-    #   Student.find_by(LastName)
-    #  return 
+      #method takes first and last name, returns list of possible matching students
+      pos_matches = []
+      pos_matches.push(Student.where( FirstName: "%#{first}%") # | (LastName: "%#{last}%")}
+
+      return pos_matches
     
     ##TODO Bnum not provided but may be in future
       #stu_id found through first name last name match
