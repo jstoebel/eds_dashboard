@@ -14,7 +14,7 @@
 #  credits_attempted :float(24)
 #  credits_earned    :float(24)
 #  reg_status        :string(45)
-#  Inst_bnum         :string(45)
+#  instructors       :text(65535)
 #  gpa_include       :boolean          not null
 #
 

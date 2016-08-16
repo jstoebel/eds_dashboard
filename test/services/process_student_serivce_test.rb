@@ -3,7 +3,7 @@ require 'test_helper'
 class ProcessStudentServiceTest < ActiveSupport::TestCase
 
   setup do
-
+    ActionMailer::Base.deliveries.clear
     @row_template = {
       "SZVEDSD_ID" => nil,
       "SZVEDSD_LAST_NAME" => nil,
@@ -133,6 +133,59 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       assert_raises(ActiveRecord::RecordInvalid) {row_service.upsert_student}
 
     end
+
+    describe "detects dropping out of program" do
+
+      before do
+        @stu = FactoryGirl.create :admitted_student
+        @adv = FactoryGirl.create :tep_advisor
+        FactoryGirl.create :advisor_assignment, {:student_id => @stu.id,
+          :tep_advisor_id => @adv.id
+        }
+
+        @drop_attrs = @row_template.merge({
+          "SZVEDSD_ID" => @stu[:Bnum],
+          "SZVEDSD_LAST_NAME" => @stu[:LastName],
+          "SZVEDSD_FIRST_NAME" => @stu[:FirstName],
+          "SZVEDSD_ENROLL_STAT" => @stu[:EnrollmentStatus],
+        })
+
+      end
+
+      it "detectes dropped major" do
+        # need an EDS major who is admitted to the TEP
+
+        @stu.update_attributes({:CurrentMajor1 => "Education Studies"})  #start off as EDS major
+
+        row_service = ProcessStudent.new @drop_attrs
+        row_service.upsert_student
+
+        assert_equal 1, @stu.tep_advisors.size
+        adv_email = ActionMailer::Base.deliveries.last
+
+        assert_equal [@adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+      it "detectes dropped concentration" do
+        # need an EDS major who is admitted to the TEP
+
+        @stu.update_attributes({:concentration1 => "Middle Grades Science Cert"})
+
+        row_service = ProcessStudent.new @drop_attrs
+        row_service.upsert_student
+
+        assert_equal 1, @stu.tep_advisors.size
+        adv_email = ActionMailer::Base.deliveries.last
+
+        assert_equal [@adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+    end
+
   end
 
   ###TESTS FOR UPSERT ADVISOR_ASSIGNMENTS###
@@ -158,10 +211,31 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       row_service.update_advisor_assignments
 
       assert_equal @stu.advisor_assignments.size, @advisors.size
-      @advisors.each{|a| assert @stu.is_advisee_of a}
+
+      advisor_emails = ActionMailer::Base.deliveries
+      assert_equal advisor_emails.size, @advisors.size
+
+      #asertions for each advisor
+      @advisors.each_with_index do |adv, i|
+        assert @stu.is_advisee_of adv
+        adv_email = advisor_emails[i]
+        assert_equal [adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
+      end
+
     end
 
     it "removes all advisors" do
+
+      # assign advisors to stu
+
+
+      @advisors.each{|adv| AdvisorAssignment.create!({
+          :student_id => @stu.id,
+          :tep_advisor_id => adv.id
+        })}
+
       new_attrs = {
         "SZVEDSD_ID" => @stu.Bnum
       } # no advisors!
@@ -170,12 +244,23 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       row_service = ProcessStudent.new row
       row_service.update_advisor_assignments
 
+
+
       assert_equal @stu.advisor_assignments.size, 0
-      @advisors.each{|a| assert_not @stu.is_advisee_of a}
+
+      # advisor_emails = ActionMailer::Base.deliveries
+
+      # assertions for each advisor
+      # assert_equal advisor_emails.size, @advisors.size
+      @advisors.each_with_index do |adv, i|
+        assert_not @stu.is_advisee_of adv
+        # adv_email = advisor_emails[i]
+        # assert_equal [adv.get_email],  adv_email.to
+        # assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        # assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
+      end
 
     end
-
-
 
     it "doesn't create assignment - throws StatementInvalid" do
 
