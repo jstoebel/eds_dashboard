@@ -1,13 +1,4 @@
 
-# mocking out secrets needed in the test suite.
-test_secrets = {
-  "APP_EMAIL_DOMAIN" => "test.com",
-  "APP_EMAIL_USERNAME" => "test_user@test.com",
-  "APP_EMAIL_ADDRESS" => "test_user@test.com",
-  "APP_EMAIL_PASSWORD" => "password123"
-}
-
-SECRET.merge test_secrets
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
