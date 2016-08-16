@@ -4,7 +4,7 @@ namespace :db do
     #loads yaml file of of existing data that can't be shared in source control
     secure_constants = ["tep_advisors", "users"]
     secure_constants.each do |sc|
-        ActiveRecord::FixtureSet::create_fixtures(Rails.root.join("db", "seed", "secure_seed"), sc)
+        ActiveRecord::FixtureSet::create_fixtures(Rails.root.join("../eds_move/secure_seed"), sc)
     end
   end
 end
