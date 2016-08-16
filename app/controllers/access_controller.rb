@@ -1,5 +1,5 @@
 class AccessController < ApplicationController
-	
+
   layout 'application'
   skip_before_filter :authorize, :only => [:access_denied, :logout]   #don't need the authorize filter for these actions
 
@@ -8,6 +8,7 @@ class AccessController < ApplicationController
     #post: the current term and the user
   	@current_term = current_term({exact: false, plan_b: :forward})
     @user = current_user
+		@env = request.env
   end
 
   def access_denied
@@ -32,5 +33,5 @@ class AccessController < ApplicationController
     end
 
   end
- 
+
 end
