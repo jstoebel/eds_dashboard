@@ -18,7 +18,7 @@ class BannerUpdateMailerTest < ActionMailer::TestCase
 
     it "sends to an advisor" do
       assert_equal @email.to, [@adv.get_email]
-      assert_equal @email.cc, ["stoebelj@berea.edu", "rosenbarkerl@berea.edu"]
+      assert_equal @email.cc, [SECRET["APP_ADMIN_EMAIL"], "rosenbarkerl@berea.edu"]
       assert_equal @email.subject, "Possible TEP status change for #{@stu.name_readable}"
 
     end
@@ -41,7 +41,7 @@ class BannerUpdateMailerTest < ActionMailer::TestCase
       end
 
       assert_equal @email.to, [@adv.get_email]
-      assert_equal @email.cc, ["stoebelj@berea.edu", "rosenbarkerl@berea.edu"]
+      assert_equal @email.cc, [SECRET["APP_ADMIN_EMAIL"], "rosenbarkerl@berea.edu"]
       assert_equal @email.subject, "Advisee status change for #{@stu.name_readable}"
       assert_match /added/, @email.body.to_s
     end
@@ -55,7 +55,7 @@ class BannerUpdateMailerTest < ActionMailer::TestCase
       end
 
       assert_equal @email.to, [@adv.get_email]
-      assert_equal @email.cc, ["stoebelj@berea.edu", "rosenbarkerl@berea.edu"]
+      assert_equal @email.cc, [SECRET["APP_ADMIN_EMAIL"], "rosenbarkerl@berea.edu"]
       assert_equal @email.subject, "Advisee status change for #{@stu.name_readable}"
       assert_match /removed/, @email.body.to_s
     end

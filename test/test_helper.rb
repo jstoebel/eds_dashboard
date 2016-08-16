@@ -11,7 +11,8 @@ test_secrets = {
   "APP_EMAIL_DOMAIN" => "test.com",
   "APP_EMAIL_USERNAME" => "test_user@test.com",
   "APP_EMAIL_ADDRESS" => "test_user@test.com",
-  "APP_EMAIL_PASSWORD" => "password123"
+  "APP_EMAIL_PASSWORD" => "password123",
+  "APP_ADMIN_EMAIL" => "admin@test.com"
 }
 
 SECRET.merge! test_secrets
