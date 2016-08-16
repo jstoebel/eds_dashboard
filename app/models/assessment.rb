@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  name        :string(255)
-#  description :text
+#  description :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
 #
@@ -17,9 +17,10 @@ specific versions of an assessment are modeled in AssessmentVersion
 =end
 
 class Assessment < ActiveRecord::Base
-
+    before_destroy :can_destroy
+    
     ### ASSOCIATIONS ###
-    has_many :assessment_versions
+    has_many :assessment_versions, dependent: :destroy
 
     ### VALIDATIONS ###
     validates :name, :presence => true
@@ -29,6 +30,23 @@ class Assessment < ActiveRecord::Base
     end
 
     def current_version
-        return self.versions.order(:version_num).last
+        return self.versions.order(:created_at => :asc).last
+    end
+            
+    def has_scores
+        #returns true if has scores, false if not
+        vers = versions()    #should return result of versions
+        scores = vers.select { |v| v.student_scores.present?}.size > 0 #is scores greater than 0?
+        return scores    #a boolean value
+    end
+    
+    def can_destroy
+        #returns false if has scores and cannot delete
+        #returns true if does not have scores and can delete
+        if self.has_scores == true
+            return false
+        else
+            return true
+        end
     end
 end

@@ -1,0 +1,21 @@
+<%= link_to assessment_versions_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<div class="Assessment Version Delete">
+  <h2>Delete Assessment Version</h2>
+
+  <%= form_for(:version, :url => {:action => 'destroy', :id => @version.id}) do |f| %>
+    <p><%= "Are you sure you want to delete this version of #{@version.assessment.name}?" %></p>
+    <p><%= "Version #{@version.version_num}" %> </p>
+   
+    <div class="form-buttons">
+        <tr>
+          <%= button_to(assessment_version_path(@version.id), { class: "btn btn-danger", method: :delete}) do %>
+            <span>Delete Version</span>
+            <% end %>
+	    </tr>
+    </div>
+
+  <% end %>
+</div>

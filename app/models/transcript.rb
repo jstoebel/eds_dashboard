@@ -14,7 +14,7 @@
 #  credits_attempted :float(24)
 #  credits_earned    :float(24)
 #  reg_status        :string(45)
-#  Inst_bnum         :string(45)
+#  instructors       :text(65535)
 #  gpa_include       :boolean          not null
 #
 
@@ -23,7 +23,7 @@ class Transcript < ActiveRecord::Base
 
 
     #~~~CLASS VARIABLES AND METHODS~~~#
-    
+
     LTG = {
         "A" => 4.0,
         "A-" => 3.7,
@@ -36,7 +36,7 @@ class Transcript < ActiveRecord::Base
         "D+" => 1.3,
         "D"=> 1.0,
         "D-" => 0.7,
-        "F"=> 0.0   
+        "F"=> 0.0
     }
 
     def self.l_to_g(ltr)
@@ -79,7 +79,7 @@ class Transcript < ActiveRecord::Base
 	scope :in_term, ->(term_object) { where(term_taken: term_object.BannerTerm)}
 
 
-    #~~~VALIDATIONS~~~# 
+    #~~~VALIDATIONS~~~#
 
     validates_presence_of :student_id, :crn, :course_code, :term_taken
 
@@ -88,12 +88,21 @@ class Transcript < ActiveRecord::Base
 
     def set_quality_points
 
-        if self.grade_pt.present? && self.credits_earned.present? 
+        if self.grade_pt.present? && self.credits_earned.present?
             #sets quality_points for a record
             if self.grade_pt_changed? || self.credits_earned_changed?
                 self.quality_points = self.grade_pt * self.credits_earned
             end
         end
     end
-    
+
+
+		#~~~INSTANCE METHODS ~~~#
+
+		def inst_bnums
+			# returns an array of instructor B#s for this course
+			profs_raw = self.instructors.split ";"
+			return profs_raw.map{|r| r.match(/\{(.+)\}/)[1]}
+		end
+
 end

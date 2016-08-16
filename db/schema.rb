@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722160612) do
+ActiveRecord::Schema.define(version: 20160808162805) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 20160722160612) do
 
   create_table "assessment_versions", force: :cascade do |t|
     t.integer  "assessment_id", limit: 4, null: false
-    t.integer  "version_num",   limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -223,6 +222,7 @@ ActiveRecord::Schema.define(version: 20160722160612) do
     t.integer  "ord",                limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "cut_score"
   end
 
   add_index "item_levels", ["assessment_item_id"], name: "fk_rails_e6a2147994", using: :btree
@@ -413,7 +413,7 @@ ActiveRecord::Schema.define(version: 20160722160612) do
     t.string  "CurrentMinors",    limit: 255
     t.string  "Email",            limit: 100
     t.string  "CPO",              limit: 45
-    t.text    "withdrawals",      limit: 65535
+    t.text    "withdraws",        limit: 65535
     t.integer "term_graduated",   limit: 4
     t.string  "gender",           limit: 255
     t.string  "race",             limit: 255
@@ -433,25 +433,26 @@ ActiveRecord::Schema.define(version: 20160722160612) do
     t.integer "user_id",     limit: 4
     t.string  "first_name",  limit: 255, null: false
     t.string  "last_name",   limit: 255, null: false
+    t.string  "email",       limit: 255
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
   add_index "tep_advisors", ["user_id"], name: "fk_rails_50ba8b67f4", using: :btree
 
   create_table "transcript", force: :cascade do |t|
-    t.integer "student_id",        limit: 4,   null: false
-    t.string  "crn",               limit: 45,  null: false
-    t.string  "course_code",       limit: 45,  null: false
+    t.integer "student_id",        limit: 4,     null: false
+    t.string  "crn",               limit: 45,    null: false
+    t.string  "course_code",       limit: 45,    null: false
     t.string  "course_name",       limit: 100
-    t.integer "term_taken",        limit: 4,   null: false
+    t.integer "term_taken",        limit: 4,     null: false
     t.float   "grade_pt",          limit: 24
     t.string  "grade_ltr",         limit: 2
     t.float   "quality_points",    limit: 24
     t.float   "credits_attempted", limit: 24
     t.float   "credits_earned",    limit: 24
     t.string  "reg_status",        limit: 45
-    t.string  "Inst_bnum",         limit: 45
-    t.boolean "gpa_include",                   null: false
+    t.text    "instructors",       limit: 65535
+    t.boolean "gpa_include",                     null: false
   end
 
   add_index "transcript", ["student_id", "crn", "term_taken"], name: "index_transcript_on_student_id_and_crn_and_term_taken", unique: true, using: :btree
@@ -467,6 +468,16 @@ ActiveRecord::Schema.define(version: 20160722160612) do
 
   add_index "users", ["Roles_idRoles"], name: "fk_users_Roles1_idx", using: :btree
   add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
+
+  create_table "version_habtm_items", force: :cascade do |t|
+    t.integer  "assessment_version_id", limit: 4, null: false
+    t.integer  "assessment_item_id",    limit: 4, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "version_habtm_items", ["assessment_item_id"], name: "fk_rails_5d2c803ddf", using: :btree
+  add_index "version_habtm_items", ["assessment_version_id"], name: "fk_rails_c41fee807a", using: :btree
 
   add_foreign_key "adm_st", "banner_terms", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm", name: "fk_AdmST_BannerTerm"
   add_foreign_key "adm_st", "student_files"
@@ -517,4 +528,6 @@ ActiveRecord::Schema.define(version: 20160722160612) do
   add_foreign_key "transcript", "banner_terms", column: "term_taken", primary_key: "BannerTerm", name: "fk_transcript_banner_terms"
   add_foreign_key "transcript", "students"
   add_foreign_key "users", "roles", column: "Roles_idRoles", primary_key: "idRoles", name: "fk_users_Roles"
+  add_foreign_key "version_habtm_items", "assessment_items"
+  add_foreign_key "version_habtm_items", "assessment_versions"
 end
