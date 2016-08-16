@@ -40,4 +40,12 @@ class UserTest < ActiveSupport::TestCase
 		assert_not user.is?"admin"
 	end
 
+	test "validates presence of Email" do
+		u = User.new
+		assert_not u.valid?
+		assert_equal u.errors[:Email], ["can't be blank"]
+	end
+
+	
+
 end

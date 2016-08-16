@@ -1,0 +1,31 @@
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+Dear <%= "#{@adv.first_name} #{@adv.last_name}" %>, </br>
+
+<p>
+  This email is to inform you that a change in status for
+  <%= @stu.name_readable %> was detected in Banner which, if accurate, indicates
+  that this student has dropped out of the TEP. The student's current
+  information is displayed below. Please reach out to the student to confirm if
+  this information is correct. If it is incorrect, please inform
+  <a mailto="stoebelj@berea.edu">Jacob Stoebel</a>and
+  <a mailto="rosenbarkerl@berea.edu"> Lisa Rosenbarker </a>
+</p>
+
+<p>
+  <h2><%= @stu.name_readable %></h2>
+  Current Majors:  <%= (1..2).map{|n| @stu.send("CurrentMajor#{n}")}.join("; ") %> </br>
+  Current concentrations: <%= (1..2).map{|n| @stu.send("concentration#{n}")}.join("; ") %> </br>
+  Current Enrollment Status: <%= @stu.EnrollmentStatus %> </br>
+  Programs: <%= @stu.programs.map{|p| p.EDSProgName}.join("; ") %>
+</p>
+
+<p>
+  Sincerly, </br>
+  Berea College Teacher Education Program
+</p>
+
+
+</body>

@@ -13,6 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20160808193137) do
 
+
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
     t.integer  "BannerTerm_BannerTerm", limit: 4
@@ -433,6 +434,7 @@ ActiveRecord::Schema.define(version: 20160808193137) do
     t.integer "user_id",     limit: 4
     t.string  "first_name",  limit: 255, null: false
     t.string  "last_name",   limit: 255, null: false
+    t.string  "email",       limit: 255
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
