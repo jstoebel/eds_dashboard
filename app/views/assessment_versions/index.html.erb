@@ -1,0 +1,58 @@
+<%= link_to assessments_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+    
+    <% @page_title = "Assessment Versions" %>
+
+<div class="container-fluid">  
+  <table class="listing table table-striped" summary="assessment_version list">
+    <div class="row">  
+      <caption>  
+          <span class="header1 col-xs-12"> Assessment Versions </span><br>  
+          <span class="header2 col-xs-12"><%= @version.size %> found</span>  
+          <div class="col-xs-1">
+            <%= link_to new_assessment_version_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                <span class="large-btn-text">Add New Assessment Version</span>
+            <% end %>         
+          </div>
+        </caption>
+      </div>
+    <tr class="header">
+      <th>Assessment Name</th>
+      <th>Version Number</th>
+    </tr>
+    <% @version.each do |ver| %>
+      <% if can? :read, ver %>
+        <td><%= Assessment.find(ver.assessment_id).name%></td>
+        <td><%= ver.version_num %></td>
+        <td class="actions">
+
+          <!-- actions:
+             edit version
+             see version items-->
+
+        <!-- edit version -->
+          <%= link_to(edit_assessment_version_path(ver.id), :class => "btn btn-info action-small") do %>
+            <span class="small-btn-text"> Edit</span>
+          <% end %>
+
+        <!-- see version items
+
+            <%# link_to(assessment_itemsindexpath(ver.id), :class => "btn btn-info action-small #{assessment_version.assessment_items.size > 0 ? "" : "disabled"}") do%>
+              <span class = "small-btn-text">Items
+                <span class = "badge"> <%# assessment_version.assessment_items.size %></span>
+              </span>
+            <%#end%> -->
+
+          </td>
+          
+          <td>
+             <%= link_to(assessment_version_delete_path(ver.id), :class => "btn btn-default") do %>  
+                <span class="glyphicon glyphicon-trash" ></span>
+             <% end %>         
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>                  

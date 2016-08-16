@@ -18,6 +18,11 @@ pickle-email-*.html
 .DS_Store
 passenger.*.pid.lock
 
+#seed data that can't go into the repo
+/db/seed/secure_seed/*
+
+
+
 #not checking in database.yaml since different deployments need to configure it differently (c9.io users)
 config/database.yml
 

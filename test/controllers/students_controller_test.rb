@@ -16,10 +16,10 @@
 #  CurrentMajor2    :string(45)
 #  concentration2   :string(255)
 #  CellPhone        :string(45)
-#  CurrentMinors    :string(45)
+#  CurrentMinors    :string(255)
 #  Email            :string(100)
 #  CPO              :string(45)
-#  withdrawals      :text
+#  withdraws        :text(65535)
 #  term_graduated   :integer
 #  gender           :string(255)
 #  race             :string(255)

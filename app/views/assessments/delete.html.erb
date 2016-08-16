@@ -1,0 +1,22 @@
+<%= link_to assessments_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+<div class="Assessment Delete">
+  <h2>Delete Assessment</h2>
+
+  <%= form_for(:assessment, :url => {:action => 'destroy', :id => @assessment.id}) do |f| %>
+    <p>Are you sure you want to delete this assessment?</p>
+    <p><%= @assessment.name %> </p>
+    <p> <%= "You will also delete this many assessment versions: #{@assessment.assessment_versions.size}" %>
+
+    <div class="form-buttons">
+        <tr>
+          <%= button_to(assessment_path(@assessment.id), { class: "btn btn-danger", method: :delete}) do %>
+            <span>Delete Assessment</span>
+            <% end %>
+	    </tr>
+    </div>
+
+  <% end %>
+</div>
