@@ -337,9 +337,7 @@ class Student < ActiveRecord::Base
 			term: nil	#(term id) the upper bound term to use. Otherwise, use all.
 	    }
 
-	    options = defaults.merge(options)
-
-
+    options = defaults.merge(options)
 
 		courses = self.transcripts.where("grade_pt is not null").order(term_taken: :desc).order!(quality_points: :desc)
 
@@ -356,7 +354,6 @@ class Student < ActiveRecord::Base
 		end
 
 		gpa_raw = qpoints / credits
-
 		return (gpa_raw * 100).to_i / 100.0
 
 	end
