@@ -31,10 +31,25 @@ class StudentScore < ActiveRecord::Base
             end
         end
     end
+        
+    def self.find_ver(file)
+      CSV.foreach(file.path, headers: true) do |row|
+        return row["assessment_version_id"]
+      end
+    end
+    
+    def self.find_stu(first, last)
+      #method takes first and last name, returns list of possible matching students
+      pos_matches = []
+      #TODO there might other variations.
+      Student.where( FirstName: "#{first}").to_a.each{|stu| pos_matches.push(stu)}
+      (Student.where(LastName: "#{last}").to_a - pos_matches).each{|stu| pos_matches.push(stu)}
+      return pos_matches
+    end
     
     def self.import_create(file)
         ver_and_matches = []
-        ver_and_matches.push(find_ver(file))
+        ver_and_matches.push(self.find_ver(file))
         CSV.foreach(file.path, headers: true) do |row|
             ##For each value under an assessment_item header in a single row, create a new score
             items = []
@@ -55,7 +70,7 @@ class StudentScore < ActiveRecord::Base
               #stu_id = Student.find_by(Bnum: row["Bnum"]).id
               if Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]) == nil
                 #find_stu returns list of 
-                ver_and_matches.push([ attribute_array, find_stu(row["FirstName"], row["LastName"]) ] )
+                ver_and_matches.push([ attribute_array.to_h, self.find_stu(row["FirstName"], row["LastName"]) ] )
                 next    #goes to next iteration
               else
                  stu_id = Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]).id
@@ -68,27 +83,5 @@ class StudentScore < ActiveRecord::Base
             end
         end
         return ver_and_matches
-    end
-    
-    def find_ver(file)
-      CSV.foreach(file.path, headers: true) do |row|
-        return row["assessment_version_id"]
-      end
-    end
-        
-    
-    def find_stu(first, last)
-      #method takes first and last name, returns list of possible matching students
-      pos_matches = []
-      pos_matches.push(Student.where( FirstName: "%#{first}%") # | (LastName: "%#{last}%")}
-
-      return pos_matches
-    
-    ##TODO Bnum not provided but may be in future
-      #stu_id found through first name last name match
-      #else not perfect match
-      #call find_stu, compare to preferred, last-names, etc
-      #if only one match, give student id
-      #else, display screen picking student, assign that stu_id
     end
 end
