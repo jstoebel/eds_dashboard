@@ -1,8 +1,8 @@
+require 'socket'
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  
-  require 'socket'
+
   include ApplicationHelper
 
   before_filter :authorize
@@ -31,11 +31,11 @@ class ApplicationController < ActionController::Base
     #get the ip address as a second way to verify we are on the production server
     ip=Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
 
-    if Rails.env.production? or ip.ip_address == "10.40.42.92"
+    if Rails.env.production? or ip.ip_address == "10.40.42.106"
       #login if we are in production
       unless session[:user].present?    #look up username and role if we don't have it.
 
-        username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
+        username = request.env["REMOTE_USER"]  #will be standard berea email ex feej@berea.edu
         results = User.where(UserName: username)
         user = results.first
         if user != nil
@@ -50,11 +50,11 @@ class ApplicationController < ActionController::Base
           if user.FirstName.present? and user.LastName.present?
             flash[:notice] = "Welcome, #{user.FirstName} #{user.LastName}!"
           else
-            flash[:notice] = "Welcome, #{user.UserName}!"    
+            flash[:notice] = "Welcome, #{user.UserName}!"
           end
 
           #done!
-          
+
         else  #couldn't find user in database ->authorize failed!
           redirect_to "/access_denied"
         end
@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
       #log us in as dev_admin if there is no session info
       unless session[:user]
         admin_user = User.find_or_create_by({
-          UserName: "dev_admin", 
+          UserName: "dev_admin",
           FirstName: "Dev",
           LastName: "Admin",
           Email: "devadmin@test.com",
@@ -81,12 +81,12 @@ class ApplicationController < ActionController::Base
   private
   	def find_student(alt_id)
   		return Student.where(AltID: alt_id).first
-  		
+
   	end
 
   	def find_praxis_result(alt_stuid)
   		return PraxisResult.where(AltID: alt_stuid).first
-  		
+
   	end
 
   	def find_issue(alt_stuid)
@@ -108,10 +108,10 @@ class ApplicationController < ActionController::Base
       @term = BannerTerm.find(params[:banner_term_id])   #ex: 201412
     else
       @term = @current_term   #if no params passed, the term to render is current term
-    end    
-    
+    end
+
     @menu_terms = BannerTerm.all.joins(table_name).group(term_col)
-    
+
   end
 
    def to_console(object)
