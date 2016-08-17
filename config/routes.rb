@@ -149,6 +149,7 @@ Rails.application.routes.draw do
   match 'prog_exits/get_programs', via: [:post, :get]
 
   resources :access, only: [:index]
+  match  "/access/get_env" => "access#get_env", :via => :get
   match "/access/change_psudo_status" => "access#change_psudo_status", :via => :post
   match "/access_denied" => "access#access_denied", :via => :get
   match "/logout" => "access#logout", :via => :post
@@ -166,9 +167,9 @@ Rails.application.routes.draw do
 
   resources :assessment_items, only: [ :show, :create, :destroy] do
   end
-      
+
   match 'assessment_items/update', :via => :patch
-      
+
   resources :item_levels, only: [:show, :create, :update, :destroy] do
   end
 
@@ -179,7 +180,7 @@ Rails.application.routes.draw do
     get "delete"
     put "update"
   end
-  
+
   resources :version_habtm_items, only: [:create, :destroy]
 
   resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy], shallow: true do
@@ -276,9 +277,9 @@ Rails.application.routes.draw do
 	  			post "batch_upsert"
   			end
   		end
-      
-        
- 
+
+
+
         resource :banner_update, :only => [:create]
 
   	end
