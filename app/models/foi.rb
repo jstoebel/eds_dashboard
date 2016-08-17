@@ -12,14 +12,15 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #
+require 'csv'
+
 
 class Foi < ActiveRecord::Base
   self.table_name = 'forms_of_intention'
   belongs_to :student
   belongs_to :major
 
-  require 'csv'
-  include CSV
+
   
   def self.import(foi_file)
     file_path = "foi_file_test.csv"
