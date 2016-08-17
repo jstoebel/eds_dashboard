@@ -136,7 +136,7 @@ require 'api_constraints'
 Rails.application.routes.draw do
 
   #A resource must be top level before it can be nested in another resource (I think)
-
+  resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
@@ -153,7 +153,6 @@ Rails.application.routes.draw do
   match "/access_denied" => "access#access_denied", :via => :get
   match "/logout" => "access#logout", :via => :post
 
-  resources :praxis_results, only: [:new, :create]
 
   resources :clinical_sites, only: [:index, :edit, :update, :new, :create, :destroy], shallow: true do
     resources :clinical_teachers, only: [:index]
