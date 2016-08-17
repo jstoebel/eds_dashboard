@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
       #login if we are in production
       unless session[:user].present?    #look up username and role if we don't have it.
 
-        username = request.env["AUTHORIZE_SAMACCOUNTNAME"]
+        username = request.env["REMOTE_USER"]  #will be standard berea email ex feej@berea.edu
         results = User.where(UserName: username)
         user = results.first
         if user != nil
