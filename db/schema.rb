@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20160808193137) do
 
-
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
     t.integer  "BannerTerm_BannerTerm", limit: 4
