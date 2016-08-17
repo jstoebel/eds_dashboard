@@ -21,6 +21,7 @@ class AssessmentItem < ActiveRecord::Base
     
     has_many :item_levels, dependent: :destroy, autosave: true
     has_many :student_scores
+    has_many :pending_student_scores
     has_many :version_habtm_items
     has_many :assessment_versions, :through => :version_habtm_items
     accepts_nested_attributes_for :item_levels

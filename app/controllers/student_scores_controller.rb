@@ -35,12 +35,14 @@ class StudentScoresController < ApplicationController
       puts ver_and_matches
       @score_info = ver_and_matches
       render 'select_stu'
-    else
-      flash[:alert] = "Scores Uploaded Successfully"
-      redirect_to :action => "index", :assessment_version_id => ver_and_matches[0]
+      #StudentScore.(params[:])
     end
+    flash[:alert] = "Scores Uploaded Successfully"
+    redirect_to :action => "index", :assessment_version_id => ver_and_matches[0]
   end
   
   private
+  
+  
   
 end

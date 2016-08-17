@@ -47,6 +47,7 @@ class Student < ActiveRecord::Base
 	has_many :tep_advisors, :through => :advisor_assignments
 
   has_many :student_scores
+  belongs_to :pending_student_score    #think this will actually be has many through
 
   has_many :pgps
 

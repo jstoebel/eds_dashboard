@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808162805) do
+ActiveRecord::Schema.define(version: 20160817143006) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -238,6 +238,14 @@ ActiveRecord::Schema.define(version: 20160808162805) do
 
   create_table "majors", force: :cascade do |t|
     t.string "name", limit: 255
+  end
+
+  create_table "pending_student_scores", force: :cascade do |t|
+    t.integer  "assessment_version_id", limit: 4, null: false
+    t.integer  "assessment_item_id",    limit: 4, null: false
+    t.integer  "item_level_id",         limit: 4, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pgp_scores", force: :cascade do |t|

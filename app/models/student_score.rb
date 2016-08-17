@@ -41,7 +41,6 @@ class StudentScore < ActiveRecord::Base
     def self.find_stu(first, last)
       #method takes first and last name, returns list of possible matching students
       pos_matches = []
-      #TODO there might other variations.
       Student.where( FirstName: "#{first}").to_a.each{|stu| pos_matches.push(stu)}
       (Student.where(LastName: "#{last}").to_a - pos_matches).each{|stu| pos_matches.push(stu)}
       return pos_matches
@@ -68,12 +67,13 @@ class StudentScore < ActiveRecord::Base
               attribute_array.push(["assessment_version_id", ver_id], ["assessment_item_id", item_id], ["item_level_id", lev_id])
 
               #stu_id = Student.find_by(Bnum: row["Bnum"]).id
-              if Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]) == nil
+              #if name matches exactly and only once
+              if Student.where(FirstName: row["FirstName"], LastName: row["LastName"]).length == 1
+                 stu_id = Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]).id
+              else   
                 #find_stu returns list of 
                 ver_and_matches.push([ attribute_array.to_h, self.find_stu(row["FirstName"], row["LastName"]) ] )
                 next    #goes to next iteration
-              else
-                 stu_id = Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]).id
               end
   
               attribute_array.push(["student_id", stu_id])

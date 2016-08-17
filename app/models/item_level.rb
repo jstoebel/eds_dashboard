@@ -24,6 +24,7 @@ class ItemLevel < ActiveRecord::Base
     before_destroy :check_scores
     
     has_many :student_scores
+    has_many :pending_student_scores
     belongs_to :assessment_item
 
     validates_presence_of :descriptor, :level, :assessment_item_id

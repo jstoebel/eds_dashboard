@@ -18,6 +18,7 @@ class AssessmentVersion < ActiveRecord::Base
     ### ASSOCIATIONS ###
     belongs_to :assessment
     has_many :student_scores
+    has_many :pending_student_scores
     has_many :version_habtm_items
     has_many :assessment_items, :through => :version_habtm_items, dependent: :destroy
 
