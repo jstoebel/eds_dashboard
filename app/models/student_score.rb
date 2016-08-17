@@ -70,9 +70,11 @@ class StudentScore < ActiveRecord::Base
               #if name matches exactly and only once
               if Student.where(FirstName: row["FirstName"], LastName: row["LastName"]).length == 1
                  stu_id = Student.find_by(FirstName: row["FirstName"], LastName: row["LastName"]).id
-              else   
-                #find_stu returns list of 
-                ver_and_matches.push([ attribute_array.to_h, self.find_stu(row["FirstName"], row["LastName"]) ] )
+              else
+                attribute_array.push(["first_name", row["FirstName"]], ["last_name", row["LastName"]])
+                parameters = ActionController::Parameters.new(attribute_array.to_h)
+                PendingStudentScores.create(parameters.permit(:first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id))
+                #ver_and_matches.push([ attribute_array.to_h, self.find_stu(row["FirstName"], row["LastName"]) ] )
                 next    #goes to next iteration
               end
   
