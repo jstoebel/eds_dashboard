@@ -268,7 +268,7 @@ class Student < ActiveRecord::Base
 	end
 
 	def was_dismissed?
-		return self.EnrollmentStatus.include?("Dismissed")
+		return self.EnrollmentStatus.andand.include?("Dismissed").present?
 	end
 
 	def latest_foi

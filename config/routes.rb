@@ -140,7 +140,7 @@ Rails.application.routes.draw do
   get 'pending_student_scores/destroy'
 
   #A resource must be top level before it can be nested in another resource (I think)
-
+  resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
@@ -153,12 +153,11 @@ Rails.application.routes.draw do
   match 'prog_exits/get_programs', via: [:post, :get]
 
   resources :access, only: [:index]
-  # match  "/access/get_env" => "access#get_env", :via => :get 
+  # match  "/access/get_env" => "access#get_env", :via => :get
   match "/access/change_psudo_status" => "access#change_psudo_status", :via => :post
   match "/access_denied" => "access#access_denied", :via => :get
   match "/logout" => "access#logout", :via => :post
 
-  resources :praxis_results, only: [:new, :create]
 
   resources :clinical_sites, only: [:index, :edit, :update, :new, :create, :destroy], shallow: true do
     resources :clinical_teachers, only: [:index]
@@ -265,34 +264,6 @@ Rails.application.routes.draw do
     resources :adm_st, only: [:index]
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
-  end
-
-  #~~~API ROUTES
-  # credit: The code was found here: http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
-  namespace :api, defaults: {formats: 'json'} do
-  	# /api/... Api::
-  	scope module: :v1 do #, contraints: ApiConstraints.new(version: 1) do
-  		resources :students, :only => [:index, :show] do
-  		end
-
-  		resource :students, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
-  			collection do
-	  			post "batch_create"
-	  			patch "batch_update"
-  			end
-  		end
-
-  		resource :transcripts, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
-  			collection do
-	  			post "batch_upsert"
-  			end
-  		end
-
-
-
-        resource :banner_update, :only => [:create]
-
-  	end
   end
 
   root 'access#index'
