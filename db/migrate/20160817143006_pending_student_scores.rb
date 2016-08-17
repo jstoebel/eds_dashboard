@@ -4,10 +4,10 @@ class PendingStudentScores < ActiveRecord::Migration
       t.integer :assessment_version_id, :null => false
       t.integer :assessment_item_id, :null => false
       t.integer :item_level_id, :null => false
+      t.string :first_name, :null => false
+      t.string :last_name, :null => false
       t.timestamps
     end
-    
-    #add_foreign_key :pending_student_scores, :students
   end
 
   def down

@@ -241,9 +241,11 @@ ActiveRecord::Schema.define(version: 20160817143006) do
   end
 
   create_table "pending_student_scores", force: :cascade do |t|
-    t.integer  "assessment_version_id", limit: 4, null: false
-    t.integer  "assessment_item_id",    limit: 4, null: false
-    t.integer  "item_level_id",         limit: 4, null: false
+    t.integer  "assessment_version_id", limit: 4,   null: false
+    t.integer  "assessment_item_id",    limit: 4,   null: false
+    t.integer  "item_level_id",         limit: 4,   null: false
+    t.string   "first_name",            limit: 255, null: false
+    t.string   "last_name",             limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
