@@ -7,4 +7,8 @@ class FoisController < ApplicationController
         @fois = Foi.all
     end
     
+    def import
+        
+    end
+    
 end
