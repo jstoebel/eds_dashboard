@@ -233,7 +233,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :fois, only: [:index, :import]
+  resources :fois, only: [:index, :create, :import]
   
   resources :fois do
     collection { post :import }
