@@ -8,7 +8,6 @@ class AccessController < ApplicationController
     #post: the current term and the user
   	@current_term = current_term({exact: false, plan_b: :forward})
     @user = current_user
-		@env = request.env
   end
 
   def access_denied
@@ -32,6 +31,10 @@ class AccessController < ApplicationController
       redirect_to "/access_denied"
     end
 
+  end
+
+  def get_env
+		@env = request.env
   end
 
 end
