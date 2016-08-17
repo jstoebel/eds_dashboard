@@ -38,17 +38,13 @@ class StudentScore < ActiveRecord::Base
       end
     end
     
-    def self.find_stu(first, last)
-      #method takes first and last name, returns list of possible matching students
-      pos_matches = []
-      Student.where( FirstName: "#{first}").to_a.each{|stu| pos_matches.push(stu)}
-      (Student.where(LastName: "#{last}").to_a - pos_matches).each{|stu| pos_matches.push(stu)}
-      return pos_matches
+    def self.create_pending(parameters)
+      return PendingStudentScores.create(parameters.permit(:first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id))
     end
     
     def self.import_create(file)
-        ver_and_matches = []
-        ver_and_matches.push(self.find_ver(file))
+        version = (self.find_ver(file))
+        created = {:ver => version, :scores => [], :pending => []}
         CSV.foreach(file.path, headers: true) do |row|
             ##For each value under an assessment_item header in a single row, create a new score
             items = []
@@ -73,7 +69,8 @@ class StudentScore < ActiveRecord::Base
               else
                 attribute_array.push(["first_name", row["FirstName"]], ["last_name", row["LastName"]])
                 parameters = ActionController::Parameters.new(attribute_array.to_h)
-                PendingStudentScores.create(parameters.permit(:first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id))
+                created[:pending].push(create_pending(parameters))
+                #created[:pending].push(PendingStudentScores.create(parameters.permit(:first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id)))
                 #ver_and_matches.push([ attribute_array.to_h, self.find_stu(row["FirstName"], row["LastName"]) ] )
                 next    #goes to next iteration
               end
@@ -81,9 +78,9 @@ class StudentScore < ActiveRecord::Base
               attribute_array.push(["student_id", stu_id])
               ## Whitelisting example found at https://github.com/rails/strong_parameters
               parameters = ActionController::Parameters.new(attribute_array.to_h)
-              StudentScore.create(parameters.permit(:student_id, :assessment_version_id, :assessment_item_id, :item_level_id))
+              created[:scores].push(StudentScore.create(parameters.permit(:student_id, :assessment_version_id, :assessment_item_id, :item_level_id)))
             end
         end
-        return ver_and_matches
+        return created
     end
 end

@@ -20,15 +20,15 @@
             <th>Score</th>
             <th>Score Description</th>
           </tr>
-            <% @scores.each do |score| %>
-                <tr>
-                <td><%= Student.find(score.student_id).FirstName %>
-                  <%= Student.find(score.student_id).LastName %></td>
-                <td><%= score.assessment_item_id %></td>
-                <td><%= score.item_level.ord %></td>
-                <td><%= score.item_level.level %></td>
-              </tr>
-            <% end %>
+          <% @scores.each do |score| %>
+            <tr>
+              <td><%= Student.find(score.student_id).FirstName %>
+                <%= Student.find(score.student_id).LastName %></td>
+              <td><%= score.assessment_item_id %></td>
+              <td><%= score.item_level.ord %></td>
+              <td><%= score.item_level.level %></td>
+            </tr>
+          <% end %>
           <tr>
             <td>
               <%= form_tag import_assessment_version_student_scores_path(@version.id), multipart: true do %>  
