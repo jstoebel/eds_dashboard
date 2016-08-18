@@ -234,23 +234,14 @@ class StudentTest < ActiveSupport::TestCase
 
 	test "returns dropped" do
 
-		my_exit = ProgExit.first
-		stu = my_exit.student
-
-		#delete all exits and start over
-		ProgExit.delete_all
-
-		#get the code for exit
-		drop_exit = ExitCode.find_by :ExitCode => "1809"
-
-		#create a new exit that isn't a completion
-		my_exit.ExitCode_ExitCode = drop_exit.id
-		my_exit.RecommendDate = nil
-		new_exit = ProgExit.new my_exit.attributes
-
-		#make sure the new
-		assert new_exit.save, new_exit.errors.full_messages
-
+		# create an admitted student then have them drop
+		stu = FactoryGirl.create :admitted_student
+		drop_code = ExitCode.find_by({:ExitCode => "1826"})
+		prog_exit = FactoryGirl.create :prog_exit, {:student_id => stu.id,
+			:ExitCode_ExitCode => drop_code.id,
+			:RecommendDate => nil,
+			:Program_ProgCode => stu.adm_tep.first.program.id
+		}
 		assert_equal "Dropped", stu.prog_status
 
 	end

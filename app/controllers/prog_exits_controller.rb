@@ -42,7 +42,7 @@ class ProgExitsController < ApplicationController
 
     #mass assign AltID, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
-    @exit.student_id = Student.find(params[:prog_exit][:id]).id
+    @exit.student_id = Student.find(params[:student_id]).id
 
     # model will find the exit date and GPAs on its own
 
