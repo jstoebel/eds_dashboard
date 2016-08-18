@@ -29,12 +29,17 @@
 #
 
 class StudentsController < ApplicationController
-  
+
   layout 'application'
   authorize_resource
   def index
     user = current_user
-  	@students = Student.all.by_last.current.select {|r| can? :index, r }    #also need to filter for students who are activley enrolled.
+    abil = Ability.new(user)
+
+    @students = Student.all.by_last.active_student.page(params[:page]).per(25)
+
+    # all_students = Student.all.by_last.active_student
+    # @students = all_students.page(params[:page]) # .select {|r| abil.can? :index, r }
   end
 
   def show
