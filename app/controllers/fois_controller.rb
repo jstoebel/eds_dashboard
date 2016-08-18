@@ -1,16 +1,23 @@
 
 
 class FoisController < ApplicationController
-    
+    authorize_resource
     
     def index 
         @fois = Foi.all
+        authorize! :show, @foi
     end
 
   
     def import
+        authorize! :manage, @foi
         Foi.import(params[:file])
-        redirect_to fois_path, notice: "Fois imported."
+        if @foi.import?
+            flash[:notice] = "Fois imported."
+        else 
+            flash[:notice] = "Could not Import File"
+        end
+        redirect_to fois_path
     end
     
     def create
