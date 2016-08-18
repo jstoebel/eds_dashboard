@@ -257,7 +257,7 @@ class Student < ActiveRecord::Base
 		# 	all adm_tep are closed
 		#   atleast one exit is for reason program completion
 		elsif 	(AdmTep.open(self.id).size == 0) and
-				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?) 
+				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?)
 
 			return "Completer"
 
