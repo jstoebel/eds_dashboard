@@ -32,14 +32,11 @@ class StudentsController < ApplicationController
 
   layout 'application'
   authorize_resource
+  load_resource
   def index
-    user = current_user
-    abil = Ability.new(user)
-
-    @students = Student.all.by_last.active_student.page(params[:page]).per(25)
-
-    # all_students = Student.all.by_last.active_student
-    # @students = all_students.page(params[:page]) # .select {|r| abil.can? :index, r }
+    # abil = Ability.new(current_user)
+    # authorized_students = Student.all.accessible_by(abil)
+    # @students = authorized_students.by_last.active_student.page(params[:page]).per(25)
   end
 
   def show
