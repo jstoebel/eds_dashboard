@@ -31,14 +31,17 @@ class Foi < ActiveRecord::Base
       # h = ["Q1.2_3 - B#", "Q1.2_1 - First Name", "Q1.2_2 - Last Name"]
       # csv_hash = attrs.zip(h).to_h
 
-      header_row = ["Q1.4 - Do you intend to seek teacher certification at Berea College?"]
-      column = [row[21]]
-      table_attrs = [:seek_cert]
+      header_row = ["Recorded Date", "Q1.3 - Are you completing this form for the first time, or is this form a revision...", "Q3.1 - Which area do you wish to seek certification in?", "Q1.4 - Do you intend to seek teacher certification at Berea College?", "Q2.1 - Do you intend to seek an Education Studies degree without certification?"]
+      table_attrs = [:date_completing, :new_form, :major_id, :seek_cert, :eds_only, ]
     
-      header_to_column = Hash[header_row.zip column]
       attrs_hash = Hash[table_attrs.zip header_row]
 
       attrs_hash[:seek_cert] = attrs_hash[:seek_cert] == "Yes"
+      if attrs_hash[:new_form] == "New Form"
+        "New Form" == true
+      elsif attrs_hash[:new_form] == "Revision"
+        "Revision" == false
+      end
       # b_num = row[8][2]
       # first_name = row[6][2]
       # last_name = row[7][2]
@@ -46,25 +49,27 @@ class Foi < ActiveRecord::Base
       
     
       #param_hash = [{:Bnum => "Q1.2_3 - B#", :FirstName => "Q1.2_1 - First Name", :LastName => "Q1.2_2 - Last Name"}]
-      puts row[16]
+      bnum = "Q1.2_3 - B#"
+      first_name = "Q1.2_1 - First Name"
+      last_name = "Q1.2_2 - Last Name"
+      major = "Q3.1 - Which area do you wish to seek certification in?"
+      seek_cert = "Q1.4 - Do you intend to seek teacher certification at Berea College?"
+      eds_only = "Q2.1 - Do you intend to seek an Education Studies degree without certification?"
+      date_completing = "Recorded Date"
+      new_form = "Q1.3 - Are you completing this form for the first time, or is this form a revision..."
       
-      bnum = row[16]
-      first_name = row[14]
-      last_name = row[15]
-      major_id = Major.find_by ...
-      seek_cert = ???
-      eds_only = ???
-      date_completing = ???
-      new_form = ???
-      
+      puts major
+      puts bnum
+      puts seek_cert
       stu = Student.find_by({:Bnum => bnum})  # if no match is found, return nil
+      major_id = Major.find_by({:major_id => major})
+      
 
       # scenario 1, found a student from their B#
       if stu.present?
         # add the foi
         Foi.create!(:student_id => stu.id)
       else
-        
         # scenario 2: get a perfect unique match from the first and last name
         stu = Student.find_by({:FirstName => first_name, :LastName => last_name})
         if stu.present?
@@ -72,16 +77,7 @@ class Foi < ActiveRecord::Base
         end
         
       end
-        
-      
-      
-      # scenario 
-      
-      if Student.where(Bnum: row[16]).size == 1
-        stu_id = Student.find_by(Bnum: row[16]).id
-        attrs_hash[:student_id] = stu_id
-        Foi.create!
-      end 
+
       
     end
     
