@@ -38,6 +38,28 @@ class StudentsControllerTest < ActionController::TestCase
     @controller = StudentsController.new
   end
 
+  test "should get index-page 1" do
+    allowed_roles.each do |r|
+      load_session(r)
+      get :index
+      assert_equal assigns(:students).to_a, Student.all.by_last.active_student.page(1).per(25).to_a
+    end
+  end
+
+  test "should get index, page 2" do
+    students = FactoryGirl.create_list :student, 50
+    allowed_roles.each do |r|
+      load_session(r)
+
+      
+      # make sure user is an advisor, assign them to each student
+
+
+      get :index
+      assert_equal @students.to_a, Student.all.by_last.active_student.page(2).per(25).to_a
+    end
+  end
+
   test "admin should get index" do
       load_session("admin")
       get :index
