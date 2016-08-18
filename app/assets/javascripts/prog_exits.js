@@ -1,6 +1,4 @@
-var build_menu, get_programs;
-
-$(function() {
+$(document).ready(function() {
   $('[data-behaviour~=datepicker]').datepicker();
   $("#programs_select").append('<option value="">Select a Program to Exit</option>');
   console.log($("#names_select option:selected").val());
@@ -17,7 +15,7 @@ $(function() {
   });
 });
 
-get_programs = function() {
+var get_programs = function() {
   console.log("Starting AJAX request");
   return $.ajax("/prog_exits/get_programs", {
     type: "GET",
@@ -42,7 +40,7 @@ get_programs = function() {
   });
 };
 
-build_menu = function(data) {
+var build_menu = function(data) {
   var id, prog_name, results;
   if (data == null) {
     data = null;
