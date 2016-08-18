@@ -18,7 +18,7 @@
             <th>Last Name</th>
             <th>Program Status</th>
           </tr>
-          <% @students.each do |student| %>
+          <% @students.select{|s| can? :read, s }.each do |student| %>
 
 
 
