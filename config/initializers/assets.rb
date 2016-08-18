@@ -10,3 +10,4 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w(issue_updates.js, issues.js, item_levels.js, prog_exits.js)
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += %w( prog_exits.js issue_updates.js issues.js   )
+Rails.application.config.assets.precompile += %w( pending_student_scores.js )

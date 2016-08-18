@@ -5,5 +5,4 @@ class PendingStudentScoresController < ApplicationController
         @pending = PendingStudentScore.all
         authorize! :read, @pending
     end
-
 end
