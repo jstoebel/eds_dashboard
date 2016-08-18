@@ -135,10 +135,6 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
-  get 'pending_student_scores/create'
-
-  get 'pending_student_scores/destroy'
-
   #A resource must be top level before it can be nested in another resource (I think)
   resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do
@@ -177,6 +173,9 @@ Rails.application.routes.draw do
   end
   
   resources :student_scores, only: [:new, :show] do
+  end
+  
+  resources :pending_student_scores, only: [:index] do
   end
   
   resources :assessment_versions, only: [:index, :create, :show, :update, :destroy] do

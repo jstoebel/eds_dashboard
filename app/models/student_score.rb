@@ -38,17 +38,15 @@ class StudentScore < ActiveRecord::Base
       end
     end
     
-    def self.create_pending(parameters)
-      return PendingStudentScores.create(parameters.permit(:first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id))
-    end
-    
     def self.import_create(file)
         version = (self.find_ver(file))
         created = {:ver => version, :scores => [], :pending => []}
         CSV.foreach(file.path, headers: true) do |row|
             ##For each value under an assessment_item header in a single row, create a new score
             items = []
-            first_item = row.index("assessment_version_id") + 1
+            first_i_id = AssessmentVersion.find(version).assessment_items.order(:id).first.id
+            first_item = row.index("assessment_item_id: #{first_i_id}")
+            
             (first_item..row.length).each do |item|    #push each item that has a score. 
             #item is the index number
                 if row[item] != nil
@@ -69,8 +67,8 @@ class StudentScore < ActiveRecord::Base
               else
                 attribute_array.push(["first_name", row["FirstName"]], ["last_name", row["LastName"]])
                 parameters = ActionController::Parameters.new(attribute_array.to_h)
-                created[:pending].push(create_pending(parameters))
-                #created[:pending].push(PendingStudentScores.create(parameters.permit(:first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id)))
+                #created[:pending].push(create_pending(parameters))
+                created[:pending].push(PendingStudentScore.create(parameters.permit(:first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id)))
                 #ver_and_matches.push([ attribute_array.to_h, self.find_stu(row["FirstName"], row["LastName"]) ] )
                 next    #goes to next iteration
               end

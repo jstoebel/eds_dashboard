@@ -2,10 +2,6 @@
 <%= link_to assessment_version_student_scores_path(@ver_id), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
-
-<!--this view should display all scores created and all pending scores. 
-  Link to pending index to pick student for pending scores-->
-
 <div class="select students for scores">
 
     <div class="container">
@@ -23,16 +19,25 @@
           </tr>
           <% @scores.each do |score| %>
             <tr>
-              <td><%= Student.find(score.student_id).FirstName %>
-                <%= Student.find(score.student_id).LastName %></td>
-              <td><%= score.assessment_item_id %></td>
-              <td><%= score.item_level.ord %></td>
-              <td><%= score.item_level.level %></td>
+            <td><%= Student.find(score.student_id).FirstName %>
+              <%= Student.find(score.student_id).LastName %></td>
+            <td><%= score.assessment_item_id %></td>
+            <td><%= score.item_level.ord %></td>
+            <td><%= score.item_level.level %></td>
+            <td><span class="glyphicon glyphicon-check" style="color:green"></span></td>
             </tr>
           <% end %>
+          
           <% if @pending.size > 0 %>
-            <tr> 
-              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <div class="header1 col-xs-12">Couldn't find a student for <%= @pending.size%> scores.</div></br>
-            </tr>
+              <td><h4><span class="glyphicon glyphicon-exclamation-sign" style="color:red"></span>   Couldn't find a student for <%= @pending.size%> score(s).</h4></td>
+              <% @pending.each do |score| %>
+                <tr>
+                  <td><%= link_to pending_student_scores_path do%>
+                    <class=" link-text">Assign scores to students </class>
+                  <% end %></td>
+                  <td><%= score.assessment_item_id %></td>
+                  <td><%= score.item_level.ord %></td>
+                  <td><%= score.item_level.level %></td>
+                </tr>
+              <% end %>
           <% end %>

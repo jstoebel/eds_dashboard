@@ -6,6 +6,8 @@ class PendingStudentScore < ActiveRecord::Base
     
     validates_presence_of :first_name, :last_name, :assessment_version_id, :assessment_item_id, :item_level_id
     
+    scope :sorted, lambda {order(:assessment_version_id => :asc, :created_at => :asc)}
+    
     def find_stu
       #method takes first and last name, returns list of possible matching students
       pos_matches = []
