@@ -92,7 +92,6 @@ class AdmTep < ActiveRecord::Base
 
     unless self.errors.any?
       stu = self.student
-
       self.GPA = stu.gpa({:term => self.BannerTerm_BannerTerm})
       self.GPA_last30 = stu.gpa({:term => self.BannerTerm_BannerTerm, :last => 30})
     end

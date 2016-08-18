@@ -28,7 +28,7 @@ FactoryGirl.define do
     TEPAdmit true
     TEPAdmitDate Date.today
     GPA 2.75
-    GPA_last30 3.0 
+    GPA_last30 3.0
     EarnedCredits 30
     association :student_file, factory: :student_file
   end
