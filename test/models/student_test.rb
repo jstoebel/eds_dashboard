@@ -34,6 +34,9 @@ require 'factory_girl'
 class StudentTest < ActiveSupport::TestCase
 
 	let(:stu) {FactoryGirl.create :student}
+	
+	
+	######################################~~~TESTS FOR SCOPES~~~##########################################
 
 	test "by_last scope" do
 
@@ -116,6 +119,10 @@ class StudentTest < ActiveSupport::TestCase
 		prof_bnum = course.instructors
 		assert stu.is_student_of?("bogus bnum") == false
 	end
+	
+	######################################################################################################
+	
+	
 
 	test "praxisI_pass" do
 		Student.all.each do |stu|
@@ -132,6 +139,8 @@ class StudentTest < ActiveSupport::TestCase
 			assert_equal stu.praxisI_pass, passing
 		end
 	end
+
+	################################~~~TESTS for Prog_Status~~~#######################################
 
 	test "latest_foi" do
 		stu = Foi.first.student
@@ -167,16 +176,16 @@ class StudentTest < ActiveSupport::TestCase
 		s = Student.first
 		s.EnrollmentStatus = "Graduated"
 		s.save
-		assert_equal "Dropped", s.prog_status
-	end
+		assert_equal "Not applying", s.prog_status
+	end 
 
 	test "should not return perspective - enrollmentstatus transfered" do
 		Foi.delete_all
 		AdmTep.delete_all
 		s = Student.first
 		s.EnrollmentStatus = "WD-Transferring"
-		s.save
-		assert_equal "Dropped", s.prog_status
+		s.save 
+		assert_equal "Not applying", s.prog_status
 	end
 
 
@@ -220,7 +229,6 @@ class StudentTest < ActiveSupport::TestCase
 	test "returns not applying dismissed" do
 		stu = Student.first
 		Foi.delete_all
-
 		stu.EnrollmentStatus = "Dismissed - Academic"
 		stu.save
 		assert_equal "Not applying", stu.prog_status
@@ -234,23 +242,14 @@ class StudentTest < ActiveSupport::TestCase
 
 	test "returns dropped" do
 
-		my_exit = ProgExit.first
-		stu = my_exit.student
-
-		#delete all exits and start over
-		ProgExit.delete_all
-
-		#get the code for exit
-		drop_exit = ExitCode.find_by :ExitCode => "1809"
-
-		#create a new exit that isn't a completion
-		my_exit.ExitCode_ExitCode = drop_exit.id
-		my_exit.RecommendDate = nil
-		new_exit = ProgExit.new my_exit.attributes
-
-		#make sure the new
-		assert new_exit.save, new_exit.errors.full_messages
-
+		# create an admitted student then have them drop
+		stu = FactoryGirl.create :admitted_student
+		drop_code = ExitCode.find_by({:ExitCode => "1826"})
+		prog_exit = FactoryGirl.create :prog_exit, {:student_id => stu.id,
+			:ExitCode_ExitCode => drop_code.id,
+			:RecommendDate => nil,
+			:Program_ProgCode => stu.adm_tep.first.program.id
+		}
 		assert_equal "Dropped", stu.prog_status
 
 	end
@@ -283,6 +282,8 @@ class StudentTest < ActiveSupport::TestCase
 		assert second_adm.save, second_adm.errors.full_messages
 
 	end
+	
+	######################################################################################################
 
 	test "open_programs" do
 		stu = Student.first

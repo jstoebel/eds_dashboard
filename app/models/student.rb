@@ -230,9 +230,10 @@ class Student < ActiveRecord::Base
 
 		# Not applying: any of the following
 		# 	A student who has indicated they are not interested in applying to the TEP. OR
-		# 	A student who was dismissed from the college and never aditted to TEP
+		# 	A student who was dismissed from the college and never admitted to TEP
 		elsif 	(self.latest_foi.present? and not self.latest_foi.seek_cert) or
-				(self.was_dismissed?)
+				(self.was_dismissed?) or
+				graduated or transfered
 			return "Not applying"
 
 		# Candidate
@@ -257,7 +258,7 @@ class Student < ActiveRecord::Base
 		# 	all adm_tep are closed
 		#   atleast one exit is for reason program completion
 		elsif 	(AdmTep.open(self.id).size == 0) and
-				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?)
+				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?) 
 
 			return "Completer"
 
@@ -338,9 +339,7 @@ class Student < ActiveRecord::Base
 			term: nil	#(term id) the upper bound term to use. Otherwise, use all.
 	    }
 
-	    options = defaults.merge(options)
-
-
+    options = defaults.merge(options)
 
 		courses = self.transcripts.where("grade_pt is not null").order(term_taken: :desc).order!(quality_points: :desc)
 
@@ -357,7 +356,6 @@ class Student < ActiveRecord::Base
 		end
 
 		gpa_raw = qpoints / credits
-
 		return (gpa_raw * 100).to_i / 100.0
 
 	end
