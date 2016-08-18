@@ -229,9 +229,10 @@ class Student < ActiveRecord::Base
 
 		# Not applying: any of the following
 		# 	A student who has indicated they are not interested in applying to the TEP. OR
-		# 	A student who was dismissed from the college and never aditted to TEP
+		# 	A student who was dismissed from the college and never admitted to TEP
 		elsif 	(self.latest_foi.present? and not self.latest_foi.seek_cert) or
-				(self.was_dismissed?)
+				(self.was_dismissed?) or
+				graduated or transfered
 			return "Not applying"
 
 		# Candidate
@@ -256,7 +257,7 @@ class Student < ActiveRecord::Base
 		# 	all adm_tep are closed
 		#   atleast one exit is for reason program completion
 		elsif 	(AdmTep.open(self.id).size == 0) and
-				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?)
+				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?) 
 
 			return "Completer"
 
@@ -267,7 +268,7 @@ class Student < ActiveRecord::Base
 	end
 
 	def was_dismissed?
-		return self.EnrollmentStatus.include?("Dismissed")
+		return self.EnrollmentStatus.andand.include?("Dismissed").present?
 	end
 
 	def latest_foi
