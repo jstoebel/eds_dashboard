@@ -29,11 +29,11 @@ FactoryGirl.define do
   factory :successful_prog_exit, :class => 'ProgExit' do
 
       student
-      Program_ProgCode Program.first.id
-      ExitCode_ExitCode ExitCode.find_by(:ExitCode => "1849").id
-      ExitTerm (BannerTerm.current_term({:exact => false, :plan_b => :back})).id
-      ExitDate (BannerTerm.current_term({:exact => false, :plan_b => :back})).EndDate
-      RecommendDate (BannerTerm.current_term({:exact => false, :plan_b => :back})).EndDate
+      Program_ProgCode {Program.first.id}
+      ExitCode_ExitCode {ExitCode.find_by(:ExitCode => "1849").id}
+      ExitTerm {(BannerTerm.current_term({:exact => false, :plan_b => :back})).id}
+      ExitDate {(BannerTerm.current_term({:exact => false, :plan_b => :back})).EndDate}
+      RecommendDate {(BannerTerm.current_term({:exact => false, :plan_b => :back})).EndDate}
 
       after(:build){ |exit|
         # create course work
