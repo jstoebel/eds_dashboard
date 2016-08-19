@@ -1,0 +1,10 @@
+<!-- partial for searching.
+  path: the path to submit to
+ -->
+
+<%= form_tag path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search], :placeholder => "first or last name" %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>

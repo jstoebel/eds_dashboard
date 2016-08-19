@@ -38,55 +38,106 @@ class StudentsControllerTest < ActionController::TestCase
     @controller = StudentsController.new
   end
 
-  test "should get index-page 1" do
+
+  describe "index" do
+
     allowed_roles.each do |r|
-      load_session(r)
-      get :index
-      assert_equal assigns(:students).to_a, Student.all.by_last.active_student.page(1).per(25).to_a
-    end
+
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+
+          @user = User.find_by :UserName => session[:user]
+          all_students = FactoryGirl.create_list :student, 75
+
+          if r == "advisor"
+            puts @user.tep_advisor.inspect
+            @tep_profile = @user.tep_advisor
+
+            # assign first 50 students to me
+            50.times.each{|i| AdvisorAssignment.create!({:tep_advisor_id => @tep_profile.id,
+              :student_id => all_students[i].id
+              })}
+
+            @my_students = @tep_advisor.advisor_assignments.map{|aa| aa.student}
+
+          else
+            @my_students = all_students
+          end
+
+
+        end
+
+        test "no params" do
+          # should get the first 25
+          get :index
+          if @user.is? "advisor"
+            assert_equal @my_students.to_a.size, assigns(:students).size
+          else
+
+          end
+        end
+
+        test "with page 2" do
+
+        end
+
+        test "with name search" do
+
+        end
+
+      end # as r
+
+    end # roles loop
+
   end
 
-  test "should get index, page 2" do
-    students = FactoryGirl.create_list :student, 50
-    allowed_roles.each do |r|
-      load_session(r)
-
-      
-      # make sure user is an advisor, assign them to each student
-
-
-      get :index
-      assert_equal @students.to_a, Student.all.by_last.active_student.page(2).per(25).to_a
-    end
-  end
-
-  test "admin should get index" do
-      load_session("admin")
-      get :index
-      assert_response :success
-      user = User.find_by(:UserName => session[:user])
-      ability = Ability.new(user)
-      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  end
-
-  test "staff should get index" do
-
-      load_session("staff")
-      get :index
-      assert_response :success
-      user = User.find_by(:UserName => session[:user])
-      ability = Ability.new(user)
-      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  end
-
-  test "advisor should get index" do
-      load_session("advisor")
-      get :index
-      assert_response :success
-      user = User.find_by(:UserName => session[:user])
-      ability = Ability.new(user)
-      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  end
+  # test "should get index-page 1" do
+  #   allowed_roles.each do |r|
+  #     load_session(r)
+  #     get :index
+  #     assert_equal assigns(:students).to_a, Student.all.by_last.active_student.page(1).per(25).to_a
+  #   end
+  # end
+  #
+  # test "should get index, page 2" do
+  #   students = FactoryGirl.create_list :student, 50
+  #   allowed_roles.each do |r|
+  #     load_session(r)
+  #     # make sure user is an advisor, assign them to each student
+  #     get :index
+  #     assert_equal @students.to_a, Student.all.by_last.active_student.page(2).per(25).to_a
+  #   end
+  # end
+  #
+  # test "admin should get index" do
+  #     load_session("admin")
+  #     get :index
+  #     assert_response :success
+  #     user = User.find_by(:UserName => session[:user])
+  #     ability = Ability.new(user)
+  #     assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
+  # end
+  #
+  # test "staff should get index" do
+  #
+  #     load_session("staff")
+  #     get :index
+  #     assert_response :success
+  #     user = User.find_by(:UserName => session[:user])
+  #     ability = Ability.new(user)
+  #     assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
+  # end
+  #
+  # test "advisor should get index" do
+  #     load_session("advisor")
+  #     get :index
+  #     assert_response :success
+  #     user = User.find_by(:UserName => session[:user])
+  #     ability = Ability.new(user)
+  #     assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
+  # end
 
   test "should get show" do
     allowed_roles.each do |r|
