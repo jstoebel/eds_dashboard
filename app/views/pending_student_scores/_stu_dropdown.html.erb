@@ -1,0 +1,12 @@
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Student
+  <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <% students.each do |stu| %>
+        <%= stu.FirstName %>
+        <%= stu.LastName %>
+        <br>
+      <% end %>
+  </ul>
+</div>
+  
