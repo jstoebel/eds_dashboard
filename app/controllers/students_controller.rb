@@ -45,9 +45,10 @@ class StudentsController < ApplicationController
       all_students = all_students.with_name params[:search]
     end
 
-    @page_max = all_students.size / page_size   # max number of pages
+    my_students = all_students.select{|s| can? :read, s}
 
-    @page_max = 1 if @page_max == 0
+    @page_max = my_students.size / page_size   # max number of pages
+    @page_max = 1 if @page_max == 0 # but needs to be atleast 1
 
     page_param = params[:page].to_i
 
@@ -66,7 +67,7 @@ class StudentsController < ApplicationController
     @prev_page = @page_num>1 ? @page_num-1 : nil
     @next_page = @page_num < @page_max ? @page_num + 1 : nil
 
-    @students = all_students.select{|s| can? :read, s}.slice((@page_num-1)*25, @page_num * 25)
+    @students = my_students.slice((@page_num-1)*25, @page_num * 25)
 
 
   end
