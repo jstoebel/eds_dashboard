@@ -94,6 +94,8 @@ class Student < ActiveRecord::Base
 	scope :current, lambda {select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }}
 	scope :candidates, lambda {select {|s| ["Candidate"].include?(s.prog_status) }}
 
+	scope :with_name, ->(name) {where("FirstName=? or PreferredFirst=? or LastName=? or PrevLast=?", name, name, name, name)}
+
 	def self.batch_create(hashes)
 		#bulk inserts student records
 		# hashes: array of hashes each containing params

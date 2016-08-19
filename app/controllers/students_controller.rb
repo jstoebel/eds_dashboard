@@ -32,11 +32,43 @@ class StudentsController < ApplicationController
 
   layout 'application'
   authorize_resource
-  load_resource
   def index
-    # abil = Ability.new(current_user)
-    # authorized_students = Student.all.accessible_by(abil)
-    # @students = authorized_students.by_last.active_student.page(params[:page]).per(25)
+    # display all students requested.
+    # possible param :page (the page of display)
+    # :search => the name to search for
+
+    page_size = 25
+
+    all_students = Student.all.by_last.active_student
+
+    if (params[:search]).present?
+      all_students = all_students.with_name params[:search]
+    end
+
+    @page_max = all_students.size / page_size   # max number of pages
+
+    @page_max = 1 if @page_max == 0
+
+    page_param = params[:page].to_i
+
+    if page_param.nil? || page_param < 1
+      # nil or negative numbers
+      @page_num = 1
+    elsif page_param > @page_max
+      # larger than the max
+      @page_num = @page_max
+    else
+      # normal bounds
+      @page_num = page_param
+    end
+
+    # nil -> a previous/next page isn't available (we are at begining/end)
+    @prev_page = @page_num>1 ? @page_num-1 : nil
+    @next_page = @page_num < @page_max ? @page_num + 1 : nil
+
+    @students = all_students.select{|s| can? :read, s}.slice((@page_num-1)*25, @page_num * 25)
+
+
   end
 
   def show
