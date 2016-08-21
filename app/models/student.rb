@@ -180,8 +180,8 @@ class Student < ActiveRecord::Base
     #returns full student name with additional first and last names as needed
     #if file_as, return student with last name first (Fee, Jon)
 
-		first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{student.FirstName})" : self.FirstName
-		last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{student.PrevLast})" : self.LastName
+		first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{self.FirstName})" : self.FirstName
+		last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{self.PrevLast})" : self.LastName
 
 	    if file_as
 	      return [last_name+',', first_name].join(' ')  #return last name first
