@@ -1,10 +1,12 @@
 <!-- partial for searching.
   path: the path to submit to
+  prompt: the prompt to place inside the search box.
  -->
 
-<%= form_tag path, :method => 'get' do %>
-  <p>
-    <%= text_field_tag :search, params[:search], :placeholder => "first or last name" %>
-    <%= submit_tag "Search", :name => nil %>
-  </p>
+<%= form_tag path, :method => 'get'  do %>
+    <%= text_field_tag :search, params[:search], :placeholder => prompt %>
+    <%= submit_tag "Search", :name => nil, :class => "btn btn-primary" %>
+    <%= link_to path.merge({:all => "true"}), :class => "btn btn-primary" do %>
+      <span>All</span>
+    <% end %>
 <% end %>
