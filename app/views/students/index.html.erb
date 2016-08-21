@@ -3,20 +3,21 @@
 
 <div class="students index">
   <div class="row">
-    <%= render partial: "next_prev", locals: {:prev_page => @prev_page,
-                                              :next_page => @next_page} %>
 
-    <%= render partial: "search", locals: {:path => params, :resource_name => @controller} %>
   </div>
     <div class="container">
       <table class="listing table table-striped" summary="Student list">
 
-
-
         <div class="row">
           <caption>
             <div class="header1 col-xs-12">Students</div></br>
-            <div class="header2 col-xs-12"><%= @students.size %> found. (Page <%= @page_num %> of <%= @page_max %>) </div></br>
+            <div class="header2 col-xs-12"> <%= @students.size %> found</div></br>
+            <div class="col-xs-12">
+              <%= render partial: "search", locals: {:path => params,
+                  :prompt => "first or last name"} %>
+            </div></br>
+
+            </div>
           </caption>
 
         </div>
@@ -27,9 +28,7 @@
             <th>Last Name</th>
             <th>Program Status</th>
           </tr>
-          <% @students.select{|s| can? :read, s }.each do |student| %>
-
-
+          <% @students.each do |student| %>
 
               <td><%= student.Bnum %></td>
               <td><%= student.FirstName %> <%= student.PreferredFirst.present? ? "(#{student.PreferredFirst})" : nil %></td>
