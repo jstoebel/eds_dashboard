@@ -94,6 +94,10 @@ class Student < ActiveRecord::Base
 	scope :current, lambda {select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }}
 	scope :candidates, lambda {select {|s| ["Candidate"].include?(s.prog_status) }}
 
+
+	# TODO: add support for searching through previous last names
+	scope :with_name, ->(name) {where("FirstName=? or PreferredFirst=? or LastName=?", name, name, name)}
+
 	def self.batch_create(hashes)
 		#bulk inserts student records
 		# hashes: array of hashes each containing params
@@ -176,8 +180,8 @@ class Student < ActiveRecord::Base
     #returns full student name with additional first and last names as needed
     #if file_as, return student with last name first (Fee, Jon)
 
-		first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{student.FirstName})" : self.FirstName
-		last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{student.PrevLast})" : self.LastName
+		first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{self.FirstName})" : self.FirstName
+		last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{self.PrevLast})" : self.LastName
 
 	    if file_as
 	      return [last_name+',', first_name].join(' ')  #return last name first
@@ -257,7 +261,7 @@ class Student < ActiveRecord::Base
 		# 	all adm_tep are closed
 		#   atleast one exit is for reason program completion
 		elsif 	(AdmTep.open(self.id).size == 0) and
-				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?) 
+				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?)
 
 			return "Completer"
 

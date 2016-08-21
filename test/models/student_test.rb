@@ -34,8 +34,8 @@ require 'factory_girl'
 class StudentTest < ActiveSupport::TestCase
 
 	let(:stu) {FactoryGirl.create :student}
-	
-	
+
+
 	######################################~~~TESTS FOR SCOPES~~~##########################################
 
 	test "by_last scope" do
@@ -63,6 +63,17 @@ class StudentTest < ActiveSupport::TestCase
 		expected = Student.select {|s| ["Candidate"].include?(s.prog_status) }
 		actual = Student.candidates
 		assert_equal(expected.slice(0, expected.size), actual.slice(0, actual.size))
+	end
+
+	describe "with_name scope" do
+		fields = [:FirstName, :PreferredFirst, :LastName]
+		fields.each do |f|
+			test f do
+				stu = FactoryGirl.create :student
+				students = Student.with_name(stu.send(f))
+				assert_equal stu, students.first
+			end
+		end
 	end
 
 	test "is advisee of passes" do
@@ -119,10 +130,10 @@ class StudentTest < ActiveSupport::TestCase
 		prof_bnum = course.instructors
 		assert stu.is_student_of?("bogus bnum") == false
 	end
-	
+
 	######################################################################################################
-	
-	
+
+
 
 	test "praxisI_pass" do
 		Student.all.each do |stu|
@@ -177,14 +188,14 @@ class StudentTest < ActiveSupport::TestCase
 		s.EnrollmentStatus = "Graduated"
 		s.save
 		assert_equal "Not applying", s.prog_status
-	end 
+	end
 
 	test "should not return perspective - enrollmentstatus transfered" do
 		Foi.delete_all
 		AdmTep.delete_all
 		s = Student.first
 		s.EnrollmentStatus = "WD-Transferring"
-		s.save 
+		s.save
 		assert_equal "Not applying", s.prog_status
 	end
 
@@ -282,8 +293,27 @@ class StudentTest < ActiveSupport::TestCase
 		assert second_adm.save, second_adm.errors.full_messages
 
 	end
-	
+
 	######################################################################################################
+
+	describe "name_readable" do
+
+		test "one name" do
+			stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
+			assert_equal "#{stu.FirstName} #{stu.LastName}", stu.name_readable
+		end
+
+		test "with pref_first" do
+			stu = FactoryGirl.create :student, {:PrevLast => nil}
+			assert_equal "#{stu.PreferredFirst} (#{stu.FirstName}) #{stu.LastName}", stu.name_readable
+		end
+
+		test "file_as" do
+			stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
+			assert_equal "#{stu.LastName}, #{stu.FirstName}", stu.name_readable(file_as=true)
+		end
+
+	end
 
 	test "open_programs" do
 		stu = Student.first

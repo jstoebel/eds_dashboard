@@ -10,14 +10,14 @@ class Ability
     elsif user.is? "advisor"
 
       can :manage, [Issue, IssueUpdate, StudentFile, ClinicalAssignment, Pgp, PgpScore] do |resource|
-        #map the resource to the student. If the student is assigned to the prof as an advisee or 
+        #map the resource to the student. If the student is assigned to the prof as an advisee or
         #student, return true
         advisor_check(user, resource)
       end
 
       can :be_concerned, Student do |resource| #permission to be used in the concerns_dashboard
         advisor_check(user, resource)
-      end 
+      end
 
       can :manage, [ClinicalTeacher, ClinicalSite]
 
@@ -26,7 +26,7 @@ class Ability
       end
 
     elsif user.is? "staff"
-      can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher, 
+      can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher,
         Employment, Foi, ProgExit, StudentFile]
       can [:index, :create, :update, :delete, :destroy], PraxisResult
       can :read, Student
@@ -37,7 +37,7 @@ class Ability
       can [:index, :create, :update, :delete, :destroy], PraxisResult
       can [:index, :new, :create, :delete, :destroy], StudentFile   #everything but download!
     end
-    
+
   end
 
   private
@@ -47,8 +47,8 @@ class Ability
     if advisor_profile.present?   #is user in the advisor table (admin posing as advisor might not)
 
       if resource.kind_of?Student   #if the resource is a student object
-        stu=resource  
-      else  
+        stu=resource
+      else
         stu = resource.student      #all other resources
       end
 
