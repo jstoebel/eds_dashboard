@@ -49,6 +49,7 @@ FactoryGirl.define do
     FirstName {Name.first_name}
     LastName {Name.last_name}
     EnrollmentStatus "Active Student"
+    PreferredFirst {Name.first_name}
 
     factory :admitted_student do
       after(:create) do |stu|
