@@ -29,12 +29,20 @@
 #
 
 class StudentsController < ApplicationController
-  
+
   layout 'application'
   authorize_resource
   def index
-    user = current_user
-  	@students = Student.all.by_last.current.select {|r| can? :index, r }    #also need to filter for students who are activley enrolled.
+    all_students = Student.all.by_last
+
+    if (params[:search]).present?
+      @students = all_students.with_name(params[:search]).select{|s| can? :read, s}
+    elsif (params[:all]) == "true"
+      @students = all_students.select{|s| can? :read, s}
+    else
+      @students = []
+    end
+    
   end
 
   def show

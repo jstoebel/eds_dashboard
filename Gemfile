@@ -91,5 +91,5 @@ gem 'responders', '~> 2.0'
 gem 'whenever', :require => false
 
 gem 'roo'
-
 gem 'axlsx_rails'
+gem 'kaminari'
