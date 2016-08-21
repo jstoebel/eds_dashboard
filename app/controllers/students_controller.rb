@@ -42,7 +42,7 @@ class StudentsController < ApplicationController
     else
       @students = []
     end
-
+    
   end
 
   def show

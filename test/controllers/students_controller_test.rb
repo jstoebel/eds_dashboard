@@ -50,36 +50,51 @@ class StudentsControllerTest < ActionController::TestCase
           load_session(r)
 
           @user = User.find_by :UserName => session[:user]
-          all_students = FactoryGirl.create_list :student, 75
-
-          if r == "advisor"
-            @tep_profile = @user.tep_advisor
-
-            # assign first 50 students to me
-            50.times.each{|i| AdvisorAssignment.create!({:tep_advisor_id => @tep_profile.id,
-              :student_id => all_students[i].id
-              })}
-
-            @my_students = @tep_profile.advisor_assignments.map{|aa| aa.student}
-
+          @my_student = FactoryGirl.create :student
+          if @user.tep_advisor.blank?
+            @advisor = FactoryGirl.create :tep_advisor, {:user_id => @user.id}
           else
-            @my_students = all_students
+            @advisor = @user.tep_advisor
           end
+
+          AdvisorAssignment.create({:student_id => @my_student.id,
+              :tep_advisor_id => @advisor.id
+            })
 
         end
 
         test "no params" do
-          # should get the first 25
           get :index
-            assert_equal @my_students.to_a.slice(0, 25).size, assigns(:students).to_a.size
+          assert_response :success
+          assert assigns(:students).blank?
         end
 
-        test "with page 2" do
+        describe "basic search" do
+
+          fields = [:FirstName, :PreferredFirst, :LastName]
+
+          fields.each do |f|
+            test f do
+              get :index, {:search => @my_student.send(f)}
+              assert :success
+              assert_equal [@my_student], assigns(:students).to_a
+            end
+          end
 
         end
 
-        test "with name search" do
+        test "with prev last name" do
+          #TODO
 
+        end
+
+        test "with all" do
+          abil = Ability.new(@user)
+
+          get :index, {:all => :true}
+
+          assert :success
+          assert_equal Student.all.by_last.select{|s| abil.can? :read, s}, assigns(:students)
         end
 
       end # as r
@@ -88,54 +103,8 @@ class StudentsControllerTest < ActionController::TestCase
 
   end
 
-  # test "should get index-page 1" do
-  #   allowed_roles.each do |r|
-  #     load_session(r)
-  #     get :index
-  #     assert_equal assigns(:students).to_a, Student.all.by_last.active_student.page(1).per(25).to_a
-  #   end
-  # end
-  #
-  # test "should get index, page 2" do
-  #   students = FactoryGirl.create_list :student, 50
-  #   allowed_roles.each do |r|
-  #     load_session(r)
-  #     # make sure user is an advisor, assign them to each student
-  #     get :index
-  #     assert_equal @students.to_a, Student.all.by_last.active_student.page(2).per(25).to_a
-  #   end
-  # end
-  #
-  # test "admin should get index" do
-  #     load_session("admin")
-  #     get :index
-  #     assert_response :success
-  #     user = User.find_by(:UserName => session[:user])
-  #     ability = Ability.new(user)
-  #     assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  # end
-  #
-  # test "staff should get index" do
-  #
-  #     load_session("staff")
-  #     get :index
-  #     assert_response :success
-  #     user = User.find_by(:UserName => session[:user])
-  #     ability = Ability.new(user)
-  #     assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  # end
-  #
-  # test "advisor should get index" do
-  #     load_session("advisor")
-  #     get :index
-  #     assert_response :success
-  #     user = User.find_by(:UserName => session[:user])
-  #     ability = Ability.new(user)
-  #     assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  # end
 
   test "should get show" do
-    puts Student.all.size
     allowed_roles.each do |r|
       load_session(r)
       stu = Student.first
@@ -145,8 +114,6 @@ class StudentsControllerTest < ActionController::TestCase
 
     end
   end
-
-  ## TESTS FOR UNPERMITTED ROLES
 
   test "should not get show bad role" do
     (role_names - allowed_roles).each do |r|
