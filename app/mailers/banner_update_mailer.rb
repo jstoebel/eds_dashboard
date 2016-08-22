@@ -11,13 +11,14 @@ class BannerUpdateMailer < ApplicationMailer
       :subject => "Possible TEP status change for #{@stu.name_readable}")
   end
 
-  def add_drop_advisor(stu, adv)
+  def add_drop_advisor(stu, adv, status)
     # stu (Student object) that this email is about
     # adv (TepAdvisor object): the recipient advisor
     # notifies an advisor that they have been added to /removed from a student
 
     @stu = stu
     @adv = adv
+    @status = status
     mail(:to => adv.get_email,
       :cc => [SECRET["APP_ADMIN_EMAIL"], "rosenbarkerl@berea.edu"],
       :subject => "Advisee status change for #{@stu.name_readable}")
