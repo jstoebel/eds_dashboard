@@ -73,7 +73,9 @@ class ProcessStudent
          AdvisorAssignment.create({:student_id => stu.id,
              :tep_advisor_id => adv.id
          })
-         BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now
+         if @stu.EnrollmentStatus == "Active Student"
+           BannerUpdateMailer.add_drop_advisor(@stu, adv, "added").deliver_now
+         end
        end
      end
 
@@ -88,7 +90,9 @@ class ProcessStudent
              :tep_advisor_id => adv.id
          })
          assignment.destroy!
-         BannerUpdateMailer.add_drop_advisor(@stu, adv).deliver_now
+         if @stu.EnrollmentStatus == "Active Student"
+           BannerUpdateMailer.add_drop_advisor(@stu, adv, "removed").deliver_now
+         end
        end
      end
 
