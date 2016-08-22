@@ -14,7 +14,7 @@
 #  credits_attempted :float(24)
 #  credits_earned    :float(24)
 #  reg_status        :string(45)
-#  Inst_bnum         :string(45)
+#  instructors       :text(65535)
 #  gpa_include       :boolean          not null
 #
 
@@ -31,5 +31,5 @@ one:
   course_code: EDS150
   term_taken: BannerTerm_262
   credits_earned: 4.0
-  Inst_bnum: B00123456
+  instructors: FirstName LastName {B00123456}
   gpa_include: true

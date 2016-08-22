@@ -1,0 +1,15 @@
+<!--Partial receives list called actions containing hashes with a :menu_name that indicates the name to appear in the dropdown,
+       and a :link_url that provides the path linked to. 
+       If a link should be disabled, pass in an additional key called :disable. The :menu_name will still show in the dropdown menu.-->
+
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
+  <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <% actions.each do |ref| %>
+        <%= link_to_if( ref.key?(:disable)==false, "#{ref[:menu_name]}", ref[:link_url])%>
+        <br>
+      <% end %>
+  </ul>
+</div>
+  

@@ -9,10 +9,11 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
 
-
+ *= require bootstrap3-switch
  *= require bootstrap-datepicker 
  *= require_self
  *= require nav_bar
+ *= require concern_dashboard
  *= require_tree .
  
  
@@ -94,6 +95,7 @@ Style for Glyphicons*/
 .glyphicon-trash{
   color:red;
 }
+
 
 /*h2, h3 {margin-left: 50px;
   color: black;
@@ -245,8 +247,10 @@ a:hover { text-decoration: underline; }
     }
 
     .small-btn-text {
-      font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; 
+      font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;
+      font-size: 12pt;
       width: 100%;
+      color: black;
     }
 
   /*Large buttons*/
@@ -327,12 +331,12 @@ table caption { font-weight: bold; margin-bottom: 10px; color: black;}
   padding-top: 25px;
 }
 
-caption .header1 {
+.header1 {
   font-size: 24px;
   font-style: bold;
 }
 
-caption .header2 {
+.header2 {
   font-size: 20px;
   font-style: italic;
 }

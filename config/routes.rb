@@ -136,26 +136,60 @@ require 'api_constraints'
 Rails.application.routes.draw do
 
   #A resource must be top level before it can be nested in another resource (I think)
+  resources :praxis_results, only: [:new, :create]
+  resources :students, only: [:index, :show], shallow: true do
+    resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
+      get "delete"
+    end
+    resources :issues, only: [:index, :new, :create, :destroy]
+    resources :student_files, only: [:new, :create, :index, :delete, :destroy]
+    resources :concern_dashboard, only: [:index], :path => "concerns"
+  end
 
   match 'prog_exits/get_programs', via: [:post, :get]
 
   resources :access, only: [:index]
+  # match  "/access/get_env" => "access#get_env", :via => :get
   match "/access/change_psudo_status" => "access#change_psudo_status", :via => :post
   match "/access_denied" => "access#access_denied", :via => :get
   match "/logout" => "access#logout", :via => :post
 
-  resources :praxis_results, only: [:new, :create] 
 
   resources :clinical_sites, only: [:index, :edit, :update, :new, :create, :destroy], shallow: true do
     resources :clinical_teachers, only: [:index]
     get "delete"
   end
-  
+
   resources :clinical_teachers, only: [:index, :new, :create, :edit, :update, :destroy] do
     get "delete"
   end
-  
+
+  resources :assessment_items, only: [ :show, :create, :destroy] do
+  end
+
+  match 'assessment_items/update', :via => :patch
+
+  resources :item_levels, only: [:show, :create, :update, :destroy] do
+  end
+
+  resources :assessment_versions, only: [:index, :create, :show, :update, :destroy] do
+    resources :assessment_items, only: [:index] do
+      resources :item_levels, only: [:index]
+    end
+    get "delete"
+    put "update"
+  end
+
+  resources :version_habtm_items, only: [:create, :destroy]
+
+  resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy], shallow: true do
+    resources :assessment_versions, only: [:index] do
+    end
+    get "delete"
+  end
+
 # resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
+
 
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
@@ -194,14 +228,25 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:index, :new, :create, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
+    resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
+      resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
+    end
   end
+
+
 
   resources :student_files do
     get "download"
   end
 
   resources :issues, shallow: true do
-    resources :issue_updates
+    resources :issue_updates do
+        patch 'update'
+    end
+  end
+
+  resources :pgps, shallow: true do
+    resources :pgp_scores
   end
 
   resources :banner_terms, shallow: true do
@@ -211,32 +256,6 @@ Rails.application.routes.draw do
     resources :clinical_assignments, only: [:index]
   end
 
-
-  #~~~API ROUTES
-  # credit: The code was found here: http://railscasts.com/episodes/350-rest-api-versioning?autoplay=true
-  namespace :api, defaults: {formats: 'json'} do
-  	# /api/... Api::
-  	scope module: :v1 do #, contraints: ApiConstraints.new(version: 1) do
-  		resources :students, :only => [:index, :show] do
-  		end
-
-  		resource :students, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
-  			collection do
-	  			post "batch_create"
-	  			patch "batch_update"
-  			end
-  		end
-
-  		resource :transcripts, :except => [:index, :show, :new, :create, :edit, :update, :delete, :destroy] do
-  			collection do
-	  			post "batch_upsert"
-  			end
-  		end
-
-        resource :banner_update, :only => [:create] 
-
-  	end 
-  end
-
   root 'access#index'
+
 end

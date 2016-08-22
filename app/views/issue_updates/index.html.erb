@@ -1,6 +1,6 @@
 <%= link_to student_issues_path(@student.AltID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
-<% end %> 
+<% end %>
 
 <div class="container-fluid">
   <table class="table table-striped">
@@ -10,37 +10,53 @@
       <div class="header1 col-xs-12">
         <%="#{@student.FirstName} #{@student.LastName}"%>
       </div>
-  
-      <div class="header2 col-xs-12">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.Open ? "bad_text" : "good_text"  %>"><%=@issue.Open ? "Open" : "Closed"  %></span>) 
+
+      <div class="header2 col-xs-12">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.Open ? "bad_text" : "good_text"  %>"><%=@issue.Open ? "Open" : "Closed"  %></span>)
       </div>
 
       <div class="col-md-1">
-        <%= link_to new_issue_issue_update_path(@issue.IssueID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %> 
+        <%= link_to new_issue_issue_update_path(@issue.IssueID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>
           <span class="large-btn-text">Add New Update</span>
 
-        <% end %>    
+        <% end %>
       </div>
     </caption>
   </div>
 
   <% if @updates %>
     <tr>
+      <th>
+        ID
+      </th>
       <th>Update</th>
       <th>Date</th>
+      <th>Addressed</th>
     </tr>
-  
+
 
     <% @updates.each do |update| %>
-
       <tr>
+        <td>
+          <%= update.id %>
+        </td>
+
         <td><%=update.UpdateName%></td>
         <td> <%=update.created_at.strftime("%m/%d/%Y")%> </td>
+
+        <!-- TODO: radio button to toggle addressed field -->
+        <td>
+          <%= form_tag students_path, method: :patch, remote: true do %>
+            <input id="<%='update'  +update.id.to_s%>" type="checkbox" Oncolor="success" Offcolor="danger" data-on-text="addressed" data-off-text="NEW" class="bs-switch switch-<%= update.addressed ? 'on' : 'off' %>" ajax_path="<%= students_path %>">
+          <% end %>
+
+        </td>
+
         <td class="actions">
 
-          <%= render(partial: 'details_popover', 
+          <%= render(partial: 'details_popover',
           locals: {
             :record_id => update.UpdateID,
-            :popover_title => "Update Details", 
+            :popover_title => "Update Details",
             :button_title => "Details",
             :content => update.Description
           } )  %>
@@ -51,8 +67,8 @@
                 <% end %>
         </td>
       </tr>
-      
-    
+
+
     <% end %>
 
   <% end %>

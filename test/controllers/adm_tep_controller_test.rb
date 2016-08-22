@@ -240,17 +240,14 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    expected_term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
-    expected_date = (expected_term.StartDate.to_date) + 10
-    travel_to expected_date do
-      allowed_roles.each do |r|
-        load_session(r)
-        get :index
-        assert_response :success
-        expected_applications = AdmTep.all.by_term(expected_term)
-        assert_equal assigns(:applications).to_a, expected_applications.to_a
-      end
-    end 
+    expected_term = BannerTerm.current_term(exact: false, plan_b: :back)
+    allowed_roles.each do |r|
+      load_session(r)
+      get :index
+      assert_response :success
+      expected_applications = AdmTep.all.by_term(expected_term)
+      assert_equal assigns(:applications).to_a, expected_applications.to_a
+    end
   end
 
   test "should get index with term" do

@@ -11,7 +11,7 @@
 #  GPA               :float(24)
 #  GPA_last60        :float(24)
 #  RecommendDate     :datetime
-#  Details           :text
+#  Details           :text(65535)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
