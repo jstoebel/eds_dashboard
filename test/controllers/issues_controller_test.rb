@@ -4,12 +4,14 @@
 #
 #  IssueID                  :integer          not null, primary key
 #  student_id               :integer          not null
-#  Name                     :text             not null
-#  Description              :text             not null
+#  Name                     :text(65535)      not null
+#  Description              :text(65535)      not null
 #  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  positive                 :boolean
 #
 
 require 'test_helper'
@@ -48,7 +50,7 @@ class IssuesControllerTest < ActionController::TestCase
         :student_id => stu.id,
         :Name => create_params[:Name],
         :Description => create_params[:Description],
-        :Open => true
+        :positive => false
         }
 
 
@@ -57,11 +59,11 @@ class IssuesControllerTest < ActionController::TestCase
       #we expect that the two records will be the same except for id
       expected_issue = Issue.new(expected_params)
       actual_issue = assigns(:issue).attributes
-
       actual_attrs = expected_params.select { |k, v| expected_params.include?(k)}
 
       assert_equal expected_params, actual_attrs
 
+      assert assigns(:issue).Open == !expected_params[:positive]
       assert assigns(:issue).present?, assigns(:issue) == nil
       assert assigns(:issue).valid?, assigns(:issue).errors.full_messages
 

@@ -4,12 +4,14 @@
 #
 #  IssueID                  :integer          not null, primary key
 #  student_id               :integer          not null
-#  Name                     :text             not null
-#  Description              :text             not null
+#  Name                     :text(65535)      not null
+#  Description              :text(65535)      not null
 #  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  positive                 :boolean
 #
 
 class IssuesController < ApplicationController
@@ -35,6 +37,10 @@ class IssuesController < ApplicationController
     user = current_user
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
+
+
+    @issue.Open = !@issue.positive
+
 
     if @issue.save
       flash[:notice] = "New issue opened for: #{name_details(@student)}"
@@ -86,19 +92,9 @@ class IssuesController < ApplicationController
   #same as using params[:subject] except that:
     #raises an error if :praxis_result is not present
     #allows listed attributes to be mass-assigned
-  params.require(:issue).permit(:Name, :Description)
+  params.require(:issue).permit(:Name, :Description, :positive)
   
   end
 
-  private
-  #white lists params for a new update
-  def new_update_params
-    params.require(:issue).permit(:Name, :Description)
-  end
-
-  def close_issue_params
-    params.require(:issue_update).permit(:Description)
-    
-  end
 
 end

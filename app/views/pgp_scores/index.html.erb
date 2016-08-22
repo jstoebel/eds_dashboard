@@ -1,0 +1,41 @@
+<%= link_to student_pgps_path(@student.AltID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
+  <i class=" link-text"> Back</i>
+<% end %>
+
+    </br>
+    
+
+    <div class="container-fluid">
+        <table class="table table-striped">
+          <div class="row">      
+            <caption>
+              <div class="header1 col-xs-12">Professional growth plan scores for <%="#{@student.FirstName} #{@student.LastName}"%></div></br>
+
+              <div class="header2 col-xs-12"> <%= pluralize(@pgp.pgp_scores.size, "PGP score") + " found" %> </div>
+                <div class="col-xs-1">
+                
+                </div>
+            </caption>
+          </div>
+            
+  
+              <tr class="header">
+                <th>Score</th>
+                <th>Score Reason(s)</th>
+                <th>Date Scored</th>
+              </tr>
+              <% @pgp_scores.each do |pgp_score| %>
+              
+              
+              <tr>
+                <td> <%= pgp_score.goal_score %></td>
+                <td> <%= pgp_score.score_reason %></td>
+                <td> <%= pgp_score.created_at.strftime("%m/%d/%Y")%> </td>
+
+                <td>
+                   <%= link_to("Edit PGP Score", edit_pgp_score_path(pgp_score.id), :class => "action details btn btn-info action-small issues") %>
+                </td>
+              </tr>
+          <% end %>
+        </table>
+      </div>
