@@ -96,7 +96,26 @@ class Student < ActiveRecord::Base
 
 
 	# TODO: add support for searching through previous last names
-	scope :with_name, ->(name) {where("FirstName=? or PreferredFirst=? or LastName=?", name, name, name)}
+	# scope :with_name, ->(name) {where("FirstName=? or PreferredFirst=? or LastName=?", name, name, name)}
+
+	def self.with_name(str)
+		# str(string): the query string
+		# return an arel query where any of the following match any word in string
+			# FirstName
+			# LastName
+			# PrefFirst
+			# any last_name in the last_names table
+
+		words = str.split(" ")
+		students_tbl = Student.arel_table
+		last_names_tbl = LastName.arel_table
+		query = students_tbl[:FirstName].in(words).or(
+			students_tbl[:LastName].in(words)).or(
+			students_tbl[:PreferredFirst].in(words)
+			).or(last_names_tbl[:last_name].in(words))
+
+		return query
+	end
 
 	def self.batch_create(hashes)
 		#bulk inserts student records
@@ -170,7 +189,6 @@ class Student < ActiveRecord::Base
 		return self.id
 	end
 	#####################################################################################
-
 
 
 	####~~~Student Name assoc. and Methods~~~############################################
