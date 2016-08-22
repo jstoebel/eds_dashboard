@@ -65,8 +65,10 @@ class StudentsControllerTest < ActionController::TestCase
 
         test "no params" do
           get :index
+          abil = Ability.new(@user)
+
           assert_response :success
-          assert assigns(:students).blank?
+          assert Student.by_last.active_student.current.select{|s| abil.can? :read, s}, assigns(:students)
         end
 
         describe "basic search" do
@@ -84,8 +86,17 @@ class StudentsControllerTest < ActionController::TestCase
         end
 
         test "with prev last name" do
-          #TODO
+          stu_last = @my_student.last_names.first.last_name
+          get :index, {:search => stu_last}
+          assert :success
+          assert_equal [@my_student], assigns(:students).to_a
+        end
 
+        test "with multiple words" do
+          search_str = "#{@my_student.send(:FirstName)} spam"
+          get :index, {:search => search_str}
+          assert :success
+          assert_equal [@my_student], assigns(:students).to_a
         end
 
         test "with all" do
