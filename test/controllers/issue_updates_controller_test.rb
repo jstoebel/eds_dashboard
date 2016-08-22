@@ -3,12 +3,14 @@
 # Table name: issue_updates
 #
 #  UpdateID                 :integer          not null, primary key
-#  UpdateName               :text             not null
-#  Description              :text             not null
+#  UpdateName               :text(65535)      not null
+#  Description              :text(65535)      not null
 #  Issues_IssueID           :integer          not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  visible                  :boolean          default(TRUE), not null
+#  addressed                :boolean
 #
 
 require 'test_helper'
@@ -44,7 +46,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
           :UpdateName => "Update!",
           :Description => "descrip!",
           :Issues_IssueID => issue.id,
-          :tep_advisors_AdvisorBnum => user.tep_advisor.id
+          :tep_advisors_AdvisorBnum => user.tep_advisor.id,
         })
 
 
@@ -124,6 +126,39 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       assert_equal update.issue.student, assigns(:student)
     end
   end
+
+  test "should patch update" do
+    allowed_roles.each do |r|
+      load_session(r)
+
+      update = IssueUpdate.first
+
+      change_to = !update.addressed
+
+      patch :update, {:id => update.id, :issue_update => {:addressed => change_to}}
+      
+      resp = JSON.parse @response.body
+      assert_response :success
+      assert_equal resp["addressed"], change_to
+    end
+  end
+
+  test "should not patch update bad params" do
+    #don't sent a value for addressed
+    allowed_roles.each do |r|
+      load_session(r)
+
+      update = IssueUpdate.first
+
+      change_to = !update.addressed
+
+      patch :update, {:id => update.id, :issue_update => {}}
+      
+      resp = JSON.parse @response.body
+      assert_response :unprocessable_entity
+      assert_not_equal resp["addressed"], change_to
+    end
+  end
   
   #TESTS FOR UNAUTHORIZED USERS
   test "should not get new bad role" do
@@ -189,6 +224,16 @@ class IssueUpdatesControllerTest < ActionController::TestCase
         delete :destroy, {:id => iss_up.id}
         assert_redirected_to "/access_denied"
     end
+  end
+
+  test "should not patch update bad role" do
+    (role_names - allowed_roles).each do |r|
+      load_session(r)
+      update = IssueUpdate.first
+      change_to = !update.addressed
+      patch :update, {:id => update.id, :issue_update => {:addressed => change_to}}
+      assert_redirected_to "/access_denied"
+    end   
   end
   
 end

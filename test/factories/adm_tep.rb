@@ -2,18 +2,18 @@
 #
 # Table name: adm_tep
 #
-#  student_id            :integer          not null
 #  id                    :integer          not null, primary key
+#  student_id            :integer          not null
 #  Program_ProgCode      :integer          not null
 #  BannerTerm_BannerTerm :integer          not null
-#  Attempt               :integer          not null
+#  Attempt               :integer
 #  GPA                   :float(24)
 #  GPA_last30            :float(24)
 #  EarnedCredits         :integer
 #  PortfolioPass         :boolean
 #  TEPAdmit              :boolean
 #  TEPAdmitDate          :datetime
-#  Notes                 :text
+#  Notes                 :text(65535)
 #  student_file_id       :integer
 #
 
@@ -28,7 +28,7 @@ FactoryGirl.define do
     TEPAdmit true
     TEPAdmitDate Date.today
     GPA 2.75
-    GPA_last30 3.0 
+    GPA_last30 3.0
     EarnedCredits 30
     association :student_file, factory: :student_file
   end

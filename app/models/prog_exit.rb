@@ -11,7 +11,7 @@
 #  GPA               :float(24)
 #  GPA_last60        :float(24)
 #  RecommendDate     :datetime
-#  Details           :text
+#  Details           :text(65535)
 #
 
 class ProgExit < ActiveRecord::Base
@@ -24,7 +24,7 @@ class ProgExit < ActiveRecord::Base
 
 	has_one :adm_tep, :through => :program
 	#CALLBACKS
-	before_validation :add_term
+	before_validation :add_term, :set_gpas
 
 	#SCOPES
 	scope :by_term, ->(term) {where("ExitTerm = ?", term)}
@@ -35,11 +35,11 @@ class ProgExit < ActiveRecord::Base
 
 		completer_code = ExitCode.find_by :ExitCode => "1849"
 
-		e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") if (e.GPA < 2.5 and e.GPA_last60 < 3.0) 
-		
+		e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") if !good_gpa?
+
 		#recommend date must be >= exit date
 		e.errors.add(:RecommendDate, "Student may not be recommended for certification before exiting program.") if e.RecommendDate.present? && e.ExitDate > e.RecommendDate
-		
+
 		#can only have a recommend date if student completed program
 
 		e.errors.add(:RecommendDate, "Student may not be recommended for certificaiton unless they have sucessfully completed the program.") if e.RecommendDate.present? and e.ExitCode_ExitCode != completer_code.id
@@ -78,7 +78,7 @@ class ProgExit < ActiveRecord::Base
 	      return false
 	    end
 	end
-		
+
 	def check_admited
 		#check that the student was admitted to this program
 
@@ -94,7 +94,7 @@ class ProgExit < ActiveRecord::Base
 	def add_term
 		#adds the banner term to record based on date.
 
-		if self.ExitDate
+		if self.ExitDate.present?
 			term = BannerTerm.current_term({:date => self.ExitDate, :exact => false, :plan_b => :back})
 			if term
 				self.ExitTerm = term.BannerTerm
@@ -102,8 +102,22 @@ class ProgExit < ActiveRecord::Base
 				#add error to object
 				self.errors.add(:ExitDate, "Exit date out of range.")
 			end
-
 		end
 	end
+
+	def good_gpa?
+    return (self.GPA >= 2.50 or self.GPA_last30 >= 3.0)
+  end
+
+	def set_gpas
+    #set GPAs for record
+
+    if self.errors.blank? && self.student_id.present?
+      stu = self.student
+
+      self.GPA = stu.gpa({:term => self.ExitTerm})
+      self.GPA_last60 = stu.gpa({:term => self.ExitTerm, :last => 60})
+    end
+  end
 
 end

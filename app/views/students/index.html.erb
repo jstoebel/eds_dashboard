@@ -2,14 +2,24 @@
 
 
 <div class="students index">
-  
+  <div class="row">
+
+  </div>
     <div class="container">
       <table class="listing table table-striped" summary="Student list">
-        <div class="row">          
+
+        <div class="row">
           <caption>
             <div class="header1 col-xs-12">Students</div></br>
-            <div class="header2 col-xs-12"><%= @students.size %> found</div></br>     
+            <div class="header2 col-xs-12"> <%= @students.size %> found</div></br>
+            <div class="col-xs-12">
+              <%= render partial: "search", locals: {:path => params,
+                  :prompt => "first or last name"} %>
+            </div></br>
+
+            </div>
           </caption>
+
         </div>
           <tr class="header">
             <th>B#</th>
@@ -19,65 +29,54 @@
             <th>Program Status</th>
           </tr>
           <% @students.each do |student| %>
-    
-    
-    
+
               <td><%= student.Bnum %></td>
               <td><%= student.FirstName %> <%= student.PreferredFirst.present? ? "(#{student.PreferredFirst})" : nil %></td>
               <td><%= student.MiddleName %></td>
               <td><%= student.LastName %> <%= student.PrevLast.present? ? "(#{student.PrevLast})" : nil %></td>
               <td><%= student.prog_status %></td>
               <td class="actions">
-    
+
+                  <% actions =[] %>
+
+
                   <% if can? :show, Student %>
-                    <%= link_to student_path(student.AltID), :class => "btn btn-info action-small" do %>
-                          </br><span class="small-btn-text">Details</span>
-                    <% end %>
-                  <% end  %>
-    
-    
+                  <% actions.push({menu_name: "Details", link_url: student_path(student.AltID)}) %>
+                  <% else %>
+                  <% actions.push({disable: true, menu_name: "Details", link_url: student_path(student.AltID) }) %>
+                  <%end  %>
+
+
                     <!-- TODO grayed out button if no praxis results, issues -->
                     <% if can? :index, PraxisResult %>
-                      <%= link_to student_praxis_results_path(student.AltID),:class => "btn btn-info action-small praxis" + (student.praxis_results.size > 0 ? "" : " disabled") do %>
-                              </br>
-                              <span class="small-btn-text"> Praxis Results 
-                                <span class="badge">
-                                  <%=student.praxis_results.size%> 
-                                </span>
-                            </span>
-    
-                      <% end %>
+                      <% actions.push({menu_name: "Praxis Results", link_url: student_praxis_results_path(student.AltID)}) %>
+                    <% else %>
+                      <% actions.push({disable: true, menu_name: "Praxis Results", link_url: student_praxis_results_path(student.AltID)}) %>
                     <% end %>
-    
-                  <% if can? :read, Issue %>
-                    <%= link_to student_issues_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-                          </br><span class="small-btn-text">
-                          Issues
-                            <span class="badge">
-                              <%=student.issues.select{|u| u.visible}.size%>
-                            </span>
-                          </span>
-    
+
+                    <% if can? :show, Pgp %>
+                      <% actions.push({menu_name: "PGPs (#{student.pgps.size})", link_url: student_pgps_path(student.AltID)}) %>
+                    <% else %>
+                      <% actions.push({disable: true, menu_name: "PGPs (#{student.pgps.size})", link_url: student_pgps_path(student.AltID)}) %>
                     <% end %>
-                  <% end  %>
-    
-                  <% if can? :read, StudentFile %>
-                    <%= link_to student_student_files_path(student.AltID),:class => "btn btn-info action-small issues" do %>
-                          </br><span class="small-btn-text">
-                          Files
-                            <span class="badge">
-                              <%=student.student_files.active.size%>
-                            </span>
-                          </span>
-    
+
+                    <% if can? :read, Issue %>
+                      <% actions.push({menu_name: "Issues (#{student.issues.select{|u| u.visible}.size})", link_url: student_issues_path(student.AltID)}) %>
+                    <% else %>
+                      <% actions.push({disable: true, menu_name: "Issues (#{student.issues.select{|u| u.visible}.size})", link_url: student_issues_path(student.AltID)}) %>
                     <% end %>
-                  <% end %>
-    
-    
+
+                    <% if can? :read, StudentFile %>
+                      <% actions.push({menu_name: "Files (#{student.student_files.active.size})", link_url: student_student_files_path(student.AltID)}) %>
+                    <% else %>
+                      <% actions.push({disable: true, menu_name: "Files (#{student.student_files.active.size})", link_url: student_student_files_path(student.AltID),}) %>
+                    <% end %>
+                  <%= render(partial: 'dropdown', locals: {:actions => actions}) %>
               </td>
             </tr>
-          
+
           <% end %>
         </table>
+
       </div> <!--end container -->
 </div>

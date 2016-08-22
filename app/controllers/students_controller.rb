@@ -16,10 +16,10 @@
 #  CurrentMajor2    :string(45)
 #  concentration2   :string(255)
 #  CellPhone        :string(45)
-#  CurrentMinors    :string(45)
+#  CurrentMinors    :string(255)
 #  Email            :string(100)
 #  CPO              :string(45)
-#  withdrawals      :text
+#  withdraws        :text(65535)
 #  term_graduated   :integer
 #  gender           :string(255)
 #  race             :string(255)
@@ -29,12 +29,21 @@
 #
 
 class StudentsController < ApplicationController
-  
+
   layout 'application'
   authorize_resource
   def index
-    user = current_user
-  	@students = Student.all.by_last.current.select {|r| can? :index, r }    #also need to filter for students who are activley enrolled.
+    all_students = Student.all.by_last
+
+    if (params[:search]).present?
+      query = Student.with_name(params[:search])
+      @students = all_students.joins(:last_names).where(query).select{|s| can? :read, s}
+    elsif (params[:all]) == "true"
+      @students = all_students.select{|s| can? :read, s}
+    else # no params given
+      @students = all_students.active_student.current.select{|s| can? :read, s}
+    end
+
   end
 
   def show

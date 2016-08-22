@@ -2,8 +2,8 @@
 #
 # Table name: praxis_prep
 #
-#  student_id          :integer          not null
 #  TestID              :integer          not null, primary key
+#  student_id          :integer          not null
 #  PraxisTest_TestCode :integer          not null
 #  Sub1Name            :string(45)
 #  Sub1Score           :float(24)
@@ -22,7 +22,7 @@
 #  TestScore           :float(24)
 #  RemediationRequired :boolean
 #  RemediationComplete :boolean
-#  Notes               :text(2147483647)
+#  Notes               :text(4294967295)
 #
 
 require 'test_helper'

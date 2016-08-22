@@ -11,7 +11,7 @@
 #  GPA               :float(24)
 #  GPA_last60        :float(24)
 #  RecommendDate     :datetime
-#  Details           :text
+#  Details           :text(65535)
 #
 
 class ProgExitsController < ApplicationController
@@ -42,50 +42,28 @@ class ProgExitsController < ApplicationController
 
     #mass assign AltID, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
-    @exit.student_id = Student.find(params[:prog_exit][:id]).id
 
-    exit_date = params[:prog_exit][:ExitDate]
-    if exit_date.present?
-      @exit.ExitDate = DateTime.strptime(exit_date, '%m/%d/%Y')
-      #get term
-      term = current_term({:date => @exit.ExitDate})
-      @exit.ExitTerm = term.BannerTerm
-    else
-      @exit.ExitDate = nil
-    end
+    # model will find the exit date and GPAs on its own
 
-    recommend_date = params[:prog_exit][:RecommendDate]
-    if recommend_date.present?
-      @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
-    else
-      @exit.RecommendDate = nil
-    end
-
-    #TODO CHANGE THIS! compute GPA and GPA_last60
-    @exit.GPA = 2.5
-    @exit.GPA_last60 = 3.0
-
-    #get exit ID
-  
     if @exit.save
-      flash[:notice] = "Successfully exited #{name_details(@exit.student)} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
+      flash[:notice] = "Successfully exited #{@exit.student.name_readable} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
       redirect_to prog_exits_path
     else
       new_setup
       render('new')
-        
+
     end
 
   end
 
   def new_specific
     #enter a new exit with student's name and program pre populated
-    
+
     @exit = ProgExit.new
     alt_id = params[:prog_exit_id]
     stu = Student.find alt_id
     @exit.student_id = stu.id
-    
+
     program = params[:program_id]
     @exit.Program_ProgCode = program
     new_setup
@@ -102,19 +80,12 @@ class ProgExitsController < ApplicationController
     @exit = ProgExit.find params[:id]
     @exit.assign_attributes(edit_exit_params)
 
-    recommend_date = params[:prog_exit][:RecommendDate]
-    if recommend_date.present?
-      @exit.RecommendDate = DateTime.strptime(recommend_date, '%m/%d/%Y')
-    else
-      @exit.RecommendDate = nil
-    end
-
     if @exit.save
       flash[:notice] = "Edited exit record for #{name_details(@exit.student)}"
       redirect_to banner_term_prog_exits_path(@exit.banner_term.id)
     else
       render('edit')
-      
+
     end
 
   end
@@ -126,7 +97,7 @@ class ProgExitsController < ApplicationController
   end
 
   def get_programs
-    #gets programs for a given student's id, respond with json of all of students opened programs 
+    #gets programs for a given student's id, respond with json of all of students opened programs
 
     stu = Student.find params[:id]
     open_admissions = stu.open_programs
@@ -145,11 +116,12 @@ class ProgExitsController < ApplicationController
   #PRIVATE METHODS
   private
   def new_exit_params
-    params.require(:prog_exit).permit(:Student_Bnum, :Program_ProgCode, :ExitCode_ExitCode, :Details)
+    params.require(:prog_exit).permit(:student_id, :Program_ProgCode,
+      :ExitCode_ExitCode, :Details, :ExitDate, :RecommendDate)
   end
 
   def edit_exit_params
-    params.require(:prog_exit).permit(:Details)
+    params.require(:prog_exit).permit(:Details, :RecommendDate)
   end
 
   def new_setup
@@ -164,15 +136,15 @@ class ProgExitsController < ApplicationController
     #pre: nothing
     #post:
       #programs: program admissions belonging to: students who have a non
-      # TEP major. 
+      # TEP major.
 
     programs = []
 
     #1)TODO grab students with no TEP major. We need Banner integration for this.
 
     #TODO for later
-    #add non exiting program admissions belonging to candidates who have graduated 
-    
+    #add non exiting program admissions belonging to candidates who have graduated
+
     return programs
 
   end
