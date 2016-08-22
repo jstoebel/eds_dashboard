@@ -14,20 +14,20 @@
 class PgpsController < ApplicationController
     layout 'application'
     authorize_resource
-    
+
     def index
         @student = Student.find(params[:student_id])
         authorize! :show, @pgp
         @pgps = @student.pgps.sorted.select {|r| can? :read, r }
     end
-    
+
     def show
         @pgp = Pgp.find(params[:id])
         authorize! :read, @pgp
         @student = Student.find(@pgp.student_id)
         name_details (@student)
     end
-    
+
     def edit
         @pgp = Pgp.find(params[:id])
         authorize! :manage, @pgp
@@ -36,7 +36,7 @@ class PgpsController < ApplicationController
     end
 
     def create
-        @pgp = Pgp.new  
+        @pgp = Pgp.new
         authorize! :manage, @pgp
         @pgp.assign_attributes(pgp_params)
         if @pgp.save
@@ -44,25 +44,25 @@ class PgpsController < ApplicationController
           redirect_to(student_pgps_path(@pgp.student_id))
         else
           flash[:notice] = "Error creating professional growth plan."
-          @student = Student.find(params[:student_id])
+          @student = @pgp.student
           render 'new'
         end
     end
-    
+
     def new
         @pgp = Pgp.new
         authorize! :manage, @pgp
         @student = Student.find(params[:student_id])
-        
+
     end
-    
+
     def update
          @pgp = Pgp.find(params[:id])
          authorize! :manage, @pgp
          @student = @pgp.student
          authorize! :manage, @student
          @pgp.assign_attributes(pgp_params)
-        
+
          if @pgp.save
              flash[:notice] = "PGP successfully updated"
              redirect_to student_pgps_path(@pgp.student.id)
@@ -75,9 +75,9 @@ class PgpsController < ApplicationController
          end
     end
 
-    
+
     def destroy
-        @pgp = Pgp.find(params[:id])    
+        @pgp = Pgp.find(params[:id])
         authorize! :manage, @pgp
         @pgp.destroy
         if @pgp.destroyed?
@@ -87,19 +87,19 @@ class PgpsController < ApplicationController
         end
         redirect_to(student_pgps_path(@pgp.student_id))
     end
-    
+
 
 
     private
     def pgp_params
         params.require(:pgp).permit(:student_id, :goal_name, :description, :plan)
     end
-    
-        
+
+
     def pgp_score_params
         params.require(:pgp_score).permit(:pgp_id, :goal_score, :score_reason)
     end
-    
+
     def error_update
         #sends user back to edit
         @student = Student.find(@pgp.student_id)
