@@ -6,7 +6,7 @@ Dear <%= "#{@adv.first_name} #{@adv.last_name}" %>, </br>
 
 <p>
   This email is to inform you that according to Banner, <%= @stu.name_readable %> has been
-  <b><%= @stu.is_advisee_of(@adv) ? "added" : "removed" %></b>
+  <b><%= @status %></b>
   as your advisee. Please reach out to the student to confirm if
   this information is correct. If it is incorrect, please inform
   <a href="mailto:stoebelj@berea.edu">Jacob Stoebel</a> and
