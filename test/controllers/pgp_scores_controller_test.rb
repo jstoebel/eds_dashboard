@@ -66,7 +66,7 @@ class PgpScoresControllerTest < ActionController::TestCase
         allowed_roles.each do |r|
             load_session(r)
             score = FactoryGirl.create :pgp_score, {:pgp_id => pgp.id, :goal_score => 1, :score_reason => "nil"}
-            expected_attr = {:goal_score => 3, :score_reason => "Test reason"}
+            expected_attr = {"goal_score" => 3, "score_reason" => "Test reason"}
             post :update, {:id => score.id, :pgp_score => expected_attr}
 
             all_attrs = assigns(:pgp_score).attributes
