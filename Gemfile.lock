@@ -311,6 +311,7 @@ DEPENDENCIES
   minitest-spec-rails
   mocha
   mysql2 (~> 0.3.18)
+  nokogiri (~> 1.6, >= 1.6.8)
   paperclip (~> 4.3)
   phony_rails
   puma
