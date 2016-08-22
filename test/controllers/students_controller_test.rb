@@ -93,7 +93,7 @@ class StudentsControllerTest < ActionController::TestCase
         end
 
         test "with multiple words" do
-          search_str = "#{@my_student.send(:FirstName)} spam"
+          search_str = "#{@my_student.FirstName} spam"
           get :index, {:search => search_str}
           assert :success
           assert_equal [@my_student], assigns(:students).to_a
@@ -113,7 +113,6 @@ class StudentsControllerTest < ActionController::TestCase
     end # roles loop
 
   end
-
 
   test "should get show" do
     allowed_roles.each do |r|
