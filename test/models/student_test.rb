@@ -70,10 +70,29 @@ class StudentTest < ActiveSupport::TestCase
 		fields.each do |f|
 			test f do
 				stu = FactoryGirl.create :student
-				students = Student.with_name(stu.send(f))
-				assert_equal stu, students.first
+				query = Student.with_name(stu.send(f))
+				students = Student.joins(:last_names).where(query)
+				assert_equal [stu], students.to_a
 			end
 		end
+
+		test "with last_names table" do
+			stu = FactoryGirl.create :student
+			stu.LastName = "new-last"
+			stu.save
+			stu_last = stu.last_names.first.last_name
+			query = Student.with_name(stu_last)
+			students = Student.joins(:last_names).where(query)
+			assert_equal [stu], students.to_a
+		end
+	end
+
+	test "with_name - multiword string" do
+		stu = FactoryGirl.create :student
+		search_str = "#{stu.FirstName} spam"
+		query = Student.with_name(search_str)
+		students = Student.joins(:last_names).where(query)
+		assert_equal [stu], students.to_a
 	end
 
 	test "is advisee of passes" do
