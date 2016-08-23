@@ -12,8 +12,8 @@ class StuFromSsn
     DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod",
       SECRET["BANNER_UN"],
       SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd SZVEDSD_SSN = ?"
-        return dbh.select_all(sql, ssn)
+        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN=?"
+        return dbh.select_one(sql, @ssn)
       end
   end
 
