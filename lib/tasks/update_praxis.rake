@@ -9,7 +9,8 @@ task :update_praxis => :environment do
     get_these_dates = missing_report_dates(client, user_name, pw)
 
     get_these_dates.each do |d|
-      fetch_score_report(client, user_name, pw, d)
+      report_response = fetch_score_report(client, user_name, pw, d)
+      ssn = report_response.at_xpath('scorereport/candidateinfo/ssn').text
     end
 
 end
@@ -46,7 +47,11 @@ def fetch_score_report(client, user_name, pw, date)
       "strSubProgram" => "P"
        })
 
-   puts Base64.decode64 response.body[:get_score_reports_given_reporting_date_response][:get_score_reports_given_reporting_date_result]
+   return Base64.decode64 response.body[:get_score_reports_given_reporting_date_response][:get_score_reports_given_reporting_date_result]
 
+
+ def stu_from_ssn
+   
+ end
 
 end
