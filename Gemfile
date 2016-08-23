@@ -94,3 +94,4 @@ gem 'whenever', :require => false
 gem 'roo'
 gem 'axlsx_rails'
 gem 'kaminari'
+gem 'nokogiri', '~> 1.6', '>= 1.6.8'
