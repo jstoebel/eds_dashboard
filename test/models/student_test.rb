@@ -131,13 +131,13 @@ class StudentTest < ActiveSupport::TestCase
 		assert course.valid?
 		course.save
 		stu = course.student
-		prof_bnum = course.instructors
+		prof_bnum = course.inst_bnums[0]
 		assert stu.is_student_of?(prof_bnum) == false
 	end
 
 	test "is student of fails not student" do
 
-		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})
+		term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
 
 		#fails because student doesn't have this prof (in fact the Bnum is completly bogus)
 		course = Transcript.first
@@ -148,6 +148,21 @@ class StudentTest < ActiveSupport::TestCase
 		stu = course.student
 		prof_bnum = course.instructors
 		assert stu.is_student_of?("bogus bnum") == false
+	end
+
+	test "is_student_of fails - no courses have instructors" do
+		# this happens with students who have only transfered courses.
+		# explicetly test that method doesn't blow up
+
+		course = FactoryGirl.create :transcript, {:instructors => nil,
+				:term_taken => BannerTerm.current_term({:exact => false, :plan_b => :forward}).id
+		}
+		stu = course.student
+		adv = FactoryGirl.create :tep_advisor
+		AdvisorAssignment.create({:student_id => stu.id, :tep_advisor_id => adv.id})
+		prof_bnum = adv.AdvisorBnum
+		assert_not stu.is_student_of?(prof_bnum)
+
 	end
 
 	######################################################################################################
