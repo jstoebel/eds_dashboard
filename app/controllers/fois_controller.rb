@@ -10,9 +10,9 @@ class FoisController < ApplicationController
 
   
     def import
-        authorize! :manage, @fois
+        authorize! :manage, @foi
         Foi.import(params[:file])
-        if @fois.save?
+        if @foi.imported?
             flash[:notice] = "Fois imported."
         else 
             flash[:notice] = "Could not Import File"
