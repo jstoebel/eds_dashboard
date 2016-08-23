@@ -17,7 +17,11 @@ end
 private
 
 def missing_report_dates(client, user_name, pw)
-  # return any reporting dates not already in the system
+  # client: SOAP client
+  # user_name(str) ETS user name
+  # pw(string) ETS password
+
+  # return any reporting dates not already in the system (as DateTime)
   response = client.call(:get_reporting_dates, message: {"clientUserId" => user_name, "clientPassword" => pw })
   dates = Base64.decode64 response.body[:get_reporting_dates_response][:get_reporting_dates_result]
   dates_report = Nokogiri::XML dates
@@ -31,11 +35,18 @@ def missing_report_dates(client, user_name, pw)
 end
 
 def fetch_score_report(client, user_name, pw, date)
+  # client: SOAP client
+  # user_name(str) ETS user name
+  # pw(string) ETS password
+  # date(DateTime): the date of the report to fetch
+
+  # return score report (string)
   response = client.call(:get_score_reports_given_reporting_date, message: {"clientUserId" => user_name,
-      "clientPassword" => pw, "report_date" => date.strftime("%m/%d/%Y"),
-      "program_code" => "P"
+      "clientPassword" => pw, "reportDate" => date.strftime("%m/%d/%Y"),
+      "strSubProgram" => "P"
        })
 
+   puts Base64.decode64 response.body[:get_score_reports_given_reporting_date_response][:get_score_reports_given_reporting_date_result]
 
 
 end
