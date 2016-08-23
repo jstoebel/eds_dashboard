@@ -84,5 +84,11 @@ class TranscriptTest < ActiveSupport::TestCase
 
     end
 
+    it "returns inst_bnums - no instructors" do
+      course = FactoryGirl.create :transcript, {:instructors => nil}
+      assert_equal [], course.inst_bnums
+
+    end
+
 
 end
