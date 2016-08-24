@@ -34,8 +34,8 @@ require 'factory_girl'
 class StudentTest < ActiveSupport::TestCase
 
 	let(:stu) {FactoryGirl.create :student}
-	
-	
+
+
 	######################################~~~TESTS FOR SCOPES~~~##########################################
 
 	test "by_last scope" do
@@ -63,6 +63,36 @@ class StudentTest < ActiveSupport::TestCase
 		expected = Student.select {|s| ["Candidate"].include?(s.prog_status) }
 		actual = Student.candidates
 		assert_equal(expected.slice(0, expected.size), actual.slice(0, actual.size))
+	end
+
+	describe "with_name scope" do
+		fields = [:FirstName, :PreferredFirst, :LastName]
+		fields.each do |f|
+			test f do
+				stu = FactoryGirl.create :student
+				query = Student.with_name(stu.send(f))
+				students = Student.joins(:last_names).where(query)
+				assert_equal [stu], students.to_a
+			end
+		end
+
+		test "with last_names table" do
+			stu = FactoryGirl.create :student
+			stu.LastName = "new-last"
+			stu.save
+			stu_last = stu.last_names.first.last_name
+			query = Student.with_name(stu_last)
+			students = Student.joins(:last_names).where(query)
+			assert_equal [stu], students.to_a
+		end
+	end
+
+	test "with_name - multiword string" do
+		stu = FactoryGirl.create :student
+		search_str = "#{stu.FirstName} spam"
+		query = Student.with_name(search_str)
+		students = Student.joins(:last_names).where(query)
+		assert_equal [stu], students.to_a
 	end
 
 	test "is advisee of passes" do
@@ -101,13 +131,13 @@ class StudentTest < ActiveSupport::TestCase
 		assert course.valid?
 		course.save
 		stu = course.student
-		prof_bnum = course.instructors
+		prof_bnum = course.inst_bnums[0]
 		assert stu.is_student_of?(prof_bnum) == false
 	end
 
 	test "is student of fails not student" do
 
-		term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :forward})
+		term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
 
 		#fails because student doesn't have this prof (in fact the Bnum is completly bogus)
 		course = Transcript.first
@@ -119,10 +149,25 @@ class StudentTest < ActiveSupport::TestCase
 		prof_bnum = course.instructors
 		assert stu.is_student_of?("bogus bnum") == false
 	end
-	
+
+	test "is_student_of fails - no courses have instructors" do
+		# this happens with students who have only transfered courses.
+		# explicetly test that method doesn't blow up
+
+		course = FactoryGirl.create :transcript, {:instructors => nil,
+				:term_taken => BannerTerm.current_term({:exact => false, :plan_b => :forward}).id
+		}
+		stu = course.student
+		adv = FactoryGirl.create :tep_advisor
+		AdvisorAssignment.create({:student_id => stu.id, :tep_advisor_id => adv.id})
+		prof_bnum = adv.AdvisorBnum
+		assert_not stu.is_student_of?(prof_bnum)
+
+	end
+
 	######################################################################################################
-	
-	
+
+
 
 	test "praxisI_pass" do
 		Student.all.each do |stu|
@@ -177,14 +222,14 @@ class StudentTest < ActiveSupport::TestCase
 		s.EnrollmentStatus = "Graduated"
 		s.save
 		assert_equal "Not applying", s.prog_status
-	end 
+	end
 
 	test "should not return perspective - enrollmentstatus transfered" do
 		Foi.delete_all
 		AdmTep.delete_all
 		s = Student.first
 		s.EnrollmentStatus = "WD-Transferring"
-		s.save 
+		s.save
 		assert_equal "Not applying", s.prog_status
 	end
 
@@ -282,8 +327,27 @@ class StudentTest < ActiveSupport::TestCase
 		assert second_adm.save, second_adm.errors.full_messages
 
 	end
-	
+
 	######################################################################################################
+
+	describe "name_readable" do
+
+		test "one name" do
+			stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
+			assert_equal "#{stu.FirstName} #{stu.LastName}", stu.name_readable
+		end
+
+		test "with pref_first" do
+			stu = FactoryGirl.create :student, {:PrevLast => nil}
+			assert_equal "#{stu.PreferredFirst} (#{stu.FirstName}) #{stu.LastName}", stu.name_readable
+		end
+
+		test "file_as" do
+			stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
+			assert_equal "#{stu.LastName}, #{stu.FirstName}", stu.name_readable(file_as=true)
+		end
+
+	end
 
 	test "open_programs" do
 		stu = Student.first

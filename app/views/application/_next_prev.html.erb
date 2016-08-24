@@ -1,0 +1,16 @@
+
+<% if prev_page.present? %>
+
+  <%= link_to(url_for(params.merge(:page => prev_page)), class: "btn btn-default back-link glyphicon glyphicon-arrow-left") do %>
+    <i class=" link-text"> Previous</i>
+  <% end %>
+
+<% end %>
+
+<% if next_page.present? %>
+
+  <%= link_to(url_for(params.merge(:page => next_page)), class: "btn btn-default back-link glyphicon glyphicon-arrow-right") do %>
+    <i class=" link-text"> Next</i>
+  <% end %>
+  
+<% end %>

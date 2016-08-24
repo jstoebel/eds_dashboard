@@ -31,6 +31,7 @@
 require 'test_helper'
 require 'test_teardown'
 class StudentsControllerTest < ActionController::TestCase
+  self.pre_loaded_fixtures = false
   include TestTeardown
   allowed_roles = ["admin", "staff", "advisor"]
 
@@ -38,32 +39,79 @@ class StudentsControllerTest < ActionController::TestCase
     @controller = StudentsController.new
   end
 
-  test "admin should get index" do
-      load_session("admin")
-      get :index
-      assert_response :success
-      user = User.find_by(:UserName => session[:user])
-      ability = Ability.new(user)
-      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  end
 
-  test "staff should get index" do
+  describe "index" do
 
-      load_session("staff")
-      get :index
-      assert_response :success
-      user = User.find_by(:UserName => session[:user])
-      ability = Ability.new(user)
-      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
-  end
+    allowed_roles.each do |r|
 
-  test "advisor should get index" do
-      load_session("advisor")
-      get :index
-      assert_response :success
-      user = User.find_by(:UserName => session[:user])
-      ability = Ability.new(user)
-      assert_equal Student.all.by_last.current.select {|r| ability.can? :read, r }, assigns(:students)
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+
+          @user = User.find_by :UserName => session[:user]
+          @my_student = FactoryGirl.create :student
+          if @user.tep_advisor.blank?
+            @advisor = FactoryGirl.create :tep_advisor, {:user_id => @user.id}
+          else
+            @advisor = @user.tep_advisor
+          end
+
+          AdvisorAssignment.create({:student_id => @my_student.id,
+              :tep_advisor_id => @advisor.id
+            })
+
+        end
+
+        test "no params" do
+          get :index
+          abil = Ability.new(@user)
+
+          assert_response :success
+          assert Student.by_last.active_student.current.select{|s| abil.can? :read, s}, assigns(:students)
+        end
+
+        describe "basic search" do
+
+          fields = [:FirstName, :PreferredFirst, :LastName]
+
+          fields.each do |f|
+            test f do
+              get :index, {:search => @my_student.send(f)}
+              assert :success
+              assert_equal [@my_student], assigns(:students).to_a
+            end
+          end
+
+        end
+
+        test "with prev last name" do
+          stu_last = @my_student.last_names.first.last_name
+          get :index, {:search => stu_last}
+          assert :success
+          assert_equal [@my_student], assigns(:students).to_a
+        end
+
+        test "with multiple words" do
+          search_str = "#{@my_student.FirstName} spam"
+          get :index, {:search => search_str}
+          assert :success
+          assert_equal [@my_student], assigns(:students).to_a
+        end
+
+        test "with all" do
+          abil = Ability.new(@user)
+
+          get :index, {:all => :true}
+
+          assert :success
+          assert_equal Student.all.by_last.select{|s| abil.can? :read, s}, assigns(:students)
+        end
+
+      end # as r
+
+    end # roles loop
+
   end
 
   test "should get show" do
@@ -76,8 +124,6 @@ class StudentsControllerTest < ActionController::TestCase
 
     end
   end
-
-  ## TESTS FOR UNPERMITTED ROLES
 
   test "should not get show bad role" do
     (role_names - allowed_roles).each do |r|
