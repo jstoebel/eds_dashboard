@@ -11,8 +11,16 @@ class FoisController < ApplicationController
   
     def import
         authorize! :manage, @foi
-        Foi.import(params[:file])
-        if @foi.imported?
+        authorize! :manage, @student
+        Foi.new
+        #@foi = Foi.find(params[:id])
+        #@student = @foi.student
+        @foi.assign_attributes(foi_params)
+        
+        @foi.import(foi_params)
+        #Foi.import(params[:file])
+        
+        if @foi.save
             flash[:notice] = "Fois imported."
         else 
             flash[:notice] = "Could not Import File"
@@ -23,4 +31,10 @@ class FoisController < ApplicationController
     def create
        Foi.new 
     end
+    
+    private
+    def foi_params
+        params.require(:foi).permit(:student_id, :date_completing, :new_form, :major_id, :seek_cert, :eds_only)
+    end
+    
 end
