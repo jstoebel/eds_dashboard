@@ -21,7 +21,6 @@ class ApplicationController < ActionController::Base
 
   # Catch all CanCan errors and alert the user of the exception
   rescue_from CanCan::AccessDenied do | exception |
-    flash[:notice] = exception.message
     redirect_to "/access_denied"
   end
 
