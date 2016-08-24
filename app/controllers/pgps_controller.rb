@@ -17,7 +17,6 @@ class PgpsController < ApplicationController
 
     def index
         @student = Student.find(params[:student_id])
-        authorize! :show, @pgp
         @pgps = @student.pgps.sorted.select {|r| can? :read, r }
     end
 
