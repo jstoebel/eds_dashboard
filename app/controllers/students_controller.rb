@@ -35,11 +35,11 @@ class StudentsController < ApplicationController
   def index
     all_students = Student.all.by_last
 
-    if (params[:search]).present?
+    if (params[:all]) == "true"
+      @students = all_students.select{|s| can? :read, s}
+    elsif (params[:search]).present?
       query = Student.with_name(params[:search])
       @students = all_students.joins(:last_names).where(query).select{|s| can? :read, s}
-    elsif (params[:all]) == "true"
-      @students = all_students.select{|s| can? :read, s}
     else # no params given
       @students = all_students.active_student.current.select{|s| can? :read, s}
     end
