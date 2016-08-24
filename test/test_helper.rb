@@ -1,7 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-#require 'minitest/fail_fast'
+# require 'minitest/fail_fast'
 require 'minitest/unit'
 require 'mocha/mini_test'
 
@@ -18,7 +18,7 @@ test_secrets = {
 SECRET.merge! test_secrets
 class ActiveSupport::TestCase
   Rake::Task["db:seed"].execute
-  Rake::Task["db:fixtures:load"].execute
+  # Rake::Task["db:fixtures:load"].execute
   fixtures :all
 
   self.set_fixture_class adm_tep: AdmTep,

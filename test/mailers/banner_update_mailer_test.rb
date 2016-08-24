@@ -34,7 +34,7 @@ class BannerUpdateMailerTest < ActionMailer::TestCase
     end
 
     it "notifies advisee add" do
-      @email = BannerUpdateMailer.add_drop_advisor(@stu, @adv)
+      @email = BannerUpdateMailer.add_drop_advisor(@stu, @adv, "added")
 
       assert_emails 1 do
         @email.deliver_now
@@ -48,7 +48,7 @@ class BannerUpdateMailerTest < ActionMailer::TestCase
 
     it "notifies advisee remove" do
       AdvisorAssignment.delete_all
-      @email = BannerUpdateMailer.add_drop_advisor(@stu, @adv)
+      @email = BannerUpdateMailer.add_drop_advisor(@stu, @adv, "removed")
 
       assert_emails 1 do
         @email.deliver_now
