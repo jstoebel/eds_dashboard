@@ -41,7 +41,7 @@ class PraxisResult < ActiveRecord::Base
 		inclusion: {
 			:in => ['EDS', 'ETS (fee waiver)', 'Student'],
 			message: "Invalid payment source.",
-			allow_blank: true}	
+			allow_blank: true}
 
 
 	def can_alter?
@@ -54,6 +54,12 @@ class PraxisResult < ActiveRecord::Base
 
 	def AltID
 		return self.id
+	end
+
+	def cut_score
+		# this method replaces a previously existing column and instead looks to the
+		#  results test for the cut score.
+		return self.praxis_test.andand.CutScore
 	end
 
 	def passing?

@@ -6,10 +6,31 @@ task :update_praxis => :environment do
     pw = SECRET["PRAXIS_PW"]
 
     client = Savon.client(wsdl: url)
-    get_these_dates = missing_report_dates(client, user_name, pw)
 
-    get_these_dates.each do |d|
-      fetch_score_report(client, user_name, pw, d)
+    # THIS WILL BE THE REAL CODE. USING ETS SERVICE TO FETCH DATA
+    # get_these_dates = missing_report_dates(client, user_name, pw)
+    #
+    # get_these_dates.each do |d|
+    #   score_report = fetch_score_report(client, user_name, pw, d)
+    #   puts score_report
+    #
+    # end
+
+    # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
+    # IN AND TAKE IT FROM THERE.
+
+    report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
+    score_report = Nokogiri::XML report_file
+    root = score_report.root
+    reports = root.xpath("scorereport")
+    reports.each do |report|
+      begin
+        report_obj = PraxisScoreReport.new report
+        report_obj.write
+      rescue NoStudentFound => e
+        # TODO store in a temp student and email related parties.
+      end
+
     end
 
 end
@@ -22,6 +43,7 @@ def missing_report_dates(client, user_name, pw)
   # pw(string) ETS password
 
   # return any reporting dates not already in the system (as DateTime)
+
   response = client.call(:get_reporting_dates, message: {"clientUserId" => user_name, "clientPassword" => pw })
   dates = Base64.decode64 response.body[:get_reporting_dates_response][:get_reporting_dates_result]
   dates_report = Nokogiri::XML dates
@@ -46,7 +68,7 @@ def fetch_score_report(client, user_name, pw, date)
       "strSubProgram" => "P"
        })
 
-   puts Base64.decode64 response.body[:get_score_reports_given_reporting_date_response][:get_score_reports_given_reporting_date_result]
-
+   report_str = Base64.decode64 response.body[:get_score_reports_given_reporting_date_response][:get_score_reports_given_reporting_date_result]
+   return Nokogiri::XML report_str
 
 end
