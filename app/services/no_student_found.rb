@@ -1,0 +1,2 @@
+class NoStudentFound < Exception
+end
