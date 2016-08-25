@@ -15,6 +15,9 @@
 
 class PraxisResult < ActiveRecord::Base
 
+	attr_accessor :from_ets  #if this record is coming from ETS and should therefor
+	# not expect some validations
+
 	#callbacks
 	before_validation :check_alterability
 	before_validation :check_unique
@@ -34,9 +37,11 @@ class PraxisResult < ActiveRecord::Base
 		presence: {message: "Test date must be selected."}
 
 	validates :reg_date,
+		unless: :from_ets,
 		presence: {message: "Registration date must be selected."}
 
 	validates :paid_by,
+		unless: :from_ets,
 		presence: {message: "Payment source must be given."},
 		inclusion: {
 			:in => ['EDS', 'ETS (fee waiver)', 'Student'],
