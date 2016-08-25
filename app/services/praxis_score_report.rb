@@ -19,15 +19,24 @@ class PraxisScoreReport
   def write
     # write praxis scores to database
 
-    puts get_best_scores
-    fail
-
+    best_scores = get_best_scores
     tests = @report.xpath("currenttest").xpath("currenttestinfo")
     tests.each do |test|
-      praxis_test_id = test[:test_code].to_i
-      test_date = DateTime.strptime(test[:testdate], "%m/%d/%Y")
-      test_score = test[:testscore]
 
+      test_code = test[:test_code].to_i
+
+      result_attrs = {
+        :student_id => @stu.id,
+        :praxis_test_id => test_code,
+        :test_date => DateTime.strptime(test[:testdate], "%m/%d/%Y"),
+        :test_score => test[:testscore],
+        :best_score => best_scores[test_code]
+      }
+      puts result_attrs
+
+      # result = PraxisResult.new(from_ets: true)
+      # result.assign_attributes result_attrs
+      # result.save!
     end
 
   end
@@ -61,8 +70,12 @@ class PraxisScoreReport
 
   def get_best_scores
     # return a hash of all tests attempted and their best score
+    best_scores = {}
     best_tests =  @report.xpath("hghsttest").xpath("hghsttestinfo")
-
+    best_tests.each do |test|
+      best_scores.merge!({test[:test_code] => test[:testscore].to_i})
+    end
+    return best_scores
   end
 
 end
