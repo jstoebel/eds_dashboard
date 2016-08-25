@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808162805) do
+ActiveRecord::Schema.define(version: 20160825192632) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -295,7 +295,6 @@ ActiveRecord::Schema.define(version: 20160808162805) do
     t.string   "paid_by",        limit: 255
     t.integer  "test_score",     limit: 4
     t.integer  "best_score",     limit: 4
-    t.integer  "cut_score",      limit: 4
   end
 
   add_index "praxis_results", ["praxis_test_id"], name: "fk_praxis_results_praxis_tests_idx", using: :btree
