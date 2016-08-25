@@ -63,7 +63,6 @@ class PraxisScoreReport
     # return a hash of all tests attempted and their best score
     best_tests =  @report.xpath("hghsttest").xpath("hghsttestinfo")
 
-
   end
 
 end

@@ -71,4 +71,9 @@ def fetch_score_report(client, user_name, pw, date)
    report_str = Base64.decode64 response.body[:get_score_reports_given_reporting_date_response][:get_score_reports_given_reporting_date_result]
    return Nokogiri::XML report_str
 
+
+ def stu_from_ssn
+
+ end
+
 end
