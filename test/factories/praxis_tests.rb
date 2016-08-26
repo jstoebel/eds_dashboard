@@ -17,9 +17,12 @@
 #  Program_ProgCode :integer
 #  CurrentTest      :boolean
 #
-
+include Faker
 FactoryGirl.define do
   factory :praxis_test do
-
-  end 
+    TestCode {Number.between(1,100)}
+    TestName {Book.title}
+    CutScore {Number.between(100, 200)}
+    TestFamily 1
+  end
 end
