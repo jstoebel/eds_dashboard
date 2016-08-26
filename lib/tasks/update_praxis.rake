@@ -18,20 +18,14 @@ task :update_praxis => :environment do
 
     # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
     # IN AND TAKE IT FROM THERE.
-
     report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
     score_report = Nokogiri::XML report_file
     root = score_report.root
     reports = root.xpath("scorereport")
-    reports.each do |report|
-      begin
-        report_obj = PraxisScoreReport.new report
-        report_obj.write
-      rescue NoStudentFound => e
-        # TODO store in a temp student and email related parties.
-      end
-
-    end
+    reports.each do |report|  # one scorereport per student
+      report_obj = PraxisScoreReport.new report
+      report_obj.write_tests
+    end # loop
 
 end
 
@@ -71,9 +65,5 @@ def fetch_score_report(client, user_name, pw, date)
    report_str = Base64.decode64 response.body[:get_score_reports_given_reporting_date_response][:get_score_reports_given_reporting_date_result]
    return Nokogiri::XML report_str
 
-
- def stu_from_ssn
-
- end
 
 end
