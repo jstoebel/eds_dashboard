@@ -94,6 +94,29 @@ class Student < ActiveRecord::Base
 	scope :current, lambda {select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }}
 	scope :candidates, lambda {select {|s| ["Candidate"].include?(s.prog_status) }}
 
+
+	# TODO: add support for searching through previous last names
+	# scope :with_name, ->(name) {where("FirstName=? or PreferredFirst=? or LastName=?", name, name, name)}
+
+	def self.with_name(str)
+		# str(string): the query string
+		# return an arel query where any of the following match any word in string
+			# FirstName
+			# LastName
+			# PrefFirst
+			# any last_name in the last_names table
+
+		words = str.split(" ")
+		students_tbl = Student.arel_table
+		last_names_tbl = LastName.arel_table
+		query = students_tbl[:FirstName].in(words).or(
+			students_tbl[:LastName].in(words)).or(
+			students_tbl[:PreferredFirst].in(words)
+			).or(last_names_tbl[:last_name].in(words))
+
+		return query
+	end
+
 	def self.batch_create(hashes)
 		#bulk inserts student records
 		# hashes: array of hashes each containing params
@@ -168,7 +191,6 @@ class Student < ActiveRecord::Base
 	#####################################################################################
 
 
-
 	####~~~Student Name assoc. and Methods~~~############################################
 	has_many :last_names
 
@@ -176,8 +198,8 @@ class Student < ActiveRecord::Base
     #returns full student name with additional first and last names as needed
     #if file_as, return student with last name first (Fee, Jon)
 
-		first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{student.FirstName})" : self.FirstName
-		last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{student.PrevLast})" : self.LastName
+		first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{self.FirstName})" : self.FirstName
+		last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{self.PrevLast})" : self.LastName
 
 	    if file_as
 	      return [last_name+',', first_name].join(' ')  #return last name first
@@ -229,9 +251,10 @@ class Student < ActiveRecord::Base
 
 		# Not applying: any of the following
 		# 	A student who has indicated they are not interested in applying to the TEP. OR
-		# 	A student who was dismissed from the college and never aditted to TEP
+		# 	A student who was dismissed from the college and never admitted to TEP
 		elsif 	(self.latest_foi.present? and not self.latest_foi.seek_cert) or
-				(self.was_dismissed?)
+				(self.was_dismissed?) or
+				graduated or transfered
 			return "Not applying"
 
 		# Candidate
@@ -337,9 +360,7 @@ class Student < ActiveRecord::Base
 			term: nil	#(term id) the upper bound term to use. Otherwise, use all.
 	    }
 
-	    options = defaults.merge(options)
-
-
+    options = defaults.merge(options)
 
 		courses = self.transcripts.where("grade_pt is not null").order(term_taken: :desc).order!(quality_points: :desc)
 
@@ -356,7 +377,6 @@ class Student < ActiveRecord::Base
 		end
 
 		gpa_raw = qpoints / credits
-
 		return (gpa_raw * 100).to_i / 100.0
 
 	end
