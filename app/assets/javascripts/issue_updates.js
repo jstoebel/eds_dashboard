@@ -1,10 +1,8 @@
 var toggleState = function(updateId, newState) {
 
     return new Promise(function(resolve, reject){
-
-
         $.ajax({
-            type: "PATCH", 
+            type: "PATCH",
             dataType: "json",
             url: "/issue_updates/"+updateId,
             data: {authenticity_token : AUTH_TOKEN, issue_update: {addressed : newState}},
@@ -34,14 +32,20 @@ $(document).ready(function(){
 
 
     $(".bs-switch").on('switchChange.bootstrapSwitch', function(event, state){
+        // update the issues addressed field to state
+
+      var bsSwitch = this
+        var inputElem = event.target
         var elemId = event.target.id;
-        var updateId = elemId.match(/\d/)[0];
+        var updateId = elemId.match(/\d+/)[0];
         toggleState(updateId, state).then(function(response){
             //successfully saved record
         }).catch(function(response){
-            console.log("FAILED TO UPDATE RECORD!")
-            console.log(response)
-            //failed to save record
+          $('#update'+updateId).bootstrapSwitch('toggleState', true, true)
+          alert("Opps! There was a problem updating this record. Please try again later.")
+            // reset the switch to its current state
+
+
         })
     })
 
