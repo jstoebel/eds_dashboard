@@ -9,11 +9,11 @@
 
 		<%= error_messages_for(@exit) %>
 
-		<tr>  
-		    <th> <%=f.label :id, "Student to Exit"%> </th>
-		    <td>	
-			<%= f.select :id, 
-			options_for_select(@students.map { |s| [name_details(s), s.id] }, :selected => @exit.student_id ? @exit.student.AltID : "" ), 
+		<tr>
+		    <th> <%=f.label :student_id, "Student to Exit"%> </th>
+		    <td>
+			<%= f.select :student_id,
+			options_for_select(@students.map { |s| [name_details(s), s.id] }, :selected => @exit.student_id ? @exit.student.AltID : "" ),
 
 				{:include_blank => "Select a student to exit"},
 
@@ -45,7 +45,7 @@
 
             <td class="date-admit">
 
-				
+
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :ExitDate,
@@ -60,7 +60,7 @@
 			</th>
 
             <td class="date-admit">
-	
+
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :RecommendDate,
