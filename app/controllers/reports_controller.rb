@@ -15,11 +15,15 @@ class ReportsController < ApplicationController
                 :name => stu.name_readable,
                 :ProgramStatus => stu.prog_status,
                 :Major1 => stu.CurrentMajor1,
-                :Concentration1 => stu.Concentration1,
+                :Concentration1 => stu.concentration1,
                 :Major2 => stu.CurrentMajor2,
-                :Concentration2 => stu.Concentration2
+                :Concentration2 => stu.concentration2,
                 :Minors => stu.CurrentMinors,
-                :Taken227_228 => taken_227_228(stu)
+                :Taken227_228 => taken_227_228(stu),
+                :Passed_227_228 => passed_227_228(stu),
+                :Latest_Completion_227 => complete_227(stu),
+                :Latest_Completion_228 => complete_228(stu),
+                :Latest_Term_EDS440_470 => term_EDS440_470(stu),
             }
             
         end
@@ -31,7 +35,18 @@ class ReportsController < ApplicationController
     end
     
     def passed_227_228(student)
-       return student.transcripts.where(:course_code => ["EDS227", "EDS228"] and :grade_pt => nil.present? ).any?
+       return student.transcripts.where(:course_code => ["EDS227", "EDS228"], :grade_pt => nil ).present?
     end
     
+    def complete_227(student)
+        return student.transcripts.where(:course_code => ["EDS227"]).banner_term.readable
+    end
+    
+    def complete_228(student)
+        return student.transcripts.where(:course_code => ["EDS228"]).banner_term.readable
+    end
+   
+   def term_EDS440_470(student)
+        return
+    end
 end
