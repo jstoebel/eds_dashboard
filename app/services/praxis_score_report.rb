@@ -42,8 +42,6 @@ class PraxisScoreReport
 
   end
 
-
-
   private
   def _write_test(test)
     # writes a single praxis_result to the database
