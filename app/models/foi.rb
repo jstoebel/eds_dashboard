@@ -27,9 +27,9 @@ class Foi < ActiveRecord::Base
     CSV.foreach(file.path, headers: true) do |row|
       
       begin
-        _import_foi row
+        _import_foi(row)
       rescue ActiveRecord::RecordInvalid => e
-        _create_temp row
+        _create_temp(row)
       end
       
       
@@ -143,7 +143,7 @@ class Foi < ActiveRecord::Base
     
   def _create_temp(row)
     # create a temporary record for user to match up later
-    
+    temp_foi.create!(attrs)
   
   end
 
