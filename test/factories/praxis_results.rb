@@ -24,5 +24,6 @@ FactoryGirl.define do
     paid_by "EDS"
 
     after(:create) { |result| FactoryGirl.create_list :praxis_subtest_result, 4, {:praxis_result_id => result.id}}
+
   end
 end
