@@ -20,7 +20,16 @@
 include Faker
 FactoryGirl.define do
   factory :praxis_test do
-    TestCode {Number.between(1,100)}
+
+
+    TestCode do
+      codes = PraxisTest.all.pluck :TestCode
+      while true do
+        random_code =  Number.between(1,1000)
+        break if !codes.include? random_code
+      end
+      random_code
+    end
     TestName {Book.title}
     CutScore {Number.between(100, 200)}
     TestFamily 1
