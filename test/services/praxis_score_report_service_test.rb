@@ -79,26 +79,39 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
     before do
       PraxisScoreReport.any_instance.stubs(:stu_from_ssn).returns(FactoryGirl.create :student)
       @report_handler = PraxisScoreReport.new @score_report.root
-
     end
 
     it "writes a praxis result" do
       assert_difference 'PraxisResult.count', 1 do
         @report_handler.write_tests
       end
+
+      assert_equal 0, PraxisResultTemp.count
     end
 
 
     it "writes a subtest" do
+      assert_difference 'PraxisSubtestResult.count', 3 do
+        @report_handler.write_tests
+      end
 
+      assert_equal 0, PraxisSubTemp.count
     end
 
   end
 
-
   describe "write_tests fail - no student found" do
 
+    before do
+      PraxisScoreReport.any_instance.stubs(:stu_from_ssn).returns(nil)
+      @report_handler = PraxisScoreReport.new @score_report.root
+    end
+
     it "writes a praxis result temp" do
+
+      assert_difference 'PraxisResultTemp.count', 1 do
+        @report_handler.write_tests
+      end
 
     end
 

@@ -11,6 +11,8 @@ class PraxisScoreReport
     @report = report
     @best_scores = get_best_scores
     ssn = @report.at_xpath('candidateinfo/ssn').text.gsub("-", "")
+    full_name = @report.at_xpath('candidateinfo/name').text
+    @last_name, @first_name = full_name.split(", ")
     stu = stu_from_ssn ssn
     @stu = stu
   end
@@ -24,50 +26,41 @@ class PraxisScoreReport
     tests.each do |test_node|
 
       begin
-        result = _write_test(test_node)
+        test_code = test_node[:test_code].to_i
+
+        result_attrs = {
+          :student_id => @stu.andand.id,
+          :praxis_test_id => test_code,
+          :test_date => DateTime.strptime(test_node[:testdate], "%m/%d/%Y"),
+          :test_score => test_node[:testscore],
+          :best_score => @best_scores[test_code]
+        }
+        result = _write_test(result_attrs)
+
       rescue ActiveRecord::RecordInvalid => result_error
-        # TODO store in a temp student and email related parties.
-        puts "ERROR CREATING PRAXIS RESULT"
-        puts e.message
-        puts test_node
+        name_info = {:first_name => @first_name,
+          :last_name => @last_name }
+
+        temp_result = PraxisResultTemp.create! result_attrs.merge name_info
       end
 
-      begin
-        _write_subtests(test_node, result)
-      rescue ActiveRecord::RecordInvalid => sub_error
-        puts "ERROR CREATING PRAXIS SUBTEST RESULT"
-        puts sub_error.message
-        puts test_node
-      end
     end
 
   end
 
   private
-  def _write_test(test)
+  def _write_test(result_attrs)
     # writes a single praxis_result to the database
-    # test: a currenttestinfo node
+    # result_attrs: attributes to make a praxis_result
 
     # if successful the created PraxisTest is returned
     # if record can't be created, ActiveRecord::RecordInvalid is thrown
 
-    test_code = test[:test_code].to_i
-
-    result_attrs = {
-      :student_id => @stu.andand.id,
-      :praxis_test_id => test_code,
-      :test_date => DateTime.strptime(test[:testdate], "%m/%d/%Y"),
-      :test_score => test[:testscore],
-      :best_score => @best_scores[test_code]
-    }
-
     result = PraxisResult.new(from_ets: true)
     result.assign_attributes result_attrs
-
     result.save!
     return result
   end
-
 
   def _write_subtests(test_node, test_result)
     # handles writing subtests
@@ -76,32 +69,49 @@ class PraxisScoreReport
 
     subtests = test_node.xpath("currenttestcategoryinfo")
     subtests.each do |subtest|
-      subtest_result = _write_subtest(subtest, test_result)
+      sub_n, sub_name = sub_test_node[:testcategory].split(". ")
+      avg_low, avg_high = sub_test_node[:avgperformancerange].split(" - ")
+
+      core_attrs = {
+        :sub_number => RomanNumeral.new(sub_n).to_i,
+        :name => sub_name,
+        :pts_earned => sub_test_node[:pointsearned],
+        :pts_aval => sub_test_node[:pointavailable],
+        :avg_high => avg_high,
+        :avg_low => avg_low
+      }  # attributes for either subtest or temp subtest
+
+      if test_result.kind_of PraxisResult?
+        PraxisSubtestResult.create! core_attrs.merge({:praxis_result_id => test_result.id})
+      else
+        PraxisSubTemp.create! core_attrs.merge({:praxis_result_temp_id => test_result.id})
+      end
+
     end
   end
 
-  def _write_subtest(sub_test_node, test_result)
-    # writes a subtest beloning to test_result
-    # sub_test_node a currenttestcategoryinfo node
-    # if successful returns the sub_test_node
-    # if record can't be created, ActiveRecord::RecordInvalid is thrown
-
-    sub_n, sub_name = sub_test_node[:testcategory].split(". ")
-    avg_low, avg_high = sub_test_node[:avgperformancerange].split(" - ")
-
-    sub_attrs = {
-      :praxis_result_id => test_result.id,
-      :sub_number => RomanNumeral.new(sub_n).to_i,
-      :name => sub_name,
-      :pts_earned => sub_test_node[:pointsearned],
-      :pts_aval => sub_test_node[:pointavailable],
-      :avg_high => avg_high,
-      :avg_low => avg_low
-    }
-
-    sub_result = PraxisSubtestResult.create! sub_attrs
-
-  end
+  # def _write_subtest(sub_test_node, test_result)
+  #   # writes a subtest beloning to test_result
+  #   # sub_test_node a currenttestcategoryinfo node
+  #   # if successful returns the sub_test_node
+  #   # if record can't be created, ActiveRecord::RecordInvalid is thrown
+  #
+  #   sub_n, sub_name = sub_test_node[:testcategory].split(". ")
+  #   avg_low, avg_high = sub_test_node[:avgperformancerange].split(" - ")
+  #
+  #   sub_attrs = {
+  #     :praxis_result_id => test_result.andand.id,
+  #     :sub_number => RomanNumeral.new(sub_n).to_i,
+  #     :name => sub_name,
+  #     :pts_earned => sub_test_node[:pointsearned],
+  #     :pts_aval => sub_test_node[:pointavailable],
+  #     :avg_high => avg_high,
+  #     :avg_low => avg_low
+  #   }
+  #
+  #   sub_result = PraxisSubtestResult.create! sub_attrs
+  #
+  # end
 
   def stu_from_ssn(ssn)
     # ssn(string): a social security number (just digits)
