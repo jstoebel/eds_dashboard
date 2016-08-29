@@ -24,8 +24,10 @@ class PraxisResultsControllerTest < ActionController::TestCase
     role_names.each do |r|
       load_session(r)
       user = User.find_by(:UserName => session[:user])
-      
-      test = PraxisResult.first
+
+      # test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
+
       stu = test.student
 
       get :index, {:student_id => stu.AltID}
@@ -41,16 +43,19 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should get show" do
     allowed_roles.each do |r|
       load_session(r)
-      user = User.find_by(:UserName => session[:user])
-      #find a test -> student -> advisor
-      related_student = user.tep_advisor.advisor_assignments.first.student
-      test = related_student.praxis_results.first
 
+      user = User.find_by(:UserName => session[:user])
+      adv = FactoryGirl.create :tep_advisor, :user => user
+      test = FactoryGirl.create :praxis_result
+      stu = test.student
+      AdvisorAssignment.create({:student_id => stu.id,
+          :tep_advisor_id => adv.id
+        })
       get :show, {:id => test.AltID}
 
       assert_response :success
       assert_equal test, assigns(:test)
-      assert_equal related_student, assigns(:student)
+      assert_equal test.student, assigns(:student)
 
       ability = Ability.new(user)
       assert (ability.can? :read, test)
@@ -72,43 +77,26 @@ class PraxisResultsControllerTest < ActionController::TestCase
     (role_names - ["advisor"]).each do |r|
       load_session(r)
 
-      stu = Student.first
-      test = PraxisResult.first
-
-      subs = test.praxis_subtest_results
-      subs.destroy_all
-      test.destroy
-      test_params = test.attributes
-
+      result = FactoryGirl.build :praxis_result
+      stu = result.student
       test_params = {
-        :id => stu.id,
-        :praxis_test_id => PraxisTest.first.id, 
-        :test_date => Date.today, 
-        :reg_date => Date.today, 
-        :paid_by => "ETS (fee waiver)"        
+        :id => result.student.id,
+        :praxis_test_id => result.praxis_test.id,
+        :test_date => result.test_date,
+        :reg_date => result.reg_date,
+        :paid_by => result.paid_by,
+        :test_score => result.test_score,
+        :best_score => result.best_score
       }
-
       post :create, {:praxis_result => test_params}
 
-      expected_attrs = test_params.except(:AltID).stringify_keys
-      actual_attrs = assigns(:test).attributes
 
-      assert expected_attrs, actual_attrs
+      assert_equal test_params.except(:id).stringify_keys, assigns(:test).attributes.except("id", "student_id")
       assert_redirected_to new_praxis_result_path, assigns(:test).errors.full_messages
 
 
-      assert_equal flash[:notice], "Registration successful: #{ApplicationController.helpers.name_details(stu)}, #{PraxisTest.find(test_params[:praxis_test_id]).TestName}, #{test_params[:test_date].strftime("%m/%d/%Y")}"
-      assert_equal assigns(:student), stu
-
-      assigns(:test).delete
-
-      PraxisResult.create test.attributes
-
-      subs = test.praxis_subtest_results
-      subs.each do |s|
-        new_sub = PraxisSubtestResult.new s.attributes
-        new_sub.save
-      end
+      assert_equal flash[:notice], "Registration successful: #{stu.name_readable}, #{result.praxis_test.TestName}, #{result.test_date.strftime("%m/%d/%Y")}"
+      assert_equal assigns(:student), result.student
 
     end
   end
@@ -120,10 +108,10 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = PraxisResult.first
 
       test_params = {
-        :id => test.student.id, 
-        :praxis_test_id => test.praxis_test_id, 
-        :test_date => test.test_date, 
-        :reg_date => test.reg_date, 
+        :id => test.student.id,
+        :praxis_test_id => test.praxis_test_id,
+        :test_date => test.test_date,
+        :reg_date => test.reg_date,
         :paid_by => nil  #break the record here
       }
 
@@ -163,20 +151,19 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should post update" do
     (role_names - ["advisor"]).each do |r|
       load_session(r)
-      test = PraxisResult.first
 
+      test = FactoryGirl.create :praxis_result, :test_score => nil
       test.reg_date += 1
-
       update_params = {:reg_date => test.reg_date}
-
-      post :update, {:id => test.AltID,
+      post :update, {:id => test.id,
        :praxis_result => update_params
       }
 
-      assert_redirected_to student_praxis_results_path(test.student.AltID)
+      assert test.valid?, test.errors.full_messages
+      assert_redirected_to student_praxis_results_path(test.student.id)
 
-      expected_attributes = test.attributes.delete(:id)
-      actual_attributes = assigns(:test).attributes.delete(:id)
+      expected_attributes = test.attributes.except(:id)
+      actual_attributes = assigns(:test).attributes.except(:id)
       assert_equal expected_attributes, actual_attributes
     end
   end
@@ -184,7 +171,9 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should not post update locked" do
     (role_names - ["advisor"]).each do |r|
       load_session(r)
-      test = PraxisResult.first
+      # test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
+
 
       test.test_score = 123
       test.save
@@ -204,8 +193,8 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should not post update bad params" do
     (role_names - ["advisor"]).each do |r|
       load_session(r)
-      test = PraxisResult.first
-
+      # test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
       test.reg_date = nil
 
       update_params = {:reg_date => test.reg_date}
@@ -222,7 +211,9 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should post destroy" do
     (role_names - ["advisor"]).each do |r|
       load_session(r)
-      test = PraxisResult.first
+      # test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result, :test_score => nil
+
       alt_id = test.student.AltID
 
       #destroy each subtest
@@ -256,8 +247,8 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test.save
       post :destroy, {:id => test.AltID}
       assert_redirected_to student_praxis_results_path(test.student.AltID)
-      assert_not PraxisResult.find_by(:id => test.id).destroyed?      
-    end    
+      assert_not PraxisResult.find_by(:id => test.id).destroyed?
+    end
   end
 
   ##TESTS FOR UNAUTHORIZED ROLES
@@ -287,10 +278,10 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = PraxisResult.first
 
       test_params = {
-        :student_id => test.student_id, 
-        :praxis_test_id => test.praxis_test_id, 
-        :test_date => test.test_date, 
-        :reg_date => test.reg_date, 
+        :student_id => test.student_id,
+        :praxis_test_id => test.praxis_test_id,
+        :test_date => test.test_date,
+        :reg_date => test.reg_date,
         :paid_by => nil  #break the record here
       }
 
@@ -333,4 +324,3 @@ class PraxisResultsControllerTest < ActionController::TestCase
   end
 
 end
-

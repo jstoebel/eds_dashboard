@@ -8,7 +8,7 @@ constants.each do |c|
 end
 
 # alter each id to match TestCode
-PraxisTest.all.each do |pt|
-  pt.id = pt.TestCode.to_i
-  pt.save!
-end
+# PraxisTest.all.each do |pt|
+#   pt.id = pt.TestCode.to_i
+#   pt.save!
+# end
