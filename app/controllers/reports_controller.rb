@@ -39,11 +39,16 @@ class ReportsController < ApplicationController
     end
     
     def complete_227(student)
-        return student.transcripts.where(:course_code => ["EDS227"]).banner_term.readable
+        course = student.transcripts.where(:course_code => ["EDS227"]).order(:term_taken).last
+        if :term_taken == nil
+            return ""
+        else 
+            return course.banner_term.readable
+        end
     end
     
     def complete_228(student)
-        return student.transcripts.where(:course_code => ["EDS228"]).banner_term.readable
+        return student.transcripts.where(:course_code => ["EDS228"]).order(:term_taken).last.banner_term.readable
     end
    
    def term_EDS440_470(student)
