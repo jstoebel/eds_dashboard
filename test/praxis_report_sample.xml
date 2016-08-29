@@ -5,7 +5,7 @@
     reportdate="10/03/2014"
     Program="Praxis">
     <candidateinfo>
-      <name>FIRSTNAME, LASTNAME</name>
+      <name>LASTNAME, FIRSTNAME</name>
       <ssn>123-45-6789</ssn>
       <address>101 CHESTNUT ST.</address>
       <city>BEREA</city>
