@@ -371,7 +371,7 @@ class Student < ActiveRecord::Base
 		qpoints = 0
 
 		courses.each do |course|
-			credits += course.credits_earned
+			credits += course.credits_attempted
 			qpoints += course.quality_points
 			break if options[:last].present? && credits >= options[:last]
 		end
