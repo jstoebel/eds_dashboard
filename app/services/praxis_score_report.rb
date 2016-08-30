@@ -90,29 +90,6 @@ class PraxisScoreReport
     end
   end
 
-  # def _write_subtest(sub_test_node, test_result)
-  #   # writes a subtest beloning to test_result
-  #   # sub_test_node a currenttestcategoryinfo node
-  #   # if successful returns the sub_test_node
-  #   # if record can't be created, ActiveRecord::RecordInvalid is thrown
-  #
-  #   sub_n, sub_name = sub_test_node[:testcategory].split(". ")
-  #   avg_low, avg_high = sub_test_node[:avgperformancerange].split(" - ")
-  #
-  #   sub_attrs = {
-  #     :praxis_result_id => test_result.andand.id,
-  #     :sub_number => RomanNumeral.new(sub_n).to_i,
-  #     :name => sub_name,
-  #     :pts_earned => sub_test_node[:pointsearned],
-  #     :pts_aval => sub_test_node[:pointavailable],
-  #     :avg_high => avg_high,
-  #     :avg_low => avg_low
-  #   }
-  #
-  #   sub_result = PraxisSubtestResult.create! sub_attrs
-  #
-  # end
-
   def stu_from_ssn(ssn)
     # ssn(string): a social security number (just digits)
     # returns the related student object or nil if no student found
