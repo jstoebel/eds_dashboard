@@ -341,7 +341,8 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       row_service.upsert_course
 
       assert_equal Transcript.all.size, t0  #don't add a new course
-      assert_equal (Transcript.find @course.id).grade_ltr, as_for_everyone['SZVEDSD_GRADE']
+      assert_equal (Transcript.find @course.id).grade_ltr, "A"
+      assert_equal (Transcript.find @course.id).grade_pt, 4.0
 
     end
 
