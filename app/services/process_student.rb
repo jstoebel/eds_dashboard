@@ -112,7 +112,7 @@ class ProcessStudent
      course_code.gsub!(" ", "")  #course code should look like "SOC220X"
 
      grade_ltr = @row['SZVEDSD_GRADE']
-     grade_pt = Transcript.g_to_l(grade_ltr)
+     grade_pt = Transcript.l_to_g(grade_ltr)
 
      @course = Transcript.find_or_initialize_by({:crn => row['SZVEDSD_CRN'],
        :student_id => @stu.id,
