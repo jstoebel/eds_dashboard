@@ -403,6 +403,12 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal 3.0, stu.gpa({last: second_course.credits_earned})
 	end
 
+	test "gpa with a course having nil credits attempted" do
+
+		
+
+	end
+
 
 	it "updates last_name table" do
 		stu.LastName = "new-name"
