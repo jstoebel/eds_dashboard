@@ -377,18 +377,22 @@ class Student < ActiveRecord::Base
 		qpoints = 0
 
 		courses.each do |course|
-			if course.credits_attempted.present? && course.quality_points.present?
 
-				if Transcript.standard_grades.include? course.grade_ltr
-					# handle as a standard grade
+			if course.credits_attempted.present? and
+				course.quality_points.present? and
+				Transcript.standard_grades.include? course.grade_ltr
+
+					# standard courses
 					credits += course.credits_attempted * 4
 					qpoints += course.quality_points * 4
-				elsif course.grade_ltr == "CA"
-					# convo credit: 1 converted credit, 4.0 converted quality_points
-					credits += 1.0
-					qpoints += 4.0
-				end
+
+			elsif course.grade_ltr == "CA"
+				# convo credit: 1 converted credit, 4.0 converted quality_points
+
+				credits += 1.0
+				qpoints += 4.0
 			end
+
 			break if options[:last].present? && credits >= options[:last]
 		end
 
