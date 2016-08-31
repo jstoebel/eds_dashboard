@@ -16,7 +16,6 @@ class PgpScoresController < ApplicationController
 
     def index
         @pgp = Pgp.find(params[:pgp_id])
-        authorize! :read, @pgp_score
         authorize! :read, @pgp
         @student = @pgp.student
         @pgp_scores = @pgp.pgp_scores.order(:created_at)
