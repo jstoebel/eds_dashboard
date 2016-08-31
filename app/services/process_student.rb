@@ -100,7 +100,6 @@ class ProcessStudent
 
    def upsert_course
 
-
      term_raw = @row['SZVEDSD_TERM_TAKEN']  #looks like this 201512 - Spring Term 2016
      #split at first dash
      term = term_raw.slice(0, term_raw.index('-')).strip
@@ -111,8 +110,9 @@ class ProcessStudent
      course_code, course_name = [course_raw[0..delim-1], course_raw[delim + 1..-1]].map{|i| i.strip}
      course_code.gsub!(" ", "")  #course code should look like "SOC220X"
 
+
      grade_ltr = @row['SZVEDSD_GRADE']
-     grade_pt = Transcript.g_to_l(grade_ltr)
+     grade_pt = Transcript.l_to_g(grade_ltr)
 
      @course = Transcript.find_or_initialize_by({:crn => row['SZVEDSD_CRN'],
        :student_id => @stu.id,
@@ -129,6 +129,7 @@ class ProcessStudent
         :instructors => @row['SAVEDSD_INSTRUCTOR'], # example format FirstName LastName {B00123456}; FirstName LastName {B00687001}
         :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'include' ? true : false
       })
+
 
    end
 

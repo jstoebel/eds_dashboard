@@ -54,7 +54,7 @@ GEM
       nokogiri
     andand (1.3.3)
     arel (6.0.3)
-    autoprefixer-rails (6.4.0.2)
+    autoprefixer-rails (6.4.0.3)
       execjs
     axlsx (1.3.6)
       htmlentities (~> 4.3.1)
@@ -72,7 +72,7 @@ GEM
     bootstrap-switch-rails (3.3.3)
     builder (3.2.2)
     cancancan (1.15.0)
-    capistrano (3.6.0)
+    capistrano (3.6.1)
       airbrussh (>= 1.0.0)
       capistrano-harrow
       i18n
@@ -177,7 +177,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
-    phony (2.15.28)
+    phony (2.15.29)
     phony_rails (0.14.2)
       activesupport (>= 3.0)
       phony (~> 2.12)
@@ -221,7 +221,7 @@ GEM
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     roman (0.2.0)
-    roo (2.5.0)
+    roo (2.5.1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
     ruby-graphviz (1.2.2)
@@ -258,6 +258,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sqlite3 (1.3.11)
     sshkit (1.11.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -328,6 +329,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   seed_dump
   spring
+  sqlite3 (~> 1.3, >= 1.3.11)
   uglifier (>= 1.3.0)
   whenever
   zip-zip
