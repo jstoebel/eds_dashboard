@@ -27,6 +27,8 @@ task :update_praxis => :environment do
       report_obj.write_tests
     end # loop
 
+    PraxisUpdate.create!({:report_date => DateTime.now})
+
 end
 
 private

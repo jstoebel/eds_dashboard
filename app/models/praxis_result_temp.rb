@@ -22,15 +22,13 @@ class PraxisResultTemp < ActiveRecord::Base
     # create children PraxisSubtestResults
     # destroy self
 
-    begin
-      PraxisResultTemp.transaction do
-        praxis_result = _transfer_pr
-        _transfer_subs(praxis_result)
-        self.destroy!
-      end
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => e
-      return e.message
+    PraxisResultTemp.transaction do
+      praxis_result = _transfer_pr
+      _transfer_subs(praxis_result)
+      self.destroy!
+      return praxis_result
     end
+
   end
 
 
@@ -50,10 +48,11 @@ class PraxisResultTemp < ActiveRecord::Base
     # attributes for sub test of self are used to generate PraxuisSubtestResult
     # subtests will belong to praxis_result
     unwanted = ["id", "praxis_result_temp_id"]
-    desired_attrs = PraxisSubtestResult.column_names.reject{|a| unwanted.include? a }
+    desired_attrs = PraxisSubtestResult.column_names.reject{|a| unwanted.include? a.to_s }
     self.praxis_sub_temps.each do |pst|
-      attrs = self.attributes.select{|k, v| desired_attrs.include? k}
+      attrs = pst.attributes.select{|k, v| desired_attrs.include? k.to_s}
       attrs.merge!({:praxis_result_id => praxis_result.id}) #add the pr_id
+
       PraxisSubtestResult.create! attrs
     end
 
