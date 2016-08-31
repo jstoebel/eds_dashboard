@@ -72,225 +72,225 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       }
 
   end
-  #
-  # ###TESTS FOR UPSERT###
-  # describe "upsert_student" do
-  #   it "creates a new student" do
-  #
-  #     stu_count0 = Student.all.size
-  #     new_stu = FactoryGirl.attributes_for :student
-  #
-  #     new_attrs = {
-  #       "SZVEDSD_ID" => new_stu[:Bnum],
-  #       "SZVEDSD_LAST_NAME" => new_stu[:LastName],
-  #       "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
-  #       "SZVEDSD_ENROLL_STAT" => "Active Student",
-  #     }
-  #
-  #     row = @row_template.merge new_attrs
-  #     row_service = ProcessStudent.new row
-  #     row_service.upsert_student
-  #
-  #     expect Student.all.size == stu_count0 + 1
-  #
-  #     stu = Student.find_by :Bnum => new_stu[:Bnum]
-  #     filter_attrs = [:Bnum, :LastName, :FirstName, :EnrollmentStatus]
-  #
-  #     #created student and student found in DB should match across these params
-  #     assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
-  #
-  #   end
-  #
-  #   it "updates a student" do
-  #
-  #     stu_count0 = Student.all.size
-  #     new_stu = FactoryGirl.create :student
-  #
-  #     new_attrs = {
-  #       "SZVEDSD_ID" => new_stu[:Bnum],
-  #       "SZVEDSD_LAST_NAME" => new_stu[:LastName] + "!!!!",
-  #       "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
-  #       "SZVEDSD_ENROLL_STAT" => "Active Student",
-  #     }
-  #
-  #     row = @row_template.merge new_attrs
-  #     row_service = ProcessStudent.new row
-  #     row_service.upsert_student
-  #
-  #     expect Student.all.size == stu_count0
-  #
-  #     stu = Student.find_by :Bnum => new_stu[:Bnum]
-  #     filter_attrs = [:LastName]
-  #
-  #     #created student and student found in DB should match across these params
-  #     assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
-  #
-  #   end
-  #
-  #   it "does not upsert student, throws exception" do
-  #
-  #     row_service = ProcessStudent.new @row_template  # passing in empy row
-  #     assert_raises(ActiveRecord::RecordInvalid) {row_service.upsert_student}
-  #
-  #   end
-  #
-  #   describe "detects dropping out of program" do
-  #
-  #     before do
-  #       @stu = FactoryGirl.create :admitted_student
-  #       @adv = FactoryGirl.create :tep_advisor
-  #       FactoryGirl.create :advisor_assignment, {:student_id => @stu.id,
-  #         :tep_advisor_id => @adv.id
-  #       }
-  #
-  #       @drop_attrs = @row_template.merge({
-  #         "SZVEDSD_ID" => @stu[:Bnum],
-  #         "SZVEDSD_LAST_NAME" => @stu[:LastName],
-  #         "SZVEDSD_FIRST_NAME" => @stu[:FirstName],
-  #         "SZVEDSD_ENROLL_STAT" => @stu[:EnrollmentStatus],
-  #       })
-  #
-  #     end
-  #
-  #     it "detectes dropped major" do
-  #       # need an EDS major who is admitted to the TEP
-  #
-  #       @stu.update_attributes({:CurrentMajor1 => "Education Studies"})  #start off as EDS major
-  #
-  #       row_service = ProcessStudent.new @drop_attrs
-  #       row_service.upsert_student
-  #
-  #       assert_equal 1, @stu.tep_advisors.size
-  #       adv_email = ActionMailer::Base.deliveries.last
-  #
-  #       assert_equal [@adv.get_email],  adv_email.to
-  #       assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
-  #       assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
-  #     end
-  #
-  #     it "detectes dropped concentration" do
-  #       # need an EDS major who is admitted to the TEP
-  #
-  #       @stu.update_attributes({:concentration1 => "Middle Grades Science Cert"})
-  #
-  #       row_service = ProcessStudent.new @drop_attrs
-  #       row_service.upsert_student
-  #
-  #       assert_equal 1, @stu.tep_advisors.size
-  #       adv_email = ActionMailer::Base.deliveries.last
-  #
-  #       assert_equal [@adv.get_email],  adv_email.to
-  #       assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
-  #       assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
-  #     end
-  #
-  #   end
-  #
-  # end
-  #
-  # ###TESTS FOR UPSERT ADVISOR_ASSIGNMENTS###
-  #
-  # describe "update_advisors" do
-  #
-  #   before do
-  #     @stu = FactoryGirl.create :student
-  #     @advisors = FactoryGirl.create_list :tep_advisor, 2
-  #
-  #   end
-  #
-  #   it "adds advisors" do
-  #     adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
-  #
-  #     new_attrs = {
-  #       "SZVEDSD_ID" => @stu.Bnum,
-  #       'SZVEDSD_ADVISOR' => adv_str
-  #     }
-  #
-  #     row = @row_template.merge new_attrs
-  #     row_service = ProcessStudent.new row
-  #     row_service.update_advisor_assignments
-  #
-  #     assert_equal @stu.advisor_assignments.size, @advisors.size
-  #
-  #     advisor_emails = ActionMailer::Base.deliveries
-  #     assert_equal advisor_emails.size, @advisors.size
-  #
-  #     #asertions for each advisor
-  #     @advisors.each_with_index do |adv, i|
-  #       assert @stu.is_advisee_of adv
-  #       adv_email = advisor_emails[i]
-  #       assert_equal [adv.get_email],  adv_email.to
-  #       assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
-  #       assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
-  #     end
-  #
-  #   end
-  #
-  #   it "removes all advisors" do
-  #
-  #     # assign advisors to stu
-  #
-  #
-  #     @advisors.each{|adv| AdvisorAssignment.create!({
-  #         :student_id => @stu.id,
-  #         :tep_advisor_id => adv.id
-  #       })}
-  #
-  #     new_attrs = {
-  #       "SZVEDSD_ID" => @stu.Bnum
-  #     } # no advisors!
-  #
-  #     row = @row_template.merge new_attrs
-  #     row_service = ProcessStudent.new row
-  #     row_service.update_advisor_assignments
-  #
-  #
-  #
-  #     assert_equal @stu.advisor_assignments.size, 0
-  #
-  #     # advisor_emails = ActionMailer::Base.deliveries
-  #
-  #     # assertions for each advisor
-  #     # assert_equal advisor_emails.size, @advisors.size
-  #     @advisors.each_with_index do |adv, i|
-  #       assert_not @stu.is_advisee_of adv
-  #       # adv_email = advisor_emails[i]
-  #       # assert_equal [adv.get_email],  adv_email.to
-  #       # assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
-  #       # assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
-  #     end
-  #
-  #   end
-  #
-  #   it "doesn't create assignment - throws StatementInvalid" do
-  #
-  #     adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
-  #
-  #     new_attrs = {
-  #       "SZVEDSD_ID" => nil,
-  #       'SZVEDSD_ADVISOR' => adv_str
-  #     }
-  #
-  #     row = @row_template.merge new_attrs
-  #     row_service = ProcessStudent.new row
-  #     assert_raises(ActiveRecord::StatementInvalid){row_service.update_advisor_assignments}
-  #   end
-  #
-  #   it "doesn't create assignment - throws StatementInvalid" do
-  #
-  #     adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
-  #
-  #     new_attrs = {
-  #       "SZVEDSD_ID" => nil,
-  #       'SZVEDSD_ADVISOR' => adv_str
-  #     }
-  #
-  #     row = @row_template.merge new_attrs
-  #     row_service = ProcessStudent.new row
-  #     assert_raises(ActiveRecord::StatementInvalid){row_service.update_advisor_assignments}
-  #   end
-  #
-  # end
+
+  ###TESTS FOR UPSERT###
+  describe "upsert_student" do
+    it "creates a new student" do
+
+      stu_count0 = Student.all.size
+      new_stu = FactoryGirl.attributes_for :student
+
+      new_attrs = {
+        "SZVEDSD_ID" => new_stu[:Bnum],
+        "SZVEDSD_LAST_NAME" => new_stu[:LastName],
+        "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
+        "SZVEDSD_ENROLL_STAT" => "Active Student",
+      }
+
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      row_service.upsert_student
+
+      expect Student.all.size == stu_count0 + 1
+
+      stu = Student.find_by :Bnum => new_stu[:Bnum]
+      filter_attrs = [:Bnum, :LastName, :FirstName, :EnrollmentStatus]
+
+      #created student and student found in DB should match across these params
+      assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
+
+    end
+
+    it "updates a student" do
+
+      stu_count0 = Student.all.size
+      new_stu = FactoryGirl.create :student
+
+      new_attrs = {
+        "SZVEDSD_ID" => new_stu[:Bnum],
+        "SZVEDSD_LAST_NAME" => new_stu[:LastName] + "!!!!",
+        "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
+        "SZVEDSD_ENROLL_STAT" => "Active Student",
+      }
+
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      row_service.upsert_student
+
+      expect Student.all.size == stu_count0
+
+      stu = Student.find_by :Bnum => new_stu[:Bnum]
+      filter_attrs = [:LastName]
+
+      #created student and student found in DB should match across these params
+      assert_equal  new_attrs.slice(*filter_attrs), stu.attributes.slice(*filter_attrs)
+
+    end
+
+    it "does not upsert student, throws exception" do
+
+      row_service = ProcessStudent.new @row_template  # passing in empy row
+      assert_raises(ActiveRecord::RecordInvalid) {row_service.upsert_student}
+
+    end
+
+    describe "detects dropping out of program" do
+
+      before do
+        @stu = FactoryGirl.create :admitted_student
+        @adv = FactoryGirl.create :tep_advisor
+        FactoryGirl.create :advisor_assignment, {:student_id => @stu.id,
+          :tep_advisor_id => @adv.id
+        }
+
+        @drop_attrs = @row_template.merge({
+          "SZVEDSD_ID" => @stu[:Bnum],
+          "SZVEDSD_LAST_NAME" => @stu[:LastName],
+          "SZVEDSD_FIRST_NAME" => @stu[:FirstName],
+          "SZVEDSD_ENROLL_STAT" => @stu[:EnrollmentStatus],
+        })
+
+      end
+
+      it "detectes dropped major" do
+        # need an EDS major who is admitted to the TEP
+
+        @stu.update_attributes({:CurrentMajor1 => "Education Studies"})  #start off as EDS major
+
+        row_service = ProcessStudent.new @drop_attrs
+        row_service.upsert_student
+
+        assert_equal 1, @stu.tep_advisors.size
+        adv_email = ActionMailer::Base.deliveries.last
+
+        assert_equal [@adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+      it "detectes dropped concentration" do
+        # need an EDS major who is admitted to the TEP
+
+        @stu.update_attributes({:concentration1 => "Middle Grades Science Cert"})
+
+        row_service = ProcessStudent.new @drop_attrs
+        row_service.upsert_student
+
+        assert_equal 1, @stu.tep_advisors.size
+        adv_email = ActionMailer::Base.deliveries.last
+
+        assert_equal [@adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Possible TEP status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+    end
+
+  end
+
+  ###TESTS FOR UPSERT ADVISOR_ASSIGNMENTS###
+
+  describe "update_advisors" do
+
+    before do
+      @stu = FactoryGirl.create :student
+      @advisors = FactoryGirl.create_list :tep_advisor, 2
+
+    end
+
+    it "adds advisors" do
+      adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
+
+      new_attrs = {
+        "SZVEDSD_ID" => @stu.Bnum,
+        'SZVEDSD_ADVISOR' => adv_str
+      }
+
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      row_service.update_advisor_assignments
+
+      assert_equal @stu.advisor_assignments.size, @advisors.size
+
+      advisor_emails = ActionMailer::Base.deliveries
+      assert_equal advisor_emails.size, @advisors.size
+
+      #asertions for each advisor
+      @advisors.each_with_index do |adv, i|
+        assert @stu.is_advisee_of adv
+        adv_email = advisor_emails[i]
+        assert_equal [adv.get_email],  adv_email.to
+        assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+    end
+
+    it "removes all advisors" do
+
+      # assign advisors to stu
+
+
+      @advisors.each{|adv| AdvisorAssignment.create!({
+          :student_id => @stu.id,
+          :tep_advisor_id => adv.id
+        })}
+
+      new_attrs = {
+        "SZVEDSD_ID" => @stu.Bnum
+      } # no advisors!
+
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      row_service.update_advisor_assignments
+
+
+
+      assert_equal @stu.advisor_assignments.size, 0
+
+      # advisor_emails = ActionMailer::Base.deliveries
+
+      # assertions for each advisor
+      # assert_equal advisor_emails.size, @advisors.size
+      @advisors.each_with_index do |adv, i|
+        assert_not @stu.is_advisee_of adv
+        # adv_email = advisor_emails[i]
+        # assert_equal [adv.get_email],  adv_email.to
+        # assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from
+        # assert_equal "Advisee status change for #{@stu.name_readable}", adv_email.subject
+      end
+
+    end
+
+    it "doesn't create assignment - throws StatementInvalid" do
+
+      adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
+
+      new_attrs = {
+        "SZVEDSD_ID" => nil,
+        'SZVEDSD_ADVISOR' => adv_str
+      }
+
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      assert_raises(ActiveRecord::StatementInvalid){row_service.update_advisor_assignments}
+    end
+
+    it "doesn't create assignment - throws StatementInvalid" do
+
+      adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
+
+      new_attrs = {
+        "SZVEDSD_ID" => nil,
+        'SZVEDSD_ADVISOR' => adv_str
+      }
+
+      row = @row_template.merge new_attrs
+      row_service = ProcessStudent.new row
+      assert_raises(ActiveRecord::StatementInvalid){row_service.update_advisor_assignments}
+    end
+
+  end
   #
   # ###TESTS FOR UPSERT COURSE
   #
@@ -316,37 +316,36 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       @inter_row = @row_template.merge new_attrs
     end
 
-  #   it "inserts new course" do
-  #
-  #     t0 = Transcript.all.size
-  #
-  #     row_service = ProcessStudent.new @inter_row
-  #     row_service.upsert_course
-  #
-  #     assert_equal Transcript.all.size, t0+1
-  #
-  #   end
-#
-    # it "updates existing course" do
-    #   @course.save
-    #   t0 = Transcript.all.size
-    #
-    #   as_for_everyone={
-    #     'SZVEDSD_GRADE' => 'A'
-    #   }
-    #
-    #   final_row = @inter_row.merge as_for_everyone
-    #   row_service = ProcessStudent.new final_row
-    #   row_service.upsert_course
-    #
-    #   assert_equal Transcript.all.size, t0  #don't add a new course
-    #   assert_equal (Transcript.find @course.id).grade_ltr, "A"
-    #   assert_equal (Transcript.find @course.id).grade_pt, 4.0
-    # end
+    it "inserts new course" do
+
+      t0 = Transcript.all.size
+
+      row_service = ProcessStudent.new @inter_row
+      row_service.upsert_course
+
+      assert_equal Transcript.all.size, t0+1
+
+    end
+
+    it "updates existing course" do
+      @course.save
+      t0 = Transcript.all.size
+
+      as_for_everyone={
+        'SZVEDSD_GRADE' => 'A'
+      }
+
+      final_row = @inter_row.merge as_for_everyone
+      row_service = ProcessStudent.new final_row
+      row_service.upsert_course
+
+      assert_equal Transcript.all.size, t0  #don't add a new course
+      assert_equal (Transcript.find @course.id).grade_ltr, "A"
+      assert_equal (Transcript.find @course.id).grade_pt, 4.0
+    end
 
     test "grade_ltr nil" do
       @course.save!
-      puts @course.inspect
 
       nil_grade_ltr ={
         'SZVEDSD_GRADE' => nil
@@ -357,11 +356,8 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       row_service.upsert_course
 
       assert_equal 1, Transcript.count
-      puts Transcript.first.inspect
     end
 
   end
-
-
 
 end

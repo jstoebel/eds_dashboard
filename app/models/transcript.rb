@@ -49,6 +49,10 @@ class Transcript < ActiveRecord::Base
         return LTG.invert[grade_pt.to_f]
     end
 
+		def self.standard_grades
+			return LTG.keys
+		end
+
     def self.batch_upsert(hashes)
         # bulk upserts transcript records
         # hashes: array of hashes each containing params
