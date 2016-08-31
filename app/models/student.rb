@@ -367,12 +367,16 @@ class Student < ActiveRecord::Base
 		#filter by term if one is given
 		courses = courses.where("term_taken <= ?", options[:term]) if options[:term]
 
+		# These two counters use the multiply by 4 system typical of most universities
+		# credits in the Berea system are 1/4th of this typical value (typical course
+		# is worth 1.0 credits
+
 		credits = 0
 		qpoints = 0
 
 		courses.each do |course|
-			credits += course.credits_attempted
-			qpoints += course.quality_points
+			credits += course.credits_attempted * 4
+			qpoints += course.quality_points * 4
 			break if options[:last].present? && credits >= options[:last]
 		end
 
