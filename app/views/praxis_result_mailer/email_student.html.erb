@@ -1,0 +1,13 @@
+Dear <%= @stu.PreferredFirst %>,
+<p>Your recent Praxis scores came back and unfortunately it looks like you did not pass the following tests:<br>
+<ol>
+
+<% failing_tets.each do |test| %>
+  <li><%= test.praxis_test.TestName %></li>
+<% end %>
+
+</ol>
+<p>If you would like to take the test again, please make an appointment with <%= mail_to("stoebelj@berea.edu", "Jacob Stoebel") %> to discuss your next steps. Also, the department may pay the fee for your retest. If you are interested you will need to write a letter to the department chair, <%= mail_to("mailto:cartery@berea.edu", "Dr. Carter") %> Let her know why you believe you did not pass and how you plan to bring your score up. Successful letters will include a thoughtful, specific study plan to achieve a passing score. If you need help developing a study plan or writing this letter, contact your advisor. All decisions on funding are based on the chair's discretion and availability of funds.
+</p>
+Best,<br>
+Berea College Teacher Education Program
