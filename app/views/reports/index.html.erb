@@ -3,8 +3,45 @@
 <!-- insert back button -->
 
 <div class="student reports index">
-  <p>
-    Download Student Information:
-    <%= link_to "Excel Spreadsheet", reports_path(format: "xls") %>
+  <p>   
+    Student Information:
+    </br>
+    <div class="container">
+      <table class="listing table table-striped" summary="Student Reports">
+        <div class="row">          
+        </div>
+          <tr class="header">
+            <th>Student Bnumber</th>
+            <th>Student Name</th>
+            <th>Program Status</th>
+            <th>Major 1</th>
+            <th>Concentration 1</th>
+            <th>Major 2</th>
+            <th>Concentration 2</th>
+            <th>Minors</th>
+            <th>EDS227 or EDS228</th>
+            <th>Completion of EDS227 or EDS228</th>
+            <th>Term Completion: EDS227</th>
+            <th>Term Completion: EDS228</th>
+            <th>EDS440 or EDS470</th>
+          </tr>
+          <% @data.each do |stu| %>
+            <tr> <!-- can also use stu.inspect, here -->
+            <td><%= stu[:Bnum] %></td>
+            <td><%= stu[:name] %></td>
+            <td><%= stu[:ProgramStatus] %></td>
+            <td><%= stu[:Major1]%></td>
+            <td><%= stu[:Concentration1]%></td>
+            <td><%= stu[:Major2]%></td>
+            <td><%= stu[:Concentration2]%></td>
+            <td><%= stu[:Minors]%></td>
+            <td><%= stu[:Taken227_228]%></td>
+            <td><%= stu[:Passed_227_228]%></td>
+            <td><%= stu[:Latest_Completion_227]%></td>
+            <td><%= stu[:Latest_Completion_228]%></td>
+            <td><%= stu[:Latest_Term_EDS440_470]%></td>
+            </tr>
+          <% end %>
+
   </p>
    </div>
