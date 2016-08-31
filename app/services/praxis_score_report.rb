@@ -41,8 +41,10 @@ class PraxisScoreReport
         name_info = {:first_name => @first_name,
           :last_name => @last_name }
 
-        temp_result = PraxisResultTemp.create! result_attrs.merge name_info
+        result = PraxisResultTemp.create! result_attrs.merge name_info
       end
+
+      _write_subtests(test_node, result)
 
     end
 
@@ -69,19 +71,19 @@ class PraxisScoreReport
 
     subtests = test_node.xpath("currenttestcategoryinfo")
     subtests.each do |subtest|
-      sub_n, sub_name = sub_test_node[:testcategory].split(". ")
-      avg_low, avg_high = sub_test_node[:avgperformancerange].split(" - ")
+      sub_n, sub_name = subtest[:testcategory].split(". ")
+      avg_low, avg_high = subtest[:avgperformancerange].split(" - ")
 
       core_attrs = {
         :sub_number => RomanNumeral.new(sub_n).to_i,
         :name => sub_name,
-        :pts_earned => sub_test_node[:pointsearned],
-        :pts_aval => sub_test_node[:pointavailable],
+        :pts_earned => subtest[:pointsearned],
+        :pts_aval => subtest[:pointavailable],
         :avg_high => avg_high,
         :avg_low => avg_low
       }  # attributes for either subtest or temp subtest
 
-      if test_result.kind_of PraxisResult?
+      if test_result.kind_of? PraxisResult
         PraxisSubtestResult.create! core_attrs.merge({:praxis_result_id => test_result.id})
       else
         PraxisSubTemp.create! core_attrs.merge({:praxis_result_temp_id => test_result.id})
@@ -97,7 +99,6 @@ class PraxisScoreReport
     # NOTE: a failure to find a student could be because the student misreported
     # their SSN to ETS.
 
-    puts "running this! Bad!"
     DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod",
       SECRET["BANNER_UN"],
       SECRET["BANNER_PW"]) do |dbh|
@@ -108,10 +109,6 @@ class PraxisScoreReport
     end
 
   end
-
-  # def stu_from_ssn(ssn)
-  #   return FactoryGirl.create :student
-  # end
 
   def get_best_scores
     # return a hash of all tests attempted and their best score

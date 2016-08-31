@@ -117,6 +117,9 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
 
 
     it "writes a subtest result temp" do
+      assert_difference 'PraxisSubTemp.count', 3 do
+        @report_handler.write_tests
+      end
 
     end
 
