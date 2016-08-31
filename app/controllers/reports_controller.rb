@@ -7,10 +7,10 @@ class ReportsController < ApplicationController
     authorize_resource
     
     def index
-        data = []
+        @data = []
         students = Student.all
         students.each do |stu|
-            record = {
+            record = { # data that will go into the exceel spreadsheet, eventually
                 :Bnum => stu.Bnum,
                 :name => stu.name_readable,
                 :ProgramStatus => stu.prog_status,
@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
                 :Latest_Completion_228 => complete_228(stu),
                 :Latest_Term_EDS440_470 => term_EDS440_470(stu),
             }
-            
+            @data.push record
         end
     end
     
@@ -39,19 +39,32 @@ class ReportsController < ApplicationController
     end
     
     def complete_227(student)
-        course = student.transcripts.where(:course_code => ["EDS227"]).order(:term_taken).last
-        if :term_taken == nil
-            return ""
+        # looks at the student's transcript where the course code is EDS227, orders it by the taken term and finds the last (latest) one
+        courses = student.transcripts.where(:course_code => ["EDS227"]).order(:term_taken).last
+        if courses.nil?
+            return nil
         else 
-            return course.banner_term.readable
+            return course.banner_term.readable #returns the term taken
         end
     end
     
     def complete_228(student)
-        return student.transcripts.where(:course_code => ["EDS228"]).order(:term_taken).last.banner_term.readable
+        courses = student.transcripts.where(:course_code => ["EDS228"]).order(:term_taken).last
+        if courses.nil?
+            return nil
+        else
+            return courses.banner_term.readable
+        end
     end
    
    def term_EDS440_470(student)
-        return
-    end
+       course_taken = student.transcripts.where(:course_code => ["EDS440", "EDS470"]).order(:term_taken).last
+       if course_taken.nil?
+           return nil
+       else
+           return course_taken.banner_term.readable
+       end
+   end
+    
+    
 end
