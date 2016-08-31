@@ -352,6 +352,7 @@ class Student < ActiveRecord::Base
 	def gpa(options={})
 		#pre:
 			#last: last number of credits to include in calculation
+			# term: the id of the upper bound of terms to search
 			#if nil examine all courses
 		#post: returns gpa
 
@@ -362,17 +363,36 @@ class Student < ActiveRecord::Base
 
     options = defaults.merge(options)
 
-		courses = self.transcripts.where("grade_pt is not null").order(term_taken: :desc).order!(quality_points: :desc)
+		# filter out courses with no posted grade and order with most recent first then with most valuable courses first
+		courses = self.transcripts.where("grade_ltr is not null").order(term_taken: :desc).order!(quality_points: :desc)
 
 		#filter by term if one is given
 		courses = courses.where("term_taken <= ?", options[:term]) if options[:term]
+
+		# These two counters use the multiply by 4 system typical of most universities
+		# credits in the Berea system are 1/4th of this typical value (typical course
+		# is worth 1.0 credits
 
 		credits = 0
 		qpoints = 0
 
 		courses.each do |course|
-			credits += course.credits_earned
-			qpoints += course.quality_points
+
+			if course.credits_attempted.present? and
+				course.quality_points.present? and
+				Transcript.standard_grades.include? course.grade_ltr
+
+					# standard courses
+					credits += course.credits_attempted * 4
+					qpoints += course.quality_points * 4
+
+			elsif course.grade_ltr == "CA"
+				# convo credit: 1 converted credit, 4.0 converted quality_points
+
+				credits += 1.0
+				qpoints += 4.0
+			end
+
 			break if options[:last].present? && credits >= options[:last]
 		end
 
