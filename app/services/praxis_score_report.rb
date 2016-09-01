@@ -14,7 +14,7 @@ class PraxisScoreReport
     full_name = @report.at_xpath('candidateinfo/name').text
     @last_name, @first_name = full_name.split(", ")
     stu = stu_from_ssn ssn
-    @stu = stu
+    @stu = stu  # might be nil!
   end
 
   def write_tests
@@ -24,6 +24,8 @@ class PraxisScoreReport
 
     tests = @report.xpath("currenttest").xpath("currenttestinfo")
     tests.each do |test_node|
+
+      created_results = []
 
       begin
         test_code = test_node[:test_code].to_i
@@ -36,6 +38,7 @@ class PraxisScoreReport
           :best_score => @best_scores[test_code]
         }
         result = _write_test(result_attrs)
+        created_tests.push result
 
       rescue ActiveRecord::RecordInvalid => result_error
         name_info = {:first_name => @first_name,
@@ -46,8 +49,9 @@ class PraxisScoreReport
 
       _write_subtests(test_node, result)
 
-    end
+    end # loop
 
+    return created_tests
   end
 
   private
