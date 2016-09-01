@@ -20,14 +20,26 @@ task :update_praxis, [:send_emails] => :environment do
     # IN AND TAKE IT FROM THERE.
     report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
     score_report = Nokogiri::XML report_file
+    # END THROW AWAY CODE
+
+
     root = score_report.root
     reports = root.xpath("scorereport")
+
+    summaries = [] # summary of all students and the tests they took
+
     reports.each do |report|  # one scorereport per student
       report_obj = PraxisScoreReport.new report
-      report_obj.write_tests
+      created_tests = report_obj.write_tests
+
+      summary = {:stu => report_obj.stu, :results => created_tests}
+      summaries.push summary
+
     end # loop
 
     PraxisUpdate.create!({:report_date => DateTime.now})
+
+    # TODO another service object process the email notifications
 
 end
 
