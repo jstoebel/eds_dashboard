@@ -52,7 +52,7 @@ class Ability
         stu = resource.student      #all other resources
       end
 
-      return (stu.is_advisee_of(advisor_profile) or stu.is_student_of?(advisor_profile))
+      return (stu.is_advisee_of(advisor_profile) or stu.is_student_of?(advisor_profile.Bnum))
 
     else  #user not in advisor table
       return false
