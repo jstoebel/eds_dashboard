@@ -1,5 +1,5 @@
 require 'base64'
-task :update_praxis => :environment do
+task :update_praxis, [:send_emails] => :environment do
     url = 'https://datamanager.ets.org/edmwebservice/edmpraxis.wsdl'
 
     user_name = SECRET["PRAXIS_UN"]
