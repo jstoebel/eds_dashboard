@@ -2,7 +2,7 @@ Dear <%= @stu.PreferredFirst %>,
 <p>Your recent Praxis scores came back and unfortunately it looks like you did not pass the following tests:<br>
 <ol>
 
-<% failing_tets.each do |test| %>
+<% @failing_tets.each do |test| %>
   <li><%= test.praxis_test.TestName %></li>
 <% end %>
 

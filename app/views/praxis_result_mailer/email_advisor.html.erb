@@ -1,0 +1,16 @@
+Dear <%= @adv.Salutation %>,
+
+<p>
+  Praxis scores for <%= @stu.name_readable %> have been received. You can view them now in the dashboard. We recieved scores for the following tests.
+</p>
+
+<ol>
+
+<% @tets.each do |test| %>
+  <li><%= test.praxis_test.TestName %></li>
+<% end %>
+
+</ol>
+
+Best,<br>
+Berea College Teacher Education Program
