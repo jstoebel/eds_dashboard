@@ -32,6 +32,7 @@
 <% enum = (1..1000).each %>
 
 <%= "test#{enum.next}:" %>
+  id: "5710"
   TestCode: "5710"
   TestName:  C-PPST Reading (computer)
   CutScore: 176
@@ -46,6 +47,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5712"
   TestCode: "5712"
   TestName:  "Core Academic Skills for Educators: Reading"
   CutScore: 156
@@ -53,13 +55,14 @@
   Sub1:  Key Ideas and Details
   Sub2:  Craft, Structure, and Language Skills
   Sub3:  Integration of Knowledge and Ideas
-  Sub4: Null 
+  Sub4: Null
   Sub5: Null
   Sub6: Null
   Sub7: Null
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "5720"
   TestCode: "5720"
   TestName:  C-PPST Writing (computer)
   CutScore: 174
@@ -74,20 +77,22 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5722"
   TestCode: "5722"
   TestName:  "Core Academic Skills for Educators: Writing"
   CutScore: 162
   TestFamily: 1
   Sub1:  Text Types, Purpose and Production
   Sub2:  Language and Research Skills for Writing
-  Sub3: Null 
-  Sub4: Null 
+  Sub3: Null
+  Sub4: Null
   Sub5: Null
   Sub6: Null
   Sub7: Null
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "5730"
   TestCode: "5730"
   TestName:  C-PPST Mathematics (computer)
   CutScore: 174
@@ -102,6 +107,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5732"
   TestCode: "5732"
   TestName:  "Core Academic Skills for Educators: Mathematics"
   CutScore: 150
@@ -116,6 +122,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0014"
   TestCode: "0014"
   TestName: "Elementary ED: Content Knowledge"
   CutScore: 148
@@ -130,6 +137,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0023"
   TestCode: "0023"
   TestName: Interdisciplinary Early Childhood Education
   CutScore: 166
@@ -144,6 +152,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0032"
   TestCode: "0032"
   TestName: "Elem Ed: Reading"
   CutScore: 165
@@ -158,6 +167,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0033"
   TestCode: "0033"
   TestName: "Elem Ed: Mathematics"
   CutScore: 164
@@ -172,6 +182,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0034"
   TestCode: "0034"
   TestName: "Elem Ed: Social Studies"
   CutScore: 155
@@ -186,6 +197,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0035"
   TestCode: "0035"
   TestName: "Elem Ed: Science"
   CutScore: 159
@@ -200,6 +212,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0041"
   TestCode: "0041"
   TestName: "English Language Literature and Composition: Content Knowledge"
   CutScore: 160
@@ -214,6 +227,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0042"
   TestCode: "0042"
   TestName: English Language, Literature and Composition Essays
   CutScore: 155
@@ -228,6 +242,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0044"
   TestCode: "0044"
   TestName: "English Lang, Lit, and Comp: Analysis"
   CutScore: 166
@@ -242,6 +257,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0050"
   TestCode: "0050"
   TestName: Technology Education
   CutScore: 600
@@ -256,6 +272,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0051"
   TestCode: "0051"
   TestName: Technology Education
   CutScore: 159
@@ -270,6 +287,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0061"
   TestCode: "0061"
   TestName: "Mathematics: Content Knowledge"
   CutScore: 125
@@ -284,6 +302,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0063"
   TestCode: "0063"
   TestName: "Mathematics: Proofs Models Problems Part 1"
   CutScore: 141
@@ -298,6 +317,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0069"
   TestCode: "0069"
   TestName: "Middle School: Mathematics"
   CutScore: 148
@@ -312,6 +332,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0081"
   TestCode: "0081"
   TestName: "Social Studies: Content Knowledge"
   CutScore: 151
@@ -326,6 +347,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0083"
   TestCode: "0083"
   TestName: "Social Studies: Interpretation of Materials"
   CutScore: 159
@@ -340,11 +362,12 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0086"
   TestCode: "0086"
   TestName: "Social Studies: Content and Interpretation"
   CutScore: 153
   TestFamily: 2
-  Sub1: U.S. History 
+  Sub1: U.S. History
   Sub2: World History
   Sub3: Government/Civics
   Sub4: Economics
@@ -354,6 +377,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0092"
   TestCode: "0092"
   TestName: "Physical ED Analysis and Design"
   CutScore: 151
@@ -368,6 +392,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0095"
   TestCode: "0095"
   TestName: "Physical Education: Content and Design"
   CutScore: 169
@@ -382,6 +407,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0111"
   TestCode: "0111"
   TestName: "Music Concepts and Processes"
   CutScore: 145
@@ -396,6 +422,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0113"
   TestCode: "0113"
   TestName: "Music: Content Knowledge"
   CutScore: 154
@@ -410,6 +437,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0114"
   TestCode: "0114"
   TestName: "Music: Content and Instruction"
   CutScore: 162
@@ -424,6 +452,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0135"
   TestCode: "0135"
   TestName: "Art: Content and Analysis"
   CutScore: 161
@@ -438,6 +467,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0235"
   TestCode: "0235"
   TestName: "Biology: Content Knowledge"
   CutScore: 146
@@ -452,6 +482,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0265"
   TestCode: "0265"
   TestName: "Physics: Content Knowledge"
   CutScore: 133
@@ -466,6 +497,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0439"
   TestCode: "0439"
   TestName: "Middle School: Science"
   CutScore: 144
@@ -480,6 +512,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0522"
   TestCode: "0522"
   TestName: "PLT: Grades K-6"
   CutScore: 161
@@ -494,6 +527,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0523"
   TestCode: "0523"
   TestName: "PLT: Grades 5-9"
   CutScore: 161
@@ -508,6 +542,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0524"
   TestCode: "0524"
   TestName: "PLT: Grades 7-12"
   CutScore: 161
@@ -522,6 +557,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "0622"
   TestCode: "0622"
   TestName: "PLT: Grades K-6"
   CutScore: 160
@@ -536,6 +572,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0623"
   TestCode: "0623"
   TestName: "PLT: Grades 5-9"
   CutScore: 160
@@ -550,6 +587,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0624"
   TestCode: "0624"
   TestName: "PLT: Grades 7-12"
   CutScore: 160
@@ -564,6 +602,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "0856"
   TestCode: "0856"
   TestName: "Health and Physical Education: Content Knowledge"
   CutScore: 156
@@ -578,6 +617,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5032"
   TestCode: "5032"
   TestName: "Elem Ed: Reading"
   CutScore: 165
@@ -592,6 +632,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5033"
   TestCode: "5033"
   TestName: "Elem Ed: Mathematics"
   CutScore: 164
@@ -606,6 +647,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5034"
   TestCode: "5034"
   TestName: "Elem Ed: Social Studies"
   CutScore: 155
@@ -620,6 +662,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5035"
   TestCode: "5035"
   TestName: "Elem Ed: Science"
   CutScore: 159
@@ -634,6 +677,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5039"
   TestCode: "5039"
   TestName: "English Language Arts: Content and Analysis"
   CutScore: 168
@@ -648,6 +692,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5044"
   TestCode: "5044"
   TestName: "English Lang, Lit, and Comp: Analysis"
   CutScore: 166
@@ -662,6 +707,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "5051"
   TestCode: "5051"
   TestName: Technology Education
   CutScore: 159
@@ -676,6 +722,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5061"
   TestCode: "5061"
   TestName: "Mathematics: Content Knowledge"
   CutScore: 125
@@ -690,6 +737,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "5063"
   TestCode: "5063"
   TestName: "Mathematics: Proofs Models Problems Part 1"
   CutScore: 141
@@ -704,6 +752,7 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "5069"
   TestCode: "5069"
   TestName: "Middle School: Mathematics"
   CutScore: 148
@@ -718,11 +767,12 @@
   Program_ProgCode: Null
   CurrentTest: 1
 <%= "test#{enum.next}:" %>
+  id: "5086"
   TestCode: "5086"
   TestName: "Social Studies: Content and Interpretation"
   CutScore: 153
   TestFamily: 2
-  Sub1: U.S. History 
+  Sub1: U.S. History
   Sub2: World History
   Sub3: Government/Civics
   Sub4: Economics
@@ -732,6 +782,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5095"
   TestCode: "5095"
   TestName: "Physical Education: Content and Design"
   CutScore: 169
@@ -746,6 +797,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5114"
   TestCode: "5114"
   TestName: "Music: Content and Instruction"
   CutScore: 162
@@ -760,6 +812,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5135"
   TestCode: "5135"
   TestName: "Art: Content and Analysis"
   CutScore: 161
@@ -774,6 +827,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5161"
   TestCode: "5161"
   TestName: "Mathematics: Content Knowledge"
   CutScore: 160
@@ -788,6 +842,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5235"
   TestCode: "5235"
   TestName: "Biology: Content Knowledge"
   CutScore: 146
@@ -802,6 +857,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5265"
   TestCode: "5265"
   TestName: "Physics: Content Knowledge"
   CutScore: 133
@@ -816,6 +872,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5439"
   TestCode: "5439"
   TestName: "Middle School: Science"
   CutScore: 144
@@ -830,6 +887,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5622"
   TestCode: "5622"
   TestName: "PLT: Grades K-6"
   CutScore: 160
@@ -844,6 +902,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5623"
   TestCode: "5623"
   TestName: "PLT: Grades 5-9"
   CutScore: 160
@@ -858,6 +917,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5624"
   TestCode: "5624"
   TestName: "PLT: Grades 7-12"
   CutScore: 160
@@ -872,6 +932,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5856"
   TestCode: "5856"
   TestName: "Health and Physical Education: Content Knowledge"
   CutScore: 156
@@ -886,6 +947,7 @@
   Program_ProgCode: Null
   CurrentTest: 0
 <%= "test#{enum.next}:" %>
+  id: "5169"
   TestCode: "5169"
   TestName: Middle School Mathematics
   CutScore: 165

@@ -46,6 +46,12 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal u.errors[:Email], ["can't be blank"]
 	end
 
-	
+	["admin", "staff"].each do |role|
+		test "#{role}_emails" do
+			FactoryGirl.create role.to_sym
+			role_record = Role.find_by :RoleName => role
+			assert_equal User.where({:Roles_idRoles => role_record.id}).pluck(:Email).to_a, User.send("#{role}_emails")
+		end
+	end
 
 end
