@@ -45,6 +45,7 @@ class PraxisScoreReport
           :last_name => @last_name }
 
         result = PraxisResultTemp.create! result_attrs.merge name_info
+        puts "[TEMP] created a temp record"
       end
 
       _write_subtests(test_node, result)
@@ -66,9 +67,21 @@ class PraxisScoreReport
     # if successful the created PraxisTest is returned
     # if record can't be created, ActiveRecord::RecordInvalid is thrown
 
-    result = PraxisResult.new(from_ets: true)
-    result.assign_attributes result_attrs
-    result.save!
+    init_columns = [:student_id, :praxis_test_id, :test_date]
+    init_attrs = result_attrs.select{|k,v| init_columns.include? k}
+
+    result = PraxisResult.find_or_initialize_by init_attrs
+    result.from_ets = true
+
+    # TODO: REMOVE THIS EXCEPTION HANDLING
+    begin
+      result.update_attributes result_attrs
+    rescue ActiveRecord::InvalidForeignKey => e
+      puts e.message
+    end
+
+
+    puts "[SCORE!] created a praxis_result!"
     return result
   end
 
@@ -107,13 +120,19 @@ class PraxisScoreReport
     # NOTE: a failure to find a student could be because the student misreported
     # their SSN to ETS.
 
+    puts "******trying to find student from #{ssn}"
+
     DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod",
       SECRET["BANNER_UN"],
       SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd SZVEDSD_SSN = ?"
+        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
         row = dbh.select_one(sql, ssn)
-        return Student.find_by :Bnum => row["SZVEDSD_ID"]
 
+        if row.present?
+          return Student.find_by :Bnum => row["SZVEDSD_ID"]
+        else
+          return nil
+        end
     end
 
   end
