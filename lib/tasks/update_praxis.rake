@@ -11,10 +11,26 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
     client = Savon.client(wsdl: url)
 
     # THIS WILL BE THE REAL CODE. USING ETS SERVICE TO FETCH DATA
+    print "fetching all available dates..."
     get_these_dates = missing_report_dates(client, user_name, pw)
+    puts "-> done!"
     get_these_dates.each do |d|
+      print "fetching score report..."
       score_report = fetch_score_report(client, user_name, pw, d)
+      puts "-> done!"
+      root = score_report.root
+      reports = root.xpath("scorereport")
+
+      puts "writing results..."
+      reports.each do |report|  # one scorereport per student
+        report_obj = PraxisScoreReport.new report
+        report_obj.write_tests
+        report_obj.email if send_emails
+      end # loop
+
+      PraxisUpdate.create!({:report_date => DateTime.now})
     end
+    
     # # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
     # # IN AND TAKE IT FROM THERE.
     # report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
@@ -22,18 +38,6 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
     # # END THROW AWAY CODE
 
 
-    root = score_report.root
-    reports = root.xpath("scorereport")
-
-    reports.each do |report|  # one scorereport per student
-      report_obj = PraxisScoreReport.new report
-      report_obj.write_tests
-      report_obj.email if send_emails
-    end # loop
-
-    PraxisUpdate.create!({:report_date => DateTime.now})
-
-    # TODO another service object process the email notifications
 
 end
 
