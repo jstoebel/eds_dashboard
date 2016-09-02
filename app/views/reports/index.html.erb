@@ -3,13 +3,11 @@
 <!-- insert back button -->
 
 <div class="student reports index">
-  <p>   
-    Student Information:
-    </br>
-    <div class="container">
-      <table class="listing table table-striped" summary="Student Reports">
-        <div class="row">          
+  <p>Student Information:</p>
+    
+      <table id="report" summary="Student Reports">
         </div>
+        <thead>
           <tr class="header">
             <th>Student Bnumber</th>
             <th>Student Name</th>
@@ -25,6 +23,8 @@
             <th>Term Completion: EDS228</th>
             <th>EDS440 or EDS470</th>
           </tr>
+        </thead>
+        <tbody>
           <% @data.each do |stu| %>
             <tr> <!-- can also use stu.inspect, here -->
             <td><%= stu[:Bnum] %></td>
@@ -42,6 +42,7 @@
             <td><%= stu[:Latest_Term_EDS440_470]%></td>
             </tr>
           <% end %>
-
-  </p>
-   </div>
+        </tbody>
+      </table>
+        
+ </div>
