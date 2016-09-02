@@ -10,10 +10,9 @@
 #  paid_by        :string(255)
 #  test_score     :integer
 #  best_score     :integer
-#  cut_score      :integer
 #
 
-FactoryGirl.define do
+FactoryGirl.define do |f|
   factory :praxis_result do
     association :student
     association :praxis_test
@@ -21,9 +20,22 @@ FactoryGirl.define do
     reg_date Date.today
     test_score 100
     best_score 100
-    cut_score 100
     paid_by "EDS"
 
     after(:create) { |result| FactoryGirl.create_list :praxis_subtest_result, 4, {:praxis_result_id => result.id}}
-  end 
+
+    factory :passing_test do
+      after(:create) do |passing_result|
+        passing_result.test_score = (result.cut_score) + 1
+        passing_result.save({:validate => false})
+      end
+    end
+    factory :failing_test do
+      after(:create) do |failing_result|
+        failing_result.test_score = (result.cut_score) - 1
+        failing_result.save({:validate => false})
+      end
+    end
+
+  end
 end

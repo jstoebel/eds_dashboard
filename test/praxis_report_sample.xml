@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DIScoreReport>
+  <scorereport
+    candidateid="12345678"
+    reportdate="10/03/2014"
+    Program="Praxis">
+    <candidateinfo>
+      <name>LASTNAME, FIRSTNAME</name>
+      <ssn>123-45-6789</ssn>
+      <address>101 CHESTNUT ST.</address>
+      <city>BEREA</city>
+      <state>KY</state>
+      <zipcode>40404</zipcode>
+      <gender>M</gender>
+      <dob>01/01/1994</dob>
+      <ethnicity>WHITE</ethnicity>
+      <highesteduattained>SOPHOMORE (SECOND YEAR)</highesteduattained>
+      <ugmajor>MATHEMATICS EDUCATION</ugmajor>
+      <gradmajor>NOT PROVIDED</gradmajor>
+      <undergradgpa>2.5 - 2.99</undergradgpa>
+      <aiorg>BEREA COLLEGE</aiorg>
+    </candidateinfo>
+    <currenttest>
+      <currenttestinfo
+        testname="5712 Core Academic Skills for Educators: Reading"
+        test_code="5712"
+        test_name="Core Academic Skills for Educators: Reading"
+        test_type="Computer"
+        testscore="170"
+        roe=""
+        rvsd=""
+        testdate="09/16/2014">
+        <currenttestcategoryinfo
+          testcategory="I. Key Ideas and Details"
+          pointsearned="12"
+          pointavailable="17"
+          avgperformancerange="10 - 14" />
+        <currenttestcategoryinfo
+          testcategory="II. Craft; Structure; Language Skills"
+          pointsearned="9"
+          pointavailable="16"
+          avgperformancerange="8 - 13" />
+        <currenttestcategoryinfo
+          testcategory="III. Integration of Knowledge and Ideas"
+          pointsearned="9"
+          pointavailable="17"
+          avgperformancerange="7 - 12" />
+      </currenttestinfo>
+      <currenttestinfo
+        testname="5722 Core Academic Skills for Educators: Writing"
+        test_code="5722"
+        test_name="Core Academic Skills for Educators: Writing"
+        test_type="Computer"
+        testscore="152"
+        roe=""
+        rvsd=""
+        testdate="09/16/2014">
+        <currenttestcategoryinfo
+          testcategory="I. Multiple Choice Section"
+          pointsearned="17"
+          pointavailable="34"
+          avgperformancerange="17 - 24" />
+        <currenttestcategoryinfo
+          testcategory="II. Essay Section"
+          pointsearned="14"
+          pointavailable="24"
+          avgperformancerange="13 - 16" />
+      </currenttestinfo>
+      <currenttestinfo
+        testname="5732 Core Academic Skills for Educators: Math"
+        test_code="5732"
+        test_name="Core Academic Skills for Educators: Math"
+        test_type="Computer"
+        testscore="178"
+        roe=""
+        rvsd=""
+        testdate="09/16/2014">
+        <currenttestcategoryinfo
+          testcategory="I. Number and Quantity"
+          pointsearned="11"
+          pointavailable="15"
+          avgperformancerange="7 - 11" />
+        <currenttestcategoryinfo
+          testcategory="II. Algebra and Functions"
+          pointsearned="12"
+          pointavailable="15"
+          avgperformancerange="8 - 11" />
+        <currenttestcategoryinfo
+          testcategory="III. Geometry"
+          pointsearned="8"
+          pointavailable="10"
+          avgperformancerange="3 - 6" />
+        <currenttestcategoryinfo
+          testcategory="IV. Statistics and Probability"
+          pointsearned="10"
+          pointavailable="10"
+          avgperformancerange="7 - 9" />
+      </currenttestinfo>
+    </currenttest>
+    <hghsttest>
+      <hghsttestinfo
+        testname="5710 C-PPST Reading (computer)"
+        test_code="5710"
+        test_name="C-PPST Reading"
+        test_type="Computer"
+        testscore="174"
+        roe=""
+        rvsd=""
+        testdate="03/15/2014"
+        passingstatusasofreportdate=""
+        requiredscoreasofreportdate="176"
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="5712 Core Academic Skills for Educators: Reading"
+        test_code="5712"
+        test_name="Core Academic Skills for Educators: Reading"
+        test_type="Computer"
+        testscore="170"
+        roe=""
+        rvsd=""
+        testdate="09/16/2014"
+        passingstatusasofreportdate="Passed"
+        requiredscoreasofreportdate="156"
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="5720 C-PPST Writing (computer)"
+        test_code="5720"
+        test_name="C-PPST Writing"
+        test_type="Computer"
+        testscore="172"
+        roe=""
+        rvsd=""
+        testdate="03/15/2014"
+        passingstatusasofreportdate=""
+        requiredscoreasofreportdate="174"
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="5722 Core Academic Skills for Educators: Writing"
+        test_code="5722"
+        test_name="Core Academic Skills for Educators: Writing"
+        test_type="Computer"
+        testscore="152"
+        roe=""
+        rvsd=""
+        testdate="09/16/2014"
+        passingstatusasofreportdate="Not Passed"
+        requiredscoreasofreportdate="162"
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="5730 C-PPST Mathematics (computer)"
+        test_code="5730"
+        test_name="C-PPST Mathematics"
+        test_type="Computer"
+        testscore="181"
+        roe=""
+        rvsd=""
+        testdate="03/15/2014"
+        passingstatusasofreportdate=""
+        requiredscoreasofreportdate="174"
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="5732 Core Academic Skills for Educators: Math"
+        test_code="5732"
+        test_name="Core Academic Skills for Educators: Math"
+        test_type="Computer"
+        testscore="178"
+        roe=""
+        rvsd=""
+        testdate="09/16/2014"
+        passingstatusasofreportdate="Passed"
+        requiredscoreasofreportdate="150"
+        requiredminscore=""
+        minscoremetnotmet="" />
+    </hghsttest>
+  </scorereport>
+  <scorereport
+    candidateid="87654321"
+    reportdate="10/03/2014"
+    Program="Praxis">
+    <candidateinfo>
+      <name>LASTNAME2, FIRSTNAME2</name>
+      <ssn>987-65-4321</ssn>
+      <address>101 CHESTNUT ST</address>
+      <city>BEREA</city>
+      <state>KY</state>
+      <zipcode>40404</zipcode>
+      <gender>F</gender>
+      <dob>05/25/1990</dob>
+      <ethnicity>WHITE</ethnicity>
+      <highesteduattained>EARNED BACHELOR'S DEGREE</highesteduattained>
+      <ugmajor>ELEMENTARY EDUCATION</ugmajor>
+      <gradmajor>ELEMENTARY EDUCATION</gradmajor>
+      <undergradgpa>3.0 - 3.49</undergradgpa>
+      <aiorg>BEREA COLLEGE</aiorg>
+    </candidateinfo>
+    <currenttest>
+      <currenttestinfo
+        testname="5033 Elem Ed: MS Mathematics Subtest"
+        test_code="5033"
+        test_name="Elem Ed: MS Mathematics Subtest"
+        test_type="Computer"
+        testscore="154"
+        roe=""
+        rvsd=""
+        testdate="09/14/2014">
+        <currenttestcategoryinfo
+          testcategory="I. Number Operations and Algebraic Thinking"
+          pointsearned="15"
+          pointavailable="26"
+          avgperformancerange="15 - 20" />
+        <currenttestcategoryinfo
+          testcategory="II. Geometry; Measurement; Data; and Interpretation"
+          pointsearned="9"
+          pointavailable="14"
+          avgperformancerange="6 - 9" />
+      </currenttestinfo>
+    </currenttest>
+    <hghsttest>
+      <hghsttestinfo
+        testname="0014  Elem Ed: Content Knowledge (paper)"
+        test_code="0014"
+        test_name="Elem Ed: Content Knowledge"
+        test_type="Paper"
+        testscore="139"
+        roe=""
+        rvsd=""
+        testdate="07/21/2012"
+        passingstatusasofreportdate="Not Passed"
+        requiredscoreasofreportdate="148"
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="0522 Principles of Learning Teaching: Grades K-6"
+        test_code="0522"
+        test_name="Principles of Learning Teaching: Grades K-6"
+        test_type="Paper"
+        testscore="161"
+        roe=""
+        rvsd=""
+        testdate="07/21/2012"
+        passingstatusasofreportdate="Passed"
+        requiredscoreasofreportdate="161"
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="5031 ELEM EDUCATION MULTIPLE SUBJECTS   "
+        test_code=""
+        test_name="5031 ELEM EDUCATION MULTIPLE SUBJECTS   "
+        test_type=""
+        testscore=""
+        roe=""
+        rvsd=""
+        testdate=""
+        passingstatusasofreportdate="Not Passed"
+        requiredscoreasofreportdate=""
+        requiredminscore=""
+        minscoremetnotmet="" />
+      <hghsttestinfo
+        testname="5032 Elem Ed: MS Reading Lang Arts Subtest"
+        test_code="5032"
+        test_name="Elem Ed: MS Reading Lang Arts Subtest"
+        test_type="Computer"
+        testscore="158"
+        roe=""
+        rvsd=""
+        testdate="03/20/2013"
+        passingstatusasofreportdate=""
+        requiredscoreasofreportdate="   "
+        requiredminscore="165"
+        minscoremetnotmet="Not Met" />
+      <hghsttestinfo
+        testname="5033 Elem Ed: MS Mathematics Subtest"
+        test_code="5033"
+        test_name="Elem Ed: MS Mathematics Subtest"
+        test_type="Computer"
+        testscore="154"
+        roe=""
+        rvsd=""
+        testdate="09/14/2014"
+        passingstatusasofreportdate=""
+        requiredscoreasofreportdate="   "
+        requiredminscore="164"
+        minscoremetnotmet="Not Met" />
+      <hghsttestinfo
+        testname="5034 Elem Ed: MS Social Studies Subtest"
+        test_code="5034"
+        test_name="Elem Ed: MS Social Studies Subtest"
+        test_type="Computer"
+        testscore="145"
+        roe=""
+        rvsd=""
+        testdate="05/19/2014"
+        passingstatusasofreportdate=""
+        requiredscoreasofreportdate="   "
+        requiredminscore="155"
+        minscoremetnotmet="Not Met" />
+      <hghsttestinfo
+        testname="5035 Elem Ed: MS Science Subtest"
+        test_code="5035"
+        test_name="Elem Ed: MS Science Subtest"
+        test_type="Computer"
+        testscore="155"
+        roe=""
+        rvsd=""
+        testdate="03/20/2013"
+        passingstatusasofreportdate=""
+        requiredscoreasofreportdate="   "
+        requiredminscore="159"
+        minscoremetnotmet="Not Met" />
+    </hghsttest>
+  </scorereport>
+
+</DIScoreReport>

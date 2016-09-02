@@ -10,40 +10,39 @@
 #  paid_by        :string(255)
 #  test_score     :integer
 #  best_score     :integer
-#  cut_score      :integer
 #
 
 require 'test_helper'
 
 class PraxisResultTest < ActiveSupport::TestCase
 
-	
+
 	test "blank bnum" do
 		t = PraxisResult.first
 		t.student_id = nil
 		t.valid?
-		assert_equal(["Please select a student."], t.errors[:student_id])		
+		assert_equal(["Please select a student."], t.errors[:student_id])
 	end
 
 	test "blank test code" do
 		t = PraxisResult.first
 		t.praxis_test_id = nil
 		t.valid?
-		assert_equal(["Test must be selected."], t.errors[:praxis_test_id])		
+		assert_equal(["Test must be selected."], t.errors[:praxis_test_id])
 	end
 
 	test "blank test date" do
 		t = PraxisResult.first
 		t.test_date = nil
 		t.valid?
-		assert_equal(["Test date must be selected."], t.errors[:test_date])		
+		assert_equal(["Test date must be selected."], t.errors[:test_date])
 	end
 
 	test "blank reg date" do
 		t = PraxisResult.first
 		t.reg_date = nil
 		t.valid?
-		assert_equal(["Registration date must be selected."], t.errors[:reg_date])		
+		assert_equal(["Registration date must be selected."], t.errors[:reg_date])
 	end
 
 
@@ -51,14 +50,14 @@ class PraxisResultTest < ActiveSupport::TestCase
 		t = PraxisResult.first
 		t.paid_by = nil
 		t.valid?
-		assert_equal(["Payment source must be given."], t.errors[:paid_by])		
+		assert_equal(["Payment source must be given."], t.errors[:paid_by])
 	end
 
 	test "bad paid by" do
 		t = PraxisResult.first
 		t.paid_by = "it was free!"
 		t.valid?
-		assert_equal(["Invalid payment source."], t.errors[:paid_by])		
+		assert_equal(["Invalid payment source."], t.errors[:paid_by])
 	end
 
 	test "allows edit no score" do
@@ -95,24 +94,25 @@ class PraxisResultTest < ActiveSupport::TestCase
 		assert test.valid?
 		test.save
 		test.destroy
-		assert_equal ["Test has scores and may not be altered."], test.errors[:base]			
+		assert_equal ["Test has scores and may not be altered."], test.errors[:base]
 	end
 
 	test "passing returns true" do
-		pr = PraxisResult.first
-		pr.test_score = 101
-		pr.cut_score = 100
-		assert pr.save, pr.errors.full_messages
+		pr = FactoryGirl.create :praxis_result
+		pr.test_score = (pr.praxis_test.CutScore)
+		pr.save!({:validate => false})
+
 		assert pr.passing?
 
 	end
 
 	test "passing returns false" do
-		pr = PraxisResult.first
-		pr.test_score = 100
-		pr.cut_score = 101
-		assert pr.save, pr.errors.full_messages
-		assert !pr.passing?
+		pr = FactoryGirl.create :praxis_result
+		pr.test_score = (pr.praxis_test.CutScore) - 1
+		pr.save!({:validate => false})
+
+		assert_not pr.passing?
+
 	end
 
 end
