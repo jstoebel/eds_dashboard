@@ -1,5 +1,8 @@
 require 'base64'
-task :update_praxis, [:send_emails] => :environment do
+task :update_praxis, [:send_emails] => :environment do |t, args|
+
+    send_emails = args[:send_emails] == 'true'
+
     url = 'https://datamanager.ets.org/edmwebservice/edmpraxis.wsdl'
 
     user_name = SECRET["PRAXIS_UN"]
@@ -8,33 +11,24 @@ task :update_praxis, [:send_emails] => :environment do
     client = Savon.client(wsdl: url)
 
     # THIS WILL BE THE REAL CODE. USING ETS SERVICE TO FETCH DATA
-    # get_these_dates = missing_report_dates(client, user_name, pw)
-    #
-    # get_these_dates.each do |d|
-    #   score_report = fetch_score_report(client, user_name, pw, d)
-    #   puts score_report
-    #
-    # end
-
-    # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
-    # IN AND TAKE IT FROM THERE.
-    report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
-    score_report = Nokogiri::XML report_file
-    # END THROW AWAY CODE
+    get_these_dates = missing_report_dates(client, user_name, pw)
+    get_these_dates.each do |d|
+      score_report = fetch_score_report(client, user_name, pw, d)
+    end
+    # # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
+    # # IN AND TAKE IT FROM THERE.
+    # report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
+    # score_report = Nokogiri::XML report_file
+    # # END THROW AWAY CODE
 
 
     root = score_report.root
     reports = root.xpath("scorereport")
 
-    summaries = [] # summary of all students and the tests they took
-
     reports.each do |report|  # one scorereport per student
       report_obj = PraxisScoreReport.new report
-      created_tests = report_obj.write_tests
-
-      summary = {:stu => report_obj.stu, :results => created_tests}
-      summaries.push summary
-
+      report_obj.write_tests
+      report_obj.email if send_emails
     end # loop
 
     PraxisUpdate.create!({:report_date => DateTime.now})
@@ -58,9 +52,7 @@ def missing_report_dates(client, user_name, pw)
   root = dates_report.root
   date_tags = root.xpath("Date/REPORT_DATE")
   report_dates = date_tags.map { |dt| DateTime.strptime(dt.text, "%m/%d/%Y") }
-
   existing_reports = PraxisUpdate.all.pluck :report_date
-
   return report_dates - existing_reports
 end
 

@@ -15,6 +15,8 @@ class PraxisScoreReport
     @last_name, @first_name = full_name.split(", ")
     stu = stu_from_ssn ssn
     @stu = stu  # might be nil!
+
+    @created_tests = []  # array to store all assembled tests
   end
 
   def write_tests
@@ -24,8 +26,6 @@ class PraxisScoreReport
 
     tests = @report.xpath("currenttest").xpath("currenttestinfo")
     tests.each do |test_node|
-
-      created_results = []
 
       begin
         test_code = test_node[:test_code].to_i
@@ -38,7 +38,7 @@ class PraxisScoreReport
           :best_score => @best_scores[test_code]
         }
         result = _write_test(result_attrs)
-        created_tests.push result
+        @created_tests.push result
 
       rescue ActiveRecord::RecordInvalid => result_error
         name_info = {:first_name => @first_name,
@@ -52,6 +52,12 @@ class PraxisScoreReport
     end # loop
 
     return created_tests
+  end
+
+  def email_created
+    # if there are any created tests, send an email alert
+    email = PraxisResultMailer.email_student(@stu, @created_tests)
+    email.deliver_now
   end
 
   private
