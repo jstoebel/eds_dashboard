@@ -6,8 +6,8 @@ Dear <%= @adv.Salutation %>,
 
 <ol>
 
-<% @tets.each do |test| %>
-  <li><%= test.praxis_test.TestName %></li>
+<% @tests.each do |result| %>
+  <li><%= result.praxis_test.TestName %></li>
 <% end %>
 
 </ol>
