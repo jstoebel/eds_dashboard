@@ -12,6 +12,7 @@
  *= require bootstrap3-switch
  *= require bootstrap-datepicker 
  *= require_self
+
  *= require nav_bar
  *= require concern_dashboard
  *= require_tree .
