@@ -1,30 +1,28 @@
 class PraxisResultMailer < ApplicationMailer
 
-  def email_student(stu, failing_tests)
-     #stu: student record
-     # failing_tets, AR::relation of all failing tests for stu in current report
+  def email_student(stu, tests)
+     # stu: student record
+     # tests: array of all tests taken in score report
      # student is emailed concerns their options to retake the exam.
+     # advisors are cc'd
+     # admins are bcc'd
 
      @stu = stu
-     @failing_tests = failing_tests
+     @passing_tests = []
+     @failing_tests = []
+     tests.each do |exam|
+       if exam.passing?
+         @passing_tests << exam
+       else
+         @failing_tests << exam
+       end
+     end
+
      mail(:to => @stu.Email,
-     :bcc => User.admin_emails,
-     :subject => "Praxis Results"
+       :cc => @stu.tep_advisors.pluck(:email),
+       :bcc => User.admin_emails,
+       :subject => "Praxis Results"
      )
-
-  end
-
-  def email_advisors(adv, stu, tests)
-    # emails an advisor reguarding all tests student took in a given report
-    # stu: student record
-    # tests: AR::relation of all tests for stu in current report
-    @stu = stu
-    @tests = tests
-    @adv = adv
-    mail(:to => @adv.email,
-      :bcc => SECRET["APP_ADMIN_EMAIL"],
-      :subject => "Praxis Results for #{@stu.name_readable}"
-    )
   end
 
 end

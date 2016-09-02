@@ -23,12 +23,12 @@ class User < ActiveRecord::Base
 
 	def self.admin_emails
 		# returns an array of emails of all users with admin role name
-		return User.where({:Roles_idRoles => 1}).pluck :Email
+		return User.where({:Roles_idRoles => 1}).pluck(:Email)
 	end
 
 	def self.staff_emails
 		# returns an array of emails of all users with staff role name
-		return User.where({:Roles_idRoles => 3}).pluck :Email
+		return User.where({:Roles_idRoles => 3}).pluck(:Email)
 	end
 	#scopes
 
