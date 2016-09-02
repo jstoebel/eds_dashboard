@@ -75,8 +75,7 @@ FactoryGirl.define do
           FactoryGirl.attributes_for :praxis_result, {
             :student_id => stu.id,
             :praxis_test_id =>  test.id,
-            :test_score => 101,
-            :cut_score => 100,
+            :test_score => test.CutScore,
             :test_date => date_taken,
             :reg_date => date_taken
           }

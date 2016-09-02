@@ -10,7 +10,6 @@
 #  paid_by        :string(255)
 #  test_score     :integer
 #  best_score     :integer
-#  cut_score      :integer
 #
 
 class PraxisResultsController < ApplicationController
@@ -112,20 +111,20 @@ class PraxisResultsController < ApplicationController
     #same as using params[:subject] except that:
       #raises an error if :praxis_result is not present
       #allows listed attributes to be mass-assigned
-    params.require(:praxis_result).permit(:praxis_test_id, :test_date, :reg_date, :paid_by)
-    
+    params.require(:praxis_result).permit(:praxis_test_id, :test_date, :reg_date, :paid_by, :test_score, :best_score)
+
   end
 
   def get_testid(params)
     result = params["praxis_result"]
     return [
-        result[:AltID], 
-        result[:praxis_test_id], 
+        result[:AltID],
+        result[:praxis_test_id],
         [
           result["TestDate(2i)"], result["TestDate(3i)"], result["TestDate(1i)"]
         ].join('/')
       ].join('-')
-    
+
   end
 
   def error_setup
