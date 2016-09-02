@@ -55,7 +55,32 @@ class PraxisResult < ActiveRecord::Base
 	def AltID
 		return self.id
 	end
+	
+	def score_check 
+		# if test is passing return true; 
+		# if test is not passing return false; 
+		# if test has no score return nil;
+		# if self.test_score 
+		# 	return nil
+		# if self.test_score 
+			
+		# 	return
+		# if self.test_score
+			
+		# 	return
+		# end
+		if self.test_score.present?
+			if self.test_score >= self.cut_score
+				return true
+			else self.test_score < self.cut_score
+				return false
+			end
+		else
+			return nil
 
+		end
+	end
+	
 	def passing?
 		if self.test_score.blank? or self.cut_score.blank?
 			return false
