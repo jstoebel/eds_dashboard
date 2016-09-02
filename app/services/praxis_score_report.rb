@@ -50,8 +50,6 @@ class PraxisScoreReport
       _write_subtests(test_node, result)
 
     end # loop
-
-    return created_tests
   end
 
   def email_created

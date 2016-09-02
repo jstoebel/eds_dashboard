@@ -1,6 +1,6 @@
 require 'test_helper'
 require 'mocha/mini_test'
-class ProcessStudentServiceTest < ActiveSupport::TestCase
+class PraxisScoreReportServiceTest < ActiveSupport::TestCase
 
   before do
     score_report_str = %q(
