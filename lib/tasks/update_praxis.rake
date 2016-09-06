@@ -13,6 +13,9 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
     # THIS WILL BE THE REAL CODE. USING ETS SERVICE TO FETCH DATA
     print "fetching all available dates..."
     get_these_dates = missing_report_dates(client, user_name, pw)
+
+    fail("no new praxis reports!") if get_these_dates.empty?
+
     puts "-> done!"
     get_these_dates.each do |d|
       score_report = fetch_score_report(client, user_name, pw, d)
@@ -22,16 +25,12 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
         report_obj = PraxisScoreReport.new report
         report_obj.write_tests
         report_obj.email_created if send_emails
+
       end # loop
+      PraxisUpdate.create!({:report_date => DateTime.strptime(d, '%m/%d/%Y')})
 
     end
 
-    PraxisUpdate.create!({:report_date => DateTime.now})
-    # # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
-    # # IN AND TAKE IT FROM THERE.
-    # report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
-    # score_report = Nokogiri::XML report_file
-    # # END THROW AWAY CODE
 end
 
 private
@@ -49,7 +48,6 @@ def missing_report_dates(client, user_name, pw)
   date_tags = root.xpath("Date/REPORT_DATE")
   report_dates = date_tags.map { |dt| dt.text}  # strings, format mm/dd/YYYY
   existing_reports = (PraxisUpdate.all.pluck :report_date).map{|d| d.strftime("%m/%d/%Y")}
-
   puts report_dates - existing_reports
   return (report_dates - existing_reports).uniq
 end

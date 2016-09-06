@@ -48,6 +48,8 @@ class PraxisScoreReport
           :last_name => @last_name }
 
         result = PraxisResultTemp.create! result_attrs.merge name_info
+        puts "created praxis_result_temp"
+        puts result.inspect
       end
 
       _write_subtests(test_node, result)
@@ -78,6 +80,8 @@ class PraxisScoreReport
     result.update_attributes result_attrs
 
     result.save!
+    puts "created new praxis_result:"
+    puts  result.inspect
     return result
 
   end
