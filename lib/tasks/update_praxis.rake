@@ -24,9 +24,9 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
         report_obj.email if send_emails
       end # loop
 
-      PraxisUpdate.create!({:report_date => DateTime.now})
     end
 
+    PraxisUpdate.create!({:report_date => DateTime.now})
     # # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
     # # IN AND TAKE IT FROM THERE.
     # report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
