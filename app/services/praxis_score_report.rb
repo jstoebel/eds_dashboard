@@ -10,6 +10,7 @@ class PraxisScoreReport
 
     @report = report
     @best_scores = get_best_scores
+
     ssn = @report.at_xpath('candidateinfo/ssn').text.gsub("-", "")
     full_name = @report.at_xpath('candidateinfo/name').text
     @last_name, @first_name = full_name.split(", ")
@@ -28,19 +29,21 @@ class PraxisScoreReport
     tests.each do |test_node|
 
       begin
-        test_code = test_node[:test_code].to_i
-
+        test_code = test_node[:test_code]
         result_attrs = {
           :student_id => @stu.andand.id,
           :praxis_test_id => test_code,
           :test_date => DateTime.strptime(test_node[:testdate], "%m/%d/%Y"),
-          :test_score => test_node[:testscore],
+          :test_score => test_node[:testscore].to_i,
           :best_score => @best_scores[test_code]
         }
         result = _write_test(result_attrs)
+
         @created_tests.push result
 
       rescue ActiveRecord::RecordInvalid => result_error
+        puts result_error.message
+
         name_info = {:first_name => @first_name,
           :last_name => @last_name }
 
@@ -66,10 +69,19 @@ class PraxisScoreReport
     # if successful the created PraxisTest is returned
     # if record can't be created, ActiveRecord::RecordInvalid is thrown
 
-    result = PraxisResult.new(from_ets: true)
-    result.assign_attributes result_attrs
+    init_columns = [:student_id, :praxis_test_id, :test_date]
+    init_attrs = result_attrs.select{|k,v| init_columns.include? k}
+
+    result = PraxisResult.find_or_initialize_by init_attrs
+    result.from_ets = true
+
+    result.update_attributes result_attrs
+
     result.save!
+
+    puts "[SCORE!] created/updated a praxis_result!"
     return result
+
   end
 
   def _write_subtests(test_node, test_result)
@@ -110,10 +122,14 @@ class PraxisScoreReport
     DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod",
       SECRET["BANNER_UN"],
       SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd SZVEDSD_SSN = ?"
+        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
         row = dbh.select_one(sql, ssn)
-        return Student.find_by :Bnum => row["SZVEDSD_ID"]
 
+        if row.present?
+          return Student.find_by :Bnum => row["SZVEDSD_ID"]
+        else
+          return nil
+        end
     end
 
   end

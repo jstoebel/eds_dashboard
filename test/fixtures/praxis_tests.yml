@@ -961,3 +961,93 @@
   Sub7: Null
   Program_ProgCode: Null
   CurrentTest: 0
+<%= "test#{enum.next}:" %>
+  id: "5113"
+  TestCode: "5113"
+  TestName: "Music: Content Knowledge"
+  CutScore: Null
+  TestFamily: 2
+  Sub1: Music History and Literature
+  Sub2: Theory and Composition
+  Sub3: Performance
+  Sub4: Pedagogy; Professional Issues; Technology
+  Sub5: "Special Category: Listening"
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 0
+<%= "test#{enum.next}:" %>
+  id: 5002
+  TestCode: "5002"
+  TestName: "Elementary Education: Reading and Language Arts Subtest"
+  CutScore: 157
+  TestFamily: 2
+  Sub1: Reading
+  Sub2: Writing, Speaking, and Listening
+  Sub3: Null
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+<%= "test#{enum.next}:" %>
+  id: 5003
+  TestCode: "5003"
+  TestName: "Elementary Education: Mathmatics Subtest"
+  CutScore: 157
+  TestFamily: 2
+  Sub1: Numbers and Operations
+  Sub2: Algebraic Thinking
+  Sub3: Geometry and Measurement, Data, Statistics, and Probability
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+<%= "test#{enum.next}:" %>
+  id: 5004
+  TestCode: "5004"
+  TestName: "Elementary Education: Social Studies Subtest"
+  CutScore: 155
+  TestFamily: 2
+  Sub1: United States History, Government, and Citizenship
+  Sub2: Geography, Anthropology, and Sociology
+  Sub3: World History and Economics
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+<%= "test#{enum.next}:" %>
+  id: 5005
+  TestCode: "5005"
+  TestName: "Elementary Education: Science Subtest"
+  CutScore: 159
+  TestFamily: 2
+  Sub1: Earth Science
+  Sub2: Life Science
+  Sub3: Physical Science
+  Sub4: Null
+  Sub5: Null
+  Sub6: Null
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
+<%= "test#{enum.next}:" %>
+  id: 5440
+  TestCode: "5440"
+  TestName: "Middle School Science"
+  CutScore: 150
+  TestFamily: 2
+  Sub1: Scientific Inquiry, Methodology, Techniques, and History
+  Sub2: Basic Principles of Matter and Energy
+  Sub3: Physical Sciences
+  Sub4: Life Sciences
+  Sub5: Earth and Space Sciences
+  Sub6: Science, Technology, and Society
+  Sub7: Null
+  Program_ProgCode: Null
+  CurrentTest: 1
