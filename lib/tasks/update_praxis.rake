@@ -15,13 +15,9 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
     get_these_dates = missing_report_dates(client, user_name, pw)
     puts "-> done!"
     get_these_dates.each do |d|
-      print "fetching score report..."
       score_report = fetch_score_report(client, user_name, pw, d)
-      puts "-> done!"
       root = score_report.root
       reports = root.xpath("scorereport")
-
-      puts "writing results..."
       reports.each do |report|  # one scorereport per student
         report_obj = PraxisScoreReport.new report
         report_obj.write_tests
@@ -30,15 +26,12 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
 
       PraxisUpdate.create!({:report_date => DateTime.now})
     end
-    
+
     # # THIS IS OUR THROW AWAY MOCKED CODE, WHEREIN WE ASSUME A VALID REPORT COMES
     # # IN AND TAKE IT FROM THERE.
     # report_file = File.open(Rails.root.join("test", "praxis_report_sample.xml"))
     # score_report = Nokogiri::XML report_file
     # # END THROW AWAY CODE
-
-
-
 end
 
 private
@@ -49,15 +42,16 @@ def missing_report_dates(client, user_name, pw)
   # pw(string) ETS password
 
   # return any reporting dates not already in the system (as DateTime)
-
   response = client.call(:get_reporting_dates, message: {"clientUserId" => user_name, "clientPassword" => pw })
   dates = Base64.decode64 response.body[:get_reporting_dates_response][:get_reporting_dates_result]
   dates_report = Nokogiri::XML dates
   root = dates_report.root
   date_tags = root.xpath("Date/REPORT_DATE")
-  report_dates = date_tags.map { |dt| DateTime.strptime(dt.text, "%m/%d/%Y") }
-  existing_reports = PraxisUpdate.all.pluck :report_date
-  return report_dates - existing_reports
+  report_dates = date_tags.map { |dt| dt.text}  # strings, format mm/dd/YYYY
+  existing_reports = (PraxisUpdate.all.pluck :report_date).map{|d| d.strftime("%m/%d/%Y")}
+
+  puts report_dates - existing_reports
+  return (report_dates - existing_reports).uniq
 end
 
 def fetch_score_report(client, user_name, pw, date)
@@ -67,8 +61,10 @@ def fetch_score_report(client, user_name, pw, date)
   # date(DateTime): the date of the report to fetch
 
   # return score report (string)
+
+  puts "fetching score_report for #{date}"
   response = client.call(:get_score_reports_given_reporting_date, message: {"clientUserId" => user_name,
-      "clientPassword" => pw, "reportDate" => date.strftime("%m/%d/%Y"),
+      "clientPassword" => pw, "reportDate" => date,
       "strSubProgram" => "P"
        })
 

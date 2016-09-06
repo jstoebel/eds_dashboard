@@ -10,6 +10,7 @@ class PraxisScoreReport
 
     @report = report
     @best_scores = get_best_scores
+
     ssn = @report.at_xpath('candidateinfo/ssn').text.gsub("-", "")
     full_name = @report.at_xpath('candidateinfo/name').text
     @last_name, @first_name = full_name.split(", ")
@@ -28,24 +29,25 @@ class PraxisScoreReport
     tests.each do |test_node|
 
       begin
-        test_code = test_node[:test_code].to_i
-
+        test_code = test_node[:test_code]
         result_attrs = {
           :student_id => @stu.andand.id,
           :praxis_test_id => test_code,
           :test_date => DateTime.strptime(test_node[:testdate], "%m/%d/%Y"),
-          :test_score => test_node[:testscore],
+          :test_score => test_node[:testscore].to_i,
           :best_score => @best_scores[test_code]
         }
         result = _write_test(result_attrs)
+
         @created_tests.push result
 
       rescue ActiveRecord::RecordInvalid => result_error
+        puts result_error.message
+
         name_info = {:first_name => @first_name,
           :last_name => @last_name }
 
         result = PraxisResultTemp.create! result_attrs.merge name_info
-        puts "[TEMP] created a temp record"
       end
 
       _write_subtests(test_node, result)
@@ -73,16 +75,13 @@ class PraxisScoreReport
     result = PraxisResult.find_or_initialize_by init_attrs
     result.from_ets = true
 
-    # TODO: REMOVE THIS EXCEPTION HANDLING
-    begin
-      result.update_attributes result_attrs
-    rescue ActiveRecord::InvalidForeignKey => e
-      puts e.message
-    end
+    result.update_attributes result_attrs
 
+    result.save!
 
-    puts "[SCORE!] created a praxis_result!"
+    puts "[SCORE!] created/updated a praxis_result!"
     return result
+
   end
 
   def _write_subtests(test_node, test_result)
@@ -119,8 +118,6 @@ class PraxisScoreReport
 
     # NOTE: a failure to find a student could be because the student misreported
     # their SSN to ETS.
-
-    puts "******trying to find student from #{ssn}"
 
     DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod",
       SECRET["BANNER_UN"],
