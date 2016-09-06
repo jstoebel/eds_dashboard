@@ -10,15 +10,17 @@
 #  paid_by        :string(255)
 #  test_score     :integer
 #  best_score     :integer
-#  cut_score      :integer
 #
 
 class PraxisResult < ActiveRecord::Base
 
+	attr_accessor :from_ets  #if this record is coming from ETS and should therefor
+	# not expect some validations
+
 	#callbacks
-	before_validation :check_alterability
+	before_validation :check_alterability, :unless => :from_ets
 	before_validation :check_unique
-	before_destroy :check_alterability
+	before_destroy :check_alterability, :uneless => :from_ets
 
 	belongs_to :student
 	has_many :praxis_subtest_results
@@ -34,14 +36,16 @@ class PraxisResult < ActiveRecord::Base
 		presence: {message: "Test date must be selected."}
 
 	validates :reg_date,
+		unless: :from_ets,
 		presence: {message: "Registration date must be selected."}
 
 	validates :paid_by,
+		unless: :from_ets,
 		presence: {message: "Payment source must be given."},
 		inclusion: {
 			:in => ['EDS', 'ETS (fee waiver)', 'Student'],
 			message: "Invalid payment source.",
-			allow_blank: true}	
+			allow_blank: true}
 
 
 	def can_alter?
@@ -54,6 +58,12 @@ class PraxisResult < ActiveRecord::Base
 
 	def AltID
 		return self.id
+	end
+
+	def cut_score
+		# this method replaces a previously existing column and instead looks to the
+		#  results test for the cut score.
+		return self.praxis_test.andand.CutScore
 	end
 
 	def passing?
