@@ -23,14 +23,14 @@ class Foi < ActiveRecord::Base
  
   
   def self.import(file)
-    
-    CSV.foreach(file.path, headers: true) do |row|
-      
-      begin
-        _import_foi(row)
-      rescue ActiveRecord::RecordInvalid => e
-        _create_temp(row)
+      spreadsheet = open_spreadsheet(file)
+   # CSV.foreach(spreadsheet, headers: true) do |row|
+      header = spreadsheet.row(2)
+      (3..spreadsheet.last_row).each do |i|
+          row = Hash[[header, spreadsheet.row(i)].transpose]
+          Foi._import_foi(row)
       end
+     # end
       
       
   
@@ -93,20 +93,29 @@ class Foi < ActiveRecord::Base
       # end
  
 
-    end
+
   
   end # import
+  #write a counter so that the first row is skipped on the first iteration
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+    when ".csv" then Roo::CSV.new(file.path, nil, :ignore)
+    when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+    when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+    else raise "Unknown file type: #{file.original_filename}"
+    end
+  end
   
-  private
-  
-  def _import_foi(row)
+  def self._import_foi(row)
     # row: a csv row
     # creates an foi record or raises an error if student can't be determined 
+
     eds_only = row["Q2.1 - Do you intend to seek an Education Studies degree without certification?"].downcase == "yes"
     seek_cert = row["Q1.4 - Do you intend to seek teacher certification at Berea College?"].downcase == "yes"
     new_form = row["Q1.3 - Are you completing this form for the first time, or is this form a revision..."].downcase == "new form"
   
     major_name = row["Q3.1 - Which area do you wish to seek certification in?"] # the raw name of the major from the file
+    puts major_name
     major = Major.find_by major_name
       
     date_str = row["Recorded Date"]  #date completing, from the csv
@@ -141,7 +150,7 @@ class Foi < ActiveRecord::Base
   
   end
     
-  def _create_temp(row)
+  def self._create_temp(row)
     # create a temporary record for user to match up later
     temp_foi.create!(attrs)
   
