@@ -21,7 +21,7 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
       reports.each do |report|  # one scorereport per student
         report_obj = PraxisScoreReport.new report
         report_obj.write_tests
-        report_obj.email if send_emails
+        report_obj.email_created if send_emails
       end # loop
 
     end
