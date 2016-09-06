@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20160826140043) do
+
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -287,6 +289,16 @@ ActiveRecord::Schema.define(version: 20160826140043) do
   add_index "praxis_prep", ["PraxisTest_TestCode"], name: "fk_PraxisPrep_PraxisTest1_idx", using: :btree
   add_index "praxis_prep", ["student_id"], name: "fk_rails_4112037443", using: :btree
 
+  create_table "praxis_result_temps", force: :cascade do |t|
+    t.string   "first_name",     limit: 255
+    t.string   "last_name",      limit: 255
+    t.integer  "student_id",     limit: 4
+    t.integer  "praxis_test_id", limit: 4
+    t.datetime "test_date"
+    t.integer  "test_score",     limit: 4
+    t.integer  "best_score",     limit: 4
+  end
+
   create_table "praxis_results", force: :cascade do |t|
     t.integer  "student_id",     limit: 4,   null: false
     t.integer  "praxis_test_id", limit: 4
@@ -295,12 +307,23 @@ ActiveRecord::Schema.define(version: 20160826140043) do
     t.string   "paid_by",        limit: 255
     t.integer  "test_score",     limit: 4
     t.integer  "best_score",     limit: 4
-    t.integer  "cut_score",      limit: 4
   end
 
   add_index "praxis_results", ["praxis_test_id"], name: "fk_praxis_results_praxis_tests_idx", using: :btree
   add_index "praxis_results", ["student_id", "praxis_test_id", "test_date"], name: "index_by_stu_test_date", unique: true, using: :btree
   add_index "praxis_results", ["student_id"], name: "fk_praxis_results_students_idx", using: :btree
+
+  create_table "praxis_sub_temps", force: :cascade do |t|
+    t.integer "praxis_result_temp_id", limit: 4,   null: false
+    t.integer "sub_number",            limit: 4
+    t.string  "name",                  limit: 255
+    t.integer "pts_earned",            limit: 4
+    t.integer "pts_aval",              limit: 4
+    t.integer "avg_high",              limit: 4
+    t.integer "avg_low",               limit: 4
+  end
+
+  add_index "praxis_sub_temps", ["praxis_result_temp_id"], name: "fk_rails_c72a4ab38d", using: :btree
 
   create_table "praxis_subtest_results", force: :cascade do |t|
     t.integer "praxis_result_id", limit: 4,   null: false
@@ -525,6 +548,7 @@ ActiveRecord::Schema.define(version: 20160826140043) do
   add_foreign_key "praxis_prep", "students"
   add_foreign_key "praxis_results", "praxis_tests"
   add_foreign_key "praxis_results", "students"
+  add_foreign_key "praxis_sub_temps", "praxis_result_temps"
   add_foreign_key "praxis_subtest_results", "praxis_results"
   add_foreign_key "praxis_tests", "programs", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "banner_terms", column: "ExitTerm", primary_key: "BannerTerm", name: "prog_exits_ExitTerm_fk"

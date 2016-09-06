@@ -6,6 +6,7 @@ gem 'rails', '~>4.2'
 # gem 'rails', '~> 4.2', '>= 4.2.5'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.3.18'
+gem 'sqlite3', '~> 1.3', '>= 1.3.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -78,6 +79,7 @@ gem 'active_record-acts_as' #for multi table inheritance
 # gem 'debugger', group: [:development, :test]
 gem 'annotate', github: 'ctran/annotate_models'
 gem 'andand', '~> 1.3', '>= 1.3.3'
+gem 'savon', '~> 2.0'
 
 #connecting to Banner
 gem 'dbi', '~> 0.4.5'
@@ -93,3 +95,5 @@ gem 'whenever', :require => false
 gem 'roo'
 gem 'axlsx_rails'
 gem 'kaminari'
+gem 'nokogiri', '~> 1.6', '>= 1.6.8'
+gem 'roman', '~> 0.2.0'
