@@ -18,9 +18,9 @@ class PraxisResult < ActiveRecord::Base
 	# not expect some validations
 
 	#callbacks
-	before_validation :check_alterability
+	before_validation :check_alterability, :unless => :from_ets
 	before_validation :check_unique
-	before_destroy :check_alterability
+	before_destroy :check_alterability, :uneless => :from_ets
 
 	belongs_to :student
 	has_many :praxis_subtest_results
