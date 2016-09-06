@@ -95,8 +95,7 @@ class ActiveSupport::TestCase
       FactoryGirl.attributes_for :praxis_result, {
         :student_id => stu.id,
         :praxis_test_id =>  test.id,
-        :test_score => (passing ? 101 : 99),
-        :cut_score => 100,
+        :test_score => (passing ? test.CutScore : test.CutScore-1),
         :test_date => Date.today,
         :reg_date => Date.today - 30
       }
