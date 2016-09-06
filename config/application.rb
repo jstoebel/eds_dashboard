@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'csv'
+require 'iconv'
 
 secrets_file = '/home/stoebelj/.eds_secrets.yml'
 SECRET = File.exists?(secrets_file) ? YAML.load_file(secrets_file) : {}
