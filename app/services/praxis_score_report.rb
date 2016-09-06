@@ -78,8 +78,6 @@ class PraxisScoreReport
     result.update_attributes result_attrs
 
     result.save!
-
-    puts "[SCORE!] created/updated a praxis_result!"
     return result
 
   end
