@@ -2,7 +2,7 @@ class PraxisScoreReport
 
   attr_reader :report, :stu
 
-  logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  @@logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
   def initialize(report)
     #  report(scorereport node object) represening  an ETS score report on one student
@@ -42,7 +42,7 @@ class PraxisScoreReport
         @created_tests.push result
 
       rescue ActiveRecord::RecordInvalid => result_error
-        logger.tagged("PRAXIS UPDATE", DateTime.now){
+        @@logger.tagged("PRAXIS UPDATE", DateTime.now){
           Rails.logger.info result_error.message
           Rails.logger.info result.inspect
          }
