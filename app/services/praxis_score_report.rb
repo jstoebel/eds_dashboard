@@ -2,7 +2,7 @@ class PraxisScoreReport
 
   attr_reader :report, :stu
 
-
+  logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
   def initialize(report)
     #  report(scorereport node object) represening  an ETS score report on one student
@@ -42,14 +42,15 @@ class PraxisScoreReport
         @created_tests.push result
 
       rescue ActiveRecord::RecordInvalid => result_error
-        puts result_error.message
+        logger.tagged("PRAXIS UPDATE", DateTime.now){
+          Rails.logger.info result_error.message
+          Rails.logger.info result.inspect
+         }
 
         name_info = {:first_name => @first_name,
           :last_name => @last_name }
 
         result = PraxisResultTemp.create! result_attrs.merge name_info
-        puts "created praxis_result_temp"
-        puts result.inspect
       end
 
       _write_subtests(test_node, result)
@@ -80,8 +81,6 @@ class PraxisScoreReport
     result.update_attributes result_attrs
 
     result.save!
-    puts "created new praxis_result:"
-    puts  result.inspect
     return result
 
   end
