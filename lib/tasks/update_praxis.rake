@@ -17,17 +17,25 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
     fail("no new praxis reports!") if get_these_dates.empty?
 
     puts "-> done!"
-    get_these_dates.each do |d|
+    get_these_dates.each do |d|  #d: date string, format => %m/%d/%Y
       score_report = fetch_score_report(client, user_name, pw, d)
       root = score_report.root
       reports = root.xpath("scorereport")
+
+      date_obj = DateTime.strptime(d, "%d/%m/%Y")
+
       reports.each do |report|  # one scorereport per student
         report_obj = PraxisScoreReport.new report
         report_obj.write_tests
-        report_obj.email_created if send_emails
+
+        if (date_obj >= 30.days.ago) && (send_emails)
+          report_obj.email_created
+        else
+          log_error "email not sent", t
+        end
 
       end # loop
-      PraxisUpdate.create!({:report_date => DateTime.strptime(d, '%m/%d/%Y')})
+      PraxisUpdate.create!({:report_date => date_obj})
 
     end
 
@@ -48,7 +56,6 @@ def missing_report_dates(client, user_name, pw)
   date_tags = root.xpath("Date/REPORT_DATE")
   report_dates = date_tags.map { |dt| dt.text}  # strings, format mm/dd/YYYY
   existing_reports = (PraxisUpdate.all.pluck :report_date).map{|d| d.strftime("%m/%d/%Y")}
-  puts report_dates - existing_reports
   return (report_dates - existing_reports).uniq
 end
 
@@ -70,4 +77,17 @@ def fetch_score_report(client, user_name, pw, date)
    return Nokogiri::XML report_str
 
 
+end
+
+def log_error(context_message, task)
+    # logs exception tagged with the task name and timestamp
+    # exception includes a class, message and backtrace
+    # task, the rake task where the exception was thrown
+
+    # more info: http://blog.bigbinary.com/2014/03/03/logger-formatting-in-rails.html
+    # and http://guides.rubyonrails.org/debugging_rails_applications.html#tagged-logging
+    logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+    logger.tagged("PRAXIS UPDATE", task.timestamp){
+      Rails.logger.info context_message
+     }
 end
