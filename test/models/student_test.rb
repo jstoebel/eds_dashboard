@@ -357,51 +357,115 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal expected.to_a, stu.open_programs.to_a
 	end
 
-	test "gpa with no options" do
-		courses = FactoryGirl.create_list(:transcript, 4, {
-				term_taken: BannerTerm.first.id,
-				grade_pt: 4.0
-			})
 
-		stu = courses[0].student
-		assert_equal 4.0, stu.gpa
-	end
+	describe "gpa" do
 
-	test "gpa with term limit" do
+		before do
+			first_term = BannerTerm.all.first
+			@first_course = FactoryGirl.create :transcript, {
+				term_taken: first_term.id,
+				grade_pt: 4.0,
+				grade_ltr: "A"
+			}
+			@stu = @first_course.student
+		end
+
+		test "gpa with no options" do
+			assert_equal 4.0, @stu.gpa
+		end
+
+		test "gpa with term limit" do
+
+			first_term = @first_course.banner_term
+			next_term = first_term.next_term
+
+			FactoryGirl.create :transcript, {
+					student_id: stu.id,
+					term_taken: next_term.id,
+					grade_pt: 3.0,
+					grade_ltr: "B"
+				}
+
+			assert_equal 4.0, @stu.gpa({term: @first_course.term_taken})
+		end
+
+		test "gpa with credit limit" do
 
 
-		first_course = FactoryGirl.create :transcript, {
-			term_taken: BannerTerm.first.id,
-			grade_pt: 4.0
-		}
 
-		stu = first_course.student
-
-		BannerTerm.all.slice(1,2).map {|term| FactoryGirl.create :transcript, {
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
 				student_id: stu.id,
-				term_taken: term.id,
-				grade_pt: 3.0
-			}}
+				grade_pt: 3.0,
+				grade_ltr: "B"
+			}
 
-		assert 4.0, stu.gpa({term: first_course.term_taken})
+			assert_equal 4.0, @stu.gpa({last: second_course.credits_earned * 4})
+		end
+
+		test "gpa with a course having nil credits attempted" do
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: stu.id,
+				grade_pt: 3.0,
+				grade_ltr: "B",
+				credits_attempted: nil
+			}
+
+			assert_equal 4.0, @stu.gpa
+
+		end
+
+		test "gpa with course having nil quality points" do
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: stu.id,
+				grade_pt: 3.0,
+				grade_ltr: "B"
+			}
+
+			second_course.quality_points = nil
+			second_course.save!
+
+			assert_equal nil, second_course.quality_points
+			assert_equal 4.0, @stu.gpa
+
+		end
+
+		test "gpa with course having nil grade_ltr" do
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: stu.id,
+				grade_pt: 3.0,
+			}
+			assert_equal 4.0, @stu.gpa
+		end
+
+
+		test "convocation affects GPA" do
+
+			b_grade = FactoryGirl.create :transcript, {
+				:term_taken => BannerTerm.first.id,
+				:grade_ltr => "B",
+				:grade_pt => 3.0
+			}
+
+			convo_credit = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: b_grade.student.id,
+				grade_ltr: "CA",
+				grade_pt: nil
+			}
+
+			assert_equal 3.2, b_grade.student.gpa
+
+		end
+
 	end
 
-	test "gpa with credit limit" do
-		first_course = FactoryGirl.create :transcript, {
-			term_taken: BannerTerm.first.id,
-			grade_pt: 4.0
-		}
 
-		stu = first_course.student
 
-		second_course = FactoryGirl.create :transcript, {
-			term_taken: BannerTerm.second.id,
-			student_id: stu.id,
-			grade_pt: 3.0
-		}
-
-		assert_equal 3.0, stu.gpa({last: second_course.credits_earned})
-	end
+	# test
 
 
 	it "updates last_name table" do

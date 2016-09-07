@@ -14,4 +14,7 @@
 
 class PraxisSubtestResult < ActiveRecord::Base
 	belongs_to :praxis_result
+
+	validates_presence_of :praxis_result_id
+
 end
