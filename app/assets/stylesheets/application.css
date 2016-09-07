@@ -16,7 +16,6 @@
  *= require concern_dashboard
  *= require_tree .
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
-
  /* Admin stylesheet       */
 /* load after public.css */
 

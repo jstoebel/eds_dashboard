@@ -5,7 +5,7 @@
 class ReportsController < ApplicationController
     layout 'application'
     authorize_resource
-    
+
     def index
         @data = []
         students = Student.all
@@ -28,26 +28,26 @@ class ReportsController < ApplicationController
             @data.push record
         end
     end
-    
+
     private
     def taken_227_228(student)
         return student.transcripts.where(:course_code => ["EDS227", "EDS228"]).any?
     end
-    
+
     def passed_227_228(student)
        return student.transcripts.where(:course_code => ["EDS227", "EDS228"], :grade_pt => nil ).present?
     end
-    
+
     def complete_227(student)
         # looks at the student's transcript where the course code is EDS227, orders it by the taken term and finds the last (latest) one
-        courses = student.transcripts.where(:course_code => ["EDS227"]).order(:term_taken).last
-        if courses.nil?
+        course = student.transcripts.where(:course_code => ["EDS227"]).order(:term_taken).last
+        if course.nil?
             return nil
-        else 
+        else
             return course.banner_term.readable #returns the term taken
         end
     end
-    
+
     def complete_228(student)
         courses = student.transcripts.where(:course_code => ["EDS228"]).order(:term_taken).last
         if courses.nil?
@@ -56,7 +56,7 @@ class ReportsController < ApplicationController
             return courses.banner_term.readable
         end
     end
-   
+
    def term_EDS440_470(student)
        course_taken = student.transcripts.where(:course_code => ["EDS440", "EDS470"]).order(:term_taken).last
        if course_taken.nil?
@@ -65,6 +65,6 @@ class ReportsController < ApplicationController
            return course_taken.banner_term.readable
        end
    end
-    
-    
+
+
 end

@@ -3,30 +3,30 @@
 <!-- insert back button -->
 
 <div class="student reports index">
-  <p>Student Information:</p>
-    
-      <table id="report" summary="Student Reports">
+  <h2>Student Information:</h2>
+
+      <table id="report" class="table table-striped" summary="Student Reports">
         </div>
         <thead>
           <tr class="header">
-            <th>Student Bnumber</th>
-            <th>Student Name</th>
-            <th>Program Status</th>
+            <th>B#</th>
+            <th>Name</th>
+            <th>Prog Status</th>
             <th>Major 1</th>
-            <th>Concentration 1</th>
+            <th>Conc 1</th>
             <th>Major 2</th>
-            <th>Concentration 2</th>
+            <th>Conc 2</th>
             <th>Minors</th>
-            <th>EDS227 or EDS228</th>
-            <th>Completion of EDS227 or EDS228</th>
-            <th>Term Completion: EDS227</th>
-            <th>Term Completion: EDS228</th>
+            <th>Taken 227/228</th>
+            <th>Completed 227/228</th>
+            <th>Term completing 227</th>
+            <th>Term completing 227</th>
             <th>EDS440 or EDS470</th>
           </tr>
         </thead>
         <tbody>
           <% @data.each do |stu| %>
-            <tr> <!-- can also use stu.inspect, here -->
+            <tr>
             <td><%= stu[:Bnum] %></td>
             <td><%= stu[:name] %></td>
             <td><%= stu[:ProgramStatus] %></td>
@@ -44,5 +44,5 @@
           <% end %>
         </tbody>
       </table>
-        
+
  </div>
