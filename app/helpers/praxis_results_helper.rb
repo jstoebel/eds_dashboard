@@ -10,7 +10,6 @@
 #  paid_by        :string(255)
 #  test_score     :integer
 #  best_score     :integer
-#  cut_score      :integer
 #
 
 module PraxisResultsHelper

@@ -291,12 +291,13 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
     end
 
   end
-
-  ###TESTS FOR UPSERT COURSE
-
+  #
+  # ###TESTS FOR UPSERT COURSE
+  #
   describe "upsert_transcript" do
-
+  #
     before do
+      Transcript.delete_all
       @course = FactoryGirl.build :transcript, {:grade_ltr => 'C', :grade_pt => 2.0}
       term = BannerTerm.find @course[:term_taken]
       new_attrs={
@@ -330,8 +331,6 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       @course.save
       t0 = Transcript.all.size
 
-
-
       as_for_everyone={
         'SZVEDSD_GRADE' => 'A'
       }
@@ -341,12 +340,24 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       row_service.upsert_course
 
       assert_equal Transcript.all.size, t0  #don't add a new course
-      assert_equal (Transcript.find @course.id).grade_ltr, as_for_everyone['SZVEDSD_GRADE']
+      assert_equal (Transcript.find @course.id).grade_ltr, "A"
+      assert_equal (Transcript.find @course.id).grade_pt, 4.0
+    end
 
+    test "grade_ltr nil" do
+      @course.save!
+
+      nil_grade_ltr ={
+        'SZVEDSD_GRADE' => nil
+      }
+
+      final_row = @inter_row.merge nil_grade_ltr
+      row_service = ProcessStudent.new final_row
+      row_service.upsert_course
+
+      assert_equal 1, Transcript.count
     end
 
   end
-
-
 
 end
