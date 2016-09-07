@@ -9,15 +9,14 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
 
- *= require bootstrap3-switch
- *= require bootstrap-datepicker 
+ *= require bootstrap-datepicker
  *= require_self
 
  *= require nav_bar
  *= require concern_dashboard
  *= require_tree .
- 
- 
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+
  /* Admin stylesheet       */
 /* load after public.css */
 
@@ -25,7 +24,7 @@
 
 /* Colors
 red:          #993120
-green:        #94B26F 
+green:        #94B26F
 light green:  #B6D491
 yellow:       #F2DC87 -> light blue: #0DC9F7 (zebra strip: #0AA1C6)
 dark brown:   #332318 -> light red: #ED1C24
@@ -33,13 +32,13 @@ light brown:  #4C2516 -> salmon: #F05B47
 
 NEW COLORS
 
-light green: #B6D491 
+light green: #B6D491
 blue: #0DC9F7
 
 light blue: #D9EDF7 (table header)
 light gray: #F9F9F9 (body background, zebra stripe 1) (zs2 = white)
 
-gray: #7F7F7F 
+gray: #7F7F7F
 salmon: #F05B47
 light red: #ED1C24
 
@@ -48,24 +47,24 @@ light red: #ED1C24
 
 html { height: 100%; width: 100%; }
 
-.yield {background-color: #F9F9F9; 
+.yield {background-color: #F9F9F9;
   padding-top: 50px;
   padding-left: 50px;
   padding-right: 50px;
-  height: 100%; 
+  height: 100%;
   width: 100%;
   color: black;
 
   }
 
-body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0; 
+body { width: 100%; min-width: 980px; height: 100%; margin: 0; padding: 0;
   font: 12pt Verdana,Lucida,Arial,Helvetica,sans-serif; color: #332318; background-color: #F9F9F9;  }
-p, td, ul, ol, li, dl, dt, dd { 
+p, td, ul, ol, li, dl, dt, dd {
   font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; }
 img { border: none; }
 table { border-collapse: collapse; }
 
-table tr th, table tr td {vertical-align: middle; text-align: left; 
+table tr th, table tr td {vertical-align: middle; text-align: left;
   padding: 10px;}
 /*a, a:visited { color: #993120; }*/
 a:hover {}
@@ -85,11 +84,11 @@ Style for Glyphicons*/
 
 }
 
-.glyphicon-ok {  
+.glyphicon-ok {
   color: green;
 }
 
-.glyphicon-remove {  
+.glyphicon-remove {
   color: red;
 }
 
@@ -110,14 +109,14 @@ hr {background-color: black; border: 0; height: 1px;}
 .center { text-align: center; }
 
 /* Structure */
-#header { height: 4em; padding-top: 1em; text-align: center; 
+#header { height: 4em; padding-top: 1em; text-align: center;
   background: #993120; color: #FFFFFF; }
 #header h1 { margin: 0; padding: 0; }
 
 
 
 #main { min-height: 500px; background: white; }
-#navigation { float: left; width: 180px; min-height: 480px; padding: 10px; 
+#navigation { float: left; width: 180px; min-height: 480px; padding: 10px;
   background: #94B26F; color: #4C2516; }
 #content { padding: 10px; }
 #footer { clear: both; height: 2.5em; text-align: right;
@@ -172,7 +171,7 @@ ul {list-style-type:none;}
 sup {
     vertical-align: super;
     font-size: 6pt;
-} 
+}
 
 
 /* Structure */
@@ -190,18 +189,18 @@ a:hover { text-decoration: underline; }
 
 /*old school action buttons*/
     /* large action buttons */
-/*    a.action {  padding: 2px 5px; 
+/*    a.action {  padding: 2px 5px;
       background: #94B26F; color: #4C2516;  border: 1px solid #4C2516;
       text-decoration: none; font-size: 0.8em; text-align: center; }
     a.action:hover { background: #B6D491; }
 
-    a.large_action {padding: 2px 5px; 
+    a.large_action {padding: 2px 5px;
       background: #94B26F; color: #4C2516;  border: 1px solid #4C2516;
       text-decoration: none; font-size: 14pt; text-align: center; font-weight: normal;
     }
 
     /* small action buttons */
-/*    .actions a.action { float: left; 
+/*    .actions a.action { float: left;
       padding: 1px 2px; margin: 2px 5px; font-size: 12pt; }
 
     .actions a.praxis_results  {min-width: 140px }
@@ -236,11 +235,11 @@ a:hover { text-decoration: underline; }
 
     .action-small.praxis {
       min-width: 160px;
-    }    
+    }
 
     .action-small.issues {
       min-width: 85px;
-    }    
+    }
 
     .action-small.glyphicon {
       font-size: 12pt;
@@ -263,11 +262,11 @@ a:hover { text-decoration: underline; }
   }
 
   .large-btn-text {
-    font-family: Verdana,Lucida,Arial,Helvetica,sans-serif; 
+    font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;
     width: 100%;
   }
 
-  
+
   .modal-title button.close {
     font-size: 24pt;
   }
@@ -279,7 +278,7 @@ button.btn-danger.glyphicon.glyphicon-remove {
   background-color: transparent;
   border-color: transparent;
   vertical-align: top;
-}  
+}
 
 .btn-default.disabled {
   /*lighter color for disabled btn-default*/
@@ -317,7 +316,7 @@ td.full_span {column-span: all;}
 /* CRUD */
 .notice { height: 2.5em; padding: 0.5em; text-align: center;
   background: #B6D491; color: #4C2516; font-size: 16pt;}
-.glyphicon.back-link { font-size: 1em; margin-bottom: 1em; 
+.glyphicon.back-link { font-size: 1em; margin-bottom: 1em;
   left: 1%; }
 
 .link-text {font-family: Verdana,Lucida,Arial,Helvetica,sans-serif;}
@@ -425,7 +424,7 @@ td.wrap {
   padding-left: 0px;
 }
 
-.show table { clear: both; margin: 0 100px 50px; width: 300px; 
+.show table { clear: both; margin: 0 100px 50px; width: 300px;
   }
 .show table td, .show table th {border-style: solid; border-width: 1px;}
 .show table.wide { width: 600px; margin: 0 50px; }
