@@ -335,12 +335,62 @@ class Student < ActiveRecord::Base
 	####~~~Student of Professor Method~~~##################################################
 
 	def is_student_of?(inst_bnum)
-		#does this student have this prof in the current term (plan_b = forward)
+		# if student has any current student/instructor relatilonship with this instructor
+		return self.is_present_student_of?(inst_bnum) ||
+			self.is_recent_student_of?(inst_bnum) ||
+			self.will_be_student_of?(inst_bnum) ||
+			self.has_incomplete_with?(inst_bnum)
+	end
 
-		term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
-		classes = self.transcripts.in_term(term)
-		my_profs = classes.map{|c| c.inst_bnums}.flatten
-		return my_profs.include?(inst_bnum)
+	def is_present_student_of?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# returns if a student is currently a student of this instructor.
+
+		term = BannerTerm.current_term({:exact => true})
+		if term.nil?
+			return false
+		else
+			classes = self.transcripts.in_term(term)
+			my_profs = classes.map{|c| c.inst_bnums}.flatten
+			return my_profs.include?(inst_bnum)
+		end
+	end
+
+	def is_recent_student_of?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# if between terms and student had this instructor in this term that just passed
+		if BannerTerm.current_term(:exact => true).nil?
+			term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+			classes = self.transcripts.in_term(term)
+			my_profs = classes.map{|c| c.inst_bnums}.flatten
+			return my_profs.include?(inst_bnum)
+		else
+			return false
+		end
+	end
+
+	def will_be_student_of?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# if between terms and student will have this insructor in term coming up
+		if BannerTerm.current_term(:exact => true).nil?
+			term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
+			classes = self.transcripts.in_term(term)
+			my_profs = classes.map{|c| c.inst_bnums}.flatten
+			return my_profs.include?(inst_bnum)
+		else
+			return false
+		end
+
+	end
+
+	def has_incomplete_with?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# if student has an incomplete in a course with this instructor
+
+		incompletes = self.transcripts.where(:grade_ltr => "I")
+		incomplete_profs = incompletes.map{|c| c.inst_bnums}.flatten
+		return incomplete_profs.include?(inst_bnum)
+
 	end
 
 	########################################################################################
