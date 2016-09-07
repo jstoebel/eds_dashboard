@@ -16,7 +16,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
-//= require dataTables/jquery.dataTables.bootstrap3
-//= require bootstrap-datepicker/core
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require bootstrap-switch
-//= require 
+//= require_tree .
