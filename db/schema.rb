@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826201342) do
+ActiveRecord::Schema.define(version: 20160907175437) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -385,11 +385,6 @@ ActiveRecord::Schema.define(version: 20160826201342) do
   end
 
   add_index "programs", ["ProgCode"], name: "ProgCode_UNIQUE", unique: true, using: :btree
-
-  create_table "reports", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "roles", primary_key: "idRoles", force: :cascade do |t|
     t.string "RoleName", limit: 45, null: false
