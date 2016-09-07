@@ -124,8 +124,11 @@ GEM
     jbuilder (2.6.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
-    jquery-datatables-rails (1.12.2)
+    jquery-datatables-rails (3.3.0)
+      actionpack (>= 3.1)
       jquery-rails
+      railties (>= 3.1)
+      sass-rails
     jquery-rails (4.1.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -285,7 +288,7 @@ DEPENDENCIES
   faker (~> 1.6, >= 1.6.3)
   immigrant
   jbuilder (~> 2.0)
-  jquery-datatables-rails (~> 1.12.2)
+  jquery-datatables-rails (~> 3.3.0)
   jquery-rails
   kaminari
   lograge
