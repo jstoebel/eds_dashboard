@@ -11,7 +11,7 @@ class FoisController < ApplicationController
   
     def import
         file = params[:file]
-        Foi.import(file)
+        Foi.import(file.path)
         # authorize! :manage, @foi
         # authorize! :manage, @student
         # Foi.new

@@ -23,13 +23,38 @@ class Foi < ActiveRecord::Base
  
   
   def self.import(file)
-      spreadsheet = open_spreadsheet(file)
-   # CSV.foreach(spreadsheet, headers: true) do |row|
-      header = spreadsheet.row(2)
-      (3..spreadsheet.last_row).each do |i|
-          row = Hash[[header, spreadsheet.row(i)].transpose]
-          Foi._import_foi(row)
-      end
+    # spreadsheet = open_spreadsheet(file)
+    # #   puts spreadsheet
+    # #   puts spreadsheet.class
+      
+    # CSV.foreach(spreadsheet) do |row|
+    #   puts row
+    # end
+    file_path = 'test.csv'
+
+# open the csv file, drop one row from the begining and then from the remainder open the first row
+# this returns an the resulting row inside of an array so pull it out using [0]
+headers = CSV.open(file_path, 'r').drop(1) { |csv| csv.first}[0]
+CSV.foreach(file_path) do |row|
+
+ if $. > 2 # skipping first row 
+   puts Hash[headers.zip(row)]
+ end
+end
+      #header = spreadsheet.row(1)
+      # spreadsheet = open_spreadsheet(file)
+      # header = spreadsheet.row(1)
+      # (2..spreadsheet.last_row).each do |i|
+      #   row = Hash[[header, spreadsheet.row(i)].transpose]
+      #   stu_id = Student.find_by(row["student_id"]).id
+      #   foi = Foi.create(stu_id)
+      #   foi.attributes = row.to_hash.slice(*accessible_attributes)
+      #   foi.save!
+      # end
+      # (2..spreadsheet.last_row).each do |i|
+      #     row = Hash[[header, spreadsheet.row(i)].transpose]
+      #     Foi._import_foi(row)
+  end
      # end
       
       
@@ -95,7 +120,7 @@ class Foi < ActiveRecord::Base
 
 
   
-  end # import
+   # import
   #write a counter so that the first row is skipped on the first iteration
   def self.open_spreadsheet(file)
     case File.extname(file.original_filename)
