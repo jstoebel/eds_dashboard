@@ -6,6 +6,8 @@
 
 set :output, 'log/production.log'
 env :PATH, ENV['PATH']
+
 every 1.day, :at => '3:30 am' do
   rake "full_banner_update"
+  rake "update_praxis[true]"
 end
