@@ -165,6 +165,150 @@ class StudentTest < ActiveSupport::TestCase
 
 	end
 
+	describe "student instructor methods" do
+
+		before do
+			@adv = FactoryGirl.create :tep_advisor
+			@stu = FactoryGirl.create :student
+			@term = BannerTerm.find 201511
+			@inside_date = (@term.StartDate.to_date) + 1
+			@before_date = (@term.StartDate.to_date) - 1
+			@after_date = (@term.EndDate.to_date) + 2
+			@course_template = FactoryGirl.build :transcript, {:student_id => @stu.id,
+				:grade_ltr => "A"
+			}
+		end
+
+		describe "is_present_student_of" do
+
+			test "returns true" do
+
+				@course_template.assign_attributes({:term_taken => @term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @inside_date do
+					assert @stu.is_present_student_of? @adv.AdvisorBnum
+				end
+			end
+
+			test "returns false - no courses in this term" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @inside_date do
+					assert_not @stu.is_present_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+		end
+
+		describe "is_recent_student_of" do
+			# does student have a course in a term that just happened?
+
+			before do
+			end
+
+			test "returns true" do
+				@course_template.assign_attributes({:term_taken => @term.prev_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @before_date do
+					assert @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+			end
+
+			test "returns false - no courses" do
+
+				@course_template.assign_attributes({:term_taken => @term.prev_term.id})
+				@course_template.save!
+				travel_to @before_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+			test "returns false - not between terms" do
+
+				@course_template.assign_attributes({:term_taken => @term.prev_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @inside_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+		end
+
+		describe "will_be_student_of" do
+			# does student have courses in the term that is about to happen?
+			before do
+
+			end
+
+			test "returns true" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @after_date do
+					assert @stu.will_be_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+			test "returns false - no courses" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id})
+				@course_template.save!
+				travel_to @before_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+			end
+
+			test "returns false - not between terms" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id})
+				@course_template.save!
+				travel_to @inside_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+			end
+
+		end
+
+		describe "has_incomplete_with" do
+
+			before do
+
+			end
+
+			test "returns true" do
+				@course_template.assign_attributes({:grade_ltr => "I",
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				assert @stu.has_incomplete_with? @adv.AdvisorBnum
+			end
+
+			test "returns false - incomplete with other" do
+				@course_template.assign_attributes({:grade_ltr => "I"})
+				@course_template.save!
+				assert_not @stu.has_incomplete_with? @adv.AdvisorBnum
+
+			end
+
+			test "returns false - no incompletes" do
+				@course_template.save!
+				assert_not @stu.has_incomplete_with? @adv.AdvisorBnum
+			end
+
+		end
+	end
+
 	######################################################################################################
 
 
