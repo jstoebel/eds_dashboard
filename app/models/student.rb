@@ -106,6 +106,10 @@ class Student < ActiveRecord::Base
 			# PrefFirst
 			# any last_name in the last_names table
 
+			# typical useage:
+			# qry = Student.with_name("Jacob")
+			# stus = Student.joins(:last_names).where(qry)
+
 		words = str.split(" ")
 		students_tbl = Student.arel_table
 		last_names_tbl = LastName.arel_table
