@@ -11,6 +11,21 @@ task :banner_update, [:start_term, :end_term] => :environment do |task, args|
         # update existing students
       # upsert transcript
       # update log
+    def log_error(exception, context_message, task)
+        # logs exception tagged with the task name and timestamp
+        # exception includes a class, message and backtrace
+        # task, the rake task where the exception was thrown
+
+        # more info: http://blog.bigbinary.com/2014/03/03/logger-formatting-in-rails.html
+        # and http://guides.rubyonrails.org/debugging_rails_applications.html#tagged-logging
+        logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+        logger.tagged("BANNER UPDATE", task.timestamp){
+          Rails.logger.info exception.class.to_s
+          Rails.logger.info exception.to_s
+          Rails.logger.info exception.backtrace.join("\n")
+          Rails.logger.info context_message
+         }
+    end
     start_term = args[:start_term]
     end_term = args[:end_term]
 
@@ -81,21 +96,7 @@ task :banner_update, [:start_term, :end_term] => :environment do |task, args|
     end
 
     BannerUpdateMailer.update_done(task.timestamp, error_count).deliver_now
-  def log_error(exception, context_message, task)
-      # logs exception tagged with the task name and timestamp
-      # exception includes a class, message and backtrace
-      # task, the rake task where the exception was thrown
 
-      # more info: http://blog.bigbinary.com/2014/03/03/logger-formatting-in-rails.html
-      # and http://guides.rubyonrails.org/debugging_rails_applications.html#tagged-logging
-      logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-      logger.tagged("BANNER UPDATE", task.timestamp){
-        Rails.logger.info exception.class.to_s
-        Rails.logger.info exception.to_s
-        Rails.logger.info exception.backtrace.join("\n")
-        Rails.logger.info context_message
-       }
-  end
 end
 
 task :full_banner_update => :environment do |task, args|
