@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <table class="listing table table-striped" summary="praxis list">
+      <div class="row">
+        <caption>
+          <div class="header1 col-xs-12"> Unresolved Praxis Results </div>
+          <div class="header2 col-xs-12"> <%= pluralize(@temps.size, 'result') %>  found
+          </div>
+        </caption>
+      </div>
+
+      <% if @temps.size > 0  %>
+
+            <tr class="header">
+              <th>First Name </th>
+              <th>Last Name </th>
+              <th>Test</th>
+              <th>Date Taken</th>
+
+            </tr>
+
+
+            <% @temps.each do |temp| %>
+              <tr>
+                <td><%= temp.first_name %></td>
+                <td><%= temp.last_name %></td>
+                <td><%= temp.praxis_test.andand.TestName %></td>
+                <td><%= temp.test_date.andand.strftime("%m/%d/%Y") %></td>
+
+                <td>
+                  <%= form_tag "#", :method => :post  do %>
+                    <%= select_tag "selected name", options_for_select([]), {:include_blank => "Select a student to resolve",
+                          :class => "temp_resolve_dropdown",
+                          :search_name => "#{temp.first_name} #{temp.last_name}"} %>
+                  <% end %> <!-- end form tag  -->
+                </td>
+              </tr>
+
+            <% end %>  <!-- end loop -->
+
+      <% end %>  <!-- end if -->
+
+  </table>
+</div>

@@ -234,6 +234,9 @@ Rails.application.routes.draw do
   end
 
 
+  resources :praxis_result_temps, only: [:index], shallow: true do
+    post "resolve"
+  end
 
   resources :student_files do
     get "download"
