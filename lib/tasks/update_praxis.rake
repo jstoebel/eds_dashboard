@@ -1,6 +1,17 @@
 require 'base64'
 task :update_praxis, [:send_emails] => :environment do |t, args|
+    def log_error(context_message, task)
+        # logs exception tagged with the task name and timestamp
+        # exception includes a class, message and backtrace
+        # task, the rake task where the exception was thrown
 
+        # more info: http://blog.bigbinary.com/2014/03/03/logger-formatting-in-rails.html
+        # and http://guides.rubyonrails.org/debugging_rails_applications.html#tagged-logging
+        logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+        logger.tagged("PRAXIS UPDATE", task.timestamp){
+          Rails.logger.info context_message
+         }
+    end
     send_emails = args[:send_emails] == 'true'
 
     url = 'https://datamanager.ets.org/edmwebservice/edmpraxis.wsdl'
@@ -38,18 +49,7 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
       PraxisUpdate.create!({:report_date => date_obj})
 
     end
-  def log_error(context_message, task)
-      # logs exception tagged with the task name and timestamp
-      # exception includes a class, message and backtrace
-      # task, the rake task where the exception was thrown
 
-      # more info: http://blog.bigbinary.com/2014/03/03/logger-formatting-in-rails.html
-      # and http://guides.rubyonrails.org/debugging_rails_applications.html#tagged-logging
-      logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-      logger.tagged("PRAXIS UPDATE", task.timestamp){
-        Rails.logger.info context_message
-       }
-  end
 end
 
 private
