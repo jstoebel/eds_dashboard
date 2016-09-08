@@ -27,10 +27,13 @@ class PraxisResultTempsController < ApplicationController
     temp_record.student_id = params[:student_id]
     begin
       temp_record.finalize
-      redirect_to praxis_result_temps_path, :notice => "Successfully resolved praxis record."
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => e
-
-
+      flash[:notice] = "Successfully resolved praxis record."
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed, ActiveRecord::InvalidForeignKey => e
+      flash[:notice] = "There was a problem resolving this record. Please try again later."
     end
+    
+    redirect_to praxis_result_temps_path
+
   end
+
 end
