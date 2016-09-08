@@ -23,7 +23,7 @@ namespace :db do
 
         })
     admin_tep_profile = FactoryGirl.create :tep_advisor, {:user_id => 1}
-    
+
     advisors = FactoryGirl.create_pair :advisor
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
@@ -35,12 +35,12 @@ namespace :db do
     #10 sites with 3 teachers each.
     clinical_sites = FactoryGirl.create_list :clinical_site, 10
     clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
-  
+
     #Assessment data
     assessments = FactoryGirl.create_list :assessment, 5
     versions = assessments.map{ |assess| FactoryGirl.create_list :version_with_items, 3}.flatten
     levels = FactoryGirl.create_list :item_level, 2
-    
+
     puts "creating data for students..."
     students.each do |s|
 
@@ -122,7 +122,7 @@ namespace :db do
         exit_from_st(s, paths.sample)
       end
 
-      #clinical_assignments 
+      #clinical_assignments
       # 30% chance of having clinical_assignments
       if Boolean.boolean 0.3
 
@@ -135,14 +135,13 @@ namespace :db do
       #ISSUES AND UPDATES
       if Boolean.boolean 0.3
 
-
         #I'm not sure why I can't pass a student_id into the issue factory. As a workaround,
         # I am using .build and then calling .save
         num_issues = Faker::Number.between(0, 3)
         my_issues = num_issues.times.map {|n| (FactoryGirl.build :issue, { :student_id => s.id, :tep_advisors_AdvisorBnum => my_advisors.sample.id})}
         my_issues.each {|n| n.save}
 
-        my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3), 
+        my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3),
           { :Issues_IssueID => iss.id,
             :tep_advisors_AdvisorBnum => my_advisors.sample.id
           }
@@ -150,8 +149,16 @@ namespace :db do
 
       end
 
+      # student has a chance of having a praxis temp
+      if Boolean.boolean 0.3
+        FactoryGirl.create :praxis_result_temp, {:first_name => s.FirstName,
+          :last_name => s.LastName
+        }
+      end
+
       puts " -> done."
-    end 
+    end
+
     t1 = Time.now
     puts "[#{t1}]Populate complete. Time=#{t1 - t0}"
 
@@ -163,7 +170,7 @@ namespace :db do
     conn = ActiveRecord::Base.connection
     tables = conn.execute("show tables").map { |r| r[0] }
     tables.delete "schema_migrations"
-    
+
     conn.execute("SET FOREIGN_KEY_CHECKS = 0")
 
     tables.each do |t|
@@ -171,7 +178,7 @@ namespace :db do
     end
 
     conn.execute("SET FOREIGN_KEY_CHECKS = 1")
-  
+
   end
 
 
