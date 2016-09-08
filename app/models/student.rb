@@ -50,6 +50,9 @@ class Student < ActiveRecord::Base
 
   has_many :pgps
 
+	has_many :praxis_results
+	has_many :praxis_prep
+	has_many :praxis_result_temps
 ###################################################################################################
 
 
@@ -168,9 +171,6 @@ class Student < ActiveRecord::Base
 
 
 	####~~~Praxis Associations and Methods~~~##############################################
-
-	has_many :praxis_results
-	has_many :praxis_prep
 
 	def praxisI_pass
 	   	#output if student has passed all praxis I exams.

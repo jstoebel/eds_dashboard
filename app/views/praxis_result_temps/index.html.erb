@@ -19,20 +19,24 @@
             </tr>
 
 
-            <% @temps.each do |temp| %>
+            <% @temps.each_with_index do |temp, i| %>
               <tr>
                 <td><%= temp.first_name %></td>
                 <td><%= temp.last_name %></td>
                 <td><%= temp.praxis_test.andand.TestName %></td>
                 <td><%= temp.test_date.andand.strftime("%m/%d/%Y") %></td>
 
+
+                <%= form_tag praxis_result_temp_resolve_path(temp.id), :method => :post, data: { confirm: "Are you sure you want to resolve this record to this student?" }  do %>
                 <td>
-                  <%= form_tag "#", :method => :post  do %>
-                    <%= select_tag "selected name", options_for_select([]), {:include_blank => "Select a student to resolve",
-                          :class => "temp_resolve_dropdown",
-                          :search_name => "#{temp.first_name} #{temp.last_name}"} %>
-                  <% end %> <!-- end form tag  -->
+                  <%= select_tag :student_id, options_for_select([]), {:include_blank => "Select a student to resolve",
+                    :class => "temp_resolve_dropdown",
+                    :id => "dropdown#{i}",
+                    :search_name => "#{temp.first_name} #{temp.last_name}"} %>
                 </td>
+                <td> <%= submit_tag "Submit", data: { confirm: "Are you sure?" } %> </td>
+                <% end %> <!-- end form tag  -->
+                
               </tr>
 
             <% end %>  <!-- end loop -->

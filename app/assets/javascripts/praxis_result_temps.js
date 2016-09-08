@@ -3,6 +3,10 @@
 
 $(document).ready(function(){
   $(".temp_resolve_dropdown").on("click", function(){
+
+    var menu = this
+    $(this).empty()
+
     var search_name = $(this).attr("search_name");
     $.ajax("/students", {
       type: "GET",
@@ -14,16 +18,27 @@ $(document).ready(function(){
         return console.log("AJAX Error: " + textStatus);
       },
       success: function(data, textStatus, jqXHR) {
-        var id, prog_name, results;
         console.log("AJAX request OK!");
         console.log(data);
-        // results = [];
-        // for (id in data) {
-        //   prog_name = data[id];
-        //   results.push($("#programs_select").append('<option value="' + id + '">' + prog_name + '</option>'));
-        // }
+        var results = data.forEach(function(stu, i){
+          //stu: object of student attributes
+          // var name = stu.FirstName.concat(" ").concat(stu.LastName)
+          var name = nameReadable(stu);
+          var entry = '<option value="' + stu.id + '">' + name + '</option>'
+          $(menu).append(entry)
+        })
       }
     });
   })
 
 })
+
+
+function nameReadable(stuObj){
+  //return a name string from a student object
+  // same implementation as in Student model
+
+  var firstName = stuObj.PreferredFirst !== null ? stuObj.PreferredFirst.concat(" (").concat(stuObj.FirstName).concat(")") : stuObj.FirstName
+  var lastName = stuObj.LastName
+  return firstName.concat(" ").concat(lastName)
+}

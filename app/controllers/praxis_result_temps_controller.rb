@@ -22,5 +22,15 @@ class PraxisResultTempsController < ApplicationController
 
   def resolve
     # resolve the result
+
+    temp_record = PraxisResultTemp.find params[:praxis_result_temp_id]
+    temp_record.student_id = params[:student_id]
+    begin
+      temp_record.finalize
+      redirect_to praxis_result_temps_path, :notice => "Successfully resolved praxis record."
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => e
+
+
+    end
   end
 end
