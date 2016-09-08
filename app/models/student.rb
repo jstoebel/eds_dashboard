@@ -50,6 +50,9 @@ class Student < ActiveRecord::Base
 
   has_many :pgps
 
+	has_many :praxis_results
+	has_many :praxis_prep
+	has_many :praxis_result_temps
 ###################################################################################################
 
 
@@ -105,6 +108,10 @@ class Student < ActiveRecord::Base
 			# LastName
 			# PrefFirst
 			# any last_name in the last_names table
+
+			# typical useage:
+			# qry = Student.with_name("Jacob")
+			# stus = Student.joins(:last_names).where(qry)
 
 		words = str.split(" ")
 		students_tbl = Student.arel_table
@@ -164,9 +171,6 @@ class Student < ActiveRecord::Base
 
 
 	####~~~Praxis Associations and Methods~~~##############################################
-
-	has_many :praxis_results
-	has_many :praxis_prep
 
 	def praxisI_pass
 	   	#output if student has passed all praxis I exams.
