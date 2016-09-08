@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( prog_exits.js issue_updates.js issues.js   )
+Rails.application.config.assets.precompile += %w( prog_exits.js issue_updates.js issues.js praxis_result_temps.js  )
