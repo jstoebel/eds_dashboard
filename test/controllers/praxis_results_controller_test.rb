@@ -26,7 +26,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       user = User.find_by(:UserName => session[:user])
 
       # test = PraxisResult.first
-      test = FactoryGirl.create :praxis_result
+      test = FactoryGirl.create :praxis_result, :praxis_test_id => PraxisTest.first.id
 
       stu = test.student
 
