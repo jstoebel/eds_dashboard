@@ -120,8 +120,7 @@ class ClinicalAssignmentsController < ApplicationController
 
   end
   def form_setup
-    all_students = Student.by_last.current
-    @students = all_students.where({:EnrollmentStatus => "Active Student"}).select{|s| can? :index, s}
+    @students = Student.by_last.where({:EnrollmentStatus => "Active Student"}).current.select{|s| can? :index, s}
     @teachers = ClinicalTeacher.all
     @current_term = current_term exact: false, plan_b: :forward
   end
