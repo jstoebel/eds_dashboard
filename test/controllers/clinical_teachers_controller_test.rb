@@ -20,8 +20,8 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "advisor", "staff", "student labor"]
 
   def assert_form_details
-        assert_equal assigns(:sites), ClinicalSite.all
-        assert_equal assigns(:subjects), Program.where(Current: true)
+        assert_equal assigns(:sites).to_a, ClinicalSite.all.to_a
+        assert_equal assigns(:subjects).to_a, Program.where(Current: true).order(:EDSProgName).to_a
   end
 
   test "should get index" do
@@ -33,11 +33,6 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       assert_equal assigns(:teachers), ClinicalTeacher.all
     end
   end
-
-  # test "should get show" do
-  #   get :show
-  #   assert_response :success
-  # end
 
   test "should get edit" do
     allowed_roles.each do |r|
@@ -95,7 +90,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
 
       load_session(r)
-    
+
       site = ClinicalSite.first
 
       new_params = {
@@ -123,7 +118,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
 test "should not post create bad params" do
 
     load_session("admin")
-  
+
     site = ClinicalSite.first
 
     new_params = {
@@ -146,19 +141,19 @@ test "should not post create bad params" do
 
 test "should delete teacher and dependent assignments" do
   expected_term = BannerTerm.current_term(exact: false, plan_b: :forward)
-  
+
   allowed_roles.each do |r|
     load_session(r)
     teach = FactoryGirl.create :clinical_teacher
     expected_assign = FactoryGirl.create :clinical_assignment, {
-        :clinical_teacher_id => teach.id, 
+        :clinical_teacher_id => teach.id,
         :Term => expected_term.id,
         :StartDate => expected_term.StartDate.strftime("%Y/%m/%d"),
         :EndDate => expected_term.EndDate.strftime("%Y/%m/%d")
       }
-    
+
     post :destroy, {:id => teach.id}
-    
+
     assert_equal(teach, assigns(:teacher))
     assert assigns(:teacher).destroyed?
     assigns(:teacher).clinical_assignments.each{|i| assert i.destroyed?}
@@ -166,7 +161,7 @@ test "should delete teacher and dependent assignments" do
     assert_redirected_to(clinical_teachers_path)
    end
   end
-  
+
   test "deletion for bad role" do
     (role_names - allowed_roles).each do |r|
     teach = FactoryGirl.create :clinical_teacher
@@ -174,7 +169,7 @@ test "should delete teacher and dependent assignments" do
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test "should allow delete" do
     #teach = FactoryGirl.create :clinical_teacher
     allowed_roles.each do |r|
@@ -184,7 +179,7 @@ test "should delete teacher and dependent assignments" do
       assert_equal teach, assigns(:teacher)
     end
   end
-  
+
   test "should not allow delete bad role" do
     teach=FactoryGirl.create :clinical_teacher
     (role_names - allowed_roles).each do |r|
@@ -193,5 +188,5 @@ test "should delete teacher and dependent assignments" do
       assert_redirected_to "/access_denied"
     end
   end
-  
+
 end
