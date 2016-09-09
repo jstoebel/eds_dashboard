@@ -28,13 +28,13 @@
           <% @data.each do |stu| %>
             <tr>
             <td><%= stu[:Bnum] %></td>
-            <td><%= stu[:name] %></td>
-            <td><%= stu[:ProgramStatus] %></td>
-            <td><%= stu[:Major1]%></td>
-            <td><%= stu[:Concentration1]%></td>
-            <td><%= stu[:Major2]%></td>
-            <td><%= stu[:Concentration2]%></td>
-            <td><%= stu[:Minors]%></td>
+            <td><%= stu[:name_readable] %></td>
+            <td><%= stu[:prog_status] %></td>
+            <td><%= stu[:CurrentMajor1]%></td>
+            <td><%= stu[:concentration1]%></td>
+            <td><%= stu[:CurrentMajor2]%></td>
+            <td><%= stu[:concentration2]%></td>
+            <td><%= stu[:CurrentMinors]%></td>
             <td><%= stu[:Taken227_228]%></td>
             <td><%= stu[:Passed_227_228]%></td>
             <td><%= stu[:Latest_Completion_227]%></td>
