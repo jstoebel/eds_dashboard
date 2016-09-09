@@ -305,6 +305,14 @@ class Student < ActiveRecord::Base
 	#######################################################################################
 
 
+	def ready_to_apply?
+		# is student ready to apply to the TEP?
+		#students who have either -
+				#t aken eds 150 AND 227/228 - 
+				# music/pe two standard terms away from taking eds 150
+
+	end
+
 
 	#####~~~Transcripts and associations~~~################################################
 	has_many :transcripts
