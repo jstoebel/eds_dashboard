@@ -79,22 +79,15 @@ class PraxisResultsControllerTest < ActionController::TestCase
 
       result = FactoryGirl.build :praxis_result
       stu = result.student
-      test_params = {
-        :id => result.student.id,
-        :praxis_test_id => result.praxis_test.id,
-        :test_date => result.test_date,
-        :reg_date => result.reg_date,
-        :paid_by => result.paid_by,
-        :test_score => result.test_score,
-        :best_score => result.best_score
-      }
-      post :create, {:praxis_result => test_params}
 
+      allowed_attrs = [:student_id, :praxis_test_id, :test_date, :reg_date, :paid_by]
+      post :create, {:praxis_result => result.attributes}
 
-      assert_equal test_params.except(:id).stringify_keys, assigns(:test).attributes.except("id", "student_id")
+      #created result should match across allowed_attrs
+      expected_attrs = result.attributes.slice(*allowed_attrs)
+      actual_attrs = assigns(:test).attributes.slice(*allowed_attrs)
+      assert_equal expected_attrs, actual_attrs
       assert_redirected_to new_praxis_result_path, assigns(:test).errors.full_messages
-
-
       assert_equal flash[:notice], "Registration successful: #{stu.name_readable}, #{result.praxis_test.TestName}, #{result.test_date.strftime("%m/%d/%Y")}"
       assert_equal assigns(:student), result.student
 
