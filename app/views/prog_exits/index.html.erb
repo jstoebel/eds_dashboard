@@ -39,7 +39,6 @@
             <th>Last Name</th>
             <th>Program</th>
             <th>GPA</th>
-            <th>GPA (Last 60 Credit Hours)</th>
             <th>Exit Date</th>
             <th>Exit Reason</th>
             <th>Recommend Date</th>
@@ -53,8 +52,13 @@
 
       <td><%= exit.program.EDSProgName %> </td>
 
-      <td><%= exit.GPA ? exit.GPA : nil%></td>
-      <td><%=exit.GPA_last60 ? exit.GPA_last60 : nil%></td>
+      <td>
+        <% if exit.good_gpa? %>
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        <% else %>
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        <% end %>
+      </td>
 
       <td><%= exit.ExitDate ? exit.ExitDate.strftime("%m/%d/%Y") : nil %></td>
       <td><%= exit.exit_code.ExitDiscrip  %></td>
