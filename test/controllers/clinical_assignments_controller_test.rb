@@ -108,7 +108,7 @@ test "should not post create bad record" do
 
       assert_response :success
 
-     
+
     end
   end
 
@@ -131,7 +131,7 @@ test "should not post create bad record" do
       load_session(r)
       assert ClinicalAssignment.all.size > 0
       assignment = ClinicalAssignment.first
-      
+
       assert_raises(ActiveRecord::RecordNotFound) { get :edit, {:id => "bad id"} }
     end
   end
@@ -190,6 +190,10 @@ test "should not post create bad record" do
   def check_form_setup
     user = User.find_by(:UserName => session[:user])
     abil = Ability.new(user)
+
+    all_students = Student.by_last.current
+    expected_students = all_students.where({:EnrollmentStatus => "Active Student"}).select{|s| abil.can? :index, s}
+    assert_equal expected_students.to_a, assigns(:students).to_a
     # TODO figure out why this doesn't work as expected
     # assert assigns(:students) == Student.current.by_last.select{|s| abil.can? :read, s}, user.inspect
     assert_equal assigns(:teachers), ClinicalTeacher.all
