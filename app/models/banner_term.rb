@@ -12,17 +12,19 @@
 class BannerTerm < ActiveRecord::Base
 	has_many :adm_tep, foreign_key: "BannerTerm_BannerTerm"
 	has_many :adm_st, foreign_key: "BannerTerm_BannerTerm"
-	has_many :prog_exit, foreign_key: "ExitTerm" 
+	has_many :prog_exit, foreign_key: "ExitTerm"
   has_many :clinical_assignments, foreign_key: "Term"
 
 
   scope :actual, lambda {where("BannerTerm > ? and BannerTerm < ?", 1, 999999)}
 
+	STANDARD_SUFFIXES = ["01", "03", "11", "12"]
+
   def self.current_term(options = {})
     defaults = {
-      :exact => true,         #bool, does the date need to match the term perfectly 
+      :exact => true,         #bool, does the date need to match the term perfectly
         #(dates outside of terms are rejected.)
-      :plan_b => :forward,    #If not nil, what direction should we look to find the nearest term 
+      :plan_b => :forward,    #If not nil, what direction should we look to find the nearest term
         #(if no exact match). Can be foward or back (symbol)
       :date => Date.today   #Date object
     }
@@ -65,9 +67,15 @@ class BannerTerm < ActiveRecord::Base
   def readable
     if self.PlainTerm =~ /\d{4}/
       return self.PlainTerm
-    else 
+    else
       return "#{self.PlainTerm} (#{self.AYStart}-#{self.AYStart+1})"
     end
   end
+
+	def standard_term?
+		# returns if the term is standard or not (Fall or Spring)
+		suffix = self.id.to_s[-2..-1]
+		return STANDARD_SUFFIXES.include? suffix
+	end
 
 end

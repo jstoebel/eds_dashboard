@@ -84,4 +84,22 @@ class BannerTermTest < ActiveSupport::TestCase
         expect filtered.last.id.wont_equal 999999
     end
 
+    describe "standard term" do
+
+      describe "returns true" do
+
+        ["01", "03", "11", "12"].each do |suffix|
+          test "suffix: #{suffix}" do
+            term = FactoryGirl.create :banner_term, {:id => "2100#{suffix}".to_i}
+            assert term.standard_term?
+          end
+        end
+      end
+    end
+    
+    test "returns false" do
+      term = FactoryGirl.create :banner_term, {:id => "210099".to_i}
+      assert_not term.standard_term?
+    end
+
 end
