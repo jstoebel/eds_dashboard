@@ -535,8 +535,6 @@ class StudentTest < ActiveSupport::TestCase
 
 		test "gpa with credit limit" do
 
-
-
 			second_course = FactoryGirl.create :transcript, {
 				term_taken: @first_course.banner_term.id,
 				student_id: stu.id,
@@ -605,11 +603,52 @@ class StudentTest < ActiveSupport::TestCase
 
 		end
 
+	end # describe test
+
+	describe "credits" do
+
+		describe "with courses" do
+
+			before do
+				@stu = FactoryGirl.create :student
+				@this_term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+				credits = [1.0, nil]
+				# make 4 courses, two for each term, one with a credit earnedm the other nil
+				[@this_term, @this_term.next_term].each do |t|
+					credits.each do |c|
+						FactoryGirl.create :transcript, {:student_id => @stu.id,
+							:term_taken => t.id,
+							:credits_earned => c
+						}
+					end
+				end
+			end
+
+			test "no term limit" do
+				courses = @stu.transcripts.where("credits_earned is not null")
+				expected_credits = courses.map{|c| c.credits_earned}.inject(:+)
+				assert_equal expected_credits, @stu.credits
+			end
+
+			test "with term limit" do
+				courses = @stu.transcripts
+					.where("credits_earned is not null")
+					.where("term_taken <= ?", @this_term.id)
+					
+				expected_credits = courses
+					.map{|c| c.credits_earned}
+					.inject(:+)
+				assert_equal expected_credits, @stu.credits(@this_term.id)
+			end
+
+		end
+
+		test "with no courses" do
+			stu = FactoryGirl.create :student
+			assert_equal 0, stu.credits
+		end
+
 	end
-
-
-
-	# test
 
 
 	it "updates last_name table" do
