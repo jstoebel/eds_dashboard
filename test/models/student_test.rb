@@ -626,7 +626,7 @@ class StudentTest < ActiveSupport::TestCase
 
 			test "no term limit" do
 				courses = @stu.transcripts.where("credits_earned is not null")
-				expected_credits = courses.map{|c| c.credits_earned}.inject(:+)
+				expected_credits = courses.map{|c| c.credits_earned}.inject(:+)*4.0
 				assert_equal expected_credits, @stu.credits
 			end
 
@@ -634,10 +634,10 @@ class StudentTest < ActiveSupport::TestCase
 				courses = @stu.transcripts
 					.where("credits_earned is not null")
 					.where("term_taken <= ?", @this_term.id)
-					
+
 				expected_credits = courses
 					.map{|c| c.credits_earned}
-					.inject(:+)
+					.inject(:+) * 4.0
 				assert_equal expected_credits, @stu.credits(@this_term.id)
 			end
 
