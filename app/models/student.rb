@@ -318,7 +318,7 @@ class Student < ActiveRecord::Base
 			credits += t.credits_earned
 		end
 
-		return credits
+		return credits * 4.0
 	end
 
 	########################################################################################
