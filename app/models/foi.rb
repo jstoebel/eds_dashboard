@@ -20,165 +20,73 @@ class Foi < ActiveRecord::Base
   belongs_to :student
   belongs_to :major
 
- 
+  validates_presence_of :student_id, :date_completing, :new_form, :major_id, :seek_cert, :eds_only
   
   def self.import(file)
-    # spreadsheet = open_spreadsheet(file)
-    # #   puts spreadsheet
-    # #   puts spreadsheet.class
-      
-    # CSV.foreach(spreadsheet) do |row|
-    #   puts row
-    # end
-    file_path = 'test.csv'
-
-# open the csv file, drop one row from the begining and then from the remainder open the first row
-# this returns an the resulting row inside of an array so pull it out using [0]
-headers = CSV.open(file_path, 'r').drop(1) { |csv| csv.first}[0]
-CSV.foreach(file_path) do |row|
-
- if $. > 2 # skipping first row 
-   puts Hash[headers.zip(row)]
- end
-end
-      #header = spreadsheet.row(1)
-      # spreadsheet = open_spreadsheet(file)
-      # header = spreadsheet.row(1)
-      # (2..spreadsheet.last_row).each do |i|
-      #   row = Hash[[header, spreadsheet.row(i)].transpose]
-      #   stu_id = Student.find_by(row["student_id"]).id
-      #   foi = Foi.create(stu_id)
-      #   foi.attributes = row.to_hash.slice(*accessible_attributes)
-      #   foi.save!
-      # end
-      # (2..spreadsheet.last_row).each do |i|
-      #     row = Hash[[header, spreadsheet.row(i)].transpose]
-      #     Foi._import_foi(row)
-  end
-     # end
-      
-      
+     # open the csv file, drop one row from the begining and then from the remainder open the first row
+    # this returns an the resulting row inside of an array so pull it out using [0]
+    headers = CSV.open(file, 'r').drop(1) { |csv| csv.first}[0]
   
+    row_count = 0
+    Foi.transaction do
       
+      begin
       
-      # attrs = {
-      #   # csv_header_name => AR object attr
-      #   :eds_only => "Q2.1 - Do you intend to seek an Education Studies degree without certification?",
-      #   :seek_cerk => "Q1.4 - Do you intend to seek teacher certification at Berea College?",
-      #   :new_form => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
-      #   :major_id => "Q3.1 - Which area do you wish to seek certification in?",
-      #   :date_completing => "Recorded Date",
-      #   :Bnum => "Q1.2_3 - B#",
-      #   :FirstName => "Q1.2_1 - First Name",
-      #   :LastName => "Q1.2_2 - Last Name"
-      # }
-      
-      
-      # header_row = [row["Recorded Date"], row["Q1.3 - Are you completing this form for the first time, or is this form a revision..."], row["Q3.1 - Which area do you wish to seek certification in?"], row["Q1.4 - Do you intend to seek teacher certification at Berea College?"], row["Q2.1 - Do you intend to seek an Education Studies degree without certification?"], row["Q1.2_3 - B#"]]
-      # table_attrs = [:date_completing, :new_form, :major_id, :seek_cert, :eds_only]
-      # stu_headers = [row["Q1.2_1 - First Name"], row["Q1.2_2 - Last Name"], row["Q1.2_3 - B#"]]
-      # stu_attrs = [:FirstName, :LastName, :Bnum]
-      # attrs_hash = Hash[table_attrs.zip header_row]
-      # stu_attrs = Hash[stu_attrs.zip stu_headers]
-
-      # attrs_hash[:seek_cert] = attrs_hash[:seek_cert] == "Yes"
-      
-      # attrs_hash[:eds_only] = attrs_hash[:eds_only] == "Yes"
-      
-      # attrs_hash[:new_form] = attrs_hash[:new_form] == "New Form"
- 
-      # bnum = stu_attrs[:Bnum]
-      # first_name = stu_attrs[:FirstName]
-      # last_name = stu_attrs[:LastName]
-      # major = stu_attrs[:major_id]
-      # seek_cert = attrs_hash[:seek_cert]
-      # eds_only = attrs_hash[:eds_only]
-      # date_completing = attrs_hash[:date_completing]
-      # new_form = attrs_hash[:new_form]
-      
-      
-      
-      # stu = Student.find_by({:Bnum => bnum})  # if no match is found, return nil
-      # major_id = Major.find_by(major.id)
-      
-      # foi_attrs = [major_id, seek_cert, eds_only, date_completing, new_form]
-      # # scenario 1, found a student from their B#
-      
-      # if stu.present?
-      #   # add the foi
-      #   Foi.create!({:student_id => stu.id}, foi_attrs)
+        CSV.foreach(file) do |row|
+          if $. > 2 # skipping first row 
+            row_num = $.
+            _import_foi(Hash[headers.zip(row)])
+            row_count += 1
+          end
+        end
         
-      # else
-      #   # scenario 2: get a perfect unique match from the first and last name
-      #   stu = Student.find_by({:FirstName => first_name, :LastName => last_name})
-      #   if stu.present?
-      #     Foi.create!({:student_id => stu.id}, foi_attrs)
-      #   end
-        
-      # end
- 
+      rescue ActiveRecord::RecordInvalid => e
+        return {success: false, message: "Error on line #{row_num}: #{e.message}"}
+      end
+      
+      return {success: true, message: nil, rows: row_count }
+      
+    end # transaction
 
 
+  end
   
    # import
   #write a counter so that the first row is skipped on the first iteration
-  def self.open_spreadsheet(file)
-    case File.extname(file.original_filename)
-    when ".csv" then Roo::CSV.new(file.path, nil, :ignore)
-    when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
-    when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
-    else raise "Unknown file type: #{file.original_filename}"
-    end
-  end
   
   def self._import_foi(row)
-    # row: a csv row
+    # row: a hash of attributes
     # creates an foi record or raises an error if student can't be determined 
+    
+    eds_only = row["Q2.1 - Do you intend to seek an Education Studies degree without certification?"].andand.downcase == "yes"
+    seek_cert = row["Q1.4 - Do you intend to seek teacher certification at Berea College?"].andand.downcase == "yes"
+    new_form = row["Q1.3 - Are you completing this form for the first time, or is this form a revision..."].andand.
+    downcase == "new form"
 
-    eds_only = row["Q2.1 - Do you intend to seek an Education Studies degree without certification?"].downcase == "yes"
-    seek_cert = row["Q1.4 - Do you intend to seek teacher certification at Berea College?"].downcase == "yes"
-    new_form = row["Q1.3 - Are you completing this form for the first time, or is this form a revision..."].downcase == "new form"
+    major_name = row["Q3.1 - Which area do you wish to seek certification in?"] # the raw name of the major from the fil
+    major = Major.find_by(:name => major_name) # this could be nil!
   
-    major_name = row["Q3.1 - Which area do you wish to seek certification in?"] # the raw name of the major from the file
-    puts major_name
-    major = Major.find_by major_name
       
     date_str = row["Recorded Date"]  #date completing, from the csv
-    date = DateTime.strptime(date_str, "%m/%d/%Y")
-      
-    bnum = row["Q1.2_3 - B#"]
-    if bnum.present?
-      
-      stu_id = Student.find_by({:Bnum => bnum}).id
-        
-    else 
-        # find by first/last
-      first_name = row["Q1.2_1 - First Name"]
-      last_name = row["Q1.2_2 - Last Name"]
-      soft_matches = Student.where({:FirstName => first_name, :LastName => last_name})
-      if soft_matches.size == 1
-        stu_id = soft_matches.first.id
-      end
-        
+    begin
+      date = DateTime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
+    rescue ArgumentError => e
+      date = nil
     end
       
+    bnum = row["Q1.2_3 - B#"]
+    stu_id = Student.find_by({:Bnum => bnum}).andand.id
+  
     attrs = {
         :student_id => stu_id,
         :date_completing => date,
         :new_form => new_form,
-        :major_id => major.id,
+        :major_id => major.andand.id,
         :seek_cert => seek_cert,
-        :eds_ony => eds_only
-      }
+        :eds_only => eds_only
+    }
       
     Foi.create!(attrs)
-  
-  end
-    
-  def self._create_temp(row)
-    # create a temporary record for user to match up later
-    temp_foi.create!(attrs)
-  
-  end
 
+  end
 end

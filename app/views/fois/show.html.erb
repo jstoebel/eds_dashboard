@@ -7,22 +7,14 @@
     <th>B#</th>
     <th>Major</th>
     <th>Seeking Cert.</th>
-    <th>EDS Only</th>
-    <th>Date Completed</th>
   </tr>
 <% @fois.each do |foi| %>
   <tr>
     <td><%= foi.student.FirstName %></td>
     <td><%= foi.student.LastName %></td>
     <td><%= foi.student.Bnum %></td>
-    <td><%= foi.major.name%></td>
+    <td><%= foi.student.CurrentMajor1%></td>
     <td><%= foi.seek_cert %></td>
-    <td><%= foi.eds_only %></td>
-    <td><%= foi.date_completing%></td>
   </tr>
 <% end %>
 </table>
-  <%= form_tag import_fois_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag "Import CSV" %>
-  <% end %>
