@@ -797,4 +797,119 @@ class StudentTest < ActiveSupport::TestCase
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus].map{|i| [i, ["can't be blank"]]}.to_h,
 	    stu.errors.messages
 	end
+
+	describe "taken/completed course" do
+
+		before do
+			@stu = FactoryGirl.create :student
+		end
+
+		describe "taken" do
+
+			test "with course" do
+				course = FactoryGirl.create :transcript, {:course_code => "EDS101",
+					:student_id => @stu.id
+				}
+				assert @stu.taken_course?("EDS101")
+			end
+
+			test "without course" do
+				assert_not @stu.taken_course?("EDS101")
+			end
+
+			test "with current course" do
+				# grade_pt is nil
+				course = FactoryGirl.create :transcript, {:course_code => "EDS101",
+					:student_id => @stu.id,
+					:grade_pt => nil
+				}
+				assert @stu.taken_course?("EDS101")
+			end
+
+		end
+
+		describe "completed" do
+			describe "with passing grade" do
+				grades = [4.0, 0.7]
+				grades.each do |grade|
+					test "#{grade}" do
+						course = FactoryGirl.create :transcript, {:course_code => "EDS101",
+							:student_id => @stu.id,
+							:grade_pt => grade
+						}
+						assert @stu.completed_course?("EDS101")
+					end
+				end
+			end
+
+			test "with failing grade" do
+				course = FactoryGirl.create :transcript, {:course_code => "EDS101",
+					:student_id => @stu.id,
+					:grade_pt => 0.0
+				}
+				assert_not @stu.completed_course?("EDS101")
+
+			end
+
+			test "with nil grade" do
+				course = FactoryGirl.create :transcript, {:course_code => "EDS101",
+					:student_id => @stu.id,
+					:grade_pt => nil
+				}
+				assert_not @stu.completed_course?("EDS101")
+			end
+
+			test "no record of course" do
+				assert_not @stu.completed_course?("EDS101")
+			end
+
+		end
+	end
+
+	describe "ready_to_apply" do
+
+		describe "special major:" do
+
+				majors = ["Music-Instrumental", "Music-Vocal", "PE", "PE/Health"]
+				majors.each do |major_name|
+					describe major_name do
+
+						before do
+							major = Major.find_by :name => major_name
+							foi = FactoryGirl.create :foi, {:major_id => major.id}
+							@stu = foi.student
+						end
+
+						test "returns true" do
+							#two standard terms ago
+							this_term = BannerTerm.current_term :exact => false, :plan_b => :back
+							past_standard_terms = BannerTerm
+								.where("EndDate < ?", this_term.StartDate)
+								.where(:standard_term => true)
+
+							_150_term = past_standard_terms[-2]
+							FactoryGirl.create :transcript, {:course_code => "EDS150",
+								:term_taken => _150_term.id,
+								:student_id => @stu.id
+							}
+							assert @stu.ready_to_apply?
+						end
+
+						# test "returns false" do
+						#
+						# end
+
+					end
+				end
+			end
+
+		# describe "regular major" do
+		#
+		# end
+		#
+		# describe "nil major" do
+		#
+		# end
+
+	end
 end

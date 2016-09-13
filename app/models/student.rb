@@ -36,6 +36,8 @@ class Student < ActiveRecord::Base
 	has_many :issues
 	has_many :issue_updates
 
+	has_many :transcripts
+
 	has_many :adm_st
 	has_many :clinical_assignments
 	has_many :student_files
@@ -308,14 +310,46 @@ class Student < ActiveRecord::Base
 	def ready_to_apply?
 		# is student ready to apply to the TEP?
 		#students who have either -
-				#t aken eds 150 AND 227/228 - 
+				# taken eds 150 AND 227/228 -
 				# music/pe two standard terms away from taking eds 150
+
+		major = self.latest_foi.major
+		if [major.name.include?("Music"),
+				major.name.include?("PE"),
+			  major.name == "Undecided",
+			  !major.present?].any?
+
+			# special major or no major ndicated in foi
+			# how many standard terms since passing completing EDS150?
+			_150_term = self.transcripts
+				.where("grade_pt is not null")
+				.where(:course_code => "EDS150")
+				.order(:grade_pt)
+				.last.andand.banner_term
+
+			return false if !_150_term.nil?
+
+			#terms between then and now not including start and end terms (closed set)
+			this_term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
+			terms_between = BannerTerm
+				.where("StartDate > ?", _150_term.EndDate)
+				.where("EndDate < ?", this_term.StartDate)
+				.select{|term| term.standard_term?}
+
+			return terms_between.length >= 1
+
+		elsif major.present?
+
+			# not speical major
+			return self.completed_course?("EDS150") &&
+				(self.completed_course?("EDS227") || self.completed_course?("EDS228"))
+		end
 
 	end
 
 
 	#####~~~Transcripts and associations~~~################################################
-	has_many :transcripts
+
 
 	def credits(last_term)
 		#last_term: term_id if last term to use total
@@ -327,6 +361,21 @@ class Student < ActiveRecord::Base
 		return credits
 		# return self.transcripts.where("term_taken <= ?", last_term).inject {|sum, i| i.credits_earned + sum}
 	end
+
+	#taken_course: if student has ever ENROLLED in course (current term allowed)
+	# completed_course: if student has completed course with a passing grade
+
+	def taken_course?(course_code)
+		courses = self.transcripts.where(:course_code => course_code)
+		return courses.any?
+	end
+
+	def completed_course?(course_code)
+		courses = self.transcripts.where(:course_code => course_code)
+		return self.taken_course?(course_code) &&
+			courses.where("grade_pt is not null").pluck(:grade_pt).max.andand > 0.0
+	end
+
 
 	########################################################################################
 
