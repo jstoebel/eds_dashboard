@@ -310,14 +310,13 @@ class Student < ActiveRecord::Base
 	has_many :transcripts
 
 	def credits(last_term)
-		#last_term: term_id if last term to use total
+		#last_term: latest term_id to use in total
 		credits = 0
 
 		self.transcripts.where("term_taken <= ?", last_term).each do |t|
 			credits += t.credits_earned
 		end
 		return credits
-		# return self.transcripts.where("term_taken <= ?", last_term).inject {|sum, i| i.credits_earned + sum}
 	end
 
 	########################################################################################
