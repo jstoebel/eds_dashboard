@@ -148,6 +148,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    marco-polo (1.2.1)
     metaclass (0.0.4)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -309,6 +310,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   lograge
+  marco-polo
   minitest-fail-fast
   minitest-spec-rails
   mocha

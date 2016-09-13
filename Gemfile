@@ -97,3 +97,4 @@ gem 'axlsx_rails'
 gem 'kaminari'
 gem 'nokogiri', '~> 1.6', '>= 1.6.8'
 gem 'roman', '~> 0.2.0'
+gem "marco-polo" # console prompt
