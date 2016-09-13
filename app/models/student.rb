@@ -309,13 +309,15 @@ class Student < ActiveRecord::Base
 	#####~~~Transcripts and associations~~~################################################
 	has_many :transcripts
 
-	def credits(last_term)
-		#last_term: latest term_id to use in total
+	def credits(last_term=nil)
+		#last_term: latest term_id to use in total (optional)
 		credits = 0
-
-		self.transcripts.where("term_taken <= ?", last_term).each do |t|
+		courses = self.transcripts.where("credits_earned is not null")
+		courses.where!("term_taken <= ?", last_term) if last_term.present?
+		courses.each do |t|
 			credits += t.credits_earned
 		end
+
 		return credits
 	end
 
