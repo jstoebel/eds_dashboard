@@ -1,0 +1,18 @@
+<!--
+
+  a drop down menu for toggling columns used with datatables
+  locales:
+    options: array of values names
+-->
+
+<div class="dropdown">
+ <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Show/Hide Columns
+ <span class="caret"></span></button>
+ <ul class="dropdown-menu options-toggle">
+   <% options.each_with_index do |option, idx|  %>
+     <li>
+       <a href="#" data-column="<%= idx %>" class="small" data-value="option1" tabIndex="-1"><%= option %></a>
+     </li>
+   <% end %>
+ </ul>
+</div>

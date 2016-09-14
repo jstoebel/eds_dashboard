@@ -164,6 +164,9 @@ Rails.application.routes.draw do
     get "delete"
   end
 
+  resources :reports, only: [:index] do #reports is here
+  end
+  
   resources :assessment_items, only: [ :show, :create, :destroy] do
   end
 
