@@ -15,6 +15,7 @@ class PraxisResultTemp < ActiveRecord::Base
 
   has_many :praxis_sub_temps, :dependent => :delete_all
   belongs_to :praxis_test
+  belongs_to :student
 
   def finalize
     # make a record final by doing the following:
