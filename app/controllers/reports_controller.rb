@@ -23,7 +23,7 @@ class ReportsController < ApplicationController
                 :Passed_227_228 => passed_227_228(stu),
                 :Latest_Completion_227 => complete_227(stu),
                 :Latest_Completion_228 => complete_228(stu),
-                :Latest_Term_EDS440_470 => term_EDS440_470(stu),
+                :Latest_Term_EDS440_479 => term_EDS440_479(stu),
             }
             @data.push record
         end
@@ -40,30 +40,19 @@ class ReportsController < ApplicationController
 
     def complete_227(student)
         # looks at the student's transcript where the course code is EDS227, orders it by the taken term and finds the last (latest) one
+        # if student hasn't taken EDS 227 returns nil
         course = student.transcripts.where(:course_code => ["EDS227"]).order(:term_taken).last
-        if course.nil?
-            return nil
-        else
-            return course.banner_term.readable #returns the term taken
-        end
+        return course.andand.banner_term.andand.readable #returns the term taken
     end
 
     def complete_228(student)
         courses = student.transcripts.where(:course_code => ["EDS228"]).order(:term_taken).last
-        if courses.nil?
-            return nil
-        else
-            return courses.banner_term.readable
-        end
+        return courses.andand.banner_term.andand.readable
     end
 
-   def term_EDS440_470(student)
-       course_taken = student.transcripts.where(:course_code => ["EDS440", "EDS470"]).order(:term_taken).last
-       if course_taken.nil?
-           return nil
-       else
-           return course_taken.banner_term.readable
-       end
+   def term_EDS440_479(student)
+       course_taken = student.transcripts.where(:course_code => ["EDS440", "EDS479"]).order(:term_taken).last
+       return course_taken.andand.banner_term.andand.readable
    end
 
 
