@@ -2,47 +2,61 @@
 
 <!-- insert back button -->
 
-<div class="student reports index">
-  <h2>Student Information:</h2>
+<div class="container-fluid">
 
-      <table id="report" class="table table-striped" summary="Student Reports">
-        </div>
-        <thead>
-          <tr class="header">
-            <th>B#</th>
-            <th>Name</th>
-            <th>Prog Status</th>
-            <th>Major 1</th>
-            <th>Conc 1</th>
-            <th>Major 2</th>
-            <th>Conc 2</th>
-            <th>Minors</th>
-            <th>Taken 227/228</th>
-            <th>Completed 227/228</th>
-            <th>Term completing 227</th>
-            <th>Term completing 227</th>
-            <th>EDS440 or EDS470</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @data.each do |stu| %>
-            <tr>
-            <td><%= stu[:Bnum] %></td>
-            <td><%= stu[:name_readable] %></td>
-            <td><%= stu[:prog_status] %></td>
-            <td><%= stu[:CurrentMajor1]%></td>
-            <td><%= stu[:concentration1]%></td>
-            <td><%= stu[:CurrentMajor2]%></td>
-            <td><%= stu[:concentration2]%></td>
-            <td><%= stu[:CurrentMinors]%></td>
-            <td><%= stu[:Taken227_228]%></td>
-            <td><%= stu[:Passed_227_228]%></td>
-            <td><%= stu[:Latest_Completion_227]%></td>
-            <td><%= stu[:Latest_Completion_228]%></td>
-            <td><%= stu[:Latest_Term_EDS440_470]%></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+  <!-- dropdown here  -->
 
- </div>
+  <% headers = ["B#",
+    "Name",
+    "Prog Status",
+    "Major 1",
+    "Conc 1",
+    "Major 2",
+    "Conc 2",
+    "Minors",
+    "Taken 227/228",
+    "Completed 227/228",
+    "Term completing 227",
+    "Term completing 227",
+    "EDS440 or EDS470"
+  ] %>
+
+  <%= render(partial: "dropdown_checks",
+    locals: {options: headers}) %>
+
+  <div class="student reports index">
+    <h2>Student Information:</h2>
+
+    <table class="small" id="report" class="table table-striped" summary="Student Reports">
+    </div>
+    <thead>
+      <tr class="header">
+        <% headers.each do |header| %>
+          <th><%= header %></th>
+        <% end %>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% @data.each do |stu| %>
+      <tr>
+        <td><%= stu[:Bnum] %></td>
+        <td><%= stu[:name_readable] %></td>
+        <td><%= stu[:prog_status] %></td>
+        <td><%= stu[:CurrentMajor1]%></td>
+        <td><%= stu[:concentration1]%></td>
+        <td><%= stu[:CurrentMajor2]%></td>
+        <td><%= stu[:concentration2]%></td>
+        <td><%= stu[:CurrentMinors]%></td>
+        <td><%= stu[:Taken227_228]%></td>
+        <td><%= stu[:Passed_227_228]%></td>
+        <td><%= stu[:Latest_Completion_227]%></td>
+        <td><%= stu[:Latest_Completion_228]%></td>
+        <td><%= stu[:Latest_Term_EDS440_470]%></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+</div>
