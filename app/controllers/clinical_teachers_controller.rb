@@ -18,9 +18,9 @@ class ClinicalTeachersController < ApplicationController
   def index
 
     if params["clinical_site_id"]   #we only want teachers beloning to this site
-      @teachers = ClinicalTeacher.where(clinical_site_id: params["clinical_site_id"]).select {|r| can? :read, r } 
+      @teachers = ClinicalTeacher.where(clinical_site_id: params["clinical_site_id"]).select {|r| can? :read, r }
     else
-      @teachers = ClinicalTeacher.all  #.select {|r| can? :read, r } 
+      @teachers = ClinicalTeacher.all  #.select {|r| can? :read, r }
     end
 
 
@@ -38,7 +38,7 @@ class ClinicalTeachersController < ApplicationController
   def update
     @teacher = ClinicalTeacher.find(params[:id])
     @teacher.update_attributes(teacher_params)
-    authorize! :manage, @teacher    
+    authorize! :manage, @teacher
     if @teacher.save
       flash[:notice] = "Updated Teacher #{@teacher.FirstName} #{@teacher.LastName}."
       redirect_to(clinical_teachers_path)
@@ -67,16 +67,16 @@ class ClinicalTeachersController < ApplicationController
     end
 
   end
-  
+
   def delete
     @teacher = ClinicalTeacher.find(params[:clinical_teacher_id])
     authorize! :manage, @teacher
   end
-  
+
   def destroy
     @teacher = ClinicalTeacher.find(params[:id])
     authorize! :manage, @teacher
-    @teacher.destroy  
+    @teacher.destroy
     flash[:notice] = "Deleted Successfully!"
     redirect_to(clinical_teachers_path)
   end
@@ -89,6 +89,6 @@ class ClinicalTeachersController < ApplicationController
 
   def form_details
     @sites = ClinicalSite.all
-    @subjects = Program.where(Current: true)
+    @subjects = Program.where(Current: true).order(:EDSProgName)
   end
 end

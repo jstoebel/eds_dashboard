@@ -165,6 +165,150 @@ class StudentTest < ActiveSupport::TestCase
 
 	end
 
+	describe "student instructor methods" do
+
+		before do
+			@adv = FactoryGirl.create :tep_advisor
+			@stu = FactoryGirl.create :student
+			@term = BannerTerm.find 201511
+			@inside_date = (@term.StartDate.to_date) + 1
+			@before_date = (@term.StartDate.to_date) - 1
+			@after_date = (@term.EndDate.to_date) + 2
+			@course_template = FactoryGirl.build :transcript, {:student_id => @stu.id,
+				:grade_ltr => "A"
+			}
+		end
+
+		describe "is_present_student_of" do
+
+			test "returns true" do
+
+				@course_template.assign_attributes({:term_taken => @term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @inside_date do
+					assert @stu.is_present_student_of? @adv.AdvisorBnum
+				end
+			end
+
+			test "returns false - no courses in this term" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @inside_date do
+					assert_not @stu.is_present_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+		end
+
+		describe "is_recent_student_of" do
+			# does student have a course in a term that just happened?
+
+			before do
+			end
+
+			test "returns true" do
+				@course_template.assign_attributes({:term_taken => @term.prev_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @before_date do
+					assert @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+			end
+
+			test "returns false - no courses" do
+
+				@course_template.assign_attributes({:term_taken => @term.prev_term.id})
+				@course_template.save!
+				travel_to @before_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+			test "returns false - not between terms" do
+
+				@course_template.assign_attributes({:term_taken => @term.prev_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @inside_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+		end
+
+		describe "will_be_student_of" do
+			# does student have courses in the term that is about to happen?
+			before do
+
+			end
+
+			test "returns true" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id,
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				travel_to @after_date do
+					assert @stu.will_be_student_of? @adv.AdvisorBnum
+				end
+
+			end
+
+			test "returns false - no courses" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id})
+				@course_template.save!
+				travel_to @before_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+			end
+
+			test "returns false - not between terms" do
+				@course_template.assign_attributes({:term_taken => @term.next_term.id})
+				@course_template.save!
+				travel_to @inside_date do
+					assert_not @stu.is_recent_student_of? @adv.AdvisorBnum
+				end
+			end
+
+		end
+
+		describe "has_incomplete_with" do
+
+			before do
+
+			end
+
+			test "returns true" do
+				@course_template.assign_attributes({:grade_ltr => "I",
+					:instructors => "#{@adv.first_name} #{@adv.last_name} {#{@adv.AdvisorBnum}}"})
+				@course_template.save!
+
+				assert @stu.has_incomplete_with? @adv.AdvisorBnum
+			end
+
+			test "returns false - incomplete with other" do
+				@course_template.assign_attributes({:grade_ltr => "I"})
+				@course_template.save!
+				assert_not @stu.has_incomplete_with? @adv.AdvisorBnum
+
+			end
+
+			test "returns false - no incompletes" do
+				@course_template.save!
+				assert_not @stu.has_incomplete_with? @adv.AdvisorBnum
+			end
+
+		end
+	end
+
 	######################################################################################################
 
 
@@ -391,8 +535,6 @@ class StudentTest < ActiveSupport::TestCase
 
 		test "gpa with credit limit" do
 
-
-
 			second_course = FactoryGirl.create :transcript, {
 				term_taken: @first_course.banner_term.id,
 				student_id: stu.id,
@@ -461,11 +603,52 @@ class StudentTest < ActiveSupport::TestCase
 
 		end
 
+	end # describe test
+
+	describe "credits" do
+
+		describe "with courses" do
+
+			before do
+				@stu = FactoryGirl.create :student
+				@this_term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+				credits = [1.0, nil]
+				# make 4 courses, two for each term, one with a credit earnedm the other nil
+				[@this_term, @this_term.next_term].each do |t|
+					credits.each do |c|
+						FactoryGirl.create :transcript, {:student_id => @stu.id,
+							:term_taken => t.id,
+							:credits_earned => c
+						}
+					end
+				end
+			end
+
+			test "no term limit" do
+				courses = @stu.transcripts.where("credits_earned is not null")
+				expected_credits = courses.map{|c| c.credits_earned}.inject(:+)*4.0
+				assert_equal expected_credits, @stu.credits
+			end
+
+			test "with term limit" do
+				courses = @stu.transcripts
+					.where("credits_earned is not null")
+					.where("term_taken <= ?", @this_term.id)
+
+				expected_credits = courses
+					.map{|c| c.credits_earned}
+					.inject(:+) * 4.0
+				assert_equal expected_credits, @stu.credits(@this_term.id)
+			end
+
+		end
+
+		test "with no courses" do
+			stu = FactoryGirl.create :student
+			assert_equal 0, stu.credits
+		end
+
 	end
-
-
-
-	# test
 
 
 	it "updates last_name table" do

@@ -50,6 +50,9 @@ class Student < ActiveRecord::Base
 
   has_many :pgps
 
+	has_many :praxis_results
+	has_many :praxis_prep
+	has_many :praxis_result_temps
 ###################################################################################################
 
 
@@ -105,6 +108,10 @@ class Student < ActiveRecord::Base
 			# LastName
 			# PrefFirst
 			# any last_name in the last_names table
+
+			# typical useage:
+			# qry = Student.with_name("Jacob")
+			# stus = Student.joins(:last_names).where(qry)
 
 		words = str.split(" ")
 		students_tbl = Student.arel_table
@@ -164,9 +171,6 @@ class Student < ActiveRecord::Base
 
 
 	####~~~Praxis Associations and Methods~~~##############################################
-
-	has_many :praxis_results
-	has_many :praxis_prep
 
 	def praxisI_pass
 	   	#output if student has passed all praxis I exams.
@@ -305,15 +309,16 @@ class Student < ActiveRecord::Base
 	#####~~~Transcripts and associations~~~################################################
 	has_many :transcripts
 
-	def credits(last_term)
-		#last_term: term_id if last term to use total
+	def credits(last_term=nil)
+		#last_term: latest term_id to use in total (optional)
 		credits = 0
-
-		self.transcripts.where("term_taken <= ?", last_term).each do |t|
+		courses = self.transcripts.where("credits_earned is not null")
+		courses.where!("term_taken <= ?", last_term) if last_term.present?
+		courses.each do |t|
 			credits += t.credits_earned
 		end
-		return credits
-		# return self.transcripts.where("term_taken <= ?", last_term).inject {|sum, i| i.credits_earned + sum}
+
+		return credits * 4.0
 	end
 
 	########################################################################################
@@ -335,12 +340,62 @@ class Student < ActiveRecord::Base
 	####~~~Student of Professor Method~~~##################################################
 
 	def is_student_of?(inst_bnum)
-		#does this student have this prof in the current term (plan_b = forward)
+		# if student has any current student/instructor relatilonship with this instructor
+		return self.is_present_student_of?(inst_bnum) ||
+			self.is_recent_student_of?(inst_bnum) ||
+			self.will_be_student_of?(inst_bnum) ||
+			self.has_incomplete_with?(inst_bnum)
+	end
 
-		term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
-		classes = self.transcripts.in_term(term)
-		my_profs = classes.map{|c| c.inst_bnums}.flatten
-		return my_profs.include?(inst_bnum)
+	def is_present_student_of?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# returns if a student is currently a student of this instructor.
+
+		term = BannerTerm.current_term({:exact => true})
+		if term.nil?
+			return false
+		else
+			classes = self.transcripts.in_term(term)
+			my_profs = classes.map{|c| c.inst_bnums}.flatten
+			return my_profs.include?(inst_bnum)
+		end
+	end
+
+	def is_recent_student_of?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# if between terms and student had this instructor in this term that just passed
+		if BannerTerm.current_term(:exact => true).nil?
+			term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+			classes = self.transcripts.in_term(term)
+			my_profs = classes.map{|c| c.inst_bnums}.flatten
+			return my_profs.include?(inst_bnum)
+		else
+			return false
+		end
+	end
+
+	def will_be_student_of?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# if between terms and student will have this insructor in term coming up
+		if BannerTerm.current_term(:exact => true).nil?
+			term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
+			classes = self.transcripts.in_term(term)
+			my_profs = classes.map{|c| c.inst_bnums}.flatten
+			return my_profs.include?(inst_bnum)
+		else
+			return false
+		end
+
+	end
+
+	def has_incomplete_with?(inst_bnum)
+		# inst_bnum: string: instructor B#
+		# if student has an incomplete in a course with this instructor
+
+		incompletes = self.transcripts.where(:grade_ltr => "I")
+		incomplete_profs = incompletes.map{|c| c.inst_bnums}.flatten
+		return incomplete_profs.include?(inst_bnum)
+
 	end
 
 	########################################################################################

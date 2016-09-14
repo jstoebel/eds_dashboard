@@ -1,20 +1,19 @@
-
 <%= link_to students_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
 
-  <div class="container-fluid">  
+  <div class="container-fluid">
     <table class="listing table table-striped" summary="praxis list">
         <div class="row">
           <caption>
             <div class="header1 col-xs-12"> Praxis Results for <%= "#{@student.FirstName} #{@student.LastName}"%> </div>
-            <div class="header2 col-xs-12"> <%= pluralize(@student.praxis_results.size, 'result') %>  found 
+            <div class="header2 col-xs-12"> <%= pluralize(@student.praxis_results.size, 'result') %>  found
             </div>
           </caption>
         </div>
-  
+
         <% if @tests.size > 0  %>
-  
+
               <tr class="header">
                 <th>Test Name</th>
                 <th>Date Taken</th>
@@ -29,17 +28,17 @@
 
                   <%= link_to edit_praxis_result_path(result.AltID), class: "btn btn-info #{result.can_alter? ? "" : "disabled"}" do %>
                       <span class="glyphicon glyphicon-pencil"></span>
-                  <% end %> 
+                  <% end %>
                   <td>
                      <%= button_to praxis_result_path(result.AltID), {class: "btn btn-default #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
                         <span class="glyphicon glyphicon-trash"></span>
-                      <% end %> 
+                      <% end %>
                   </td>
               </tr>
-              
+
               <% end %>
-              
+
         <% end %>
-  
+
     </table>
   </div>

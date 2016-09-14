@@ -32,6 +32,7 @@ class StudentsController < ApplicationController
 
   layout 'application'
   authorize_resource
+  respond_to :html, :json
   def index
     all_students = Student.all.by_last
 
@@ -44,6 +45,7 @@ class StudentsController < ApplicationController
       @students = all_students.active_student.current.select{|s| can? :read, s}
     end
 
+    respond_with @students
   end
 
   def show
