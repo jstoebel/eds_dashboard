@@ -47,7 +47,7 @@ class Foi < ActiveRecord::Base
     # this returns an the resulting row inside of an array so pull it out using [0]
 
     # TODO handle bad file type
-    if File.extname(file.original_filename) != ".csv"
+    if File.extname(file.original_filename) != "csv"
       return {success: false, message: "File is not a .csv file."}
     end
 
@@ -57,17 +57,15 @@ class Foi < ActiveRecord::Base
     Foi.transaction do
 
       begin
-
         CSV.foreach(file.path) do |row|
           if $. > 2 # skipping first row
-            row_num = $.
             _import_foi(Hash[headers.zip(row)])
             row_count += 1
           end
         end
 
       rescue ActiveRecord::RecordInvalid => e
-        return {success: false, message: "Error on line #{row_num}: #{e.message}"}
+        return {success: false, message: "Error on line #{row_count + 2}: #{e.message}"}
       end
 
       return {success: true, message: nil, rows: row_count }
