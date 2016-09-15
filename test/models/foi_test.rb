@@ -25,7 +25,7 @@ class FoiTest < ActiveSupport::TestCase
     end
 
     test "student_id" do
-      assert_equal ["Student could not be identified."], @foi.errors[:student_id]
+      assert_equal ["could not be identified."], @foi.errors[:student_id]
     end
 
     test "date_completing" do

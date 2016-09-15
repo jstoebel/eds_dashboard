@@ -42,7 +42,7 @@ class FoisControllerTest < ActionController::TestCase
         end #as #{r}
       end # loop
 
-    end #authorized resource
+    end #authorized
 
     describe "not authorized" do
 
@@ -65,7 +65,6 @@ class FoisControllerTest < ActionController::TestCase
         end # as r
       end #loop
     end # not authorized
-
   end #index
 
   describe "import" do
@@ -99,8 +98,8 @@ class FoisControllerTest < ActionController::TestCase
               csv << @expected_attrs.values
             end
             load_session(r)
-            Paperclip.fixture_file_upload(@test_file_loc).inspect
-            post :import, :file => Paperclip.fixture_file_upload(@test_file_loc)
+            file = Paperclip.fixture_file_upload(@test_file_loc)
+            post :import, :file => file
           end
 
           describe "valid data" do
@@ -116,9 +115,9 @@ class FoisControllerTest < ActionController::TestCase
             test "redirect to index" do
               assert_redirected_to(fois_path)
             end
-          end #valid data
 
-        end # as r
+          end #valid data
+        end
 
         describe "bad data" do
           before do
@@ -138,7 +137,8 @@ class FoisControllerTest < ActionController::TestCase
           end
 
           test "flash message" do
-            assert_equal "File is not a .csv file.", flash[:notice]
+            expected_message = "Error on line 2: Validation failed: Student Student could not be identified."
+            assert_equal expected_message, flash[:notice]
           end
 
           test "redirect to index" do
@@ -147,64 +147,8 @@ class FoisControllerTest < ActionController::TestCase
 
         end # bad data
 
-        describe "not csv" do
-          before do
-            load_session(r)
-
-            @bad_file_loc = Rails.root.join('test', 'test_temp', 'bad_file.txt')
-            File.open(@bad_file_loc, 'w') do |f|
-              f << "spam"
-            end
-            post :import, :file => Paperclip.fixture_file_upload(@bad_file_loc)
-
-          end # before
-
-          test "doesn't import records" do
-            assert_equal Foi.all.size, @pre_record_count
-          end
-
-          test "flash message" do
-            assert_equal "File is not a .csv file.",  flash[:notice]
-          end
-
-          test "redirects to index" do
-            assert_redirected_to "fois_path"
-          end
-
-        end # not csv
-
-      end # loop
+      end # allowed roles
     end #authorized
-
-    # describe "not csv" do
-    #   allowed_roles.each do |r|
-    #     describe "as #{r}" do
-    #
-    #       before do
-    #         load_session(r)
-    #
-    #         @bad_file_loc = Rails.root.join('test', 'test_temp', 'bad_file.txt')
-    #         File.open(@bad_file_loc, 'w') do |f|
-    #           f << "spam"
-    #         end
-    #         post :import, :file => Paperclip.fixture_file_upload(@bad_file_loc)
-    #       end
-    #
-    #       test "doesn't import records" do
-    #         assert_equal Foi.all.size, @pre_record_count
-    #       end
-    #
-    #       test "flash message" do
-    #         assert_equal "File is not a .csv file.",  flash[:notice]
-    #       end
-    #
-    #       test "redirects to index" do
-    #         assert_redirected_to "fois_path"
-    #       end
-    #
-    #     end # as r
-    #   end # loop
-    # end # not csv
 
     describe "not authorized" do
       (all_roles - allowed_roles).each do |r|
@@ -225,14 +169,12 @@ class FoisControllerTest < ActionController::TestCase
           end
 
           test "redirect to access_denied" do
-            assert_redirected_to "/access_denied"
+            assert_redirected_to  "/access_denied"
           end
 
         end # as r
       end # loop
     end # not authorized
 
-
   end
-
 end
