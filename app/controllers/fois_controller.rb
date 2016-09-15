@@ -24,10 +24,9 @@ class FoisController < ApplicationController
       # and assigns to @fois
     end
 
-
     def import
         file = params[:file]
-        result = Foi.import(file.path)
+        result = Foi.import(file)
         num_rows = result[:rows]
         if result[:success]
             redirect_to fois_path, :notice => "#{num_rows} #{"form".pluralize(num_rows) + " of intention"} successfully imported."
