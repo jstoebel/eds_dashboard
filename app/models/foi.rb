@@ -45,17 +45,17 @@ class Foi < ActiveRecord::Base
     #  file: type Rack::Test::UploadedFile
     # open the csv file, drop one row from the begining and then from the remainder open the first row
     # this returns an the resulting row inside of an array so pull it out using [0]
-
+    puts "total = #{Foi.count}"
     # TODO handle bad file type
-    if File.extname(file.original_filename) != "csv"
+    if File.extname(file.original_filename) != ".csv"
       return {success: false, message: "File is not a .csv file."}
     end
 
     headers = CSV.open(file.path, 'r').drop(1) { |csv| csv.first}[0]
 
     row_count = 0
-    Foi.transaction do
 
+    Foi.transaction do
       begin
         CSV.foreach(file.path) do |row|
           if $. > 2 # skipping first row
@@ -72,7 +72,8 @@ class Foi < ActiveRecord::Base
 
     end # transaction
 
-
+    puts "created an FOI"
+    puts "total = #{Foi.count}"
   end
 
    # import
@@ -81,7 +82,7 @@ class Foi < ActiveRecord::Base
   def self._import_foi(row)
     # row: a hash of attributes
     # creates an foi record or raises an error if student can't be determined
-
+    
     eds_only = row["Q2.1 - Do you intend to seek an Education Studies degree without certification?"].andand.downcase == "yes"
     seek_cert = row["Q1.4 - Do you intend to seek teacher certification at Berea College?"].andand.downcase == "yes"
     new_form = row["Q1.3 - Are you completing this form for the first time, or is this form a revision..."].andand.
@@ -111,6 +112,8 @@ class Foi < ActiveRecord::Base
     }
 
     Foi.create!(attrs)
+    
+
 
   end
 end
