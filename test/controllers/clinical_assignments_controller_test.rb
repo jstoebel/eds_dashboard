@@ -13,9 +13,8 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
+
 class ClinicalAssignmentsControllerTest < ActionController::TestCase
-  include TestTeardown
   #everyone should be allowed to access this resource
 
   test "should get index" do
@@ -108,7 +107,7 @@ test "should not post create bad record" do
 
       assert_response :success
 
-     
+
     end
   end
 
@@ -131,7 +130,7 @@ test "should not post create bad record" do
       load_session(r)
       assert ClinicalAssignment.all.size > 0
       assignment = ClinicalAssignment.first
-      
+
       assert_raises(ActiveRecord::RecordNotFound) { get :edit, {:id => "bad id"} }
     end
   end

@@ -14,9 +14,7 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
 class IssueUpdatesControllerTest < ActionController::TestCase
-  include TestTeardown
   allowed_roles = ["admin", "advisor"]
   test "should get new" do
     allowed_roles.each do |r|
@@ -69,7 +67,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       actual_attrs.except!(*to_exclude)
 
       assert_equal expected_attrs, actual_attrs
-      
+
       assert_equal issue.student, assigns(:student)
       assert_redirected_to issue_issue_updates_path(issue.IssueID)
       assert_equal flash[:notice], "New update added"
@@ -136,7 +134,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       change_to = !update.addressed
 
       patch :update, {:id => update.id, :issue_update => {:addressed => change_to}}
-      
+
       resp = JSON.parse @response.body
       assert_response :success
       assert_equal resp["addressed"], change_to
@@ -153,13 +151,13 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       change_to = !update.addressed
 
       patch :update, {:id => update.id, :issue_update => {}}
-      
+
       resp = JSON.parse @response.body
       assert_response :unprocessable_entity
       assert_not_equal resp["addressed"], change_to
     end
   end
-  
+
   #TESTS FOR UNAUTHORIZED USERS
   test "should not get new bad role" do
     (role_names - allowed_roles).each do |r|
@@ -197,14 +195,14 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
-  test "delete issue_update" do 
+
+  test "delete issue_update" do
     (allowed_roles).each do |r|
       load_session(r)
         stu = FactoryGirl.create(:student)
         admtep = FactoryGirl.create(:tep_advisor)
-        iss = FactoryGirl.create(:issue, {:student_id => stu.id})  
-        iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => admtep.id, 
+        iss = FactoryGirl.create(:issue, {:student_id => stu.id})
+        iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => admtep.id,
         :Issues_IssueID => iss.id, :visible => true})
         delete :destroy, {:id => iss_up.id}
         assert_equal flash[:notice], "Deleted Successfully!"
@@ -212,14 +210,14 @@ class IssueUpdatesControllerTest < ActionController::TestCase
         assert_redirected_to(issue_issue_updates_path(assigns(:update).issue.id))
     end
   end
-  
-  test "cannot delete" do 
+
+  test "cannot delete" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
         stu = FactoryGirl.create(:student)
         tepadv = FactoryGirl.create(:tep_advisor)
-        iss = FactoryGirl.create(:issue, {:student_id => stu.id})  
-        iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => tepadv.id, 
+        iss = FactoryGirl.create(:issue, {:student_id => stu.id})
+        iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => tepadv.id,
         :Issues_IssueID => iss.id, :visible => true})
         delete :destroy, {:id => iss_up.id}
         assert_redirected_to "/access_denied"
@@ -233,7 +231,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       change_to = !update.addressed
       patch :update, {:id => update.id, :issue_update => {:addressed => change_to}}
       assert_redirected_to "/access_denied"
-    end   
+    end
   end
-  
+
 end

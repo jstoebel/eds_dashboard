@@ -1,7 +1,6 @@
 require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
-require 'test_teardown'
 
 class AdmStControllerTest < ActionController::TestCase
 
@@ -31,7 +30,7 @@ class AdmStControllerTest < ActionController::TestCase
       assert_response :success, "unexpected http response, role=#{r}"
       assert_equal assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
     end
-  end   
+  end
 
 
   test "should get new" do
@@ -55,14 +54,14 @@ class AdmStControllerTest < ActionController::TestCase
       get :new
       assert_redirected_to adm_st_index_path
       assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
-    end 
+    end
   end
 
   test "should post create" do
     #post a valid adm_st application
       #we should...
-      #create a new app with the student's B#, 
-      #be redirected and 
+      #create a new app with the student's B#,
+      #be redirected and
       #have a flash message
 
     travel_to Date.new(2015, 03, 15) do
@@ -113,7 +112,7 @@ class AdmStControllerTest < ActionController::TestCase
       app = AdmSt.first
       get :edit, {:id => app.id}
       assert_response :success, "unexpected http response, role=#{r}"
-      assert_equal assigns(:app), app 
+      assert_equal assigns(:app), app
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
       assert_equal assigns(:student), Student.find(app.student_id)
     end
@@ -152,7 +151,7 @@ class AdmStControllerTest < ActionController::TestCase
                 }
             }
 
-        assert assigns(:app).valid?, assigns(:app).errors.full_messages 
+        assert assigns(:app).valid?, assigns(:app).errors.full_messages
         assert_redirected_to adm_st_index_path
 
         app.destroy
@@ -181,9 +180,9 @@ class AdmStControllerTest < ActionController::TestCase
             }
         }
       end
-          
+
       assert_response :success
-      assert_equal ["Please make an admission decision for this student."], assigns(:app).errors[:STAdmitted] 
+      assert_equal ["Please make an admission decision for this student."], assigns(:app).errors[:STAdmitted]
       assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
       assert_equal assigns(:student), Student.find(app.student_id)
 
@@ -194,7 +193,7 @@ class AdmStControllerTest < ActionController::TestCase
       load_session(r)
       app = AdmSt.first
       get :edit_st_paperwork, {adm_st_id: app.id}
-      assert_response :success, "unexpected http response, role=#{r}"    
+      assert_response :success, "unexpected http response, role=#{r}"
       assert_equal assigns(:app), app
       assert_equal assigns(:student), app.student
       assert_equal assigns(:terms), BannerTerm.where("BannerTerm > ?", app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
@@ -269,7 +268,7 @@ class AdmStControllerTest < ActionController::TestCase
     term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :index 
+      get :index
       assert_redirected_to "/access_denied"
     end
   end
@@ -277,7 +276,7 @@ class AdmStControllerTest < ActionController::TestCase
   test "should not get new bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :new 
+      get :new
       assert_redirected_to "/access_denied"
     end
   end
@@ -329,7 +328,7 @@ class AdmStControllerTest < ActionController::TestCase
       app = AdmSt.first
       get :edit_st_paperwork, {adm_st_id: app.id}
       assert_redirected_to "/access_denied"
-      
+
     end
   end
 
@@ -348,31 +347,31 @@ class AdmStControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
-  test "should delete" do 
-      
+
+  test "should delete" do
+
       allowed_roles.each do |r|
         load_session(r)
       test_destroy = FactoryGirl.create(:adm_st, {:BannerTerm_BannerTerm => BannerTerm.first.id, :STAdmitted => nil, :STAdmitDate => nil})
       post :destroy, {:id => test_destroy.id}
       assert_equal(test_destroy, assigns(:app))
       assert assigns(:app).destroyed?
-      assert_equal flash[:notice], "Deleted Successfully!" 
+      assert_equal flash[:notice], "Deleted Successfully!"
       assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
     end
   end
-  
-  test "cannot delete" do 
+
+  test "cannot delete" do
       stu = FactoryGirl.create :student
       stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
       term_date = BannerTerm.current_term({:exact => false, :plan_b => :back})
-      test_destroy_fail = FactoryGirl.create :adm_st, {:student_id => stu.id, :BannerTerm_BannerTerm => term_date.id, :STAdmitted => true, 
+      test_destroy_fail = FactoryGirl.create :adm_st, {:student_id => stu.id, :BannerTerm_BannerTerm => term_date.id, :STAdmitted => true,
         :STAdmitDate => Date.today.to_s, :student_file_id => stu_file.id}
       allowed_roles.each do |r|
         load_session(r)
       post :destroy, {:id => test_destroy_fail.id}
       assert_equal flash[:notice], "Could not successfully delete record!"
       assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm))
-  end 
+  end
  end
 end
