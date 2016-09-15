@@ -42,16 +42,23 @@ class Foi < ActiveRecord::Base
 
 
   def self.import(file)
-     # open the csv file, drop one row from the begining and then from the remainder open the first row
+    #  file: type Rack::Test::UploadedFile
+    # open the csv file, drop one row from the begining and then from the remainder open the first row
     # this returns an the resulting row inside of an array so pull it out using [0]
-    headers = CSV.open(file, 'r').drop(1) { |csv| csv.first}[0]
+
+    # TODO handle bad file type
+    if File.extname(file.original_filename) != "csv"
+      return {success: false, message: "File is not a .csv file."}
+    end
+
+    headers = CSV.open(file.path, 'r').drop(1) { |csv| csv.first}[0]
 
     row_count = 0
     Foi.transaction do
 
       begin
 
-        CSV.foreach(file) do |row|
+        CSV.foreach(file.path) do |row|
           if $. > 2 # skipping first row
             row_num = $.
             _import_foi(Hash[headers.zip(row)])

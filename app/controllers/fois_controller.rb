@@ -1,14 +1,30 @@
+# == Schema Information
+#
+# Table name: forms_of_intention
+#
+#  id              :integer          not null, primary key
+#  student_id      :integer          not null
+#  date_completing :datetime
+#  new_form        :boolean
+#  major_id        :integer
+#  seek_cert       :boolean
+#  eds_only        :boolean
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 
 
 class FoisController < ApplicationController
-    authorize_resource
-    
-    def index 
-        @fois = Foi.all
-        authorize! :show, @foi
+    load_and_authorize_resource :only => [:index]
+    authorize_resource :only => [:import]
+
+    def index
+      # implicetly loads all Fois user is permitted to :read
+      # and assigns to @fois
     end
 
-  
+
     def import
         file = params[:file]
         result = Foi.import(file.path)
@@ -22,18 +38,18 @@ class FoisController < ApplicationController
         end
 
     end
-    
+
     def create
-       Foi.new 
+       Foi.new
     end
-    
+
     def show
        @fois = Foi.all
     end
-    
+
     private
     def foi_params
         params.require(:foi).permit(:student_id, :date_completing, :new_form, :major_id, :seek_cert, :eds_only)
     end
-    
+
 end

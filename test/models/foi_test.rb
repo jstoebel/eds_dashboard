@@ -108,7 +108,7 @@ class FoiTest < ActiveSupport::TestCase
       FileUtils.mkdir Rails.root.join('test', 'test_temp')
     end
 
-    describe "successful record" do
+    describe "successful import" do
 
       before do
         # create the CSV file
@@ -142,6 +142,10 @@ class FoiTest < ActiveSupport::TestCase
         assert_equal 1, @stu.foi.size, result.inspect
       end
 
+    end
+
+    describe "unsuccessful import" do
+      #TODO
     end
 
   end

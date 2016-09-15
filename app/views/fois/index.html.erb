@@ -10,16 +10,18 @@
     <th>EDS Only</th>
     <th>Date Completed</th>
   </tr>
-<% @fois.each do |foi| %>
-  <tr>
-    <td><%= foi.student.FirstName %></td>
-    <td><%= foi.student.LastName %></td>
-    <td><%= foi.student.Bnum %></td>
-    <td><%= foi.major.name%></td>
-    <td><%= foi.seek_cert %></td>
-    <td><%= foi.eds_only %></td>
-    <td><%= foi.date_completing%></td>
-  </tr>
+<% if @fois.present? %>
+  <% @fois.each do |foi| %>
+    <tr>
+      <td><%= foi.student.FirstName %></td>
+      <td><%= foi.student.LastName %></td>
+      <td><%= foi.student.Bnum %></td>
+      <td><%= foi.major.andand.name%></td>
+      <td><%= foi.seek_cert %></td>
+      <td><%= foi.eds_only %></td>
+      <td><%= foi.date_completing%></td>
+    </tr>
+  <% end %>
 <% end %>
 </table>
   <%= form_tag import_fois_path, multipart: true do %>
