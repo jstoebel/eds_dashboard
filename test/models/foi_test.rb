@@ -24,9 +24,11 @@ class FoiTest < ActiveSupport::TestCase
   #     @foi.valid?
   #   end
 
+
   #   test "student_id" do
   #     assert_equal ["Student could not be identified."], @foi.errors[:student_id]
   #   end
+
 
   #   test "date_completing" do
   #     assert_equal ["Date completing is missing or incorrectly formatted. Example format: 01/01/2016 09:00:00 AM"], @foi.errors[:date_completing]
