@@ -47,7 +47,7 @@ class Foi < ActiveRecord::Base
     # this returns an the resulting row inside of an array so pull it out using [0]
 
     # TODO handle bad file type
-    if File.extname(file.original_filename) != "csv"
+    if File.extname(file.original_filename) != ".csv"
       return {success: false, message: "File is not a .csv file."}
     end
 
