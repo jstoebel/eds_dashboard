@@ -2,11 +2,11 @@
 require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
-require 'test_teardown'
+
 require 'factory_girl'
 class AdmTepControllerTest < ActionController::TestCase
   fixtures :all
-  include TestTeardown
+
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
 
   test "should get new" do
@@ -101,7 +101,7 @@ class AdmTepControllerTest < ActionController::TestCase
     pop_praxisI(stu, true)
 
     allowed_roles.each do |r|
-      
+
       load_session(r)
 
       app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
@@ -115,7 +115,7 @@ class AdmTepControllerTest < ActionController::TestCase
       app = AdmTep.create app_attrs
 
       date = (term.StartDate.to_date) + 10
-    
+
       travel_to date do
         post :update, {
               :id => app.id,
@@ -126,7 +126,7 @@ class AdmTepControllerTest < ActionController::TestCase
                 }
             }
 
-        assert assigns(:application).valid?, assigns(:application).errors.full_messages 
+        assert assigns(:application).valid?, assigns(:application).errors.full_messages
         assert_redirected_to banner_term_adm_tep_index_path(app.banner_term.id)
         assert_equal flash[:notice], "Student application successfully updated"
 
@@ -139,12 +139,12 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should not post update bad date" do
-    
+
     stu = FactoryGirl.create :student
     term = BannerTerm.current_term({:exact => false, :plan_b => :back})
     pop_transcript(stu, 12, 3.0, term.prev_term)
     pop_praxisI(stu, true)
-    next_exclusive_term = BannerTerm.where("StartDate > ?", term.EndDate).first 
+    next_exclusive_term = BannerTerm.where("StartDate > ?", term.EndDate).first
 
     #the next term that starts after this term finishes
     date = (next_exclusive_term.StartDate.to_date) + 10
@@ -260,7 +260,7 @@ class AdmTepControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal assigns(:applications).to_a, AdmTep.all.by_term(term).to_a
     end
-  end   
+  end
 
   test "should post choose" do
     allowed_roles.each do |r|
@@ -342,7 +342,7 @@ class AdmTepControllerTest < ActionController::TestCase
     term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :index 
+      get :index
       assert_redirected_to "/access_denied"
     end
   end
@@ -367,7 +367,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
   test "should delete the record" do
     # use assigns(:app)
-    
+
     #1 create an example adm_tep record
     stu = FactoryGirl.create :student
     term = BannerTerm.current_term({:exact => false, :plan_b => :back})
@@ -381,30 +381,30 @@ class AdmTepControllerTest < ActionController::TestCase
       :Program_ProgCode => Program.first.id,
       :BannerTerm_BannerTerm => term.id
     }
-   
+
     allowed_roles.each do |r|
       load_session(r)
       expected_app = AdmTep.create app_attrs
       #2 make the request
       post :destroy, {:id => expected_app.id}
-  
+
       #3 make your assertions
       # assigned record is the same
       assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
       assert assigns(:app).destroyed?             # failed for expected_app
       assert_equal flash[:notice], "Record deleted successfully"    #assert flash message
       assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)      #asserted equal. can use expected_app.BannerTerm_BannerTerm?#method(instance variable.object attribute)
-     
+
     end
   end
-  
+
   test "should not delete record bad role" do
     stu = FactoryGirl.create :student
     stu_file = FactoryGirl.create :student_file , {:student_id => stu.id}
     term = BannerTerm.current_term({:exact => false, :plan_b => :back})
     pop_transcript(stu, 12, 3.0, term.prev_term)
     pop_praxisI(stu, true)
-    
+
     app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
       :TEPAdmitDate => Date.today,
       :student_id => stu.id,
@@ -415,12 +415,12 @@ class AdmTepControllerTest < ActionController::TestCase
     expected_app = AdmTep.create app_attrs
     (role_names - allowed_roles).each do |r|
       load_session(r)
- 
+
       post :destroy, {:id => expected_app.id}
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test 'should not delete record not pending' do
     stu = FactoryGirl.create :student
     stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
@@ -436,7 +436,7 @@ class AdmTepControllerTest < ActionController::TestCase
       :BannerTerm_BannerTerm => term.id
     }
     expected_app = AdmTep.create app_attrs
-    
+
     allowed_roles.each do |r|
       load_session(r)
       post :destroy, {:id => expected_app.id}
@@ -445,7 +445,7 @@ class AdmTepControllerTest < ActionController::TestCase
       assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)
     end
   end
-  
+
 
   private
   def attach_letter(app)
