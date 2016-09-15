@@ -99,7 +99,6 @@ class FoisControllerTest < ActionController::TestCase
               csv << @expected_attrs.values
             end
             load_session(r)
-            Paperclip.fixture_file_upload(@test_file_loc).inspect
             post :import, :file => Paperclip.fixture_file_upload(@test_file_loc)
           end
 
