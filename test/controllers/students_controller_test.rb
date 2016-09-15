@@ -29,10 +29,8 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
 class StudentsControllerTest < ActionController::TestCase
   self.pre_loaded_fixtures = false
-  include TestTeardown
   allowed_roles = ["admin", "staff", "advisor"]
 
   before do

@@ -14,8 +14,8 @@
 #
 
 require 'test_helper'
-
 class FoiTest < ActiveSupport::TestCase
+
 
   describe "basic validations" do
 
@@ -104,6 +104,10 @@ class FoiTest < ActiveSupport::TestCase
 
   describe "import" do
 
+    before do
+      FileUtils.mkdir Rails.root.join('test', 'test_temp')
+    end
+
     describe "successful record" do
 
       before do
@@ -121,10 +125,10 @@ class FoiTest < ActiveSupport::TestCase
         @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
 
         CSV.open(@test_file_loc, "w") do |csv|
+          csv << []  #first row or "super headers"
           csv << @expected_attrs.keys
           csv << @expected_attrs.values
         end
-        puts @test_file_loc
       end # before
 
       test "creates a FOI" do
@@ -134,8 +138,8 @@ class FoiTest < ActiveSupport::TestCase
       end
 
       test "Foi matches student" do
-        Foi.import(@test_file_loc)
-        assert_equal 1, @stu.foi.size
+        result = Foi.import(@test_file_loc)
+        assert_equal 1, @stu.foi.size, result.inspect
       end
 
     end
