@@ -190,7 +190,7 @@ class FoiTest < ActiveSupport::TestCase
           
       end
       
-      test "Should not import - student with pad params" do
+      test "Multiple Entries - One student with bad params, one with good params" do
       
       end
       

@@ -17,8 +17,17 @@ FactoryGirl.define do
   factory :foi do
     student
     date_completing Date.today
+    new_form true
     major
-    seek_cert true
+
     eds_only nil
+    
+    factory :applying_foi do
+      seek_cert true
+    end
+    
+    factory :not_apply_foi do
+      seek_cert false
+    end
   end
 end
