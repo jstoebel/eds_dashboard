@@ -41,14 +41,6 @@ class FoiTest < ActiveSupport::TestCase
       assert_equal ["Could not determine if student is seeking certification."], @foi.errors[:seek_cert]
     end
 
-    # test "major_id" do
-    #   assert_equal ["Major could not be determined."], @foi.errors[:major_id]
-    # end
-    #
-    # test "eds_only" do
-    #   assert_equal ["Could not determine if student is seeking EDS only."], @foi.errors[:eds_only]
-    # end
-
     describe "conditional validations" do
 
       test "major_id" do
@@ -98,28 +90,13 @@ class FoiTest < ActiveSupport::TestCase
 
     end # inner describe
 
-    describe "doesn't import row - missing param" do
+    test "doesn't import row - missing param" do
+      @row["Q1.2_3 - B#"] = nil
+      assert_raises ActiveRecord::RecordInvalid do
+        Foi._import_foi(@row)
+      end
+    end
 
-      must_have = ["Q1.2_3 - B#",
-        "Recorded Date",
-        "Q3.1 - Which area do you wish to seek certification in?",
-        "Q1.4 - Do you intend to seek teacher certification at Berea College?"
-        ]
-
-      must_have.each do |k|
-
-        test "missing #{k}" do
-            @row[k] = nil
-
-            # should throw an error
-            assert_raises ActiveRecord::RecordInvalid do
-              Foi._import_foi(@row)
-            end
-          end
-
-      end # loop
-
-    end #inner describe
 
   end # outer describe
 
@@ -174,7 +151,7 @@ class FoiTest < ActiveSupport::TestCase
       # test params of the above hash
       before do
         @stu = FactoryGirl.create :student
-        @expected_attrs = {"Q1.2_3 - B#" => @stu.Bnum,
+        @expected_attrs = {"Q1.2_3 - B#" => nil,
           "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
           "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "new form",
           "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
@@ -197,20 +174,16 @@ class FoiTest < ActiveSupport::TestCase
 
         CSV.open(@test_file_loc, "w") do |csv|
           csv << []  #first row or "super headers"
-          csv<< @second_expected_attrs.keys # meaning this line should go away...
+          csv << @expected_attrs.keys
+          csv << @expected_attrs.values
           csv << @second_expected_attrs.values
         end
       end # before
 
-      test "no import bad params" do
+      test "Multiple Entries - One student with bad params, one with good params" do
         assert_difference("Foi.count", 0) do
           Foi.import(Paperclip.fixture_file_upload(@test_file_loc))
         end
-
-      end
-
-      test "Multiple Entries - One student with bad params, one with good params" do
-
       end
 
     end
