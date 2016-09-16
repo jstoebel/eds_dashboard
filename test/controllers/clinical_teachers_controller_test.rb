@@ -18,8 +18,8 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "advisor", "staff", "student labor"]
 
   def assert_form_details
-        assert_equal assigns(:sites), ClinicalSite.all
-        assert_equal assigns(:subjects), Program.where(Current: true)
+        assert_equal assigns(:sites).to_a, ClinicalSite.all.to_a
+        assert_equal assigns(:subjects).to_a, Program.where(Current: true).order(:EDSProgName).to_a
   end
 
   test "should get index" do
@@ -31,11 +31,6 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       assert_equal assigns(:teachers), ClinicalTeacher.all
     end
   end
-
-  # test "should get show" do
-  #   get :show
-  #   assert_response :success
-  # end
 
   test "should get edit" do
     allowed_roles.each do |r|

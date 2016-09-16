@@ -1,9 +1,9 @@
 class AdmTepController < ApplicationController
-  
+
   layout 'application'
   authorize_resource
   skip_authorize_resource :only => [:new, :choose]
-  
+
   def new
     #display menu for possible names and possible programs
 
@@ -62,7 +62,7 @@ class AdmTepController < ApplicationController
 
 
     @letter = StudentFile.create ({
-        :doc => params[:adm_tep][:letter], 
+        :doc => params[:adm_tep][:letter],
         :active => true,
         :student_id => @application.student.id
       })
@@ -96,7 +96,7 @@ class AdmTepController < ApplicationController
     #@current_term: the current term in time
     #@term: the term displayed
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
-        
+
     @applications = AdmTep.all.by_term(@term)   #fetch all applications for this term
     authorize! :read, @applications
   end
@@ -121,7 +121,7 @@ class AdmTepController < ApplicationController
     app = AdmTep.find(params[:adm_tep_id])
     authorize! :read, app
     send_file app.student_file.doc.path
-    
+
   end
 
   def destroy
@@ -148,7 +148,7 @@ class AdmTepController < ApplicationController
   end
 
   def new_setup
-      @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
+      @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && s.EnrollmentStatus == "Active Student"}
       @programs = Program.where("Current = 1")
       term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
       @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
@@ -159,7 +159,7 @@ class AdmTepController < ApplicationController
     @term = BannerTerm.find(@application.BannerTerm_BannerTerm)
     @student = Student.find(@application.student_id)
     name_details(@student)
-    render('edit')  
+    render('edit')
   end
 
 end

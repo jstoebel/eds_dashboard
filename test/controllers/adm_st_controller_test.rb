@@ -40,8 +40,11 @@ class AdmStControllerTest < ActionController::TestCase
         term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
         load_session(r)
         get :new
-        expected = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
+        expected = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && s.EnrollmentStatus == "Active Student"}
         assert_equal assigns(:students).to_a, expected.to_a
+        expected_terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc).to_a
+        assert_equal assigns(:terms).to_a, expected_terms.to_a
+
         assert_response :success, "unexpected http response, role=#{r}"
       end
     end
