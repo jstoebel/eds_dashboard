@@ -35,7 +35,9 @@ class Foi < ActiveRecord::Base
     presence: {message: "Can't determine if this is a new form."}
 
   validates :seek_cert,
-    presence: {message: "Could not determine if student is seeking certification."}
+    :inclusion => { :in => [true, false],
+        message: "Could not determine if student is seeking certification."
+      }
 
   def check_major_id
     if self.seek_cert == true && self.major_id.blank?
@@ -44,7 +46,7 @@ class Foi < ActiveRecord::Base
   end
 
   def check_eds_only
-    if self.seek_cert == false  && self.eds_only.blank?
+    if self.seek_cert == false  && self.eds_only.nil?
       self.errors.add(:eds_only, "Could not determine if student is seeking EDS only")
     end
   end
