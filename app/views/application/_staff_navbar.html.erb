@@ -3,7 +3,7 @@
       <span class="navbar-brand">Education Studies Dashboard</span>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><%= link_to("Advisees", students_path) %></li>
+      <li class="active"><%= link_to("Students & Advisees", students_path) %></li>
       <li class="active"><%= link_to("Praxis Registration", new_praxis_result_path) %></li>
       <li class = "dropdown active">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Admissions/Exit <span class="caret"></span></a>
@@ -24,6 +24,15 @@
           clinical_sites_path) %></li>
         </ul>
       </li>
+
+      <li class="dropdown active">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li> <%= link_to("Praxis Result Resolution", praxis_result_temps_path) %> </li>
+          <li> <%= link_to("All students", reports_path) %></li>
+        </ul>
+      </li>
+
     </ul>
 
   </div>

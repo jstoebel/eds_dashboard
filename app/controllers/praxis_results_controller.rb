@@ -42,10 +42,7 @@ class PraxisResultsController < ApplicationController
 
   def create
     @test = PraxisResult.new(safe_params)
-    stu_id = (params["praxis_result"]["id"])
-    stu = Student.find(stu_id)
     authorize! :create, @test     #this should restrict advisors from adding new tests
-    @test.student_id = stu.id
     if @test.save
       @student = @test.student
       flash[:notice] = "Registration successful: #{info_for_flash}"
@@ -107,12 +104,7 @@ class PraxisResultsController < ApplicationController
   end
 
   def safe_params
-
-    #same as using params[:subject] except that:
-      #raises an error if :praxis_result is not present
-      #allows listed attributes to be mass-assigned
-    params.require(:praxis_result).permit(:praxis_test_id, :test_date, :reg_date, :paid_by, :test_score, :best_score)
-
+    params.require(:praxis_result).permit(:student_id, :praxis_test_id, :test_date, :reg_date, :paid_by)
   end
 
   def get_testid(params)

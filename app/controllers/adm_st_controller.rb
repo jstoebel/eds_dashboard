@@ -1,5 +1,5 @@
 class AdmStController < ApplicationController
-  
+
   layout 'application'
   authorize_resource
   # skip_authorize_resource :only => [:choose]
@@ -24,10 +24,10 @@ class AdmStController < ApplicationController
 
   def create
     #pre: a student's Bnum
-    #post: 
+    #post:
       #an application is created
       #flash message generated
-      #redirected to index 
+      #redirected to index
 
     @current_term = current_term(exact: true)
 
@@ -48,7 +48,7 @@ class AdmStController < ApplicationController
       flash[:notice] = "Application not saved."
       new_setup
       render 'new'
-      
+
     end
   end
 
@@ -72,7 +72,7 @@ class AdmStController < ApplicationController
     end
 
     letter = StudentFile.create ({
-        :doc => params[:adm_st][:letter], 
+        :doc => params[:adm_st][:letter],
         :active => true,
         :student_id => @app.student.id
       })
@@ -83,19 +83,19 @@ class AdmStController < ApplicationController
     if @app.save
       letter.save
       flash[:notice] = "Student application successfully updated."
-      redirect_to(adm_st_index_path)      
+      redirect_to(adm_st_index_path)
     else
       flash[:notice] = "Error in saving application."
-      error_update      
+      error_update
     end
   end
-  
+
   def edit_st_paperwork
     @app = AdmSt.find(params[:adm_st_id])
     authorize! :manage, @app
     @student = @app.student
     @terms = BannerTerm.where("BannerTerm > ?", @app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
-    
+
   end
 
   def update_st_paperwork
@@ -105,7 +105,7 @@ class AdmStController < ApplicationController
 
     #convert each param to an int and assign
     params_to_convert = [:background_check, :beh_train, :conf_train, :kfets_in, :STTerm]
-    
+
     params_to_convert.each do |p|
       @app.assign_attributes({p => param_to_int(p)})
     end
@@ -128,15 +128,15 @@ class AdmStController < ApplicationController
       # redirect_to adm_st_index_path
     end
   end
-  
+
   def destroy
     @app = AdmSt.find(params[:id])
-    
-    if @app.STAdmitted== nil  
+
+    if @app.STAdmitted== nil
       @app.destroy
       flash[:notice] = "Deleted Successfully!"
-      
-    else 
+
+    else
       flash[:notice] = "Could not successfully delete record!"
     end
     redirect_to(banner_term_adm_st_index_path(@app.BannerTerm_BannerTerm))
@@ -147,7 +147,7 @@ class AdmStController < ApplicationController
     app = AdmSt.find(params[:adm_st_id])
     authorize! :manage, @app
     send_file app.letter.path
-    
+
   end
 
   def choose
@@ -162,7 +162,7 @@ class AdmStController < ApplicationController
   def index_setup
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
 
-    @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term  
+    @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term
   end
 
   def new_adm_params
@@ -181,11 +181,11 @@ class AdmStController < ApplicationController
   def param_to_int(param)
 
     return params[:adm_st][param].to_i
-    
+
   end
 
   def new_setup
-    @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && !s.EnrollmentStatus.include?("Dismissed") && s.EnrollmentStatus != "Gradiation"}
+    @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && s.EnrollmentStatus == "Active Student"}
     @terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc)
   end
 
@@ -194,6 +194,6 @@ class AdmStController < ApplicationController
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
     @student = Student.find(@app.student_id)
     render('edit')
-    
+
   end
 end
