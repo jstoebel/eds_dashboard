@@ -45,12 +45,11 @@ class Foi < ActiveRecord::Base
     #  file: type Rack::Test::UploadedFile
     # open the csv file, drop one row from the begining and then from the remainder open the first row
     # this returns an the resulting row inside of an array so pull it out using [0]
-    puts "total = #{Foi.count}"
     # TODO handle bad file type
     if File.extname(file.original_filename) != ".csv"
       return {success: false, message: "File is not a .csv file."}
     end
-
+    
     headers = CSV.open(file.path, 'r').drop(1) { |csv| csv.first}[0]
 
     row_count = 0
@@ -63,7 +62,6 @@ class Foi < ActiveRecord::Base
             row_count += 1
           end
         end
-
       rescue ActiveRecord::RecordInvalid => e
         return {success: false, message: "Error on line #{row_count + 2}: #{e.message}"}
       end
@@ -72,8 +70,6 @@ class Foi < ActiveRecord::Base
 
     end # transaction
 
-    puts "created an FOI"
-    puts "total = #{Foi.count}"
   end
 
    # import
