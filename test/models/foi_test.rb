@@ -70,12 +70,121 @@ class FoiTest < ActiveSupport::TestCase
         "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
         "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
         "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-        "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
-        "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "yes"
+        "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
+        "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "Yes"
       }
     end
 
     describe "successful import" do
+      describe "response combinations" do
+        describe "new form" do
+          before do
+            @key = "Q1.3 - Are you completing this form for the first time, or is this form a revision..."
+          end
+
+          test "New Form" do
+            @row[@key] = "New Form"
+            assert_difference("Foi.count", 1) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "Revision" do
+            @row[@key] = "Revision"
+            assert_difference("Foi.count", 1) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "Spam" do
+            @row[@key] = "Spam"
+            assert_raises(ActiveRecord::RecordInvalid) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "nil" do
+            @row[@key] = nil
+            assert_raises(ActiveRecord::RecordInvalid) do
+              Foi._import_foi(@row)
+            end
+          end
+
+        end # describe new form
+
+        describe "seek_cert" do
+          before do
+            @key = "Q1.4 - Do you intend to seek teacher certification at Berea College?"
+          end
+
+          test "Yes" do
+            @row[@key] = "Yes"
+            assert_difference("Foi.count", 1) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "No" do
+            @row[@key] = "No"
+            assert_difference("Foi.count", 1) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "Spam" do
+            @row[@key] = "Spam"
+            assert_raises(ActiveRecord::RecordInvalid) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "nil" do
+            @row[@key] = nil
+            assert_raises(ActiveRecord::RecordInvalid) do
+              Foi._import_foi(@row)
+            end
+          end
+
+        end # seek _cert
+
+        describe "eds_only" do
+          before do
+            # need seek_cert false to throw the error
+            @row["Q1.4 - Do you intend to seek teacher certification at Berea College?"] = "No"
+            @key = "Q2.1 - Do you intend to seek an Education Studies degree without certification?"
+          end
+
+          test "Yes" do
+            @row[@key] = "Yes"
+            assert_difference("Foi.count", 1) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "No" do
+            @row[@key] = "No"
+            assert_difference("Foi.count", 1) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "Spam" do
+            @row[@key] = "Spam"
+            assert_raises(ActiveRecord::RecordInvalid) do
+              Foi._import_foi(@row)
+            end
+          end
+
+          test "nil" do
+            @row[@key] = nil
+            assert_raises(ActiveRecord::RecordInvalid) do
+              Foi._import_foi(@row)
+            end
+          end
+
+        end # seek _cert
+
+      end
 
       test "imports row" do
         assert_difference('Foi.count', 1) do
@@ -88,7 +197,7 @@ class FoiTest < ActiveSupport::TestCase
         assert_equal 1, @stu.foi.size
       end
 
-    end # inner describe
+    end # successful import
 
     test "doesn't import row - missing param" do
       @row["Q1.2_3 - B#"] = nil
@@ -116,8 +225,8 @@ class FoiTest < ActiveSupport::TestCase
           "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
           "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
           "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-          "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
-          "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "yes"
+          "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
+          "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "Yes"
         }
 
         headers = @expected_attrs.keys
