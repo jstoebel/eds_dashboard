@@ -32,7 +32,10 @@ class Foi < ActiveRecord::Base
     message: "May not have more than one FOI for a paticular student at a paticular time." }
 
   validates :new_form,
-    presence: {message: "Can't determine if this is a new form."}
+  :inclusion => { :in => [true, false],
+      message: "Can't determine if this is a new form."
+    }
+
 
   validates :seek_cert,
     :inclusion => { :in => [true, false],
@@ -90,35 +93,46 @@ class Foi < ActiveRecord::Base
     # row: a hash of attributes
     # creates an foi record or raises an error if student can't be determined
 
-    eds_only = row["Q2.1 - Do you intend to seek an Education Studies degree without certification?"].andand.downcase == "yes"
-    seek_cert = row["Q1.4 - Do you intend to seek teacher certification at Berea College?"].andand.downcase == "yes"
-    new_form = row["Q1.3 - Are you completing this form for the first time, or is this form a revision..."].andand.
-      downcase == "new form"
+    attrs = {}
+
+    # these three attrs are processed the same.
+    row_attrs = [
+      {:name => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
+        :slug => :new_form
+      },
+      {:name => "Q1.4 - Do you intend to seek teacher certification at Berea College?",
+        :slug => :seek_cert
+      },
+      {:name => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
+        :slug => :eds_only
+      }
+
+    ]
+
+    row_attrs.each do |ra|
+      raw = ra[:name]
+      if raw.present?
+        attrs[ra[:slug]] = ra[:name].downcase == "yes"
+      else
+        attrs[ra[:slug]] = nil
+      end
+    end
 
     major_name = row["Q3.1 - Which area do you wish to seek certification in?"] # the raw name of the major from the fil
-    major = Major.find_by(:name => major_name) # this could be nil!
-
+    attrs[:major_id] = Major.find_by(:name => major_name) # this could be nil!
 
     date_str = row["Recorded Date"]  #date completing, from the csv
     begin
-      date = DateTime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
+      attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
     rescue ArgumentError, TypeError => e
-      date = nil
+      attrs[:date_completing] = nil
     end
 
     bnum = row["Q1.2_3 - B#"]
-    stu_id = Student.find_by({:Bnum => bnum}).andand.id
-
-    attrs = {
-        :student_id => stu_id,
-        :date_completing => date,
-        :new_form => new_form,
-        :major_id => major.andand.id,
-        :seek_cert => seek_cert,
-        :eds_only => eds_only
-    }
+    attrs[:student_id] = Student.find_by({:Bnum => bnum}).andand.id
 
     Foi.create!(attrs)
+
 
   end
 end
