@@ -29,7 +29,6 @@ class FoiTest < ActiveSupport::TestCase
       assert_equal ["Student could not be identified."], @foi.errors[:student_id]
     end
 
-
     test "date_completing" do
       assert_equal ["Date completing is missing or incorrectly formatted. Example format: 01/01/2016 09:00:00 AM"], @foi.errors[:date_completing]
     end
@@ -38,16 +37,36 @@ class FoiTest < ActiveSupport::TestCase
       assert_equal ["Can't determine if this is a new form."], @foi.errors[:new_form]
     end
 
-    test "major_id" do
-      assert_equal ["Major could not be determined."], @foi.errors[:major_id]
-    end
-
     test "seek_cert" do
       assert_equal ["Could not determine if student is seeking certification."], @foi.errors[:seek_cert]
     end
 
-    test "eds_only" do
-      assert_equal ["Could not determine if student is seeking EDS only."], @foi.errors[:eds_only]
+    # test "major_id" do
+    #   assert_equal ["Major could not be determined."], @foi.errors[:major_id]
+    # end
+    #
+    # test "eds_only" do
+    #   assert_equal ["Could not determine if student is seeking EDS only."], @foi.errors[:eds_only]
+    # end
+
+    describe "conditional validations" do
+
+      test "major_id" do
+        @foi.seek_cert = true
+        @foi.valid?
+
+        assert_equal ["Major could not be determined."], @foi.errors[:major_id]
+        assert_equal [], @foi.errors[:eds_only]
+      end
+
+      test "eds_only" do
+        @foi.seek_cert = false
+        @foi.valid?
+
+        assert_equal ["Could not determine if student is seeking EDS only"], @foi.errors[:eds_only]
+        assert_equal [], @foi.errors[:major_id]
+      end
+
     end
 
   end
@@ -83,8 +102,7 @@ class FoiTest < ActiveSupport::TestCase
       must_have = ["Q1.2_3 - B#",
         "Recorded Date",
         "Q3.1 - Which area do you wish to seek certification in?",
-        "Q1.4 - Do you intend to seek teacher certification at Berea College?",
-        "Q2.1 - Do you intend to seek an Education Studies degree without certification?"
+        "Q1.4 - Do you intend to seek teacher certification at Berea College?"
         ]
 
       must_have.each do |k|
@@ -126,7 +144,7 @@ class FoiTest < ActiveSupport::TestCase
 
         headers = @expected_attrs.keys
         @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
-  
+
 
         CSV.open(@test_file_loc, "w") do |csv|
           csv << []  #first row or "super headers"
@@ -136,7 +154,7 @@ class FoiTest < ActiveSupport::TestCase
       end # before
 
       test "creates a FOI" do
-        assert_difference("Foi.count", 1) do  
+        assert_difference("Foi.count", 1) do
           Foi.import(Paperclip.fixture_file_upload(@test_file_loc)) # change this to Foi.import(Paperclip.fixture_file_upload(@test_file_loc)
         end
       end
@@ -153,7 +171,7 @@ class FoiTest < ActiveSupport::TestCase
       # neither should be created
       # return {success: false, message: "Error on line #{row_num}: #{e.message}"}
       # test params of the above hash
-      before do 
+      before do
         @stu = FactoryGirl.create :student
         @expected_attrs = {"Q1.2_3 - B#" => @stu.Bnum,
           "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
@@ -170,8 +188,8 @@ class FoiTest < ActiveSupport::TestCase
           "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
           "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "yes"
         }
-        
-        
+
+
         headers = @expected_attrs.keys
         second_header = @second_expected_attrs.keys
         @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
@@ -182,18 +200,18 @@ class FoiTest < ActiveSupport::TestCase
           csv << @second_expected_attrs.values
         end
       end # before
-      
+
       test "no import bad params" do
-        assert_difference("Foi.count", 0) do 
+        assert_difference("Foi.count", 0) do
           Foi.import(Paperclip.fixture_file_upload(@test_file_loc))
         end
-          
+
       end
-      
+
       test "Multiple Entries - One student with bad params, one with good params" do
-      
+
       end
-      
+
     end
   end
 end
