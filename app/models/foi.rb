@@ -30,16 +30,18 @@ class Foi < ActiveRecord::Base
 
   validates :new_form,
     presence: {message: "Can't determine if this is a new form."}
-  
+
   validates :seek_cert,
     presence: {message: "Could not determine if student is seeking certification."}
 
   validates :major_id,
-    presence: {message: "Major could not be determined."}
+    presence: {message: "Major could not be determined."},
+    :if => Proc.new { |s| s.seek_cert == true}
+    # only required if seek_cert is true
 
   validates :eds_only,
-    presence: {message: "could not determine if student is seeking EDS only"} # Eds Only is tacked on to the begining automatically
-
+    presence: {message: "Could not determine if student is seeking EDS only"}, # Eds Only is tacked on to the begining automatically
+    :if => Proc.new { |s| s.seek_cert == false}
 
   def self.import(file)
     #  file: type Rack::Test::UploadedFile
@@ -49,7 +51,7 @@ class Foi < ActiveRecord::Base
     if File.extname(file.original_filename) != ".csv"
       return {success: false, message: "File is not a .csv file."}
     end
-    
+
     headers = CSV.open(file.path, 'r').drop(1) { |csv| csv.first}[0]
 
     row_count = 0
@@ -78,7 +80,7 @@ class Foi < ActiveRecord::Base
   def self._import_foi(row)
     # row: a hash of attributes
     # creates an foi record or raises an error if student can't be determined
-    
+
     eds_only = row["Q2.1 - Do you intend to seek an Education Studies degree without certification?"].andand.downcase == "yes"
     seek_cert = row["Q1.4 - Do you intend to seek teacher certification at Berea College?"].andand.downcase == "yes"
     new_form = row["Q1.3 - Are you completing this form for the first time, or is this form a revision..."].andand.
@@ -108,7 +110,7 @@ class Foi < ActiveRecord::Base
     }
 
     Foi.create!(attrs)
-    
+
 
 
   end
