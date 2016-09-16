@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912160114) do
+ActiveRecord::Schema.define(version: 20160907175437) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -104,11 +104,10 @@ ActiveRecord::Schema.define(version: 20160912160114) do
   end
 
   create_table "banner_terms", primary_key: "BannerTerm", force: :cascade do |t|
-    t.string   "PlainTerm",     limit: 45, null: false
-    t.datetime "StartDate",                null: false
-    t.datetime "EndDate",                  null: false
-    t.integer  "AYStart",       limit: 4,  null: false
-    t.boolean  "standard_term"
+    t.string   "PlainTerm", limit: 45, null: false
+    t.datetime "StartDate",            null: false
+    t.datetime "EndDate",              null: false
+    t.integer  "AYStart",   limit: 4,  null: false
   end
 
   create_table "banner_updates", force: :cascade do |t|
