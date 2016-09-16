@@ -30,15 +30,15 @@ class Foi < ActiveRecord::Base
 
   validates :new_form,
     presence: {message: "Can't determine if this is a new form."}
+  
+  validates :seek_cert,
+    presence: {message: "Could not determine if student is seeking certification."}
 
   validates :major_id,
     presence: {message: "Major could not be determined."}
 
-  validates :seek_cert,
-    presence: {message: "Could not determine if student is seeking certification."}
-
   validates :eds_only,
-    presence: {message: "Could not determine if student is seeking EDS only."}
+    presence: {message: "could not determine if student is seeking EDS only"} # Eds Only is tacked on to the begining automatically
 
 
   def self.import(file)
