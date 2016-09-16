@@ -98,28 +98,38 @@ class Foi < ActiveRecord::Base
     # these three attrs are processed the same.
     row_attrs = [
       {:name => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
-        :slug => :new_form
+        :slug => :new_form,
+        :true => "New Form",
+        :false => "Revision"
       },
       {:name => "Q1.4 - Do you intend to seek teacher certification at Berea College?",
-        :slug => :seek_cert
+        :slug => :seek_cert,
+        :true => "Yes",
+        :false => "No"
       },
-      {:name => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
-        :slug => :eds_only
-      }
+      {:name => "Q2.1 - Do you intend to seek an Education Studies degree without certification?",
+        :slug => :eds_only,
+        :true => "Yes",
+        :false => "No"
 
+      }
     ]
 
     row_attrs.each do |ra|
-      raw = ra[:name]
-      if raw.present?
-        attrs[ra[:slug]] = ra[:name].downcase == "yes"
+      col_name = ra[:name]
+      raw_response = row[col_name]
+      if raw_response == ra[:true]
+        attrs[ra[:slug]] = true
+      elsif raw_response == ra[:false]
+        attrs[ra[:slug]] = false
       else
         attrs[ra[:slug]] = nil
       end
     end
 
     major_name = row["Q3.1 - Which area do you wish to seek certification in?"] # the raw name of the major from the fil
-    attrs[:major_id] = Major.find_by(:name => major_name) # this could be nil!
+    major = Major.find_by(:name => major_name) # this could be nil!
+    attrs[:major_id] = major.andand.id
 
     date_str = row["Recorded Date"]  #date completing, from the csv
     begin
