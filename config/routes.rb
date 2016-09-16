@@ -164,6 +164,9 @@ Rails.application.routes.draw do
     get "delete"
   end
 
+  resources :reports, only: [:index] do #reports is here
+  end
+  
   resources :assessment_items, only: [ :show, :create, :destroy] do
   end
 
@@ -237,6 +240,10 @@ Rails.application.routes.draw do
   
   resources :fois do
     collection { post :import }
+  end
+
+  resources :praxis_result_temps, only: [:index], shallow: true do
+    post "resolve"
   end
 
   resources :student_files do

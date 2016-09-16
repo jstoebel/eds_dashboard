@@ -50,10 +50,10 @@ class ClinicalAssignmentsController < ApplicationController
     #plan c: text box (zzzz...)
 
 
-    @assignment.CourseID = '???'    
+    @assignment.CourseID = '???'
 
     @assignment.Term = current_term({exact: false, plan_b: :forward}).BannerTerm
-  
+
     authorize! :manage, @assignment
 
     if @assignment.save
@@ -63,7 +63,7 @@ class ClinicalAssignmentsController < ApplicationController
       form_setup
       render ('new')
     end
-      
+
 
   end
 
@@ -72,7 +72,7 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment = ClinicalAssignment.find(params[:id])
     authorize! :manage, @assignment
   end
-  
+
   def destroy
     @assignment = ClinicalAssignment.find(params[:id])
     @assignment.destroy
@@ -86,13 +86,13 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment.assign_attributes(assignment_params)
 
     begin
-      @assignment.StartDate = params[:clinical_assignment][:StartDate] 
+      @assignment.StartDate = params[:clinical_assignment][:StartDate]
     rescue ArgumentError, TypeError => e
       @assignment.StartDate = nil
     end
 
     begin
-      @assignment.EndDate = params[:clinical_assignment][:EndDate] 
+      @assignment.EndDate = params[:clinical_assignment][:EndDate]
     rescue ArgumentError, TypeError => e
       @assignment.EndDate = nil
     end
@@ -117,10 +117,10 @@ class ClinicalAssignmentsController < ApplicationController
 
   def assignment_params
     params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level)#, :StartDate, :EndDate)
-    
+
   end
   def form_setup
-    @students = Student.by_last.current.select{|s| can? :index, s}
+    @students = Student.by_last.where({:EnrollmentStatus => "Active Student"}).current.select{|s| can? :index, s}
     @teachers = ClinicalTeacher.all
     @current_term = current_term exact: false, plan_b: :forward
   end

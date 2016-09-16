@@ -189,8 +189,11 @@ test "should not post create bad record" do
   def check_form_setup
     user = User.find_by(:UserName => session[:user])
     abil = Ability.new(user)
+    
     # TODO figure out why this doesn't work as expected
-    # assert assigns(:students) == Student.current.by_last.select{|s| abil.can? :read, s}, user.inspect
+    # expected_students = Student.by_last.where({:EnrollmentStatus => "Active Student"}).current.select{|s| abil.can? :index, s}
+    # assert_equal expected_students.to_a, assigns(:students).to_a
+
     assert_equal assigns(:teachers), ClinicalTeacher.all
     assert_equal assigns(:current_term), ApplicationController.helpers.current_term(exact: false, plan_b: :forward)
   end

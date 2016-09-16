@@ -19,6 +19,11 @@ class AdmTepControllerTest < ActionController::TestCase
         load_session(r)
         get :new
         assert_response :success
+        assert_equal Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && s.EnrollmentStatus == "Active Student"}.to_a, assigns(:students).to_a
+        assert_equal  Program.where("Current = 1").to_a, assigns(:programs).to_a
+
+        term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
+        assert_equal BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc).to_a, assigns(:terms).to_a
       end
     end
   end

@@ -43,6 +43,8 @@ class Ability
 
   private
   def advisor_check(user, resource)
+    # is user an advisor or professor of this the student  or student belonging to this resource?
+
     advisor_profile = user.tep_advisor
 
     if advisor_profile.present?   #is user in the advisor table (admin posing as advisor might not)
