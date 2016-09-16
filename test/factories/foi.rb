@@ -20,14 +20,13 @@ FactoryGirl.define do
     new_form true
     major
 
-    eds_only nil
-    
-    factory :applying_foi do
-      seek_cert true
+    factory :applying_foi, parent: :foi do
+      seek_cert {true}
     end
-    
-    factory :not_apply_foi do
-      seek_cert false
+
+    factory :not_applying_foi, parent: :foi do
+      seek_cert {false}
+      eds_only {Faker::Boolean.boolean(0.5)}
     end
   end
 end
