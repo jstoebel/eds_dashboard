@@ -95,7 +95,8 @@ class FoiTest < ActiveSupport::TestCase
         Foi._import_foi(@row)
         assert_equal 1, @stu.foi.size
       end
-    end
+
+    end # inner describe
 
     describe "doesn't import row - missing param" do
 

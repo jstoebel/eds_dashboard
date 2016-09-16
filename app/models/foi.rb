@@ -20,6 +20,9 @@ class Foi < ActiveRecord::Base
   belongs_to :student
   belongs_to :major
 
+  after_validation :check_major_id
+  after_validation :check_eds_only
+
   validates :student_id,
     presence: {message: "Student could not be identified."}
 
@@ -34,14 +37,18 @@ class Foi < ActiveRecord::Base
   validates :seek_cert,
     presence: {message: "Could not determine if student is seeking certification."}
 
-  validates :major_id,
-    presence: {message: "Major could not be determined."},
-    :if => Proc.new { |s| s.seek_cert == true}
-    # only required if seek_cert is true
+  def check_major_id
+    if self.seek_cert == true && self.major_id.blank?
+      self.errors.add(:major_id, "Major could not be determined.")
+    end
+  end
 
-  validates :eds_only,
-    presence: {message: "Could not determine if student is seeking EDS only"}, # Eds Only is tacked on to the begining automatically
-    :if => Proc.new { |s| s.seek_cert == false}
+  def check_eds_only
+    if self.seek_cert == false  && self.eds_only.blank?
+      self.errors.add(:eds_only, "Could not determine if student is seeking EDS only")
+    end
+  end
+
 
   def self.import(file)
     #  file: type Rack::Test::UploadedFile
@@ -110,8 +117,6 @@ class Foi < ActiveRecord::Base
     }
 
     Foi.create!(attrs)
-
-
 
   end
 end
