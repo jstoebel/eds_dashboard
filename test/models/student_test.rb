@@ -377,7 +377,13 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal "Not applying", s.prog_status
 	end
 
+	test "returns candidate despite negative foi" do
+		stu = FactoryGirl.create :admitted_student
+		neg_foi = FactoryGirl.create :not_applying_foi, {:student_id => stu.id}
 
+		assert_equal "Candidate", stu.prog_status
+
+	end
 
 	test "returns prospective positive foi" do
 		stu = Student.first

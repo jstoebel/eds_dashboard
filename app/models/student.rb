@@ -53,6 +53,9 @@ class Student < ActiveRecord::Base
 	has_many :praxis_results
 	has_many :praxis_prep
 	has_many :praxis_result_temps
+
+	has_many :foi
+	has_many :prog_exits
 ###################################################################################################
 
 
@@ -226,24 +229,68 @@ class Student < ActiveRecord::Base
 
 	####~~~FOI associations and methods~~~#################################################
 
-	has_many :foi
-	has_many :prog_exits
-
 	def prog_status
-		#Program Statuses
-		# Prospective: all of the following conditions are met.
 
-		#   * student has not been dismissed AND
-		#	* latest FOI does not incidate that the student IS NOT seeking certification AND
-		# 	* No admit in adm_tep
-		enrollment = [(not self.was_dismissed?),
-			(self.latest_foi == nil or self.latest_foi.seek_cert),
-			(self.adm_tep.where(:TEPAdmit => true).size == 0),
-			(not graduated), (not transfered)]
+		if (self.adm_tep.where(:TEPAdmit => true).size == 0)
+			# student has not been admitted
 
-		if enrollment.all?
+			# Prospective: all of the following conditions are met.
 
-			return "Prospective"
+			#   * student has not been dismissed AND
+			#	* latest FOI does not incidate that the student IS NOT seeking certification AND
+			# 	* No admit in adm_tep
+			enrollment = [(not self.was_dismissed?),
+				(self.latest_foi == nil or self.latest_foi.seek_cert),
+				(not graduated), (not transfered)]
+
+			if enrollment.all?
+
+				return "Prospective"
+
+			# Not applying: any of the following
+			# 	A student who has indicated they are not interested in applying to the TEP. OR
+			# 	A student who was dismissed from the college and never admitted to TEP
+
+			elsif (self.latest_foi.present? and not self.latest_foi.seek_cert) or
+					(self.was_dismissed?) or
+					graduated or transfered
+				return "Not applying"
+			else
+				return "Unknown Status"
+			end
+
+		else	# student has been admitted
+			# Candidate
+			# 	Admited in adm_tep
+			# 	no exit
+			if self.open_programs.size > 0
+				return "Candidate"
+
+			# Dropped
+			# 	A student who has left the TEP after being admited for any reason other than program completion
+			# 	Admited in adm_tep
+			# 	all adm_tep are closed
+			#   all exit reasons something other than program completion
+			elsif 	(self.open_programs.size == 0) and
+					(self.prog_exits.map{ |e| e.exit_code.ExitCode != "1849" }.all?)
+
+				return "Dropped"
+
+			# Completer
+			# 	A student who has successfully completed the TEP.
+			# 	all adm_tep are closed
+			#   atleast one exit is for reason program completion
+			elsif 	(AdmTep.open(self.id).size == 0) and
+					(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?)
+
+				return "Completer"
+
+			else
+				return "Unknown Status"
+			end
+		end
+
+
 
 
 		#Add that student has not graduated
@@ -253,43 +300,9 @@ class Student < ActiveRecord::Base
 		#create methods for graduated and wd-transferring
 
 
-		# Not applying: any of the following
-		# 	A student who has indicated they are not interested in applying to the TEP. OR
-		# 	A student who was dismissed from the college and never admitted to TEP
-		elsif 	(self.latest_foi.present? and not self.latest_foi.seek_cert) or
-				(self.was_dismissed?) or
-				graduated or transfered
-			return "Not applying"
 
-		# Candidate
-		# 	Admited in adm_tep
-		# 	no exit
-		elsif self.open_programs.size > 0
-			return "Candidate"
 
-		# Dropped
-		# 	A student who has left the TEP after being admited for any reason other than program completion
-		# 	Admited in adm_tep
-		# 	all adm_tep are closed
-		#   all exit reasons something other than program completion
 
-		elsif 	(self.open_programs.size == 0) and
-				(self.prog_exits.map{ |e| e.exit_code.ExitCode != "1849" }.all?)
-
-			return "Dropped"
-
-		# Completer
-		# 	A student who has successfully completed the TEP.
-		# 	all adm_tep are closed
-		#   atleast one exit is for reason program completion
-		elsif 	(AdmTep.open(self.id).size == 0) and
-				(self.prog_exits.map{ |e| e.exit_code.ExitCode == "1849" }.any?)
-
-			return "Completer"
-
-		else
-			return "Unknown Status"
-		end
 
 	end
 
