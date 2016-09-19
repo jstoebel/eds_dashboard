@@ -9,11 +9,11 @@
 <% majors = ["Art",
 "Biology",
 "Chemistry",
-"Elementary (P-5)",
+"P-5",
 "Engineering and Technology",
 "English (8-12)",
-"Math (5-9)",
-"Math (8-12)",
+"5-9 Math",
+"Math (Secondary)",
 "Music-Instrumental",
 "Music-Vocal",
 "PE",
@@ -28,4 +28,3 @@
   name: <%= val %>
 
 <% end %>
-
