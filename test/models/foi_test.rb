@@ -30,7 +30,7 @@ class FoiTest < ActiveSupport::TestCase
     end
 
     test "date_completing" do
-      assert_equal ["Date completing is missing or incorrectly formatted. Example format: 01/01/2016 09:00:00 AM"], @foi.errors[:date_completing]
+      assert_equal ["Date completing is missing or incorrectly formatted. Example format: 01/01/16 13:00"], @foi.errors[:date_completing]
     end
 
     test "new_form" do
@@ -47,7 +47,7 @@ class FoiTest < ActiveSupport::TestCase
         @foi.seek_cert = true
         @foi.valid?
 
-        assert_equal ["Major could not be determined."], @foi.errors[:major_id]
+        assert_equal ["is required and could not be determined."], @foi.errors[:major_id]
         assert_equal [], @foi.errors[:eds_only]
       end
 
@@ -63,11 +63,11 @@ class FoiTest < ActiveSupport::TestCase
 
   end
 
-  describe "_import_foi" do
+  describe "_import_row" do
     before do
       @stu = FactoryGirl.create :student
-      @row = {"Q1.2_3 - B#" => @stu.Bnum ,
-        "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
+      @row = {"Q1.2_3 - B#" => @stu.Bnum,
+        "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
         "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
         "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
         "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
@@ -76,6 +76,7 @@ class FoiTest < ActiveSupport::TestCase
     end
 
     describe "successful import" do
+
       describe "response combinations" do
         describe "new form" do
           before do
@@ -197,6 +198,13 @@ class FoiTest < ActiveSupport::TestCase
         assert_equal 1, @stu.foi.size
       end
 
+      test "seek_cert and no major given" do
+        @row["Q3.1 - Which area do you wish to seek certification in?"] = nil
+        assert_difference('Foi.count', 1) do
+          Foi._import_foi(@row)
+        end
+      end
+
     end # successful import
 
     test "doesn't import row - missing param" do
@@ -222,7 +230,7 @@ class FoiTest < ActiveSupport::TestCase
 
         @stu = FactoryGirl.create :student
         @expected_attrs = {"Q1.2_3 - B#" => @stu.Bnum,
-          "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
+          "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
           "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
           "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
           "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
@@ -261,7 +269,7 @@ class FoiTest < ActiveSupport::TestCase
       before do
         @stu = FactoryGirl.create :student
         @expected_attrs = {"Q1.2_3 - B#" => nil,
-          "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
+          "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
           "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "new form",
           "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
           "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
@@ -269,7 +277,7 @@ class FoiTest < ActiveSupport::TestCase
         }
         @second_stu = FactoryGirl.create :student
         @second_expected_attrs = {"Q1.2_3 - B#" => @second_stu.Bnum,
-          "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
+          "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
           "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "bad param",
           "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
           "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
@@ -290,9 +298,13 @@ class FoiTest < ActiveSupport::TestCase
       end # before
 
       test "Multiple Entries - One student with bad params, one with good params" do
-        assert_difference("Foi.count", 0) do
+        before_count = Foi.count
+        begin
           Foi.import(Paperclip.fixture_file_upload(@test_file_loc))
+        rescue
+          assert_equal Foi.count, before_count
         end
+
       end
 
     end
