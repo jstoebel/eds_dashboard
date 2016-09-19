@@ -25,9 +25,9 @@ class Foi < ActiveRecord::Base
 
   validates :student_id,
     presence: {message: "Student could not be identified."}
-
+    
   validates :date_completing,
-  presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/2016 09:00:00 AM"},
+  presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/16 13:00"},
   uniqueness: { scope: :student_id,
     message: "May not have more than one FOI for a paticular student at a paticular time." }
 
@@ -44,7 +44,7 @@ class Foi < ActiveRecord::Base
 
   def check_major_id
     if self.seek_cert == true && self.major_id.blank?
-      self.errors.add(:major_id, "Major could not be determined.")
+      self.errors.add(:major_id, "is required and could not be determined.")
     end
   end
 
@@ -68,21 +68,22 @@ class Foi < ActiveRecord::Base
 
     row_count = 0
 
-    Foi.transaction do
-      begin
+
+    begin
+      Foi.transaction do
         CSV.foreach(file.path) do |row|
           if $. > 2 # skipping first row
-            _import_foi(Hash[headers.zip(row)])
             row_count += 1
+            _import_foi(Hash[headers.zip(row)])
           end
         end
-      rescue ActiveRecord::RecordInvalid => e
-        return {success: false, message: "Error on line #{row_count + 2}: #{e.message}"}
-      end
+      end #transaction
 
-      return {success: true, message: nil, rows: row_count }
+    rescue ActiveRecord::RecordInvalid => e
+      raise "Error on line #{row_count + 2}: #{e.message}"
+    end
 
-    end # transaction
+    return {success: true, message: nil, rows: row_count }
 
   end
 
@@ -131,9 +132,18 @@ class Foi < ActiveRecord::Base
     major = Major.find_by(:name => major_name) # this could be nil!
     attrs[:major_id] = major.andand.id
 
+    if major.nil? && attrs[:seek_cert]
+      # if student is seeking cert, major should be Undecided, otherwise its nil
+      attrs[:major_id] = Major.find_by(:name => "Undecided").id
+    end
+
+
+
+    #expected format: 9/2/16 9:25
     date_str = row["Recorded Date"]  #date completing, from the csv
+
     begin
-      attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
+      attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%y %k:%M")
     rescue ArgumentError, TypeError => e
       attrs[:date_completing] = nil
     end
