@@ -75,11 +75,11 @@ class FoisControllerTest < ActionController::TestCase
       @stu = FactoryGirl.create :student
       @pre_record_count = Foi.all.size
       @expected_attrs = {"Q1.2_3 - B#" => @stu.Bnum,
-        "Recorded Date" => Date.today.strftime("%m/%d/%Y %I:%M:%S %p"),
-        "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "new form",
+        "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
+        "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
         "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-        "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
-        "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "yes"
+        "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
+        "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "Yes"
       }
 
       headers = @expected_attrs.keys
@@ -139,7 +139,7 @@ class FoisControllerTest < ActionController::TestCase
           end
 
           test "flash message" do
-            expected_message = "Error on line 2: Validation failed: Student Student could not be identified."
+            expected_message = "Error on line 3: Validation failed: Student Student could not be identified."
             assert_equal expected_message, flash[:notice]
           end
 
