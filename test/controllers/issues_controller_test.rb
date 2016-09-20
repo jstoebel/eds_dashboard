@@ -16,9 +16,7 @@
 
 require 'test_helper'
 require 'application_controller'
-require 'test_teardown'
 class IssuesControllerTest < ActionController::TestCase
-  include TestTeardown
   allowed_roles = ["admin", "advisor"]
 
   test "should get new" do
@@ -162,7 +160,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test "should be allowed to destory issues" do
     (allowed_roles).each do |r|
       load_session(r)
@@ -173,9 +171,9 @@ class IssuesControllerTest < ActionController::TestCase
           assert_redirected_to(student_issues_path(issue.student.id)) # makes sure the user has been redirected to the index page of the student issue page
     end
   end
-  
+
   #test for unauthorized users
-  
+
   test "should NOT be allowed to destroy issues" do
     issue = FactoryGirl.create(:issue)
     (role_names - allowed_roles).each do |r|
