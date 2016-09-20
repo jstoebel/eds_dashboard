@@ -17,8 +17,16 @@ FactoryGirl.define do
   factory :foi do
     student
     date_completing Date.today
+    new_form true
     major
-    seek_cert true
-    eds_only nil
+
+    factory :applying_foi, parent: :foi do
+      seek_cert {true}
+    end
+
+    factory :not_applying_foi, parent: :foi do
+      seek_cert {false}
+      eds_only {Faker::Boolean.boolean(0.5)}
+    end
   end
 end

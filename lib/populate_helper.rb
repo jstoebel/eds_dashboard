@@ -5,16 +5,20 @@ module PopulateHelper
       num_forms = Faker::Number.between 1, 2 #how many forms did they do?
 
         (num_forms).times do
-          seek_cert = Faker::Boolean.boolean 0.75
-          eds_only = Faker::Boolean.boolean if !seek_cert
 
-          FactoryGirl.create :foi, {
-            student_id: stu.id,
-            date_completing: Faker::Time.between(4.years.ago, 3.year.ago),
-            major_id: Major.all.sample.id,
-            seek_cert: seek_cert,
-            eds_only: eds_only
-            }
+          is_seeking_cert = Faker::Boolean.boolean 0.75
+
+          if is_seeking_cert
+            FactoryGirl.create :applying_foi, {:student_id => stu.id,
+              :date_completing => Faker::Time.between(4.years.ago, 3.year.ago),
+              :major_id => Major.all.sample.id}
+          else
+            FactoryGirl.create :not_applying_foi, {:student_id => stu.id,
+              :date_completing => Faker::Time.between(4.years.ago, 3.year.ago),
+              :eds_only => Faker::Boolean.boolean(0.5),
+              :seek_cert => false}
+          end
+
         end
 
     end

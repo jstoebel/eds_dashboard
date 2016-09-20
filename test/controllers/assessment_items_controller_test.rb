@@ -11,12 +11,9 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
-
 class AssessmentItemsControllerTest < ActionController::TestCase
-    include TestTeardown
     allowed_roles = ["admin", "staff"]
-    
+
     test "Should get index" do
         version = FactoryGirl.create :version_with_items
         allowed_roles.each do |r|
@@ -27,8 +24,8 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_response :ok
         end
     end
-    
-    test "Should get show" do 
+
+    test "Should get show" do
         allowed_roles.each do |r|
             load_session(r)
             item = FactoryGirl.create :assessment_item
@@ -38,11 +35,11 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_response :ok
         end
     end
-    
+
     test "Should post create" do
         allowed_roles.each do |r|
             load_session(r)
-            create_params = {:slug => "test slug", :description => "test description", :name => "test name"} 
+            create_params = {:slug => "test slug", :description => "test description", :name => "test name"}
             post :create, {:assessment_item => create_params}
             assert assigns(:item).valid?
             create_params.each_key{|attri| assert_equal create_params[attri], assigns(:item).attributes["#{attri}"]}
@@ -50,7 +47,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_response :created
         end
     end
-    
+
     test "Should patch update" do
         allowed_roles.each do |r|
             load_session(r)
@@ -64,7 +61,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_response :ok
         end
     end
-    
+
     test "Should destroy item" do
         ##Should destroy item and dependents tested in model
         allowed_roles.each do |r|
@@ -76,7 +73,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_response :no_content
         end
     end
-       
+
     ###Bad Roles
     test "Should not get index, bad role" do
         version = FactoryGirl.create :version_with_items
@@ -86,7 +83,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_redirected_to "/access_denied"
         end
     end
-    
+
     test "Should not get show, bad role" do
         item = FactoryGirl.create :assessment_item
         (role_names - allowed_roles).each do |r|
@@ -95,16 +92,16 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_redirected_to "/access_denied"
         end
     end
-    
+
     test "Should not post create, bad role" do
         (role_names - allowed_roles).each do |r|
             load_session(r)
-            create_params = {:slug => "test slug", :description => "test description", :name => "test name"} 
+            create_params = {:slug => "test slug", :description => "test description", :name => "test name"}
             post :create, {:assessment_item => create_params}
             assert_redirected_to "/access_denied"
         end
     end
-    
+
     test "Should not patch update, bad role" do
         item = FactoryGirl.create :assessment_item
         (role_names - allowed_roles).each do |r|
@@ -113,7 +110,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_redirected_to "/access_denied"
         end
     end
-    
+
     test "Should not destroy, bad role" do
         item = FactoryGirl.create :assessment_item
         (role_names - allowed_roles).each do |r|
@@ -122,19 +119,19 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_redirected_to "/access_denied"
         end
     end
-    
+
     ##Bad params
     test "Should not post create, bad params" do
         allowed_roles.each do |r|
             load_session(r)
-            create_params = {:slug => nil, :description => "test description", :name => "test name"} 
+            create_params = {:slug => nil, :description => "test description", :name => "test name"}
             post :create, {:assessment_item => create_params}
             assert_not assigns(:item).valid?
             assert_equal @response.body, assigns(:item).errors.full_messages.to_json
             assert_response :unprocessable_entity
         end
     end
-    
+
     test "Should not patch update, bad params" do
         allowed_roles.each do |r|
             load_session(r)
@@ -146,7 +143,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_response :unprocessable_entity
         end
     end
-    
+
     test "Should not patch update, has scores" do
         allowed_roles.each do |r|
             load_session(r)
@@ -159,7 +156,7 @@ class AssessmentItemsControllerTest < ActionController::TestCase
             assert_response :unprocessable_entity
         end
     end
-        
+
     test "Should not destroy, has scores" do
         allowed_roles.each do |r|
             load_session(r)

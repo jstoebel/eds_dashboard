@@ -12,12 +12,12 @@
 require 'test_helper'
 require 'factory_girl'
 require 'application_controller'
-require 'test_teardown'
+
 
 class AssessmentsControllerTest < ActionController::TestCase
-  include TestTeardown
+
   allowed_roles = ["admin", "staff"]
-  
+
   test "should get index" do
     assess = FactoryGirl.create_list(:assessment, 5)
     allowed_roles.each do |r|
@@ -27,7 +27,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
-  
+
   test "should get new" do
     allowed_roles.each do |r|
       load_session(r)
@@ -36,7 +36,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert assigns(:assessment).new_record?
     end
   end
-  
+
   test "should post create" do
     allowed_roles.each do |r|
       load_session(r)
@@ -48,12 +48,12 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_equal flash[:notice], "Created Assessment #{assigns(:assessment).name}."
     end
   end
-  
+
   test "should get edit" do
     allowed_roles.each do |r|
       load_session(r)
       assess = FactoryGirl.create :assessment
-      get :edit, id: assess.id 
+      get :edit, id: assess.id
       assert_response :success
       assert_equal assess, assigns(:assessment)
     end
@@ -83,7 +83,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_equal assess, assigns(:assessment)
     end
   end
-  
+
   test "should destroy assessment" do
     #Should destroy assessment and dependent versions tested in model test
     allowed_roles.each do |r|
@@ -97,7 +97,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_redirected_to(assessments_path)
     end
   end
-  
+
   #Not do, invalid object/didn't save
 
   test "should not post create, invalid object" do
@@ -109,7 +109,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_response(200)    #assert on the same page
     end
   end
-  
+
   test "should not post update, not saved" do
     allowed_roles.each do |r|
       load_session(r)
@@ -123,7 +123,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_template 'edit'
     end
   end
-  
+
   test "should not destroy, has scores" do
     allowed_roles.each do |r|  ##TODO must create assesment version and scores here too
       load_session(r)
@@ -134,7 +134,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       score = FactoryGirl.create :student_score, {
         :assessment_version_id => version.id
       }
-      
+
       post :destroy, {:id => assess.id}
       assert_equal assess, assigns(:assessment)
       assert assigns(:assessment).has_scores == true
@@ -151,7 +151,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_redirected_to(assessments_path)
     end
   end
-  
+
   ##Unauthorized users
   test "should not get index, bad role" do    #I think this fails because I don't know the actual allowed roles
     (role_names - allowed_roles).each do |r|
@@ -169,7 +169,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test "should not get new, bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
@@ -186,7 +186,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test "should not post update, bad role" do
     assess = FactoryGirl.create :assessment
     update_params = {:name => "updated name", :description => "updated description"}
@@ -196,7 +196,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test "should not get delete, bad role" do
     assess = FactoryGirl.create :assessment
     (role_names - allowed_roles).each do |r|
@@ -205,7 +205,7 @@ class AssessmentsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test "should not post destroy, bad role" do
     assess = FactoryGirl.create :assessment
     (role_names - allowed_roles).each do |r|

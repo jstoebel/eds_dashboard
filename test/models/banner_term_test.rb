@@ -2,11 +2,12 @@
 #
 # Table name: banner_terms
 #
-#  BannerTerm :integer          not null, primary key
-#  PlainTerm  :string(45)       not null
-#  StartDate  :datetime         not null
-#  EndDate    :datetime         not null
-#  AYStart    :integer          not null
+#  BannerTerm    :integer          not null, primary key
+#  PlainTerm     :string(45)       not null
+#  StartDate     :datetime         not null
+#  EndDate       :datetime         not null
+#  AYStart       :integer          not null
+#  standard_term :boolean
 #
 
 require 'test_helper'
