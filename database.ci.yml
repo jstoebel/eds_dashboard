@@ -1,0 +1,7 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: circle_ci
+  password: 123
+  database: eds_test

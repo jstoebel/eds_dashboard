@@ -1,0 +1,10 @@
+dependencies:
+  override:
+    - rvm use 2.2.3 --install
+    - bundle install --without cs_c9_exclude
+    - export RAILS_ENV=test
+    
+database:
+  override:
+    - mv config/database.ci.yml config/database.yml
+    - bundle exec rake db:create db:schema:load --trace
