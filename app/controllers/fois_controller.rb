@@ -46,15 +46,7 @@ class FoisController < ApplicationController
         end
 
     end
-
-    def create
-       Foi.new
-    end
-
-    def show
-       @fois = Foi.all
-    end
-
+    
     private
     def foi_params
         params.require(:foi).permit(:student_id, :date_completing, :new_form, :major_id, :seek_cert, :eds_only)

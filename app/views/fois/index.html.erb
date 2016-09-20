@@ -1,17 +1,34 @@
-<h1>Forms of Intention</h1>
+<%= form_tag import_fois_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import CSV" %>
+<% end %>
 
-<table id="forms_of_intention">
-  <tr>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>B#</th>
-    <th>Major</th>
-    <th>Seeking Cert.</th>
-    <th>EDS Only</th>
-    <th>Date Completed</th>
-  </tr>
-<% if @fois.present? %>
-  <% @fois.each do |foi| %>
+<div class="container-fluid">
+
+  <table id="forms_of_intention" class="table table-striped">
+    <div class="row">
+      <caption>
+        <span class="header1 col-xs-12"><%= "Forms of Intention:" %> </span><br>
+        <span class="header2 col-xs-12"><%= @fois.size %> found</span>
+        <div class="col-xs-1">
+          <%= form_tag import_fois_path, multipart: true do %>
+            <%= file_field_tag :file %>
+            <%= submit_tag "Import CSV" %>
+          <% end %>
+        </div>
+      </caption>
+    </div>
+    <tr class="header">
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>B#</th>
+      <th>Major</th>
+      <th>Seeking Cert.</th>
+      <th>EDS Only</th>
+      <th>Date Completed</th>
+    </tr>
+    <% if @fois.present? %>
+    <% @fois.each do |foi| %>
     <tr>
       <td><%= foi.student.FirstName %></td>
       <td><%= foi.student.LastName %></td>
@@ -19,12 +36,13 @@
       <td><%= foi.major.andand.name%></td>
       <td><%= foi.seek_cert %></td>
       <td><%= foi.eds_only %></td>
-      <td><%= foi.date_completing%></td>
+      <td><%= foi.date_completing.strftime("%m/%d/%Y %H:%M:%S")%></td>
     </tr>
-  <% end %>
-<% end %>
-</table>
-  <%= form_tag import_fois_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag "Import CSV" %>
-  <% end %>
+    <% end %>
+    <% end %>
+  </table>
+
+</div>
+
+
+<h1>Forms of Intention</h1>
