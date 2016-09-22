@@ -42,7 +42,8 @@ FactoryGirl.define do
         courses = FactoryGirl.create_list :transcript, 12, {:student_id => stu.id,
           :grade_pt => 4.0,
           :grade_ltr => "A",
-          :credits_earned =>  4.0,
+          :credits_earned =>  1.0,
+          :credits_attempted => 1.0
           :term_taken => exit.banner_term.prev_term.id,
           :gpa_include => true
         }
