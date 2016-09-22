@@ -30,8 +30,7 @@ class Ability
       can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher,
         Employment, Foi, ProgExit, StudentFile]
       can [:index, :create, :update, :delete, :destroy], PraxisResult
-      can :read, Student
-
+      can :read, [Student]
     elsif user.is? "student labor"
       can :index, Student
       can :manage, [ClinicalAssignment, ClinicalTeacher, ClinicalSite]

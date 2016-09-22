@@ -27,14 +27,14 @@ class Foi < ActiveRecord::Base
     presence: {message: "Student could not be identified."}
 
   validates :date_completing,
-  presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/2016 09:00:00 AM"},
-  uniqueness: { scope: :student_id,
-    message: "May not have more than one FOI for a paticular student at a paticular time." }
+    presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/2016 09:00:00 AM"},
+    uniqueness: { scope: :student_id,
+      message: "May not have more than one FOI for a paticular student at a paticular time." }
 
   validates :new_form,
-  :inclusion => { :in => [true, false],
-      message: "Can't determine if this is a new form."
-    }
+    :inclusion => { :in => [true, false],
+        message: "Can't determine if this is a new form."
+      }
 
 
   validates :seek_cert,
