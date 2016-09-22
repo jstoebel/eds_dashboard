@@ -16,19 +16,19 @@
 
   <% end %>
 
-    <div class="container-fluid">  
+    <div class="container-fluid">
       <table class="listing summary adm_st list table table-striped">
-        <div class="row">   
-          <caption>        
+        <div class="row">
+          <caption>
               <div class="col-xs-12 header1">Applications to Student Teaching: <%= @term.PlainTerm%></div></br>
               <div class="col-xs-12 header2"><%= pluralize(@applications.size, 'application') %>  found </div>
                   <div class="col-xs-12">
-                    <%= link_to new_adm_st_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
+                    <%= link_to new_adm_st_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>
 
                         <span class="large-btn-text">Add New Student</span>
 
-                    <% end %>         
-                  
+                    <% end %>
+
                   </div>
           </caption>
         </div>
@@ -39,7 +39,6 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>GPA</th>
-            <th>Core GPA</th>      
             <th>Admit Date</th>
             <th> Admission Decision</th>
             <th>ST Term</th>
@@ -52,17 +51,21 @@
         <% @applications.each do |app|%>
           <!-- currently only admin and staff have access to this resource, but if we provide access
           to advisors, they will only be able to see their own students. -->
-          <% if can? :read, app %>    
+          <% if can? :read, app %>
               <tr>
               <td><%= app.student.FirstName %></td>
               <td><%= app.student.LastName %></td>
-              <td><%=app.OverallGPA %></td>
-              <td><%=app.CoreGPA%></td>
-
+              <td>
+                <% if app.good_gpa? %>
+                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                <% else %>
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <% end %>
+              </td>
               <td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>
               <td>
 
-                <% if app.STAdmitted == nil and @term = current_term(exact: false)%>    
+                <% if app.STAdmitted == nil and @term = current_term(exact: false)%>
 
                   <%= link_to("Admission Decision", edit_adm_st_path(app.id), :class => "action details btn btn-info action-small issues")%>
 
@@ -73,17 +76,17 @@
                 <% end %>
               </td>
 
-              <td> 
-                <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%> 
-              </td> 
+              <td>
+                <%= app.STTerm ? banner_to_plain(app.STTerm) : nil%>
+              </td>
 
               <td class="actions">
 
 
-                <%= render(partial: 'details_popover', 
+                <%= render(partial: 'details_popover',
                   locals: {
                     :record_id => app.id,
-                    :popover_title => "Admission to Student Teaching Notes", 
+                    :popover_title => "Admission to Student Teaching Notes",
                     :button_title => "Notes",
                     :content => app.Notes
                   } )  %>
@@ -94,22 +97,22 @@
                         3) the term displayed is a current term.-->
 
                 <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.id) , :class => "action details btn btn-info action-small") %>
-                      
-                <% if app.student_file %>      
+
+                <% if app.student_file %>
 
                   <%= link_to adm_st_download_path(app.id), :class => "btn btn-default glyphicon glyphicon-file action-small" do %>
                   <% end %>
 
                 <% else %>
-                
+
                   <%= link_to "#", :class => "btn btn-default glyphicon glyphicon-file action-small disabled glyph-only" do %>
                 <% end %>
 
                 <%# button_to("delete", :action => 'delete', :class => "btn btn-default glyphicon glyphicon-trash action-small") do %>
-                
+
                 <%# end %>
                   <!-- ST paperwork goes here -->
-              
+
               <% end %>
             </td>
             <td>
@@ -120,11 +123,11 @@
           </tr>
         <!-- end of if statement for content-->
         <% end %>
-                  
-      <!-- end of main loop -->
-      <% end %>   
 
-    <% end %>  
+      <!-- end of main loop -->
+      <% end %>
+
+    <% end %>
     </table>
   </div>
 </div>
