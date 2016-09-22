@@ -63,9 +63,9 @@ class ProgExit < ActiveRecord::Base
 	end
 
 	def good_gpa?
-    return (self.GPA >= 2.50 or self.GPA_last30 >= 3.0)
+    return (self.GPA >= 2.50 or self.GPA_last60 >= 3.0)
   end
-	
+
 	private
 
 	def check_basics
