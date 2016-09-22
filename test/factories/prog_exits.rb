@@ -43,7 +43,7 @@ FactoryGirl.define do
           :grade_pt => 4.0,
           :grade_ltr => "A",
           :credits_earned =>  1.0,
-          :credits_attempted => 1.0
+          :credits_attempted => 1.0,
           :term_taken => exit.banner_term.prev_term.id,
           :gpa_include => true
         }
