@@ -56,10 +56,12 @@
               <td><%= app.student.FirstName %></td>
               <td><%= app.student.LastName %></td>
               <td>
-                <% if app.good_gpa? %>
+                <% if app.good_gpa? == true %>
                   <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                <% else %>
+                <% elsif app.good_gpa? == false %>
                   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <% else %>
+                  <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                 <% end %>
               </td>
               <td><%= app.STAdmitDate ? app.STAdmitDate.strftime("%m/%d/%Y") : nil%></td>

@@ -60,7 +60,7 @@ class AdmSt < ActiveRecord::Base
     #  does student have a sufficient GPA
     # NOTE: as of 9/21/16 it is not possible to compute the core GPA.
     # This method does not include it
-    return (self.OverallGPA.andand >= 2.75 && self.CoreGPA.andand >= 2.5)
+    return (self.OverallGPA.andand >= 2.75)
   end
 
   def setters
