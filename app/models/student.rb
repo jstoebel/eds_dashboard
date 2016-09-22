@@ -456,14 +456,13 @@ class Student < ActiveRecord::Base
 
 			elsif course.grade_ltr == "CA"
 				# convo credit: 1 converted credit, 4.0 converted quality_points
-
 				credits += 1.0
 				qpoints += 4.0
+
 			end
 
 			break if options[:last].present? && credits >= options[:last]
 		end
-
 		gpa_raw = qpoints / credits
 		return (gpa_raw * 100).to_i / 100.0
 

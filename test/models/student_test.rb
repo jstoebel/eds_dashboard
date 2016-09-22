@@ -595,14 +595,16 @@ class StudentTest < ActiveSupport::TestCase
 			b_grade = FactoryGirl.create :transcript, {
 				:term_taken => BannerTerm.first.id,
 				:grade_ltr => "B",
-				:grade_pt => 3.0
+				:grade_pt => 3.0,
+				:credits_earned => 1.0,
+				:credits_attempted => 1.0
 			}
 
 			convo_credit = FactoryGirl.create :transcript, {
 				term_taken: @first_course.banner_term.id,
 				student_id: b_grade.student.id,
 				grade_ltr: "CA",
-				grade_pt: nil
+				grade_pt: 0
 			}
 
 			assert_equal 3.2, b_grade.student.gpa
