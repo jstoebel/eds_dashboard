@@ -2,6 +2,7 @@ class AdmTepController < ApplicationController
 
   layout 'application'
   authorize_resource
+  load_resource :only => [:index]
   skip_authorize_resource :only => [:new, :choose]
 
   def new
@@ -92,13 +93,12 @@ class AdmTepController < ApplicationController
   end
 
   def index
-
     #@current_term: the current term in time
     #@term: the term displayed
+    #@adm_teps = AdmTep.all
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
-
-    @applications = AdmTep.all.by_term(@term)   #fetch all applications for this term
-    authorize! :read, @applications
+    @applications = @adm_teps.by_term(@term)   #fetch all applications for this term
+ 
   end
 
   def choose
@@ -108,7 +108,6 @@ class AdmTepController < ApplicationController
   end
 
   def show
-
     @app = AdmTep.find(params[:id])
     authorize! :read, @app
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
