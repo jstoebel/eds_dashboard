@@ -63,7 +63,16 @@ class ProgExit < ActiveRecord::Base
 	end
 
 	def good_gpa?
-    return (self.GPA.andand >= 2.50 or self.GPA_last60.andand >= 3.0)
+
+		# if either is nil and the other isn't true, return nil
+		# there is missing information that might qualify the student
+		if [self.GPA.nil? || self.GPA_last60.nil?] &&
+			[!(self.GPA.andand >= 2.5).present? && !(self.GPA_last60.andand >= 3.0).present?].all?
+
+			return nil
+		else
+    	return (self.GPA.andand >= 2.50 or self.GPA_last60.andand >= 3.0)
+		end
   end
 
 	private
