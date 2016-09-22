@@ -30,9 +30,57 @@ class ProgExitTest < ActiveSupport::TestCase
       @pe = FactoryGirl.create :successful_prog_exit
     end
 
-    test "good_gpa" do
-      assert @pe.good_gpa?
-    end
+		describe "good_gpa" do
+
+			describe "returns true" do
+
+				test "overall good" do
+					@pe.GPA = 2.5
+					@pe.GPA_last60 = 2.99
+					assert @pe.good_gpa?
+				end
+
+				test "last60 good" do
+					@pe.GPA = 2.49
+					@pe.GPA_last60 = 3.0
+					assert @pe.good_gpa?
+				end
+
+				test "both good" do
+					assert @pe.good_gpa?
+				end
+			end
+
+			describe "returns false" do
+				test "both bad" do
+					@pe.GPA = 2.49
+					@pe.GPA_last60 = 2.99
+					assert_not @pe.good_gpa?
+				end
+			end
+
+			describe "returns nil" do
+
+				test "overall nil" do
+					@pe.GPA = nil
+					@pe.GPA_last60 = 2.99
+					assert @pe.good_gpa?.nil?
+				end
+
+				test "last60 nil" do
+					@pe.GPA = 2.49
+					@pe.GPA_last60 = nil
+					assert @pe.good_gpa?.nil?
+				end
+
+				test "last60 nil" do
+					@pe.GPA = nil
+					@pe.GPA_last60 = nil
+					assert @pe.good_gpa?.nil?
+				end
+
+			end
+		end
 
     test "adds term" do
       actual_term = BannerTerm.current_term({:date => @pe.ExitDate,
