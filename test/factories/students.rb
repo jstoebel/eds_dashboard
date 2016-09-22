@@ -45,9 +45,25 @@ FactoryGirl.define do
     end
 
     FirstName {Name.first_name}
+    MiddleName {Name.first_name}
     LastName {Name.last_name}
     EnrollmentStatus "Active Student"
     PreferredFirst {Name.first_name}
+    Classification {%w(Freshman Sophmore Junior Senior).sample}
+    CurrentMajor1 {Hipster.word}
+    concentration1 {Hipster.word}
+    CurrentMajor2 {Hipster.word}
+    concentration2 {Hipster.word}
+    CurrentMinors {Hipster.word}
+    Email         {Internet.email}
+    CPO           {Number.between(1, 999).to_s}
+    withdraws     {Hipster.sentence}
+    term_graduated {BannerTerm.first.id}
+    gender         {%w(male female).sample}
+    race           {Hipster.word}
+    hispanic       {Boolean.boolean}
+    term_expl_major {BannerTerm.first.id}
+    term_major      {BannerTerm.first.id}
 
     factory :admitted_student do
 
