@@ -25,6 +25,7 @@ class ReportsController < ApplicationController
                 :Latest_Completion_227 => complete_227(stu),
                 :Latest_Completion_228 => complete_228(stu),
                 :Latest_Term_EDS440_479 => term_EDS440_479(stu),
+                :ProgName => student_program(stu),
             }
             @data.push record
         end
@@ -62,5 +63,9 @@ class ReportsController < ApplicationController
        return course_taken.andand.banner_term.andand.readable
     end
 
+    def student_program(student)
+        program_name = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
+        return program_name.andand
+    end
 
 end
