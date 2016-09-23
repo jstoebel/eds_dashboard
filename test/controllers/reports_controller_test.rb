@@ -146,6 +146,44 @@ class ReportsControllerTest < ActionController::TestCase
           end
         end
         
+        # tests for term taken 150
+        describe "context: EDS150" do  
+          
+          ["150", "101"].each do |course_code|
+
+            test "with #{course_code}" do
+              course = FactoryGirl.create :transcript, {:course_code => "EDS#{course_code}",
+              :grade_pt => 3.0
+              }
+              stu = course.student
+              
+              get :index
+              
+              expected_data = assigns(:data)
+              
+              expected_data.each do |stu_hash|
+                if stu.Bnum == stu_hash[:Bnum] # find student in array of hashes
+                  
+                  puts "*"*50
+                  puts course_code
+                  puts stu_hash
+                  puts
+                  puts
+                  
+                  expected_term_taken = stu.transcripts
+                    .where(:course_code => ["EDS150"])
+                    .order(:term_taken).last.andand.banner_term.andand.readable
+                    
+                  actual_term_taken = stu_hash[:Latest_Term_EDS150]
+ 
+                  assert_equal expected_term_taken, actual_term_taken 
+                end
+              end
+            end
+          end
+        end
+        
+        
       end
     end
   end
