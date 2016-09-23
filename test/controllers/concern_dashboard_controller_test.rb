@@ -1,8 +1,6 @@
 require 'test_helper'
 require 'application_controller'
-require 'test_teardown'
 class ConcernDashboardControllerTest < ActionController::TestCase
-    include TestTeardown
 
     allowed_roles = ["admin", "advisor"]
     role_names = Role.all.map{|i| i.RoleName}.to_a
@@ -47,7 +45,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
             pop_praxisI(@stu, false)
             subject
             expect praxis_concern[:alert_status].must_equal "danger"
-            expect praxis_concern[:glyph].must_equal "warning-sign" 
+            expect praxis_concern[:glyph].must_equal "warning-sign"
 
         end
 
@@ -57,7 +55,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
             PraxisResult.delete_all
             subject
             expect praxis_concern[:alert_status].must_equal "info"
-            expect praxis_concern[:glyph].must_equal "question-sign" 
+            expect praxis_concern[:glyph].must_equal "question-sign"
 
         end
 

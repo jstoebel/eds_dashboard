@@ -13,12 +13,9 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
-
 class ItemLevelsControllerTest < ActionController::TestCase
-  include TestTeardown
   allowed_roles = ["admin", "staff"]
-    
+
   test "should get index" do
     allowed_roles.each do |r|
       load_session(r)
@@ -31,7 +28,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_response :ok
     end
   end
-  
+
   test "should get show" do
     allowed_roles.each do |r|
       load_session(r)
@@ -42,7 +39,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_response :ok
     end
   end
-  
+
   test "should post create" do
     allowed_roles.each do |r|
       load_session(r)
@@ -59,7 +56,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_response :created
     end
   end
-  
+
   test "Should patch update" do
     allowed_roles.each do |r|
       load_session(r)
@@ -73,7 +70,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_response :ok
     end
   end
-      
+
   test "should post destroy" do
     allowed_roles.each do |r|
       load_session(r)
@@ -84,7 +81,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_response :no_content
     end
   end
-  
+
   #Bad Roles
   test "Should not get index, bad role" do
     (role_names - allowed_roles).each do |r|
@@ -95,7 +92,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-    
+
   test "should not get show, bad role" do
     level = FactoryGirl.create :item_level
     (role_names - allowed_roles).each do |r|
@@ -104,7 +101,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   test "Should not post create, bad role" do
     item = FactoryGirl.create :assessment_item
     (role_names - allowed_roles).each do |r|
@@ -118,7 +115,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
    test "Should not patch update, bad role" do
     level = FactoryGirl.create :item_level
     (role_names - allowed_roles).each do |r|
@@ -128,7 +125,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-      
+
   test "should not post destroy, bad role" do
     level = FactoryGirl.create :item_level
     (role_names - allowed_roles).each do |r|
@@ -137,7 +134,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
-  
+
   #Has scores
     test "Should not post create, item has scores" do
     allowed_roles.each do |r|
@@ -155,7 +152,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_response :unprocessable_entity
     end
   end
-  
+
    test "Should not patch update, has scores" do
     allowed_roles.each do |r|
       load_session(r)
@@ -168,7 +165,7 @@ class ItemLevelsControllerTest < ActionController::TestCase
       assert_response :unprocessable_entity
     end
   end
-      
+
   test "should not post destroy, item has scores" do
     allowed_roles.each do |r|
       load_session(r)
