@@ -448,6 +448,21 @@ ActiveRecord::Schema.define(version: 20160907175437) do
   add_index "students", ["term_graduated"], name: "fk_rails_0cb4e31ef0", using: :btree
   add_index "students", ["term_major"], name: "fk_rails_02beb2ceb0", using: :btree
 
+  create_table "temp_foi", force: :cascade do |t|
+    t.string   "student_id",      limit: 255
+    t.string   "date_completing", limit: 255
+    t.boolean  "new_form"
+    t.integer  "major_id",        limit: 4
+    t.boolean  "seek_cert"
+    t.boolean  "eds_only"
+    t.string   "foi_errors",      limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "temp_foi", ["major_id"], name: "fk_rails_1885a219a7", using: :btree
+  add_index "temp_foi", ["student_id"], name: "fk_rails_89ceaae199", using: :btree
+
   create_table "tep_advisors", force: :cascade do |t|
     t.string  "AdvisorBnum", limit: 9,   null: false
     t.string  "Salutation",  limit: 45,  null: false
@@ -546,6 +561,8 @@ ActiveRecord::Schema.define(version: 20160907175437) do
   add_foreign_key "students", "banner_terms", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_graduated", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_major", primary_key: "BannerTerm"
+  add_foreign_key "temp_foi", "majors"
+  add_foreign_key "temp_foi", "students", primary_key: "Bnum"
   add_foreign_key "tep_advisors", "users"
   add_foreign_key "transcript", "banner_terms", column: "term_taken", primary_key: "BannerTerm", name: "fk_transcript_banner_terms"
   add_foreign_key "transcript", "students"

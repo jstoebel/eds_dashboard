@@ -36,15 +36,18 @@ one:
   date_completing: <%= DateTime.now %>
   major: major_1
   seek_cert: true
+  major: major_0
 
 two:
   student: not_seeking
   date_completing: <%= DateTime.now %>
   major: major_1
   seek_cert: true
+  major: major_0
 
 three:
   student: not_seeking
   date_completing: <%= DateTime.now %>
   seek_cert: false
   eds_only: true
+  major: major_0
