@@ -13,9 +13,8 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
+
 class ClinicalAssignmentsControllerTest < ActionController::TestCase
-  include TestTeardown
   #everyone should be allowed to access this resource
 
   test "should get index" do

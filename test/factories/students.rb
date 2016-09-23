@@ -33,8 +33,6 @@ include Faker
 FactoryGirl.define do
   factory :student do
 
-    # sequence(:Bnum) { |n| "B00#{n.to_s.rjust(6, '0')}" }
-
     Bnum do
       bnums = Student.all.pluck :Bnum
 
@@ -47,21 +45,36 @@ FactoryGirl.define do
     end
 
     FirstName {Name.first_name}
+    MiddleName {Name.first_name}
     LastName {Name.last_name}
     EnrollmentStatus "Active Student"
     PreferredFirst {Name.first_name}
+    Classification {%w(Freshman Sophmore Junior Senior).sample}
+    CurrentMajor1 {Hipster.word}
+    concentration1 {Hipster.word}
+    CurrentMajor2 {Hipster.word}
+    concentration2 {Hipster.word}
+    CurrentMinors {Hipster.word}
+    Email         {Internet.email}
+    CPO           {Number.between(1, 999).to_s}
+    withdraws     {Hipster.sentence}
+    term_graduated {BannerTerm.first.id}
+    gender         {%w(male female).sample}
+    race           {Hipster.word}
+    hispanic       {Boolean.boolean}
+    term_expl_major {BannerTerm.first.id}
+    term_major      {BannerTerm.first.id}
 
     factory :admitted_student do
+
       after(:create) do |stu|
         # give course work, 12 courses
-
-        course_term  = BannerTerm.find 201511
 
         courses = FactoryGirl.create_list :transcript, 12, {:student_id => stu.id,
           :grade_pt => 4.0,
           :grade_ltr => "A",
           :credits_earned =>  4.0,
-          :term_taken => course_term.id,
+          :term_taken => BannerTerm.current_term(exact: false, plan_b: :back).id,
           :gpa_include => true
         }
       end

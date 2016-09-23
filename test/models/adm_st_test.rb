@@ -26,78 +26,115 @@ require 'paperclip'
 include ActionDispatch::TestProcess
 class AdmStTest < ActiveSupport::TestCase
 
-	test "check fks" do
-		app = AdmSt.new
-		app.valid?
-		assert_equal(app.errors.full_messages, ["Student No student selected.", "Bannerterm bannerterm No term could be determined."]
-)
+	describe "basic validations" do
+
+		before do
+			@app = AdmSt.new
+			@app.valid?
+		end
+
+		test "student_id" do
+			assert_equal ["No student selected."], @app.errors[:student_id]
+		end
+
+		test "BannerTerm_BannerTerm" do
+			assert_equal ["No term could be determined."], @app.errors[:BannerTerm_BannerTerm]
+		end
+
+		test "BannerTerm_BannerTerm" do
+			assert_equal ["No term could be determined."], @app.errors[:BannerTerm_BannerTerm]
+		end
+
+		test "student_file is ok" do
+			assert_equal [], @app.errors[:student_file_id]
+		end
+
+		test "admit date is ok" do
+			assert_equal [], @app.errors[:STAdmitDate]
+		end
+
+		test "admitted is ok" do
+			assert_equal [], @app.errors[:STAdmitted]
+		end
+
+		describe "with admitted" do
+
+			before do
+				@app.STAdmitted = true
+				@app.valid?
+			end
+
+			test "student_file" do
+				assert_equal ["Please attach an admission letter."], @app.errors[:student_file_id]
+			end
+
+			test "admit date" do
+				assert_equal ["Admission date must be given."], @app.errors[:STAdmitDate]
+			end
+		end # with admitted
+
+		test "admit date but no decision" do
+			@app.STAdmitDate = Date.today
+			@app.valid?
+			assert_equal ["Please make an admission decision for this student."], @app.errors[:STAdmitted]
+		end
+
 	end
 
-	test "need valid letter" do
-		app = AdmSt.first
-		app.skip_val_letter = false
-		app.valid?
-		assert_equal(app.errors[:student_file_id], ["Please attach an admission letter."])
-	end
+	describe "complex validations" do
 
-	test "skip letter validation" do
-		app = AdmSt.first
-		app.student_file_id = nil
-		app.skip_val_letter = true
-		app.valid?
-		assert_equal([], app.errors[:base])
-	end
+		before do
+			@stu = FactoryGirl.create :admitted_student
+			@app = FactoryGirl.create :adm_st, {:student_id => @stu.id,
+				:BannerTerm_BannerTerm => BannerTerm.current_term(:exact => false, :plan_b => :back).id,
+				:STAdmitted => nil,
+				:STAdmitDate => nil
+			}
 
-	test "admitted too early" do
-		app = AdmSt.first
-		letter = attach_letter(app)
-		prior_term = app.banner_term.prev_term
-		app.STAdmitDate = prior_term.EndDate
-		app.valid?
-		assert_equal(["Admission date must be after term begins."], app.errors[:STAdmitDate])
-	end
+		end
 
-	test "admitted too late" do
-		app = AdmSt.first
-		letter = attach_letter(app)
-		exclusive_next = BannerTerm.where("StartDate > ?", app.banner_term.EndDate).first
+		test "good_gpa" do
+			@app.OverallGPA = 2.75
+			@app.CoreGPA = 2.5
+			assert @app.good_gpa?
+		end
 
-		app.STAdmitDate = exclusive_next.StartDate
-		app.valid?
-		assert_equal(["Admission date may not be before next term begins."], app.errors[:STAdmitDate])
-	end
+		test "admit too early" do
+			@app.STAdmitDate = @app.banner_term.StartDate - 1
+			@app.STAdmitted = true
+			@app.valid?
+			assert_equal ["Admission date must be after term begins."], @app.errors[:STAdmitDate]
+		end
 
-	test "admission date missing" do
-		app = AdmSt.first
-		letter = attach_letter(app)
-		app.STAdmitDate = nil
-		app.valid?
-		assert_equal(["Admission date must be given."], app.errors[:STAdmitDate])
-	end
+		test "admit too late" do
+			@app.STAdmitDate = @app.banner_term.next_term.StartDate
+			@app.STAdmitted = true
+			@app.valid?
+			assert_equal ["Admission date may not be after next term begins."], @app.errors[:STAdmitDate]
+		end
 
-	test "no date error if not admitted" do
-		app = AdmSt.first
-		app.STAdmitted = false
-		app.STAdmitDate = nil
-		app.valid?
-		assert_equal([], app.errors[:STAdmitted])
-	end
+		describe "can't apply again" do
 
-	test "no date error if not pending" do
-		app = AdmSt.first
-		app.STAdmitted = nil
-		app.STAdmitDate = nil
-		app.valid?
-		assert_equal([], app.errors[:STAdmitted])
-	end
+			before do
+				@app2 = FactoryGirl.build :adm_st, {:student_id => @stu.id,
+					:BannerTerm_BannerTerm => BannerTerm.current_term(:exact => false, :plan_b => :back).id,
+					:STAdmitted => nil,
+					:STAdmitDate => nil
+				}
 
-	test "has open or accepted application this term" do
-		app1 = AdmSt.first
-		letter = attach_letter(app1)
-		app2 = AdmSt.new(app1.attributes)
-		app2.valid?
-		assert_equal(["Student has already been admitted or has an open applicaiton in this term."], app2.errors[:base])
-	end
+			end
+
+			[true, nil].each do |status|
+				test "first app: #{status.to_s}" do
+					@app.STAdmitted = status
+					@app2.valid?
+					assert_equal ["Student has already been admitted or has an open applicaiton in this term."], @app2.errors[:base]
+				end
+			end
+
+		end
+
+	end # complex validations
 
 	test "scope by term" do
 

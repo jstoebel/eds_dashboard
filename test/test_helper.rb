@@ -17,6 +17,7 @@ test_secrets = {
 
 SECRET.merge! test_secrets
 class ActiveSupport::TestCase
+
   Rake::Task["db:seed"].execute
   # Rake::Task["db:fixtures:load"].execute
   fixtures :all
@@ -25,6 +26,12 @@ class ActiveSupport::TestCase
               banner_terms: BannerTerm
 
   # Rails.application.load_seed   #load seed data
+
+  def teardown
+      #rm -rf public/student_files/test
+      FileUtils.rm_rf('public/student_files/test')
+      FileUtils.rm_rf('test/test_temp')
+  end
 
   def py_assert(expected, actual)
   	#an assertion in the style of python unittest.

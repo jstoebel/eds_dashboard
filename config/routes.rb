@@ -236,6 +236,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :fois, only: [:index, :create, :show, :import]
+  
+  resources :fois do
+    collection { post :import }
+  end
 
   resources :praxis_result_temps, only: [:index], shallow: true do
     post "resolve"

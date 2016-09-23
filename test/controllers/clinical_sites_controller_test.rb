@@ -15,12 +15,12 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
+
 class ClinicalSitesControllerTest < ActionController::TestCase
-  include TestTeardown
+
   #all roles have access to this resource
   allowed_roles = ["admin", "advisor", "staff", "student labor"]
-  
+
   test "should get index" do
     role_names.each do |r|
       load_session(r)
@@ -45,10 +45,10 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       load_session(r)
       site = ClinicalSite.first
       #change params of site
-      site.SiteName = "changed!"      
+      site.SiteName = "changed!"
 
       #assemble params
-      update_params = {:SiteName => site.SiteName} 
+      update_params = {:SiteName => site.SiteName}
 
       #post!
       post :update, {:id => site.id, :clinical_site => update_params}
@@ -63,10 +63,10 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     load_session("admin")
     site = ClinicalSite.first
     #change params of site
-    site.SiteName = nil      
+    site.SiteName = nil
 
     #assemble params
-    update_params = {:SiteName => site.SiteName} 
+    update_params = {:SiteName => site.SiteName}
 
     #post!
     post :update, {:id => site.id, :clinical_site => update_params}
@@ -94,7 +94,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
         :City => "test city",
         :County => "county",
         :Principal => "mr. test",
-        :District => "district", 
+        :District => "district",
         :email => "secretary@school.com",
         :website => "http://www.school.com",
         :receptionist => "Ima Secretary",
@@ -112,7 +112,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
       [exepcted_attrs, actual_attrs].map { |i| i.delete("id")}
 
-      assert_equal exepcted_attrs, actual_attrs 
+      assert_equal exepcted_attrs, actual_attrs
 
       assert_equal flash[:notice], "Created #{assigns(:site).SiteName}."
 
@@ -143,26 +143,26 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     assert_equal flash[:notice], "Error creating site."
     assert_template "new"
   end
-  
+
   test "should destroy site and dependent teachers and assignments" do
     expected_term = BannerTerm.current_term(exact: false, plan_b: :forward)
     role_names.each do |r|
       load_session(r)
       expected_site = FactoryGirl.create :clinical_site
-      
+
       expected_teacher = FactoryGirl.create :clinical_teacher, {
         :clinical_site_id => expected_site.id
       }
-      
+
       expected_assign = FactoryGirl.create :clinical_assignment, {
-        :clinical_teacher_id => expected_teacher.id, 
+        :clinical_teacher_id => expected_teacher.id,
         :Term => expected_term.id,
         :StartDate => expected_term.StartDate.strftime("%Y/%m/%d"),
         :EndDate => expected_term.EndDate.strftime("%Y/%m/%d")
       }
-      
+
       post :destroy, {:id => expected_site.id}
-    
+
       assert_equal(expected_site, assigns(:site))
       assert assigns(:site).destroyed?
       assigns(:site).clinical_teachers.each{|i| assert i.destroyed?}    #should auto delete any teacher assignments when teacher destroyed
@@ -171,16 +171,16 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       assert_redirected_to(clinical_sites_path)
     end
   end
-  
+
   test "should not destroy site bad role" do
-    
+
     (role_names - allowed_roles).each do |r|
       load_session(r)
       expected_site = FactoryGirl.create :clinical_site
       post :destroy, {:id => expected_site.id}
       assert_redirected_to "/access_denied"
     end
-  end 
+  end
 
   test "should allow delete" do
     allowed_roles.each do |r|
@@ -190,7 +190,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       assert_equal expected_site, assigns(:site)
     end
   end
-  
+
   test "should not allow delete bad role" do
     expected_site = FactoryGirl.create :clinical_site
     (role_names - allowed_roles).each do |r|

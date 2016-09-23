@@ -12,15 +12,12 @@
 #
 
 require 'test_helper'
-require 'test_teardown'
 #advisors and staff can :manage
-#student labor can [:index, :new, :create, :delete, :destroy] 
+#student labor can [:index, :new, :create, :delete, :destroy]
 
 #help on tests with paperclip: http://blog.joncairns.com/2012/11/uploading-files-in-functional-tests-with-rails-paperclip-and-test-unit/
 
 class StudentFilesControllerTest < ActionController::TestCase
-
-  include TestTeardown
 
   test "should get index" do
     #create a file and test that its there
@@ -34,7 +31,7 @@ class StudentFilesControllerTest < ActionController::TestCase
       load_session(r)
 
       get :index, {:student_id => stu.AltID}
-      
+
       test_index_setup(stu)
       assert_response :success
 
@@ -53,9 +50,9 @@ class StudentFilesControllerTest < ActionController::TestCase
         :active => true)
       expected_stu_file.doc = fixture_file_upload 'test_file.txt'
 
-      post :create, {:student_id => stu.AltID, 
+      post :create, {:student_id => stu.AltID,
         :active => true,
-        :student_file => 
+        :student_file =>
           {:doc => fixture_file_upload('test_file.txt')}
       }
 
@@ -81,9 +78,9 @@ class StudentFilesControllerTest < ActionController::TestCase
       load_session(r)
       stu = Student.first
 
-      get :create, {:student_id => stu.AltID, 
+      get :create, {:student_id => stu.AltID,
         :active => true,
-        :student_file => 
+        :student_file =>
           {:doc => fixture_file_upload('badfile.bad')}
       }
 
@@ -148,6 +145,6 @@ class StudentFilesControllerTest < ActionController::TestCase
     file.doc = fixture_file_upload 'test_file.txt'
     file.doc_updated_at = DateTime.now
     file.save
-    return file    
+    return file
   end
 end
