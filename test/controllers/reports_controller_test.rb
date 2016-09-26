@@ -202,7 +202,68 @@ class ReportsControllerTest < ActionController::TestCase
           end
         end
       end
-
+        # tests for student program
+        describe "context: Student Program" do
+          ["Technology", "English"].each do |program_title|
+          
+            test "no associated programs" do
+              student = FactoryGirl.create :student
+              get :index
+              
+              expected_data = assigns(:data)
+              
+              expected_data.each do |stu_hash|
+                if student.Bnum == stu_hash[:Bnum]
+                  expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
+                
+                actual_program = stu_hash[:ProgName]
+                
+                assert_equal expected_program, actual_program
+                end
+              end
+            end
+          end
+            
+            
+            test "one assocaited program" do
+              student = FactoryGirl.create :admitted_student
+              get :index
+              
+              expected_data = assigns(:data)
+              
+              expected_data.each do |stu_hash|
+                if student.Bnum == stu_hash[:Bnum]
+                  expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
+                  
+                actual_program = stu_hash[:ProgName]
+                
+                assert_equal expected_program, actual_program
+                end
+              end
+            end
+            
+            test "two associated programs" do
+              student = FactoryGirl.create :admitted_student
+              FactoryGirl.create :adm_tep, {:program => "#{Program.first.id}"} , {:student => "#{student}"}
+              get :index
+              
+              expected_data = assigns(:data)
+              
+              expected_data.each do |stu_hash|
+                if student.Bnum == stu_hash[:Bnum]
+                  expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
+                  
+                actual_program = stu_hash[:ProgName]
+                
+                assert_equal expected_program, actual_program
+                end
+              end
+            end
+          
+          
+        end
+    
+    
     end
 
   end
