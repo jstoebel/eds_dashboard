@@ -26,26 +26,27 @@ class FoisController < ApplicationController
 
     def import
         file = params[:file]
-        result = Foi.import(file)
-        num_rows = result[:rows]
+
+        begin
+          result = Foi.import(file)
+        rescue => e
+          redirect_to fois_path, :notice => e.message
+          return
+        end
+
         if result[:success]
-            redirect_to fois_path, :notice => "#{num_rows} #{"form".pluralize(num_rows) + " of intention"} successfully imported."
+          num_rows = result[:rows]
+          redirect_to fois_path, :notice => "#{num_rows} #{"form".pluralize(num_rows) + " of intention"} successfully imported."
+          return
             # went ok
         else
-            redirect_to fois_path, :notice => result[:message]
+            redirect_to fois_path, :notice => "something went wrong." #result[:message]
+            return
             # didn't go ok
         end
 
     end
-
-    def create
-       Foi.new
-    end
-
-    def show
-       @fois = Foi.all
-    end
-
+    
     private
     def foi_params
         params.require(:foi).permit(:student_id, :date_completing, :new_form, :major_id, :seek_cert, :eds_only)

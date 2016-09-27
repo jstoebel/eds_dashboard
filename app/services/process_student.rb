@@ -18,7 +18,7 @@ class ProcessStudent
         :EnrollmentStatus => @row['SZVEDSD_ENROLL_STAT'],
         :Classification => @row['SZVEDSD_CLASSIFICATION'],
         :CurrentMajor1 => @row['SZVEDSD_PRIMARY_MAJOR'],
-        :concentration1 => @row['SZVEDSD_PRIMARY_MAJOR_CONC '],
+        :concentration1 => @row['SZVEDSD_PRIMARY_MAJOR_CONC'],
         :CurrentMajor2 => @row['SZVEDSD_SECONDARY_MAJOR'],
         :concentration2 => @row['SZVEDSD_SECONDARY_MAJOR_CONC'],
         :CurrentMinors => @row['SZVEDSD_MINORS'],
