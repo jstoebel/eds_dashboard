@@ -53,10 +53,12 @@
       <td><%= exit.program.EDSProgName %> </td>
 
       <td>
-        <% if exit.good_gpa? %>
+        <% if exit.good_gpa? == true %>
           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        <% else %>
+        <% elsif exit.good_gpa? == false %>
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        <% else %>
+          <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
         <% end %>
       </td>
 

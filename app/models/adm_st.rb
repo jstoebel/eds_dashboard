@@ -26,50 +26,89 @@ class AdmSt < ActiveRecord::Base
   include ApplicationHelper
 
 	attr_accessor :skip_val_letter
-  
+
   belongs_to :student
   belongs_to :banner_term, foreign_key: "BannerTerm_BannerTerm"
   belongs_to :student_file
 
-
 	scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 
+  #CALL BACKS
+  after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
+  after_validation :complex_validations, :unless =>  Proc.new{|s| s.errors.any?}
 
-  validate :if => :check_fks do |app|
-		# term = BannerTerm.find(app.BannerTerm_BannerTerm)	#current term
-		# next_term = BannerTerm.all.order(:BannerTerm).where("BannerTerm >?", app.BannerTerm_BannerTerm).first		#next term in sequence
-	  next_term = BannerTerm.where("StartDate > ?", app.banner_term.EndDate).first
-    student = Student.find(app.student_id)
-		app.errors.add(:STAdmitDate, "Admission date must be after term begins.") if app.STAdmitDate and app.STAdmitDate < app.banner_term.StartDate
-		app.errors.add(:STAdmitDate, "Admission date may not be before next term begins.") if app.STAdmitDate and app.STAdmitDate >= next_term.StartDate
-		app.errors.add(:STAdmitDate, "Admission date must be given.") if app.STAdmitted and app.STAdmitDate.blank?
-    
-    app.errors.add(:STAdmitted, "Please make an admission decision for this student.") if app.STAdmitDate.present? and app.STAdmitted.blank?
+  #BASIC VALIDATIONS
+  validates_presence_of :student_id,
+    :message => "No student selected."
 
+  validates_presence_of :BannerTerm_BannerTerm,
+    :message => "No term could be determined."
 
-    accepted_apps = AdmSt.where(student_id: app.student_id).where(BannerTerm_BannerTerm: app.BannerTerm_BannerTerm).where("STAdmitted = 1 or STAdmitted IS NULL")
+  validates_presence_of :student_file_id,{:message => "Please attach an admission letter.",
+    :unless => Proc.new{|s| s.STAdmitted.nil?}
+  }
 
-    if accepted_apps.size > 0 and app.new_record?
-      app.errors.add(:base, "Student has already been admitted or has an open applicaiton in this term.")
-    end
+  validates_presence_of :STAdmitDate, {:message => "Admission date must be given.",
+    :unless => Proc.new{|s| s.STAdmitted.nil?}
+  }
 
-	end
+  validates_presence_of :STAdmitted, {:message => "Please make an admission decision for this student.",
+    :unless => Proc.new{|s| s.STAdmitDate.nil?}
+  }
 
+  def good_gpa?
+    #  does student have a sufficient GPA
+    # NOTE: as of 9/21/16 it is not possible to compute the core GPA.
+    # This method does not include it
+    return (self.OverallGPA.andand >= 2.75)
+  end
+
+  def setters
+    self.set_overall_gpa
+    self.set_core_gpa
+  end
+
+  def set_overall_gpa
+    #set GPAs for record
+    stu = self.student
+    self.OverallGPA = stu.gpa({:term => self.BannerTerm_BannerTerm})
+  end
+
+  def set_core_gpa
+    #TODO
+  end
 
   private
 
-  def check_fks
-    #validate the foreign keys and return true if all are good.
-    self.errors.add(:student_id, "No student selected.") if self.student_id.blank?
-    self.errors.add(:BannerTerm_BannerTerm, "No term could be determined.") if self.BannerTerm_BannerTerm.blank?
-    self.errors.add(:student_file_id, "Please attach an admission letter.") if (self.student_file_id.blank? && self.STAdmitted != nil)
-    if self.errors.size == 0
-
-      return true
-    else
-      return false
+  def complex_validations
+    # these only run if all simple validations passed
+    validations = [:admit_date_too_early, :admit_date_too_late, :cant_apply_again
+    ]
+    validations.each do |v|
+      self.send(v)
     end
-  	
+  end
+
+  def admit_date_too_early
+    if self.STAdmitDate && self.STAdmitDate < self.banner_term.StartDate
+      self.errors.add(:STAdmitDate, "Admission date must be after term begins.")
+    end
+  end
+
+  def admit_date_too_late
+    if self.STAdmitDate and self.STAdmitDate >= self.banner_term.next_term.StartDate
+      self.errors.add(:STAdmitDate, "Admission date may not be after next term begins.")
+    end
+  end
+
+  def cant_apply_again
+    non_rejected_apps = AdmSt.where({student_id: self.student_id,
+        BannerTerm_BannerTerm: self.BannerTerm_BannerTerm})
+      .where("STAdmitted = 1 or STAdmitted IS NULL")
+
+    if non_rejected_apps.size > 0 and self.new_record?
+      self.errors.add(:base, "Student has already been admitted or has an open applicaiton in this term.")
+    end
   end
 
 end
