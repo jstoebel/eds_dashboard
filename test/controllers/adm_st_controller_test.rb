@@ -37,7 +37,7 @@ class AdmStControllerTest < ActionController::TestCase
     #should be accessible for admin and staff only
     travel_to Date.new(2015, 03, 15) do
       allowed_roles.each do |r|
-        term = ApplicationController.helpers.current_term({:exact => true, :date => Date.today})
+        term = BannerTerm.current_term({:exact => true, :date => Date.today})
         load_session(r)
         get :new
         expected = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && s.EnrollmentStatus == "Active Student"}
@@ -60,31 +60,28 @@ class AdmStControllerTest < ActionController::TestCase
     end
   end
 
-  test "should post create" do
-    #post a valid adm_st application
-      #we should...
-      #create a new app with the student's B#,
-      #be redirected and
-      #have a flash message
-
-    travel_to Date.new(2015, 03, 15) do
-      allowed_roles.each do |r|
-        AdmSt.delete_all      #for this test, delete all applications to avoid conflicting open applications
-        load_session(r)
-        term = BannerTerm.current_term({:exact => true, :date => Date.today})
-        stu = Student.candidates.first
-        # stu = Student.where(ProgStatus: "Candidate").first
-        post :create, {:adm_st => {
-          :student_id => stu.id,
-          :BannerTerm_BannerTerm => term.id
-          }
-        }
-        assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
-        assert_equal assigns(:app).student_id, stu.id
-        assert_equal flash[:notice], "New application added for #{ApplicationController.helpers.name_details(stu, file_as=true)}"
-      end
+  describe "should post create" do
+    before do
+      @stu = FactoryGirl.create :admitted_student
+      @term = @stu.adm_tep.first.banner_term.next_term
     end
-  end
+
+    allowed_roles.each do |r|
+
+      test "as #{r}" do
+        app_attrs = FactoryGirl.attributes_for :adm_st, {:student_id => @stu.id,
+          :BannerTerm_BannerTerm => @term.id
+        }
+        post :create, {:adm_st => app_attrs}
+
+        assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
+        assert_equal assigns(:app).student_id, @stu.id
+        assert_equal flash[:notice], "New application added for #{@stu.name_readable(file_as=true)}"
+
+      end # test
+    end # roles loop
+  end # describe
+
 
   test "should not post create bad app" do
     #post an invalid adm_st application inside a term
@@ -128,47 +125,46 @@ class AdmStControllerTest < ActionController::TestCase
     assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
   end
 
-  test "should post update" do
-    stu = FactoryGirl.create :student
-    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
-    allowed_roles.each do |r|
-      load_session(r)
-
-      app_attrs = FactoryGirl.attributes_for :adm_st, {:student_id => stu.id,
-        :STAdmitted => nil,
-        :STAdmitDate => nil,
-        :BannerTerm_BannerTerm => term.id
-      }
-      app = AdmSt.create app_attrs
-      assert app.valid?, app.errors.full_messages
-
-      #restore app to a pre decision state
-
-      travel_to (app.banner_term.StartDate.to_date) + 1 do
-        post :update, {
-              :id => app.id,
-              :adm_st => {
-                :STAdmitted => "true",
-                :STAdmitDate => Date.today.to_s,
-                :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
-                }
-            }
-
-        assert assigns(:app).valid?, assigns(:app).errors.full_messages
-        assert_redirected_to adm_st_index_path
-
-        app.destroy
-        StudentFile.delete_all
-
-      end
+  describe "should post update" do
+    before do
+      @stu = FactoryGirl.create :admitted_student
+      @term = BannerTerm.current_term({:exact => false, :plan_b => :back})
     end
-  end
 
+    allowed_roles.each do |r|
+      test "as #{r}" do
+        load_session(r)
+
+        app = FactoryGirl.create :adm_st, {:student_id => @stu.id,
+          :STAdmitted => nil,
+          :STAdmitDate => nil,
+          :BannerTerm_BannerTerm => @term.id
+        }
+
+        travel_to (app.banner_term.StartDate.to_date) + 1 do
+          post :update, {
+                :id => app.id,
+                :adm_st => {
+                  :STAdmitted => true,
+                  :STAdmitDate => Date.today,
+                  :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                  }
+              }
+          assert assigns(:app).valid?, assigns(:app).errors.full_messages
+          assert_redirected_to adm_st_index_path
+        end # travel to
+
+      end # test
+    end # roles loop
+  end
 
   test "should not post update no decision" do
 
       load_session("admin")
-      app = AdmSt.first
+      stu = FactoryGirl.create :admitted_student
+      app = FactoryGirl.build :adm_st, {:student_id => stu.id,
+        :BannerTerm_BannerTerm => stu.adm_tep.first.banner_term.next_term.id
+      }
       travel_to (app.banner_term.StartDate.to_date) + 1 do
         app.STAdmitted = nil
         app.STAdmitDate = nil
@@ -211,9 +207,12 @@ class AdmStControllerTest < ActionController::TestCase
   test "should post update_st_paperwork" do
     allowed_roles.each do |r|
       load_session(r)
-      app = AdmSt.first
+      stu = FactoryGirl.create :admitted_student
+      app = FactoryGirl.build :adm_st, {:student_id => stu.id,
+         :BannerTerm_BannerTerm => BannerTerm.current_term({exact: false, plan_b: :back}).id}
       letter = attach_letter(app)
       app.save
+      puts app.errors.full_messages
       post :update_st_paperwork, {
         adm_st_id: app.id,
         :adm_st => {
@@ -307,7 +306,10 @@ class AdmStControllerTest < ActionController::TestCase
   test "should not post update bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      app = AdmSt.first
+      stu = FactoryGirl.create :admitted_student
+      app = FactoryGirl.build :adm_st, {:student_id => stu.id,
+        :BannerTerm_BannerTerm => stu.adm_tep.first.banner_term.next_term.id
+      }
 
       #restore app to a pre decision state
       app.STAdmitted = nil
@@ -352,10 +354,13 @@ class AdmStControllerTest < ActionController::TestCase
   end
 
   test "should delete" do
-
-      allowed_roles.each do |r|
-        load_session(r)
-      test_destroy = FactoryGirl.create(:adm_st, {:BannerTerm_BannerTerm => BannerTerm.first.id, :STAdmitted => nil, :STAdmitDate => nil})
+    allowed_roles.each do |r|
+      load_session(r)
+      stu = FactoryGirl.create :admitted_student
+      test_destroy = FactoryGirl.create(:adm_st, {:student_id => stu.id,
+        :BannerTerm_BannerTerm => stu.adm_tep.first.banner_term.next_term.id,
+        :STAdmitted => nil,
+        :STAdmitDate => nil})
       post :destroy, {:id => test_destroy.id}
       assert_equal(test_destroy, assigns(:app))
       assert assigns(:app).destroyed?
@@ -365,7 +370,7 @@ class AdmStControllerTest < ActionController::TestCase
   end
 
   test "cannot delete" do
-      stu = FactoryGirl.create :student
+      stu = FactoryGirl.create :admitted_student
       stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
       term_date = BannerTerm.current_term({:exact => false, :plan_b => :back})
       test_destroy_fail = FactoryGirl.create :adm_st, {:student_id => stu.id, :BannerTerm_BannerTerm => term_date.id, :STAdmitted => true,

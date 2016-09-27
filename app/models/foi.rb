@@ -25,11 +25,17 @@ class Foi < ActiveRecord::Base
 
   validates :student_id,
     presence: {message: "Student could not be identified."}
-
+    
   validates :date_completing,
+<<<<<<< HEAD
     presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/2016 09:00:00 AM"},
     uniqueness: { scope: :student_id,
       message: "May not have more than one FOI for a paticular student at a paticular time." }
+=======
+  presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/16 13:00"},
+  uniqueness: { scope: :student_id,
+    message: "May not have more than one FOI for a paticular student at a paticular time." }
+>>>>>>> master
 
   validates :new_form,
     :inclusion => { :in => [true, false],
@@ -44,7 +50,7 @@ class Foi < ActiveRecord::Base
 
   def check_major_id
     if self.seek_cert == true && self.major_id.blank?
-      self.errors.add(:major_id, "Major could not be determined.")
+      self.errors.add(:major_id, "is required and could not be determined.")
     end
   end
 
@@ -68,21 +74,22 @@ class Foi < ActiveRecord::Base
 
     row_count = 0
 
-    Foi.transaction do
-      begin
+
+    begin
+      Foi.transaction do
         CSV.foreach(file.path) do |row|
           if $. > 2 # skipping first row
-            _import_foi(Hash[headers.zip(row)])
             row_count += 1
+            _import_foi(Hash[headers.zip(row)])
           end
         end
-      rescue ActiveRecord::RecordInvalid => e
-        return {success: false, message: "Error on line #{row_count + 2}: #{e.message}"}
-      end
+      end #transaction
 
-      return {success: true, message: nil, rows: row_count }
+    rescue ActiveRecord::RecordInvalid => e
+      raise "Error on line #{row_count + 2}: #{e.message}"
+    end
 
-    end # transaction
+    return {success: true, message: nil, rows: row_count }
 
   end
 
@@ -98,32 +105,51 @@ class Foi < ActiveRecord::Base
     # these three attrs are processed the same.
     row_attrs = [
       {:name => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
-        :slug => :new_form
+        :slug => :new_form,
+        :true => "New Form",
+        :false => "Revision"
       },
       {:name => "Q1.4 - Do you intend to seek teacher certification at Berea College?",
-        :slug => :seek_cert
+        :slug => :seek_cert,
+        :true => "Yes",
+        :false => "No"
       },
-      {:name => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
-        :slug => :eds_only
-      }
+      {:name => "Q2.1 - Do you intend to seek an Education Studies degree without certification?",
+        :slug => :eds_only,
+        :true => "Yes",
+        :false => "No"
 
+      }
     ]
 
     row_attrs.each do |ra|
-      raw = ra[:name]
-      if raw.present?
-        attrs[ra[:slug]] = ra[:name].downcase == "yes"
+      col_name = ra[:name]
+      raw_response = row[col_name]
+      if raw_response == ra[:true]
+        attrs[ra[:slug]] = true
+      elsif raw_response == ra[:false]
+        attrs[ra[:slug]] = false
       else
         attrs[ra[:slug]] = nil
       end
     end
 
     major_name = row["Q3.1 - Which area do you wish to seek certification in?"] # the raw name of the major from the fil
-    attrs[:major_id] = Major.find_by(:name => major_name) # this could be nil!
+    major = Major.find_by(:name => major_name) # this could be nil!
+    attrs[:major_id] = major.andand.id
 
+    if major.nil? && attrs[:seek_cert]
+      # if student is seeking cert, major should be Undecided, otherwise its nil
+      attrs[:major_id] = Major.find_by(:name => "Undecided").id
+    end
+
+
+
+    #expected format: 9/2/16 9:25
     date_str = row["Recorded Date"]  #date completing, from the csv
+
     begin
-      attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
+      attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%y %k:%M")
     rescue ArgumentError, TypeError => e
       attrs[:date_completing] = nil
     end
