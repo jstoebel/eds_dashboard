@@ -46,7 +46,12 @@
       <th>Classification</th>
       <td><%= @student.Classification %> </td>
     </tr>
-
+    
+    <tr>
+      <th>Programs</th>
+      <td><%= @student.programs %></td>
+    </tr>
+    
     <tr>
       <th>Current Majors</th>   	
       <td><%= [@student.CurrentMajor1, @student.CurrentMajor2].select{|m| (m !="" and m != nil)}.join(", ") %> </td>
