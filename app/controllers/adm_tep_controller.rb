@@ -93,9 +93,6 @@ class AdmTepController < ApplicationController
   end
 
   def index
-    #@current_term: the current term in time
-    #@term: the term displayed
-    #@adm_teps = AdmTep.all
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
     @applications = @adm_teps.by_term(@term)   #fetch all applications for this term
  
