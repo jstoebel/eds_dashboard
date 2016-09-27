@@ -263,7 +263,7 @@ class AdmTepControllerTest < ActionController::TestCase
       load_session(r)
       get :index, {:banner_term_id => term.BannerTerm}
       assert_response :success
-      assert_equal assigns(:applications).to_a, AdmTep.all.by_term(term)
+      assert_equal assigns(:applications).to_a, AdmTep.all.by_term(term).to_a
     end
   end
 
