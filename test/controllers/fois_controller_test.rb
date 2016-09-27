@@ -36,7 +36,7 @@ class FoisControllerTest < ActionController::TestCase
           end
 
           test "pulls records" do
-            assert_equal Foi.all, assigns(:fois)
+            assert_equal Foi.all.sorted, assigns(:fois)
           end
 
         end #as #{r}
