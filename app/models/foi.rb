@@ -20,6 +20,7 @@ class Foi < ActiveRecord::Base
   belongs_to :student
   belongs_to :major
 
+  scope :sorted, lambda {order(date_completing: :asc)}
   after_validation :check_major_id
   after_validation :check_eds_only
 
@@ -32,9 +33,9 @@ class Foi < ActiveRecord::Base
     message: "May not have more than one FOI for a paticular student at a paticular time." }
 
   validates :new_form,
-  :inclusion => { :in => [true, false],
-      message: "Can't determine if this is a new form."
-    }
+    :inclusion => { :in => [true, false],
+        message: "Can't determine if this is a new form."
+      }
 
 
   validates :seek_cert,
