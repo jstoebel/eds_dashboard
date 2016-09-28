@@ -20,6 +20,7 @@ class Foi < ActiveRecord::Base
   belongs_to :student
   belongs_to :major
 
+  scope :sorted, lambda {order(date_completing: :asc)}
   after_validation :check_major_id
   after_validation :check_eds_only
 
