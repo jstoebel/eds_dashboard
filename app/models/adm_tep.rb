@@ -62,11 +62,11 @@ class AdmTep < ActiveRecord::Base
   }
 
   def good_credits?
-    return self.EarnedCredits >= 30
+    return self.EarnedCredits.andand >= 30
   end
 
   def good_gpa?
-    return (self.GPA >= 2.75 or self.GPA_last30 >= 3.0)
+    return (self.GPA.andand >= 2.75 or self.GPA_last30.andand >= 3.0)
   end
 
   #SETTERS
