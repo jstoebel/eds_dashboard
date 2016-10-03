@@ -204,8 +204,6 @@ class ReportsControllerTest < ActionController::TestCase
       end
         # tests for student program
         describe "context: Student Program" do
-          ["Technology", "English"].each do |program_title|
-          
             test "no associated programs" do
               student = FactoryGirl.create :student
               get :index
