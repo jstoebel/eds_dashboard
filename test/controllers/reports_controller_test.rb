@@ -265,13 +265,9 @@ class ReportsControllerTest < ActionController::TestCase
                 assert_equal expected_program, actual_program
                 end
               end
+              
             end
-          
-          
-        end
-    
-    
-    end
 
+    end
   end
 end
