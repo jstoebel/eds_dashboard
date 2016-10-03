@@ -244,7 +244,16 @@ class ReportsControllerTest < ActionController::TestCase
             
             test "two associated programs" do
               student = FactoryGirl.create :admitted_student
-              FactoryGirl.create :adm_tep, {:program => "#{Program.first.id}"} , {:student => "#{student}"}
+              admit_term = student.transcripts.first.banner_term.next_term
+              FactoryGirl.create :adm_tep, 
+              {
+                :program => Program.second,
+                :TEPAdmitDate => admit_term.StartDate,
+                :BannerTerm_BannerTerm => admit_term.id, 
+                :student_id => student.id
+              }
+                
+                
               get :index
               
               expected_data = assigns(:data)
