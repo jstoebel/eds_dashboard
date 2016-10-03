@@ -22,6 +22,7 @@ class FoisController < ApplicationController
     def index
       # implicetly loads all Fois user is permitted to :read
       # and assigns to @fois
+      @fois = Foi.all.sorted
     end
 
     def import
