@@ -54,7 +54,7 @@ task :title2_fall15 => :environment do
   students += Student.joins(:adm_tep).where("TEPAdmit=1 and TEPAdmitDate >= ? and TEPAdmitDate <= ?", ay_start, ay_end).map{|s| {:stu => s, :category => "1 or 2"}}
 
   # 2 student was exited in ay
-  students += Student.joins(:prog_exits).where("ExitDate >= ? and ExitDate <= ?", ay_start, ay_end).map{|s| {:stu => s, :category => "3"}}
+  students += Student.joins(:prog_exits).where("ExitDate >= ? and ExitDate <= ?", ay_start, ay_end).where("ExitCode_ExitCode = 221360805").map{|s| {:stu => s, :category => "3"}}
 
   # 3 student was admitted prior to ay and has no exits
   with_open_progs = Student.all.select{|s| s.open_programs.present?}
@@ -69,10 +69,9 @@ task :title2_fall15 => :environment do
 
     stu_hash = ActiveSupport::OrderedHash.new
 
-    stu_hash.merge!({
-      "AI-CDE" => "1060",
+    stu_hash.merge!({"AI-CDE" => "1060",
       "PROGRAM" => "R",
-      "CATEGORY" => stu_result[:category],
+      "CATEGORY" => stu_result[:category]
     })
 
     stu.last_names.each_with_index do |lname, i|
@@ -105,7 +104,7 @@ task :title2_fall15 => :environment do
   end
 
   file_loc_arr = __FILE__.split(File::SEPARATOR)
-  file_loc_arr[-1] = "titleII_fall16.csv"
+  file_loc_arr[-1] = "titleII_fall16_raw.csv"
 
   CSV.open(file_loc_arr.join(File::SEPARATOR), "wb") do |csv|
     csv << stu_hashes.first.keys
