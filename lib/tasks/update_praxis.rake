@@ -33,7 +33,7 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
       root = score_report.root
       reports = root.xpath("scorereport")
 
-      date_obj = DateTime.strptime(d, "%d/%m/%Y")
+      date_obj = DateTime.strptime(d, "%m/%d/%Y")
 
       reports.each do |report|  # one scorereport per student
         report_obj = PraxisScoreReport.new report
