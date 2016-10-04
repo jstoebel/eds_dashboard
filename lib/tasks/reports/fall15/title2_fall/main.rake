@@ -8,6 +8,7 @@ require 'csv'
 
 
 task :title2_fall15 => :environment do
+
   cols = [
     "AI-CDE",
     "PROGRAM",
@@ -41,57 +42,93 @@ task :title2_fall15 => :environment do
   ]
 
   ay_start = Date.new(2015, 9, 1)
+  ay_end = Date.new(2016, 8, 31)
 
   # BRUTE FORCE SOLUTION: LESS HARD TO REASON ABOUT
+  students = []
+    # :stu => the AR student object
+    # :category => the cateogry they fall under for Title II
 
-  # admited_in_ay = lambda {|stu| stu.adm_tep.where("TEPAdmitDate > ?", ay).present?}
-  # exited_in_ay = lambda {|stu| stu.prog_exits.where("ExitTerm > ?", ay).present?}
-  # has_open_programs = lambda{|stu| stu.open_programs.present?}
+  # 1 student was admitted in ay
+  # category:
+  students += Student.joins(:adm_tep).where("TEPAdmit=1 and TEPAdmitDate >= ? and TEPAdmitDate <= ?", ay_start, ay_end).map{|s| {:stu => s, :category => "1 or 2"}}
 
-  stus = []
-  Student.all.each do |stu|
-    if has_open_programs(stu) ||
-      admited_in_ay(stu, ay_start) ||
-      exited_in_ay(stu, ay_start)
+  # 2 student was exited in ay
+  students += Student.joins(:prog_exits).where("ExitDate >= ? and ExitDate <= ?", ay_start, ay_end).map{|s| {:stu => s, :category => "3"}}
 
-      stus << stu
+  # 3 student was admitted prior to ay and has no exits
+  with_open_progs = Student.all.select{|s| s.open_programs.present?}
+  with_open_progs.each do |s|
+    students << {:stu => s, :category => "1 or 2"} if !students.include?(s)
+  end
+
+  #create array of hashes
+  stu_hashes = []
+  students.each do |stu_result|
+    stu = stu_result[:stu]
+
+    stu_hash = ActiveSupport::OrderedHash.new
+
+    stu_hash.merge!({
+      "AI-CDE" => "1060",
+      "PROGRAM" => "R",
+      "CATEGORY" => stu_result[:category],
+    })
+
+    stu.last_names.each_with_index do |lname, i|
+      field_name = i == 0 ? "LAST-NAME" : "LAST-NAME#{i+1}"
+      stu_hash[field_name] = lname.last_name
     end
+
+    stu_hash.merge!({
+      "FIRST-NAME" => stu.FirstName,
+      "MI" => stu.MiddleName.andand[0],
+      "DOB" => nil,
+      "SSN" => nil,
+      "CAND-ID" => stu.Bnum,
+      "CAND-ID2" => nil,
+      "CAND-ID3" => nil,
+      "CAND-ID4" => nil,
+      "STREET-ADDR" => "101 Chestnut St.",
+      "CITY" => "Berea",
+      "ST" => "KY"
+    })
+
+    # add programs
+    stu.programs.each_with_index do |prog, i|
+      field_name = i == 0 ? "LICENSE" : "LICENSE#{i+1}"
+      stu_hash[field_name] = prog.license_code
+    end
+
+    stu_hashes << stu_hash
 
   end
 
-  puts stus.size
+  file_loc_arr = __FILE__.split(File::SEPARATOR)
+  file_loc_arr[-1] = "titleII_fall16.csv"
 
-  # SQL SOLUTION
-  # students_tbl = Student.arel_table
-  # adm_tep_tbl = AdmTep.arel_table
-  # prog_exit_tbl = ProgExit.arel_table
-
-  # query = students_tbl
-  #           .join(adm_tep_tbl).on(students_tbl[:id].eq(adm_tep_tbl[:student_id]))
-  #           .join(prog_exit_tbl).on(students_tbl[:id].eq(prog_exit_tbl[:student_id]))
-
-  # query = adm_tep_tbl[:TEPAdmit].eq(true)
-  #           .and(adm_tep_tbl[:TEPAdmitDate].gteq(ay_start))
-  #             .or(prog_exit_tbl[:ExitDate].gteq(ay_start))
-  #
-  #
-  # puts query.to_sql
-
+  CSV.open(file_loc_arr.join(File::SEPARATOR), "wb") do |csv|
+    csv << stu_hashes.first.keys
+    stu_hashes.each do |hash|
+      csv << hash.values
+    end
+  end
 end
-
-def admited_in_ay(stu, ay)
-  # does the student have an admission in AY
-  puts "admitted_in_ay" if stu.adm_tep.where("TEPAdmitDate > ", ay).present?
-  return stu.adm_tep.where("TEPAdmitDate > ", ay).present?
-end
-
-def exited_in_ay(stu, ay)
-  # does the student have an exit in AY?
-  return stu.prog_exits.where("ExitTerm > ?", ay).present?
-end
-
-def has_open_programs(stu)
-  # does the student have any open programs?
-  # puts "has_open_programs" if stu.open_programs.present?
-  return stu.open_programs.present?
-end
+#
+# def admited_in_ay(stu, ay)
+#   # does the student have an admission in AY
+#   puts "admitted_in_ay" if stu.adm_tep.where("TEPAdmitDate > ?", ay).present?
+#   return stu.adm_tep.where("TEPAdmitDate > ?", ay.to_s).present?
+# end
+#
+# def exited_in_ay(stu, ay)
+#   # does the student have an exit in AY?
+#   return stu.prog_exits.where("ExitTerm > ?", ay).present?
+# end
+#
+# def has_open_programs(stu)
+#   # does the student have any open programs?
+#   # puts "has_open_programs" if stu.open_programs.present?
+#   puts "has open programs" if stu.open_programs.present?
+#   return stu.open_programs.present?
+# end
