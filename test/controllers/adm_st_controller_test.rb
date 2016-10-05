@@ -67,8 +67,8 @@ class AdmStControllerTest < ActionController::TestCase
     end
 
     allowed_roles.each do |r|
-
       test "as #{r}" do
+        load_session(r)
         app_attrs = FactoryGirl.attributes_for :adm_st, {:student_id => @stu.id,
           :BannerTerm_BannerTerm => @term.id
         }
