@@ -1,7 +1,7 @@
 class ProcessStudent
   # a service object to process a single student
 
-  attr_reader  :row, :stu
+  attr_reader  :row, :stu, :course
 
    def initialize(row)
      # row: a row extracted from Banner query
