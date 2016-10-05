@@ -46,11 +46,26 @@
       <th>Classification</th>
       <td><%= @student.Classification %> </td>
     </tr>
+    <% if @student.prog_status == "Candidate"%>
+      <tr>
+        <th>Programs</th>
+        <td><%= @student.programs.pluck("EDSProgName").join("; ") %></td>
+      </tr>
+    <% end %>
     
-    <tr>
-      <th>Programs</th>
-      <td><%= @student.programs.pluck("EDSProgName").join("; ") %></td>
-    </tr>
+    <% if @student.prog_status == "Completer" %>
+      <tr>
+        <th>Programs</th>
+        <td><%= @students.programs.pluck("EDSProgName").join("; ") %></td>
+      </tr>
+    <% end %>
+    
+    <% if @student.prog_status == "Prospective" %>
+      <tr>
+        <th>Programs</th>
+        <td><%= @student.latest_foi.major.name %></td>
+      </tr>
+    <% end %>
     
     <tr>
       <th>Current Majors</th>   	
