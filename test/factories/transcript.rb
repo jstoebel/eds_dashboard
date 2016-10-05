@@ -6,6 +6,7 @@
 #  student_id        :integer          not null
 #  crn               :string(45)       not null
 #  course_code       :string(45)       not null
+#  course_section    :string(255)
 #  course_name       :string(100)
 #  term_taken        :integer          not null
 #  grade_pt          :float(24)
@@ -25,6 +26,7 @@ FactoryGirl.define do
     association :student
     sequence(:crn) { |n| (1000 + n.to_i).to_s}
     course_code {"EDS#{Number.between 100, 499}"}
+    course_section {Lorem.characters(Number.between(1,4)).upcase}
     course_name {Book.title}
 
     #must provide a term
