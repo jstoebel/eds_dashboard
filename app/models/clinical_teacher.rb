@@ -60,6 +60,4 @@ class ClinicalTeacher < ActiveRecord::Base
         message: "Years of experience must be an positive integer."},
       allow_blank: true
 
-
-
 end

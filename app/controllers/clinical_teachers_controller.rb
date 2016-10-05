@@ -84,7 +84,9 @@ class ClinicalTeachersController < ApplicationController
   private
 
   def teacher_params
-    params.require(:clinical_teacher).permit(:Bnum, :FirstName, :LastName, :Email, :Subject, :clinical_site_id, :Rank, :YearsExp)
+    params.require(:clinical_teacher).permit(:Bnum, :FirstName, :LastName, :Email, 
+    :Subject, :clinical_site_id, :Rank, :begin_service, :epsb_training,
+    :ct_record, :co_teacher_training)
   end
 
   def form_details
