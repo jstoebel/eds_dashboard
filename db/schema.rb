@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 20161005151509) do
 
   create_table "assessment_versions", force: :cascade do |t|
     t.integer  "assessment_id", limit: 4, null: false
-    t.integer  "version_num",   limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -223,6 +222,7 @@ ActiveRecord::Schema.define(version: 20161005151509) do
     t.integer  "ord",                limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "cut_score"
   end
 
   add_index "item_levels", ["assessment_item_id"], name: "fk_rails_e6a2147994", using: :btree
@@ -305,7 +305,6 @@ ActiveRecord::Schema.define(version: 20161005151509) do
     t.string   "paid_by",        limit: 255
     t.integer  "test_score",     limit: 4
     t.integer  "best_score",     limit: 4
-    t.integer  "cut_score",      limit: 4
   end
 
   add_index "praxis_results", ["praxis_test_id"], name: "fk_praxis_results_praxis_tests_idx", using: :btree
@@ -436,7 +435,7 @@ ActiveRecord::Schema.define(version: 20161005151509) do
     t.string  "CurrentMinors",    limit: 255
     t.string  "Email",            limit: 100
     t.string  "CPO",              limit: 45
-    t.text    "withdrawals",      limit: 65535
+    t.text    "withdraws",        limit: 65535
     t.integer "term_graduated",   limit: 4
     t.string  "gender",           limit: 255
     t.string  "race",             limit: 255
@@ -471,26 +470,27 @@ ActiveRecord::Schema.define(version: 20161005151509) do
     t.integer "user_id",     limit: 4
     t.string  "first_name",  limit: 255, null: false
     t.string  "last_name",   limit: 255, null: false
+    t.string  "email",       limit: 255
   end
 
   add_index "tep_advisors", ["AdvisorBnum"], name: "AdvisorBnum_UNIQUE", unique: true, using: :btree
   add_index "tep_advisors", ["user_id"], name: "fk_rails_50ba8b67f4", using: :btree
 
   create_table "transcript", force: :cascade do |t|
-    t.integer "student_id",        limit: 4,   null: false
-    t.string  "crn",               limit: 45,  null: false
-    t.string  "course_code",       limit: 45,  null: false
+    t.integer "student_id",        limit: 4,     null: false
+    t.string  "crn",               limit: 45,    null: false
+    t.string  "course_code",       limit: 45,    null: false
     t.string  "course_section",    limit: 255
     t.string  "course_name",       limit: 100
-    t.integer "term_taken",        limit: 4,   null: false
+    t.integer "term_taken",        limit: 4,     null: false
     t.float   "grade_pt",          limit: 24
     t.string  "grade_ltr",         limit: 2
     t.float   "quality_points",    limit: 24
     t.float   "credits_attempted", limit: 24
     t.float   "credits_earned",    limit: 24
     t.string  "reg_status",        limit: 45
-    t.string  "Inst_bnum",         limit: 45
-    t.boolean "gpa_include",                   null: false
+    t.text    "instructors",       limit: 65535
+    t.boolean "gpa_include",                     null: false
   end
 
   add_index "transcript", ["student_id", "crn", "term_taken"], name: "index_transcript_on_student_id_and_crn_and_term_taken", unique: true, using: :btree
