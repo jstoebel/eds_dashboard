@@ -50,3 +50,8 @@ bower.json
 error_rpt.txt
 error_report.txt
 entrance_exit_FIXED.csv
+
+# only .rb and .rake in lib/tasks/reports
+lib/tasks/reports/**
+!lib/tasks/reports/**/*.rb
+!lib/tasks/reports/**/*.rake
