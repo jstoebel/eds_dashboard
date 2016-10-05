@@ -6,6 +6,7 @@
 #  student_id        :integer          not null
 #  crn               :string(45)       not null
 #  course_code       :string(45)       not null
+#  course_section    :string(255)
 #  course_name       :string(100)
 #  term_taken        :integer          not null
 #  grade_pt          :float(24)
