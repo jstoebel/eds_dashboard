@@ -611,6 +611,11 @@ class StudentTest < ActiveSupport::TestCase
 
 		end
 
+		test "student has no courses" do
+			stu = FactoryGirl.create :student
+			assert_equal 0, stu.gpa
+		end
+
 	end # describe test
 
 	describe "credits" do
