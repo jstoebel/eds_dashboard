@@ -463,6 +463,8 @@ class Student < ActiveRecord::Base
 
 			break if options[:last].present? && credits >= options[:last]
 		end
+
+		return 0 if credits == 0
 		gpa_raw = qpoints / credits
 		return (gpa_raw * 100).to_i / 100.0
 
