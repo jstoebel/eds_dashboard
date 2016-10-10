@@ -26,9 +26,9 @@ class ReportsControllerTest < ActionController::TestCase
 
         end
 
-        test "http 200" do
-          assert_response :success
-        end
+        # test "http 200" do
+        #   assert_response :success
+        # end
 
         describe "pulls records" do
 
@@ -115,7 +115,69 @@ class ReportsControllerTest < ActionController::TestCase
                   end
                 end
               end
-            end
+
+              # more tests for successful records go here
+              describe "context: Student Program" do
+                test "no associated programs" do
+                  student = FactoryGirl.create :student
+                  get :index
+
+                  expected_data = assigns(:data)
+
+                  expected_data.each do |stu_hash|
+                    if student.Bnum == stu_hash[:Bnum]
+                      expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
+                      actual_program = stu_hash[:ProgName]
+                      assert_equal expected_program, actual_program
+                    end # end if
+
+                  end # loop
+                end # test
+
+                test "one associated program" do
+                  student = FactoryGirl.create :admitted_student
+                  get :index
+
+                  expected_data = assigns(:data)
+
+                  expected_data.each do |stu_hash|
+                    if student.Bnum == stu_hash[:Bnum]
+                      expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
+                      actual_program = stu_hash[:ProgName]
+                      assert_equal expected_program, actual_program
+                    end # if
+                  end # loop
+                end # test
+
+              end # context: Student Program
+
+
+
+              test "two associated programs" do
+                student = FactoryGirl.create :admitted_student
+                admit_term = student.transcripts.first.banner_term.next_term
+                FactoryGirl.create :adm_tep,
+                {
+                  :program => Program.second,
+                  :TEPAdmitDate => admit_term.StartDate,
+                  :BannerTerm_BannerTerm => admit_term.id,
+                  :student_id => student.id
+                }
+
+                get :index
+
+                expected_data = assigns(:data)
+
+                expected_data.each do |stu_hash|
+                  if student.Bnum == stu_hash[:Bnum]
+                    expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
+                    actual_program = stu_hash[:ProgName]
+                    assert_equal expected_program, actual_program
+                  end # if
+                end # loop
+              end # test
+
+            end # describe
 
             # tests for term taken 440/479
             describe "context: 440_479" do
@@ -148,6 +210,36 @@ class ReportsControllerTest < ActionController::TestCase
               end
             end
 
+            # tests for term taken 150
+            describe "context: EDS150" do
+
+              ["150", "101"].each do |course_code|
+
+                test "with #{course_code}" do
+                  course = FactoryGirl.create :transcript, {:course_code => "EDS#{course_code}",
+                  :grade_pt => 3.0
+                  }
+                  stu = course.student
+
+                  get :index
+
+                  expected_data = assigns(:data)
+
+                  expected_data.each do |stu_hash|
+                    if stu.Bnum == stu_hash[:Bnum] # find student in array of hashes
+                      expected_term_taken = stu.transcripts
+                        .where(:course_code => ["EDS150"])
+                        .order(:term_taken).last.andand.banner_term.andand.readable
+
+                      actual_term_taken = stu_hash[:Latest_Term_EDS150]
+
+                      assert_equal expected_term_taken, actual_term_taken
+                    end
+                  end
+                end
+              end
+            end
+
           end
         end
       end # each loop
@@ -162,7 +254,6 @@ class ReportsControllerTest < ActionController::TestCase
 
           before do
             load_session(r)
-
             get :index
           end
 
@@ -171,102 +262,7 @@ class ReportsControllerTest < ActionController::TestCase
           end
 
         end
-        
-        # tests for term taken 150
-        describe "context: EDS150" do  
-          
-          ["150", "101"].each do |course_code|
-
-            test "with #{course_code}" do
-              course = FactoryGirl.create :transcript, {:course_code => "EDS#{course_code}",
-              :grade_pt => 3.0
-              }
-              stu = course.student
-              
-              get :index
-              
-              expected_data = assigns(:data)
-              
-              expected_data.each do |stu_hash|
-                if stu.Bnum == stu_hash[:Bnum] # find student in array of hashes
-                  expected_term_taken = stu.transcripts
-                    .where(:course_code => ["EDS150"])
-                    .order(:term_taken).last.andand.banner_term.andand.readable
-                    
-                  actual_term_taken = stu_hash[:Latest_Term_EDS150]
- 
-                  assert_equal expected_term_taken, actual_term_taken 
-                end
-              end
-            end
-          end
-        end
       end
-        # tests for student program
-        describe "context: Student Program" do
-            test "no associated programs" do
-              student = FactoryGirl.create :student
-              get :index
-              
-              expected_data = assigns(:data)
-              
-              expected_data.each do |stu_hash|
-                if student.Bnum == stu_hash[:Bnum]
-                  expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
-                
-                actual_program = stu_hash[:ProgName]
-                
-                assert_equal expected_program, actual_program
-                end
-              end
-            end
-          end
-            
-            
-            test "one assocaited program" do
-              student = FactoryGirl.create :admitted_student
-              get :index
-              
-              expected_data = assigns(:data)
-              
-              expected_data.each do |stu_hash|
-                if student.Bnum == stu_hash[:Bnum]
-                  expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
-                  
-                actual_program = stu_hash[:ProgName]
-                
-                assert_equal expected_program, actual_program
-                end
-              end
-            end
-            
-            test "two associated programs" do
-              student = FactoryGirl.create :admitted_student
-              admit_term = student.transcripts.first.banner_term.next_term
-              FactoryGirl.create :adm_tep, 
-              {
-                :program => Program.second,
-                :TEPAdmitDate => admit_term.StartDate,
-                :BannerTerm_BannerTerm => admit_term.id, 
-                :student_id => student.id
-              }
-                
-                
-              get :index
-              
-              expected_data = assigns(:data)
-              
-              expected_data.each do |stu_hash|
-                if student.Bnum == stu_hash[:Bnum]
-                  expected_program = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
-                  
-                actual_program = stu_hash[:ProgName]
-                
-                assert_equal expected_program, actual_program
-                end
-              end
-              
-            end
 
     end
   end

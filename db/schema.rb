@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907175437) do
+ActiveRecord::Schema.define(version: 20161005151509) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -382,6 +382,7 @@ ActiveRecord::Schema.define(version: 20160907175437) do
     t.string  "EPSBProgName", limit: 100
     t.string  "EDSProgName",  limit: 45
     t.boolean "Current"
+    t.string  "license_code", limit: 255
   end
 
   add_index "programs", ["ProgCode"], name: "ProgCode_UNIQUE", unique: true, using: :btree
@@ -479,6 +480,7 @@ ActiveRecord::Schema.define(version: 20160907175437) do
     t.integer "student_id",        limit: 4,     null: false
     t.string  "crn",               limit: 45,    null: false
     t.string  "course_code",       limit: 45,    null: false
+    t.string  "course_section",    limit: 255
     t.string  "course_name",       limit: 100
     t.integer "term_taken",        limit: 4,     null: false
     t.float   "grade_pt",          limit: 24

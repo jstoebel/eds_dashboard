@@ -427,6 +427,34 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       assert_equal 1, Transcript.count
     end
 
+    test "3 character course code" do
+      @inter_row.merge!({
+          'SZVEDSD_COURSE' => "EDS 150 - A 3 char course",
+        })
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal "EDS150", row_service.course.course_code
+
+    end
+
+    test "4 character course code" do
+      @inter_row.merge!({
+          'SZVEDSD_COURSE' => "GSTR 110 - A 4 char course",
+        })
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal "GSTR110", row_service.course.course_code
+    end
+
+    test "course section" do
+      @inter_row.merge!({
+          'SZVEDSD_COURSE' => "GSTR 110A - A 4 char course",
+        })
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal "A", row_service.course.course_section
+    end
+
   end
 
 end
