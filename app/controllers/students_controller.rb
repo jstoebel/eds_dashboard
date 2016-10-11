@@ -51,11 +51,6 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find params[:id]
     authorize! :show, @student
-    if @student.prog_status == "Candidate" or "Completer"
-      @student.programs.pluck("EDSProgName").join("; ")
-    elsif @student.prog_status == "Prospective"
-      @student.latest_foi.major
-    end
   end
 
 end

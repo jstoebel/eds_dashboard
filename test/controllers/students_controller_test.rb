@@ -119,7 +119,6 @@ class StudentsControllerTest < ActionController::TestCase
       get :show, :id => stu.AltID
       assert_response :success
       assert_equal stu, assigns(:student)
-
     end
   end
 
@@ -130,5 +129,6 @@ class StudentsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
+  
 
 end
