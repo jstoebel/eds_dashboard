@@ -49,7 +49,7 @@ class AdmSt < ActiveRecord::Base
   }
 
   validates_presence_of :STAdmitDate, {:message => "Admission date must be given.",
-    :unless => Proc.new{|s| s.STAdmitted.nil?}
+    :if => Proc.new{|s| s.STAdmitted}
   }
 
   validates_presence_of :STAdmitted, {:message => "Please make an admission decision for this student.",
@@ -96,7 +96,7 @@ class AdmSt < ActiveRecord::Base
   end
 
   def admit_date_too_late
-    if self.STAdmitDate and self.STAdmitDate >= self.banner_term.next_term.StartDate
+    if self.STAdmitDate and self.STAdmitDate >= self.banner_term.next_term(exclusive=true).StartDate
       self.errors.add(:STAdmitDate, "Admission date may not be after next term begins.")
     end
   end
