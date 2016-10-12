@@ -46,9 +46,9 @@ class Student < ActiveRecord::Base
 	has_many :advisor_assignments
 	has_many :tep_advisors, :through => :advisor_assignments
 
-  has_many :student_scores
+	has_many :student_scores
 
-  has_many :pgps
+	has_many :pgps
 
 	has_many :praxis_results
 	has_many :praxis_prep
