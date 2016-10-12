@@ -107,7 +107,7 @@ class AdmTep < ActiveRecord::Base
   end
 
   def admit_date_too_late
-    if self.TEPAdmitDate.present? && self.TEPAdmitDate >= self.banner_term.next_term.StartDate
+    if self.TEPAdmitDate.present? && self.TEPAdmitDate >= self.banner_term.next_term(exclusive=true).StartDate
       self.errors.add(:TEPAdmitDate, "Admission date must be before next term begins.")
     end
   end

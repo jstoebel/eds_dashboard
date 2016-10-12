@@ -21,6 +21,10 @@ class BannerTermTest < ActiveSupport::TestCase
 
     let(:summer_term) {BannerTerm.find 201513}
 
+    let(:last_summer_term) {BannerTerm.find 201515}
+
+    let(:next_fall_term) {BannerTerm.find 201611}
+
     it "gets current_term for today (exact)" do
         travel_to fall_date do
             t = BannerTerm.current_term
@@ -60,14 +64,45 @@ class BannerTermTest < ActiveSupport::TestCase
          :exact => false, :plan_b => :spam)}
     end
 
-    it "gets the next term" do
+
+    describe "next_term" do
+
+      test "not exclusive" do
         next_t = fall_term.next_term
         expect next_t.id.must_equal 201512
+      end
+      test "exclusive" do
+        expect summer_term.next_term(exclusive=true).must_equal BannerTerm.find 201610
+      end
+
     end
 
-    it "gets prev term" do
+    describe "prev_term" do
+
+      test "not exlucive" do
         prev_t = spring_term.prev_term
         expect prev_t.id.must_equal 201511
+      end
+
+      test "exclusive" do
+        # currently there are no real terms that would let us test this behavior so we need to make our own
+
+        dates = [
+          [Date.new(2100, 1, 1), Date.new(2100, 2, 1)],
+          [Date.new(2100, 3, 1), Date.new(2100, 4, 15)],
+          [Date.new(2100, 4, 1), Date.new(2100, 5, 1)]
+        ]
+
+        dates.each_with_index do |date_pair, idx|
+          FactoryGirl.create :banner_term, {:BannerTerm => 2100+idx,
+            :StartDate => date_pair[0], :EndDate => date_pair[1]}
+        end
+
+        t2 = BannerTerm.find 2102
+        t0 = BannerTerm.find 2100
+        expect t2.prev_term(exclusive=true).must_equal t0
+      end
+
     end
 
     it "returns readable no extra text" do
