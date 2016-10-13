@@ -49,12 +49,12 @@
     <% if @student.prog_status == "Candidate"%>
       <tr>
         <th>Programs</th>
-        <td><%= @student.programs.pluck("EDSProgName").join("; ") %></td>
+        <td><%= @student.open_programs.collect{|x| x.program.EDSProgName}.join("; ") %></td>
       </tr>
     <% elsif @student.prog_status == "Completer" %>
       <tr>
         <th>Programs</th>
-        <td><%= @students.programs.pluck("EDSProgName").join("; ") %></td>
+        <td><%= @student.open_programs.collect{|x| x.program.EDSProgName}.join("; ") %></td>
       </tr>
     <% elsif @student.prog_status == "Prospective" and @student.latest_foi == nil %>
       <tr>
