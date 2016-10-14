@@ -50,6 +50,11 @@ class AdmTep < ActiveRecord::Base
   validates_presence_of :Program_ProgCode,
     :message => "No program selected."
 
+  # validates_uniqueness_of :Program_ProgCode, scope: [:student_id],
+  #   # conditions: -> {where.TEPAdmit = true},
+  #   :message => "Student must not be admitted to the same program more than once."
+    
+  
   validates_presence_of :BannerTerm_BannerTerm,
     :message => "No term could be determined."
 

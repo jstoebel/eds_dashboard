@@ -26,6 +26,15 @@ class AdmTepTest < ActiveSupport::TestCase
     admit_count = AdmTep.admitted.size
     assert_equal(admit_count, AdmTep.where("TEPAdmit = ?", true).size)
   end
+  
+  test "Unique Programs for AdmTep" do 
+    stu = Student.first.id
+    app = FactoryGirl.create :adm_tep, {:student_id => stu, :Program_ProgCode => program.first}
+    app2 = FactoryGirl.create :adm_tep, {:student_id => stu, :Program_ProgCode => program.first}
+    letter = attach_letter(app)
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
+    app2.valid?
+  end
 
   test "scope open" do
     stu = AdmTep.admitted.first.student
