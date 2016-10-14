@@ -163,12 +163,6 @@ module PopulateHelper
         st_admit_attrs = {STAdmitted: st_admit}
 
         final_app = AdmSt.create st_app_attrs.merge(st_admit_attrs)
-        if final_app.errors.present?
-          puts final_app.errors.full_messages
-          puts final_app.inspect
-          exit
-        end
-
       else
         # student hasn't applied. Have they dropped? or are they still eligible to apply
 
