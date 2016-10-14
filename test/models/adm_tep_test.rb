@@ -27,13 +27,13 @@ class AdmTepTest < ActiveSupport::TestCase
     assert_equal(admit_count, AdmTep.where("TEPAdmit = ?", true).size)
   end
   
-  test "Unique Programs for AdmTep" do 
-    stu = Student.first.id
-    app = FactoryGirl.create :adm_tep, {:student_id => stu, :Program_ProgCode => program.first}
-    app2 = FactoryGirl.create :adm_tep, {:student_id => stu, :Program_ProgCode => program.first}
-    letter = attach_letter(app)
-    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
-    app2.valid?
+  test "Same Programs for AdmTep" do 
+    stu = FactoryGirl.create :admitted_student
+    program = Program.first.id
+    banner = BannerTerm.first.id
+    app = FactoryGirl.create :adm_tep, {:student_id => stu.id, :Program_ProgCode => program, :BannerTerm_BannerTerm => banner}
+    app.valid?
+    assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
   end
 
   test "scope open" do
@@ -44,14 +44,14 @@ class AdmTepTest < ActiveSupport::TestCase
 
     #since different SQL was used, slice the records into an array
     #and compare the array
-    assert_equal(expected.slice(0, expected.size),
+    assert_equal(expected.slice(0, expected.size), 
       expected.slice(0, expected.size))
   end
 
   test "scope by term" do
     expected = AdmTep.where(BannerTerm_BannerTerm: 201511)
     actual = AdmTep.by_term(201511)
-    assert_equal(expected.slice(0, expected.size),
+    assert_equal(expected.slice(0, expected.size), 
       expected.slice(0, expected.size))
   end
 
@@ -97,63 +97,6 @@ class AdmTepTest < ActiveSupport::TestCase
 
   end
 
-  describe "good_gpa" do
-    before do
-      @app = FactoryGirl.build :adm_tep
-    end
-
-    test "both good" do
-      @app.GPA = 2.75
-      @app.GPA_last30 = 3.0
-      assert @app.good_gpa?
-    end
-
-    describe "overall good" do
-
-      before do
-        @app.GPA = 2.75
-      end
-
-      [2.99, nil].each do |last30|
-        test "last30: #{last30}" do
-          @app.GPA_last30 = last30
-          assert @app.good_gpa?
-        end
-      end
-
-    end
-
-    describe "last30 good" do
-      before do
-        @app.GPA_last30 = 3.0
-      end
-
-      [2.74, nil].each do |overall|
-        test "overall: #{overall}" do
-          @app.GPA = overall
-          assert @app.good_gpa?
-        end
-      end
-    end
-
-    describe "both bad" do
-
-      [2.74, nil].each do |overall|
-        [2.99, nil].each do |last30|
-          test "overall: #{overall}, last30: #{last30}" do
-            @app.GPA = overall
-            @app.GPA_last30 = last30
-            assert_not @app.good_gpa?
-          end
-        end
-      end
-
-    end
-
-
-
-  end
-
   test "gpa both bad" do
     app = AdmTep.where(TEPAdmit: true).first
     letter = attach_letter(app)
@@ -168,26 +111,6 @@ class AdmTepTest < ActiveSupport::TestCase
     app.TEPAdmit = true
     app.valid?
     assert_equal(app.errors[:base], [])
-  end
-
-  describe "good credits" do
-    before do
-      @app = FactoryGirl.build :adm_tep
-    end
-
-    test "returns true" do
-      @app.EarnedCredits = 30
-      assert @app.good_credits?
-    end
-
-    describe "returns false" do
-      [29, nil].each do |credits|
-        test "credits: #{credits.to_s}" do
-          @app.EarnedCredits = credits
-          assert_not @app.good_credits?
-        end
-      end
-    end
   end
 
   test "last 30 gpa bad" do
@@ -237,7 +160,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "praxisI_pass" do
-
+    
   end
 
 end
