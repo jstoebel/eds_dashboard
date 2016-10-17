@@ -1,0 +1,18 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: edsaccess
+  password: <%= SECRET["EDSACCESS_PW"] %>
+
+development:
+  <<: *default
+  database: eds_development
+
+test:
+  <<: *default
+  database: eds_test
+
+production:
+  <<: *default
+  database: eds
