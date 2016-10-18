@@ -455,6 +455,26 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
         assert_equal "A", row_service.course.course_section
     end
 
+    test "irregular course code" do
+      @inter_row.merge!({
+          'SZVEDSD_COURSE' => "GSTRRR 110 - A strange course code",
+        })
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal "GSTRRR110", row_service.course.course_code
+
+    end
+
+    test "irregular course code no dash" do
+      @inter_row.merge!({
+          'SZVEDSD_COURSE' => "strangecourse",
+        })
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal "strangecourse", row_service.course.course_code
+
+    end
+
   end
 
 end
