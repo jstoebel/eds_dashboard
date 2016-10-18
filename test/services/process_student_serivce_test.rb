@@ -466,6 +466,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
     end
 
     test "irregular course code no dash" do
+      # very strange format for course, there isn't even a dash seperating the course code and name
       @inter_row.merge!({
           'SZVEDSD_COURSE' => "strangecourse",
         })
