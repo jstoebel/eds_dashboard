@@ -58,9 +58,8 @@
 #     # password: 'please use keys'
 #   }
 
+role :app, %w{stoebelj@eds-dashboard.berea.edu}
+role :web, %w{stoebelj@eds-dashboard.berea.edu}
+role :db,  %w{stoebelj@eds-dashboard.berea.edu}
 
-role :app, %w{edsuser@eds_dashboard.berea.edu}
-role :web, %w{edsuser@eds_dashboard.berea.edu}
-role :db,  %w{edsuser@eds_dashboard.berea.edu}
-
-server 'eds_dashboard.berea.edu', user: 'edsuser', roles: %w{web app}
+server 'eds-dashboard.berea.edu', user: 'stoebelj', roles: %w{web app}

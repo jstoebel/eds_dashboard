@@ -5,9 +5,24 @@ set :repo_url, 'git@bitbucket.org:stoebelj/eds_dashboard.git'
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-
+set :deploy_to, "~/eds_dashboard"
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/student_files')
+
+
+set :rbenv_type, :user # or :system, depends on your rbenv setup
+set :rbenv_ruby, '2.3.1'
+
+# in case you want to set ruby version from the file:
+# set :rbenv_ruby, File.read('.ruby-version').strip
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+
+set :rbenv_roles, :all # default value
+set :default_env, {
+  'ORACLE_HOME' => '/usr/lib/oracle/12.1/client64',
+  'LD_LIBRARY_PATH' => '/usr/lib/oracle/12.1/client64/lib'
+}
 
 # Default value for :scm is :git
 # set :scm, :git
