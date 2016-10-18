@@ -55,3 +55,5 @@ entrance_exit_FIXED.csv
 lib/tasks/reports/**
 !lib/tasks/reports/**/*.rb
 !lib/tasks/reports/**/*.rake
+
+config/chef/nodes/*

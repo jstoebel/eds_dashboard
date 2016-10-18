@@ -26,8 +26,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'bootstrap-datepicker-rails'
@@ -54,11 +52,11 @@ group :development do
     gem 'capistrano', '~> 3.1'
     gem 'capistrano-passenger'
     gem 'capistrano-rbenv', '~> 2.0'
-    # gem 'capistrano-rvm',       require: false
     gem 'capistrano-rails'
     gem 'capistrano-bundler'
     gem 'capistrano3-puma'
     gem 'capistrano-ext'
+    gem 'knife-solo', '~> 0.4.2'
     gem 'rails-erd'
 end
 
