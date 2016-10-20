@@ -57,3 +57,4 @@ lib/tasks/reports/**
 !lib/tasks/reports/**/*.rake
 
 config/chef/nodes/*
+!config/chef/nodes/example.json
