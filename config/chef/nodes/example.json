@@ -7,6 +7,13 @@ more info: http://vladigleba.com/blog/2014/08/12/provisioning-a-rails-server-usi
 */
 
 {
+  "run_list": [
+    "recipe[eds_dashboard]",
+    "recipe[eds_dashboard::users]",
+    "recipe[eds_dashboard::ssh]",
+    "recipe[eds_dashboard::nodejs]",
+    "recipe[eds_dashboard::database]",
+  ],
 
   "group": "foobars",
   "port": 12345,
@@ -22,6 +29,6 @@ more info: http://vladigleba.com/blog/2014/08/12/provisioning-a-rails-server-usi
       "name": "bob",
       "password": "secret"
     }
-  }
+  },
 
 }
