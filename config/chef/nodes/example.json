@@ -1,26 +1,27 @@
 /*
 if the server you are provisioning is at 123.123.123.123,
 create a file called 123.123.123.123.json
-It should hopefully go without saying but THIS FILE CONTAINS PASSWORDS!
-DON'T CHECK IT INTO SOURCE CONTROL!
+It should hopefully go without saying but DON'T CHECK IT INTO SOURCE CONTROL!
 
 more info: http://vladigleba.com/blog/2014/08/12/provisioning-a-rails-server-using-chef-part-2-writing-the-recipes/
 */
 
 {
-"group": "foobars",
-"port": 12345,
 
-"user": {
-  "name": "bob",
-  "password": "password-shadow-hash"
-},
+  "group": "foobars",
+  "port": 12345,
 
-"db": {
-  "root_password": "secret",
   "user": {
     "name": "bob",
-    "password": "secret"
+    "password": "password-shadow-hash"
+  },
+
+  "db": {
+    "root_password": "secret",
+    "user": {
+      "name": "bob",
+      "password": "secret"
+    }
   }
-}
+
 }
