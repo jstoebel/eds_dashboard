@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo "starting..."
 # check for correct number of arguments
 if [ $# -ne 3 ]; then
   echo "Usage: $0 <user> <ip> <port>"
@@ -13,16 +13,16 @@ PORT=$3
 
 # upload key for root
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@$IP
-
-# install chef
+#
+# # install chef
 cd config/chef && knife solo prepare root@$IP
 
 # execute the run list
-knife solo cook root@$IP
-
+# knife solo cook root@$IP
+#
 # upload key for user
-ssh-copy-id -i ~/.ssh/id_rsa.pub -p $PORT $USER@$IP
-
+# ssh-copy-id -i ~/.ssh/id_rsa.pub -p $PORT $USER@$IP
+#
 # # upload app
 # cd ../.. && cap production setup:all
 #
