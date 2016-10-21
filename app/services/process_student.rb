@@ -144,7 +144,7 @@ class ProcessStudent
         :credits_earned => @row['SZVEDSD_CREDITS_EARNED'],
         :reg_status => @row['SZVEDSD_REGISTRATION_STAT'],
         :instructors => @row['SAVEDSD_INSTRUCTOR'], # example format FirstName LastName {B00123456}; FirstName LastName {B00687001}
-        :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'include' ? true : false
+        :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'exclude' ? false : true
       })
 
 

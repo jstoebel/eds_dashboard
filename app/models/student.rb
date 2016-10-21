@@ -432,7 +432,7 @@ class Student < ActiveRecord::Base
     options = defaults.merge(options)
 
 		# filter out courses with no posted grade and order with most recent first then with most valuable courses first
-		courses = self.transcripts.where("grade_ltr is not null").order(term_taken: :desc).order!(quality_points: :desc)
+		courses = self.transcripts.where("grade_ltr is not null").where(:gpa_include => true).order(term_taken: :desc).order!(quality_points: :desc)
 
 		#filter by term if one is given
 		courses = courses.where("term_taken <= ?", options[:term]) if options[:term]

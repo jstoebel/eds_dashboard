@@ -476,6 +476,28 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
 
     end
 
-  end
+    describe "gpa_include" do
+
+      ["Include", "Include in GPA Only", "something strange", nil].each do |val|
+
+        test "true value: #{val.to_s}" do
+          @inter_row["SZVEDSD_GPA_IND"] = val
+          row_service = ProcessStudent.new @inter_row
+          row_service.upsert_course
+          assert_equal true, row_service.course.gpa_include
+        end
+
+      end # loop
+
+      test "false value: Exclude" do
+        @inter_row["SZVEDSD_GPA_IND"] = "exclude"
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal false, row_service.course.gpa_include
+      end
+
+    end # describe
+
+  end # upsert transcript
 
 end
