@@ -3,7 +3,6 @@
 
 An advisor dashboard for Berea College's Teacher Education Program
 
->>>>>>> 86c26a20d0f8e1a19c2266f6a8dc2bb7c2651ccb
 ### Versions
 Ruby version: 2.1, Rails Version 4.1
 
@@ -31,7 +30,6 @@ test:
   database: eds_test
 
 ```
->>>>>>> 86c26a20d0f8e1a19c2266f6a8dc2bb7c2651ccb
 
 ### Database initialization
  - To build the schema from scratch run `rake db:schema:load`
