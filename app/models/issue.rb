@@ -18,35 +18,28 @@ class Issue < ActiveRecord::Base
 	belongs_to :student
 	belongs_to :tep_advisor, {:foreign_key => 'tep_advisors_AdvisorBnum'}
 	has_many :issue_updates, {:foreign_key => 'Issues_IssueID'}
-	
+
 	#SCOPES
-	scope :sorted, lambda {order(:Open => :desc, :created_at => :desc, :positive => :asc)}
+	scope :sorted, lambda {order(:created_at => :desc)}
 	scope :visible, lambda {where(:visible => true)}
 	scope :open, lambda {where(:Open => true)}
-	
-	# HOOKS 
+
+	# HOOKS
 	after_save :hide_updates
-    # BNUM_REGEX = /\AB00\d{6}\Z/i
-    # validates :student_id,
-    # 	presence: {message: "Please enter a valid B#, (including the B00)"}	
-	
-	validates :Name, 
+
+	validates :Name,
 		presence: {message: "Please provide an issue name."}
 
 	validates :Description,
 		presence: {message: "Please provide an issue description."}
 
-	validates :Open,
-		inclusion: {
-			:in => [true, false],
-			allow_blank: false,
-			message: "Issue may only be open or closed."
-			}
-
-
 	validates :tep_advisors_AdvisorBnum,
 		:presence => { message: "Could not find an advisor profile for this user."}
-	
+
+	def open
+		return self.issue_updates.order(:created_at).last.open
+	end
+
 	private
 	def hide_updates
 		if self.visible == false

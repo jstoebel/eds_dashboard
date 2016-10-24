@@ -20,8 +20,11 @@ FactoryGirl.define do
     association :student
     Name {Hipster.sentence}
     Description {Hipster.paragraph}
-    Open true
     association :tep_advisor
     
+    after(:create) do |issue|
+      FactoryGirl.create :issue_update
+    end
+
   end
 end

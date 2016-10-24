@@ -18,7 +18,7 @@ FactoryGirl.define do
     association :issue
     UpdateName {Hipster.sentence}
     Description {Hipster.paragraph}
-    # issue
-    # tep_advisor
+    open true
+
   end
 end

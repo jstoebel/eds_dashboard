@@ -11,7 +11,7 @@
         <%="#{@student.FirstName} #{@student.LastName}"%>
       </div>
 
-      <div class="header2 col-xs-12">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.Open ? "bad_text" : "good_text"  %>"><%=@issue.Open ? "Open" : "Closed"  %></span>)
+      <div class="header2 col-xs-12">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.open ? "bad_text" : "good_text"  %>"><%=@issue.open ? "Open" : "Closed"  %></span>)
       </div>
 
       <div class="col-md-1">
