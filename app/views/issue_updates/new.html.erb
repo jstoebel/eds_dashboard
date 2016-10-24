@@ -24,21 +24,14 @@
 	    <td> <%= update_form.text_area(:Description, :size => '30x10') %> </td>
 	  </tr>
 
-        <!-- option to alter Issue.open -->
-        <%= update_form.fields_for :issue do |issue_form|  %>
-          <tr>
-            <th> Issue Status </th>
-            <td>
-                <%= issue_form.radio_button :status, "Open", :checked => @issue.Open %> 
-                <%= issue_form.label :Open, "Open"  %> </br>
-                <%= issue_form.radio_button :status, "Closed", :checked => (not @issue.Open) %>
-                <%= issue_form.label :Open, "Closed"  %>
-            </td>
-          </tr>            
-
-        <% end %>
-
-
+    <tr>
+      <th>
+        <%= update_form.label(:open, "Open Issue") %>
+      </th>
+      <td>
+        <%= update_form.check_box :open %>
+      </td>
+    </tr>
 
   	<tr>
 	<th></th>
@@ -49,12 +42,10 @@
 
 	</td>
 	</tr>
-    </div>	
+    </div>
 	</table>
 
 
 
   <% end %>
 </div>
-
-

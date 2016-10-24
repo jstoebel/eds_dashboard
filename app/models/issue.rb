@@ -37,7 +37,7 @@ class Issue < ActiveRecord::Base
 		:presence => { message: "Could not find an advisor profile for this user."}
 
 	def open
-		return self.issue_updates.order(:created_at).last.open
+		return self.issue_updates.order(:created_at).last.andand.open
 	end
 
 	private

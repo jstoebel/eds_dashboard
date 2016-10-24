@@ -143,7 +143,9 @@ namespace :db do
 
         my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3),
           { :Issues_IssueID => iss.id,
-            :tep_advisors_AdvisorBnum => my_advisors.sample.id
+            :tep_advisors_AdvisorBnum => my_advisors.sample.id,
+            :visible => true,
+            :addressed => false
           }
         }
 

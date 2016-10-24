@@ -19,6 +19,6 @@ FactoryGirl.define do
     UpdateName {Hipster.sentence}
     Description {Hipster.paragraph}
     open true
-
+    addressed false
   end
 end

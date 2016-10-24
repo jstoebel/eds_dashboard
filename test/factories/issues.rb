@@ -21,10 +21,14 @@ FactoryGirl.define do
     Name {Hipster.sentence}
     Description {Hipster.paragraph}
     association :tep_advisor
-    
+
     after(:create) do |issue|
-      FactoryGirl.create :issue_update
+      update_params = FactoryGirl.attributes_for :issue_update, {:Issues_IssueID => issue.id,
+        :tep_advisors_AdvisorBnum => issue.tep_advisors_AdvisorBnum
+      }
+      update = IssueUpdate.create! update_params
     end
+
 
   end
 end
