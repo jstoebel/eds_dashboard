@@ -6,7 +6,6 @@
 #  student_id               :integer          not null
 #  Name                     :text(65535)      not null
 #  Description              :text(65535)      not null
-#  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
@@ -47,13 +46,13 @@ class IssuesController < ApplicationController
           :Issues_IssueID => @issue.id,
           :tep_advisors_AdvisorBnum => @issue.tep_advisors_AdvisorBnum,
           :addressed => false,
-          :open => params[:issue_update][:open]
+          :status => params[:issue_update][:status]
         })
+
       end # transaction
       flash[:notice] = "New issue opened for: #{name_details(@student)}"
       redirect_to(student_issues_path(@student.AltID))
     rescue => e
-      throw e
       render('new')
     end # begin/rescue
 

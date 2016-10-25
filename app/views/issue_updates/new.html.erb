@@ -15,7 +15,7 @@
 	<table summary="Issue form fields">
 
       <tr>
-        <th><%= update_form.label(:UpdateName, "Name") %> </th>
+        <th><%= update_form.label(:UpdateName, "Update Name") %> </th>
         <td><%= update_form.text_field(:UpdateName) %></td>
       </tr>
 
@@ -26,11 +26,10 @@
 
     <tr>
       <th>
-        <%= update_form.label(:open, "Open Issue") %>
+        <%= update_form.label(:status, "Status of Update") %>
       </th>
-      <td>
-        <%= update_form.check_box :open %>
-      </td>
+      <td> <%= update_form.select(:status, IssueUpdate::STATUSES.keys,
+      {prompt: "Select a status"}) %></td>
     </tr>
 
   	<tr>

@@ -1,11 +1,10 @@
-<%= javascript_include_tag :issue_updates %>
 
 <%= link_to student_issues_path(@student.AltID), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
 
 <div class="container-fluid">
-  <table class="table table-striped">
+  <table class="table">
 
   <div class="row">
     <caption>
@@ -13,7 +12,7 @@
         <%="#{@student.FirstName} #{@student.LastName}"%>
       </div>
 
-      <div class="header2 col-xs-12">Updates for issue: <%= @issue.Name %> (<span class="<%=@issue.open ? "bad_text" : "good_text"  %>"><%=@issue.open ? "Open" : "Closed"  %></span>)
+      <div class="header2 col-xs-12">Updates for issue: <%= @issue.Name %>
       </div>
 
       <div class="col-md-1">
@@ -27,23 +26,18 @@
 
   <% if @updates %>
     <tr>
-      <th>
-        ID
-      </th>
       <th>Update</th>
       <th>Date</th>
-      <th>Addressed</th>
+      <th>Status</th>
     </tr>
 
 
     <% @updates.each do |update| %>
-      <tr>
-        <td>
-          <%= update.id %>
-        </td>
-
+      <tr class="<%= "alert alert-#{update.status_color}"  %>">
         <td><%=update.UpdateName%></td>
         <td> <%=update.created_at.strftime("%m/%d/%Y")%> </td>
+
+        <td><%= update.status %></td>
 
         <!-- TODO: radio button to toggle addressed field -->
         <td>

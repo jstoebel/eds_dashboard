@@ -462,6 +462,17 @@ table > tr > td.issue_discrip {height: 100px;}
 }
 
 
+.alert-success {
+  background-color: 
+
+}
+
+.alert-info
+
+.alert-warning
+
+.alert-danger
+
 /* Errors */
 .field_with_errors { }
 .field_with_errors label { color: #AA0000; }

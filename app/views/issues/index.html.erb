@@ -5,7 +5,7 @@
     </br>
 
   <div class="container-fluid">
-    <table class="table table-striped">
+    <table class="table">
       <div class="row">
         <caption>
           <div class="header1 col-xs-12">Issues for <%= name_details(@student)%></div></br>
@@ -29,30 +29,20 @@
 
                 <% @issues.each do |issue| %>
 
-                <tr class="<%= issue.open ? "alert alert-danger" : "alert alert-success"%>">
+                <tr class="<%= "alert alert-#{issue.current_status.status_color}"  %>">
                   <td> <%= issue.Name %></td>
                   <td> <%= issue.created_at.strftime("%m/%d/%Y")%> </td>
                   <td >
                     <!-- glyph here if open -->
-                    <% if issue.open %>
-
-                        <div class="col-md-1">
-                          <span class="glyphicon glyphicon-exclamation-sign"></span>
-                        </div>
-
-                        <div class="col-md-1">
-                          Open
-                        </div>
-
-                    <% else %>
+                    <% if issue.resolved? %>
                         <div class="col-md-1">
                           <span class="glyphicon glyphicon-ok"></span>
                         </div>
-
-                        <div class="col-md-1">
-                          Resolved
-                        </div>
                     <% end #end of status conditional %>
+
+                    <div class="col-md-1">
+                      <%= issue.current_status.andand.status %>
+                    </div>
 
                   </td>
 

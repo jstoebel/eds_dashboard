@@ -6,7 +6,6 @@
 #  student_id               :integer          not null
 #  Name                     :text(65535)      not null
 #  Description              :text(65535)      not null
-#  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime

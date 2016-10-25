@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
+#  status                   :integer
 #
 
 FactoryGirl.define do
@@ -18,7 +19,7 @@ FactoryGirl.define do
     association :issue
     UpdateName {Hipster.sentence}
     Description {Hipster.paragraph}
-    open true
+    status "concern"
     addressed false
   end
 end

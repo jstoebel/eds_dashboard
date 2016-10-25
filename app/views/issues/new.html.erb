@@ -22,8 +22,9 @@
 	  </tr>
 
     <%= fields_for :issue_update, @update do |update| %>
-      <th><%= update.label(:open, "Is this an open issue?") %></th>
-      <td> <%= update.check_box(:open) %> </td>
+      <th><%= update.label(:status, "Status of Issue") %></th>
+      <td> <%= update.select(:status, IssueUpdate::STATUSES.keys,
+      {prompt: "Select a status"}) %> </td>
     <% end %>
 
 

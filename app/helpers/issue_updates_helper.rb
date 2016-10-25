@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
+#  status                   :integer
 #
 
 module IssueUpdatesHelper

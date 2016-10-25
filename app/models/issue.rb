@@ -6,7 +6,6 @@
 #  student_id               :integer          not null
 #  Name                     :text(65535)      not null
 #  Description              :text(65535)      not null
-#  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
@@ -35,6 +34,15 @@ class Issue < ActiveRecord::Base
 
 	validates :tep_advisors_AdvisorBnum,
 		:presence => { message: "Could not find an advisor profile for this user."}
+
+	def resolved?
+		last_update = self.issue_updates.order(:created_at).last
+		return IssueUpdate::STATUSES[last_update.andand.status.to_sym][:resolved]
+	end
+
+	def current_status
+		return self.issue_updates.order(:created_at).last
+	end
 
 	def open
 		return self.issue_updates.order(:created_at).last.andand.open

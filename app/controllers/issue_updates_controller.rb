@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
+#  status                   :integer
 #
 
 class IssueUpdatesController < ApplicationController
@@ -119,7 +120,7 @@ class IssueUpdatesController < ApplicationController
   end
 
   def issue_update_params
-    params.require(:issue_updates).permit(:UpdateName, :Description, :open)
+    params.require(:issue_updates).permit(:UpdateName, :Description, :status)
   end
 
 end
