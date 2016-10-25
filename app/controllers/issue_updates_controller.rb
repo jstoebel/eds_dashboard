@@ -11,7 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
-#  status                   :integer
+#  status                   :string(255)
 #
 
 class IssueUpdatesController < ApplicationController
@@ -61,14 +61,10 @@ class IssueUpdatesController < ApplicationController
     #indexes updates for parent issue
     @issue = Issue.find(params[:issue_id])
     authorize! :read, @issue
-
     @student = Student.find(@issue.student.id)
     authorize! :read, @student
-
     name_details(@student)
-
     @updates = @issue.issue_updates.sorted.where(:visible => true).select {|r| can? :read, r }  #no additional auth needed. If you can? the issue you can? the updates
-
   end
 
   def show

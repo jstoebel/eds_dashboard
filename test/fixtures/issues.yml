@@ -32,12 +32,6 @@
   Description: description goes here
   tep_advisors_AdvisorBnum: "B00123456"   #TODO change me!
 
-  <% if i < 2 %>
-  Open: true
-  <% else %>
-  Open: false
-  <% end %>
-
 <% end %>
 
 # one:

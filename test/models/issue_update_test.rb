@@ -11,7 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
-#  status                   :integer
+#  status                   :string(255)
 #
 
 require 'test_helper'

@@ -11,7 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
-#  status                   :integer
+#  status                   :string(255)
 #
 
 class IssueUpdate < ActiveRecord::Base
@@ -46,7 +46,7 @@ class IssueUpdate < ActiveRecord::Base
 		return self.issue.student
 	end
 
-	def status_color
+	def status_color		
 		return STATUSES[self.status.to_sym][:status_color]
 	end
 

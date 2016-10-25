@@ -11,12 +11,14 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
-#  status                   :integer
+#  status                   :string(255)
 #
 
 require 'test_helper'
 class IssueUpdatesControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "advisor"]
+  role_names = Role.all.pluck :RoleName
+
   test "should get new" do
     allowed_roles.each do |r|
       load_session(r)
@@ -35,74 +37,85 @@ class IssueUpdatesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should post create" do
-    allowed_roles.each do |r|
-      load_session(r)
+  describe "create" do
 
-      issue = Issue.first
-      user = User.find_by(:UserName => session[:user])
-      expected_update = IssueUpdate.create({
-          :UpdateName => "Update!",
-          :Description => "descrip!",
-          :Issues_IssueID => issue.id,
-          :tep_advisors_AdvisorBnum => user.tep_advisor.id,
-        })
-
-
-      create_params = {
-        :UpdateName => expected_update.UpdateName,
-        :Description => expected_update.Description,
-        :issue => {:status => "Open"}
-      }
-
-      post :create, {:issue_id => issue.id, :issue_updates => create_params}
-      assert_equal issue, assigns(:issue)
-      expected_attrs = expected_update.attributes
-      actual_attrs = assigns(:update).attributes
-
-
-      #remove some attrs
-      to_exclude = ["UpdateID", "created_at", "updated_at"]
-
-      expected_attrs.except!(*to_exclude)
-      actual_attrs.except!(*to_exclude)
-
-      assert_equal expected_attrs, actual_attrs
-
-      assert_equal issue.student, assigns(:student)
-      assert_redirected_to issue_issue_updates_path(issue.IssueID)
-      assert_equal flash[:notice], "New update added"
+    before do
+      @iu = FactoryGirl.build :issue_update
+      @issue = @iu.issue
     end
-  end
 
-  test "should not post create bad record" do
-    load_session("admin")
-    issue = Issue.first
-    user = User.find_by(:UserName => session[:user])
-    expected_update = IssueUpdate.create({
-        :UpdateName => nil, #break the record here
-        :Description => "descrip!",
-        :Issues_IssueID => issue.id,
-        :tep_advisors_AdvisorBnum => user.tep_advisor.AdvisorBnum
-      })
+    allowed_roles.each do |r|
+      describe "success as #{r}" do
+        before do
+          # user needs to be tep_advisor of student
+          load_session(r)
+          @user = User.find_by :UserName => session[:user]
+          @advisor = @user.tep_advisor
 
+          # assign advisor to student
+          AdvisorAssignment.create!({:student_id => @iu.student.id,
+            :tep_advisor_id => @advisor.id
+            })
+        end
 
-    create_params = {
-      :UpdateName => expected_update.UpdateName,
-      :Description => expected_update.Description,
-        :issue => {:Open => true}
-    }
+        test "success" do
 
-    post :create, {:issue_id => issue.id, :issue_updates => create_params}
-    assert_response :success
-    assert_template 'new'
+          @iu.tep_advisors_AdvisorBnum = @advisor.id
+          post :create, {:issue_id => @iu.issue.id, :issue_updates => @iu.attributes}
 
-  end
+          #remove some attrs
+          to_exclude = ["UpdateID", "created_at", "updated_at"]
+
+          expected_attrs = @iu.attributes.except(*to_exclude)
+          actual_attrs = assigns(:update).attributes.except(*to_exclude)
+
+          # user needs to be a tep_advisor of student
+          assert_redirected_to issue_issue_updates_path(@issue.IssueID)
+          assert_equal "New update added", flash[:notice]
+          assert_equal expected_attrs, actual_attrs
+          assert_equal @issue, assigns(:issue)
+
+        end # success
+
+        test "fail - bad params" do
+
+          records0 = IssueUpdate.count
+
+          params = @iu.attributes
+          bad_params = @iu.attributes.merge(:UpdateName => nil)
+          post :create, {:issue_id => @iu.issue.id, :issue_updates => bad_params}
+          assert_response :success
+          assert_template 'new'
+          assert_equal 0, records0 - IssueUpdate.count
+
+        end # fail
+
+      end # describe success
+
+    end # allowed_roles
+
+    (role_names - allowed_roles).each do |r|
+
+      describe "access denied as #{r}" do
+        before do
+          load_session(r)
+        end
+
+        test "gets access denied" do
+          post :create, {:issue_id => @iu.issue.id, :issue_updates => @iu.attributes}
+          assert_redirected_to "/access_denied"
+        end
+
+      end # describe access denied
+    end # roles loop
+
+  end # create
 
   test "should get index" do
     allowed_roles.each do |r|
       load_session(r)
-      issue = Issue.first
+      update = FactoryGirl.create :issue_update
+      issue = update.issue
       stu = issue.student
 
       get :index, {:issue_id => issue.id}
@@ -130,7 +143,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
 
-      update = IssueUpdate.first
+      update = FactoryGirl.create :issue_update
 
       change_to = !update.addressed
 
@@ -164,19 +177,6 @@ class IssueUpdatesControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
       load_session(r)
       get :new, {:issue_id => "who cares"}
-      assert_redirected_to "/access_denied"
-    end
-  end
-
-  test "should not post create bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      create_params = {
-        :UpdateName => "who cares",
-        :Description => "blah blah blah"
-      }
-
-      post :create, {:issue_id => "meh", :issue_updates => create_params}
       assert_redirected_to "/access_denied"
     end
   end
