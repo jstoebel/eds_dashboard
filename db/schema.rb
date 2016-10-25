@@ -195,7 +195,7 @@ ActiveRecord::Schema.define(version: 20161024185027) do
     t.datetime "updated_at"
     t.boolean  "visible",                                default: true, null: false
     t.boolean  "addressed"
-    t.boolean  "open"
+    t.string   "status",                   limit: 255
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
