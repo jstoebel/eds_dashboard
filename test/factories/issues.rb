@@ -23,7 +23,9 @@ FactoryGirl.define do
 
     after(:create) do |issue|
       update_params = FactoryGirl.attributes_for :issue_update, {:Issues_IssueID => issue.id,
-        :tep_advisors_AdvisorBnum => issue.tep_advisors_AdvisorBnum
+        :tep_advisors_AdvisorBnum => issue.tep_advisors_AdvisorBnum,
+        :UpdateName => "Issue opened",
+        :Description => "Issue opened"
       }
       update = IssueUpdate.create! update_params
     end

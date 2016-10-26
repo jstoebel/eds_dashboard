@@ -30,72 +30,157 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should post create" do
+  describe "create" do
+
+    before do
+      @issue = FactoryGirl.create :issue
+    end
 
     allowed_roles.each do |r|
-      load_session(r)
 
-      stu = Student.first
-      advisor = User.find_by(:UserName => session[:user]).tep_advisor
+      describe "allowed role: #{r}" do
 
-      create_params ={
-        :Name => "Test name",
-        :Description => "Test descrip"
-      }
+        let(:post_create) { post :create, {:student_id => @issue.student_id,
+          :issue => @issue.attributes,
+          :issue_update => {:status => "concern"}} }
 
-      expected_params = {
-        :student_id => stu.id,
-        :Name => create_params[:Name],
-        :Description => create_params[:Description],
-        :positive => false
-        }
+        before do
+          load_session(r)
+          @user = User.find_by :UserName => session[:user]
+          @advisor = @user.tep_advisor
 
+          # assign advisor to student
+          AdvisorAssignment.create!({:student_id => @issue.student.id,
+            :tep_advisor_id => @advisor.id
+            })
 
-      post :create, {:student_id => stu.AltID, :issue => create_params}
+            @issue.tep_advisors_AdvisorBnum = @advisor.id
 
-      #we expect that the two records will be the same except for id
-      expected_issue = Issue.new(expected_params)
-      actual_issue = assigns(:issue).attributes
-      actual_attrs = expected_params.select { |k, v| expected_params.include?(k)}
+        end
 
-      assert_equal expected_params, actual_attrs
+        test "creates an issue" do
 
-      assert assigns(:issue).Open == !expected_params[:positive]
-      assert assigns(:issue).present?, assigns(:issue) == nil
-      assert assigns(:issue).valid?, assigns(:issue).errors.full_messages
+          assert_difference('Issue.count', 1) do
+            post_create
+          end
+        end
 
-      assert_equal flash[:notice], "New issue opened for: #{ApplicationController.helpers.name_details(stu)}"
-      assert_redirected_to student_issues_path(stu.AltID)
-    end
+        test "issues match" do
+
+          post_create
+          #remove some attrs
+          to_exclude = ["IssueID", "created_at", "updated_at"]
+
+          expected_attrs = @issue.attributes.except(*to_exclude)
+          actual_attrs = assigns(:issue).attributes.except(*to_exclude)
+
+          assert_equal expected_attrs, actual_attrs
+        end
+
+        test "creates issue_update" do
+
+          assert_difference("IssueUpdate.count", 1) do
+            post_create
+          end
+
+        end
+
+        test "issue_update matches" do
+          post_create
+
+          assert_equal 1, assigns(:issue).issue_updates.size
+
+          to_exclude = ["UpdateID", "Issues_IssueID", "tep_advisors_AdvisorBnum", "created_at", "updated_at"]
+          expected_attrs = @issue.issue_updates.first.attributes.except(*to_exclude)
+          actual_attrs = assigns(:update).attributes.except(*to_exclude)
+          assert_equal expected_attrs, actual_attrs
+
+        end
+
+        test "flash notice" do
+          post_create
+          assert_equal "New issue opened for: #{@issue.student.name_readable}", flash[:notice]
+        end
+
+        test "redirects to issues index" do
+
+          post_create
+          assert_redirected_to student_issues_path(@issue.student.AltID)
+
+        end
+
+      end
+
+    end # allowed roles
+
   end
 
-  test "should not post create bad record" do
-    #should not succeed in saving a new record due to bad params
-    load_session("admin")
+  # test "should post create" do
+  #
+  #   allowed_roles.each do |r|
+  #     load_session(r)
+  #
+  #     stu = Student.first
+  #     advisor = User.find_by(:UserName => session[:user]).tep_advisor
+  #
+  #     create_params ={
+  #       :Name => "Test name",
+  #       :Description => "Test descrip"
+  #     }
+  #
+  #     expected_params = {
+  #       :student_id => stu.id,
+  #       :Name => create_params[:Name],
+  #       :Description => create_params[:Description],
+  #       :positive => false
+  #       }
+  #
+  #
+  #     post :create, {:student_id => stu.AltID, :issue => create_params}
+  #
+  #     #we expect that the two records will be the same except for id
+  #     expected_issue = Issue.new(expected_params)
+  #     actual_issue = assigns(:issue).attributes
+  #     actual_attrs = expected_params.select { |k, v| expected_params.include?(k)}
+  #
+  #     assert_equal expected_params, actual_attrs
+  #
+  #     assert assigns(:issue).Open == !expected_params[:positive]
+  #     assert assigns(:issue).present?, assigns(:issue) == nil
+  #     assert assigns(:issue).valid?, assigns(:issue).errors.full_messages
+  #
+  #     assert_equal flash[:notice], "New issue opened for: #{ApplicationController.helpers.name_details(stu)}"
+  #     assert_redirected_to student_issues_path(stu.AltID)
+  #   end
+  # end
 
-    student = Student.first
-    advisor = TepAdvisor.first
-
-    create_params ={
-      :Name => nil,   #breaking the record here.
-      :Description => "Test descrip"
-    }
-
-    expected_issue = Issue.create({
-      :student_id => student.Bnum,
-      :Name => create_params[:Name],
-      :Description => create_params[:Description],
-      :Open => true,
-      :tep_advisors_AdvisorBnum => advisor.AdvisorBnum
-      })
-
-    post :create, {:student_id => student.AltID, :issue => create_params}
-
-    #we expect that the two records will be the same except for id
-    assert_response :success
-    assert_template 'new'
-
-  end
+  # test "should not post create bad record" do
+  #   #should not succeed in saving a new record due to bad params
+  #   load_session("admin")
+  #
+  #   student = Student.first
+  #   advisor = TepAdvisor.first
+  #
+  #   create_params ={
+  #     :Name => nil,   #breaking the record here.
+  #     :Description => "Test descrip"
+  #   }
+  #
+  #   expected_issue = Issue.create({
+  #     :student_id => student.Bnum,
+  #     :Name => create_params[:Name],
+  #     :Description => create_params[:Description],
+  #     :Open => true,
+  #     :tep_advisors_AdvisorBnum => advisor.AdvisorBnum
+  #     })
+  #
+  #   post :create, {:student_id => student.AltID, :issue => create_params}
+  #
+  #   #we expect that the two records will be the same except for id
+  #   assert_response :success
+  #   assert_template 'new'
+  #
+  # end
 
   test "should get index" do
     #test for fetching index
@@ -110,35 +195,8 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get show" do
-    allowed_roles.each do |r|
-      load_session(r)
-      issue = Issue.first
-      get :show, {:id => issue.id}
-      assert_response :success
-      assert_equal issue, assigns(:issue)
-      assert_equal assigns(:student), Student.find(issue.student_id)
-
-    end
-  end
 
   #TESTS FOR UNAUTHORIZED USERS
-
-  #new does not pass through cancancan
-
-  test "should not post create bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-
-      student = Student.first
-      create_params ={
-        :Name => "Test name",
-        :Description => "Test descrip"
-      }
-      post :create, {:student_id => student.AltID, :issue => create_params}
-      assert_redirected_to "/access_denied"
-    end
-  end
 
   test "should get not get index bad role" do
     #test for fetching index
@@ -147,15 +205,6 @@ class IssuesControllerTest < ActionController::TestCase
       student = Student.first
 
       get :index, {:student_id => student.AltID}
-      assert_redirected_to "/access_denied"
-    end
-  end
-
-  test "should not get show bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      issue = Issue.first
-      get :show, {:id => issue.id}
       assert_redirected_to "/access_denied"
     end
   end

@@ -45,7 +45,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
     end
 
     allowed_roles.each do |r|
-      describe "success as #{r}" do
+      describe "allowed role: #{r}" do
         before do
           # user needs to be tep_advisor of student
           load_session(r)

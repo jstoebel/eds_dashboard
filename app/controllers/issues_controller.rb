@@ -41,8 +41,8 @@ class IssuesController < ApplicationController
     begin
       Issue.transaction do
         @issue.save!
-        IssueUpdate.create!({:UpdateName => "Issue opened",
-          :Description => "Issue Opened",
+        @update = IssueUpdate.create!({:UpdateName => "Issue opened",
+          :Description => "Issue opened",
           :Issues_IssueID => @issue.id,
           :tep_advisors_AdvisorBnum => @issue.tep_advisors_AdvisorBnum,
           :addressed => false,
@@ -50,7 +50,7 @@ class IssuesController < ApplicationController
         })
 
       end # transaction
-      flash[:notice] = "New issue opened for: #{name_details(@student)}"
+      flash[:notice] = "New issue opened for: #{@student.name_readable}"
       redirect_to(student_issues_path(@student.AltID))
     rescue => e
       render('new')
@@ -63,18 +63,6 @@ class IssuesController < ApplicationController
     authorize! :show, @student
     @issues = @student.issues.sorted.visible.select {|r| can? :read, r }
     name_details(@student)
-
-  end
-
-  def show
-    @issue = Issue.find(params[:id])
-    authorize! :read, @issue
-    @student = Student.find(@issue.student_id)
-    name_details (@student)
-
-  end
-
-  def edit
 
   end
 

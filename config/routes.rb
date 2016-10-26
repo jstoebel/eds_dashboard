@@ -166,7 +166,7 @@ Rails.application.routes.draw do
 
   resources :reports, only: [:index] do #reports is here
   end
-  
+
   resources :assessment_items, only: [ :show, :create, :destroy] do
   end
 
@@ -237,7 +237,7 @@ Rails.application.routes.draw do
   end
 
   resources :fois, only: [:index, :create, :show, :import]
-  
+
   resources :fois do
     collection { post :import }
   end
@@ -250,7 +250,7 @@ Rails.application.routes.draw do
     get "download"
   end
 
-  resources :issues, shallow: true do
+  resources :issues, only: [:index, :new, :create, :destroy],  shallow: true do
     resources :issue_updates do
         patch 'update'
     end
