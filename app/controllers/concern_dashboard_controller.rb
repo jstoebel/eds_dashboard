@@ -50,9 +50,9 @@ class ConcernDashboardController < ApplicationController
 
     def issues_check(stu)
 
-        if stu.issues.select{|i| i.open}.present?
+        if stu.issues.select{|i| i.open?}.present?
             #student has open issues
-            return {:title => "Advisor Notes", :link => student_issues_path(stu.id), :link_title => "View Advisor Notes", :link_num => stu.issues.open.size,
+            return {:title => "Advisor Notes", :link => student_issues_path(stu.id), :link_title => "View Advisor Notes", :link_num => stu.issues.select{|i| i.open?}.size,
                 :outcome => false, :msg => "This student has open advisor notes."
 
             }

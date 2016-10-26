@@ -72,7 +72,7 @@ class IssueTest < ActiveSupport::TestCase
 			end
 
 			let(:not_resolved) {assert_not @issue.resolved?}
-			let(:is_open) {assert @issue.open}
+			let(:is_open) {assert @issue.open?}
 
 			test "one bad update" do
 				not_resolved
@@ -112,7 +112,7 @@ class IssueTest < ActiveSupport::TestCase
 
 			test "one good update" do
 				assert @issue.resolved?
-				assert_not @issue.open
+				assert_not @issue.open?
 			end
 
 			test "good, bad, good" do
@@ -123,7 +123,7 @@ class IssueTest < ActiveSupport::TestCase
 						:created_at => (DateTime.now + i) #ensure time stamps order correctly.
 					}
 					assert @issue.resolved?
-					assert_not @issue.open
+					assert_not @issue.open?
 				end
 			end
 		end #describe

@@ -35,10 +35,10 @@ class Issue < ActiveRecord::Base
 		:presence => { message: "Could not find an advisor profile for this user."}
 
 	def resolved?
-		last_update = self.issue_updates.order(:created_at).last.resolves?
+		return self.issue_updates.order(:created_at).last.resolves?
 	end
 
-	def open
+	def open?
 		return !self.resolved?
 	end
 
