@@ -12,7 +12,7 @@ class ConcernDashboardController < ApplicationController
         # for output
         outcomes = {
             nil => {:alert_status => "info", :glyph => "question-sign"},
-            true => {:alert_status => "success", :glyph => "ok-sign"}, 
+            true => {:alert_status => "success", :glyph => "ok-sign"},
             false => {:alert_status => "danger", :glyph => "warning-sign"},
         }
 
@@ -44,13 +44,13 @@ class ConcernDashboardController < ApplicationController
             return args.merge({:outcome => true, :msg => "This student has passed the Praxis I"})
         else
             #not passing!
-            return args.merge({:outcome => false, :msg => "This student has not passed the Praxis I"})           
+            return args.merge({:outcome => false, :msg => "This student has not passed the Praxis I"})
         end
     end
 
     def issues_check(stu)
 
-        if stu.issues.select{|i| i.Open}.present?
+        if stu.issues.select{|i| i.open}.present?
             #student has open issues
             return {:title => "Advisor Notes", :link => student_issues_path(stu.id), :link_title => "View Advisor Notes", :link_num => stu.issues.open.size,
                 :outcome => false, :msg => "This student has open advisor notes."
