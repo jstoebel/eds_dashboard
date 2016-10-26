@@ -46,12 +46,16 @@ class IssueUpdate < ActiveRecord::Base
 		return self.issue.student
 	end
 
-	def status_color		
+	def status_color
 		return STATUSES[self.status.to_sym][:status_color]
 	end
 
-	private
+	def resolves?
+		# does this update resolve the issue?
+		return STATUSES[self.status.to_sym][:resolved]
+	end
 
+	private
 	def add_addressed
 		self.addressed = false if self.new_record?
 	end

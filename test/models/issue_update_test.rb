@@ -36,7 +36,7 @@ class IssueUpdateTest < ActiveSupport::TestCase
 		t = IssueUpdate.first
 		t.tep_advisors_AdvisorBnum = nil
 		t.valid?
-		assert t.errors[:tep_advisors_AdvisorBnum].include?("Could not find an advisor profile for this user.")		
+		assert t.errors[:tep_advisors_AdvisorBnum].include?("Could not find an advisor profile for this user.")
 	end
 
 	test "scope sorted" do
@@ -44,4 +44,16 @@ class IssueUpdateTest < ActiveSupport::TestCase
 		actual = IssueUpdate.all.sorted.to_a
 		assert_equal(expected, actual)
 	end
+
+	describe "resolves?" do
+
+		[true, false].each do |bool|
+			test "returns #{bool.to_s}" do
+				@update = FactoryGirl.create :issue_update, {:status => (bool ? :resolved : :concern)}
+				assert_equal bool, @update.resolves?
+			end
+		end
+
+	end
+
 end

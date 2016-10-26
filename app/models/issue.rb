@@ -21,7 +21,6 @@ class Issue < ActiveRecord::Base
 	#SCOPES
 	scope :sorted, lambda {order(:created_at => :desc)}
 	scope :visible, lambda {where(:visible => true)}
-	scope :open, lambda {where(:Open => true)}
 
 	# HOOKS
 	after_save :hide_updates
@@ -36,16 +35,15 @@ class Issue < ActiveRecord::Base
 		:presence => { message: "Could not find an advisor profile for this user."}
 
 	def resolved?
-		last_update = self.issue_updates.order(:created_at).last
-		return IssueUpdate::STATUSES[last_update.andand.status.to_sym][:resolved]
+		last_update = self.issue_updates.order(:created_at).last.resolves?
+	end
+
+	def open
+		return !self.resolved?
 	end
 
 	def current_status
 		return self.issue_updates.order(:created_at).last
-	end
-
-	def open
-		return self.issue_updates.order(:created_at).last.andand.open
 	end
 
 	private
