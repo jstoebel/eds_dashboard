@@ -19,6 +19,21 @@ class IssuesController < ApplicationController
   skip_authorize_resource :only => :new
   layout 'application'
 
+  def index
+
+    if params[:student_id].present?
+      @student = Student.find params[:student_id]
+      authorize! :show, @student
+      @issues = @student.issues.sorted.visible.select {|r| can? :read, r }
+      name_details(@student)
+    else
+      all_issues = Issue.all.sorted.visible.select {|issue| can? :read, issue}
+      puts all_issues.size
+      @issues = all_issues.select {|issue| issue.open? }
+    end
+
+  end
+
   def new
   	@issue = Issue.new
     @update = IssueUpdate.new
@@ -58,13 +73,7 @@ class IssuesController < ApplicationController
 
   end # action
 
-  def index
-    @student = Student.find params[:student_id]
-    authorize! :show, @student
-    @issues = @student.issues.sorted.visible.select {|r| can? :read, r }
-    name_details(@student)
 
-  end
 
   #destroy method added to issue controller;
   #should destory records and make them not visible to the user,

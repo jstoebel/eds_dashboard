@@ -16,7 +16,9 @@
 require 'test_helper'
 require 'application_controller'
 class IssuesControllerTest < ActionController::TestCase
+
   allowed_roles = ["admin", "advisor"]
+  role_names = Role.all.pluck :RoleName
 
   test "should get new" do
     allowed_roles.each do |r|
@@ -103,84 +105,61 @@ class IssuesControllerTest < ActionController::TestCase
         end
 
         test "redirects to issues index" do
-
           post_create
           assert_redirected_to student_issues_path(@issue.student.AltID)
+        end
+      end
+    end # allowed roles
+  end
 
+  describe "index" do
+    allowed_roles.each do |r|
+
+      describe "allowed role: #{r}" do
+        before do
+          load_session(r)
+          @user = User.find_by :UserName => session[:user]
+          @adv = TepAdvisor.find_by :user_id => @user.id
+          @abil = Ability.new @user
+        end
+
+        test "gets all issues" do
+          get :index
+          assert_response :success
+          assert_equal assigns(:issues), Issue.all.sorted.visible.select {|issue| @abil.can? :read, issue}.qwselect {|issue| (issue.open?) }
+        end
+
+        test "gets issues for student" do
+
+          issue = FactoryGirl.create :issue
+          AdvisorAssignment.create!({:student_id => issue.student_id,
+            :tep_advisor_id => @adv.id
+            })
+
+          get :index, {:student_id => issue.student.id}
+          assert_response :success
+          assert_equal assigns(:student), issue.student
+          assert_equal assigns(:issues), issue.student.issues.sorted.select {|r| @abil.can? :read, r }
         end
 
       end
 
-    end # allowed roles
+    end # roles loop
 
-  end
+    (role_names - allowed_roles).each do |r|
+      describe "restricted role: #{r}" do
+        before do
+          load_session(r)
+        end
 
-  # test "should post create" do
-  #
-  #   allowed_roles.each do |r|
-  #     load_session(r)
-  #
-  #     stu = Student.first
-  #     advisor = User.find_by(:UserName => session[:user]).tep_advisor
-  #
-  #     create_params ={
-  #       :Name => "Test name",
-  #       :Description => "Test descrip"
-  #     }
-  #
-  #     expected_params = {
-  #       :student_id => stu.id,
-  #       :Name => create_params[:Name],
-  #       :Description => create_params[:Description],
-  #       :positive => false
-  #       }
-  #
-  #
-  #     post :create, {:student_id => stu.AltID, :issue => create_params}
-  #
-  #     #we expect that the two records will be the same except for id
-  #     expected_issue = Issue.new(expected_params)
-  #     actual_issue = assigns(:issue).attributes
-  #     actual_attrs = expected_params.select { |k, v| expected_params.include?(k)}
-  #
-  #     assert_equal expected_params, actual_attrs
-  #
-  #     assert assigns(:issue).Open == !expected_params[:positive]
-  #     assert assigns(:issue).present?, assigns(:issue) == nil
-  #     assert assigns(:issue).valid?, assigns(:issue).errors.full_messages
-  #
-  #     assert_equal flash[:notice], "New issue opened for: #{ApplicationController.helpers.name_details(stu)}"
-  #     assert_redirected_to student_issues_path(stu.AltID)
-  #   end
-  # end
+        test "redirected" do
+          get :index
+          assert_redirected_to "/access_denied"
+        end
+      end # describe
+    end # role loops
 
-  # test "should not post create bad record" do
-  #   #should not succeed in saving a new record due to bad params
-  #   load_session("admin")
-  #
-  #   student = Student.first
-  #   advisor = TepAdvisor.first
-  #
-  #   create_params ={
-  #     :Name => nil,   #breaking the record here.
-  #     :Description => "Test descrip"
-  #   }
-  #
-  #   expected_issue = Issue.create({
-  #     :student_id => student.Bnum,
-  #     :Name => create_params[:Name],
-  #     :Description => create_params[:Description],
-  #     :Open => true,
-  #     :tep_advisors_AdvisorBnum => advisor.AdvisorBnum
-  #     })
-  #
-  #   post :create, {:student_id => student.AltID, :issue => create_params}
-  #
-  #   #we expect that the two records will be the same except for id
-  #   assert_response :success
-  #   assert_template 'new'
-  #
-  # end
+  end # outer describe
 
   test "should get index" do
     #test for fetching index
