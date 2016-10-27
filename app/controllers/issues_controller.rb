@@ -28,7 +28,6 @@ class IssuesController < ApplicationController
       name_details(@student)
     else
       all_issues = Issue.all.sorted.visible.select {|issue| can? :read, issue}
-      puts all_issues.size
       @issues = all_issues.select {|issue| issue.open? }
     end
 

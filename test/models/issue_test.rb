@@ -21,14 +21,14 @@ class IssueTest < ActiveSupport::TestCase
 	#TESTS FOR STUDENT BNUM
 
 	test "needs name" do
-		t = Issue.first
+		t = FactoryGirl.create :issue
 		t.Name = nil
 		t.valid?
 		assert_equal(["Please provide an issue name."], t.errors[:Name])
 	end
 
 	test "needs description" do
-		t = Issue.first
+		t = FactoryGirl.create :issue
 		t.Description = nil
 		t.valid?
 		assert_equal(["Please provide an issue description."], t.errors[:Description])
@@ -36,13 +36,14 @@ class IssueTest < ActiveSupport::TestCase
 
 	#TESTS FOR ADVISOR BNUM
 	test "advisor blank bnum bad" do
-		t = Issue.first
+		t = FactoryGirl.create :issue
 		t.tep_advisors_AdvisorBnum = nil
 		t.valid?
 		assert t.errors[:tep_advisors_AdvisorBnum].include?("Could not find an advisor profile for this user.")
 	end
 
 	test "sorted scope" do
+		(0..10).each{|i| FactoryGirl.create :issue, :created_at => DateTime.now + i}
 		scoped = Issue.sorted
 		expected = Issue.all.order(:created_at => :desc)
 

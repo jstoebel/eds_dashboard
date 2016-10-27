@@ -121,12 +121,13 @@ class IssuesControllerTest < ActionController::TestCase
           @user = User.find_by :UserName => session[:user]
           @adv = TepAdvisor.find_by :user_id => @user.id
           @abil = Ability.new @user
+          @issue = FactoryGirl.create :issue, {:tep_advisors_AdvisorBnum => @adv.id}
         end
 
         test "gets all issues" do
           get :index
           assert_response :success
-          assert_equal assigns(:issues), Issue.all.sorted.visible.select {|issue| @abil.can? :read, issue}.qwselect {|issue| (issue.open?) }
+          assert_equal assigns(:issues), Issue.all.sorted.visible.select {|issue| @abil.can? :read, issue}.select {|issue| (issue.open?) }
         end
 
         test "gets issues for student" do

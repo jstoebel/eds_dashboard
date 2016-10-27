@@ -19,11 +19,24 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "advisor"]
   role_names = Role.all.pluck :RoleName
 
+  def create_update
+    # create an update belonging to the user in session
+    @user = User.find_by :UserName => session[:user]
+    @advisor = @user.tep_advisor
+
+    @update = FactoryGirl.create, {:tep_advisors_AdvisorBnum => @advisor.id}
+
+    # assign advisor to student
+    AdvisorAssignment.create!({:student_id => @update.student.id,
+      :tep_advisor_id => @advisor.id
+      })
+  end
+
   test "should get new" do
     allowed_roles.each do |r|
       load_session(r)
 
-      issue = Issue.first  #add an update to this issue
+      issue = FactoryGirl.create :issue  #add an update to this issue
 
       get :new, {:issue_id => issue.id}
       assert_response :success
@@ -40,7 +53,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   describe "create" do
 
     before do
-      @iu = FactoryGirl.build :issue_update
+      @iu = FactoryGirl.create :issue_update
       @issue = @iu.issue
     end
 
@@ -70,7 +83,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
           actual_attrs = assigns(:update).attributes.except(*to_exclude)
 
           # user needs to be a tep_advisor of student
-          assert_redirected_to issue_issue_updates_path(@issue.IssueID)
+          assert_redirected_to issue_issue_updates_path(assigns(:issue).IssueID)
           assert_equal "New update added", flash[:notice]
           assert_equal expected_attrs, actual_attrs
           assert_equal @issue, assigns(:issue)
@@ -130,7 +143,9 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   test "should get show" do
     allowed_roles.each do |r|
       load_session(r)
-      update = IssueUpdate.first
+
+
+      update = FactoryGirl.create :issue_update
 
       get :show, {:id => update.id}
       assert_response :success
@@ -160,7 +175,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
 
-      update = IssueUpdate.first
+      update = FactoryGirl.create :issue_update
 
       change_to = !update.addressed
 
@@ -228,7 +243,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   test "should not patch update bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      update = IssueUpdate.first
+      update = FactoryGirl.create :issue_update
       change_to = !update.addressed
       patch :update, {:id => update.id, :issue_update => {:addressed => change_to}}
       assert_redirected_to "/access_denied"

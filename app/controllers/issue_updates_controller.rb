@@ -116,7 +116,7 @@ class IssueUpdatesController < ApplicationController
   end
 
   def issue_update_params
-    params.require(:issue_updates).permit(:UpdateName, :Description, :status)
+    params.require(:issue_updates).permit(:UpdateName, :Description, :status, :addressed)
   end
 
 end

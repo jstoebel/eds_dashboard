@@ -42,6 +42,9 @@ class IssueUpdate < ActiveRecord::Base
 		presence: { message: "Please select a status for this update"},
 		inclusion: { in: STATUSES.keys.map(&:to_s), message: "Invalid status name"}
 
+	validates :addressed,
+		inclusion: { in: [true, false], message: "addressed may not be nil"}
+
 	def student
 		return self.issue.student
 	end
