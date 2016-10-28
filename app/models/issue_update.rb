@@ -18,6 +18,7 @@ class IssueUpdate < ActiveRecord::Base
 	belongs_to :issue, foreign_key: 'Issues_IssueID'
 	belongs_to :tep_advisor, {:foreign_key => 'tep_advisors_AdvisorBnum'}
 	after_validation :add_addressed
+	after_create :creation_alert
 
 	scope :sorted, lambda {order(:created_at => :desc)}
 
@@ -61,6 +62,22 @@ class IssueUpdate < ActiveRecord::Base
 	private
 	def add_addressed
 		self.addressed = false if self.new_record?
+	end
+
+	def creation_alert
+		# email all advisors, instructors and admins
+		stu = self.student
+		recipients = [] # array of tep_advisors to email
+		# advisors
+		recipients += stu.tep_advisors
+		recipients += stu.tep_instructors
+		recipients += TepAdvisor.all.select{|adv| adv.user.is? "admin"}
+		recipients.uniq!
+
+		recipients.each do |r|
+			IssueUpdateMailer.alert_new(stu, r).deliver_now
+		end
+
 	end
 
 end

@@ -31,6 +31,7 @@ class ActiveSupport::TestCase
       #rm -rf public/student_files/test
       FileUtils.rm_rf('public/student_files/test')
       FileUtils.rm_rf('test/test_temp')
+      ActionMailer::Base.deliveries = [] # clear out emails
   end
 
   def py_assert(expected, actual)

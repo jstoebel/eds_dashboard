@@ -54,6 +54,87 @@ class IssueUpdateTest < ActiveSupport::TestCase
 				assert_equal bool, @update.resolves?
 			end
 		end
+	end
+
+	describe "creation triggers an email" do
+
+		let(:assert_from_admin){ all_emails.each{|email| assert_equal [SECRET["APP_EMAIL_ADDRESS"]], email.from} } #assert_equal [SECRET["APP_EMAIL_ADDRESS"]], adv_email.from }
+		let(:assert_subject) {assert_equal "Issue for #{stu.name_readable}", adv_email.subject}
+
+
+		test "emails advisor" do
+			assignment = FactoryGirl.create :advisor_assignment
+			stu = assignment.student
+			adv = assignment.tep_advisor
+			issue = FactoryGirl.create :issue, {:student_id => stu.id}
+
+			all_emails = ActionMailer::Base.deliveries
+			all_recipients = all_emails.map{|email| email.to}.flatten
+			all_subjects =  all_emails.map{|email| email.subject}
+
+			# subjects match
+			all_subjects.each{|subject| assert_equal("Issue for #{stu.name_readable}", subject)}
+			# recipients match
+			assert all_recipients.include? adv.get_email
+			# its from APP_EMAIL_ADDRESS
+			assert all_emails.each{|email| assert_equal([SECRET["APP_EMAIL_ADDRESS"]], email.from)}
+
+		end
+
+		test "emails tep_instructor" do
+			assert false, "this test appears to not be working. I think that the model isn't pull tep_instructors properly."
+
+			user = FactoryGirl.create :advisor
+			adv = FactoryGirl.create :tep_advisor, :user_id => user.id
+			stu = FactoryGirl.create :student
+			term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+			issue = FactoryGirl.create :issue, {:student_id => stu.id}
+
+			course = FactoryGirl.create :transcript,
+			{:instructors => "InstFirst InstLast {#{adv.AdvisorBnum}}",
+				:student_id => stu.id,
+				:term_taken => term.id
+			}
+
+			all_emails = ActionMailer::Base.deliveries
+			all_recipients = all_emails.map{|email| email.to}.flatten
+			all_subjects =  all_emails.map{|email| email.subject}
+
+			# subjects match
+			all_subjects.each{|subject| assert_equal("Issue for #{stu.name_readable}", subject)}
+			# recipients match
+			puts "all recipients:"
+			puts all_recipients
+
+			puts "tep_instructors"
+			puts stu.tep_instructors.inspect
+
+			puts "adv:"
+			puts adv.inspect
+			assert all_recipients.include? adv.get_email
+			# its from APP_EMAIL_ADDRESS
+			assert all_emails.each{|email| assert_equal([SECRET["APP_EMAIL_ADDRESS"]], email.from)}
+
+		end
+
+		test "emails admin" do
+			admin = FactoryGirl.create :admin
+			adv = FactoryGirl.create :tep_advisor, :user_id => admin.id
+			issue = FactoryGirl.create :issue
+			stu = issue.student
+
+			all_emails = ActionMailer::Base.deliveries
+			all_recipients = all_emails.map{|email| email.to}.flatten
+			all_subjects =  all_emails.map{|email| email.subject}
+
+			# subjects match
+			all_subjects.each{|subject| assert_equal("Issue for #{stu.name_readable}", subject)}
+			# recipients match
+			assert all_recipients.include? adv.get_email
+			# its from APP_EMAIL_ADDRESS
+			assert all_emails.each{|email| assert_equal([SECRET["APP_EMAIL_ADDRESS"]], email.from)}
+
+		end
 
 	end
 
