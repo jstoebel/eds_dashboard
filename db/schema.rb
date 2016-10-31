@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161024185027) do
+ActiveRecord::Schema.define(version: 20161031204634) do
+
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
     t.integer  "BannerTerm_BannerTerm", limit: 4
@@ -161,6 +162,13 @@ ActiveRecord::Schema.define(version: 20161024185027) do
 
   add_index "clinical_teachers", ["clinical_site_id"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
 
+  create_table "dispositions", force: :cascade do |t|
+    t.string   "disp_code",        limit: 255
+    t.text     "disp_description", limit: 65535
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
   create_table "employment", primary_key: "EmpID", force: :cascade do |t|
     t.integer "student_id",  limit: 4,  null: false
     t.date    "EmpDate",                null: false
@@ -213,8 +221,11 @@ ActiveRecord::Schema.define(version: 20161024185027) do
     t.datetime "updated_at"
     t.boolean  "visible",                                default: true, null: false
     t.boolean  "positive"
+    t.integer  "dispositions_id",          limit: 4
+    t.integer  "disposition_id",           limit: 4
   end
 
+  add_index "issues", ["disposition_id"], name: "fk_rails_7e9ae84f98", using: :btree
   add_index "issues", ["student_id"], name: "fk_rails_ea791380de", using: :btree
   add_index "issues", ["tep_advisors_AdvisorBnum"], name: "fk_Issues_tep_advisors1_idx", using: :btree
 
@@ -541,6 +552,7 @@ ActiveRecord::Schema.define(version: 20161024185027) do
   add_foreign_key "forms_of_intention", "students"
   add_foreign_key "issue_updates", "issues", column: "Issues_IssueID", primary_key: "IssueID", name: "fk_IssueUpdates_Issues"
   add_foreign_key "issue_updates", "tep_advisors", column: "tep_advisors_AdvisorBnum"
+  add_foreign_key "issues", "dispositions"
   add_foreign_key "issues", "students"
   add_foreign_key "issues", "tep_advisors", column: "tep_advisors_AdvisorBnum"
   add_foreign_key "item_levels", "assessment_items"

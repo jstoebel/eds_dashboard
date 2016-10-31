@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  positive                 :boolean
+#  disposition_id           :integer
 #
 
 include Faker
@@ -21,6 +22,7 @@ FactoryGirl.define do
       first_status "concern"
     end
     association :student
+    disposition
     Name {Hipster.sentence}
     Description {Hipster.paragraph}
     association :tep_advisor
@@ -29,7 +31,7 @@ FactoryGirl.define do
       update_params = FactoryGirl.attributes_for :issue_update, {:Issues_IssueID => issue.id,
         :tep_advisors_AdvisorBnum => issue.tep_advisors_AdvisorBnum,
         :UpdateName => "Issue opened",
-        :Description => "Issue opened", 
+        :Description => "Issue opened",
         :status => options.first_status
       }
       update = IssueUpdate.create! update_params
