@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
+#  status                   :string(255)
 #
 
 class IssueUpdatesController < ApplicationController
@@ -47,14 +48,7 @@ class IssueUpdatesController < ApplicationController
     @student = Student.find(@issue.student.id)
     authorize! :read, @student
 
-    #change status of issue
-    if params[:issue_updates][:issue][:status] == "Closed"
-      @issue.Open = false
-    elsif params[:issue_updates][:issue][:status] == "Open"
-      @issue.Open = true
-    end
-
-    if @update.save and @issue.save
+    if @update.save
       flash[:notice] = "New update added"
       redirect_to(issue_issue_updates_path(@issue.IssueID))
     else
@@ -67,14 +61,10 @@ class IssueUpdatesController < ApplicationController
     #indexes updates for parent issue
     @issue = Issue.find(params[:issue_id])
     authorize! :read, @issue
-
     @student = Student.find(@issue.student.id)
     authorize! :read, @student
-
     name_details(@student)
-
     @updates = @issue.issue_updates.sorted.where(:visible => true).select {|r| can? :read, r }  #no additional auth needed. If you can? the issue you can? the updates
-
   end
 
   def show
@@ -90,11 +80,11 @@ class IssueUpdatesController < ApplicationController
     name_details(@student)
 
   end
-  
-  #destroy method added to issue controller; 
-  #should destory records and make them not visible to the user, 
+
+  #destroy method added to issue controller;
+  #should destory records and make them not visible to the user,
   # but still exist in the database
-  def destroy 
+  def destroy
     authorize! :read, @manage
     @update = IssueUpdate.find(params[:id])
     @update.visible = false
@@ -102,14 +92,14 @@ class IssueUpdatesController < ApplicationController
     flash[:notice] = "Deleted Successfully!"
     redirect_to(issue_issue_updates_path(@update.issue.id))
   end
-  
+
 
   def update
     # user may toggle the issues addressed attr
     update = IssueUpdate.find params[:id]
     authorize! :manage, update
     update.addressed = params[:issue_update][:addressed]
-    
+
     response = {:json => update}
     if update.save
       render :json => update, status: :created
@@ -122,11 +112,11 @@ class IssueUpdatesController < ApplicationController
   private
   def close_issue_params
     params.require(:issue_update).permit(:Description)
-    
+
   end
 
   def issue_update_params
-    params.require(:issue_updates).permit(:UpdateName, :Description)
+    params.require(:issue_updates).permit(:UpdateName, :Description, :status, :addressed)
   end
 
 end

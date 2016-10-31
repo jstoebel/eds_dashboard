@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014125435) do
-
+ActiveRecord::Schema.define(version: 20161024185027) do
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
     t.integer  "BannerTerm_BannerTerm", limit: 4
@@ -199,6 +198,7 @@ ActiveRecord::Schema.define(version: 20161014125435) do
     t.datetime "updated_at"
     t.boolean  "visible",                                default: true, null: false
     t.boolean  "addressed"
+    t.string   "status",                   limit: 255
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
@@ -208,7 +208,6 @@ ActiveRecord::Schema.define(version: 20161014125435) do
     t.integer  "student_id",               limit: 4,                    null: false
     t.text     "Name",                     limit: 65535,                null: false
     t.text     "Description",              limit: 65535,                null: false
-    t.boolean  "Open",                                   default: true, null: false
     t.integer  "tep_advisors_AdvisorBnum", limit: 4,                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"

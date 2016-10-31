@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
+#  status                   :string(255)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -25,12 +26,12 @@
 #
 #  column: value
 
-<% 2.times do |i| %>
-<%= "issue_update#{i}:" %>
-  UpdateName: Update1
-  Description: Update1 Description
-  issue: issue1
-  # tep_advisors_AdvisorBnum: B00123456
-  tep_advisor: snow_advisor
-  addressed: false 
-<% end %>
+# <% 2.times do |i| %>
+# <%= "issue_update#{i}:" %>
+#   UpdateName: Update1
+#   Description: Update1 Description
+#   issue: issue1
+#   # tep_advisors_AdvisorBnum: B00123456
+#   tep_advisor: snow_advisor
+#   addressed: false
+# <% end %>

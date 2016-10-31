@@ -495,7 +495,11 @@ class Student < ActiveRecord::Base
 
 	##########################################################################
 
-
+	def tep_instructors
+		# all tep_advisors (not nessarily assigned to student) that are instructors
+		# of student
+		return TepAdvisor.all.select{|adv| self.is_student_of?(adv.AdvisorBnum)}
+	end
 
 	####~~~Enrollment Methods~~~##############################################
 
@@ -508,8 +512,6 @@ class Student < ActiveRecord::Base
 	end
 
 	##########################################################################
-
-
 
 ############################################################################################################
 

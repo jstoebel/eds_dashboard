@@ -3,95 +3,92 @@
 <% end %>
 
     </br>
-    
-  <div class="container-fluid">
-    <table class="table table-striped">
-      <div class="row">      
-        <caption>
-          <div class="header1 col-xs-12">Issues for <%= name_details(@student)%></div></br>
 
-          <div class="header2 col-xs-12"> <%= pluralize(@issues.size, "issue") + " found" %> </div>
-            <div class="col-xs-1">
-              <%= link_to new_student_issue_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>  
-                  <span class="large-btn-text">New Issue</span>
-              <% end %>         
-            </div>
-        </caption>
+  <div class="container-fluid">
+    <table class="table">
+      <div class="row">
+        <% if @student.present? %>
+          <caption>
+              <div class="header1 col-xs-12">Issues for <%= name_details(@student)%></div></br>
+
+            <div class="header2 col-xs-12"> <%= pluralize(@issues.size, "issue") + " found" %> </div>
+              <div class="col-xs-1">
+                <%= link_to new_student_issue_path(@student.AltID), :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>
+                    <span class="large-btn-text">New Issue</span>
+                <% end %>
+              </div>
+          </caption>
+
+        <% else %>
+          <caption>
+              <div class="header1 col-xs-12">All Open Issues</div></br>
+          </caption>
+        <% end %>
       </div>
-  
-              <% if @student.issues.size > 0 %>
-  
+
                 <tr class="header">
+                  <% if @student.blank? %>
+                    <th>Name</th>
+                  <% end %>
                   <th>Issue Name</th>
                   <th>Date Opened</th>
                   <th>Status</th>
                 </tr>
-  
+
                 <% @issues.each do |issue| %>
-  
-                <tr class="<%= issue.Open ? "alert alert-danger" : "alert alert-success"%>">
+
+                <tr class="<%= "alert alert-#{issue.current_status.status_color}"  %>">
+                  <% if @student.blank? %>
+                    <th><%= issue.student.name_readable %></th>
+                  <% end %>
                   <td> <%= issue.Name %></td>
                   <td> <%= issue.created_at.strftime("%m/%d/%Y")%> </td>
                   <td >
                     <!-- glyph here if open -->
-                    <% if issue.Open %>
-  
-                        <div class="col-md-1">
-                          <span class="glyphicon glyphicon-exclamation-sign"></span>
-                        </div>
-  
-                        <div class="col-md-1">
-                          Open
-                        </div>
-  
-                    <% else %>
+                    <% if issue.resolved? %>
                         <div class="col-md-1">
                           <span class="glyphicon glyphicon-ok"></span>
                         </div>
-  
-                        <div class="col-md-1">
-                          Resolved
-                        </div>
                     <% end #end of status conditional %>
-  
+
+                    <div class="col-md-1">
+                      <%= issue.current_status.andand.status %>
+                    </div>
+
                   </td>
-  
+
                   <td class="actions">
                     <!-- buttons
                       details
                       updates
                       close isue -->
-  
-                      <%= render(partial: 'details_popover', 
+
+                      <%= render(partial: 'details_popover',
                       locals: {
                         :record_id => issue.IssueID,
-                        :popover_title => "Issue Details", 
+                        :popover_title => "Issue Details",
                         :button_title => "Details",
                         :content => issue.Description
                       } )  %>
-                                
+
                       <%= link_to issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small" do %>
-                          <span class="small-btn-text"> Updates 
+                          <span class="small-btn-text"> Updates
                             <span class="badge">
-                              <%= issue.issue_updates.select{|u| u.visible}.size %> 
+                              <%= issue.issue_updates.select{|u| u.visible}.size %>
                             </span>
                           </span>
-                      <% end %>                             
-                        
+                      <% end %>
+
                   </td>
-                  
+
                   <td>
                      <%= button_to(issue_path(issue.id), { class: "btn btn-default", method: :delete, data: {confirm: "Are you sure you want to delete this issue?"}} ) do %>
                       <span class="glyphicon glyphicon-trash"</span>
                      <% end %>
                   </td>
-                
+
                 </tr>
-                <% end #end of loop iterating through records %>              
-  
-              <% end #end of conditional for table. %>       
-  
+                <% end #end of loop iterating through records %>
+
         </table>
     </div>
-
-          

@@ -135,18 +135,16 @@ namespace :db do
       #ISSUES AND UPDATES
       if Boolean.boolean 0.3
 
-        #I'm not sure why I can't pass a student_id into the issue factory. As a workaround,
-        # I am using .build and then calling .save
         num_issues = Faker::Number.between(0, 3)
-        my_issues = num_issues.times.map {|n| (FactoryGirl.build :issue, { :student_id => s.id, :tep_advisors_AdvisorBnum => my_advisors.sample.id})}
-        my_issues.each {|n| n.save}
+        my_issues = num_issues.times.map {|n| (FactoryGirl.create :issue, { :student_id => s.id, :tep_advisors_AdvisorBnum => my_advisors.sample.id})}
 
         my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3),
           { :Issues_IssueID => iss.id,
-            :tep_advisors_AdvisorBnum => my_advisors.sample.id
+            :tep_advisors_AdvisorBnum => my_advisors.sample.id,
+            :visible => true,
+            :addressed => false
           }
         }
-
       end
 
       # student has a chance of having a praxis temp
