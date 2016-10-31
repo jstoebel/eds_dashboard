@@ -4,6 +4,7 @@ class IssueUpdateMailerPreview < ActionMailer::Preview
   def alert_new
     stu = FactoryGirl.build_stubbed :student
     adv = FactoryGirl.build_stubbed :tep_advisor
+
     return IssueUpdateMailer.alert_new(stu, adv)
   end
 
