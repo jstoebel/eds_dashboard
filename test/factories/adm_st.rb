@@ -33,6 +33,6 @@ FactoryGirl.define do
     STAdmitDate Date.today
     OverallGPA 2.75
     CoreGPA 3.0
-    association :student_file, strategy: :build
+    association :student_file
   end
 end

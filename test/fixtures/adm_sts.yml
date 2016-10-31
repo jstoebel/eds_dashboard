@@ -32,11 +32,4 @@
 #
 #
 #  column: value
-base_app: &base
-  student: candidate
-  BannerTerm_BannerTerm: <%= BannerTerm.current_term(:exact => false, :plan_b => :back).BannerTerm %>
-  Attempt: 1
-  STAdmitted: true
-  STAdmitDate: <%= Date.today %>
-  OverallGPA: 2.75
-  CoreGPA: 3.0
+
