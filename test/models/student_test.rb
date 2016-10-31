@@ -616,6 +616,12 @@ class StudentTest < ActiveSupport::TestCase
 			assert_equal 0, stu.gpa
 		end
 
+		test "ignores course with gpa_include==false" do
+			excluded_course = FactoryGirl.create :transcript, :gpa_include => false
+
+			assert_equal @first_course.grade_pt, @stu.gpa
+		end
+
 	end # describe test
 
 	describe "credits" do

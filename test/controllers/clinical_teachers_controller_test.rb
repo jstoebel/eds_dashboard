@@ -63,7 +63,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
     #test what happens when the record can't be saved
 
     load_session("admin")
-    teacher = ClinicalTeacher.first
+    teacher = FactoryGirl.create :clinical_teacher
     teacher.FirstName = nil
 
     update_params = {:FirstName => teacher.FirstName}
@@ -109,7 +109,7 @@ test "should not post create bad params" do
     load_session("admin")
 
     site = FactoryGirl.create :clinical_site
-    new_params = FactoryGirl.attributes_for :clinical_teacher
+    new_params = FactoryGirl.attributes_for :clinical_teacher # Won't make an attribute for clinical site and will fail
 
     post :create, {:clinical_teacher => new_params}
     assert_response :success
