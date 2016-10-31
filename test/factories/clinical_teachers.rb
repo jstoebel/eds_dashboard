@@ -23,6 +23,9 @@ FactoryGirl.define do
     Subject {Hipster.word}
     clinical_site
     Rank {Number.between(1,3)}
-    YearsExp {Number.between(1, 25)}
+    begin_service { Faker::Date.between(10.years.ago, Date.today) }
+    epsb_training { Faker::Date.between(10.years.ago, Date.today) }
+    ct_record { Faker::Date.between(10.years.ago, Date.today) }
+    co_teacher_training { Faker::Date.between(10.years.ago, Date.today) }
   end
 end

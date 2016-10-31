@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005151509) do
+ActiveRecord::Schema.define(version: 20161014125435) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -146,14 +146,18 @@ ActiveRecord::Schema.define(version: 20161005151509) do
   end
 
   create_table "clinical_teachers", force: :cascade do |t|
-    t.string  "Bnum",             limit: 45
-    t.string  "FirstName",        limit: 45, null: false
-    t.string  "LastName",         limit: 45, null: false
-    t.string  "Email",            limit: 45
-    t.string  "Subject",          limit: 45
-    t.integer "clinical_site_id", limit: 4,  null: false
-    t.integer "Rank",             limit: 4
-    t.integer "YearsExp",         limit: 4
+    t.string   "Bnum",                limit: 45
+    t.string   "FirstName",           limit: 45, null: false
+    t.string   "LastName",            limit: 45, null: false
+    t.string   "Email",               limit: 45
+    t.string   "Subject",             limit: 45
+    t.integer  "clinical_site_id",    limit: 4,  null: false
+    t.integer  "Rank",                limit: 4
+    t.integer  "YearsExp",            limit: 4
+    t.datetime "begin_service"
+    t.datetime "epsb_training"
+    t.datetime "ct_record"
+    t.datetime "co_teacher_training"
   end
 
   add_index "clinical_teachers", ["clinical_site_id"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
