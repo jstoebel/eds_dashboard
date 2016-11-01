@@ -55,6 +55,7 @@ entrance_exit_FIXED.csv
 
 # only .rb and .rake in lib/tasks/reports
 lib/tasks/reports/**
+lib/**/*.csv
 !lib/tasks/reports/**/*.rb
 !lib/tasks/reports/**/*.rake
 
