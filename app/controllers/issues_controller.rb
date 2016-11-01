@@ -38,6 +38,7 @@ class IssuesController < ApplicationController
   	@issue = Issue.new
     @update = IssueUpdate.new
   	@student = Student.find params[:student_id]
+    @dispositions = Disposition.current.ordered
     name_details(@student)
   end
 
@@ -45,7 +46,7 @@ class IssuesController < ApplicationController
 
     @student = Student.find params[:student_id]
 
-    @issue = Issue.new(new_issue_params)
+    @issue = Issue.new(issue_params)
     @issue.student_id = @student.id
 
     #assign advisor's B#
@@ -68,12 +69,11 @@ class IssuesController < ApplicationController
       flash[:notice] = "New issue opened for: #{@student.name_readable}"
       redirect_to(student_issues_path(@student.AltID))
     rescue => e
+      @dispositions = Disposition.current.ordered
       render('new')
     end # begin/rescue
 
   end # action
-
-
 
   #destroy method added to issue controller;
   #should destory records and make them not visible to the user,
@@ -87,16 +87,34 @@ class IssuesController < ApplicationController
     redirect_to(student_issues_path(@issue.student.id))
   end
 
+  def edit
+    @issue = Issue.find params[:id]
+    @student = @issue.student
+    authorize! :manage, @issue
+    @dispositions = Disposition.current.ordered
+  end
+
   def update
+    @issue = Issue.find params[:id]
+    @issue.assign_attributes issue_params
+    @student = @issue.student
+    if @issue.save
+      flash[:notice] = "Issue updated for: #{@student.name_readable}"
+      redirect_to(student_issues_path(@student.AltID))
+    else
+      @dispositions = Disposition.current.ordered
+      render 'new'
+    end
 
   end
 
   private
-  def new_issue_params
+
+  def issue_params
   #same as using params[:subject] except that:
     #raises an error if :praxis_result is not present
     #allows listed attributes to be mass-assigned
-  params.require(:issue).permit(:Name, :Description)
+  params.require(:issue).permit(:Name, :Description, :disposition_id)
 
   end
 
