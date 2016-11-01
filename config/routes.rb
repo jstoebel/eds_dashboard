@@ -141,7 +141,7 @@ Rails.application.routes.draw do
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
     end
-    resources :issues, only: [:index, :new, :create, :destroy]
+    resources :issues, only: [:index, :new, :create, :destroy, :edit, :update]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     resources :concern_dashboard, only: [:index], :path => "concerns"
   end
@@ -229,7 +229,7 @@ Rails.application.routes.draw do
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
     end
-    resources :issues, only: [:index, :new, :create, :destroy]
+    resources :issues, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
       resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
@@ -250,7 +250,7 @@ Rails.application.routes.draw do
     get "download"
   end
 
-  resources :issues, only: [:index, :new, :create, :destroy],  shallow: true do
+  resources :issues, only: [:index, :new, :create, :destroy, :edit, :update],  shallow: true do
     resources :issue_updates do
         patch 'update'
     end

@@ -38,6 +38,8 @@ namespace :db do
 
     #Assessment data
     assessments = FactoryGirl.create_list :assessment, 5
+    dispositions = FactoryGirl.create_list :disposition, 10
+
     versions = assessments.map{ |assess| FactoryGirl.create_list :version_with_items, 3}.flatten
     levels = FactoryGirl.create_list :item_level, 2
 
