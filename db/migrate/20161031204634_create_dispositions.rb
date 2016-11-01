@@ -1,8 +1,9 @@
 class CreateDispositions < ActiveRecord::Migration
   def up
     create_table :dispositions do |t|
-      t.string :disp_code
-      t.text :disp_description
+      t.string :code
+      t.text :description
+      t.boolean :current
       t.timestamps null: false
     end
 

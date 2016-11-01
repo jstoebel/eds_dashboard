@@ -163,10 +163,11 @@ ActiveRecord::Schema.define(version: 20161031204634) do
   add_index "clinical_teachers", ["clinical_site_id"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
 
   create_table "dispositions", force: :cascade do |t|
-    t.string   "disp_code",        limit: 255
-    t.text     "disp_description", limit: 65535
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "code",        limit: 255
+    t.text     "description", limit: 65535
+    t.boolean  "current"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "employment", primary_key: "EmpID", force: :cascade do |t|
@@ -221,7 +222,6 @@ ActiveRecord::Schema.define(version: 20161031204634) do
     t.datetime "updated_at"
     t.boolean  "visible",                                default: true, null: false
     t.boolean  "positive"
-    t.integer  "dispositions_id",          limit: 4
     t.integer  "disposition_id",           limit: 4
   end
 
