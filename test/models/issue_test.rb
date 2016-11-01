@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  positive                 :boolean
+#  disposition_id           :integer
 #
 
 require 'test_helper'

@@ -11,6 +11,7 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  positive                 :boolean
+#  disposition_id           :integer
 #
 
 require 'test_helper'
@@ -27,9 +28,39 @@ class IssuesControllerTest < ActionController::TestCase
       student = Student.first
       get :new, :student_id => student.AltID
       assert_response :success
-      assert assigns(:issue).new_record?
       assert_equal assigns(:student), student
     end
+  end
+
+  describe "edit" do
+
+    allowed_roles.each do |r|
+      describe "allowed role: #{r}" do
+        before do
+          @issue = FactoryGirl.create :issue
+          get :edit, :id => @issue.id
+          load_session(r)
+        end
+
+        test "http success" do
+          assert_response :success
+        end
+
+        test "pulls issue" do
+          assert_equal @issue, assigns(:issue)
+        end
+
+        test "pulls student" do
+          assert_equal @issue.student, assigns(:student)
+        end
+
+        test "pulls dispositions" do
+          assert_equal Disposition.current.ordered, assigns(:dispositions)
+        end
+
+      end # allowed role
+
+    end # for loop
   end
 
   describe "create" do
@@ -107,6 +138,13 @@ class IssuesControllerTest < ActionController::TestCase
         test "redirects to issues index" do
           post_create
           assert_redirected_to student_issues_path(@issue.student.AltID)
+        end
+
+        test "fails and renders new" do
+          @issue.Name = nil
+          post_create
+          assert_response :success
+          assert_template 'new'
         end
       end
     end # allowed roles
