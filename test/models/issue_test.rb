@@ -141,4 +141,12 @@ class IssueTest < ActiveSupport::TestCase
 		assert_equal second_update, issue.current_status
 	end
 
+	test "resolved and open ok with no updates" do
+		issue = FactoryGirl.create :issue
+		issue.issue_updates.each{|iu| iu.destroy!}
+
+		assert issue.resolved?.nil?
+		assert issue.open?
+	end
+
 end
