@@ -71,7 +71,7 @@ class IssueUpdate < ActiveRecord::Base
 		# advisors
 		recipients += stu.tep_advisors
 		recipients += stu.tep_instructors
-		recipients += TepAdvisor.all.select{|adv| adv.user.is? "admin"}
+		recipients += TepAdvisor.all.select{|adv| adv.user.andand.is? "admin"}
 		recipients.uniq!
 
 		recipients.each do |r|
