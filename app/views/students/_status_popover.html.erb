@@ -1,0 +1,32 @@
+<!-- Partial for a popover.
+
+  arguments:
+    stu: the student object
+       -->
+
+
+<!-- Button trigger modal -->
+<button class="btn btn-info action-small"+ <%= content.to_s == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= stu.id %>-details">
+  <%= button_title  %>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exit-<%= stu.id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= stu.id %>-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exit-<%= stu.id %>-label">
+          Status for <%=stu.name_readable %> </h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for stu, :url => student_update_presumed_status_path(stu.id) do |f| %>
+          <%= f.label(:presumed_status, "Presumed Status") %>
+          <%= f.select(:presumed_status, Student::PROG_STATUES, {:prompt => 'Select a status'}) %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

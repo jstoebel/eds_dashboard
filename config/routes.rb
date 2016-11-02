@@ -138,6 +138,7 @@ Rails.application.routes.draw do
   #A resource must be top level before it can be nested in another resource (I think)
   resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do
+    patch "update_presumed_status"
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
     end

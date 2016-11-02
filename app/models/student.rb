@@ -64,19 +64,6 @@ class Student < ActiveRecord::Base
 
 #################################################################
 
-
-####~~~VALIDATIONS~~~##################################################
-	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
-	validates_uniqueness_of :Bnum
-
-	validates :presumed_status,
-		inclusion: { in: ["prospective", "not applying", "candidate", "dropped", "completer"],
-    message: "please enter a valid program status" }, allow_nil: true
-
-#######################################################################
-
-
-
 ####~~~ CLASS VARIABLES ~~~##################################################
 	CERT_CONCENTRATIONS = ["Middle Grades Science Cert",
 	"MUS Ed - Instrumental Emphasis",
@@ -93,9 +80,19 @@ class Student < ActiveRecord::Base
 	"Music Education Vocal Emphasis",
 	"Health and Human Performance, P-12"]
 
+	PROG_STATUES = ["prospective", "not applying", "candidate",
+		"dropped", "completer"]
 ##############################################################################
 
+####~~~VALIDATIONS~~~##################################################
+	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
+	validates_uniqueness_of :Bnum
 
+	validates :presumed_status,
+		inclusion: { in: PROG_STATUES,
+    message: "please enter a valid program status" }, allow_nil: true
+
+#######################################################################
 
 ####~~~SCOPES AND CLASS METHODS (Batch Updates)~~~##################################################
 

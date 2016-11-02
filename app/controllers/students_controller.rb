@@ -51,7 +51,13 @@ class StudentsController < ApplicationController
 
   def show
     @student = Student.find params[:id]
-    authorize! :show, @student
+    authorize! :manage, @student
+  end
+
+  def update_presumed_status
+    @student = Student.find params[:student_id]
+    authorize! :manage, @student
+    1/0
   end
 
 end
