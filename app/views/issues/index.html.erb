@@ -37,12 +37,12 @@
 
                 <% @issues.each do |issue| %>
 
-                <tr class="<%= "alert alert-#{issue.current_status.status_color}"  %>">
+                <tr class="<%= "alert alert-#{issue.current_status.andand.status_color}"  %>">
                   <% if @student.blank? %>
                     <th><%= issue.student.name_readable %></th>
                   <% end %>
                   <td> <%= issue.Name %></td>
-                  <td> <%= issue.created_at.strftime("%m/%d/%Y")%> </td>
+                  <td> <%= issue.created_at.andand.strftime("%m/%d/%Y")%> </td>
                   <td >
                     <!-- glyph here if open -->
                     <% if issue.resolved? %>
