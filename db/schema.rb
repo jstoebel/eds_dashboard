@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031204634) do
+ActiveRecord::Schema.define(version: 20161102202026) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -456,6 +456,7 @@ ActiveRecord::Schema.define(version: 20161031204634) do
     t.boolean "hispanic"
     t.integer "term_expl_major",  limit: 4
     t.integer "term_major",       limit: 4
+    t.string  "presumed_status",  limit: 255
   end
 
   add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree

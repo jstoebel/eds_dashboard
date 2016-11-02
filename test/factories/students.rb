@@ -26,6 +26,7 @@
 #  hispanic         :boolean
 #  term_expl_major  :integer
 #  term_major       :integer
+#  presumed_status  :string(255)
 #
 
 include Faker

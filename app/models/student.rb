@@ -69,6 +69,10 @@ class Student < ActiveRecord::Base
 	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
 	validates_uniqueness_of :Bnum
 
+	validates :presumed_status,
+		inclusion: { in: ["prospective", "not applying", "candidate", "dropped", "completer"],
+    message: "please enter a valid program status" }, allow_nil: true
+
 #######################################################################
 
 

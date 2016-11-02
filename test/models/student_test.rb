@@ -26,6 +26,7 @@
 #  hispanic         :boolean
 #  term_expl_major  :integer
 #  term_major       :integer
+#  presumed_status  :string(255)
 #
 
 require 'test_helper'
@@ -848,13 +849,33 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal "Couldn't find Student with 'id'=#{update_attrs[0][:id]}", result[:msg]
 	end
 
-    test "Object not valid, validations failed" do
+  test "Object not valid, validations failed" do
 	  stu=Student.new
 	  assert_not stu.valid?
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus], stu.errors.keys
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus].map{|i| [i, ["can't be blank"]]}.to_h,
 	    stu.errors.messages
 	end
+
+	describe "presumed_status validation" do
+		before do
+			@stu = FactoryGirl.create :student
+		end
+
+		["prospective", "not applying", "candidate", "dropped", "completer", nil].each do |status|
+
+			test "allows value: #{status}" do
+				@stu.presumed_status = status
+				assert @stu.valid?
+
+			end # test
+		end # loop
+
+		test "disallows bogus status" do
+			@stu.presumed_status = "crazy pants"
+			assert_not @stu.valid?
+		end
+	end # describe
 
 	test "tep_instructors" do
 		@stu = FactoryGirl.create :student
