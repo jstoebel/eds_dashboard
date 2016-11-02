@@ -57,7 +57,7 @@ class AdmTepControllerTest < ActionController::TestCase
     #create a conflict with the existing app
 
     load_session("admin")
-    existing_app = AdmTep.first
+    existing_app = FactoryGirl.create :adm_tep
     stu = existing_app.student
     prog = existing_app.program
     term = existing_app.banner_term
@@ -222,7 +222,7 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should not post update bad app" do
-    app = AdmTep.first
+    app = FactoryGirl.create :adm_tep
     pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
 
     term = app.banner_term
@@ -287,7 +287,7 @@ class AdmTepControllerTest < ActionController::TestCase
   test "should get show" do
     allowed_roles.each do |r|
       load_session(r)
-      app = AdmTep.first
+      app = FactoryGirl.create :adm_tep
       get :show, {id: app.id}
       assert_response :success
       assert_equal assigns(:app), app
@@ -323,7 +323,7 @@ class AdmTepControllerTest < ActionController::TestCase
   test "should not get edit bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      app = AdmTep.first
+      app = FactoryGirl.create :adm_tep
       get :edit, {:id => app.id}
       assert_redirected_to "/access_denied"
     end

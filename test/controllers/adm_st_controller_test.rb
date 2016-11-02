@@ -88,7 +88,7 @@ class AdmStControllerTest < ActionController::TestCase
       #we should have an http response of 200 and a flash message
 
     #lets try to make a new app with a date in the same term as an existing app
-    existing_app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.first
+    existing_app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.current_term
     app_term = existing_app.BannerTerm_BannerTerm
     date_to_use = (BannerTerm.find(app_term).StartDate.to_date) + 2
 
@@ -109,7 +109,7 @@ class AdmStControllerTest < ActionController::TestCase
   test "should get edit" do
     allowed_roles.each do |r|
       load_session(r)
-      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.first
+      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.current_term
       get :edit, {:id => app.id}
       assert_response :success, "unexpected http response, role=#{r}"
       assert_equal assigns(:app), app
@@ -190,7 +190,7 @@ class AdmStControllerTest < ActionController::TestCase
   test "should get edit_st_paperwork" do
     allowed_roles.each do |r|
       load_session(r)
-      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.first
+      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.current_term
       get :edit_st_paperwork, {adm_st_id: app.id}
       assert_response :success, "unexpected http response, role=#{r}"
       assert_equal assigns(:app), app
@@ -236,7 +236,7 @@ class AdmStControllerTest < ActionController::TestCase
     #TODO
     #haven't figured out how to test this yet.
     # load_session("admin")
-    # app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.first
+    # app = FactoryGirl.create :adm_st, :banner_term => 
     # app.letter = File.new("test/fixtures/test_letter.docx")
     # app.save
     # get :download, {adm_st_id: app.id}
@@ -297,7 +297,7 @@ class AdmStControllerTest < ActionController::TestCase
   test "should not get edit bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.first
+      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.current_term
       get :edit, {:id => app.id}
       assert_redirected_to "/access_denied"
     end
@@ -330,7 +330,7 @@ class AdmStControllerTest < ActionController::TestCase
   test "should not get edit_st_paperwork bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.first
+      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.current_term
       get :edit_st_paperwork, {adm_st_id: app.id}
       assert_redirected_to "/access_denied"
 

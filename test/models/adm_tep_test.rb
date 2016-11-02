@@ -68,7 +68,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "admit date too early" do
-    app = AdmTep.first
+    app = FactoryGirl.create :adm_tep
     date = app.banner_term.StartDate.to_date
     app.TEPAdmitDate = date - 10
     letter = attach_letter(app)
@@ -154,7 +154,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "overall gpa bad only" do
-    app = AdmTep.first
+    app = FactoryGirl.create :adm_tep
     pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.TEPAdmit = true
     app.valid?
