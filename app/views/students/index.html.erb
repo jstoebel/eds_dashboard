@@ -34,7 +34,12 @@
               <td><%= student.FirstName %> <%= student.PreferredFirst.present? ? "(#{student.PreferredFirst})" : nil %></td>
               <td><%= student.MiddleName %></td>
               <td><%= student.LastName %> <%= student.PrevLast.present? ? "(#{student.PrevLast})" : nil %></td>
-              <td><%= student.prog_status %></td>
+              <td>
+                 <%= render(partial: 'status_popover',
+                    locals: {
+                      :stu => student
+                    } )  %>
+              </td>
               <td class="actions">
 
                   <% actions =[] %>

@@ -6,26 +6,41 @@
 
 
 <!-- Button trigger modal -->
-<button class="btn btn-info action-small"+ <%= content.to_s == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= stu.id %>-details">
-  <%= button_title  %>
-</button>
+<a href="#" data-toggle="modal" data-target="#presumed_status-<%= stu.id %>">
+  <%= stu.prog_status %>
+</a>
 
 <!-- Modal -->
-<div class="modal fade" id="exit-<%= stu.id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= stu.id %>-label" aria-hidden="true">
+<div class="modal fade" id="presumed_status-<%= stu.id %>" tabindex="-1" role="dialog" aria-labelledby="presumed_status-<%= stu.id %>label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exit-<%= stu.id %>-label">
+        <h4 class="modal-title" id="presumed_status-<%= stu.id %>-label">
           Status for <%=stu.name_readable %> </h4>
       </div>
       <div class="modal-body">
-        <%= form_for stu, :url => student_update_presumed_status_path(stu.id) do |f| %>
-          <%= f.label(:presumed_status, "Presumed Status") %>
-          <%= f.select(:presumed_status, Student::PROG_STATUES, {:prompt => 'Select a status'}) %>
+        <%= form_for stu, :class => "stu-form#{stu.id}" do |f| %>
+          <table>
+            <tr>
+              <th><%= f.label(:presumed_status, "Presumed Status") %></th>
+              <th><%= f.select(:presumed_status, Student::PROG_STATUES, {:prompt => 'Select a status'}) %></th>
+            </tr>
+
+            <tr>
+              <th><%= f.label(:presumed_status_comment, "Comments") %></th>
+              <td><%= f.text_area(:presumed_status_comment, :size => '30x10') %></td>
+            </tr>
+
+          </table>
+
+
+          <div class="modal-footer">
+            <div class="btn btn-primary submit-btn" data-val="<%= stu.id%>" >
+              <span class="glyphicon glyphicon-floppy-disk"></span>
+            </div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         <% end %>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
