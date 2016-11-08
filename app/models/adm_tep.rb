@@ -52,6 +52,7 @@ class AdmTep < ActiveRecord::Base
 
   # validates_uniqueness_of :Program_ProgCode, scope: [:student_id],
   #   :if => TEPAdmit != false, # can't be accepted or pending (true or nil)
+  #   # conditions: -> {where.TEPAdmit = true},
   #   :message => "Student must not be admitted to the same program more than once."
     
   

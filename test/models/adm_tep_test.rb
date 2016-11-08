@@ -96,6 +96,15 @@ class AdmTepTest < ActiveSupport::TestCase
     :TEPAdmitDate => "1900-02-02 00:00:00", :GPA => 4.0, :GPA_last30 => 4.0, :EarnedCredits => 30}
     app.valid?
   end
+  
+  test "Unique Programs for AdmTep" do 
+    stu = Student.first.id
+    app = FactoryGirl.create :adm_tep, {:student_id => stu, :Program_ProgCode => program.first}
+    app2 = FactoryGirl.create :adm_tep, {:student_id => stu, :Program_ProgCode => program.first}
+    letter = attach_letter(app)
+    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
+    app2.valid?
+  end
 
   test "scope open" do
     stu = AdmTep.admitted.first.student
