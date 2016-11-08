@@ -27,13 +27,74 @@ class AdmTepTest < ActiveSupport::TestCase
     assert_equal(admit_count, AdmTep.where("TEPAdmit = ?", true).size)
   end
   
-  test "Same Programs for AdmTep" do 
+  test "AdmTep False for same program" do 
     stu = FactoryGirl.create :admitted_student
-    program = Program.first.id
+    program = stu.adm_tep.first.program.id
     banner = BannerTerm.first.id
-    app = FactoryGirl.create :adm_tep, {:student_id => stu.id, :Program_ProgCode => program, :BannerTerm_BannerTerm => banner}
+    stu_file = FactoryGirl.create :student_file
+    @app = AdmTep.new({:student_id => stu.id, 
+      :Program_ProgCode => program, 
+      :BannerTerm_BannerTerm => banner, 
+      :student_file_id => stu_file.id,
+      :TEPAdmit => false
+      })
+    puts @app.class
+    assert @app.valid?, app.errors.full_messages
+      #assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
+  end
+  
+  # describe "multiple applications" do
+    
+  #   before do
+  #     stu = FactoryGirl.create :admitted_student
+  #     program = stu.adm_tep.first.program.id
+  #     banner = BannerTerm.first.id
+  #     @app_skeleton = FactoryGirl.attributes_for :adm_tep, {:student_id => stu.id, 
+  #     :Program_ProgCode => program, 
+  #     :BannerTerm_BannerTerm => banner, 
+  #     :student_file_id => (FactoryGirl.build :student_file).id
+  #     }
+  #   end
+    
+  #   [true, false, nil].each do |second_result|
+  #       test "second application: #{second_result.to_s}" do
+          
+  #         @app_skeleton.merge!({:TEPAdmit => second_result})
+  #         AdmTep.attributes_for @app_skeleton
+          
+  #         if second_result == true 
+  #           assert_not app.valid?, app.errors.full_messages
+  #           assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
+  #         elsif second_result == false
+  #           assert app.valid?
+  #         elsif second_result ==  nil
+  #           assert_not app.valid?, app.errors.full_messages
+  #           assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
+  #         end
+  #           # alter app to the state you need (hint use second_result)
+  #           # make your assertions (they will differ based on what second_result is)
+  #       end
+  #   end
+    
+  # end
+  
+  # test "Same Programs for AdmTep" do 
+  #   stu = FactoryGirl.create :admitted_student
+  #   program = stu.adm_tep.first.program.id
+  #   banner = BannerTerm.first.id
+  #   app = FactoryGirl.build :adm_tep, {:student_id => stu.id, :Program_ProgCode => program, :BannerTerm_BannerTerm => banner}
+  #   assert_not app.valid?, app.errors.full_messages
+  #   assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
+  # end
+
+  test "Two unique programs with different banner terms" do
+    stu = FactoryGirl.create :admitted_student
+    program = Program.last.id
+    #write code so that it finds a program that hasn't been used. Instead of relying on .first or .last
+    banner = BannerTerm.first.id
+    app = FactoryGirl.create :adm_tep, {:student_id => stu.id, :Program_ProgCode => program, :BannerTerm_BannerTerm => banner, 
+    :TEPAdmitDate => "1900-02-02 00:00:00", :GPA => 4.0, :GPA_last30 => 4.0, :EarnedCredits => 30}
     app.valid?
-    assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
   end
 
   test "scope open" do

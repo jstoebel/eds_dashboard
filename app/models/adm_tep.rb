@@ -50,9 +50,9 @@ class AdmTep < ActiveRecord::Base
   validates_presence_of :Program_ProgCode,
     :message => "No program selected."
 
-  validates_uniqueness_of :Program_ProgCode, scope: [:student_id],
-    conditions: -> {where.not(TEPAdmit: false)},
-    :message => "Student must not be admitted to the same program more than once."
+  # validates_uniqueness_of :Program_ProgCode, scope: [:student_id],
+  #   :if => TEPAdmit != false, # can't be accepted or pending (true or nil)
+  #   :message => "Student must not be admitted to the same program more than once."
     
   
   validates_presence_of :BannerTerm_BannerTerm,
@@ -97,7 +97,8 @@ class AdmTep < ActiveRecord::Base
   def complex_validations
     # these only run if all simple validations passed
     validations = [:admit_date_too_early, :admit_date_too_late, :bad_praxisI,
-      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision
+      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision, :uniqueness_of_second_program
+      
     ]
 
     validations.each do |v|
@@ -108,6 +109,20 @@ class AdmTep < ActiveRecord::Base
   def admit_date_too_early
     if self.TEPAdmitDate.present? && self.TEPAdmitDate < self.banner_term.StartDate
       self.errors.add(:TEPAdmitDate, "Admission date must be after term begins.")
+    end
+  end
+  
+  def uniqueness_of_second_program
+    stu = self.student
+    # all of the student's adm_tep, where TEPAdmit = true or nil -> pull out program codes of each of these
+    current_programs = stu.adm_tep.where("TEPAdmit = 1 or TEPAdmit is null").pluck("Program_ProgCode")
+     # program codes with a TEPAdmit = true or nil. for each adm_tep the student has, 
+    # if this one isn't false and its program code is in current_programs add the error
+    
+    # arr.includes? element -> element in arr 
+    
+    if current_programs.include? self.Program_ProgCode
+      self.errors.add(:Program_ProgCode, "This student already has an accepted or pending application to this program")
     end
   end
 
