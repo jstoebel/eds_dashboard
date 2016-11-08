@@ -178,7 +178,7 @@ class StudentsControllerTest < ActionController::TestCase
         test "redirects to access_denied" do
           new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
           patch :update_presumed_status, :student_id => @stu.id, :student => new_params
-          assert_redirected_to "/access_denied"
+          assert_response :unprocessable_entity
         end # test
 
       end # describe

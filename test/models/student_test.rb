@@ -862,7 +862,7 @@ class StudentTest < ActiveSupport::TestCase
 			@stu = FactoryGirl.create :student
 		end
 
-		["prospective", "not applying", "candidate", "dropped", "completer", nil].each do |status|
+		["Prospective", "Not Applying", "Candidate", "Dropped", "Completer", nil].each do |status|
 
 			test "allows value: #{status}" do
 				@stu.presumed_status = status

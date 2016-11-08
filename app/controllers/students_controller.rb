@@ -32,7 +32,7 @@
 class StudentsController < ApplicationController
 
   layout 'application'
-  authorize_resource
+  skip_authorize_resource :only => :update_presumed_status
   respond_to :html, :json
   def index
     all_students = Student.all.by_last
