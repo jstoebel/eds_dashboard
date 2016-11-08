@@ -12,6 +12,8 @@ Ruby version: 2.1, Rails Version 4.1
 
 install dependencies `bundle install`
 
+if your machine doesn't have Oracle installed, use 'bundle install --without cs_c9_exclude'
+
 This app does not ship with a database.yml file. Several folks on our team
 develop in a cloud based environment and have specific requirements for
 database configuration. If you want to set up a minimal development environment
