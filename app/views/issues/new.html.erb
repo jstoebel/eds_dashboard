@@ -7,39 +7,13 @@
 
   <%= form_for(:issue, :url => student_issues_path(@student.AltID) ) do |f| %>
 	<h2>Open Advisor Note for <%=@student.name_readable%></h2>
-  	<%= error_messages_for(@issue) %>
+    <%= render(partial: 'form', locals: {f: f}) %>
 
-	<table summary="Issue form fields">
-
-	  <tr>
-	    <th><%= f.label(:Name, "Name") %> </th>
-	    <td><%= f.text_field(:Name) %></td>
-	  </tr>
-
-	  <tr>
-	    <th><%= f.label(:Description, "Description") %></th>
-	    <td> <%= f.text_area(:Description, :size => '30x10') %> </td>
-	  </tr>
-
-    <tr>
-        <th><%= f.label(:positive, "Is this a positive note?") %></th>
-        <td> <%= f.check_box(:positive, ) %> </td>
-    </tr>
-
-
-  	<tr>
-	<th></th>
-	<td>
-    <div class="form-buttons">
-      <%= submit_tag("Open Issue") %>
-
-
-	</td>
-	</tr>
-    </div>	
-	</table>
-
-
+    <%= fields_for :issue_update, @update do |update| %>
+      <th><%= update.label(:status, "Status of Issue") %></th>
+      <td> <%= update.select(:status, IssueUpdate::STATUSES.keys,
+      {prompt: "Select a status"}) %> </td>
+    <% end %>
 
   <% end %>
 </div>

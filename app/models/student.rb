@@ -437,7 +437,7 @@ class Student < ActiveRecord::Base
     options = defaults.merge(options)
 
 		# filter out courses with no posted grade and order with most recent first then with most valuable courses first
-		courses = self.transcripts.where("grade_ltr is not null").order(term_taken: :desc).order!(quality_points: :desc)
+		courses = self.transcripts.where("grade_ltr is not null").where(:gpa_include => true).order(term_taken: :desc).order!(quality_points: :desc)
 
 		#filter by term if one is given
 		courses = courses.where("term_taken <= ?", options[:term]) if options[:term]
@@ -500,7 +500,11 @@ class Student < ActiveRecord::Base
 
 	##########################################################################
 
-
+	def tep_instructors
+		# all tep_advisors (not nessarily assigned to student) that are instructors
+		# of student
+		return TepAdvisor.all.select{|adv| self.is_student_of?(adv.AdvisorBnum)}
+	end
 
 	####~~~Enrollment Methods~~~##############################################
 
@@ -513,8 +517,6 @@ class Student < ActiveRecord::Base
 	end
 
 	##########################################################################
-
-
 
 ############################################################################################################
 

@@ -455,6 +455,49 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
         assert_equal "A", row_service.course.course_section
     end
 
-  end
+    test "irregular course code" do
+      @inter_row.merge!({
+          'SZVEDSD_COURSE' => "GSTRRR 110 - A strange course code",
+        })
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal "GSTRRR110", row_service.course.course_code
+
+    end
+
+    test "irregular course code no dash" do
+      # very strange format for course, there isn't even a dash seperating the course code and name
+      @inter_row.merge!({
+          'SZVEDSD_COURSE' => "strangecourse",
+        })
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal "strangecourse", row_service.course.course_code
+
+    end
+
+    describe "gpa_include" do
+
+      ["Include", "Include in GPA Only", "something strange", nil].each do |val|
+
+        test "true value: #{val.to_s}" do
+          @inter_row["SZVEDSD_GPA_IND"] = val
+          row_service = ProcessStudent.new @inter_row
+          row_service.upsert_course
+          assert_equal true, row_service.course.gpa_include
+        end
+
+      end # loop
+
+      test "false value: Exclude" do
+        @inter_row["SZVEDSD_GPA_IND"] = "exclude"
+        row_service = ProcessStudent.new @inter_row
+        row_service.upsert_course
+        assert_equal false, row_service.course.gpa_include
+      end
+
+    end # describe
+
+  end # upsert transcript
 
 end

@@ -1,21 +1,29 @@
-<%=# error_messages_for(@subject) %>
+<%= error_messages_for(@issue) %>
 
 <table summary="Issue form fields">
+
   <tr>
-    <th><%= f.label(:name, "Name") %> </th>
-    <td><%= f.text_field(:name) %></td>
-  </tr>
-  <tr>
-    <th><%= f.label(:position, "Position") %></th>
-    <td> <%= f.select(:position, 1..@subject_count) %> </td>
-  </tr>
-  <tr>
-    <th><%= f.label(:visable, "Visible") %></th>
-    <td><%= f.check_box(:visable) %></td>
+    <th><%= f.label(:Name, "Issue Title") %> </th>
+    <td><%= f.text_field(:Name) %></td>
   </tr>
 
   <tr>
-    <th><%= f.label(:created_at, "Created At") %></th>
-    <td><%= f.datetime_select(:created_at, :order => [:month, :day, :year]) %></td>
+    <th><%= f.label(:Description, "Issue Description") %></th>
+    <td> <%= f.text_area(:Description, :size => '30x10') %> </td>
   </tr>
+
+  <tr>
+    <th><%= f.label(:disposition_id, "Related Disposition") %></th>
+    <td> <%= f.select(:disposition_id, @dispositions.map {|d| ["(#{d.code}) #{truncate(d.description)}", d.id]},
+    {prompt: "Select a disposition"}) %></td>
+  </tr>
+
+    <tr>
+      <th></th>
+      <td>
+        <div class="form-buttons">
+          <%= submit_tag("Open Issue") %>
+      </td>
+    </tr>
+  </div>
 </table>

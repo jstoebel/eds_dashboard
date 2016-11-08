@@ -20,15 +20,9 @@ passenger.*.pid.lock
 
 #seed data that can't go into the repo
 /db/seed/secure_seed/*
-
-<<<<<<< HEAD
-
-=======
 # per IS&S we are not permitted to store deploy info in source control
 Capfile
 config/deploy.rb
->>>>>>> 092ab3d6e21319898d8a9d2c7c1242610b79594a
-
 #not checking in database.yaml since different deployments need to configure it differently (c9.io users)
 config/database.yml
 
@@ -59,5 +53,9 @@ entrance_exit_FIXED.csv
 
 # only .rb and .rake in lib/tasks/reports
 lib/tasks/reports/**
+lib/**/*.csv
 !lib/tasks/reports/**/*.rb
 !lib/tasks/reports/**/*.rake
+
+config/chef/nodes/*
+!config/chef/nodes/example.json
