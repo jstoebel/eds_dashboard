@@ -56,26 +56,20 @@ class StudentsController < ApplicationController
 
   def update_presumed_status
 
-    render :json => {:message => "game over!"}, :status => :unprocessable_entity
-    return
-
     @student = Student.find params[:student_id]
-    # puts "*"*50
-    # puts @student.inspect
-    # puts can? :manage, @student
-    # puts "*"*50
     begin
-      authorize! :manage, @student
+      authorize! :write, @student
     rescue CanCan::AccessDenied => e
       render :json => {:message => e.message}, :status => :unprocessable_entity
       return
     end
 
-    @student.assign_attributes! params.require(:student).permit(:presumed_status, :presumed_status_comment)
+    @student.assign_attributes params.require(:student).permit(:presumed_status, :presumed_status_comment)
     if @student.save
       render :json => @student, status: :created
       return
     else
+      puts @student.errors.full_messages
       render :json => {:message => @student.errors.full_messages}, :status => :unprocessable_entity
       return
     end

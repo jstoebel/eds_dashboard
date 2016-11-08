@@ -132,4 +132,37 @@ class StudentsControllerTest < ActionController::TestCase
     end
   end
 
+  describe "update presumed status" do
+
+    before do
+      @stu = FactoryGirl.create :student
+    end
+
+    ["admin", "staff"].each do |r|
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+        end
+
+        test "updates student" do
+          new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
+          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          assert_response :success
+          stu = Student.find @stu.id
+          new_params.each do |key, value|
+            assert_equal value, stu.send(key)
+          end
+
+        end
+
+        test "doesn't update student" do
+
+        end
+
+      end
+    end
+
+  end
+
 end

@@ -8,10 +8,11 @@ var updateStatus = function(stuID, status, comment) {
             url: `/students/${stuID}/update_presumed_status`,
             data: {authenticity_token : AUTH_TOKEN, student: {presumed_status: status, presumed_status_comment: comment } },
             success: function(data){
-                resolve(dataType);
+                resolve(data);
             },
-            error: function(data){
-                reject(data);
+            error: function(xhr, textStatus, errorThrown){
+              var json = $.parseJSON(xhr.responseText);
+              reject(json);
             }
         })
     })
@@ -20,12 +21,9 @@ var updateStatus = function(stuID, status, comment) {
 
 
 $(document).ready(function(){
-  console.log("hi from students!")
 
   $(".submit-btn").on("click", function(event){
-    console.log("clicked");
     var stuID = $(this).data('val');
-    console.log(stuID);
     var form = $('#edit_student_'+stuID)
 
     var dataArr = form.serializeArray();
@@ -37,7 +35,6 @@ $(document).ready(function(){
     var status = values["student[presumed_status]"]
     var comment = values["student[presumed_status_comment]"]
     updateStatus(stuID, status, comment).then(function(response){
-      console.log("success!")
       var footer = $(".modal-footer")
       var confirm = $('<span class="glyphicon glyphicon-ok-sign glyphicon-ok"></span>')
       //alert alert-success
@@ -46,8 +43,8 @@ $(document).ready(function(){
         this.remove()
       })
 
-    }).catch(function(data){
-      console.log(data.response)
+    }).catch(function(json){
+      alert(json.message)
     })
   })
 

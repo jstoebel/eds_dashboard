@@ -21,7 +21,7 @@ class Ability
       end
 
       can :manage, [ClinicalTeacher, ClinicalSite]
-
+      can :write, Student
       can :read, [Student, PraxisResult, PraxisSubtestResult] do |resource|
         advisor_check(user, resource)
       end

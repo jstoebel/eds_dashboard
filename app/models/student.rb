@@ -80,8 +80,8 @@ class Student < ActiveRecord::Base
 	"Music Education Vocal Emphasis",
 	"Health and Human Performance, P-12"]
 
-	PROG_STATUES = ["prospective", "not applying", "candidate",
-		"dropped", "completer"]
+	PROG_STATUES = ["Prospective", "Not Applying", "Candidate",
+		"Dropped", "Completer"]
 ##############################################################################
 
 ####~~~VALIDATIONS~~~##################################################
