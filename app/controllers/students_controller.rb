@@ -69,7 +69,6 @@ class StudentsController < ApplicationController
       render :json => @student, status: :created
       return
     else
-      puts @student.errors.full_messages
       render :json => {:message => @student.errors.full_messages}, :status => :unprocessable_entity
       return
     end
