@@ -616,6 +616,12 @@ class StudentTest < ActiveSupport::TestCase
 			assert_equal 0, stu.gpa
 		end
 
+		test "ignores course with gpa_include==false" do
+			excluded_course = FactoryGirl.create :transcript, :gpa_include => false
+
+			assert_equal @first_course.grade_pt, @stu.gpa
+		end
+
 	end # describe test
 
 	describe "credits" do
@@ -848,5 +854,22 @@ class StudentTest < ActiveSupport::TestCase
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus], stu.errors.keys
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus].map{|i| [i, ["can't be blank"]]}.to_h,
 	    stu.errors.messages
+	end
+
+	test "tep_instructors" do
+		@stu = FactoryGirl.create :student
+		advs = FactoryGirl.create_list :tep_advisor, 3
+
+		# make student a current student of each adv
+		term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+		advs.each{|adv| FactoryGirl.create :transcript,
+			{:instructors => "InstFirst InstLast {#{adv.AdvisorBnum}}",
+				:student_id => @stu.id,
+				:term_taken => term.id
+			}
+		}
+
+		assert_equal 3, @stu.tep_instructors.size
+		assert_equal advs, @stu.tep_instructors
 	end
 end

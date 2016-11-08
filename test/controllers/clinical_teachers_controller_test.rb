@@ -2,15 +2,19 @@
 #
 # Table name: clinical_teachers
 #
-#  id               :integer          not null, primary key
-#  Bnum             :string(45)
-#  FirstName        :string(45)       not null
-#  LastName         :string(45)       not null
-#  Email            :string(45)
-#  Subject          :string(45)
-#  clinical_site_id :integer          not null
-#  Rank             :integer
-#  YearsExp         :integer
+#  id                  :integer          not null, primary key
+#  Bnum                :string(45)
+#  FirstName           :string(45)       not null
+#  LastName            :string(45)       not null
+#  Email               :string(45)
+#  Subject             :string(45)
+#  clinical_site_id    :integer          not null
+#  Rank                :integer
+#  YearsExp            :integer
+#  begin_service       :datetime
+#  epsb_training       :datetime
+#  ct_record           :datetime
+#  co_teacher_training :datetime
 #
 
 require 'test_helper'
@@ -43,19 +47,19 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get update" do
+  test "should post update" do
     allowed_roles.each do |r|
       load_session(r)
-      teacher = ClinicalTeacher.first
-      teacher.FirstName = "new first name"
+      teacher = FactoryGirl.create :clinical_teacher
 
-      update_params = {:FirstName => teacher.FirstName}
+      update_params = {:FirstName => "new name"}
+      teacher.assign_attributes update_params
 
       #post!
       post :update, {:id => teacher.id, :clinical_teacher => update_params}
       assert_redirected_to clinical_teachers_path
       assert_equal assigns(:teacher), teacher
-      assert_equal flash[:notice], "Updated Teacher #{teacher.FirstName} #{teacher.LastName}."
+      assert_equal flash[:notice], "Updated Teacher #{assigns(:teacher).FirstName} #{assigns(:teacher).LastName}."
     end
   end
 
@@ -63,7 +67,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
     #test what happens when the record can't be saved
 
     load_session("admin")
-    teacher = ClinicalTeacher.first
+    teacher = FactoryGirl.create :clinical_teacher
     teacher.FirstName = nil
 
     update_params = {:FirstName => teacher.FirstName}
@@ -89,26 +93,17 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
 
       load_session(r)
 
-      site = ClinicalSite.first
-
-      new_params = {
-        :Bnum => "B00123456",
-        :FirstName => "test first",
-        :LastName => "test last",
-        :Email => "test@email.com",
-        :Subject => "test subject",
-        :clinical_site_id => site.id,
-        :Rank => "3",
-        :YearsExp => "1"
-      }
-
+      site = FactoryGirl.create :clinical_site
+      new_params = FactoryGirl.attributes_for :clinical_teacher, :clinical_site_id => site.id
+    
       post :create, {:clinical_teacher => new_params}
+      assert assigns(:teacher).valid?, assigns(:teacher).errors.full_messages
       assert_redirected_to clinical_teachers_path
-
       expected_teacher = ClinicalTeacher.create(new_params)
+      
       actual_teacher = assigns(:teacher)
-
-      py_assert flash[:notice], "Created new teacher #{expected_teacher.FirstName} #{expected_teacher.LastName}."
+      assert_equal actual_teacher.attributes.delete(:id), expected_teacher.attributes.delete(:id)
+      assert_equal flash[:notice], "Created new teacher #{expected_teacher.FirstName} #{expected_teacher.LastName}."
 
     end
   end
@@ -117,18 +112,8 @@ test "should not post create bad params" do
 
     load_session("admin")
 
-    site = ClinicalSite.first
-
-    new_params = {
-      :Bnum => "bad bnum!",
-      :FirstName => "test first",
-      :LastName => "test last",
-      :Email => "test@email.com",
-      :Subject => "test subject",
-      :clinical_site_id => site.id,
-      :Rank => "3",
-      :YearsExp => "1"
-    }
+    site = FactoryGirl.create :clinical_site
+    new_params = FactoryGirl.attributes_for :clinical_teacher # Won't make an attribute for clinical site and will fail
 
     post :create, {:clinical_teacher => new_params}
     assert_response :success

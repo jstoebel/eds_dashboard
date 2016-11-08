@@ -19,7 +19,6 @@ var toggleState = function(updateId, newState) {
 }
 
 $(document).ready(function(){
-
     //render switches
     $(".bs-switch.switch-on").bootstrapSwitch('state', true);
     // // $(".bs-switch.switch-on").bootstrapSwitch('OnColor', 'info')

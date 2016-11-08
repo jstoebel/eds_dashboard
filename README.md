@@ -1,11 +1,15 @@
 ## EDS Dashboard
 
+
+
 An advisor dashboard for Berea College's Teacher Education Program
 
 ### Versions
 Ruby version: 2.1, Rails Version 4.1
 
 ### Configuration
+
+
 install dependencies `bundle install`
 
 This app does not ship with a database.yml file. Several folks on our team

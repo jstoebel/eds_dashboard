@@ -107,12 +107,25 @@ class ProcessStudent
      course_raw = @row['SZVEDSD_COURSE']    # looks like this SOC 220X  - Social Problems
      delim = course_raw.index('-')
 
-     code_section, course_name = [course_raw[0..delim-1], course_raw[delim + 1..-1]].map{|i| i.strip}
+     begin
+       code_section, course_name = [course_raw[0..delim-1], course_raw[delim + 1..-1]].map{|i| i.strip}
+     rescue NoMethodError => e
+       # fall back in the case of very strange courses
+       code_section = course_raw
+       course_name = nil
+     end
+
      code_section.gsub!(" ", "")  #course code should look like "SOC220X"
      code_sec_match = /^(?<course_code>[A-Z]{3,4}[0-9]{3})(?<section>.*)$/.match(code_section)
 
-     course_code = code_sec_match[:course_code]
-     course_section = code_sec_match[:section]
+     # if parse was successful assign code and section otherwise dump it all into course code
+     if code_sec_match.present?
+       course_code = code_sec_match[:course_code]
+       course_section = code_sec_match[:section]
+     else
+       course_code = code_section
+       course_section = nil
+     end
 
      grade_ltr = @row['SZVEDSD_GRADE']
      grade_pt = Transcript.l_to_g(grade_ltr)
@@ -131,7 +144,7 @@ class ProcessStudent
         :credits_earned => @row['SZVEDSD_CREDITS_EARNED'],
         :reg_status => @row['SZVEDSD_REGISTRATION_STAT'],
         :instructors => @row['SAVEDSD_INSTRUCTOR'], # example format FirstName LastName {B00123456}; FirstName LastName {B00687001}
-        :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'include' ? true : false
+        :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'exclude' ? false : true
       })
 
 
