@@ -26,7 +26,7 @@ FactoryGirl.define do
       codes = PraxisTest.all.pluck :TestCode
       while true do
         random_code =  Number.between(1,1000)
-        break if !codes.include? random_code
+        break if !codes.include? random_code.to_s
       end
       random_code
     end
