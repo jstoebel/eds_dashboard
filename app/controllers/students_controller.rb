@@ -32,7 +32,7 @@
 class StudentsController < ApplicationController
 
   layout 'application'
-  skip_authorize_resource :only => :update_presumed_status
+  skip_authorize_resource :only => [:update_presumed_status]
   respond_to :html, :json
   def index
     all_students = Student.all.by_last
@@ -51,7 +51,7 @@ class StudentsController < ApplicationController
 
   def show
     @student = Student.find params[:id]
-    authorize! :manage, @student
+    authorize! :read, @student
   end
 
   def update_presumed_status
