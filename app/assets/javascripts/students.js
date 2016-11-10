@@ -5,7 +5,7 @@ var updateStatus = function(stuID, status, comment) {
         $.ajax({
             type: "PATCH",
             dataType: "json",
-            url: `/students/${stuID}/update_presumed_status`,
+            url: "/students/" + stuID + "/update_presumed_status",
             data: {authenticity_token : AUTH_TOKEN, student: {presumed_status: status, presumed_status_comment: comment } },
             success: function(data){
                 resolve(data);
