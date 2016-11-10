@@ -23,23 +23,22 @@ RailsAdmin.config do |config|
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar true
 
-  # config.authorize_with do
-  #   # puts session
-  #   puts "*"*50
-  #   user = User.find_by :UserName => session[:user]
-  #   puts user.is? "admin"
-  #   puts "*"*50
-  #
-  #   if !(user.is? "admin")
-  #     raise "access denied"
-  #   end
-  #
-  #   # redirect_to "/access_denied" # unless current_user.is? "admin"
-  # end
+  config.authorize_with do
+    # # puts session
+    # puts "*"*50
+    # puts user.is? "admin"
+    # puts "*"*50
+    #
+    # if !(user.is? "admin")
+    #   raise "access denied"
+    # end
+    user = User.find_by :UserName => session[:user]
+    redirect_to "/access_denied" unless user.is? "admin"
+  end
   # config.current_user_method(&:current_user)
-
-  config.authorize_with :cancancan #TODO add cancancan to rails_admin config
-  config.current_user_method { current_user }
+  #
+  # config.authorize_with :cancancan #TODO add cancancan to rails_admin config
+  # config.current_user_method { current_user }
 
   config.excluded_models = ["Access", "Report"]
 
