@@ -26,6 +26,7 @@
 #  hispanic         :boolean
 #  term_expl_major  :integer
 #  term_major       :integer
+#  presumed_status  :string(255)
 #
 
 require 'test_helper'
@@ -130,5 +131,59 @@ class StudentsControllerTest < ActionController::TestCase
       assert_redirected_to "/access_denied"
     end
   end
+
+  describe "update presumed status" do
+
+    before do
+      @stu = FactoryGirl.create :student
+    end
+
+    ["admin", "staff"].each do |r|
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+        end
+
+        test "updates student" do
+          new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
+          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          assert_response :success
+          stu = Student.find @stu.id
+          new_params.each do |key, value|
+            assert_equal value, stu.send(key)
+          end
+
+        end
+
+        test "doesn't update student" do
+          new_params = {presumed_status: "bad status", presumed_status_comment: "spam" }
+          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          assert_response :unprocessable_entity
+          stu = Student.find @stu.id
+          new_params.each do |key, value|
+            assert_not_equal value, stu.send(key)
+          end
+        end
+
+      end # as
+    end # loop
+
+
+    ["advisor", "student labor"].each do |r|
+      describe "as #{r}" do
+        before do
+          load_session(r)
+        end
+        test "redirects to access_denied" do
+          new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
+          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          assert_response :unprocessable_entity
+        end # test
+
+      end # describe
+    end # loop
+
+  end # outer describe
 
 end

@@ -26,12 +26,13 @@
 #  hispanic         :boolean
 #  term_expl_major  :integer
 #  term_major       :integer
+#  presumed_status  :string(255)
 #
 
 class StudentsController < ApplicationController
 
   layout 'application'
-  authorize_resource
+  skip_authorize_resource :only => :update_presumed_status
   respond_to :html, :json
   def index
     all_students = Student.all.by_last
@@ -50,7 +51,27 @@ class StudentsController < ApplicationController
 
   def show
     @student = Student.find params[:id]
-    authorize! :show, @student
+    authorize! :manage, @student
+  end
+
+  def update_presumed_status
+
+    @student = Student.find params[:student_id]
+    begin
+      authorize! :write, @student
+    rescue CanCan::AccessDenied => e
+      render :json => {:message => e.message}, :status => :unprocessable_entity
+      return
+    end
+
+    @student.assign_attributes params.require(:student).permit(:presumed_status, :presumed_status_comment)
+    if @student.save
+      render :json => @student, status: :created
+      return
+    else
+      render :json => {:message => @student.errors.full_messages}, :status => :unprocessable_entity
+      return
+    end
   end
 
 end

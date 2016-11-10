@@ -21,7 +21,6 @@ class Ability
       end
 
       can :manage, [ClinicalTeacher, ClinicalSite]
-
       can :read, [Student, PraxisResult, PraxisSubtestResult] do |resource|
         advisor_check(user, resource)
       end
@@ -29,8 +28,10 @@ class Ability
     elsif user.is? "staff"
       can :manage, [AdmSt, AdmTep, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher,
         Employment, Foi, ProgExit, StudentFile]
+      can :write, Student
       can [:index, :create, :update, :delete, :destroy], PraxisResult
       can :read, [Student]
+
     elsif user.is? "student labor"
       can :index, Student
       can :manage, [ClinicalAssignment, ClinicalTeacher, ClinicalSite]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031204634) do
+ActiveRecord::Schema.define(version: 20161102202026) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -433,29 +433,31 @@ ActiveRecord::Schema.define(version: 20161031204634) do
   add_index "student_scores", ["student_id"], name: "fk_rails_076846734f", using: :btree
 
   create_table "students", force: :cascade do |t|
-    t.string  "Bnum",             limit: 9,     null: false
-    t.string  "FirstName",        limit: 45,    null: false
-    t.string  "PreferredFirst",   limit: 45
-    t.string  "MiddleName",       limit: 45
-    t.string  "LastName",         limit: 45,    null: false
-    t.string  "PrevLast",         limit: 45
-    t.string  "EnrollmentStatus", limit: 45
-    t.string  "Classification",   limit: 45
-    t.string  "CurrentMajor1",    limit: 45
-    t.string  "concentration1",   limit: 255
-    t.string  "CurrentMajor2",    limit: 45
-    t.string  "concentration2",   limit: 255
-    t.string  "CellPhone",        limit: 45
-    t.string  "CurrentMinors",    limit: 255
-    t.string  "Email",            limit: 100
-    t.string  "CPO",              limit: 45
-    t.text    "withdraws",        limit: 65535
-    t.integer "term_graduated",   limit: 4
-    t.string  "gender",           limit: 255
-    t.string  "race",             limit: 255
+    t.string  "Bnum",                    limit: 9,     null: false
+    t.string  "FirstName",               limit: 45,    null: false
+    t.string  "PreferredFirst",          limit: 45
+    t.string  "MiddleName",              limit: 45
+    t.string  "LastName",                limit: 45,    null: false
+    t.string  "PrevLast",                limit: 45
+    t.string  "EnrollmentStatus",        limit: 45
+    t.string  "Classification",          limit: 45
+    t.string  "CurrentMajor1",           limit: 45
+    t.string  "concentration1",          limit: 255
+    t.string  "CurrentMajor2",           limit: 45
+    t.string  "concentration2",          limit: 255
+    t.string  "CellPhone",               limit: 45
+    t.string  "CurrentMinors",           limit: 255
+    t.string  "Email",                   limit: 100
+    t.string  "CPO",                     limit: 45
+    t.text    "withdraws",               limit: 65535
+    t.integer "term_graduated",          limit: 4
+    t.string  "gender",                  limit: 255
+    t.string  "race",                    limit: 255
     t.boolean "hispanic"
-    t.integer "term_expl_major",  limit: 4
-    t.integer "term_major",       limit: 4
+    t.integer "term_expl_major",         limit: 4
+    t.integer "term_major",              limit: 4
+    t.string  "presumed_status",         limit: 255
+    t.text    "presumed_status_comment", limit: 65535
   end
 
   add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree

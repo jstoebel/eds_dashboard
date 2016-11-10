@@ -26,6 +26,7 @@
 #  hispanic         :boolean
 #  term_expl_major  :integer
 #  term_major       :integer
+#  presumed_status  :string(255)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

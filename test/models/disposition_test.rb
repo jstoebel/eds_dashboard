@@ -2,12 +2,12 @@
 #
 # Table name: dispositions
 #
-#  id               :integer          not null, primary key
-#  disp_code        :string(255)
-#  disp_description :text(65535)
-#  current          :boolean
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id          :integer          not null, primary key
+#  code        :string(255)
+#  description :text(65535)
+#  current     :boolean
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 require 'test_helper'
