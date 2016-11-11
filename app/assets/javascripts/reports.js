@@ -3,7 +3,9 @@ $(document).ready(function(){
     columnDefs: [
         { targets: [0, 1, 2], visible: true},
         { targets: '_all', visible: false }
-    ]
+    ],
+    dom: 'B<"clear">lfrtip',
+    buttons: ['csv']
 
   });
   // more on datatables here: https://github.com/rweng/jquery-datatables-rails
@@ -19,5 +21,7 @@ $(document).ready(function(){
     return false;
   });
 
+  // table.buttons().container()
+  //     .appendTo( $('.container-fluid', table.table().container() ) );
 
 })
