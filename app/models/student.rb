@@ -505,7 +505,7 @@ class Student < ActiveRecord::Base
 	####~~~Enrollment Methods~~~##############################################
 
 	def graduated
-		self.EnrollmentStatus == "Graduated"
+		self.EnrollmentStatus == "Graduation"
 	end
 
 	def transfered
