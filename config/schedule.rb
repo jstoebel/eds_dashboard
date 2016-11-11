@@ -5,6 +5,7 @@
 # http://github.com/javan/whenever/wiki/Output-redirection-aka-logging-your-cron-jobs
 
 set :output, 'log/production.log'
+set :path, "~/eds_dashboard/current"
 env :PATH, ENV['PATH']
 
 every 1.day, :at => '3:30 am' do
