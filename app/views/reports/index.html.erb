@@ -22,7 +22,8 @@
     "Completed 227/228",
     "Term completing 227",
     "Term completing 227",
-    "EDS440 or EDS470"
+    "EDS440 or EDS470",
+    "Advisors"
   ] %>
 
   <%= render(partial: "dropdown_checks",
@@ -59,6 +60,7 @@
         <td><%= stu[:Latest_Completion_227]%></td>
         <td><%= stu[:Latest_Completion_228]%></td>
         <td><%= stu[:Latest_Term_EDS440_470]%></td>
+        <td><%= stu[:advisors]%></td>
       </tr>
       <% end %>
     </tbody>
