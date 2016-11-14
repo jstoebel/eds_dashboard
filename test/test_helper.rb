@@ -60,6 +60,7 @@ class ActiveSupport::TestCase
     #role: name of role to be loaded (string)
     role = Role.where(RoleName: r).first
     user = User.where(Roles_idRoles: role.idRoles).first
+    puts session[:user]
     session[:user] = user.UserName
     session[:role] = role.RoleName
   end
