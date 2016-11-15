@@ -33,7 +33,7 @@ RailsAdmin.config do |config|
       raise "unknown enviornment: #{Rails.env}"
     end
     user = User.find_by :UserName => user_name
-    redirect_to "/access_denied" unless user.is? "admin"
+    redirect_to "/access_denied" if [!user.andand.is?("admin") || user.nil?].any?
   end
 
   config.excluded_models = ["Access", "Report"]

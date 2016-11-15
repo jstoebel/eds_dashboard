@@ -10,7 +10,7 @@ class RailsAdminTest < ActionDispatch::IntegrationTest
   end
 
   describe "doesn't get admin" do
-    (all_roles - allowed_roles).each do |r|
+    (all_roles - allowed_roles + [nil]).each do |r|
       test "as #{r}" do
         request_admin(r)
         assert_redirected_to "/access_denied"
@@ -21,8 +21,8 @@ class RailsAdminTest < ActionDispatch::IntegrationTest
   private
   def request_admin(role_name)
     role = Role.find_by :RoleName => role_name
-    admin = User.find_by :Roles_idRoles => role.id
-    get '/admin', env: { "REMOTE_USER" => admin.UserName}
+    user = User.find_by :Roles_idRoles => role.andand.id
+    get '/admin', env: { "REMOTE_USER" => user.andand.UserName}
   end
 
 end
