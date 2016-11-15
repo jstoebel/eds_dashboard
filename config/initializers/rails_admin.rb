@@ -24,21 +24,17 @@ RailsAdmin.config do |config|
   # config.show_gravatar true
 
   config.authorize_with do
-    # # puts session
-    # puts "*"*50
-    # puts user.is? "admin"
-    # puts "*"*50
-    #
-    # if !(user.is? "admin")
-    #   raise "access denied"
-    # end
-    user = User.find_by :UserName => session[:user]
+    # not happy with this solution at the moment. I'd prefer not having to check the env.
+    if ["prodution", "development"].include? Rails.env
+      user_name = session[:username]
+    elsif Rails.env == "test"
+      user_name = request.filtered_parameters["env"]["REMOTE_USER"]
+    else
+      raise "unknown enviornment: #{Rails.env}"
+    end
+    user = User.find_by :UserName => user_name
     redirect_to "/access_denied" unless user.is? "admin"
   end
-  # config.current_user_method(&:current_user)
-  #
-  # config.authorize_with :cancancan #TODO add cancancan to rails_admin config
-  # config.current_user_method { current_user }
 
   config.excluded_models = ["Access", "Report"]
 

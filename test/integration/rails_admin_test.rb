@@ -1,31 +1,28 @@
-require 'test_helper'
+require "test_helper"
 
 class RailsAdminTest < ActionDispatch::IntegrationTest
+  allowed_roles = ["admin"]
+  all_roles = Role.all.pluck :RoleName
 
-  test "spam" do
-    puts session
-    # s = open_session
-    # s.session.data
-
+  test "gets admin" do
+    request_admin("admin")
+    assert_response :success
   end
 
-  # before do
-  #   @session =
-  # end
-  #
-  # describe "as admin" do
-  #   before do
-  #     puts session[:user]
-  #     # role = Role.where(RoleName: "admin").first
-  #     # user = User.where(Roles_idRoles: role.idRoles).first
-  #     # session[:user] = user.UserName
-  #     # session[:role] = role.RoleName
-  #   end
-  #
-  #   test "admin can access" do
-  #     get "/admin"
-  #     assert_response :success
-  #   end
-  # end
+  describe "doesn't get admin" do
+    (all_roles - allowed_roles).each do |r|
+      test "as #{r}" do
+        request_admin(r)
+        assert_redirected_to "/access_denied"
+      end
+    end
+  end
+
+  private
+  def request_admin(role_name)
+    role = Role.find_by :RoleName => role_name
+    admin = User.find_by :Roles_idRoles => role.id
+    get '/admin', env: { "REMOTE_USER" => admin.UserName}
+  end
 
 end
