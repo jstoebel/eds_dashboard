@@ -25,13 +25,17 @@ RailsAdmin.config do |config|
 
   config.authorize_with do
     # not happy with this solution at the moment. I'd prefer not having to check the env.
-    if ["prodution", "development"].include? Rails.env
-      user_name = session[:username]
-    elsif Rails.env == "test"
+    case Rails.env
+    when "production"
+      user_name = session[:user]
+    when "development"
+      user_name = session[:user]
+    when "test"
       user_name = request.filtered_parameters["env"]["REMOTE_USER"]
     else
       raise "unknown enviornment: #{Rails.env}"
     end
+
     user = User.find_by :UserName => user_name
     redirect_to "/access_denied" if [!user.andand.is?("admin") || user.nil?].any?
   end
