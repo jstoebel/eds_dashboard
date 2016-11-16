@@ -24,27 +24,28 @@
   <div class="container-fluid">
 
     <div class="row">    <!-- menu to swap psudo role if user is admin -->
-      <div class="col-xs-12 col-md-3">      <% if session[:role] == 'admin' %>
+      <div class="col-xs-12 col-md-3">
+				<% if session[:role] == 'admin' && Rails.env == "development" %>
 
-        <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
-          Viewing Site As:
-        <% end %>
+	        <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
+	          Viewing Site As:
+	        <% end %>
 
-        <%= form_tag("/access/change_psudo_status") do -%>
-            <p class="navbar-text pull-left">
-            <%= select_tag "view_as",
-                options_for_select(
-                    Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
-                    session[:view_as] #sets the default
-                    ),
-                  {:prompt => "View Site As...",
-                  :class => "form-control",
-                  :onchange => "this.form.submit()"}
-               %>
-            </p>
-          <% end -%>
+	        <%= form_tag("/access/change_psudo_status") do -%>
+	            <p class="navbar-text pull-left">
+	            <%= select_tag "view_as",
+	                options_for_select(
+	                    Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
+	                    session[:view_as] #sets the default
+	                    ),
+	                  {:prompt => "View Site As...",
+	                  :class => "form-control",
+	                  :onchange => "this.form.submit()"}
+	               %>
+	            </p>
+	          <% end -%>
+      	<% end %>
 
-        <% end %>
       </div>
 
       <div class="col-xs-12 col-md-3 col-md-offset-6">
