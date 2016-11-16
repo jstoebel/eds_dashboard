@@ -135,6 +135,7 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   #A resource must be top level before it can be nested in another resource (I think)
   resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do

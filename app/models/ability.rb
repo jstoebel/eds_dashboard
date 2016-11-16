@@ -3,8 +3,11 @@ class Ability
 
   def initialize(user)
 
-
     if user.is? "admin"
+
+      # can :access, :rails_admin       # only allow admin users to access Rails Admin
+      # can :dashboard
+
       can :manage, :all
 
     elsif user.is? "advisor"
