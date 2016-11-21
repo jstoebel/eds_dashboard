@@ -79,7 +79,7 @@ class AdmTepControllerTest < ActionController::TestCase
   test "should get edit" do
 
 
-    app = AdmTep.first
+    app = FactoryGirl.create :adm_tep
     term = app.banner_term
     date = (term.EndDate.to_date)
     travel_to date do
