@@ -1,33 +1,30 @@
----
--
-  name: Art
--
-  name: Biology
--
-  name: Chemistry
--
-  name: Elementary (P-5)
--
-  name: Engineering and Technology
--
-  name: English (8-12)
--
-  name: Math (5-9)
--
-  name: Math (8-12)
--
-  name: Music-Instrumental
--
-  name: Music-Vocal
--
-  name: PE
--
-  name: PE/Health
--
-  name: Physics
--
-  name: Science (5-9)
--
-  name: Social Studies (8-12)
--
-  name: Undecided
+# == Schema Information
+#
+# Table name: majors
+#
+#  id   :integer          not null, primary key
+#  name :string(255)
+#
+
+<% majors = ["Art",
+"Biology",
+"Chemistry",
+"P-5",
+"Engineering and Technology",
+"English (8-12)",
+"5-9 Math",
+"Math (Secondary)",
+"Music-Instrumental",
+"Music-Vocal",
+"PE",
+"PE/Health",
+"Physics",
+"Science (5-9)",
+"Social Studies (8-12)",
+"Undecided"]%>
+
+<% majors.each_with_index do |val, index| %>
+<%= "major_#{index}:" %>
+  name: <%= val %>
+
+<% end %>
