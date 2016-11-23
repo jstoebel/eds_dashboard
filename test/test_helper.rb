@@ -18,13 +18,6 @@ test_secrets = {
 SECRET.merge! test_secrets
 class ActiveSupport::TestCase
 
-  Rake::Task["db:seed"].execute
-  # Rake::Task["db:fixtures:load"].execute
-  fixtures :all
-
-  self.set_fixture_class adm_tep: AdmTep,
-              banner_terms: BannerTerm
-
   # Rails.application.load_seed   #load seed data
 
   def teardown
