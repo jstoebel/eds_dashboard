@@ -121,7 +121,7 @@ FactoryGirl.define do
         app = FactoryGirl.create :adm_tep, {
           :student_id => stu.id,
           :TEPAdmitDate => apply_term.StartDate,
-          :Program_ProgCode => Program.first.id,
+          :Program_ProgCode => (FactoryGirl.create :program).id,
           :BannerTerm_BannerTerm => apply_term.id
         }
       end

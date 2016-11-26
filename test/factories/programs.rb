@@ -12,7 +12,7 @@
 
 FactoryGirl.define do
   factory :program do
-    ProgCode "999"
+    sequence(:ProgCode) { |n| n}
     EPSBProgName "EPSB Name"
     EDSProgName "EDS Name"
     Current true

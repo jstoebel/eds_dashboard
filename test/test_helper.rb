@@ -5,7 +5,6 @@ require 'rails/test_help'
 require 'minitest/unit'
 require 'mocha/mini_test'
 
-
 # mocking out secrets needed in the test suite.
 test_secrets = {
   "APP_EMAIL_DOMAIN" => "test.com",
@@ -54,7 +53,7 @@ class ActiveSupport::TestCase
     #loads up session data with a user
     #role: name of role to be loaded (string)
     role = Role.where(RoleName: r).first
-    user = User.where(Roles_idRoles: role.idRoles).first
+    user = FactoryGirl.create :user, :Roles_idRoles =>  role.id
     session[:user] = user.UserName
     session[:role] = role.RoleName
   end
