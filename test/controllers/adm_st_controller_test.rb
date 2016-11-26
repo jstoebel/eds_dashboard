@@ -197,25 +197,6 @@ class AdmStControllerTest < ActionController::TestCase
     end # roles loop
   end
 
-
- #  test "should get edit" do
- #    allowed_roles.each do |r|
- #      load_session(r)
- #      app = AdmSt.first
- #      get :edit, {:id => app.id}
- #      assert_response :success, "unexpected http response, role=#{r}"
- #      assert_equal assigns(:app), app
- #      assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
- #      assert_equal assigns(:student), Student.find(app.student_id)
- #    end
- #
- #  end
- #
- #  test "should not get edit bad id" do
- #    #should get an error when we pass in a bogus id
- #    load_session("admin")
- #    assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
- #  end
  #
  #  describe "should post update" do
  #    before do
