@@ -1,0 +1,13 @@
+begin_time:
+  BannerTerm: 1
+  PlainTerm: Begin Time
+  StartDate: 1900-01-01 00:00:00.000000000 Z
+  EndDate: 1900-12-30 00:00:00.000000000 Z
+  AYStart: 0
+
+end_time:
+  BannerTerm: 999999
+  PlainTerm: End of Time
+  StartDate: 4712-12-11 00:00:00.000000000 Z
+  EndDate: 4712-12-30 00:00:00.000000000 Z
+  AYStart: 9999

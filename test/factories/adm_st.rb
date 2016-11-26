@@ -27,12 +27,19 @@ FactoryGirl.define do
     #make the adm_st for the same student who has this adm_tep!
     # need to provide Bnum
     #need to provide the BannerTerm_BannerTerm
-    association :student
+    student
+    banner_term
     Attempt 1
     STAdmitted true
-    STAdmitDate Date.today
+    # STAdmitDate Date.today
     OverallGPA 2.75
     CoreGPA 3.0
-    association :student_file, strategy: :build
+    student_file
+    # association :student_file, strategy: :build
+
+    after(:build) do |app|
+      app.STAdmitDate = app.banner_term.StartDate
+    end
+
   end
 end

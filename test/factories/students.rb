@@ -31,6 +31,11 @@
 
 include Faker
 
+make_term = lambda do
+   term FactoryGirl.create :banner_term
+   term.id
+end
+
 FactoryGirl.define do
   factory :student do
 
@@ -59,12 +64,24 @@ FactoryGirl.define do
     Email         {Internet.email}
     CPO           {Number.between(1, 999).to_s}
     withdraws     {Hipster.sentence}
-    term_graduated {BannerTerm.first.id}
+
+    term_graduated do
+       term = FactoryGirl.create :banner_term
+       term.id
+    end
+
     gender         {%w(male female).sample}
     race           {Hipster.word}
     hispanic       {Boolean.boolean}
-    term_expl_major {BannerTerm.first.id}
-    term_major      {BannerTerm.first.id}
+    term_expl_major do
+       term = FactoryGirl.create :banner_term
+       term.id
+    end
+
+    term_major do
+       term = FactoryGirl.create :banner_term
+       term.id
+    end
 
     factory :admitted_student do
 

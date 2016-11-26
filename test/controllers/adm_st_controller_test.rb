@@ -8,46 +8,74 @@ class AdmStControllerTest < ActionController::TestCase
 
   #TESTS FOR PERMITTED USERS (ADMIN AND STAFF)
 
-  test "should get index" do
-    #should be accessible for admin and staff only
-    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+  let(:term_today){FactoryGirl.create :banner_term, {:StartDate => Date.today,
+        :EndDate => Date.today + 10
+      }}
+
+  describe "should get index" do
+
+    before do
+      @term = term_today
+      @apps = FactoryGirl.create_list :adm_st, 5, {:BannerTerm_BannerTerm => term.id}
+    end
 
     allowed_roles.each do |r|
-      load_session(r)
-      get :index
-      assert_response :success, "unexpected http response, role=#{r}"
-      assert_equal assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
-    end
-  end
+      describe "as #{r}" do
+        before do
+          load_session(r)
+        end
 
-  test "should get index with term" do
-    #should be accessible for admin and staff only
-    term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+        test "should get index" do
+          #should be accessible for admin and staff only
 
-    allowed_roles.each do |r|
-      load_session(r)
-      get :index, {:banner_term_id => term.BannerTerm}
-      assert_response :success, "unexpected http response, role=#{r}"
-      assert_equal assigns(:applications).to_a, AdmSt.all.by_term(term).to_a
-    end
-  end
+          get :index
+          assert_response :success, "unexpected http response, role=#{r}"
+          assert_equal assigns(:applications).to_a, @apps
+        end # test
 
+        test "should get index with term" do
+          #should be accessible for admin and staff only
+
+          get :index, {:banner_term_id => @term.BannerTerm}
+          assert_response :success, "unexpected http response, role=#{r}"
+          assert_equal assigns(:applications).to_a, @apps
+        end # test
+      end # roles
+    end # inner describe
+  end # outer describe
 
   test "should get new" do
     #should be accessible for admin and staff only
-    travel_to Date.new(2015, 03, 15) do
-      allowed_roles.each do |r|
-        term = BannerTerm.current_term({:exact => true, :date => Date.today})
-        load_session(r)
+    # travel_to Date.new(2015, 03, 15) do
+    #   allowed_roles.each do |r|
+    #     term = BannerTerm.current_term({:exact => true, :date => Date.today})
+    #     load_session(r)
+    #     get :new
+    #     expected = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && s.EnrollmentStatus == "Active Student"}
+    #     assert_equal assigns(:students).to_a, expected.to_a
+    #     expected_terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc).to_a
+    #     assert_equal assigns(:terms).to_a, expected_terms.to_a
+    #
+    #     assert_response :success, "unexpected http response, role=#{r}"
+    #   end
+    # end
+    allowed_roles.each do |r|
+      load_session(r)
         get :new
+        expected = FactoryGirl.create_list :admitted_student, 5
+
+        # these students shouldn't be included
+        FactoryGirl.create :student
+        another_admitted = FactoryGirl.create :student, EnrollmentStatus: 
+
         expected = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && s.EnrollmentStatus == "Active Student"}
         assert_equal assigns(:students).to_a, expected.to_a
         expected_terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc).to_a
         assert_equal assigns(:terms).to_a, expected_terms.to_a
-
         assert_response :success, "unexpected http response, role=#{r}"
       end
     end
+
   end
 
   test "should not get new outside term" do

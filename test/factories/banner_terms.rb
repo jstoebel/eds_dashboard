@@ -9,9 +9,17 @@
 #  AYStart    :integer          not null
 #
 
+include Faker
 FactoryGirl.define do
   factory :banner_term do
-    BannerTerm 185501
+    BannerTerm do
+      while true
+        id = Number.between(111111, 999998)
+        term = BannerTerm.find_by BannerTerm: id
+        break if term.nil?
+      end
+      id
+    end
     PlainTerm "Fall 1855"
     StartDate Date.new(1855, 8, 1)
     EndDate Date.new(1855, 12, 15)

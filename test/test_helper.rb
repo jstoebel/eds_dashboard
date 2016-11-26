@@ -19,7 +19,9 @@ SECRET.merge! test_secrets
 class ActiveSupport::TestCase
 
   # Rails.application.load_seed   #load seed data
-
+  fixtures :all
+  self.set_fixture_class adm_tep: AdmTep,
+            banner_terms: BannerTerm
   def teardown
       #rm -rf public/student_files/test
       FileUtils.rm_rf('public/student_files/test')
