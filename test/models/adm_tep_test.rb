@@ -28,6 +28,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "scope open" do
+    app = FactoryGirl.create :adm_tep, :admitted_student
     stu = AdmTep.admitted.first.student
 
     expected = AdmTep.where(student_id: stu.id)
@@ -48,7 +49,10 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "needs foreign keys" do
   	#test validation: needing a program.
-    app = AdmTep.new
+    app = FactoryGirl.create :adm_tep, :program
+    app.Student.id = nil
+    app.Program_ProgCode = nil
+    app.BannerTerm_BannerTerm = nil
     app.valid?
     assert_equal(app.errors[:student_id], ["No student selected."])
     assert_equal(app.errors[:Program_ProgCode], ["No program selected."])
@@ -57,8 +61,8 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "admit date empty" do
     #tests validation for required admission date for accespted applications.
-
-    app = AdmTep.find_by(TEPAdmit: true)
+    app = FactoryGirl.create :adm_tep, :program
+    app.TEPAdmit = true
     letter = attach_letter(app)
     app.TEPAdmitDate = nil
     pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
@@ -68,7 +72,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "admit date too early" do
-    app = AdmTep.first
+    app = FactoryGirl.create :adm_tep, :program, :banner_term
     date = app.banner_term.StartDate.to_date
     app.TEPAdmitDate = date - 10
     letter = attach_letter(app)
@@ -78,7 +82,8 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "admit date too late" do
-    app = AdmTep.find_by({:TEPAdmitDate => nil})
+    app = FactoryGirl.create :adm_tep
+    app.TEPAdmitDate = nil
     letter = attach_letter(app)
     date = app.banner_term.EndDate.to_date
     app.TEPAdmitDate = date + 365
@@ -146,7 +151,8 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "gpa both bad" do
-    app = AdmTep.where(TEPAdmit: true).first
+    app = FactoryGirl.create :adm_tep
+    app.TEPAdmit = true
     letter = attach_letter(app)
     pop_transcript(app.student, 12, 2.0, app.banner_term.prev_term)
     app.valid?
@@ -154,7 +160,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "overall gpa bad only" do
-    app = AdmTep.first
+    app = FactoryGirl.create :adm_tep, :program, :banner_term => BannerTerm.first
     pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.TEPAdmit = true
     app.valid?
@@ -182,7 +188,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "last 30 gpa bad" do
-    app = AdmTep.where(TEPAdmit: true).first
+    app = FactoryGirl.create :adm_tep, :program, :banner_term => BannerTerm.first
     app.TEPAdmit = true
     app.GPA_last30 = 2.99
     pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
@@ -191,7 +197,8 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "earned credits bad" do
-    app = AdmTep.where(TEPAdmit: true).first
+    
+    app = FactoryGirl.create :adm_tep, :program, :banner_term => BannerTerm.first
     app.TEPAdmit = true
     letter = attach_letter(app)
     pop_transcript(app.student, 1, 3.0, app.banner_term.prev_term)
@@ -200,7 +207,8 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "no admission letter" do
-    app = AdmTep.find_by(TEPAdmit: true)
+    app = FactoryGirl.create :adm_tep, :program
+    app.TEPAdmit = true
     pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
     app.valid?
     assert_equal(app.errors[:student_file_id], ["Please attach an admission letter."])
@@ -218,7 +226,8 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "app already pending" do
     #student already has a pending app for this program
-    app = AdmTep.where(TEPAdmit: nil).first
+    app = FactoryGirl.create :adm_tep, :program => ProgCode.first, :banner_term => BannerTerm.first
+    app = app.TEPAdmit = nil
     stu = app.student
     app2 = AdmTep.new(app.attributes)
     pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
