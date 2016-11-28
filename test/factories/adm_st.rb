@@ -38,7 +38,7 @@ FactoryGirl.define do
     # association :student_file, strategy: :build
 
     after(:build) do |app|
-      app.STAdmitDate = app.banner_term.StartDate if !app.STAdmitDate.nil?
+      app.STAdmitDate ||= app.banner_term.StartDate
     end
 
   end
