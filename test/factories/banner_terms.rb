@@ -20,7 +20,7 @@ FactoryGirl.define do
       end
       id
     end
-    PlainTerm "Fall 1855"
+    PlainTerm "A random term"
     StartDate Date.new(1855, 8, 1)
     EndDate Date.new(1855, 12, 15)
     AYStart 1855

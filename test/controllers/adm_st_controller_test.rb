@@ -60,10 +60,10 @@ class AdmStControllerTest < ActionController::TestCase
 
           @expected_terms = FactoryGirl.create_list :banner_term, 5, :StartDate => 1.year.ago, :EndDate => 2.years.ago
 
-    #lets try to make a new app with a date in the same term as an existing app
-    existing_app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.current_term
-    app_term = existing_app.BannerTerm_BannerTerm
-    date_to_use = (BannerTerm.find(app_term).StartDate.to_date) + 2
+          #lets try to make a new app with a date in the same term as an existing app
+          existing_app = FactoryGirl.create :adm_st
+          app_term = existing_app.BannerTerm_BannerTerm
+          date_to_use = (BannerTerm.find(app_term).StartDate.to_date) + 2
           FactoryGirl.create :banner_term, {:StartDate => (2.years.ago) -10, :EndDate => (2.years.ago) -1}
         end
 
@@ -71,9 +71,10 @@ class AdmStControllerTest < ActionController::TestCase
           this_term = term_today
           get :new
 
-          assert_equal assigns(:students).to_a.sort, @expected_students.to_a.sort
           expected_terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc).to_a
-          assert_equal assigns(:terms).to_a.sort, expected_terms.to_a.sort
+
+          assert_equal assigns(:students).to_a.sort, @expected_students.to_a.sort
+          assert_equal assigns(:terms).to_a.sort, expected_terms.to_a.sort # This sometimes fails, we do not know why...
           assert_response :success, "unexpected http response, role=#{r}"
         end
 
@@ -85,19 +86,19 @@ class AdmStControllerTest < ActionController::TestCase
          assert_redirected_to adm_st_index_path
          assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
         end
-  test "should get edit" do
-    allowed_roles.each do |r|
-      load_session(r)
-      app = FactoryGirl.create :adm_st, :banner_term => BannerTerm.current_term
-      get :edit, {:id => app.id}
-      assert_response :success, "unexpected http response, role=#{r}"
-      assert_equal assigns(:app), app
-      assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
-      assert_equal assigns(:student), Student.find(app.student_id)
-    end
-
+        
+        test "should get edit" do
+          allowed_roles.each do |r|
+            load_session(r)
+            app = FactoryGirl.create :adm_st
+            get :edit, {:id => app.id}
+            assert_response :success, "unexpected http response, role=#{r}"
+            assert_equal assigns(:app), app
+            assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+            assert_equal assigns(:student), Student.find(app.student_id)
+          end # each loop
+        end # test
       end # inner describe
-
     end # allowed roles loop
 
     (all_roles - allowed_roles).each do |r|
@@ -206,43 +207,52 @@ class AdmStControllerTest < ActionController::TestCase
           assert_redirected_to "/access_denied"
         end
 
-      end # inner describe
+        end # inner describe
     end # roles loop
   end
 
  # TODO NEED TO TEST DOWNLOAD
- #  describe "should post update" do
- #    before do
- #      @stu = FactoryGirl.create :admitted_student
- #      @term = BannerTerm.current_term({:exact => false, :plan_b => :back})
- #    end
- #
- #    allowed_roles.each do |r|
- #      test "as #{r}" do
- #        load_session(r)
- #
- #        app = FactoryGirl.create :adm_st, {:student_id => @stu.id,
- #          :STAdmitted => nil,
- #          :STAdmitDate => nil,
- #          :BannerTerm_BannerTerm => @term.id
- #        }
- #
- #        travel_to (app.banner_term.StartDate.to_date) + 1 do
- #          post :update, {
- #                :id => app.id,
- #                :adm_st => {
- #                  :STAdmitted => true,
- #                  :STAdmitDate => Date.today,
- #                  :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
- #                  }
- #              }
- #          assert assigns(:app).valid?, assigns(:app).errors.full_messages
- #          assert_redirected_to adm_st_index_path
- #        end # travel to
- #
- #      end # test
- #    end # roles loop
- #  end
+ 
+   describe "should post update" do
+     before do
+       @stu = FactoryGirl.create :admitted_student
+       # make a term that starts AFTER the term the student was admitted
+       term_admitted = @stu.adm_tep.first.banner_term
+       @term = FactoryGirl.create :banner_term, {:StartDate => (term_admitted.EndDate) + 1,
+        :EndDate => (term_admitted.EndDate) + 10
+       }  
+       
+       
+       @term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+     end
+ 
+     allowed_roles.each do |r|
+       test "as #{r}" do
+         load_session(r)
+ 
+         app = FactoryGirl.build :adm_st, {:student_id => @stu.id,
+           :STAdmitted => nil,
+           :STAdmitDate => nil,
+           :BannerTerm_BannerTerm => @term.id
+         }
+
+
+         travel_to (app.banner_term.StartDate.to_date) + 1 do
+           post :update, {
+                 :id => app.id,
+                 :adm_st => {
+                   :STAdmitted => true,
+                   :STAdmitDate => Date.today,
+                   :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                   }
+               }
+           assert assigns(:app).valid?, assigns(:app).errors.full_messages
+           assert_redirected_to adm_st_index_path
+         end # travel to
+ 
+       end # test
+     end # roles loop
+   end
  #
  #  test "should not post update no decision" do
  #

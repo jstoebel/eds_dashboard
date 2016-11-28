@@ -83,6 +83,8 @@ FactoryGirl.define do
        term.id
     end
 
+    presumed_status "Prospective"
+
     factory :admitted_student do
 
       after(:create) do |stu|
