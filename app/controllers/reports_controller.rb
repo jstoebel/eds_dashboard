@@ -14,6 +14,7 @@ class ReportsController < ApplicationController
                 :Bnum => stu.Bnum,
                 :name_readable => stu.name_readable,
                 :prog_status => stu.prog_status,
+                :EnrollmentStatus => stu.EnrollmentStatus,
                 :CurrentMajor1 => stu.CurrentMajor1,
                 :concentration1 => stu.concentration1,
                 :CurrentMajor2 => stu.CurrentMajor2,

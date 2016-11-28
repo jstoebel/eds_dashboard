@@ -36,13 +36,11 @@ class ReportsControllerTest < ActionController::TestCase
             # Bnum though Minors is correct for each record
             expected_data = assigns(:data)
 
-            # [:Bnum, ]
-
             expected_data.each_with_index do |val, idx|
               expected_hash = expected_data[idx]
               actual_stu = @stus[idx]
 
-              attrs = [:Bnum, :name_readable, :prog_status, :CurrentMajor1,
+              attrs = [:Bnum, :name_readable, :prog_status, :EnrollmentStatus, :CurrentMajor1,
               :concentration1, :CurrentMajor2, :concentration2, :CurrentMinors]
 
               attrs.each do |attr|

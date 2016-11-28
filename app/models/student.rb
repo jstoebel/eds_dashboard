@@ -242,7 +242,7 @@ class Student < ActiveRecord::Base
 			# 	* No admit in adm_tep
 			enrollment = [(not self.was_dismissed?),
 				(self.latest_foi == nil or self.latest_foi.seek_cert),
-				(not graduated), (not transfered)]
+				(not graduated), (not transfered), self.EnrollmentStatus.present?]
 
 			if enrollment.all?
 
@@ -253,8 +253,8 @@ class Student < ActiveRecord::Base
 			# 	A student who was dismissed from the college and never admitted to TEP
 
 			elsif (self.latest_foi.present? and not self.latest_foi.seek_cert) or
-					(self.was_dismissed?) or
-					graduated or transfered
+					(self.was_dismissed?) ||
+					graduated || transfered || self.EnrollmentStatus.nil?
 				return "Not applying"
 			else
 				return "Unknown Status"
@@ -290,21 +290,6 @@ class Student < ActiveRecord::Base
 				return "Unknown Status"
 			end
 		end
-
-
-
-
-		#Add that student has not graduated
-		#Use enrollment status var
-		#Also if they have transfered
-		#graduated? or transferred? possible var names to create and use
-		#create methods for graduated and wd-transferring
-
-
-
-
-
-
 	end
 
 	def was_dismissed?
