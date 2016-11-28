@@ -264,7 +264,7 @@ class Student < ActiveRecord::Base
 			# Candidate
 			# 	Admited in adm_tep
 			# 	no exit
-			if self.open_programs.size > 0 && self.EnrollmentStatus.present?
+			if self.open_programs.size > 0
 				return "Candidate"
 
 			# Dropped
