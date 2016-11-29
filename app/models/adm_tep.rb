@@ -64,7 +64,7 @@ class AdmTep < ActiveRecord::Base
     }
 
   validates_presence_of :TEPAdmitDate, {:message => "Admission date must be given.",
-    :unless => Proc.new{|s| s.TEPAdmit.nil?}# self.TEPAdmit.nil?
+    :if => Proc.new{|s| s.TEPAdmit.present?}# self.TEPAdmit.nil?
   }
 
   def good_credits?
