@@ -254,7 +254,7 @@ class Student < ActiveRecord::Base
 
 			elsif (self.latest_foi.present? and not self.latest_foi.seek_cert) or
 					(self.was_dismissed?) ||
-					graduated || transfered || self.EnrollmentStatus.nil?
+					graduated || transfered || self.EnrollmentStatus.blank?
 				return "Not applying"
 			else
 				return "Unknown Status"

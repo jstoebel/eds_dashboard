@@ -360,7 +360,7 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal "Prospective", s.prog_status
 	end
 
-	["Graduation", "WD-Transferring", nil].each do |enroll_status|
+	["Graduation", "WD-Transferring", nil, ""].each do |enroll_status|
 		test "returns not applying, enroll status=#{enroll_status.to_s}" do
 			Foi.delete_all
 			AdmTep.delete_all
@@ -468,7 +468,7 @@ class StudentTest < ActiveSupport::TestCase
 		# (stu, n, grade_pt, term)
 		pop_transcript(stu, 12, 3.0, second_adm.banner_term.prev_term)
 
-		assert second_adm.save, second_adm.errors.full_messages
+		assert second_adm.valid?, second_adm.errors.full_messages
 
 	end
 
