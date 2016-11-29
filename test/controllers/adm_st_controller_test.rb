@@ -86,7 +86,7 @@ class AdmStControllerTest < ActionController::TestCase
          assert_redirected_to adm_st_index_path
          assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
         end
-        
+
         test "should get edit" do
           allowed_roles.each do |r|
             load_session(r)
@@ -155,7 +155,7 @@ class AdmStControllerTest < ActionController::TestCase
         before do
           load_session(r)
         end
- 
+
         test "redirects to access denied" do
           app_attrs = FactoryGirl.attributes_for :adm_st, {:student_id => @stu.id,
             :BannerTerm_BannerTerm => @term.id
@@ -212,7 +212,7 @@ class AdmStControllerTest < ActionController::TestCase
   end
 
  # TODO NEED TO TEST DOWNLOAD
- 
+
    describe "should post update" do
      before do
        @stu = FactoryGirl.create :admitted_student
@@ -220,36 +220,45 @@ class AdmStControllerTest < ActionController::TestCase
        term_admitted = @stu.adm_tep.first.banner_term
        @term = FactoryGirl.create :banner_term, {:StartDate => (term_admitted.EndDate) + 1,
         :EndDate => (term_admitted.EndDate) + 10
-       }  
-       
-       
-       @term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+       }
      end
- 
+
      allowed_roles.each do |r|
        test "as #{r}" do
          load_session(r)
- 
+
          app = FactoryGirl.build :adm_st, {:student_id => @stu.id,
            :STAdmitted => nil,
            :STAdmitDate => nil,
            :BannerTerm_BannerTerm => @term.id
          }
+         puts app.inspect
+         exit
 
+         post :update, {
+               :id => app.id,
+               :adm_st => {
+                 :STAdmitted => true,
+                 :STAdmitDate => @term.StartDate,
+                 :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                 }
+             }
+         assert assigns(:app).valid?, assigns(:app).errors.full_messages
+         assert_redirected_to adm_st_index_path
 
-         travel_to (app.banner_term.StartDate.to_date) + 1 do
-           post :update, {
-                 :id => app.id,
-                 :adm_st => {
-                   :STAdmitted => true,
-                   :STAdmitDate => Date.today,
-                   :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
-                   }
-               }
-           assert assigns(:app).valid?, assigns(:app).errors.full_messages
-           assert_redirected_to adm_st_index_path
-         end # travel to
- 
+        #  travel_to (app.banner_term.StartDate.to_date) + 1 do
+        #    post :update, {
+        #          :id => app.id,
+        #          :adm_st => {
+        #            :STAdmitted => true,
+        #            :STAdmitDate => Date.today,
+        #            :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+        #            }
+        #        }
+        #    assert assigns(:app).valid?, assigns(:app).errors.full_messages
+        #    assert_redirected_to adm_st_index_path
+        #  end # travel to
+
        end # test
      end # roles loop
    end

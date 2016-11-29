@@ -10,9 +10,10 @@
 #  license_code :string(255)
 #
 
+include Faker
 FactoryGirl.define do
   factory :program do
-    sequence(:ProgCode) { |n| n}
+    sequence(:ProgCode){|n| n.to_s }
     EPSBProgName "EPSB Name"
     EDSProgName "EDS Name"
     Current true

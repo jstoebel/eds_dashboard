@@ -22,24 +22,39 @@
 #
 
 FactoryGirl.define do
-  factory :adm_st do
+  # TODO: a pending app and a processed app
 
-    #make the adm_st for the same student who has this adm_tep!
-    # need to provide Bnum
-    #need to provide the BannerTerm_BannerTerm
+  factory :pending_adm_st, class: AdmSt do
+    student
+    banner_term
+    Attempt 1
+    OverallGPA 2.75
+    CoreGPA 3.0
+  end # factory
+
+  factory :accepted_adm_st, class: AdmSt do
     student
     banner_term
     Attempt 1
     STAdmitted true
-    # STAdmitDate Date.today
     OverallGPA 2.75
     CoreGPA 3.0
     student_file
-    # association :student_file, strategy: :build
 
     after(:build) do |app|
-      app.STAdmitDate ||= app.banner_term.StartDate
-    end
+      app.STAdmitDate = app.banner_term.StartDate
+    end # build
+  end # factory
 
-  end
+  factory :denied_adm_st, class: AdmSt do
+    student
+    banner_term
+    Attempt 1
+    STAdmitted false
+    OverallGPA 2.75
+    CoreGPA 3.0
+    student_file
+
+  end # factory
+
 end

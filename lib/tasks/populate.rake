@@ -25,6 +25,7 @@ namespace :db do
     admin_tep_profile = FactoryGirl.create :tep_advisor, {:user_id => 1}
 
     advisors = FactoryGirl.create_pair :advisor
+
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
 
@@ -52,11 +53,11 @@ namespace :db do
       # ADVISOR ASSIGNMENTS
       # assign them to one or both advisors
 
-      num_advisors = Faker::Number.between(1, 2)
+      # num_advisors = Faker::Number.between(1, 2)
+      #
+      # my_advisors = advisors.shuffle.slice(0, num_advisors)
 
-      my_advisors = advisors.shuffle.slice(0, num_advisors)
-
-      my_adv_assignments = my_advisors.map { |adv| AdvisorAssignment.create(
+      my_adv_assignments = advisors.map { |adv| AdvisorAssignment.create(
         { :student_id => s.id,
           :tep_advisor_id => adv.tep_advisor.id
         })
@@ -138,11 +139,11 @@ namespace :db do
       if Boolean.boolean 0.3
 
         num_issues = Faker::Number.between(0, 3)
-        my_issues = num_issues.times.map {|n| (FactoryGirl.create :issue, { :student_id => s.id, :tep_advisors_AdvisorBnum => my_advisors.sample.id})}
+        my_issues = num_issues.times.map {|n| (FactoryGirl.create :issue, { :student_id => s.id, :tep_advisors_AdvisorBnum => advisors.sample.id})}
 
         my_updates = my_issues.map {|iss| FactoryGirl.create_list :issue_update, Faker::Number.between(1,3),
-          { :Issues_IssueID => iss.id,
-            :tep_advisors_AdvisorBnum => my_advisors.sample.id,
+          { :issue => iss,
+            :tep_advisor => advisors.sample.tep_advisor,
             :visible => true,
             :addressed => false
           }
