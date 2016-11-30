@@ -26,12 +26,14 @@
 #  hispanic         :boolean
 #  term_expl_major  :integer
 #  term_major       :integer
+#  presumed_status  :string(255)
 #
 
 require 'test_helper'
 class StudentsControllerTest < ActionController::TestCase
   self.pre_loaded_fixtures = false
   allowed_roles = ["admin", "staff", "advisor"]
+  role_names = Role.all.pluck :RoleName
 
   before do
     @controller = StudentsController.new
@@ -112,23 +114,96 @@ class StudentsControllerTest < ActionController::TestCase
 
   end
 
-  test "should get show" do
+  describe "show" do
+
     allowed_roles.each do |r|
-      load_session(r)
-      stu = Student.first
-      get :show, :id => stu.AltID
-      assert_response :success
-      assert_equal stu, assigns(:student)
 
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+        end
+
+        test "should get show" do
+            stu = Student.first
+            get :show, :id => stu.AltID
+            assert_response :success
+            assert_equal stu, assigns(:student)
+        end
+
+      end
     end
-  end
 
-  test "should not get show bad role" do
     (role_names - allowed_roles).each do |r|
-      load_session(r)
-      get :show, {:id => Student.first.id}
-      assert_redirected_to "/access_denied"
+      describe "as #{r}" do
+        before do
+          load_session(r)
+        end
+
+        test "is denied access" do
+          get :show, {:id => Student.first.id}
+          assert_redirected_to "/access_denied"
+        end
+
+      end
+
     end
-  end
+
+
+  end # outer describe
+
+  describe "update presumed status" do
+
+    before do
+      @stu = FactoryGirl.create :student
+    end
+
+    ["admin", "staff"].each do |r|
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+        end
+
+        test "updates student" do
+          new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
+          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          assert_response :success
+          stu = Student.find @stu.id
+          new_params.each do |key, value|
+            assert_equal value, stu.send(key)
+          end
+
+        end
+
+        test "doesn't update student" do
+          new_params = {presumed_status: "bad status", presumed_status_comment: "spam" }
+          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          assert_response :unprocessable_entity
+          stu = Student.find @stu.id
+          new_params.each do |key, value|
+            assert_not_equal value, stu.send(key)
+          end
+        end
+
+      end # as
+    end # loop
+
+
+    ["advisor", "student labor"].each do |r|
+      describe "as #{r}" do
+        before do
+          load_session(r)
+        end
+        test "redirects to access_denied" do
+          new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
+          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          assert_response :unprocessable_entity
+        end # test
+
+      end # describe
+    end # loop
+
+  end # outer describe
 
 end

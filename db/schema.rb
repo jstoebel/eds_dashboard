@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014125435) do
+ActiveRecord::Schema.define(version: 20161121161726) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -104,10 +104,11 @@ ActiveRecord::Schema.define(version: 20161014125435) do
   end
 
   create_table "banner_terms", primary_key: "BannerTerm", force: :cascade do |t|
-    t.string   "PlainTerm", limit: 45, null: false
-    t.datetime "StartDate",            null: false
-    t.datetime "EndDate",              null: false
-    t.integer  "AYStart",   limit: 4,  null: false
+    t.string   "PlainTerm",     limit: 45, null: false
+    t.datetime "StartDate",                null: false
+    t.datetime "EndDate",                  null: false
+    t.integer  "AYStart",       limit: 4,  null: false
+    t.boolean  "standard_term"
   end
 
   create_table "banner_updates", force: :cascade do |t|
@@ -162,11 +163,20 @@ ActiveRecord::Schema.define(version: 20161014125435) do
 
   add_index "clinical_teachers", ["clinical_site_id"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
 
-  create_table "employment", primary_key: "EmpID", force: :cascade do |t|
-    t.integer "student_id",  limit: 4,  null: false
-    t.date    "EmpDate",                null: false
-    t.string  "EmpCategory", limit: 45
-    t.string  "Employer",    limit: 45
+  create_table "dispositions", force: :cascade do |t|
+    t.string   "code",        limit: 255
+    t.text     "description", limit: 65535
+    t.boolean  "current"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "employment", force: :cascade do |t|
+    t.integer  "student_id", limit: 4
+    t.integer  "category",   limit: 4
+    t.string   "employer",   limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "employment", ["student_id"], name: "fk_rails_8b14daa8ce", using: :btree
@@ -199,6 +209,7 @@ ActiveRecord::Schema.define(version: 20161014125435) do
     t.datetime "updated_at"
     t.boolean  "visible",                                default: true, null: false
     t.boolean  "addressed"
+    t.string   "status",                   limit: 255
   end
 
   add_index "issue_updates", ["Issues_IssueID"], name: "fk_IssueUpdates_Issues1_idx", using: :btree
@@ -208,14 +219,15 @@ ActiveRecord::Schema.define(version: 20161014125435) do
     t.integer  "student_id",               limit: 4,                    null: false
     t.text     "Name",                     limit: 65535,                null: false
     t.text     "Description",              limit: 65535,                null: false
-    t.boolean  "Open",                                   default: true, null: false
     t.integer  "tep_advisors_AdvisorBnum", limit: 4,                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "visible",                                default: true, null: false
     t.boolean  "positive"
+    t.integer  "disposition_id",           limit: 4
   end
 
+  add_index "issues", ["disposition_id"], name: "fk_rails_7e9ae84f98", using: :btree
   add_index "issues", ["student_id"], name: "fk_rails_ea791380de", using: :btree
   add_index "issues", ["tep_advisors_AdvisorBnum"], name: "fk_Issues_tep_advisors1_idx", using: :btree
 
@@ -423,29 +435,31 @@ ActiveRecord::Schema.define(version: 20161014125435) do
   add_index "student_scores", ["student_id"], name: "fk_rails_076846734f", using: :btree
 
   create_table "students", force: :cascade do |t|
-    t.string  "Bnum",             limit: 9,     null: false
-    t.string  "FirstName",        limit: 45,    null: false
-    t.string  "PreferredFirst",   limit: 45
-    t.string  "MiddleName",       limit: 45
-    t.string  "LastName",         limit: 45,    null: false
-    t.string  "PrevLast",         limit: 45
-    t.string  "EnrollmentStatus", limit: 45
-    t.string  "Classification",   limit: 45
-    t.string  "CurrentMajor1",    limit: 45
-    t.string  "concentration1",   limit: 255
-    t.string  "CurrentMajor2",    limit: 45
-    t.string  "concentration2",   limit: 255
-    t.string  "CellPhone",        limit: 45
-    t.string  "CurrentMinors",    limit: 255
-    t.string  "Email",            limit: 100
-    t.string  "CPO",              limit: 45
-    t.text    "withdraws",        limit: 65535
-    t.integer "term_graduated",   limit: 4
-    t.string  "gender",           limit: 255
-    t.string  "race",             limit: 255
+    t.string  "Bnum",                    limit: 9,     null: false
+    t.string  "FirstName",               limit: 45,    null: false
+    t.string  "PreferredFirst",          limit: 45
+    t.string  "MiddleName",              limit: 45
+    t.string  "LastName",                limit: 45,    null: false
+    t.string  "PrevLast",                limit: 45
+    t.string  "EnrollmentStatus",        limit: 45
+    t.string  "Classification",          limit: 45
+    t.string  "CurrentMajor1",           limit: 45
+    t.string  "concentration1",          limit: 255
+    t.string  "CurrentMajor2",           limit: 45
+    t.string  "concentration2",          limit: 255
+    t.string  "CellPhone",               limit: 45
+    t.string  "CurrentMinors",           limit: 255
+    t.string  "Email",                   limit: 100
+    t.string  "CPO",                     limit: 45
+    t.text    "withdraws",               limit: 65535
+    t.integer "term_graduated",          limit: 4
+    t.string  "gender",                  limit: 255
+    t.string  "race",                    limit: 255
     t.boolean "hispanic"
-    t.integer "term_expl_major",  limit: 4
-    t.integer "term_major",       limit: 4
+    t.integer "term_expl_major",         limit: 4
+    t.integer "term_major",              limit: 4
+    t.string  "presumed_status",         limit: 255
+    t.text    "presumed_status_comment", limit: 65535
   end
 
   add_index "students", ["Bnum"], name: "Bnum_UNIQUE", unique: true, using: :btree
@@ -542,6 +556,7 @@ ActiveRecord::Schema.define(version: 20161014125435) do
   add_foreign_key "forms_of_intention", "students"
   add_foreign_key "issue_updates", "issues", column: "Issues_IssueID", primary_key: "IssueID", name: "fk_IssueUpdates_Issues"
   add_foreign_key "issue_updates", "tep_advisors", column: "tep_advisors_AdvisorBnum"
+  add_foreign_key "issues", "dispositions"
   add_foreign_key "issues", "students"
   add_foreign_key "issues", "tep_advisors", column: "tep_advisors_AdvisorBnum"
   add_foreign_key "item_levels", "assessment_items"

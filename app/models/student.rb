@@ -64,15 +64,6 @@ class Student < ActiveRecord::Base
 
 #################################################################
 
-
-####~~~VALIDATIONS~~~##################################################
-	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
-	validates_uniqueness_of :Bnum
-
-#######################################################################
-
-
-
 ####~~~ CLASS VARIABLES ~~~##################################################
 	CERT_CONCENTRATIONS = ["Middle Grades Science Cert",
 	"MUS Ed - Instrumental Emphasis",
@@ -89,9 +80,19 @@ class Student < ActiveRecord::Base
 	"Music Education Vocal Emphasis",
 	"Health and Human Performance, P-12"]
 
+	PROG_STATUES = ["Prospective", "Not Applying", "Candidate",
+		"Dropped", "Completer"]
 ##############################################################################
 
+####~~~VALIDATIONS~~~##################################################
+	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
+	validates_uniqueness_of :Bnum
 
+	validates :presumed_status,
+		inclusion: { in: PROG_STATUES,
+    message: "please enter a valid program status" }, allow_nil: true
+
+#######################################################################
 
 ####~~~SCOPES AND CLASS METHODS (Batch Updates)~~~##################################################
 
@@ -241,7 +242,7 @@ class Student < ActiveRecord::Base
 			# 	* No admit in adm_tep
 			enrollment = [(not self.was_dismissed?),
 				(self.latest_foi == nil or self.latest_foi.seek_cert),
-				(not graduated), (not transfered)]
+				(not graduated), (not transfered), self.EnrollmentStatus.present?]
 
 			if enrollment.all?
 
@@ -252,8 +253,8 @@ class Student < ActiveRecord::Base
 			# 	A student who was dismissed from the college and never admitted to TEP
 
 			elsif (self.latest_foi.present? and not self.latest_foi.seek_cert) or
-					(self.was_dismissed?) or
-					graduated or transfered
+					(self.was_dismissed?) ||
+					graduated || transfered || self.EnrollmentStatus.blank?
 				return "Not applying"
 			else
 				return "Unknown Status"
@@ -289,21 +290,6 @@ class Student < ActiveRecord::Base
 				return "Unknown Status"
 			end
 		end
-
-
-
-
-		#Add that student has not graduated
-		#Use enrollment status var
-		#Also if they have transfered
-		#graduated? or transferred? possible var names to create and use
-		#create methods for graduated and wd-transferring
-
-
-
-
-
-
 	end
 
 	def was_dismissed?
@@ -495,12 +481,16 @@ class Student < ActiveRecord::Base
 
 	##########################################################################
 
-
+	def tep_instructors
+		# all tep_advisors (not nessarily assigned to student) that are instructors
+		# of student
+		return TepAdvisor.all.select{|adv| self.is_student_of?(adv.AdvisorBnum)}
+	end
 
 	####~~~Enrollment Methods~~~##############################################
 
 	def graduated
-		self.EnrollmentStatus == "Graduated"
+		self.EnrollmentStatus == "Graduation"
 	end
 
 	def transfered
@@ -508,8 +498,6 @@ class Student < ActiveRecord::Base
 	end
 
 	##########################################################################
-
-
 
 ############################################################################################################
 

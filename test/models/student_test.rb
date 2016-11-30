@@ -26,6 +26,7 @@
 #  hispanic         :boolean
 #  term_expl_major  :integer
 #  term_major       :integer
+#  presumed_status  :string(255)
 #
 
 require 'test_helper'
@@ -359,22 +360,15 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal "Prospective", s.prog_status
 	end
 
-	test "should not return perspective - enrollmentstatus graduated" do
-		Foi.delete_all
-		AdmTep.delete_all
-		s = Student.first
-		s.EnrollmentStatus = "Graduated"
-		s.save
-		assert_equal "Not applying", s.prog_status
-	end
-
-	test "should not return perspective - enrollmentstatus transfered" do
-		Foi.delete_all
-		AdmTep.delete_all
-		s = Student.first
-		s.EnrollmentStatus = "WD-Transferring"
-		s.save
-		assert_equal "Not applying", s.prog_status
+	["Graduation", "WD-Transferring", nil, ""].each do |enroll_status|
+		test "returns not applying, enroll status=#{enroll_status.to_s}" do
+			Foi.delete_all
+			AdmTep.delete_all
+			s = Student.first
+			s.EnrollmentStatus = enroll_status
+			s.save
+			assert_equal "Not applying", s.prog_status
+		end
 	end
 
 	test "returns candidate despite negative foi" do
@@ -474,7 +468,7 @@ class StudentTest < ActiveSupport::TestCase
 		# (stu, n, grade_pt, term)
 		pop_transcript(stu, 12, 3.0, second_adm.banner_term.prev_term)
 
-		assert second_adm.save, second_adm.errors.full_messages
+		assert second_adm.valid?, second_adm.errors.full_messages
 
 	end
 
@@ -848,11 +842,48 @@ class StudentTest < ActiveSupport::TestCase
 		assert_equal "Couldn't find Student with 'id'=#{update_attrs[0][:id]}", result[:msg]
 	end
 
-    test "Object not valid, validations failed" do
+  test "Object not valid, validations failed" do
 	  stu=Student.new
 	  assert_not stu.valid?
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus], stu.errors.keys
 	  assert_equal [:Bnum, :FirstName, :LastName, :EnrollmentStatus].map{|i| [i, ["can't be blank"]]}.to_h,
 	    stu.errors.messages
+	end
+
+	describe "presumed_status validation" do
+		before do
+			@stu = FactoryGirl.create :student
+		end
+
+		["Prospective", "Not Applying", "Candidate", "Dropped", "Completer", nil].each do |status|
+
+			test "allows value: #{status}" do
+				@stu.presumed_status = status
+				assert @stu.valid?
+
+			end # test
+		end # loop
+
+		test "disallows bogus status" do
+			@stu.presumed_status = "crazy pants"
+			assert_not @stu.valid?
+		end
+	end # describe
+
+	test "tep_instructors" do
+		@stu = FactoryGirl.create :student
+		advs = FactoryGirl.create_list :tep_advisor, 3
+
+		# make student a current student of each adv
+		term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+		advs.each{|adv| FactoryGirl.create :transcript,
+			{:instructors => "InstFirst InstLast {#{adv.AdvisorBnum}}",
+				:student_id => @stu.id,
+				:term_taken => term.id
+			}
+		}
+
+		assert_equal 3, @stu.tep_instructors.size
+		assert_equal advs, @stu.tep_instructors
 	end
 end

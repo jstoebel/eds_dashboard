@@ -6,12 +6,12 @@
 #  student_id               :integer          not null
 #  Name                     :text(65535)      not null
 #  Description              :text(65535)      not null
-#  Open                     :boolean          default(TRUE), not null
 #  tep_advisors_AdvisorBnum :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  positive                 :boolean
+#  disposition_id           :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -26,20 +26,14 @@
 #
 #  column: value
 
-<% 4.times do |i| %>
-<%= "issue#{i}:" %>
-  student: candidate
-  Name: issue name
-  Description: description goes here
-  tep_advisors_AdvisorBnum: "B00123456"   #TODO change me!
-
-  <% if i < 2 %>
-  Open: true
-  <% else %>
-  Open: false
-  <% end %>
-
-<% end %>
+# <% 4.times do |i| %>
+# <%= "issue#{i}:" %>
+#   student: candidate
+#   Name: issue name
+#   Description: description goes here
+#   tep_advisors_AdvisorBnum: "B00123456"   #TODO change me!
+#
+# <% end %>
 
 # one:
 #   student: candidate

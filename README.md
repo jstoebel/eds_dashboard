@@ -5,12 +5,14 @@
 An advisor dashboard for Berea College's Teacher Education Program
 
 ### Versions
-Ruby version: 2.1, Rails Version 4.1
+Ruby version: 2.3.1, Rails Version 4.1
 
 ### Configuration
 
 
 install dependencies `bundle install`
+
+if your machine doesn't have Oracle installed, use 'bundle install --without cs_c9_exclude'
 
 This app does not ship with a database.yml file. Several folks on our team
 develop in a cloud based environment and have specific requirements for
@@ -41,7 +43,7 @@ test:
 ### connecting to Banner
 This app depends on a connection to Banner to update its database. To do that you will need [dbi](http://ruby-dbi.rubyforge.org/rdoc/index.html) [oci8](http://www.rubydoc.info/github/kubo/ruby-oci8/file/docs/install-on-osx.md). OCI8 requires a bit more set up. Please read the docs to get started.
 
-Also `dbi` needs a small tweak to support ruby 2. Make the changed specified [here](http://stackoverflow.com/questions/27873121/dbi-row-delegate-behavior-between-ruby-1-8-7-and-2-1). For rbenv the file to edit is here: `~/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/dbi-0.4.5/lib/dbi`
+Also `dbi` needs a small tweak to support ruby 2. Make the changed specified [here](http://stackoverflow.com/questions/27873121/dbi-row-delegate-behavior-between-ruby-1-8-7-and-2-1). For rbenv the file to edit is here: `~/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/dbi-0.4.5/lib/dbi`. The line to edit is 212 on `row.rb`
 
 ### Testing
  - This app uses Minitest for all tests.

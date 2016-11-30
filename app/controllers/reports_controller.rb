@@ -14,6 +14,7 @@ class ReportsController < ApplicationController
                 :Bnum => stu.Bnum,
                 :name_readable => stu.name_readable,
                 :prog_status => stu.prog_status,
+                :EnrollmentStatus => stu.EnrollmentStatus,
                 :CurrentMajor1 => stu.CurrentMajor1,
                 :concentration1 => stu.concentration1,
                 :CurrentMajor2 => stu.CurrentMajor2,
@@ -26,13 +27,14 @@ class ReportsController < ApplicationController
                 :Latest_Completion_228 => complete_228(stu),
                 :Latest_Term_EDS440_479 => term_EDS440_479(stu),
                 :ProgName => student_program(stu),
+                :advisors => advisors(stu)
             }
             @data.push record
         end
     end
 
     private
-    
+
     def taken_227_228(student)
         return student.transcripts.where(:course_code => ["EDS227", "EDS228"]).any?
     end
@@ -52,12 +54,12 @@ class ReportsController < ApplicationController
         courses = student.transcripts.where(:course_code => ["EDS228"]).order(:term_taken).last
         return courses.andand.banner_term.andand.readable
     end
-    
+
     def term_EDS150(student)
         course_taken = student.transcripts.where(:course_code => ["EDS150"]).order(:term_taken).last
         return course_taken.andand.banner_term.andand.readable
     end
-        
+
     def term_EDS440_479(student)
        course_taken = student.transcripts.where(:course_code => ["EDS440", "EDS479"]).order(:term_taken).last
        return course_taken.andand.banner_term.andand.readable
@@ -66,6 +68,10 @@ class ReportsController < ApplicationController
     def student_program(student)
         program_name = student.programs.map{|t| "#{t.EDSProgName}"}.join("; ")
         return program_name.andand
+    end
+
+    def advisors(student)
+      student.tep_advisors.map{|a| "#{a.first_name} #{a.last_name}"}.join('; ')
     end
 
 end
