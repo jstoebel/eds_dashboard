@@ -126,13 +126,12 @@ class PraxisScoreReport
         sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
         row = dbh.select_one(sql, ssn)
 
-        if row.present?
+        if row.nil?
           return Student.find_by :Bnum => row["SZVEDSD_ID"]
         else
           return nil
         end
     end
-
   end
 
   def get_best_scores
