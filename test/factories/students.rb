@@ -89,7 +89,6 @@ FactoryGirl.define do
 
       after(:create) do |stu|
         # give course work, 12 courses
-
         courses = FactoryGirl.create_list :transcript, 12, {:student_id => stu.id,
           :grade_pt => 4.0,
           :grade_ltr => "A",
@@ -115,19 +114,20 @@ FactoryGirl.define do
         }
 
         praxis_attrs.map { |t| PraxisResult.create t }
+
       end
 
       after(:create) do |stu|
-        apply_term = stu.transcripts.first.banner_term.next_term
+        apply_term = stu.transcripts.first.banner_term
 
         app = FactoryGirl.create :adm_tep, {
-          :student_id => stu.id,
+          :student => stu,
           :TEPAdmitDate => apply_term.StartDate,
-          :Program_ProgCode => (FactoryGirl.create :program).id,
-          :BannerTerm_BannerTerm => apply_term.id
+          :program => (FactoryGirl.create :program),
+          :banner_term => apply_term,
+          :student_file => (FactoryGirl.create :student_file, {:student => stu})
         }
-      end
-
-    end
+      end  # after
+    end # admitted_student
   end
 end

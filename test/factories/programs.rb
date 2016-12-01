@@ -13,7 +13,14 @@
 include Faker
 FactoryGirl.define do
   factory :program do
-    sequence(:ProgCode){|n| n.to_s }
+    ProgCode do
+      codes = Program.all.pluck :ProgCode
+      while true
+        code = Number.between(1, 999)
+        break if !codes.include? code
+      end
+      code
+    end
     EPSBProgName "EPSB Name"
     EDSProgName "EDS Name"
     Current true
