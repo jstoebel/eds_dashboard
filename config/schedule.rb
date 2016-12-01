@@ -13,6 +13,8 @@ every 1.day, :at => '3:30 am' do
   rake "update_praxis[true]"
 end
 
+set :output, nil
+
 every 1.day, :at => '4:30 am' do
   command %* export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)" && . $HOME/.bashrc && backup perform --trigger eds_backup *
 end
