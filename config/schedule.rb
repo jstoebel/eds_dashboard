@@ -14,5 +14,5 @@ every 1.day, :at => '3:30 am' do
 end
 
 every 1.day, :at => '4:30 am' do
-  command %* /bin/bash -c 'export PATH="$HOME/.rbenv/bin:$PATH" ; eval "$(rbenv init -)"; . $HOME/.bashrc; backup perform --trigger eds_backup' > ~/.cron.log 2>&1 *
+  command %* export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)" && . $HOME/.bashrc && backup perform --trigger eds_backup > ~/.cron.log 2>&1 *
 end
