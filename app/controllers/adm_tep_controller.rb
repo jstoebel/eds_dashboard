@@ -14,7 +14,6 @@ class AdmTepController < ApplicationController
   end
 
   def create
-
     @app = AdmTep.new(new_adm_params)
     authorize! :manage, @app
     stu = @app.student
@@ -26,7 +25,6 @@ class AdmTepController < ApplicationController
 
     apps_this_term = AdmTep.where(student_id: bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: prog_code).size
     @app.Attempt = apps_this_term + 1
-
     if @app.save
 
       name = name_details(stu)
@@ -95,7 +93,7 @@ class AdmTepController < ApplicationController
   def index
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
     @applications = @adm_teps.by_term(@term)   #fetch all applications for this term
- 
+
   end
 
   def choose

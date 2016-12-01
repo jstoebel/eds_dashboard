@@ -48,25 +48,64 @@ class AdmTepControllerTest < ActionController::TestCase
     end
   end # outer describe
 
-  # test "should get new" do
-  #
-  #   term = BannerTerm.first
-  #   start_date = (term.StartDate.to_date) + 1
-  #
-  #   travel_to start_date do
-  #     allowed_roles.each do |r|
-  #       load_session(r)
-  #       get :new
-  #       assert_response :success
-  #       assert_equal Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && s.EnrollmentStatus == "Active Student"}.to_a, assigns(:students).to_a
-  #       assert_equal  Program.where("Current = 1").to_a, assigns(:programs).to_a
-  #
-  #       term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
-  #       assert_equal BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc).to_a, assigns(:terms).to_a
-  #     end
-  #   end
-  # end
-  #
+  describe "create" do
+    before do
+      @stu = FactoryGirl.create :student
+
+      @term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
+        :EndDate => 10.days.from_now
+      }
+      @prog = FactoryGirl.create :program
+      pop_transcript(@stu, 12, 3.0, @term)
+      @app_attrs = FactoryGirl.attributes_for :adm_tep, {:student_id => @stu.id,
+        :BannerTerm_BannerTerm => @term.id,
+        :Program_ProgCode => @prog.id,
+        :TEPAdmit => nil,
+        :TEPAdmitDate => nil,
+        :student_file => nil
+      }
+    end
+    allowed_roles.each do |r|
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+        end
+
+        test "should create" do
+            post :create, {:adm_tep => @app_attrs}
+            assert_redirected_to adm_tep_index_path
+            assert_equal flash[:notice], "New application added: #{@stu.name_details}-#{prog.EDSProgName}"
+
+        end
+
+        test "should not create -- bad params" do
+          @app_attrs[:BannerTerm_BannerTerm] = nil
+          puts @app_attrs
+          post :create, {:adm_tep => @app_attrs}
+
+          puts assigns(:app).valid?, assigns(:app).errors.full_messages
+          assert_equal flash[:notice], "Application not saved."
+          assert_response :success
+        end
+
+      end # inner describe
+    end # roles loop
+
+    (all_roles - allowed_roles).each do |r|
+      before do
+        load_session(r)
+      end
+      test "should not post create -- access denied" do
+        post :create, {:adm_tep => @app_attrs}
+        assert_redirected_to "/access_denied"
+      end
+    end # roles loop
+
+
+  end # outer describe
+
+
   # test "should post create" do
   #   term = BannerTerm.first
   #   start_date = (term.StartDate.to_date) + 1
