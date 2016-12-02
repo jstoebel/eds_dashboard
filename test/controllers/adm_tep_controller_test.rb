@@ -74,17 +74,15 @@ class AdmTepControllerTest < ActionController::TestCase
 
         test "should create" do
             post :create, {:adm_tep => @app_attrs}
+            assert assigns(:app).valid?, assigns(:app).errors.full_messages
             assert_redirected_to adm_tep_index_path
-            assert_equal flash[:notice], "New application added: #{@stu.name_details}-#{prog.EDSProgName}"
-
+            assert_equal flash[:notice], "New application added: #{@stu.name_readable}-#{@prog.EDSProgName}"
         end
 
         test "should not create -- bad params" do
           @app_attrs[:BannerTerm_BannerTerm] = nil
-          puts @app_attrs
           post :create, {:adm_tep => @app_attrs}
-
-          puts assigns(:app).valid?, assigns(:app).errors.full_messages
+          assert_not assigns(:app).valid?
           assert_equal flash[:notice], "Application not saved."
           assert_response :success
         end
@@ -93,10 +91,9 @@ class AdmTepControllerTest < ActionController::TestCase
     end # roles loop
 
     (all_roles - allowed_roles).each do |r|
-      before do
+      
+      test "should not post create as #{r} -- access denied" do
         load_session(r)
-      end
-      test "should not post create -- access denied" do
         post :create, {:adm_tep => @app_attrs}
         assert_redirected_to "/access_denied"
       end
@@ -106,31 +103,31 @@ class AdmTepControllerTest < ActionController::TestCase
   end # outer describe
 
 
-  # test "should post create" do
-  #   term = BannerTerm.first
-  #   start_date = (term.StartDate.to_date) + 1
-  #   stu = Student.first
-  #
-  #   pop_transcript(stu, 12, 3.0, term)
-  #
-  #   prog = Program.first
-  #   travel_to start_date do
-  #     allowed_roles.each do |r|
-  #       AdmTep.delete_all   #clear entire table or else the record won't save on the second iteration
-  #       load_session(r)
-  #       post :create, {:adm_tep => {
-  #           :student_id => stu.id,
-  #           :Program_ProgCode => prog.id,
-  #           :BannerTerm_BannerTerm =>  BannerTerm.current_term.id
-  #         }
-  #       }
-  #
-  #       assert_redirected_to adm_tep_index_path
-  #       assert_equal flash[:notice], "New application added: #{ApplicationController.helpers.name_details(stu)}-#{prog.EDSProgName}"
-  #     end
-  #   end
-  # end
-  #
+  test "should post create" do
+    term = FactoryGirl.create :banner_term
+    start_date = (term.StartDate.to_date) + 1
+    stu = Student.first
+  
+    pop_transcript(stu, 12, 3.0, term)
+  
+    prog = FactoryGirl.create :program
+    travel_to start_date do
+      allowed_roles.each do |r|
+        AdmTep.delete_all   #clear entire table or else the record won't save on the second iteration
+        load_session(r)
+        post :create, {:adm_tep => {
+            :student_id => stu.id,
+            :Program_ProgCode => prog.id,
+            :BannerTerm_BannerTerm =>  BannerTerm.current_term.id
+          }
+        }
+  
+        assert_redirected_to adm_tep_index_path
+        assert_equal flash[:notice], "New application added: #{ApplicationController.helpers.name_details(stu)}-#{prog.EDSProgName}"
+      end
+    end
+  end
+  
   # test "should not post create bad app" do
   #   #create a conflict with the existing app
   #
