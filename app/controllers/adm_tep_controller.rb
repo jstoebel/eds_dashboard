@@ -43,8 +43,8 @@ class AdmTepController < ApplicationController
   def edit
       @application = AdmTep.find(params[:id])
       authorize! :manage, @application
-      @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
-      @student = Student.find(@application.student_id)
+      @term = @application.banner_term
+      @student =@application.student
       name_details(@student)
   end
 
