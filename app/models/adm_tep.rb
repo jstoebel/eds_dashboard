@@ -116,13 +116,10 @@ class AdmTep < ActiveRecord::Base
   def uniqueness_of_second_program
     stu = self.student
     # all of the student's adm_tep, where TEPAdmit = true or nil -> pull out program codes of each of these
-    current_programs = stu.adm_tep.where("TEPAdmit = 1 or TEPAdmit is null").pluck("Program_ProgCode")
-     # program codes with a TEPAdmit = true or nil. for each adm_tep the student has, 
-    # if this one isn't false and its program code is in current_programs add the error
+    current_programs = stu.adm_tep.where("TEPAdmit = 1 or TEPAdmit is null").where(:Program_ProgCode => self.Program_ProgCode)
     
-    # arr.includes? element -> element in arr 
-    
-    if current_programs.include? self.Program_ProgCode
+    #add error if there is more than one program found
+    if current_programs.size > 1
       self.errors.add(:Program_ProgCode, "This student already has an accepted or pending application to this program")
     end
   end
