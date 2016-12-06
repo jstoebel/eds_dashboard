@@ -46,9 +46,9 @@ class Student < ActiveRecord::Base
 	has_many :advisor_assignments
 	has_many :tep_advisors, :through => :advisor_assignments
 
-  has_many :student_scores
+	has_many :student_scores
 
-  has_many :pgps
+	has_many :pgps
 
 	has_many :praxis_results
 	has_many :praxis_prep
@@ -223,6 +223,11 @@ class Student < ActiveRecord::Base
 	def open_programs
 		admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
 		return admited.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
+	end
+	
+	def admited_programs
+		admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
+		return admited
 	end
 	#######################################################################################
 

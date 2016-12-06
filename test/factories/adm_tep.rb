@@ -22,8 +22,6 @@ FactoryGirl.define do
     association :student    #links to student object factory
     # association :program
     # association :banner_term
-    # need to provide Program_ProgCode
-    # need to provide BannerTerm_BannerTerm
     Attempt 1
     TEPAdmit true
     TEPAdmitDate Date.today

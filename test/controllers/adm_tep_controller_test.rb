@@ -8,7 +8,8 @@ class AdmTepControllerTest < ActionController::TestCase
   fixtures :all
 
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
-
+  all_roles = Role.all.pluck :RoleName
+  
   test "should get new" do
 
     term = BannerTerm.first
@@ -77,8 +78,6 @@ class AdmTepControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-
-
     app = AdmTep.first
     term = app.banner_term
     date = (term.EndDate.to_date)
@@ -99,49 +98,78 @@ class AdmTepControllerTest < ActionController::TestCase
     assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
   end
 
-  test "should post update" do
-    stu = FactoryGirl.create :student
-    term = BannerTerm.current_term({:exact => false, :plan_b => :back})
-    pop_transcript(stu, 12, 3.0, term.prev_term)
-    pop_praxisI(stu, true)
-
-    allowed_roles.each do |r|
-
-      load_session(r)
-
-      app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
-        :TEPAdmitDate => nil,
-        :student_id => stu.id,
-        :student_file_id =>nil,
-        :Program_ProgCode => Program.first.id,
-        :BannerTerm_BannerTerm => term.id
+  describe "update" do
+    before do
+      program = FactoryGirl.create :program
+      banner_term = FactoryGirl.create :banner_term
+      
+      @app = FactoryGirl.create :adm_tep, {:program => program, 
+        :banner_term => banner_term, 
+        :TEPAdmitDate => nil, 
+        :TEPAdmit => nil,
+        :student_file_id => nil
       }
+      pop_transcript(@app.student, 12, 3.0, @app.banner_term.prev_term)
+      pop_praxisI(@app.student, true)
+    end
+    allowed_roles.each do |r|
+      describe "as #{r}" do
 
-      app = AdmTep.create app_attrs
+        before do
+          load_session(r)
+        end
 
-      date = (term.StartDate.to_date) + 10
+        test "should post update" do
+          post :update, { 
+            :id => @app.id,
+            :adm_tep => {
+              :TEPAdmit => "true",
+              :TEPAdmitDate => @app.banner_term.StartDate,
+              :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+              }
+          }
+          
+          assert assigns(:application).valid?, assigns(:application).errors.full_messages
+          assert_redirected_to banner_term_adm_tep_index_path(@app.banner_term.id)
+          assert_equal flash[:notice], "Student application successfully updated"
+        end
 
-      travel_to date do
-        post :update, {
-              :id => app.id,
+        test "should not post update -- bad params" do
+          post :update, {
+                :id => @app.id,
+                :adm_tep => {
+                  :TEPAdmit => "true",
+                  :TEPAdmitDate => nil,
+                  :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                  }
+              }
+          assert_equal flash[:notice], "Error in saving application."
+          assert assigns(:application).errors.any?, assigns(:application).errors.full_messages
+          assert_response :success
+          assert_equal assigns(:term), @app.banner_term
+          assert_equal assigns(:student), @app.student
+        end
+
+      end # inner describe
+    end # roles loop
+
+    (all_roles - allowed_roles).each do |r|
+      
+      test "should not post update as #{r} -- access denied" do
+        load_session(r)
+          post :update, { 
+              :id => @app.id,
               :adm_tep => {
-                :TEPAdmit => "true",
-                :TEPAdmitDate => date.to_s,
+                :TEPAdmit => true,
+                :TEPAdmitDate => @app.banner_term.StartDate,
                 :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
                 }
             }
-
-        assert assigns(:application).valid?, assigns(:application).errors.full_messages
-        assert_redirected_to banner_term_adm_tep_index_path(app.banner_term.id)
-        assert_equal flash[:notice], "Student application successfully updated"
-
-        #tear down for next role
-        app.destroy
-        assigns(:letter).destroy
+        assert_redirected_to "/access_denied"
 
       end
-    end
-  end
+    end # roles loop
+  end # outer describe
 
   test "should not post update bad date" do
 

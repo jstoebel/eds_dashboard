@@ -59,12 +59,12 @@ FactoryGirl.define do
     Email         {Internet.email}
     CPO           {Number.between(1, 999).to_s}
     withdraws     {Hipster.sentence}
-    term_graduated {BannerTerm.first.id}
+    term_graduated {BannerTerm.first.andand.id}
     gender         {%w(male female).sample}
     race           {Hipster.word}
     hispanic       {Boolean.boolean}
-    term_expl_major {BannerTerm.first.id}
-    term_major      {BannerTerm.first.id}
+    term_expl_major {BannerTerm.first.andand.id}
+    term_major      {BannerTerm.first.andand.id}
 
     factory :admitted_student do
 
