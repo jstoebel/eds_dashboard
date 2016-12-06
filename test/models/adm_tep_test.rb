@@ -97,58 +97,79 @@ class AdmTepTest < ActiveSupport::TestCase
     end # test 
   end # describe
     
-    # @app = Factory.new({:student_id => stu.id, 
-    #   :Program_ProgCode => program, 
-    #   :BannerTerm_BannerTerm => banner, 
-    #   :student_file_id => stu_file.id,
-    #   :TEPAdmit => false
-    #   })
-    # assert @app.valid?, app.errors.full_messages
-    # assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
+  describe "good_gpa" do
+    before do
+      @app = FactoryGirl.build :adm_tep
+    end
+
+    test "both good" do
+      @app.GPA = 2.75
+      @app.GPA_last30 = 3.0
+      assert @app.good_gpa?
+    end
+
+    describe "overall good" do
+
+      before do
+        @app.GPA = 2.75
+      end
+
+      [2.99, nil].each do |last30|
+        test "last30: #{last30}" do
+          @app.GPA_last30 = last30
+          assert @app.good_gpa?
+        end
+      end
+
+    end
+
+    describe "last30 good" do
+      before do
+        @app.GPA_last30 = 3.0
+      end
+
+      [2.74, nil].each do |overall|
+        test "overall: #{overall}" do
+          @app.GPA = overall
+          assert @app.good_gpa?
+        end
+      end
+    end
+
+    describe "both bad" do
+
+      [2.74, nil].each do |overall|
+        [2.99, nil].each do |last30|
+          test "overall: #{overall}, last30: #{last30}" do
+            @app.GPA = overall
+            @app.GPA_last30 = last30
+            assert_not @app.good_gpa?
+          end
+        end
+      end
+
+    end
+  end
   
-  # describe "multiple applications" do
-    
-  #   before do
-  #     stu = FactoryGirl.create :admitted_student
-  #     program = stu.adm_tep.first.program.id
-  #     banner = BannerTerm.first.id
-  #     @app_skeleton = FactoryGirl.attributes_for :adm_tep, {:student_id => stu.id, 
-  #     :Program_ProgCode => program, 
-  #     :BannerTerm_BannerTerm => banner, 
-  #     :student_file_id => (FactoryGirl.build :student_file).id
-  #     }
-  #   end
-    
-  #   [true, false, nil].each do |second_result|
-  #       test "second application: #{second_result.to_s}" do
-          
-  #         @app_skeleton.merge!({:TEPAdmit => second_result})
-  #         AdmTep.attributes_for @app_skeleton
-          
-  #         if second_result == true 
-  #           assert_not app.valid?, app.errors.full_messages
-  #           assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
-  #         elsif second_result == false
-  #           assert app.valid?
-  #         elsif second_result ==  nil
-  #           assert_not app.valid?, app.errors.full_messages
-  #           assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
-  #         end
-  #           # alter app to the state you need (hint use second_result)
-  #           # make your assertions (they will differ based on what second_result is)
-  #       end
-  #   end
-    
-  # end
-  
-  # test "Same Programs for AdmTep" do 
-  #   stu = FactoryGirl.create :admitted_student
-  #   program = stu.adm_tep.first.program.id
-  #   banner = BannerTerm.first.id
-  #   app = FactoryGirl.build :adm_tep, {:student_id => stu.id, :Program_ProgCode => program, :BannerTerm_BannerTerm => banner}
-  #   assert_not app.valid?, app.errors.full_messages
-  #   assert_equal(app.errors[:Program_ProgCode], ["Student must not be admitted to the same program more than once."])
-  # end
+  describe "good credits" do
+    before do
+      @app = FactoryGirl.build :adm_tep
+    end
+
+    test "returns true" do
+      @app.EarnedCredits = 30
+      assert @app.good_credits?
+    end
+
+    describe "returns false" do
+      [29, nil].each do |credits|
+        test "credits: #{credits.to_s}" do
+          @app.EarnedCredits = credits
+          assert_not @app.good_credits?
+        end
+      end
+    end
+  end
 
   test "Two unique programs with different banner terms" do
     stu = FactoryGirl.create :admitted_student

@@ -171,50 +171,6 @@ class AdmTepControllerTest < ActionController::TestCase
     end # roles loop
   end # outer describe
 
-  # test "should post update" do
-  #   stu = FactoryGirl.create :student
-  #   term = BannerTerm.current_term({:exact => false, :plan_b => :back})
-  #   pop_transcript(stu, 12, 3.0, term.prev_term)
-  #   pop_praxisI(stu, true)
-
-  #   allowed_roles.each do |r|
-
-  #     load_session(r)
-
-  #     app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
-  #       :TEPAdmitDate => nil,
-  #       :student_id => stu.id,
-  #       :student_file_id => nil,
-  #       :Program_ProgCode => Program.first.id,
-  #       :BannerTerm_BannerTerm => term.id
-  #     }
-
-  #     app = AdmTep.create app_attrs
-
-  #     date = (term.StartDate.to_date) + 10
-
-  #     travel_to date do
-  #       post :update, {
-  #             :id => app.id,
-  #             :adm_tep => {
-  #               :TEPAdmit => "true",
-  #               :TEPAdmitDate => date.to_s,
-  #               :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
-  #               }
-  #           }
-  #       assert_equal(assigns(:application), app)
-  #       assert assigns(:application).valid?, assigns(:application).errors.full_messages
-  #       assert_redirected_to banner_term_adm_tep_index_path(app.banner_term.id)
-  #       assert_equal flash[:notice], "Student application successfully updated"
-
-  #       #tear down for next role
-  #       app.destroy
-  #       assigns(:letter).destroy
-
-  #     end
-  #   end
-  # end
-
   test "should not post update bad date" do
 
     stu = FactoryGirl.create :student
