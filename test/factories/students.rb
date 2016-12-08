@@ -64,7 +64,6 @@ FactoryGirl.define do
     Email         {Internet.email}
     CPO           {Number.between(1, 999).to_s}
     withdraws     {Hipster.sentence}
-
     term_graduated do
        term = FactoryGirl.create :banner_term
        term.id

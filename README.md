@@ -43,7 +43,7 @@ test:
 ### connecting to Banner
 This app depends on a connection to Banner to update its database. To do that you will need [dbi](http://ruby-dbi.rubyforge.org/rdoc/index.html) [oci8](http://www.rubydoc.info/github/kubo/ruby-oci8/file/docs/install-on-osx.md). OCI8 requires a bit more set up. Please read the docs to get started.
 
-Also `dbi` needs a small tweak to support ruby 2. Make the changed specified [here](http://stackoverflow.com/questions/27873121/dbi-row-delegate-behavior-between-ruby-1-8-7-and-2-1). For rbenv the file to edit is here: `~/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/dbi-0.4.5/lib/dbi`
+Also `dbi` needs a small tweak to support ruby 2. Make the changed specified [here](http://stackoverflow.com/questions/27873121/dbi-row-delegate-behavior-between-ruby-1-8-7-and-2-1). For rbenv the file to edit is here: `~/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/dbi-0.4.5/lib/dbi`. The line to edit is 212 on `row.rb`
 
 ### Testing
  - This app uses Minitest for all tests.

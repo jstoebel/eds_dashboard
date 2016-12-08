@@ -9,6 +9,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
   all_roles = Role.all.pluck :RoleName
+<<<<<<< HEAD
   describe "new" do
     before do
       @prospectives = FactoryGirl.create_list :student, 5
@@ -24,6 +25,10 @@ class AdmTepControllerTest < ActionController::TestCase
 
         test "should get" do
           get :new
+=======
+  
+  test "should get new" do
+>>>>>>> origin/master
 
           assert_response :success
           assert_equal @prospectives.to_a.sort, assigns(:students).to_a.sort
@@ -65,6 +70,7 @@ class AdmTepControllerTest < ActionController::TestCase
         :student_file => nil
       }
     end
+<<<<<<< HEAD
     allowed_roles.each do |r|
       describe "as #{r}" do
 
@@ -93,10 +99,21 @@ class AdmTepControllerTest < ActionController::TestCase
     (all_roles - allowed_roles).each do |r|
       
       test "should not post create as #{r} -- access denied" do
+=======
+  end
+
+  test "should get edit" do
+    app = AdmTep.first
+    term = app.banner_term
+    date = (term.EndDate.to_date)
+    travel_to date do
+      allowed_roles.each do |r|
+>>>>>>> origin/master
         load_session(r)
         post :create, {:adm_tep => @app_attrs}
         assert_redirected_to "/access_denied"
       end
+<<<<<<< HEAD
     end # roles loop
 
   end # outer describe
@@ -104,6 +121,29 @@ class AdmTepControllerTest < ActionController::TestCase
   describe "edit" do
     before do
       @app = FactoryGirl.create :adm_tep
+=======
+    end
+  end
+
+  test "should not get edit bad id" do
+    load_session("admin")
+    assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
+  end
+
+  describe "update" do
+    before do
+      program = FactoryGirl.create :program
+      banner_term = FactoryGirl.create :banner_term
+      
+      @app = FactoryGirl.create :adm_tep, {:program => program, 
+        :banner_term => banner_term, 
+        :TEPAdmitDate => nil, 
+        :TEPAdmit => nil,
+        :student_file_id => nil
+      }
+      pop_transcript(@app.student, 12, 3.0, @app.banner_term.prev_term)
+      pop_praxisI(@app.student, true)
+>>>>>>> origin/master
     end
     allowed_roles.each do |r|
       describe "as #{r}" do
@@ -112,23 +152,57 @@ class AdmTepControllerTest < ActionController::TestCase
           load_session(r)
         end
 
+<<<<<<< HEAD
         test "should get edit" do
           get :edit, {:id => @app.id}
           assert_response :success
           assert_equal assigns(:application), @app
+=======
+        test "should post update" do
+          post :update, { 
+            :id => @app.id,
+            :adm_tep => {
+              :TEPAdmit => "true",
+              :TEPAdmitDate => @app.banner_term.StartDate,
+              :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+              }
+          }
+          
+          assert assigns(:application).valid?, assigns(:application).errors.full_messages
+          assert_redirected_to banner_term_adm_tep_index_path(@app.banner_term.id)
+          assert_equal flash[:notice], "Student application successfully updated"
+        end
+
+        test "should not post update -- bad params" do
+          post :update, {
+                :id => @app.id,
+                :adm_tep => {
+                  :TEPAdmit => "true",
+                  :TEPAdmitDate => nil,
+                  :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                  }
+              }
+          assert_equal flash[:notice], "Error in saving application."
+          assert assigns(:application).errors.any?, assigns(:application).errors.full_messages
+          assert_response :success
+>>>>>>> origin/master
           assert_equal assigns(:term), @app.banner_term
           assert_equal assigns(:student), @app.student
         end
 
+<<<<<<< HEAD
         test "should not get id -- bad id" do
           assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
         end
 
+=======
+>>>>>>> origin/master
       end # inner describe
     end # roles loop
 
     (all_roles - allowed_roles).each do |r|
       
+<<<<<<< HEAD
       test "should not get edit #{r} -- access denied" do
         load_session(r)
         get :edit, {:id => @app.id}
@@ -136,6 +210,23 @@ class AdmTepControllerTest < ActionController::TestCase
       end
       
     end # roles loop
+=======
+      test "should not post update as #{r} -- access denied" do
+        load_session(r)
+          post :update, { 
+              :id => @app.id,
+              :adm_tep => {
+                :TEPAdmit => true,
+                :TEPAdmitDate => @app.banner_term.StartDate,
+                :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                }
+            }
+        assert_redirected_to "/access_denied"
+
+      end
+    end # roles loop
+  end # outer describe
+>>>>>>> origin/master
 
   end # outer describe  
 
