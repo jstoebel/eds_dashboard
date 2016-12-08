@@ -66,12 +66,12 @@ class FoiTest < ActiveSupport::TestCase
   describe "_import_row" do
     before do
       @stu = FactoryGirl.create :student
-      @row = {"Q1.2_3 - B#" => @stu.Bnum,
-        "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
-        "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
-        "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-        "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
-        "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "Yes"
+      @row = {"Please tell us about yourself-B#" => @stu.Bnum,
+        "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
+        "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
+        "Which area do you wish to seek certification in?" => Major.first.name,
+        "Do you intend to seek teacher certification at Berea College?" => "Yes",
+        "Do you intend to seek an Education Studies degree without certification?" => "Yes"
       }
     end
 
@@ -80,7 +80,7 @@ class FoiTest < ActiveSupport::TestCase
       describe "response combinations" do
         describe "new form" do
           before do
-            @key = "Q1.3 - Are you completing this form for the first time, or is this form a revision..."
+            @key = "Are you completing this form for the first time, or is this form a / revision?"
           end
 
           test "New Form" do
@@ -115,7 +115,7 @@ class FoiTest < ActiveSupport::TestCase
 
         describe "seek_cert" do
           before do
-            @key = "Q1.4 - Do you intend to seek teacher certification at Berea College?"
+            @key = "Do you intend to seek teacher certification at Berea College?"
           end
 
           test "Yes" do
@@ -151,8 +151,8 @@ class FoiTest < ActiveSupport::TestCase
         describe "eds_only" do
           before do
             # need seek_cert false to throw the error
-            @row["Q1.4 - Do you intend to seek teacher certification at Berea College?"] = "No"
-            @key = "Q2.1 - Do you intend to seek an Education Studies degree without certification?"
+            @row["Do you intend to seek teacher certification at Berea College?"] = "No"
+            @key = "Do you intend to seek an Education Studies degree without certification?"
           end
 
           test "Yes" do
@@ -199,7 +199,7 @@ class FoiTest < ActiveSupport::TestCase
       end
 
       test "seek_cert and no major given" do
-        @row["Q3.1 - Which area do you wish to seek certification in?"] = nil
+        @row["Which area do you wish to seek certification in?"] = nil
         assert_difference('Foi.count', 1) do
           Foi._import_foi(@row)
         end
@@ -208,7 +208,7 @@ class FoiTest < ActiveSupport::TestCase
     end # successful import
 
     test "doesn't import row - missing param" do
-      @row["Q1.2_3 - B#"] = nil
+      @row["Please tell us about yourself-B#"] = nil
       assert_raises ActiveRecord::RecordInvalid do
         Foi._import_foi(@row)
       end
@@ -229,12 +229,12 @@ class FoiTest < ActiveSupport::TestCase
         # create the CSV fi-temple
 
         @stu = FactoryGirl.create :student
-        @expected_attrs = {"Q1.2_3 - B#" => @stu.Bnum,
-          "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
-          "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-          "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
-          "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "Yes"
+        @expected_attrs = {"Please tell us about yourself-B#" => @stu.Bnum,
+          "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
+          "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
+          "Which area do you wish to seek certification in?" => Major.first.name,
+          "Do you intend to seek teacher certification at Berea College?" => "Yes",
+          "Do you intend to seek an Education Studies degree without certification?" => "Yes"
         }
 
         headers = @expected_attrs.keys
@@ -268,20 +268,20 @@ class FoiTest < ActiveSupport::TestCase
       # test params of the above hash
       before do
         @stu = FactoryGirl.create :student
-        @expected_attrs = {"Q1.2_3 - B#" => nil,
-          "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "new form",
-          "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-          "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
-          "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "yes"
+        @expected_attrs = {"Please tell us about yourself-B#" => nil,
+          "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
+          "Are you completing this form for the first time, or is this form a / revision?" => "new form",
+          "Which area do you wish to seek certification in?" => Major.first.name,
+          "Do you intend to seek teacher certification at Berea College?" => "yes",
+          "Do you intend to seek an Education Studies degree without certification?" => "yes"
         }
         @second_stu = FactoryGirl.create :student
-        @second_expected_attrs = {"Q1.2_3 - B#" => @second_stu.Bnum,
-          "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "bad param",
-          "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-          "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "yes",
-          "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "yes"
+        @second_expected_attrs = {"Please tell us about yourself-B#" => @second_stu.Bnum,
+          "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
+          "Are you completing this form for the first time, or is this form a / revision?" => "bad param",
+          "Which area do you wish to seek certification in?" => Major.first.name,
+          "Do you intend to seek teacher certification at Berea College?" => "yes",
+          "Do you intend to seek an Education Studies degree without certification?" => "yes"
         }
 
 
