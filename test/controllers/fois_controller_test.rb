@@ -74,12 +74,12 @@ class FoisControllerTest < ActionController::TestCase
       FileUtils.mkdir Rails.root.join('test', 'test_temp')
       @stu = FactoryGirl.create :student
       @pre_record_count = Foi.all.size
-      @expected_attrs = {"Q1.2_3 - B#" => @stu.Bnum,
-        "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
-        "Q1.3 - Are you completing this form for the first time, or is this form a revision..." => "New Form",
-        "Q3.1 - Which area do you wish to seek certification in?" => Major.first.name,
-        "Q1.4 - Do you intend to seek teacher certification at Berea College?" => "Yes",
-        "Q2.1 - Do you intend to seek an Education Studies degree without certification?" => "Yes"
+      @expected_attrs = {"Please tell us about yourself-B#" => @stu.Bnum,
+        "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
+        "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
+        "Which area do you wish to seek certification in?" => Major.first.name,
+        "Do you intend to seek teacher certification at Berea College?" => "Yes",
+        "Do you intend to seek an Education Studies degree without certification?" => "Yes"
       }
 
       headers = @expected_attrs.keys

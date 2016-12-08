@@ -99,17 +99,17 @@ class Foi < ActiveRecord::Base
 
     # these three attrs are processed the same.
     row_attrs = [
-      {:name => "Q1.3 - Are you completing this form for the first time, or is this form a revision...",
+      {:name => "Are you completing this form for the first time, or is this form a / revision?",
         :slug => :new_form,
         :true => "New Form",
         :false => "Revision"
       },
-      {:name => "Q1.4 - Do you intend to seek teacher certification at Berea College?",
+      {:name => "Do you intend to seek teacher certification at Berea College?",
         :slug => :seek_cert,
         :true => "Yes",
         :false => "No"
       },
-      {:name => "Q2.1 - Do you intend to seek an Education Studies degree without certification?",
+      {:name => "Do you intend to seek an Education Studies degree without certification?",
         :slug => :eds_only,
         :true => "Yes",
         :false => "No"
@@ -129,7 +129,7 @@ class Foi < ActiveRecord::Base
       end
     end
 
-    major_name = row["Q3.1 - Which area do you wish to seek certification in?"] # the raw name of the major from the fil
+    major_name = row["Which area do you wish to seek certification in?"] # the raw name of the major from the fil
     major = Major.find_by(:name => major_name) # this could be nil!
     attrs[:major_id] = major.andand.id
 
@@ -141,7 +141,7 @@ class Foi < ActiveRecord::Base
 
 
     #expected format: 9/2/16 9:25
-    date_str = row["Recorded Date"]  #date completing, from the csv
+    date_str = row["EndDate"]  #date completing, from the csv
 
     begin
       attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%y %k:%M")
@@ -149,7 +149,7 @@ class Foi < ActiveRecord::Base
       attrs[:date_completing] = nil
     end
 
-    bnum = row["Q1.2_3 - B#"]
+    bnum = row["Please tell us about yourself-B#"]
     attrs[:student_id] = Student.find_by({:Bnum => bnum}).andand.id
 
     Foi.create!(attrs)
