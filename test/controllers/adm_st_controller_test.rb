@@ -214,25 +214,25 @@ class AdmStControllerTest < ActionController::TestCase
  # TODO NEED TO TEST DOWNLOAD
 
    describe "should post update" do
-     
+
      allowed_roles.each do |r|
       before do
         load_session(r)
       end
-      
+
       describe "as #{r}" do
-        
+
         before do
            @stu = FactoryGirl.create :admitted_student
            # make a term that starts AFTER the term the student was admitted
            term_admitted = @stu.adm_tep.first.banner_term
            @term = FactoryGirl.create :banner_term, {:StartDate => (term_admitted.EndDate) + 1,
             :EndDate => (term_admitted.EndDate) + 10}
-            
+
             @app = FactoryGirl.create :pending_adm_st, {:banner_term => @term}
-           
+
         end
-        
+
         test "should post create" do
            post :update, {
                  :id => @app.id,
@@ -245,7 +245,7 @@ class AdmStControllerTest < ActionController::TestCase
            assert assigns(:app).valid?, assigns(:app).errors.full_messages
            assert_redirected_to adm_st_index_path
         end # test
-        
+
         test "should not post create -- no admit decision" do
            post :update, {
                  :id => @app.id,
@@ -259,12 +259,12 @@ class AdmStControllerTest < ActionController::TestCase
            assert_equal ["Please make an admission decision for this student."], assigns(:app).errors[:STAdmitted]
            assert_equal assigns(:term), BannerTerm.find(@app.BannerTerm_BannerTerm)
            assert_equal assigns(:student), Student.find(@app.student_id)
-          
+
         end # test
-        
+
       end # inner describe
      end # roles loop
-     
+
      # bad roles - access denied
      (all_roles - allowed_roles).each do |r|
        test "as #{r}, access_denied" do
@@ -273,20 +273,20 @@ class AdmStControllerTest < ActionController::TestCase
          app = FactoryGirl.create :pending_adm_st, {:student => stu,
            :banner_term => stu.adm_tep.first.banner_term
          }
-   
+
          post :update, {
                :id => app.id,
                :adm_st => {
                  :STAdmitted => "true"
                  }
              }
-         assert_redirected_to "/access_denied"      
+         assert_redirected_to "/access_denied"
        end
-        
+
      end # roles loop
-     
+
    end #outer describe
-   
+
    test "should get edit_st_paperwork" do
      allowed_roles.each do |r|
        load_session(r)
@@ -303,7 +303,7 @@ class AdmStControllerTest < ActionController::TestCase
      load_session("admin")
      assert_raises(ActiveRecord::RecordNotFound) { get :edit_st_paperwork, {adm_st_id: "badid"} }
    end
- 
+
    test "should post update_st_paperwork" do
      allowed_roles.each do |r|
        load_session(r)
@@ -320,24 +320,24 @@ class AdmStControllerTest < ActionController::TestCase
            :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
          }
        }
- 
- 
+
+
        assert_redirected_to adm_st_index_path
        assert_equal flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
      end
    end
- 
+
    describe "destory" do
-    
+
     # allowed users
     allowed_roles.each do |r|
       describe "as #{r}" do
-          
+
         before do
           load_session(r)
           @stu = FactoryGirl.create :admitted_student
         end
-        
+
         test "should destroy" do
           app = FactoryGirl.create(:pending_adm_st, {:student_id => @stu.id,
              :BannerTerm_BannerTerm => @stu.adm_tep.first.banner_term.id})
@@ -347,7 +347,7 @@ class AdmStControllerTest < ActionController::TestCase
           assert assigns(:app).destroyed?
           assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
         end # test
-        
+
         [:accepted_adm_st, :denied_adm_st].each do |status|
           test "shouldn't destory - #{status}" do
             app = FactoryGirl.create(status, {:student_id => @stu.id,
@@ -361,7 +361,7 @@ class AdmStControllerTest < ActionController::TestCase
 
       end # inner describe
     end # roles loop
-    
+
     # not allowed users
     (all_roles - allowed_roles).each do |r|
       test "as #{r} shouldn't destory" do
@@ -373,41 +373,26 @@ class AdmStControllerTest < ActionController::TestCase
         assert_redirected_to "/access_denied"
       end # test
     end # roles loop
-    
+
   end # describe
- 
- #  test "should not post update_st_paperwork bad app" do
- #    #I can't think of a way to cause the record to be invalid in this method.
- #    #so there may be no need for this test
- #  end
- #
- #  test "should get download" do
- #    #TODO
- #    #haven't figured out how to test this yet.
- #    # load_session("admin")
- #    # app = AdmSt.first
- #    # app.letter = File.new("test/fixtures/test_letter.docx")
- #    # app.save
- #    # get :download, {adm_st_id: app.id}
- #  end
- #
+
    test "should not get download bad id" do
      load_session("admin")
      assert_raises(ActiveRecord::RecordNotFound) { get :download, {adm_st_id: "badid"} }
    end
- 
+
    test "should post choose" do
      allowed_roles.each do |r|
        load_session(r)
        term = FactoryGirl.create :banner_term
- 
+
        post :choose, {
          :adm_st_id => "pick",
          :banner_term => {
            :menu_terms => term.id
          }
        }
- 
+
        assert_redirected_to banner_term_adm_st_index_path(term.id)
      end
    end
@@ -422,7 +407,7 @@ class AdmStControllerTest < ActionController::TestCase
        assert_redirected_to "/access_denied"
      end
    end
-   
+
    test "should not get new bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
@@ -430,7 +415,7 @@ class AdmStControllerTest < ActionController::TestCase
        assert_redirected_to "/access_denied"
      end
    end
- 
+
    test "should not post create bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
@@ -441,7 +426,7 @@ class AdmStControllerTest < ActionController::TestCase
        assert_redirected_to "/access_denied"
      end
    end
- 
+
    test "should not get edit bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
@@ -450,7 +435,7 @@ class AdmStControllerTest < ActionController::TestCase
        assert_redirected_to "/access_denied"
      end
    end
- 
+
    test "should not post update bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
@@ -458,12 +443,12 @@ class AdmStControllerTest < ActionController::TestCase
        app = FactoryGirl.build :accepted_adm_st, {:student_id => stu.id,
          :BannerTerm_BannerTerm => stu.adm_tep.first.banner_term.next_term.id
        }
- 
+
        #restore app to a pre decision state
        app.STAdmitted = nil
        app.STAdmitDate = nil
        app.save
- 
+
        post :update, {
              :id => app.id,
              :adm_st => {
@@ -471,20 +456,20 @@ class AdmStControllerTest < ActionController::TestCase
                }
            }
        assert_redirected_to "/access_denied"
- 
+
      end
    end
- 
+
    test "should not get edit_st_paperwork bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
        app = FactoryGirl.create :accepted_adm_st
        get :edit_st_paperwork, {adm_st_id: app.id}
        assert_redirected_to "/access_denied"
- 
+
      end
    end
- 
+
    test "should not post update_st_paperwork bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
@@ -492,7 +477,7 @@ class AdmStControllerTest < ActionController::TestCase
        assert_redirected_to "/access_denied"
      end
    end
- 
+
    test "should not get download bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
@@ -500,5 +485,5 @@ class AdmStControllerTest < ActionController::TestCase
        assert_redirected_to "/access_denied"
      end
    end
- 
+
 end
