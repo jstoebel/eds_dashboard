@@ -60,7 +60,7 @@ class Foi < ActiveRecord::Base
     #  file: type Rack::Test::UploadedFile
     # open the csv file, drop one row from the begining and then from the remainder open the first row
     # this returns an the resulting row inside of an array so pull it out using [0]
-    # TODO handle bad file type
+    
     if File.extname(file.original_filename) != ".csv"
       return {success: false, message: "File is not a .csv file."}
     end
@@ -94,7 +94,6 @@ class Foi < ActiveRecord::Base
   def self._import_foi(row)
     # row: a hash of attributes
     # creates an foi record or raises an error if student can't be determined
-
     attrs = {}
 
     # these three attrs are processed the same.

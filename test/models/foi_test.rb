@@ -66,8 +66,8 @@ class FoiTest < ActiveSupport::TestCase
   describe "_import_row" do
     before do
       @stu = FactoryGirl.create :student
-      @row = {"EndDate" => @stu.Bnum,
-        "Recorded Date" => Date.today.strftime("%m/%d/%y %k:%M"),
+      @row = {"Please tell us about yourself-B#" => @stu.Bnum,
+        "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
         "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
         "Which area do you wish to seek certification in?" => Major.first.name,
         "Do you intend to seek teacher certification at Berea College?" => "Yes",

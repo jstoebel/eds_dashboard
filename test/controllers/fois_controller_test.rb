@@ -123,7 +123,7 @@ class FoisControllerTest < ActionController::TestCase
 
         describe "bad data" do
           before do
-            @expected_attrs["Q1.2_3 - B#"] = nil # sabatoge record!
+            @expected_attrs["Please tell us about yourself-B#"] = nil # sabatoge record!
             CSV.open(@test_file_loc, "w") do |csv|
               csv << []  #first row or "super headers"
               csv << @expected_attrs.keys
