@@ -364,141 +364,294 @@ class AdmStControllerTest < ActionController::TestCase
 
     # not allowed users
     (all_roles - allowed_roles).each do |r|
-      test "as #{r} shouldn't destory" do
-        stu = FactoryGirl.create :admitted_student
-        term = FactoryGirl.create :banner_term
-        app = FactoryGirl.create :accepted_adm_st, {:student => stu, :banner_term => term}
+      
+      test "should not show as #{r} -- access denied" do
         load_session(r)
         post :destroy, {:id => app.id}
         assert_redirected_to "/access_denied"
       end # test
     end # roles loop
 
-  end # describe
+  end # outer describe
 
- #  test "should not post update_st_paperwork bad app" do
- #    #I can't think of a way to cause the record to be invalid in this method.
- #    #so there may be no need for this test
- #  end
- #
- #  test "should get download" do
- #    #TODO
- #    #haven't figured out how to test this yet.
- #    # load_session("admin")
- #    # app = AdmSt.first
- #    # app.letter = File.new("test/fixtures/test_letter.docx")
- #    # app.save
- #    # get :download, {adm_st_id: app.id}
- #  end
- #
-   test "should not get download bad id" do
-     load_session("admin")
-     assert_raises(ActiveRecord::RecordNotFound) { get :download, {adm_st_id: "badid"} }
-   end
+  
+ describe "delete" do
+    before do
+      @app = FactoryGirl.create :adm_tep
+      
+      @term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
+        :EndDate => 10.days.from_now}
+      
+      @prog = FactoryGirl.create :program
+      
+    end
+    
+    allowed_roles.each do |r|
+      describe "as #{r}" do
+        
+        before do
+          load_session(r)
+        end
 
-   test "should post choose" do
-     allowed_roles.each do |r|
-       load_session(r)
-       term = FactoryGirl.create :banner_term
+        test "should delete" do
+          #1 create an example adm_tep record
+          stu = @app.student
+          pop_transcript(stu, 12, 3.0, term.prev_term)
+          pop_praxisI(stu, true)
+        
+          app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+            :TEPAdmitDate => nil,
+            :student_id => stu.id,
+            :student_file_id =>nil,
+            :Program_ProgCode => @prog.id,
+            :BannerTerm_BannerTerm => @term.id
+          }
+    
+            expected_app = AdmTep.create app_attrs
+            
+            post :destroy, {:id => expected_app.id}
+        
+            assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
+            assert assigns(:app).destroyed?             # failed for expected_app
+            assert_equal flash[:notice], "Record deleted successfully"    #assert flash message
+            assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)      #asserted equal. can use expected_app.BannerTerm_BannerTerm?#method(instance variable.object attribute)
+        
+        end
+        
+        test "should not delete record -- record not pending" do
+          stu = @app.student
+          stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
+          pop_transcript(stu, 12, 3.0, term.prev_term)
+          pop_praxisI(stu, true)
+        
+          app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
+            :TEPAdmitDate => Date.today,
+            :student_id => stu.id,
+            :student_file_id => stu_file.id,
+            :Program_ProgCode => @prog.id,
+            :BannerTerm_BannerTerm => @term.id
+          }
+          expected_app = AdmTep.create app_attrs
+        
+          allowed_roles.each do |r|
+            load_session(r)
+            post :destroy, {:id => expected_app.id}
+            assert_equal flash[:notice], "Record cannot be deleted"
+            #assert_redirected_to banner_term_adm_tep_index_path( assigns(:app.BannerTerm_BannerTerm))
+            assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)
+        end
+        
+      end # inner describe
+    end # roles loop
 
-       post :choose, {
-         :adm_st_id => "pick",
-         :banner_term => {
-           :menu_terms => term.id
-         }
-       }
+    (all_roles - allowed_roles).each do |r|
+      
+      test "should not delete record as #{r} -- access denied" do
+        load_session(r)
+          stu = @app.student
+          pop_transcript(stu, 12, 3.0, term.prev_term)
+          pop_praxisI(stu, true)
+        
+          app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+            :TEPAdmitDate => nil,
+            :student_id => stu.id,
+            :student_file_id =>nil,
+            :Program_ProgCode => @prog.id,
+            :BannerTerm_BannerTerm => @term.id
+          }
+          expected_app = AdmTep.create app_attrs
+          (role_names - allowed_roles).each do |r|
+            load_session(r)
+        
+            post :destroy, {:id => expected_app.id}
+            assert_redirected_to "/access_denied"
+      end
+    end # roles loop
 
-       assert_redirected_to banner_term_adm_st_index_path(term.id)
-     end
-   end
+  end # outer describe
 
- #  #TESTS FOR UNPERMITTED USERS (advisor, stu_labor)
- #
-   test "should not get index bad role" do
-     term = FactoryGirl.create :banner_term
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       get :index
-       assert_redirected_to "/access_denied"
-     end
-   end
 
-   test "should not get new bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       get :new
-       assert_redirected_to "/access_denied"
-     end
-   end
+  test "should post choose" do
+    allowed_roles.each do |r|
+      load_session(r)
+      term = FactoryGirl.create :banner_term, {:StartDate => 1.days.ago,
+        :EndDate => 1.days.from_now}
+  
+      post :choose, {
+        :adm_tep_id => "pick",
+        :banner_term => {
+          :menu_terms => term.id
+        }
+      }
+  
+      assert_redirected_to banner_term_adm_tep_index_path(term_int)
+    end
+  end
+  
 
-   test "should not post create bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       stu = FactoryGirl.create :accepted_adm_st
-       post :create, {:adm_st => {
-         :student_id => stu.id}
-       }
-       assert_redirected_to "/access_denied"
-     end
-   end
+  #
+  # #TODO tests for download action
+  #
+  # #TESTS FOR UNAUTHORIZED USERS
+  #
+  #
+  #   #TESTS FOR UNPERMITTED USERS (advisor, stu_labor)
+  #
+  #
+  # test "should not post create bad role" do
+  #   (role_names - allowed_roles).each do |r|
+  #     load_session(r)
+  #     stu = Student.first
+  #     post :create, {:adm_tep => {
+  #       :student_id => stu.id}
+  #     }
+  #     assert_redirected_to "/access_denied"
+  #   end
+  # end
+  #
+  # test "should not get edit bad role" do
+  #   (role_names - allowed_roles).each do |r|
+  #     load_session(r)
+  #     app = FactoryGirl.create :adm_tep
+  #     get :edit, {:id => app.id}
+  #     assert_redirected_to "/access_denied"
+  #   end
+  # end
+  #
+  # test "should not post update bad role" do
+  #   (role_names - allowed_roles).each do |r|
+  #     load_session(r)
+  #
+  #     post :update, {
+  #           :id => "who cares",
+  #           :adm_tep => {
+  #             }
+  #         }
+  #     assert_redirected_to "/access_denied"
+  #
+  #   end
+  # end
+  #
+  # test "should not get index bad role" do
+  #   term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+  #   (role_names - allowed_roles).each do |r|
+  #     load_session(r)
+  #     get :index
+  #     assert_redirected_to "/access_denied"
+  #   end
+  # end
+  #
+  # test "should not get show bad role" do
+  #   term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+  #   (role_names - allowed_roles).each do |r|
+  #     load_session(r)
+  #     get :show, {id: "who cares"}
+  #     assert_redirected_to "/access_denied"
+  #   end
+  # end
+  #
+  # test "should not get download bad role" do
+  #   term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+  #   (role_names - allowed_roles).each do |r|
+  #     load_session(r)
+  #     get :download, {adm_tep_id: "who cares"}
+  #     assert_redirected_to "/access_denied"
+  #   end
+  # end
+  #
+  # test "should delete the record" do
+  #   # use assigns(:app)
+  #
+  #   #1 create an example adm_tep record
+  #   stu = FactoryGirl.create :student
+  #   term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+  #   pop_transcript(stu, 12, 3.0, term.prev_term)
+  #   pop_praxisI(stu, true)
+  #
+  #   app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => nil,
+  #     :TEPAdmitDate => nil,
+  #     :student_id => stu.id,
+  #     :student_file_id =>nil,
+  #     :Program_ProgCode => Program.first.id,
+  #     :BannerTerm_BannerTerm => term.id
+  #   }
+  #
+  #   allowed_roles.each do |r|
+  #     load_session(r)
+  #     expected_app = AdmTep.create app_attrs
+  #     #2 make the request
+  #     post :destroy, {:id => expected_app.id}
+  #
+  #     #3 make your assertions
+  #     # assigned record is the same
+  #     assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
+  #     assert assigns(:app).destroyed?             # failed for expected_app
+  #     assert_equal flash[:notice], "Record deleted successfully"    #assert flash message
+  #     assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)      #asserted equal. can use expected_app.BannerTerm_BannerTerm?#method(instance variable.object attribute)
+  #
+  #   end
+  # end
+  #
+  # test "should not delete record bad role" do
+  #   stu = FactoryGirl.create :student
+  #   stu_file = FactoryGirl.create :student_file , {:student_id => stu.id}
+  #   term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+  #   pop_transcript(stu, 12, 3.0, term.prev_term)
+  #   pop_praxisI(stu, true)
+  #
+  #   app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
+  #     :TEPAdmitDate => Date.today,
+  #     :student_id => stu.id,
+  #     :student_file_id => stu_file.id,
+  #     :Program_ProgCode => Program.first.id,
+  #     :BannerTerm_BannerTerm => term.id
+  #   }
+  #   expected_app = AdmTep.create app_attrs
+  #   (role_names - allowed_roles).each do |r|
+  #     load_session(r)
+  #
+  #     post :destroy, {:id => expected_app.id}
+  #     assert_redirected_to "/access_denied"
+  #   end
+  # end
+  #
+  # test 'should not delete record not pending' do
+  #   stu = FactoryGirl.create :student
+  #   stu_file = FactoryGirl.create :student_file, {:student_id => stu.id}
+  #   term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+  #   pop_transcript(stu, 12, 3.0, term.prev_term)
+  #   pop_praxisI(stu, true)
+  #
+  #   app_attrs = FactoryGirl.attributes_for :adm_tep, {:TEPAdmit => true,
+  #     :TEPAdmitDate => Date.today,
+  #     :student_id => stu.id,
+  #     :student_file_id => stu_file.id,
+  #     :Program_ProgCode => Program.first.id,
+  #     :BannerTerm_BannerTerm => term.id
+  #   }
+  #   expected_app = AdmTep.create app_attrs
+  #
+  #   allowed_roles.each do |r|
+  #     load_session(r)
+  #     post :destroy, {:id => expected_app.id}
+  #     assert_equal flash[:notice], "Record cannot be deleted"
+  #     #assert_redirected_to banner_term_adm_tep_index_path( assigns(:app.BannerTerm_BannerTerm))
+  #     assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)
+  #   end
+  # end
 
-   test "should not get edit bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       app = FactoryGirl.create :accepted_adm_st
-       get :edit, {:id => app.id}
-       assert_redirected_to "/access_denied"
-     end
-   end
 
-   test "should not post update bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       stu = FactoryGirl.create :admitted_student
-       app = FactoryGirl.build :accepted_adm_st, {:student_id => stu.id,
-         :BannerTerm_BannerTerm => stu.adm_tep.first.banner_term.next_term.id
-       }
+  private
+  def attach_letter(app)
+    letter = StudentFile.create({
+        :student_id => app.student.id,
+        :active => true,
+        :doc => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+      })
 
-       #restore app to a pre decision state
-       app.STAdmitted = nil
-       app.STAdmitDate = nil
-       app.save
+    letter.save
+    return letter
+  end
 
-       post :update, {
-             :id => app.id,
-             :adm_st => {
-               :STAdmitted => "true"
-               }
-           }
-       assert_redirected_to "/access_denied"
-
-     end
-   end
-
-   test "should not get edit_st_paperwork bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       app = FactoryGirl.create :accepted_adm_st
-       get :edit_st_paperwork, {adm_st_id: app.id}
-       assert_redirected_to "/access_denied"
-
-     end
-   end
-
-   test "should not post update_st_paperwork bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       post :update_st_paperwork, {:adm_st_id => "who_cares"}
-       assert_redirected_to "/access_denied"
-     end
-   end
-
-   test "should not get download bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       post :download, {:adm_st_id => "who_cares"}
-       assert_redirected_to "/access_denied"
-     end
-   end
 
 end
