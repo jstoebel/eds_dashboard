@@ -90,11 +90,10 @@ class ActiveSupport::TestCase
 
   def pop_praxisI(stu, passing)
 
-    #for each required test, make attrs for a praxis_result
-    p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
+    p1_tests = FactoryGirl.create_list :praxis_test, 3, {:TestFamily => 1, :CurrentTest => true}
 
     praxis_attrs = p1_tests.map { |test|
-      FactoryGirl.attributes_for :praxis_result, {
+      FactoryGirl.create :praxis_result, {
         :student_id => stu.id,
         :praxis_test_id =>  test.id,
         :test_score => (passing ? test.CutScore : test.CutScore-1),
@@ -103,7 +102,6 @@ class ActiveSupport::TestCase
       }
      }
 
-     praxis_attrs.map { |t| PraxisResult.create t }
   end
 
 end
