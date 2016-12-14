@@ -49,7 +49,7 @@ class AdmTep < ActiveRecord::Base
 
   validates_presence_of :Program_ProgCode,
     :message => "No program selected."
-
+  
   validates_presence_of :BannerTerm_BannerTerm,
     :message => "No term could be determined."
 
@@ -58,7 +58,7 @@ class AdmTep < ActiveRecord::Base
     }
 
   validates_presence_of :TEPAdmitDate, {:message => "Admission date must be given.",
-    :unless => Proc.new{|s| s.TEPAdmit.nil?}# self.TEPAdmit.nil?
+    :if => Proc.new{|s| s.TEPAdmit.present?}# self.TEPAdmit.nil?
   }
 
   def good_credits?
@@ -92,7 +92,8 @@ class AdmTep < ActiveRecord::Base
   def complex_validations
     # these only run if all simple validations passed
     validations = [:admit_date_too_early, :admit_date_too_late, :bad_praxisI,
-      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision
+      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision, :uniqueness_of_second_program
+      
     ]
 
     validations.each do |v|
@@ -103,6 +104,17 @@ class AdmTep < ActiveRecord::Base
   def admit_date_too_early
     if self.TEPAdmitDate.present? && self.TEPAdmitDate < self.banner_term.StartDate
       self.errors.add(:TEPAdmitDate, "Admission date must be after term begins.")
+    end
+  end
+  
+  def uniqueness_of_second_program
+    stu = self.student
+    # all of the student's adm_tep, where TEPAdmit = true or nil -> pull out program codes of each of these
+    current_programs = stu.adm_tep.where("TEPAdmit = 1 or TEPAdmit is null").where(:Program_ProgCode => self.Program_ProgCode)
+    
+    #add error if there is more than one program found
+    if current_programs.size > 1
+      self.errors.add(:Program_ProgCode, "This student already has an accepted or pending application to this program")
     end
   end
 

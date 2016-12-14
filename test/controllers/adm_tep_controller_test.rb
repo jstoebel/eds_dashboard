@@ -1,296 +1,375 @@
-
 require 'test_helper'
 require 'paperclip'
 include ActionDispatch::TestProcess
 
-require 'factory_girl'
-class AdmTepControllerTest < ActionController::TestCase
-  fixtures :all
+class AdmStControllerTest < ActionController::TestCase
 
   allowed_roles = ["admin", "staff"]    #only these roles are allowed access
   all_roles = Role.all.pluck :RoleName
-  describe "new" do
+  #TESTS FOR PERMITTED USERS (ADMIN AND STAFF)
+
+  let(:term_today){FactoryGirl.create :banner_term, {:StartDate => Date.today,
+        :EndDate => Date.today + 10
+      }}
+
+  describe "should get index" do
+
     before do
-      @prospectives = FactoryGirl.create_list :student, 5
-      FactoryGirl.create_list :admitted_student, 5
-      @term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
-        :EndDate => 10.days.from_now}
-      end
+      @term = term_today
+      @apps = FactoryGirl.create_list :accepted_adm_st, 5, {:BannerTerm_BannerTerm => @term.id}
+    end
+
     allowed_roles.each do |r|
       describe "as #{r}" do
-        before do
-          load_session(r)
-        end
-
-        test "should get" do
-          get :new
-
-          assert_response :success
-          assert_equal @prospectives.to_a.sort, assigns(:students).to_a.sort
-          assert_equal  Program.where("Current = 1").to_a, assigns(:programs).to_a
-        end
-
-      end # inner describe
-    end # roles loop
-
-    (all_roles - allowed_roles).each do |r|
-      describe "as #{r}" do
-        before do
-          load_session(r)
-        end
-
-        test "should not get -- access denied" do
-          get :new
-          assert_redirected_to "/access_denied"
-        end
-
-      end
-    end
-  end # outer describe
-
-  describe "create" do
-    before do
-      @stu = FactoryGirl.create :student
-
-      @term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
-        :EndDate => 10.days.from_now
-      }
-      @prog = FactoryGirl.create :program
-      pop_transcript(@stu, 12, 3.0, @term)
-      @app_attrs = FactoryGirl.attributes_for :adm_tep, {:student_id => @stu.id,
-        :BannerTerm_BannerTerm => @term.id,
-        :Program_ProgCode => @prog.id,
-        :TEPAdmit => nil,
-        :TEPAdmitDate => nil,
-        :student_file => nil
-      }
-    end
-    allowed_roles.each do |r|
-      describe "as #{r}" do
-
-        before do
-          load_session(r)
-        end
-
-        test "should create" do
-            post :create, {:adm_tep => @app_attrs}
-            assert assigns(:app).valid?, assigns(:app).errors.full_messages
-            assert_redirected_to adm_tep_index_path
-            assert_equal flash[:notice], "New application added: #{@stu.name_readable}-#{@prog.EDSProgName}"
-        end
-
-        test "should not create -- bad params" do
-          @app_attrs[:BannerTerm_BannerTerm] = nil
-          post :create, {:adm_tep => @app_attrs}
-          assert_not assigns(:app).valid?
-          assert_equal flash[:notice], "Application not saved."
-          assert_response :success
-        end
-
-      end # inner describe
-    end # roles loop
-
-    (all_roles - allowed_roles).each do |r|
-      
-      test "should not post create as #{r} -- access denied" do
-        load_session(r)
-        post :create, {:adm_tep => @app_attrs}
-        assert_redirected_to "/access_denied"
-      end
-    end # roles loop
-
-  end # outer describe
-  
-  describe "edit" do
-    before do
-      @app = FactoryGirl.create :adm_tep
-    end
-    allowed_roles.each do |r|
-      describe "as #{r}" do
-
-        before do
-          load_session(r)
-        end
-
-        test "should get edit" do
-          get :edit, {:id => @app.id}
-          assert_response :success
-          assert_equal assigns(:application), @app
-          assert_equal assigns(:term), @app.banner_term
-          assert_equal assigns(:student), @app.student
-        end
-
-        test "should not get id -- bad id" do
-          assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
-        end
-
-      end # inner describe
-    end # roles loop
-
-    (all_roles - allowed_roles).each do |r|
-      
-      test "should not get edit #{r} -- access denied" do
-        load_session(r)
-        get :edit, {:id => @app.id}
-        assert_redirected_to "/access_denied"
-      end
-      
-    end # roles loop
-
-  end # outer describe  
-
-  describe "update" do
-    before do
-      @app = FactoryGirl.create :adm_tep 
-      pop_transcript(@app.student, 12, 3.0, @app.banner_term.prev_term)
-      pop_praxisI(@app.student, true)
-    end
-    allowed_roles.each do |r|
-      describe "as #{r}" do
-
-        before do
-          load_session(r)
-        end
-
-        test "should post update" do
-          post :update, { 
-            :id => app.id,
-            :adm_tep => {
-              :TEPAdmit => true,
-              :TEPAdmitDate => @app.banner_term.StartDate,
-              :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
-              }
-          }
-          
-          assert assigns(:application).valid?, assigns(:application).errors.full_messages
-          assert_redirected_to banner_term_adm_tep_index_path(app.banner_term.id)
-          assert_equal flash[:notice], "Student application successfully updated"
-        end
-
-        test "should not post update -- bad params" do
-          post :update, {
-                :id => app.id,
-                :adm_tep => {
-                  :TEPAdmit => "true",
-                  :TEPAdmitDate => nil,
-                  :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
-                  }
-              }
-          assert_equal flash[:notice], "Error in saving application."
-          assert assigns(:application).errors[:TEPAdmitDate].include?("Admission date must be before next term begins."),
-            assigns(:application).errors.full_messages
-          assert_response :success
-          assert_equal assigns(:term), app.banner_term
-          assert_equal assigns(:student), app.student
-        end
-
-      end # inner describe
-    end # roles loop
-
-    (all_roles - allowed_roles).each do |r|
-      
-      test "should not post update as #{r} -- access denied" do
-        load_session(r)
-          post :update, { 
-              :id => app.id,
-              :adm_tep => {
-                :TEPAdmit => true,
-                :TEPAdmitDate => @app.banner_term.StartDate,
-                :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
-                }
-            }
-        assert_redirected_to "/access_denied"
-
-      end
-    end # roles loop
-
-  end # outer describe
-
-
- describe "index" do
-    before do
-      @applications = FactoryGirl.create_list :adm_tep, 5
-    end
-    
-    allowed_roles.each do |r|
-      describe "as #{r}" do
-
         before do
           load_session(r)
         end
 
         test "should get index" do
+          #should be accessible for admin and staff only
+
           get :index
-          assert_response :success
-          assert_equal assigns(:applications).to_a.sorted, @applications.sorted
-          # test for @current_term, @term, @menu_terms
-          
-          assert_equal BannerTerm.current_term(exact: false, plan_b: :back), assigns(:current_term)
-          assert_equal assigns(:term), assigns(:current_term)
-          assert_equal BannerTerm.all.joins(table_name).group(term_col), assigns(:menu_terms)
-        end
-        
-        test "should get index -- with term" do
-          term_to_use = @applications.first.banner_term
-          get :index, :banner_term_id => term_to_use.id
-          assert_response :success
-          assert_equal assigns(:applications).to_a.sorted, @applications.sorted
-          
-          assert_equal BannerTerm.current_term(exact: false, plan_b: :back), assigns(:current_term)
-          assert_equal BannerTerm.find(term_to_use.id), assigns(:term)
-          assert_equal BannerTerm.all.joins(table_name).group(term_col), assigns(:menu_terms)
-        end
+          assert_response :success, "unexpected http response, role=#{r}"
+          assert_equal assigns(:applications).to_a, @apps
+        end # test
 
-      end # inner describe
-    end # roles loop
+        test "should get index with term" do
+          #should be accessible for admin and staff only
 
-    (all_roles - allowed_roles).each do |r|
-      
-      test "should not get index as #{r} -- access denied" do
-        load_session(r)
-        get :index
-        assert_redirected_to "/access_denied"
-      end
-    end # roles loop
-
+          get :index, {:banner_term_id => @term.BannerTerm}
+          assert_response :success, "unexpected http response, role=#{r}"
+          assert_equal assigns(:applications).to_a, @apps
+        end # test
+      end # roles
+    end # inner describe
   end # outer describe
 
+  describe "new" do
 
-
- describe "show" do
-    before do
-      @app = FactoryGirl.create :adm_tep
-    end
-    
     allowed_roles.each do |r|
+
       describe "as #{r}" do
-        
+
+        before do
+          load_session(r)
+
+          @expected_students = FactoryGirl.create_list :admitted_student, 5
+          # these students should be ignored
+          other_student = FactoryGirl.create :student
+          other_admitted_student = FactoryGirl.create :admitted_student, :EnrollmentStatus => "Dropped"
+
+          @expected_terms = FactoryGirl.create_list :banner_term, 5, :StartDate => 1.year.ago, :EndDate => 2.years.ago
+
+          #lets try to make a new app with a date in the same term as an existing app
+          existing_app = FactoryGirl.create :accepted_adm_st
+          app_term = existing_app.BannerTerm_BannerTerm
+          date_to_use = (BannerTerm.find(app_term).StartDate.to_date) + 2
+          FactoryGirl.create :banner_term, {:StartDate => (2.years.ago) -10, :EndDate => (2.years.ago) -1}
+        end
+
+        test "should get new" do
+          this_term = term_today
+          get :new
+
+          expected_terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc).to_a
+
+          assert_equal assigns(:students).to_a.sort, @expected_students.to_a.sort
+          assert_equal assigns(:terms).to_a.sort, expected_terms.to_a.sort # This sometimes fails, we do not know why...
+          assert_response :success, "unexpected http response, role=#{r}"
+        end
+
+        test "should not get new outside term" do
+          this_term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
+            :EndDate => 1.day.ago
+          }
+         get :new
+         assert_redirected_to adm_st_index_path
+         assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
+        end
+
+        test "should get edit" do
+          allowed_roles.each do |r|
+            load_session(r)
+            app = FactoryGirl.create :accepted_adm_st
+            get :edit, {:id => app.id}
+            assert_response :success, "unexpected http response, role=#{r}"
+            assert_equal assigns(:app), app
+            assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+            assert_equal assigns(:student), Student.find(app.student_id)
+          end # each loop
+        end # test
+      end # inner describe
+    end # allowed roles loop
+
+    (all_roles - allowed_roles).each do |r|
+      describe "as #{r}" do
         before do
           load_session(r)
         end
 
-        test "should get show" do
-          get :show, {id: @app.id}
-          assert_response :success
-          assert_equal assigns(:app), @app
-          assert_equal assigns(:term), @app.banner_term
-          assert_equal assigns(:student), @app.student
-        end
-        
-        test "should not show -- bad params" do
-          assert_raises(ActiveRecord::RecordNotFound) { get :show, {id: "badid"} }
+        test "redirects to access denied" do
+          get :new
+          assert_redirected_to "/access_denied"
         end
 
       end # inner describe
     end # roles loop
+  end
 
+  describe "should post create" do
+    before do
+      @stu = FactoryGirl.create :admitted_student
+      @term = @stu.adm_tep.first.banner_term.next_term
+    end
+
+    allowed_roles.each do |r|
+      test "as #{r}" do
+        load_session(r)
+        app_attrs = FactoryGirl.attributes_for :pending_adm_st, {:student_id => @stu.id,
+          :BannerTerm_BannerTerm => @term.id
+        }
+        post :create, {:adm_st => app_attrs}
+
+        assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
+        assert_equal assigns(:app).student_id, @stu.id
+        assert_equal flash[:notice], "New application added for #{@stu.name_readable(file_as=true)}"
+
+      end # test
+
+      test "should not post create bad params" do
+        app_attrs = FactoryGirl.attributes_for :pending_adm_st, {:student_id => @stu.id,
+          :BannerTerm_BannerTerm => nil
+        }
+        post :create, {:adm_st => {
+           :student_id=> @stu.id}
+        }
+
+        assert_response :success
+        assert_equal flash[:notice], "Application not saved."
+      end
+
+    end # roles loop
+
+    (all_roles - allowed_roles).each do |r|
+      describe "as #{r}" do
+        before do
+          load_session(r)
+        end
+
+        test "redirects to access denied" do
+          app_attrs = FactoryGirl.attributes_for :pending_adm_st, {:student_id => @stu.id,
+            :BannerTerm_BannerTerm => @term.id
+          }
+          post :create, {:adm_st => app_attrs}
+          assert_redirected_to "/access_denied"
+        end
+      end # inner describe
+    end # roles loop
+  end # describe
+
+  describe "edit" do
+
+    allowed_roles.each do |r|
+
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+
+        end
+
+        test "should get edit" do
+           app = FactoryGirl.create :pending_adm_st
+           get :edit, {:id => app.id}
+           assert_response :success, "unexpected http response, role=#{r}"
+           assert_equal assigns(:app), app
+           assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
+           assert_equal assigns(:student), Student.find(app.student_id)
+        end
+
+        test "should not get edit bad id" do
+          assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
+        end
+
+      end # inner describe
+
+    end # allowed roles loop
+
+    (all_roles - allowed_roles).each do |r|
+      describe "as #{r}" do
+        before do
+          load_session(r)
+        end
+
+        test "redirects to access denied" do
+          app = FactoryGirl.create :pending_adm_st
+          get :edit, {:id => app.id}
+          assert_redirected_to "/access_denied"
+        end
+
+        end # inner describe
+    end # roles loop
+  end
+
+ # TODO NEED TO TEST DOWNLOAD
+
+   describe "should post update" do
+
+     allowed_roles.each do |r|
+      before do
+        load_session(r)
+      end
+
+      describe "as #{r}" do
+
+        before do
+           @stu = FactoryGirl.create :admitted_student
+           # make a term that starts AFTER the term the student was admitted
+           term_admitted = @stu.adm_tep.first.banner_term
+           @term = FactoryGirl.create :banner_term, {:StartDate => (term_admitted.EndDate) + 1,
+            :EndDate => (term_admitted.EndDate) + 10}
+
+            @app = FactoryGirl.create :pending_adm_st, {:banner_term => @term}
+
+        end
+
+        test "should post create" do
+           post :update, {
+                 :id => @app.id,
+                 :adm_st => {
+                   :STAdmitted => true,
+                   :STAdmitDate => @term.StartDate,
+                   :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                   }
+               }
+           assert assigns(:app).valid?, assigns(:app).errors.full_messages
+           assert_redirected_to adm_st_index_path
+        end # test
+
+        test "should not post create -- no admit decision" do
+           post :update, {
+                 :id => @app.id,
+                 :adm_st => {
+                   :STAdmitted => nil,
+                   :STAdmitDate => @term.StartDate,
+                   :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                   }
+               }
+           assert_response :success
+           assert_equal ["Please make an admission decision for this student."], assigns(:app).errors[:STAdmitted]
+           assert_equal assigns(:term), BannerTerm.find(@app.BannerTerm_BannerTerm)
+           assert_equal assigns(:student), Student.find(@app.student_id)
+
+        end # test
+
+      end # inner describe
+     end # roles loop
+
+     # bad roles - access denied
+     (all_roles - allowed_roles).each do |r|
+       test "as #{r}, access_denied" do
+          load_session(r)
+         stu = FactoryGirl.create :admitted_student
+         app = FactoryGirl.create :pending_adm_st, {:student => stu,
+           :banner_term => stu.adm_tep.first.banner_term
+         }
+
+         post :update, {
+               :id => app.id,
+               :adm_st => {
+                 :STAdmitted => "true"
+                 }
+             }
+         assert_redirected_to "/access_denied"
+       end
+
+     end # roles loop
+
+   end #outer describe
+
+   test "should get edit_st_paperwork" do
+     allowed_roles.each do |r|
+       load_session(r)
+       app = FactoryGirl.create :accepted_adm_st
+       get :edit_st_paperwork, {adm_st_id: app.id}
+       assert_response :success, "unexpected http response, role=#{r}"
+       assert_equal assigns(:app), app
+       assert_equal assigns(:student), app.student
+       assert_equal assigns(:terms), BannerTerm.where("BannerTerm > ?", app.BannerTerm_BannerTerm).where("BannerTerm < ?", 300000 ).order(:BannerTerm)
+     end
+   end
+ #
+   test "should not get edit_st_paperwork bad id" do
+     load_session("admin")
+     assert_raises(ActiveRecord::RecordNotFound) { get :edit_st_paperwork, {adm_st_id: "badid"} }
+   end
+
+   test "should post update_st_paperwork" do
+     allowed_roles.each do |r|
+       load_session(r)
+       stu = FactoryGirl.create :admitted_student
+       app = FactoryGirl.build :accepted_adm_st, {:student_id => stu.id,
+          :BannerTerm_BannerTerm => BannerTerm.current_term({exact: false, plan_b: :back}).id}
+       letter = attach_letter(app)
+       app.save
+       puts app.errors.full_messages
+       post :update_st_paperwork, {
+         adm_st_id: app.id,
+         :adm_st => {
+           :background_check => 1,
+           :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+         }
+       }
+
+
+       assert_redirected_to adm_st_index_path
+       assert_equal flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
+     end
+   end
+
+   describe "destory" do
+
+    # allowed users
+    allowed_roles.each do |r|
+      describe "as #{r}" do
+
+        before do
+          load_session(r)
+          @stu = FactoryGirl.create :admitted_student
+        end
+
+        test "should destroy" do
+          app = FactoryGirl.create(:pending_adm_st, {:student_id => @stu.id,
+             :BannerTerm_BannerTerm => @stu.adm_tep.first.banner_term.id})
+          post :destroy, {:id => app.id}
+          assert_equal(app, assigns(:app))
+          assert_equal flash[:notice], "Deleted Successfully!"
+          assert assigns(:app).destroyed?
+          assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
+        end # test
+
+        [:accepted_adm_st, :denied_adm_st].each do |status|
+          test "shouldn't destory - #{status}" do
+            app = FactoryGirl.create(status, {:student_id => @stu.id,
+                 :BannerTerm_BannerTerm => @stu.adm_tep.first.banner_term.id})
+            post :destroy, {:id => app.id}
+            assert_equal(app, assigns(:app))
+            assert_equal flash[:notice], "Could not successfully delete record!"
+            assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
+          end # test
+        end # status loop
+
+      end # inner describe
+    end # roles loop
+
+    # not allowed users
     (all_roles - allowed_roles).each do |r|
       
       test "should not show as #{r} -- access denied" do
         load_session(r)
-        get :show, {id: @app.id}
+        post :destroy, {:id => app.id}
         assert_redirected_to "/access_denied"
-      end
+      end # test
     end # roles loop
 
   end # outer describe
