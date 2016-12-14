@@ -4,23 +4,32 @@ class ConcernDashboardControllerTest < ActionController::TestCase
 
     allowed_roles = ["admin", "advisor"]
     role_names = Role.all.map{|i| i.RoleName}.to_a
-
-    before do
-        @stu = Student.first
-    end
-
+    
     subject{get :index, :student_id => @stu.id}
     let(:praxis_concern){assigns(:concerns)[:praxis]}
     let(:issue_concern){assigns(:concerns)[:issues]}
-
-    # FOR PERMITTED ROLES
-
+    
     allowed_roles.each do |r|
+        describe "as #{r}" do
+           before do
+                load_session(r)
+                username = session[:user] # example "myname"
+                
+                # get the user with user name
+                user = User.find_by :UserName => username
+                
+                # create an advisor with the user_id belonging to the above user
+                @advisor = FactoryGirl.create :advisor, {:user_id => user.id}
+                
+                @aa = FactoryGirl.create :advisor_assignment, {:tep_advisor_id => @advisor.id}
+                @stu = @aa.student
+           end # end before
+           
+           # move tests here
         it "as #{r} returns http success" do
             load_session r
             subject
             assert_response :success
-
         end
 
         it "as #{r} pulls generic args for praxis" do
@@ -31,7 +40,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
             expect praxis_concern[:link_title].must_equal "View Praxis Results"
             expect praxis_concern[:link_num].must_equal @stu.praxis_results.size
         end
-
+        
         it "as #{r} pulls args for praxis passing" do
             load_session r
             pop_praxisI(@stu, true)
@@ -39,7 +48,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
             expect praxis_concern[:alert_status].must_equal "success"
             expect praxis_concern[:glyph].must_equal "ok-sign"
         end
-
+        
         it "as #{r} pulls args for praxis failing" do
             load_session r
             pop_praxisI(@stu, false)
@@ -48,7 +57,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
             expect praxis_concern[:glyph].must_equal "warning-sign"
 
         end
-
+        
         it "as #{r} pulls args for praxis no test" do
             load_session r
             PraxisSubtestResult.delete_all
@@ -56,9 +65,8 @@ class ConcernDashboardControllerTest < ActionController::TestCase
             subject
             expect praxis_concern[:alert_status].must_equal "info"
             expect praxis_concern[:glyph].must_equal "question-sign"
-
         end
-
+        
         it "as #{r} pulls args for open issues" do
             load_session r
             FactoryGirl.create :issue, {:student_id => @stu.id, first_status: :concern}
@@ -70,15 +78,23 @@ class ConcernDashboardControllerTest < ActionController::TestCase
             expect issue_concern[:alert_status].must_equal "danger"
             expect issue_concern[:glyph].must_equal "warning-sign"
         end
-
+        
         it "as #{r} pulls no args for no issue" do
             load_session r
+            # puts "here is the created advisor: #{@aa.tep_advisor.user.inspect}"
+            # puts "here is session info: #{session.inspect}" # {"user"=>"braeden12", "role"=>"advisor"}
+            
             IssueUpdate.delete_all
             Issue.delete_all
             subject
             expect issue_concern.must_equal nil
         end
+        
+         
+        end
     end
+
+    # FOR PERMITTED ROLES
 
     (role_names - allowed_roles).each do |r|
 

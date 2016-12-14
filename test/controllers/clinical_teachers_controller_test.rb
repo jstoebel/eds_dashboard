@@ -39,7 +39,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
   test "should get edit" do
     allowed_roles.each do |r|
       load_session(r)
-      teacher = ClinicalTeacher.first
+      teacher = FactoryGirl.create :clinical_teacher
       get :edit, :id => teacher.id
       assert_response :success
       assert_form_details
