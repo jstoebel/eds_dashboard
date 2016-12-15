@@ -74,12 +74,12 @@ class FoisControllerTest < ActionController::TestCase
       FileUtils.mkdir Rails.root.join('test', 'test_temp')
       @stu = FactoryGirl.create :student
       @pre_record_count = Foi.all.size
-      @expected_attrs = {"Please tell us about yourself-B#" => @stu.Bnum,
-        "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-        "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
-        "Which area do you wish to seek certification in?" => Major.first.name,
-        "Do you intend to seek teacher certification at Berea College?" => "Yes",
-        "Do you intend to seek an Education Studies degree without certification?" => "Yes"
+      @expected_attrs = {"externalDataReference" => @stu.Bnum,
+        "endDate" => Date.today.strftime("%m/%d/%y %k:%M"),
+        "QID5" => "New Form",
+        "QID4" => Major.first.name,
+        "QID3" => "Yes",
+        "QID6" => "Yes"
       }
 
       headers = @expected_attrs.keys
@@ -92,10 +92,10 @@ class FoisControllerTest < ActionController::TestCase
         describe "as #{r}" do
 
           before do
-            CSV.open(@test_file_loc, "w") do |csv|
-              csv << []  #first row or "super headers"
-              csv << @expected_attrs.keys
-              csv << @expected_attrs.values
+            File.open(@test_file_loc, "w") do |file|
+              file << []  #first row or "super headers"
+              file << @expected_attrs.keys
+              file << @expected_attrs.values
             end
             load_session(r)
 
@@ -123,11 +123,11 @@ class FoisControllerTest < ActionController::TestCase
 
         describe "bad data" do
           before do
-            @expected_attrs["Please tell us about yourself-B#"] = nil # sabatoge record!
-            CSV.open(@test_file_loc, "w") do |csv|
-              csv << []  #first row or "super headers"
-              csv << @expected_attrs.keys
-              csv << @expected_attrs.values
+            @expected_attrs["QID2_3"] = nil # sabatoge record!
+            File.open(@test_file_loc, "w") do |file|
+              file << []  #first row or "super headers"
+              file << @expected_attrs.keys
+              file << @expected_attrs.values
             end
             load_session(r)
             post :import, :file => Paperclip.fixture_file_upload(@test_file_loc)
@@ -157,10 +157,10 @@ class FoisControllerTest < ActionController::TestCase
         describe "as #{r}" do
 
           before do
-            CSV.open(@test_file_loc, "w") do |csv|
-              csv << []  #first row or "super headers"
-              csv << @expected_attrs.keys
-              csv << @expected_attrs.values
+            File.open(@test_file_loc, "w") do |file|
+              file << []  #first row or "super headers"
+              file << @expected_attrs.keys
+              file << @expected_attrs.values
             end
             load_session(r)
             post :import, :file => Paperclip.fixture_file_upload(@test_file_loc)
