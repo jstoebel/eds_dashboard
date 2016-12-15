@@ -25,10 +25,10 @@ class Foi < ActiveRecord::Base
   after_validation :check_eds_only
 
   validates :student_id,
-    presence: {message: "Student could not be identified."}
-    
+    presence: {message: "could not be identified."}
+
   validates :date_completing,
-  presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/16 13:00:00"},
+  presence: {message: "is missing or incorrectly formatted. Example format: 01/01/16 13:00:00"},
   uniqueness: { scope: :student_id,
     message: "May not have more than one FOI for a paticular student at a paticular time." }
 
@@ -59,29 +59,31 @@ class Foi < ActiveRecord::Base
     #  file: type Rack::Test::UploadedFile
     # open the csv file, drop one row from the begining and then from the remainder open the first row
     # this returns an the resulting row inside of an array so pull it out using [0]
-    
+
     if File.extname(file.original_filename) != ".xml"
       return {success: false, message: "File is not an .xml file."}
     end
-    row_count = 0
+
+    record_count = 1
     doc = File.open(file.path) { |f| Nokogiri::XML(f) }
     root = doc.root
+
     begin
       Foi.transaction do
         root.xpath('Response').each do |response|
           row = Hash.from_xml(response.to_s)["Response"]
-          row_count += 1
           _import_foi(row)
+          record_count += 1
         end
       end
     rescue ActiveRecord::RecordInvalid => e
-      raise "Error on line #{row_count + 2}: #{e.message}"
+      raise "Error in record #{record_count}: #{e.message}"
     end # begin
 
-    return {success: true, message: nil, rows: row_count }
+    return {success: true, message: nil, rows: record_count }
 
   end
-  
+
   def self._import_foi(row)
     # row: a hash of attributes
     # creates an foi record or raises an error if student can't be determined
@@ -139,11 +141,9 @@ class Foi < ActiveRecord::Base
       attrs[:date_completing] = nil
     end
 
-    bnum = row["externalDataReference"]
+    bnum = row["QID2_3"]
     attrs[:student_id] = Student.find_by({:Bnum => bnum}).andand.id
 
-    Foi.create!(attrs)
-
-
+    foi = Foi.create!(attrs)
   end
 end

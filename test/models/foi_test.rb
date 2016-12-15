@@ -26,11 +26,11 @@ class FoiTest < ActiveSupport::TestCase
 
 
     test "student_id" do
-      assert_equal ["Student could not be identified."], @foi.errors[:student_id]
+      assert_equal ["could not be identified."], @foi.errors[:student_id]
     end
 
     test "date_completing" do
-      assert_equal ["Date completing is missing or incorrectly formatted. Example format: 01/01/16 13:00"], @foi.errors[:date_completing]
+      assert_equal ["is missing or incorrectly formatted. Example format: 01/01/16 13:00:00"], @foi.errors[:date_completing]
     end
 
     test "new_form" do
@@ -66,8 +66,8 @@ class FoiTest < ActiveSupport::TestCase
   describe "_import_row" do
     before do
       @stu = FactoryGirl.create :student
-      @row = {"externalDataReference" => @stu.Bnum,
-        "endDate" => Date.today.strftime("%m/%d/%y %k:%M"),
+      @row = {"QID2_3" => @stu.Bnum,
+        "endDate" => DateTime.now.strftime("%m/%d/%y %k:%M:%S"),
         "QID5" => "New Form",
         "QID4" => Major.first.name,
         "QID3" => "Yes",
@@ -208,7 +208,7 @@ class FoiTest < ActiveSupport::TestCase
     end # successful import
 
     test "doesn't import row - missing param" do
-      @row["externalDataReference"] = nil
+      @row["QID2_3"] = nil
       assert_raises ActiveRecord::RecordInvalid do
         Foi._import_foi(@row)
       end
@@ -221,36 +221,33 @@ class FoiTest < ActiveSupport::TestCase
 
     before do
       FileUtils.mkdir(Rails.root.join('test', 'test_temp'))
+      @stu = FactoryGirl.create :student
+      @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.xml')
     end
 
     describe "successful import" do
 
       before do
-        # create the CSV fi-temple
-
-        @stu = FactoryGirl.create :student
-        @expected_attrs = {"externalDataReference" => @stu.Bnum,
-          "endDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "QID5" => "New Form",
-          "QID4" => Major.first.name,
-          "QID3" => "Yes",
-          "QID6" => "Yes"
-        }
-
-        headers = @expected_attrs.keys
-        @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
-
-
-        CSV.open(@test_file_loc, "w") do |csv|
-          csv << []  #first row or "super headers"
-          csv << headers
-          csv << @expected_attrs.values
+        # create the xml doc
+        b = Nokogiri::XML::Builder.new do |xml|
+          xml.Responses do
+            xml.Response do
+              xml.QID2_3 @stu.Bnum
+              xml.endDate "01/01/16 13:00:00"
+              xml.QID5 "New Form"
+              xml.QID4 Major.first.name
+              xml.QID3 "Yes"
+              xml.QID6 "Yes"
+            end
+          end
         end
+
+        File.write(@test_file_loc, b.to_xml)
       end # before
 
       test "creates a FOI" do
         assert_difference("Foi.count", 1) do
-          Foi.import(Paperclip.fixture_file_upload(@test_file_loc)) # change this to Foi.import(Paperclip.fixture_file_upload(@test_file_loc)
+          Foi.import(Paperclip.fixture_file_upload(@test_file_loc))
         end
       end
 
@@ -266,43 +263,41 @@ class FoiTest < ActiveSupport::TestCase
       # neither should be created
       # return {success: false, message: "Error on line #{row_num}: #{e.message}"}
       # test params of the above hash
+
       before do
-        @stu = FactoryGirl.create :student
-        @expected_attrs = {"externalDataReference" => nil,
-          "endDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "QID5" => "new form",
-          "QID4" => Major.first.name,
-          "QID3" => "yes",
-          "QID6" => "yes"
-        }
         @second_stu = FactoryGirl.create :student
-        @second_expected_attrs = {"externalDataReference" => @second_stu.Bnum,
-          "endDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "QID5" => "bad param",
-          "QID4" => Major.first.name,
-          "QID3" => "yes",
-          "QID6" => "yes"
-        }
+        b = Nokogiri::XML::Builder.new do |xml|
 
+          xml.Responses do
+            # good record
+            xml.Response do
+              xml.QID2_3 @stu.Bnum
+              xml.endDate "01/01/16 13:00:00"
+              xml.QID5 "New Form"
+              xml.QID4 Major.first.name
+              xml.QID3 "Yes"
+              xml.QID6 "Yes"
+            end
 
-        headers = @expected_attrs.keys
-        second_header = @second_expected_attrs.keys
-        @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
-
-        CSV.open(@test_file_loc, "w") do |csv|
-          csv << []  #first row or "super headers"
-          csv << @expected_attrs.keys
-          csv << @expected_attrs.values
-          csv << @second_expected_attrs.values
-        end
+            # bad record
+            xml.Response do
+              xml.QID2_3 nil
+              xml.endDate "01/01/16 13:00:00"
+              xml.QID5 "New Form"
+              xml.QID4 Major.first.name
+              xml.QID3 "Yes"
+              xml.QID6 "Yes"
+            end
+          end # root
+        end # new builder
+        File.write(@test_file_loc, b.to_xml)
       end # before
 
       test "Multiple Entries - One student with bad params, one with good params" do
-        before_count = Foi.count
-        begin
-          Foi.import(Paperclip.fixture_file_upload(@test_file_loc))
-        rescue
-          assert_equal Foi.count, before_count
+
+        assert_no_difference 'Foi.count' do
+          err = assert_raises(RuntimeError) {Foi.import(Paperclip.fixture_file_upload(@test_file_loc))}
+          assert_equal "Error in record 2: Validation failed: Student could not be identified.", err.message
         end
 
       end
