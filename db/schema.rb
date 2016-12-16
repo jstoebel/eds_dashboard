@@ -171,12 +171,11 @@ ActiveRecord::Schema.define(version: 20161121161726) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "employment", force: :cascade do |t|
-    t.integer  "student_id", limit: 4
-    t.integer  "category",   limit: 4
-    t.string   "employer",   limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "employment", primary_key: "EmpID", force: :cascade do |t|
+    t.integer "student_id",  limit: 4,  null: false
+    t.date    "EmpDate",                null: false
+    t.string  "EmpCategory", limit: 45
+    t.string  "Employer",    limit: 45
   end
 
   add_index "employment", ["student_id"], name: "fk_rails_8b14daa8ce", using: :btree

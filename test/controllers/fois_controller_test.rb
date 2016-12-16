@@ -74,16 +74,19 @@ class FoisControllerTest < ActionController::TestCase
       FileUtils.mkdir Rails.root.join('test', 'test_temp')
       @stu = FactoryGirl.create :student
       @pre_record_count = Foi.all.size
-      @expected_attrs = {"Please tell us about yourself-B#" => @stu.Bnum,
-        "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-        "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
-        "Which area do you wish to seek certification in?" => Major.first.name,
-        "Do you intend to seek teacher certification at Berea College?" => "Yes",
-        "Do you intend to seek an Education Studies degree without certification?" => "Yes"
-      }
-
-      headers = @expected_attrs.keys
-      @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
+      @b = Nokogiri::XML::Builder.new do |xml|
+        xml.Responses do
+          xml.Response do
+            xml.QID2_3 @stu.Bnum
+            xml.endDate "2015-01-03 13:45:57"
+            xml.QID5 "New Form"
+            xml.QID4 Major.first.name
+            xml.QID3 "Yes"
+            xml.QID6 "Yes"
+          end
+        end
+      end
+      @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.xml')
 
     end
 
@@ -91,20 +94,16 @@ class FoisControllerTest < ActionController::TestCase
       allowed_roles.each do |r|
         describe "as #{r}" do
 
-          before do
-            CSV.open(@test_file_loc, "w") do |csv|
-              csv << []  #first row or "super headers"
-              csv << @expected_attrs.keys
-              csv << @expected_attrs.values
-            end
-            load_session(r)
-
-            file = Paperclip.fixture_file_upload(@test_file_loc)
-            post :import, :file => file
-
-          end
-
           describe "valid data" do
+
+            before do
+              File.write(@test_file_loc, @b.to_xml)
+              file = Paperclip.fixture_file_upload(@test_file_loc)
+
+              load_session(r)
+              post :import, :file => file
+            end
+
             test "imports record" do
               assert_equal 1, Foi.all.size - @pre_record_count
             end
@@ -123,12 +122,11 @@ class FoisControllerTest < ActionController::TestCase
 
         describe "bad data" do
           before do
-            @expected_attrs["Please tell us about yourself-B#"] = nil # sabatoge record!
-            CSV.open(@test_file_loc, "w") do |csv|
-              csv << []  #first row or "super headers"
-              csv << @expected_attrs.keys
-              csv << @expected_attrs.values
-            end
+            doc = Nokogiri::XML(@b.to_xml)
+            doc.at_xpath('Responses/Response/QID2_3').content = nil
+            File.write(@test_file_loc, doc.to_xml)
+            file = Paperclip.fixture_file_upload(@test_file_loc)
+
             load_session(r)
             post :import, :file => Paperclip.fixture_file_upload(@test_file_loc)
 
@@ -139,7 +137,7 @@ class FoisControllerTest < ActionController::TestCase
           end
 
           test "flash message" do
-            expected_message = "Error on line 3: Validation failed: Student Student could not be identified."
+            expected_message = "Error in record 1: Validation failed: Student could not be identified."
             assert_equal expected_message, flash[:notice]
           end
 
@@ -157,13 +155,11 @@ class FoisControllerTest < ActionController::TestCase
         describe "as #{r}" do
 
           before do
-            CSV.open(@test_file_loc, "w") do |csv|
-              csv << []  #first row or "super headers"
-              csv << @expected_attrs.keys
-              csv << @expected_attrs.values
-            end
+            File.write(@test_file_loc, @b.to_xml)
+            file = Paperclip.fixture_file_upload(@test_file_loc)
+
             load_session(r)
-            post :import, :file => Paperclip.fixture_file_upload(@test_file_loc)
+            post :import, :file => file
           end
 
           test "doesn't import records" do

@@ -26,11 +26,11 @@ class FoiTest < ActiveSupport::TestCase
 
 
     test "student_id" do
-      assert_equal ["Student could not be identified."], @foi.errors[:student_id]
+      assert_equal ["could not be identified."], @foi.errors[:student_id]
     end
 
     test "date_completing" do
-      assert_equal ["Date completing is missing or incorrectly formatted. Example format: 01/01/16 13:00"], @foi.errors[:date_completing]
+      assert_equal ["is missing or incorrectly formatted. Example format: 2015-01-03 13:45:57"], @foi.errors[:date_completing]
     end
 
     test "new_form" do
@@ -41,7 +41,14 @@ class FoiTest < ActiveSupport::TestCase
       assert_equal ["Could not determine if student is seeking certification."], @foi.errors[:seek_cert]
     end
 
-    describe "conditional validations" do
+    describe "complex validations" do
+      # these require a little more set up
+
+      test "date format wrong" do
+        @foi.date_completing = "bad format"
+        @foi.valid?
+        assert_equal ["is missing or incorrectly formatted. Example format: 2015-01-03 13:45:57"], @foi.errors[:date_completing]
+      end
 
       test "major_id" do
         @foi.seek_cert = true
@@ -66,12 +73,12 @@ class FoiTest < ActiveSupport::TestCase
   describe "_import_row" do
     before do
       @stu = FactoryGirl.create :student
-      @row = {"Please tell us about yourself-B#" => @stu.Bnum,
-        "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-        "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
-        "Which area do you wish to seek certification in?" => Major.first.name,
-        "Do you intend to seek teacher certification at Berea College?" => "Yes",
-        "Do you intend to seek an Education Studies degree without certification?" => "Yes"
+      @row = {"QID2_3" => @stu.Bnum,
+        "endDate" => DateTime.now.strftime("%Y-%m-%d %k:%M:%S"),
+        "QID5" => "New Form",
+        "QID4" => Major.first.name,
+        "QID3" => "Yes",
+        "QID6" => "Yes"
       }
     end
 
@@ -80,7 +87,7 @@ class FoiTest < ActiveSupport::TestCase
       describe "response combinations" do
         describe "new form" do
           before do
-            @key = "Are you completing this form for the first time, or is this form a / revision?"
+            @key = "QID5"
           end
 
           test "New Form" do
@@ -115,7 +122,7 @@ class FoiTest < ActiveSupport::TestCase
 
         describe "seek_cert" do
           before do
-            @key = "Do you intend to seek teacher certification at Berea College?"
+            @key = "QID3"
           end
 
           test "Yes" do
@@ -151,8 +158,8 @@ class FoiTest < ActiveSupport::TestCase
         describe "eds_only" do
           before do
             # need seek_cert false to throw the error
-            @row["Do you intend to seek teacher certification at Berea College?"] = "No"
-            @key = "Do you intend to seek an Education Studies degree without certification?"
+            @row["QID3"] = "No"
+            @key = "QID6"
           end
 
           test "Yes" do
@@ -199,7 +206,7 @@ class FoiTest < ActiveSupport::TestCase
       end
 
       test "seek_cert and no major given" do
-        @row["Which area do you wish to seek certification in?"] = nil
+        @row["QID4"] = nil
         assert_difference('Foi.count', 1) do
           Foi._import_foi(@row)
         end
@@ -208,7 +215,7 @@ class FoiTest < ActiveSupport::TestCase
     end # successful import
 
     test "doesn't import row - missing param" do
-      @row["Please tell us about yourself-B#"] = nil
+      @row["QID2_3"] = nil
       assert_raises ActiveRecord::RecordInvalid do
         Foi._import_foi(@row)
       end
@@ -221,36 +228,33 @@ class FoiTest < ActiveSupport::TestCase
 
     before do
       FileUtils.mkdir(Rails.root.join('test', 'test_temp'))
+      @stu = FactoryGirl.create :student
+      @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.xml')
     end
 
     describe "successful import" do
 
       before do
-        # create the CSV fi-temple
-
-        @stu = FactoryGirl.create :student
-        @expected_attrs = {"Please tell us about yourself-B#" => @stu.Bnum,
-          "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "Are you completing this form for the first time, or is this form a / revision?" => "New Form",
-          "Which area do you wish to seek certification in?" => Major.first.name,
-          "Do you intend to seek teacher certification at Berea College?" => "Yes",
-          "Do you intend to seek an Education Studies degree without certification?" => "Yes"
-        }
-
-        headers = @expected_attrs.keys
-        @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
-
-
-        CSV.open(@test_file_loc, "w") do |csv|
-          csv << []  #first row or "super headers"
-          csv << headers
-          csv << @expected_attrs.values
+        # create the xml doc
+        b = Nokogiri::XML::Builder.new do |xml|
+          xml.Responses do
+            xml.Response do
+              xml.QID2_3 @stu.Bnum
+              xml.endDate "2015-01-03 13:45:57"
+              xml.QID5 "New Form"
+              xml.QID4 Major.first.name
+              xml.QID3 "Yes"
+              xml.QID6 "Yes"
+            end
+          end
         end
+
+        File.write(@test_file_loc, b.to_xml)
       end # before
 
       test "creates a FOI" do
         assert_difference("Foi.count", 1) do
-          Foi.import(Paperclip.fixture_file_upload(@test_file_loc)) # change this to Foi.import(Paperclip.fixture_file_upload(@test_file_loc)
+          Foi.import(Paperclip.fixture_file_upload(@test_file_loc))
         end
       end
 
@@ -266,43 +270,41 @@ class FoiTest < ActiveSupport::TestCase
       # neither should be created
       # return {success: false, message: "Error on line #{row_num}: #{e.message}"}
       # test params of the above hash
+
       before do
-        @stu = FactoryGirl.create :student
-        @expected_attrs = {"Please tell us about yourself-B#" => nil,
-          "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "Are you completing this form for the first time, or is this form a / revision?" => "new form",
-          "Which area do you wish to seek certification in?" => Major.first.name,
-          "Do you intend to seek teacher certification at Berea College?" => "yes",
-          "Do you intend to seek an Education Studies degree without certification?" => "yes"
-        }
         @second_stu = FactoryGirl.create :student
-        @second_expected_attrs = {"Please tell us about yourself-B#" => @second_stu.Bnum,
-          "EndDate" => Date.today.strftime("%m/%d/%y %k:%M"),
-          "Are you completing this form for the first time, or is this form a / revision?" => "bad param",
-          "Which area do you wish to seek certification in?" => Major.first.name,
-          "Do you intend to seek teacher certification at Berea College?" => "yes",
-          "Do you intend to seek an Education Studies degree without certification?" => "yes"
-        }
+        b = Nokogiri::XML::Builder.new do |xml|
 
+          xml.Responses do
+            # good record
+            xml.Response do
+              xml.QID2_3 @stu.Bnum
+              xml.endDate "2015-01-03 13:45:57"
+              xml.QID5 "New Form"
+              xml.QID4 Major.first.name
+              xml.QID3 "Yes"
+              xml.QID6 "Yes"
+            end
 
-        headers = @expected_attrs.keys
-        second_header = @second_expected_attrs.keys
-        @test_file_loc = Rails.root.join('test', 'test_temp', 'test_foi.csv')
-
-        CSV.open(@test_file_loc, "w") do |csv|
-          csv << []  #first row or "super headers"
-          csv << @expected_attrs.keys
-          csv << @expected_attrs.values
-          csv << @second_expected_attrs.values
-        end
+            # bad record
+            xml.Response do
+              xml.QID2_3 nil
+              xml.endDate "2015-01-03 13:45:57"
+              xml.QID5 "New Form"
+              xml.QID4 Major.first.name
+              xml.QID3 "Yes"
+              xml.QID6 "Yes"
+            end
+          end # root
+        end # new builder
+        File.write(@test_file_loc, b.to_xml)
       end # before
 
       test "Multiple Entries - One student with bad params, one with good params" do
-        before_count = Foi.count
-        begin
-          Foi.import(Paperclip.fixture_file_upload(@test_file_loc))
-        rescue
-          assert_equal Foi.count, before_count
+
+        assert_no_difference 'Foi.count' do
+          err = assert_raises(RuntimeError) {Foi.import(Paperclip.fixture_file_upload(@test_file_loc))}
+          assert_equal "Error in record 2: Validation failed: Student could not be identified.", err.message
         end
 
       end
