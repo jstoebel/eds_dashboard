@@ -27,6 +27,7 @@ class FoisControllerTest < ActionController::TestCase
         describe "as #{r}" do
 
           before do
+            FactoryGirl.create_list :foi, 5
             load_session(r)
             get :index
           end
