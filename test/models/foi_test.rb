@@ -30,7 +30,7 @@ class FoiTest < ActiveSupport::TestCase
     end
 
     test "date_completing" do
-      assert_equal ["is missing or incorrectly formatted. Example format: 01/01/16 13:00:00"], @foi.errors[:date_completing]
+      assert_equal ["is missing or incorrectly formatted. Example format: 2015-01-03 13:45:57"], @foi.errors[:date_completing]
     end
 
     test "new_form" do
@@ -41,7 +41,14 @@ class FoiTest < ActiveSupport::TestCase
       assert_equal ["Could not determine if student is seeking certification."], @foi.errors[:seek_cert]
     end
 
-    describe "conditional validations" do
+    describe "complex validations" do
+      # these require a little more set up
+
+      test "date format wrong" do
+        @foi.date_completing = "bad format"
+        @foi.valid?
+        assert_equal ["is missing or incorrectly formatted. Example format: 2015-01-03 13:45:57"], @foi.errors[:date_completing]
+      end
 
       test "major_id" do
         @foi.seek_cert = true
@@ -67,7 +74,7 @@ class FoiTest < ActiveSupport::TestCase
     before do
       @stu = FactoryGirl.create :student
       @row = {"QID2_3" => @stu.Bnum,
-        "endDate" => DateTime.now.strftime("%m/%d/%y %k:%M:%S"),
+        "endDate" => DateTime.now.strftime("%Y-%m-%d %k:%M:%S"),
         "QID5" => "New Form",
         "QID4" => Major.first.name,
         "QID3" => "Yes",
@@ -233,7 +240,7 @@ class FoiTest < ActiveSupport::TestCase
           xml.Responses do
             xml.Response do
               xml.QID2_3 @stu.Bnum
-              xml.endDate "01/01/16 13:00:00"
+              xml.endDate "2015-01-03 13:45:57"
               xml.QID5 "New Form"
               xml.QID4 Major.first.name
               xml.QID3 "Yes"
@@ -272,7 +279,7 @@ class FoiTest < ActiveSupport::TestCase
             # good record
             xml.Response do
               xml.QID2_3 @stu.Bnum
-              xml.endDate "01/01/16 13:00:00"
+              xml.endDate "2015-01-03 13:45:57"
               xml.QID5 "New Form"
               xml.QID4 Major.first.name
               xml.QID3 "Yes"
@@ -282,7 +289,7 @@ class FoiTest < ActiveSupport::TestCase
             # bad record
             xml.Response do
               xml.QID2_3 nil
-              xml.endDate "01/01/16 13:00:00"
+              xml.endDate "2015-01-03 13:45:57"
               xml.QID5 "New Form"
               xml.QID4 Major.first.name
               xml.QID3 "Yes"

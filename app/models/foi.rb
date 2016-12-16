@@ -28,7 +28,7 @@ class Foi < ActiveRecord::Base
     presence: {message: "could not be identified."}
 
   validates :date_completing,
-  presence: {message: "is missing or incorrectly formatted. Example format: 01/01/16 13:00:00"},
+  presence: {message: "is missing or incorrectly formatted. Example format: 2015-01-03 13:45:57"},
   uniqueness: { scope: :student_id,
     message: "May not have more than one FOI for a paticular student at a paticular time." }
 
@@ -64,7 +64,7 @@ class Foi < ActiveRecord::Base
       return {success: false, message: "File is not an .xml file."}
     end
 
-    record_count = 1
+    record_count = 0
     doc = File.open(file.path) { |f| Nokogiri::XML(f) }
     root = doc.root
 
@@ -77,10 +77,10 @@ class Foi < ActiveRecord::Base
         end
       end
     rescue ActiveRecord::RecordInvalid => e
-      raise "Error in record #{record_count}: #{e.message}"
+      raise "Error in record #{record_count + 1}: #{e.message}"
     end # begin
 
-    return {success: true, message: nil, rows: record_count }
+    return {success: true, message: nil, records: record_count }
 
   end
 
@@ -136,7 +136,7 @@ class Foi < ActiveRecord::Base
     date_str = row["endDate"]  #date completing, from the csv
 
     begin
-      attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%y %k:%M:%S")
+      attrs[:date_completing] = DateTime.strptime(date_str, "%Y-%m-%d %k:%M:%S")
     rescue ArgumentError, TypeError => e
       attrs[:date_completing] = nil
     end
