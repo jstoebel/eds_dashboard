@@ -144,6 +144,6 @@ class Foi < ActiveRecord::Base
     bnum = row["QID2_3"]
     attrs[:student_id] = Student.find_by({:Bnum => bnum}).andand.id
 
-    foi = Foi.create!(attrs)
+    Foi.create!(attrs)
   end
 end
