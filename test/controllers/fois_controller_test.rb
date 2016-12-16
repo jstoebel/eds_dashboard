@@ -20,68 +20,69 @@ class FoisControllerTest < ActionController::TestCase
   all_roles = Role.all.map {|i| i.RoleName}.to_a
   allowed_roles = ["admin", "staff"]
 
-  describe "index" do
+  # describe "index" do
 
-    describe "authorized" do
-      allowed_roles.each do |r|
-        describe "as #{r}" do
+  #   describe "authorized" do
+  #     allowed_roles.each do |r|
+  #       describe "as #{r}" do
 
-          before do
-            FactoryGirl.create_list :foi, 5
-            load_session(r)
-            get :index
-          end
+  #         before do
+  #           FactoryGirl.create_list :foi, 5
+  #           load_session(r)
+  #           get :index
+  #         end
 
-          test "http success" do
-            assert_response :success
-          end
+  #         test "http success" do
+  #           assert_response :success
+  #         end
 
-          test "pulls records" do
-            assert_equal Foi.all.sorted, assigns(:fois)
-          end
+  #         test "pulls records" do
+  #           assert_equal Foi.all.sorted, assigns(:fois)
+  #         end
 
-        end #as #{r}
-      end # loop
+  #       end #as #{r}
+  #     end # loop
 
-    end #authorized
+  #   end #authorized
 
-    describe "not authorized" do
+  #   describe "not authorized" do
 
-      (all_roles - allowed_roles).each do |r|
-        describe "as #{r}" do
+  #     (all_roles - allowed_roles).each do |r|
+  #       describe "as #{r}" do
 
-          before do
-            load_session(r)
-            get :index
-          end
+  #         before do
+  #           load_session(r)
+  #           get :index
+  #         end
 
-          test "redirected" do
-            assert_redirected_to "/access_denied"
-          end
+  #         test "redirected" do
+  #           assert_redirected_to "/access_denied"
+  #         end
 
-          test "doesn't pull records" do
-            assert assigns(:fois).empty?, assigns(:fois)
-          end
+  #         test "doesn't pull records" do
+  #           assert assigns(:fois).empty?, assigns(:fois)
+  #         end
 
-        end # as r
-      end #loop
-    end # not authorized
-  end #index
+  #       end # as r
+  #     end #loop
+  #   end # not authorized
+  # end #index
 
   describe "import" do
 
     before do
-      # create the sheet
+      puts Foi.all.each { |f| puts f.student.inspect }
+      major = FactoryGirl.create :major
       FileUtils.mkdir Rails.root.join('test', 'test_temp')
       @stu = FactoryGirl.create :student
-      @pre_record_count = Foi.all.size
+      @pre_record_count = 0
       @b = Nokogiri::XML::Builder.new do |xml|
         xml.Responses do
           xml.Response do
             xml.QID2_3 @stu.Bnum
             xml.endDate "2015-01-03 13:45:57"
             xml.QID5 "New Form"
-            xml.QID4 Major.first.name
+            xml.QID4 major.name
             xml.QID3 "Yes"
             xml.QID6 "Yes"
           end
@@ -100,13 +101,12 @@ class FoisControllerTest < ActionController::TestCase
             before do
               File.write(@test_file_loc, @b.to_xml)
               file = Paperclip.fixture_file_upload(@test_file_loc)
-
               load_session(r)
               post :import, :file => file
             end
 
             test "imports record" do
-              assert_equal 1, Foi.all.size - @pre_record_count
+              assert_equal 1, Foi.count
             end
 
             test "flash message" do

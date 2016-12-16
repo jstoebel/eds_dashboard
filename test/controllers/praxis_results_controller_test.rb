@@ -24,7 +24,8 @@ class PraxisResultsControllerTest < ActionController::TestCase
       user = User.find_by(:UserName => session[:user])
 
       # test = PraxisResult.first
-      test = FactoryGirl.create :praxis_result, :praxis_test_id => PraxisTest.first.id
+      p_test = FactoryGirl.create :praxis_test
+      test = FactoryGirl.create :praxis_result, :praxis_test_id => p_test.id
 
       stu = test.student
 
@@ -96,7 +97,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
     (role_names - ["advisor"]).each do |r|
       #student labor also has access to this
       load_session(r)
-      test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
 
       test_params = {
         :id => test.student.id,
@@ -118,7 +119,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
     (role_names - ["advisor"]).each do |r|
       load_session(r)
 
-      test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
       get :edit, {:id => test.AltID}
       assert_response :success
       assert_equal test, assigns(:test)
@@ -130,7 +131,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
     (role_names - ["advisor"]).each do |r|
       load_session(r)
 
-      test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
       test.test_score = 123
       test.save
       get :edit, {:id => test.AltID}
