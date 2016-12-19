@@ -22,7 +22,7 @@ class StudentFilesControllerTest < ActionController::TestCase
   test "should get index" do
     #create a file and test that its there
 
-    file = create_file
+    file = FactoryGirl.create :student_file
 
     assert file.errors.empty?, file.inspect
     stu = file.student
@@ -42,7 +42,7 @@ class StudentFilesControllerTest < ActionController::TestCase
     role_names.each do |r|
       StudentFile.delete_all  #clear out the files to avoid duplicates
       load_session(r)
-      stu = Student.first
+      stu = FactoryGirl.create :student
 
 
       expected_stu_file = StudentFile.new(
@@ -73,7 +73,7 @@ class StudentFilesControllerTest < ActionController::TestCase
     #create this record so the test requested post will not result in a
     #successful save
 
-    file = create_file
+    file = FactoryGirl.create :student_file
     role_names.each do |r|
       load_session(r)
       stu = Student.first
@@ -135,16 +135,5 @@ class StudentFilesControllerTest < ActionController::TestCase
     assert_equal stu.student_files.active.select {|r| ability.can? :read, r }.to_a, assigns(:docs).to_a
 
   end
-
-  def create_file
-    #creates a file record
-    # returns the file object
-    file = StudentFile.new
-    file.student_id = Student.first.id
-    file.active = true
-    file.doc = fixture_file_upload 'test_file.txt'
-    file.doc_updated_at = DateTime.now
-    file.save
-    return file
-  end
+  
 end
