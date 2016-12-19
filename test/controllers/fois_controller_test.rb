@@ -20,58 +20,57 @@ class FoisControllerTest < ActionController::TestCase
   all_roles = Role.all.map {|i| i.RoleName}.to_a
   allowed_roles = ["admin", "staff"]
 
-  # describe "index" do
+  describe "index" do
 
-  #   describe "authorized" do
-  #     allowed_roles.each do |r|
-  #       describe "as #{r}" do
+    describe "authorized" do
+      allowed_roles.each do |r|
+        describe "as #{r}" do
 
-  #         before do
-  #           FactoryGirl.create_list :foi, 5
-  #           load_session(r)
-  #           get :index
-  #         end
+          before do
+            FactoryGirl.create_list :applying_foi, 5
+            load_session(r)
+            get :index
+          end
 
-  #         test "http success" do
-  #           assert_response :success
-  #         end
+          test "http success" do
+            assert_response :success
+          end
 
-  #         test "pulls records" do
-  #           assert_equal Foi.all.sorted, assigns(:fois)
-  #         end
+          test "pulls records" do
+            assert_equal Foi.all.sorted, assigns(:fois)
+          end
 
-  #       end #as #{r}
-  #     end # loop
+        end #as #{r}
+      end # loop
 
-  #   end #authorized
+    end #authorized
 
-  #   describe "not authorized" do
+    describe "not authorized" do
 
-  #     (all_roles - allowed_roles).each do |r|
-  #       describe "as #{r}" do
+      (all_roles - allowed_roles).each do |r|
+        describe "as #{r}" do
 
-  #         before do
-  #           load_session(r)
-  #           get :index
-  #         end
+          before do
+            load_session(r)
+            get :index
+          end
 
-  #         test "redirected" do
-  #           assert_redirected_to "/access_denied"
-  #         end
+          test "redirected" do
+            assert_redirected_to "/access_denied"
+          end
 
-  #         test "doesn't pull records" do
-  #           assert assigns(:fois).empty?, assigns(:fois)
-  #         end
+          test "doesn't pull records" do
+            assert assigns(:fois).empty?, assigns(:fois)
+          end
 
-  #       end # as r
-  #     end #loop
-  #   end # not authorized
-  # end #index
+        end # as r
+      end #loop
+    end # not authorized
+  end #index
 
   describe "import" do
 
     before do
-      puts Foi.all.each { |f| puts f.student.inspect }
       major = FactoryGirl.create :major
       FileUtils.mkdir Rails.root.join('test', 'test_temp')
       @stu = FactoryGirl.create :student
