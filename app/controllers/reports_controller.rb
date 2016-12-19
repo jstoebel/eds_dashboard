@@ -6,10 +6,11 @@ class ReportsController < ApplicationController
     layout 'application'
 
     def index
+        authorize! :report, Student
         @data = []
         students = Student.all
         students.each do |stu|
-            authorize! :read, stu
+            # authorize! :read, stu
             record = { # data that will go into the excel spreadsheet, eventually
                 :Bnum => stu.Bnum,
                 :name_readable => stu.name_readable,
