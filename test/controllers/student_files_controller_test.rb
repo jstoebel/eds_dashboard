@@ -133,7 +133,6 @@ class StudentFilesControllerTest < ActionController::TestCase
     user = User.find_by(:UserName => session[:user])
     ability = Ability.new(user)
     assert_equal stu.student_files.active.select {|r| ability.can? :read, r }.to_a, assigns(:docs).to_a
-
   end
-  
+
 end
