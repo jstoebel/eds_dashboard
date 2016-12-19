@@ -85,11 +85,7 @@ class AdmStTest < ActiveSupport::TestCase
 
 		before do
 			@stu = FactoryGirl.create :admitted_student
-			@app = FactoryGirl.create :adm_st, {:student_id => @stu.id,
-				:BannerTerm_BannerTerm => BannerTerm.current_term(:exact => false, :plan_b => :back).id,
-				:STAdmitted => nil,
-				:STAdmitDate => nil
-			}
+			@app = FactoryGirl.build :pending_adm_st, {:student_id => @stu.id}
 
 		end
 
@@ -100,41 +96,70 @@ class AdmStTest < ActiveSupport::TestCase
 		end
 
 		test "admit too early" do
-			@app.STAdmitDate = @app.banner_term.StartDate - 1
-			@app.STAdmitted = true
+			@app.assign_attributes({:STAdmitDate => @app.banner_term.StartDate - 1,
+				:student_file_id => (FactoryGirl.create :student_file).id,
+				:STAdmitted => true})
 			@app.valid?
 			assert_equal ["Admission date must be after term begins."], @app.errors[:STAdmitDate]
 		end
 
 		test "admit too late" do
-			@app.STAdmitDate = @app.banner_term.next_term.StartDate
-			@app.STAdmitted = true
+			next_term = FactoryGirl.create :banner_term, {:StartDate => @app.banner_term.EndDate + 10,
+				:EndDate => @app.banner_term.EndDate + 20
+			}
+
+			@app.assign_attributes({:STAdmitDate => next_term.StartDate,
+				:student_file_id => (FactoryGirl.create :student_file).id,
+				:STAdmitted => true})
 			@app.valid?
 			assert_equal ["Admission date may not be after next term begins."], @app.errors[:STAdmitDate]
 		end
 
-		describe "can't apply again" do
+	end # complex validations
 
-			before do
-				@app2 = FactoryGirl.build :adm_st, {:student_id => @stu.id,
-					:BannerTerm_BannerTerm => BannerTerm.current_term(:exact => false, :plan_b => :back).id,
-					:STAdmitted => nil,
-					:STAdmitDate => nil
-				}
+	describe "can't apply again" do
 
-			end
+		[:pending, :accepted].each do |first_app_status|
 
-			[true, nil].each do |status|
-				test "first app: #{status.to_s}" do
-					@app.STAdmitted = status
-					@app2.valid?
-					assert_equal ["Student has already been admitted or has an open applicaiton in this term."], @app2.errors[:base]
+			describe "first app: #{first_app_status}" do
+				before do
+					@first_app = FactoryGirl.create "#{first_app_status}_adm_st"
 				end
+
+				[:pending, :accepted, :denied].each do |second_app_status|
+					test "second app: #{second_app_status}" do
+						@second_app = FactoryGirl.build "#{second_app_status}_adm_st"
+
+						# TODO finish me!
+						assert false
+					end
+				end
+
 			end
 
 		end
 
-	end # complex validations
+		# before do
+		# 	@app = FactoryGirl.
+		#
+		# 	@app2 = FactoryGirl.build :pending_adm_st, {:student_id => @stu.id,
+		# 		:BannerTerm_BannerTerm => BannerTerm.current_term(:exact => false, :plan_b => :back).id,
+		# 		:STAdmitted => nil,
+		# 		:STAdmitDate => nil
+		# 	}
+		#
+		# end
+		#
+		# [true, nil].each do |status|
+		# 	test "first app: #{status.to_s}" do
+		# 		@app.STAdmitted = status
+		# 		@app2.valid?
+		# 		# puts @app2.errors.inspect
+		# 		assert_equal ["Student has already been admitted or has an open applicaiton in this term."], @app2.errors[:base]
+		# 	end
+		# end
+
+	end
 
 	test "scope by term" do
 
