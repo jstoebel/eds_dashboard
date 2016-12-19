@@ -13,8 +13,6 @@
 #  updated_at      :datetime
 #
 
-
-
 class FoisController < ApplicationController
     load_and_authorize_resource :only => [:index]
     authorize_resource :only => [:import]
@@ -36,8 +34,8 @@ class FoisController < ApplicationController
         end
 
         if result[:success]
-          num_rows = result[:rows]
-          redirect_to fois_path, :notice => "#{num_rows} #{"form".pluralize(num_rows) + " of intention"} successfully imported."
+          num_records = result[:records]
+          redirect_to fois_path, :notice => "#{num_records} #{"form".pluralize(num_records) + " of intention"} successfully imported."
           return
             # went ok
         else
@@ -47,7 +45,7 @@ class FoisController < ApplicationController
         end
 
     end
-    
+
     private
     def foi_params
         params.require(:foi).permit(:student_id, :date_completing, :new_form, :major_id, :seek_cert, :eds_only)

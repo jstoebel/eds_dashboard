@@ -25,10 +25,10 @@ class Foi < ActiveRecord::Base
   after_validation :check_eds_only
 
   validates :student_id,
-    presence: {message: "Student could not be identified."}
-    
+    presence: {message: "could not be identified."}
+
   validates :date_completing,
-  presence: {message: "Date completing is missing or incorrectly formatted. Example format: 01/01/16 13:00"},
+  presence: {message: "is missing or incorrectly formatted. Example format: 2015-01-03 13:45:57"},
   uniqueness: { scope: :student_id,
     message: "May not have more than one FOI for a paticular student at a paticular time." }
 
@@ -36,7 +36,6 @@ class Foi < ActiveRecord::Base
     :inclusion => { :in => [true, false],
         message: "Can't determine if this is a new form."
       }
-
 
   validates :seek_cert,
     :inclusion => { :in => [true, false],
@@ -60,36 +59,30 @@ class Foi < ActiveRecord::Base
     #  file: type Rack::Test::UploadedFile
     # open the csv file, drop one row from the begining and then from the remainder open the first row
     # this returns an the resulting row inside of an array so pull it out using [0]
-    
-    if File.extname(file.original_filename) != ".csv"
-      return {success: false, message: "File is not a .csv file."}
+
+    if File.extname(file.original_filename) != ".xml"
+      return {success: false, message: "File is not an .xml file."}
     end
 
-    headers = CSV.open(file.path, 'r').drop(1) { |csv| csv.first}[0]
-
-    row_count = 0
-
+    record_count = 0
+    doc = File.open(file.path) { |f| Nokogiri::XML(f) }
+    root = doc.root
 
     begin
       Foi.transaction do
-        CSV.foreach(file.path) do |row|
-          if $. > 2 # skipping first row
-            row_count += 1
-            _import_foi(Hash[headers.zip(row)])
-          end
+        root.xpath('Response').each do |response|
+          row = Hash.from_xml(response.to_s)["Response"]
+          _import_foi(row)
+          record_count += 1
         end
-      end #transaction
-
+      end
     rescue ActiveRecord::RecordInvalid => e
-      raise "Error on line #{row_count + 2}: #{e.message}"
-    end
+      raise "Error in record #{record_count + 1}: #{e.message}"
+    end # begin
 
-    return {success: true, message: nil, rows: row_count }
+    return {success: true, message: nil, records: record_count }
 
   end
-
-   # import
-  #write a counter so that the first row is skipped on the first iteration
 
   def self._import_foi(row)
     # row: a hash of attributes
@@ -98,17 +91,17 @@ class Foi < ActiveRecord::Base
 
     # these three attrs are processed the same.
     row_attrs = [
-      {:name => "Are you completing this form for the first time, or is this form a / revision?",
+      {:name => "QID5",
         :slug => :new_form,
         :true => "New Form",
         :false => "Revision"
       },
-      {:name => "Do you intend to seek teacher certification at Berea College?",
+      {:name => "QID3",
         :slug => :seek_cert,
         :true => "Yes",
         :false => "No"
       },
-      {:name => "Do you intend to seek an Education Studies degree without certification?",
+      {:name => "QID6",
         :slug => :eds_only,
         :true => "Yes",
         :false => "No"
@@ -128,7 +121,7 @@ class Foi < ActiveRecord::Base
       end
     end
 
-    major_name = row["Which area do you wish to seek certification in?"] # the raw name of the major from the fil
+    major_name = row["QID4"] # the raw name of the major from the fil
     major = Major.find_by(:name => major_name) # this could be nil!
     attrs[:major_id] = major.andand.id
 
@@ -140,19 +133,17 @@ class Foi < ActiveRecord::Base
 
 
     #expected format: 9/2/16 9:25
-    date_str = row["EndDate"]  #date completing, from the csv
+    date_str = row["endDate"]  #date completing, from the csv
 
     begin
-      attrs[:date_completing] = DateTime.strptime(date_str, "%m/%d/%y %k:%M")
+      attrs[:date_completing] = DateTime.strptime(date_str, "%Y-%m-%d %k:%M:%S")
     rescue ArgumentError, TypeError => e
       attrs[:date_completing] = nil
     end
 
-    bnum = row["Please tell us about yourself-B#"]
+    bnum = row["QID2_3"]
     attrs[:student_id] = Student.find_by({:Bnum => bnum}).andand.id
 
     Foi.create!(attrs)
-
-
   end
 end
