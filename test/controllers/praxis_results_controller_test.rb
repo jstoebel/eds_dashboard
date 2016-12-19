@@ -120,7 +120,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       load_session(r)
 
       test = FactoryGirl.create :praxis_result
-      get :edit, {:id => test.AltID}
+      get :edit, {:id => test.id}
       assert_response :success
       assert_equal test, assigns(:test)
     end
@@ -134,7 +134,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = FactoryGirl.create :praxis_result
       test.test_score = 123
       test.save
-      get :edit, {:id => test.AltID}
+      get :edit, {:id => test.id}
       assert_equal flash[:notice], "Test may not be altered."
       assert_redirected_to student_praxis_results_path(test.student.AltID)
     end
@@ -191,7 +191,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
 
       update_params = {:reg_date => test.reg_date}
 
-      post :update, {:id => test.AltID,
+      post :update, {:id => test.id,
        :praxis_result => update_params
       }
 
@@ -204,6 +204,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
     (role_names - ["advisor"]).each do |r|
       load_session(r)
       # test = PraxisResult.first
+      student = FactoryGirl.create :student
       test = FactoryGirl.create :praxis_result, :test_score => nil
 
       alt_id = test.student.AltID
@@ -213,7 +214,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       sub_tests = test.praxis_subtest_results
       sub_tests.destroy_all
 
-      post :destroy, {:id => test.AltID}
+      post :destroy, {:id => test.id}
       assert_redirected_to student_praxis_results_path(alt_id)
       assert_nil PraxisResult.find_by(:id => test.id)
 
@@ -234,7 +235,8 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should not post destroy locked" do
     (role_names - ["advisor"]).each do |r|
       load_session(r)
-      test = PraxisResult.first
+      student = FactoryGirl.create :student
+      test = FactoryGirl.create :praxis_result
       test.test_score = 123
       test.save
       post :destroy, {:id => test.AltID}
@@ -249,7 +251,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
     ["staff", "student labor"].each do |r|
       load_session(r)
 
-      test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
       get :show, {:id => test.id}
       assert_redirected_to "/access_denied"
 
@@ -267,7 +269,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should not post create bad role" do
     ["advisor"].each do |r|
       load_session(r)
-      test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
 
       test_params = {
         :student_id => test.student_id,
@@ -285,8 +287,8 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should not get edit bad role" do
     ["advisor"].each do |r|
       load_session(r)
-      test = PraxisResult.first
-      get :edit, {:id => test.AltID}
+      test = FactoryGirl.create :praxis_result
+      get :edit, {:id => test.id}
       assert_redirected_to "/access_denied"
     end
   end
@@ -294,10 +296,10 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should not post update bad role" do
     ["advisor"].each do |r|
       load_session(r)
-      test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
       test.reg_date += 1
       update_params = {:reg_date => test.reg_date}
-      post :update, {:id => test.AltID,
+      post :update, {:id => test.id,
        :praxis_results => update_params
       }
       assert_redirected_to "/access_denied"
@@ -307,10 +309,10 @@ class PraxisResultsControllerTest < ActionController::TestCase
   test "should not post destroy bad role" do
     ["advisor"].each do |r|
       load_session(r)
-      test = PraxisResult.first
+      test = FactoryGirl.create :praxis_result
       test.test_score = 123
       test.save
-      post :destroy, {:id => test.AltID}
+      post :destroy, {:id => test.id}
       assert_redirected_to "/access_denied"
     end
   end

@@ -49,8 +49,8 @@ class ProgExitsControllerTest < ActionController::TestCase
     allowed_roles.each do |s|
       load_session(s)
 
-      stu = Student.first
-      prog = stu.programs.first
+      stu = FactoryGirl.create :student
+      program = FactoryGirl.create :program, {:student_id => stu.id}
       expected_exit = ProgExit.new
       get :new
 
@@ -63,6 +63,7 @@ class ProgExitsControllerTest < ActionController::TestCase
   test "should post create" do
     allowed_roles.each do |r|
       load_session(r)
+      student = FactoryGirl.create :student
       prog_exit = FactoryGirl.build :successful_prog_exit
       post :create, :student_id => prog_exit.student.id, :prog_exit => prog_exit.attributes
       assert_equal flash[:notice], "Successfully exited #{ApplicationController.helpers.name_details(assigns(:exit).student)} from #{assigns(:exit).program.EDSProgName}. Reason: #{assigns(:exit).exit_code.ExitDiscrip}."
@@ -75,8 +76,9 @@ class ProgExitsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
 
-      stu = Student.first
-      adm = stu.adm_tep.first
+      stu = FactoryGirl.create :student
+      adm = FactoryGirl.create :adm_tep, {:student_id => stu.id}
+      program = FactoryGirl.create :program
       prog = adm.program
       expected_exit = ProgExit.new({
           :student_id => stu.id,
@@ -96,7 +98,7 @@ class ProgExitsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
 
-      expected_exit = ProgExit.first
+      expected_exit = FactoryGirl.create :prog_exit
       get :edit, {:id => expected_exit.AltID}
       assert_response :success
       assert_equal expected_exit, assigns(:exit)
@@ -123,7 +125,7 @@ class ProgExitsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
 
-      exit = ProgExit.first
+      exit = FactoryGirl.create :prog_exit
 
       expected_term = exit.banner_term
       get :choose, {:prog_exit_id => "pick", :banner_term => {:menu_terms => expected_term.id}}
@@ -135,7 +137,7 @@ class ProgExitsControllerTest < ActionController::TestCase
   test "should get get_programs" do
     allowed_roles.each do |r|
       load_session(r)
-      expected_student = Student.first
+      expected_student = FactoryGirl.create :student
 
       #build the expected response
       open_admissions = AdmTep.open(expected_student.Bnum)
