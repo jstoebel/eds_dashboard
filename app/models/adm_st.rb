@@ -102,9 +102,11 @@ class AdmSt < ActiveRecord::Base
   end
 
   def cant_apply_again
-    non_rejected_apps = AdmSt.where({student_id: self.student_id,
-        BannerTerm_BannerTerm: self.BannerTerm_BannerTerm})
-      .where("STAdmitted = 1 or STAdmitted IS NULL")
+    
+    non_rejected_apps = self.student.adm_st
+      .where({ BannerTerm_BannerTerm: self.BannerTerm_BannerTerm })
+      .where("STAdmitted = true or STAdmitted IS NULL")
+
 
     if ( non_rejected_apps.size > 0 && self.new_record? ) ||
       ( non_rejected_apps.size > 1 && !self.new_record? )

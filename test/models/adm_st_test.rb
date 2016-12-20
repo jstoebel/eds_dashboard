@@ -117,47 +117,49 @@ class AdmStTest < ActiveSupport::TestCase
 
 	end # complex validations
 
-	describe "can't apply again" do
+	describe "two apps" do
+
+		describe "first app: denied" do
+			before do
+				first_app = FactoryGirl.create :denied_adm_st
+				@stu = first_app.student
+			end # before
+
+			[:pending, :accepted, :denied].each do |second_status|
+				test "second app: #{second_status}" do
+					second_app = FactoryGirl.build "#{second_status}_adm_st", {:student => @stu}
+					assert second_app.valid?, second_app.errors.full_messages
+				end # test
+			end # status loop
+		end # first app: denied
 
 		[:pending, :accepted].each do |first_app_status|
-
 			describe "first app: #{first_app_status}" do
 				before do
 					@first_app = FactoryGirl.create "#{first_app_status}_adm_st"
-				end
+					@stu = @first_app.student
+				end # before
 
-				[:pending, :accepted, :denied].each do |second_app_status|
-					test "second app: #{second_app_status}" do
-						@second_app = FactoryGirl.build "#{second_app_status}_adm_st"
+				[:pending, :accepted, :denied].each do |second_status|
+					test "second app: #{second_status}" do
 
-						# TODO finish me!
-						assert false
-					end
-				end
+						second_app = FactoryGirl.build "#{second_status}_adm_st", {:student => @stu,
+							:banner_term => @first_app.banner_term
+						}
+						assert_not second_app.valid?, second_app.inspect
+					end # test
 
-			end
+					test "second app: #{second_status} with different term" do
 
-		end
+						second_app = FactoryGirl.build "#{second_status}_adm_st", {:student => @stu
+						}
+						assert second_app.valid?, second_app.inspect
+					end # test
+				end # status loop
 
-		# before do
-		# 	@app = FactoryGirl.
-		#
-		# 	@app2 = FactoryGirl.build :pending_adm_st, {:student_id => @stu.id,
-		# 		:BannerTerm_BannerTerm => BannerTerm.current_term(:exact => false, :plan_b => :back).id,
-		# 		:STAdmitted => nil,
-		# 		:STAdmitDate => nil
-		# 	}
-		#
-		# end
-		#
-		# [true, nil].each do |status|
-		# 	test "first app: #{status.to_s}" do
-		# 		@app.STAdmitted = status
-		# 		@app2.valid?
-		# 		# puts @app2.errors.inspect
-		# 		assert_equal ["Student has already been admitted or has an open applicaiton in this term."], @app2.errors[:base]
-		# 	end
-		# end
+			end # inner describe
+		end # first app loop
+
 
 	end
 
