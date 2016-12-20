@@ -28,12 +28,6 @@ class ActiveSupport::TestCase
       ActionMailer::Base.deliveries = [] # clear out emails
   end
 
-  def py_assert(expected, actual)
-  	#an assertion in the style of python unittest.
-  	#Two arguments are compared, and the error message is automaticlaly populated
-    assert(expected==actual, "Expected value #{expected} does not equal #{actual}.")
-  end
-
   def get_user
     user = User.find(session[:user])
     user.view_as = session[:view_as]
