@@ -19,6 +19,7 @@ class FoiTest < ActiveSupport::TestCase
   before do
     FactoryGirl.create :major, :name => "Undecided"
   end
+  
   describe "basic validations" do
 
     before do
