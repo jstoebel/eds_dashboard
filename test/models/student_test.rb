@@ -295,434 +295,424 @@ class StudentTest < ActiveSupport::TestCase
 
 
 
-	# test "praxisI_pass" do
-	# 	Student.all.each do |stu|
-	# 	   	req_tests = PraxisTest.where(TestFamily: 1, CurrentTest: 1).map{ |t| t.TestCode}
-	# 	   	all_passed = stu.praxis_results.select { |pr| pr.passing?}.map{ |p| p.praxis_test_id}
-	# 	   	passing = true
-	#
-	# 	   	req_tests.each do |requirement|
-	# 	   		if not all_passed.include? requirement
-	# 	   			passing = false
-	#    			end
-	# 	   	end
-	#
-	# 		assert_equal stu.praxisI_pass, passing
-	# 	end
-	# end
+	describe "praxisI_pass" do
+		before do
+			@stu = FactoryGirl.create :student
+			@test = FactoryGirl.create :praxis_test, {:TestFamily => "1",
+				:CurrentTest => true
+			}
+			@result = FactoryGirl.build :praxis_result, {:student => @stu,
+				:praxis_test => @test
+			}
+		end
+
+		test "passing" do
+			@result.test_score = @test.CutScore
+			@result.save!
+			assert @stu.praxisI_pass
+		end
+
+		test "not passing" do
+			@result.test_score = @test.CutScore - 1
+			@result.save!
+			assert_not @stu.praxisI_pass
+		end
+
+	end
 	#
 	# ################################~~~TESTS for Prog_Status~~~#######################################
 	#
-	# test "latest_foi" do
-	# 	stu = Foi.first.student
-	# 	assert_equal stu.foi.order(:date_completing).last, stu.latest_foi
-	# end
-	#
-	# test "was_dismissed" do
-	# 	stu = Student.first
-	# 	stu.EnrollmentStatus = "Dismissed - Academic"
-	# 	stu.save
-	# 	assert stu.was_dismissed?
-	# end
-	#
-	# test "was_dismissed false" do
-	# 	stu = Student.first
-	# 	stu.EnrollmentStatus = "Active Student"
-	# 	stu.save
-	# 	assert_not stu.was_dismissed?
-	# end
-	#
-	# test "returns prospective no foi" do
-	# 	Foi.delete_all
-	# 	AdmTep.delete_all
-	# 	s = Student.first
-	# 	s.EnrollmentStatus = "Active Student"
-	# 	s.save
-	# 	assert_equal "Prospective", s.prog_status
-	# end
-	#
-	# ["Graduation", "WD-Transferring", nil, ""].each do |enroll_status|
-	# 	test "returns not applying, enroll status=#{enroll_status.to_s}" do
-	# 		Foi.delete_all
-	# 		AdmTep.delete_all
-	# 		s = Student.first
-	# 		s.EnrollmentStatus = enroll_status
-	# 		s.save
-	# 		assert_equal "Not applying", s.prog_status
-	# 	end
-	# end
-	#
-	# test "returns candidate despite negative foi" do
-	# 	stu = FactoryGirl.create :admitted_student
-	# 	neg_foi = FactoryGirl.create :not_applying_foi, {:student_id => stu.id}
-	#
-	# 	assert_equal "Candidate", stu.prog_status
-	#
-	# end
-	#
-	# test "returns prospective positive foi" do
-	# 	stu = Student.first
-	#
-	# 	#remove all FOIs and adm_tep
-	# 	form = Foi.first
-	# 	Foi.delete_all
-	# 	AdmTep.delete_all
-	# 	form.seek_cert = true
-	# 	form.student_id = stu.id
-	# 	form.save
-	#
-	# 	stu.EnrollmentStatus = "Active Student"
-	# 	stu.save
-	#
-	# 	assert_equal "Prospective", stu.prog_status
-	# end
-	#
-	# test "returns not applying foi" do
-	# 	stu = Student.first
-	#
-	# 	#remove all FOIs and adm_tep
-	# 	form = Foi.first
-	# 	Foi.delete_all
-	# 	AdmTep.delete_all
-	#
-	# 	form.seek_cert = true
-	# 	form.student_id = stu.id
-	# 	form.save
-	#
-	# 	stu.EnrollmentStatus = "Active Student"
-	# 	stu.save
-	#
-	# 	assert_equal "Prospective", stu.prog_status
-	#
-	# end
-	#
-	# test "returns not applying dismissed" do
-	# 	stu = Student.first
-	# 	stu.EnrollmentStatus = "Dismissed - Academic"
-	# 	stu.save
-	# 	assert_equal "Not applying", stu.prog_status
-	# end
-	#
-	# test "returns candidate" do
-	# 	ProgExit.delete_all
-	# 	app = AdmTep.find_by :TEPAdmit => true
-	# 	assert_equal "Candidate", app.student.prog_status
-	# end
-	#
-	# test "returns dropped" do
-	#
-	# 	# create an admitted student then have them drop
-	# 	stu = FactoryGirl.create :admitted_student
-	# 	drop_code = ExitCode.find_by({:ExitCode => "1826"})
-	# 	prog_exit = FactoryGirl.create :prog_exit, {:student_id => stu.id,
-	# 		:ExitCode_ExitCode => drop_code.id,
-	# 		:RecommendDate => nil,
-	# 		:Program_ProgCode => stu.adm_tep.first.program.id
-	# 	}
-	# 	assert_equal "Dropped", stu.prog_status
-	#
-	# end
-	#
-	# test "returns completer" do
-	# 	completer_code = ExitCode.find_by :ExitCode => "1849"
-	# 	my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id
-	# 	stu = my_exit.student
-	# 	assert_equal "Completer", stu.prog_status
-	# end
-	#
-	# test "returns completer with one drop" do
-	# 	completer_code = ExitCode.find_by :ExitCode => "1849"
-	# 	my_exit = ProgExit.find_by :ExitCode_ExitCode => completer_code.id
-	# 	stu = my_exit.student
-	# 	pop_praxisI stu, true		#make student pass the praxis
-	# 	old_app = my_exit.adm_tep
-	#
-	# 	#create a second admission
-	# 	second_program = Program.where.not(:id => my_exit.ExitCode_ExitCode).first
-	# 	second_adm = AdmTep.new old_app.attributes
-	# 	second_adm.Program_ProgCode = second_program.id
-	# 	second_adm.id = nil
-	# 	attach_letter second_adm
-	#
-	# 	#make transcript for student
-	# 	# (stu, n, grade_pt, term)
-	# 	pop_transcript(stu, 12, 3.0, second_adm.banner_term.prev_term)
-	#
-	# 	assert second_adm.valid?, second_adm.errors.full_messages
-	#
-	# end
-	#
-	# ######################################################################################################
-	#
-	# describe "name_readable" do
-	#
-	# 	test "one name" do
-	# 		stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
-	# 		assert_equal "#{stu.FirstName} #{stu.LastName}", stu.name_readable
-	# 	end
-	#
-	# 	test "with pref_first" do
-	# 		stu = FactoryGirl.create :student, {:PrevLast => nil}
-	# 		assert_equal "#{stu.PreferredFirst} (#{stu.FirstName}) #{stu.LastName}", stu.name_readable
-	# 	end
-	#
-	# 	test "file_as" do
-	# 		stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
-	# 		assert_equal "#{stu.LastName}, #{stu.FirstName}", stu.name_readable(file_as=true)
-	# 	end
-	#
-	# end
-	#
-	# test "open_programs" do
-	# 	stu = Student.first
-	# 	apps = stu.adm_tep.where(:TEPAdmit => true)
-	# 	expected = apps.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
-	#
-	# 	assert_equal expected.to_a, stu.open_programs.to_a
-	# end
-	#
-	#
-	# describe "gpa" do
-	#
-	# 	before do
-	# 		first_term = BannerTerm.all.first
-	# 		@first_course = FactoryGirl.create :transcript, {
-	# 			term_taken: first_term.id,
-	# 			grade_pt: 4.0,
-	# 			grade_ltr: "A"
-	# 		}
-	# 		@stu = @first_course.student
-	# 	end
-	#
-	# 	test "gpa with no options" do
-	# 		assert_equal 4.0, @stu.gpa
-	# 	end
-	#
-	# 	test "gpa with term limit" do
-	#
-	# 		first_term = @first_course.banner_term
-	# 		next_term = first_term.next_term
-	#
-	# 		FactoryGirl.create :transcript, {
-	# 				student_id: stu.id,
-	# 				term_taken: next_term.id,
-	# 				grade_pt: 3.0,
-	# 				grade_ltr: "B"
-	# 			}
-	#
-	# 		assert_equal 4.0, @stu.gpa({term: @first_course.term_taken})
-	# 	end
-	#
-	# 	test "gpa with credit limit" do
-	#
-	# 		second_course = FactoryGirl.create :transcript, {
-	# 			term_taken: @first_course.banner_term.id,
-	# 			student_id: stu.id,
-	# 			grade_pt: 3.0,
-	# 			grade_ltr: "B"
-	# 		}
-	#
-	# 		assert_equal 4.0, @stu.gpa({last: second_course.credits_earned * 4})
-	# 	end
-	#
-	# 	test "gpa with a course having nil credits attempted" do
-	# 		second_course = FactoryGirl.create :transcript, {
-	# 			term_taken: @first_course.banner_term.id,
-	# 			student_id: stu.id,
-	# 			grade_pt: 3.0,
-	# 			grade_ltr: "B",
-	# 			credits_attempted: nil
-	# 		}
-	#
-	# 		assert_equal 4.0, @stu.gpa
-	#
-	# 	end
-	#
-	# 	test "gpa with course having nil quality points" do
-	# 		second_course = FactoryGirl.create :transcript, {
-	# 			term_taken: @first_course.banner_term.id,
-	# 			student_id: stu.id,
-	# 			grade_pt: 3.0,
-	# 			grade_ltr: "B"
-	# 		}
-	#
-	# 		second_course.quality_points = nil
-	# 		second_course.save!
-	#
-	# 		assert_equal nil, second_course.quality_points
-	# 		assert_equal 4.0, @stu.gpa
-	#
-	# 	end
-	#
-	# 	test "gpa with course having nil grade_ltr" do
-	# 		second_course = FactoryGirl.create :transcript, {
-	# 			term_taken: @first_course.banner_term.id,
-	# 			student_id: stu.id,
-	# 			grade_pt: 3.0,
-	# 		}
-	# 		assert_equal 4.0, @stu.gpa
-	# 	end
-	#
-	#
-	# 	test "convocation affects GPA" do
-	#
-	# 		b_grade = FactoryGirl.create :transcript, {
-	# 			:term_taken => BannerTerm.first.id,
-	# 			:grade_ltr => "B",
-	# 			:grade_pt => 3.0,
-	# 			:credits_earned => 1.0,
-	# 			:credits_attempted => 1.0
-	# 		}
-	#
-	# 		convo_credit = FactoryGirl.create :transcript, {
-	# 			term_taken: @first_course.banner_term.id,
-	# 			student_id: b_grade.student.id,
-	# 			grade_ltr: "CA",
-	# 			grade_pt: 0
-	# 		}
-	#
-	# 		assert_equal 3.2, b_grade.student.gpa
-	#
-	# 	end
-	#
-	# 	test "student has no courses" do
-	# 		stu = FactoryGirl.create :student
-	# 		assert_equal 0, stu.gpa
-	# 	end
-	#
-	# 	test "ignores course with gpa_include==false" do
-	# 		excluded_course = FactoryGirl.create :transcript, :gpa_include => false
-	#
-	# 		assert_equal @first_course.grade_pt, @stu.gpa
-	# 	end
-	#
-	# end # describe test
-	#
-	# describe "credits" do
-	#
-	# 	describe "with courses" do
-	#
-	# 		before do
-	# 			@stu = FactoryGirl.create :student
-	# 			@this_term = BannerTerm.current_term({:exact => false, :plan_b => :back})
-	# 			credits = [1.0, nil]
-	# 			# make 4 courses, two for each term, one with a credit earnedm the other nil
-	# 			[@this_term, @this_term.next_term].each do |t|
-	# 				credits.each do |c|
-	# 					FactoryGirl.create :transcript, {:student_id => @stu.id,
-	# 						:term_taken => t.id,
-	# 						:credits_earned => c
-	# 					}
-	# 				end
-	# 			end
-	# 		end
-	#
-	# 		test "no term limit" do
-	# 			courses = @stu.transcripts.where("credits_earned is not null")
-	# 			expected_credits = courses.map{|c| c.credits_earned}.inject(:+)*4.0
-	# 			assert_equal expected_credits, @stu.credits
-	# 		end
-	#
-	# 		test "with term limit" do
-	# 			courses = @stu.transcripts
-	# 				.where("credits_earned is not null")
-	# 				.where("term_taken <= ?", @this_term.id)
-	#
-	# 			expected_credits = courses
-	# 				.map{|c| c.credits_earned}
-	# 				.inject(:+) * 4.0
-	# 			assert_equal expected_credits, @stu.credits(@this_term.id)
-	# 		end
-	#
-	# 	end
-	#
-	# 	test "with no courses" do
-	# 		stu = FactoryGirl.create :student
-	# 		assert_equal 0, stu.credits
-	# 	end
-	#
-	# end
-	#
-	#
-	# it "updates last_name table" do
-	# 	stu.LastName = "new-name"
-	# 	stu.save
-	# 	expect LastName.where(student_id: stu.id).size.must_equal 2
-	#
-	# end
-	#
-	#
-	# describe "eds_major" do
-	# 	describe "from major" do
-	#
-	# 		let(:major_student){FactoryGirl.create :student, {:CurrentMajor1 => "Education Studies"}}
-	#
-	# 		it "to major" do
-	# 			major_student.CurrentMajor1 = "Education Studies"
-	# 			assert major_student.was_eds_major?
-	# 			assert major_student.is_eds_major?
-	# 		end
-	#
-	# 		it "to non major" do
-	# 			major_student.CurrentMajor1 = "English"
-	# 			assert major_student.was_eds_major?
-	# 			assert_not major_student.is_eds_major?
-	# 		end
-	# 	end
-	#
-	# 	let(:non_major){FactoryGirl.create :student, {:CurrentMajor1 => "English"}}
-	#
-	# 	describe "from non major" do
-	# 		it "to non major" do
-	# 			non_major.CurrentMajor1 = "English"
-	# 			assert_not non_major.was_eds_major?
-	# 			assert_not non_major.is_eds_major?
-	# 		end
-	#
-	# 		it "to major" do
-	# 			non_major.CurrentMajor1 = "Education Studies"
-	# 			assert_not non_major.was_eds_major?
-	# 			assert non_major.is_eds_major?
-	# 		end
-	#
-	# 	end
-	#
-	# end
-	#
-	# describe "cert_concentration" do
-	# 	let(:cert_student){FactoryGirl.create :student, {:concentration1 => "Middle Grades Science Cert"}}
-	#
-	# 	describe "from cert" do
-	# 		it "to cert" do
-	# 			cert_student.concentration1 = "Middle Grades Science Cert"
-	# 			assert cert_student.was_cert_concentration?
-	# 			assert cert_student.is_cert_concentration?
-	# 		end
-	#
-	# 		it "to non cert" do
-	# 			cert_student.concentration1 = "nope"
-	# 			assert cert_student.was_cert_concentration?
-	# 			assert_not cert_student.is_cert_concentration?
-	# 		end
-	# 	end
-	#
-	# 	describe "from non cert" do
-	# 		let(:non_cert_student){FactoryGirl.create :student, {:concentration1 => "something else"}}
-	#
-	# 		it "to non cert" do
-	# 			non_cert_student.concentration1 = "nope"
-	# 			assert_not non_cert_student.was_cert_concentration?
-	# 			assert_not non_cert_student.is_cert_concentration?
-	# 		end
-	#
-	# 		it "to cert" do
-	# 			non_cert_student.concentration1 = "Middle Grades Science Cert"
-	# 			assert_not non_cert_student.was_cert_concentration?
-	# 			assert non_cert_student.is_cert_concentration?
-	# 		end
-	# 	end
-	# end
-	#
+	test "latest_foi" do
+		foi1 = FactoryGirl.create :applying_foi
+		stu = foi1.student
+		# create an earlier foi
+		FactoryGirl.create :applying_foi, :date_completing => (foi1.date_completing - 1.day)
+		assert_equal foi1, stu.latest_foi
+	end
+
+	test "was_dismissed" do
+		stu = FactoryGirl.create :student
+		stu.EnrollmentStatus = "Dismissed - Academic"
+		stu.save
+		assert stu.was_dismissed?
+	end
+
+	test "was_dismissed false" do
+		stu = FactoryGirl.create :student
+		stu.EnrollmentStatus = "Active Student"
+		stu.save
+		assert_not stu.was_dismissed?
+	end
+
+	test "returns prospective no foi" do
+		s = FactoryGirl.create :student
+		s.EnrollmentStatus = "Active Student"
+		s.save
+		assert_equal "Prospective", s.prog_status
+	end
+
+	["Graduation", "WD-Transferring", nil, ""].each do |enroll_status|
+		test "returns not applying, enroll status=#{enroll_status.to_s}" do
+			s = FactoryGirl.create :student
+			s.EnrollmentStatus = enroll_status
+			s.save
+			assert_equal "Not applying", s.prog_status
+		end
+	end
+
+	test "returns candidate despite negative foi" do
+		stu = FactoryGirl.create :admitted_student
+		neg_foi = FactoryGirl.create :not_applying_foi, {:student_id => stu.id}
+
+		assert_equal "Candidate", stu.prog_status
+	end
+
+	test "returns prospective positive foi" do
+		foi = FactoryGirl.create :applying_foi
+		stu = foi.student
+		assert_equal "Prospective", stu.prog_status
+	end
+
+	test "returns not applying foi" do
+		foi = FactoryGirl.create :not_applying_foi
+		stu = foi.student
+		assert_equal "Not applying", stu.prog_status
+	end
+
+	test "returns not applying dismissed" do
+		stu = FactoryGirl.create :student
+		stu.EnrollmentStatus = "Dismissed - Academic"
+		assert_equal "Not applying", stu.prog_status
+	end
+
+	test "returns candidate" do
+		stu = FactoryGirl.create :admitted_student
+		assert_equal "Candidate", stu.prog_status
+	end
+
+	test "returns dropped" do
+
+		# create an admitted student then have them drop
+		stu = FactoryGirl.create :admitted_student
+		prog_exit = FactoryGirl.create :prog_exit, {:student => stu,
+			:exit_code => (FactoryGirl.create :exit_code, {:ExitCode => "1826"}),
+			:program => stu.adm_tep.first.program,
+			:RecommendDate => nil
+		}
+		stu = prog_exit.student
+		assert_equal "Dropped", stu.prog_status
+
+	end
+
+	test "returns completer" do
+		prog_exit = FactoryGirl.create :successful_prog_exit
+		stu = prog_exit.student
+		assert_equal "Completer", stu.prog_status
+	end
+
+	test "returns completer with one drop" do
+		stu = FactoryGirl.create :admitted_student
+		first_adm = stu.adm_tep.first
+
+		# enter  second program
+		second_adm = FactoryGirl.create :adm_tep, {:student_id => stu.id,
+			:program => (FactoryGirl.create :program),
+			:banner_term => first_adm.banner_term
+		}
+
+		# drop one of the programs
+		drop_code = FactoryGirl.create :exit_code, {:ExitCode => "1826"}
+		FactoryGirl.create :prog_exit, {:student => stu,
+			:program => first_adm.program,
+			:ExitCode_ExitCode => drop_code.id,
+			:RecommendDate => nil
+		}
+
+		# complete the other program
+		stu.update_attributes! :EnrollmentStatus => "Graduation"
+
+		completer_code = FactoryGirl.create :exit_code, {:ExitCode => "1849"}
+		FactoryGirl.create :prog_exit, {:student => stu,
+			:program => second_adm.program,
+			:ExitCode_ExitCode => completer_code.id
+		}
+
+		assert_equal "Completer", stu.prog_status
+	end
+
+	######################################################################################################
+
+	describe "name_readable" do
+
+		test "one name" do
+			stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
+			assert_equal "#{stu.FirstName} #{stu.LastName}", stu.name_readable
+		end
+
+		test "with pref_first" do
+			stu = FactoryGirl.create :student, {:PrevLast => nil}
+			assert_equal "#{stu.PreferredFirst} (#{stu.FirstName}) #{stu.LastName}", stu.name_readable
+		end
+
+		test "file_as" do
+			stu = FactoryGirl.create :student, {:PreferredFirst => nil, :PrevLast => nil}
+			assert_equal "#{stu.LastName}, #{stu.FirstName}", stu.name_readable(file_as=true)
+		end
+
+	end
+
+	test "open_programs" do
+		stu = FactoryGirl.create :admitted_student
+		apps = stu.adm_tep.where(:TEPAdmit => true)
+		expected = apps.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
+
+		assert_equal expected.to_a, stu.open_programs.to_a
+	end
+
+	describe "gpa" do
+
+		before do
+			first_term = BannerTerm.all.first
+			@first_course = FactoryGirl.create :transcript, {
+				term_taken: first_term.id,
+				grade_pt: 4.0,
+				grade_ltr: "A"
+			}
+			@stu = @first_course.student
+		end
+
+		test "gpa with no options" do
+			assert_equal 4.0, @stu.gpa
+		end
+
+		test "gpa with term limit" do
+
+			first_term = @first_course.banner_term
+			next_term = first_term.next_term
+
+			FactoryGirl.create :transcript, {
+					student_id: @stu.id,
+					term_taken: next_term.id,
+					grade_pt: 3.0,
+					grade_ltr: "B"
+				}
+
+			assert_equal 4.0, @stu.gpa({term: @first_course.term_taken})
+		end
+
+		test "gpa with credit limit" do
+
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: @stu.id,
+				grade_pt: 3.0,
+				grade_ltr: "B"
+			}
+
+			assert_equal 4.0, @stu.gpa({last: second_course.credits_earned * 4})
+		end
+
+		test "gpa with a course having nil credits attempted" do
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: @stu.id,
+				grade_pt: 3.0,
+				grade_ltr: "B",
+				credits_attempted: nil
+			}
+
+			assert_equal 4.0, @stu.gpa
+
+		end
+
+		test "gpa with course having nil quality points" do
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: @stu.id,
+				grade_pt: 3.0,
+				grade_ltr: "B"
+			}
+
+			second_course.quality_points = nil
+			second_course.save!
+
+			assert_equal nil, second_course.quality_points
+			assert_equal 4.0, @stu.gpa
+
+		end
+
+		test "gpa with course having nil grade_ltr" do
+			second_course = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: @stu.id,
+				grade_pt: 3.0,
+			}
+			assert_equal 4.0, @stu.gpa
+		end
+
+
+		test "convocation affects GPA" do
+
+			b_grade = FactoryGirl.create :transcript, {
+				:term_taken => BannerTerm.first.id,
+				:grade_ltr => "B",
+				:grade_pt => 3.0,
+				:credits_earned => 1.0,
+				:credits_attempted => 1.0
+			}
+
+			convo_credit = FactoryGirl.create :transcript, {
+				term_taken: @first_course.banner_term.id,
+				student_id: b_grade.student.id,
+				grade_ltr: "CA",
+				grade_pt: 0
+			}
+
+			assert_equal 3.2, b_grade.student.gpa
+
+		end
+
+		test "student has no courses" do
+			stu = FactoryGirl.create :student
+			assert_equal 0, stu.gpa
+		end
+
+		test "ignores course with gpa_include==false" do
+			excluded_course = FactoryGirl.create :transcript, :gpa_include => false
+
+			assert_equal @first_course.grade_pt, @stu.gpa
+		end
+
+	end # describe gpa
+
+	describe "credits" do
+
+		describe "with courses" do
+
+			before do
+				@stu = FactoryGirl.create :student
+				@this_term = BannerTerm.current_term({:exact => false, :plan_b => :back})
+				credits = [1.0, nil]
+				# make 4 courses, two for each term, one with a credit earnedm the other nil
+				[@this_term, @this_term.next_term].each do |t|
+					credits.each do |c|
+						FactoryGirl.create :transcript, {:student_id => @stu.id,
+							:term_taken => t.id,
+							:credits_earned => c
+						}
+					end
+				end
+			end
+
+			test "no term limit" do
+				courses = @stu.transcripts.where("credits_earned is not null")
+				expected_credits = courses.map{|c| c.credits_earned}.inject(:+)*4.0
+				assert_equal expected_credits, @stu.credits
+			end
+
+			test "with term limit" do
+				courses = @stu.transcripts
+					.where("credits_earned is not null")
+					.where("term_taken <= ?", @this_term.id)
+
+				expected_credits = courses
+					.map{|c| c.credits_earned}
+					.inject(:+) * 4.0
+				assert_equal expected_credits, @stu.credits(@this_term.id)
+			end
+
+		end
+
+		test "with no courses" do
+			stu = FactoryGirl.create :student
+			assert_equal 0, stu.credits
+		end
+
+	end
+
+
+	it "updates last_name table" do
+		stu = FactoryGirl.create :student
+		stu.LastName = "new-name"
+		stu.save
+		expect LastName.where(student_id: stu.id).size.must_equal 2
+
+	end # credits
+
+	describe "eds_major" do
+		describe "from major" do
+
+			let(:major_student){FactoryGirl.create :student, {:CurrentMajor1 => "Education Studies"}}
+
+			it "to major" do
+				major_student.CurrentMajor1 = "Education Studies"
+				assert major_student.was_eds_major?
+				assert major_student.is_eds_major?
+			end
+
+			it "to non major" do
+				major_student.CurrentMajor1 = "English"
+				assert major_student.was_eds_major?
+				assert_not major_student.is_eds_major?
+			end
+		end
+
+		let(:non_major){FactoryGirl.create :student, {:CurrentMajor1 => "English"}}
+
+		describe "from non major" do
+			it "to non major" do
+				non_major.CurrentMajor1 = "English"
+				assert_not non_major.was_eds_major?
+				assert_not non_major.is_eds_major?
+			end
+
+			it "to major" do
+				non_major.CurrentMajor1 = "Education Studies"
+				assert_not non_major.was_eds_major?
+				assert non_major.is_eds_major?
+			end
+
+		end
+
+	end
+
+	describe "cert_concentration" do
+		let(:cert_student){FactoryGirl.create :student, {:concentration1 => "Middle Grades Science Cert"}}
+
+		describe "from cert" do
+			it "to cert" do
+				cert_student.concentration1 = "Middle Grades Science Cert"
+				assert cert_student.was_cert_concentration?
+				assert cert_student.is_cert_concentration?
+			end
+
+			it "to non cert" do
+				cert_student.concentration1 = "nope"
+				assert cert_student.was_cert_concentration?
+				assert_not cert_student.is_cert_concentration?
+			end
+		end
+
+		describe "from non cert" do
+			let(:non_cert_student){FactoryGirl.create :student, {:concentration1 => "something else"}}
+
+			it "to non cert" do
+				non_cert_student.concentration1 = "nope"
+				assert_not non_cert_student.was_cert_concentration?
+				assert_not non_cert_student.is_cert_concentration?
+			end
+
+			it "to cert" do
+				non_cert_student.concentration1 = "Middle Grades Science Cert"
+				assert_not non_cert_student.was_cert_concentration?
+				assert non_cert_student.is_cert_concentration?
+			end
+		end
+	end
+
+	# TODO: needs fixing.
+
+
 	# let(:students){
 	# 	[
 	#         {
