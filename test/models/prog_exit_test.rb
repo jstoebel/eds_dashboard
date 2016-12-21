@@ -17,10 +17,8 @@
 require 'test_helper'
 
 class ProgExitTest < ActiveSupport::TestCase
-	fixtures :all
 
 	test "scope by_term" do
-    ProgExit.delete_all
     pe = FactoryGirl.create :successful_prog_exit
     assert_equal ProgExit.where("ExitTerm = ?", pe.ExitTerm), ProgExit.by_term(pe.ExitTerm)
   end
@@ -110,7 +108,8 @@ class ProgExitTest < ActiveSupport::TestCase
 
 	test "require completer for recommendation" do
 		prog_exit = FactoryGirl.create :successful_prog_exit
-		prog_exit.ExitCode_ExitCode = "1826"
+		success_code = FactoryGirl.create :exit_code, :ExitCode => "1826"
+		prog_exit.ExitCode_ExitCode = success_code.id
 		prog_exit.valid?
 		assert_equal(["Student may not be recommended for certificaiton unless they have sucessfully completed the program."], prog_exit.errors[:RecommendDate])
 	end
