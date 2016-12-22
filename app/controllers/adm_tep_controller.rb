@@ -103,7 +103,7 @@ class AdmTepController < ApplicationController
   end
 
   def show
-    @app = AdmTep.find(params[:id])`
+    @app = AdmTep.find(params[:id])
     authorize! :read, @app
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
     @student = Student.find(@app.student_id)
