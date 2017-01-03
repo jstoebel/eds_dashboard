@@ -25,4 +25,19 @@ class PraxisResultMailer < ApplicationMailer
      )
   end
 
+  def email_summary(reports, report_date)
+    # email summary when a new report is done processing
+    # include names of each report completed
+    # star each name that wasn't matched with a ssn
+    # report_date(str) the date of the praxis report
+    # data: array of report_objects
+
+    @reports = reports
+    @report_date = report_date
+
+    mail(:to => SECRET["APP_ADMIN_EMAIL"],
+      :subject => "Praxis Result Summary"
+    )
+  end
+
 end
