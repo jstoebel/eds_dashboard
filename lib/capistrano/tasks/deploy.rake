@@ -7,7 +7,7 @@ namespace :deploy do
       puts "modifying #{file_loc}..."
       on roles(:app) do
         # modify the source code in place
-        execute(" sed -i '212s/.*/        if RUBY_VERSION =~ \/^1\.9\/ || RUBY_VERSION =~ \/^2\/ /' #{file_loc} ")
+        execute(" sed -i '212s@.*@        if RUBY_VERSION =~ \/^1\.9\/ || RUBY_VERSION =~ \/^2\/ @' #{file_loc} ")
       end
   end
 
@@ -21,6 +21,6 @@ namespace :deploy do
   end
 
   before :deploy, "deploy:check_revision"
-  before :deploy, "deploy:update_dbi"
+  after :deploy, "deploy:update_dbi"
 
 end
