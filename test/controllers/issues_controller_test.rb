@@ -25,7 +25,7 @@ class IssuesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       issue = Issue.new
-      student = Student.first
+      student = FactoryGirl.create :student
       get :new, :student_id => student.AltID
       assert_response :success
       assert_equal assigns(:student), student
@@ -80,6 +80,7 @@ class IssuesControllerTest < ActionController::TestCase
         before do
           load_session(r)
           @user = User.find_by :UserName => session[:user]
+          tep_advisor = FactoryGirl.create :tep_advisor, {:user_id => @user.id}
           @advisor = @user.tep_advisor
 
           # assign advisor to student
@@ -157,7 +158,7 @@ class IssuesControllerTest < ActionController::TestCase
         before do
           load_session(r)
           @user = User.find_by :UserName => session[:user]
-          @adv = TepAdvisor.find_by :user_id => @user.id
+          @adv = FactoryGirl.create :tep_advisor, {:user_id => @user.id}
           @abil = Ability.new @user
           @issue = FactoryGirl.create :issue, {:tep_advisors_AdvisorBnum => @adv.id}
         end
@@ -204,7 +205,7 @@ class IssuesControllerTest < ActionController::TestCase
     #test for fetching index
     allowed_roles.each do |r|
       load_session(r)
-      student = Student.first
+      student = FactoryGirl.create :student
 
       get :index, {:student_id => student.AltID}
       assert_response :success
@@ -220,7 +221,7 @@ class IssuesControllerTest < ActionController::TestCase
     #test for fetching index
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      student = Student.first
+      student = FactoryGirl.create :student
 
       get :index, {:student_id => student.AltID}
       assert_redirected_to "/access_denied"

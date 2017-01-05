@@ -47,6 +47,7 @@ bower.json
 .powenv
 error_rpt.txt
 error_report.txt
+all_errors.txt
 entrance_exit_FIXED.csv
 
 # only .rb and .rake in lib/tasks/reports

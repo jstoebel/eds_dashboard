@@ -27,6 +27,7 @@ class FoisControllerTest < ActionController::TestCase
         describe "as #{r}" do
 
           before do
+            FactoryGirl.create_list :applying_foi, 5
             load_session(r)
             get :index
           end
@@ -70,17 +71,17 @@ class FoisControllerTest < ActionController::TestCase
   describe "import" do
 
     before do
-      # create the sheet
+      major = FactoryGirl.create :major
       FileUtils.mkdir Rails.root.join('test', 'test_temp')
       @stu = FactoryGirl.create :student
-      @pre_record_count = Foi.all.size
+      @pre_record_count = 0
       @b = Nokogiri::XML::Builder.new do |xml|
         xml.Responses do
           xml.Response do
             xml.QID2_3 @stu.Bnum
             xml.endDate "2015-01-03 13:45:57"
             xml.QID5 "New Form"
-            xml.QID4 Major.first.name
+            xml.QID4 major.name
             xml.QID3 "Yes"
             xml.QID6 "Yes"
           end
@@ -99,13 +100,12 @@ class FoisControllerTest < ActionController::TestCase
             before do
               File.write(@test_file_loc, @b.to_xml)
               file = Paperclip.fixture_file_upload(@test_file_loc)
-
               load_session(r)
               post :import, :file => file
             end
 
             test "imports record" do
-              assert_equal 1, Foi.all.size - @pre_record_count
+              assert_equal 1, Foi.count
             end
 
             test "flash message" do

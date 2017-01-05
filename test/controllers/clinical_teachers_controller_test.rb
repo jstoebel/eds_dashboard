@@ -39,7 +39,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
   test "should get edit" do
     allowed_roles.each do |r|
       load_session(r)
-      teacher = ClinicalTeacher.first
+      teacher = FactoryGirl.create :clinical_teacher
       get :edit, :id => teacher.id
       assert_response :success
       assert_form_details
@@ -95,12 +95,12 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
 
       site = FactoryGirl.create :clinical_site
       new_params = FactoryGirl.attributes_for :clinical_teacher, :clinical_site_id => site.id
-    
+
       post :create, {:clinical_teacher => new_params}
       assert assigns(:teacher).valid?, assigns(:teacher).errors.full_messages
       assert_redirected_to clinical_teachers_path
       expected_teacher = ClinicalTeacher.create(new_params)
-      
+
       actual_teacher = assigns(:teacher)
       assert_equal actual_teacher.attributes.delete(:id), expected_teacher.attributes.delete(:id)
       assert_equal flash[:notice], "Created new teacher #{expected_teacher.FirstName} #{expected_teacher.LastName}."

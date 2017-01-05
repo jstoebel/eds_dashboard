@@ -23,10 +23,11 @@ require 'test_helper'
 class PraxisTestTest < ActiveSupport::TestCase
 
 	test "scope current" do
-		expected = PraxisTest.current.to_a
-		actual = PraxisTest.where("CurrentTest=1").to_a
-		py_assert(expected, actual)
+		current_tests = FactoryGirl.create_list :praxis_test, 2, {:CurrentTest => true}
+		FactoryGirl.create_list :praxis_test, 2, {:CurrentTest => false}
+		expected = PraxisTest.current
+		assert_equal(expected.to_a.sort, current_tests.sort)
 	end
 
-	
+
 end

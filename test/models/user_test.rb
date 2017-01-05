@@ -14,31 +14,31 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
 
-	test "check admin pass" do
-		#admin with no view_as
-		user = User.where(:Roles_idRoles => 1).first		#role 1 is admin
-		assert user.is? "admin"
+	describe "admin" do
+		before do
+			@user = FactoryGirl.create :admin
+		end
+		test "check admin pass" do
+			assert @user.is? "admin"
+		end
+		test "check admin fail" do
+			assert_not @user.is? "staff"
+		end
+
+		(2..4).each do |role_num|
+			test "acting as role #{role_num}" do
+				@user.view_as = role_num
+				role = Role.find_by :idRoles => role_num
+				assert @user.send("is?", role.RoleName)
+			end
+		end
 	end
 
-	test "check admin fail" do
-		#admin with no view_as
-		user = User.where(:Roles_idRoles => 1).first		#role 1 is admin
-		assert_not user.is? "staff"
+	test "check admin staff pass" do
+		@user = FactoryGirl.create :staff
+		assert @user.is? "staff"
 	end
 
-	test "check admin as staff pass" do
-		#admin with no view_as
-		user = User.where(:Roles_idRoles => 1).first		#role 1 is admin
-		user.view_as = 3
-		assert user.is? "staff"
-	end
-
-	test "check admin as staff fail" do
-		#admin with no view_as
-		user = User.where(:Roles_idRoles => 1).first		#role 1 is admin
-		user.view_as = 3
-		assert_not user.is?"admin"
-	end
 
 	test "validates presence of Email" do
 		u = User.new

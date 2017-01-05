@@ -18,32 +18,26 @@ include ActionDispatch::TestProcess
 class StudentFileTest < ActiveSupport::TestCase
 
     test "valid file extension" do
-        stu = Student.first
-        file = StudentFile.new({
-                :student_id => stu.id,
-                :active => true,
+
+        file = FactoryGirl.build :student_file, {:active => true,
                 :doc => fixture_file_upload('test_file.txt')
-            })
+            }
         assert file.valid?, file.errors.full_messages
     end
 
     test "invalid file exension" do
-        file = StudentFile.where('doc_file_name like "%.bad"').first
-        file.valid?
-        assert_includes file.errors[:doc], "Attached file must be a Word Document, PDF or plain text document."
+      file = FactoryGirl.build :student_file, {:active => true,
+              :doc => fixture_file_upload('badfile.bad')
+            }
+      file.valid?
+      assert_includes file.errors[:doc], "Attached file must be a Word Document, PDF or plain text document."
     end
 
     test "scope active" do
-        expected = StudentFile.where(:active => true)
+        files = FactoryGirl.create_list :student_file, 5
         actual = StudentFile.all.active
-        assert_equal expected.to_a, actual.to_a
+        assert_equal files.to_a.sort, actual.to_a.sort
     end
-
-    # test "diallows duplicate file names for same student" do
-    #     f = FactoryGirl.create :student_file
-    #     f2 = StudentFile.new(f.attributes.except("id"))
-    #     assert_not f2.valid?
-    # end
 
     test "can handle duplicate files" do
 

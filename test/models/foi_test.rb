@@ -16,7 +16,10 @@
 require 'test_helper'
 class FoiTest < ActiveSupport::TestCase
 
-
+  before do
+    FactoryGirl.create :major, :name => "Undecided"
+  end
+  
   describe "basic validations" do
 
     before do
@@ -76,7 +79,7 @@ class FoiTest < ActiveSupport::TestCase
       @row = {"QID2_3" => @stu.Bnum,
         "endDate" => DateTime.now.strftime("%Y-%m-%d %k:%M:%S"),
         "QID5" => "New Form",
-        "QID4" => Major.first.name,
+        "QID4" => (FactoryGirl.create(:major)),
         "QID3" => "Yes",
         "QID6" => "Yes"
       }
@@ -242,7 +245,7 @@ class FoiTest < ActiveSupport::TestCase
               xml.QID2_3 @stu.Bnum
               xml.endDate "2015-01-03 13:45:57"
               xml.QID5 "New Form"
-              xml.QID4 Major.first.name
+              xml.QID4 FactoryGirl.create(:major)
               xml.QID3 "Yes"
               xml.QID6 "Yes"
             end
@@ -281,7 +284,7 @@ class FoiTest < ActiveSupport::TestCase
               xml.QID2_3 @stu.Bnum
               xml.endDate "2015-01-03 13:45:57"
               xml.QID5 "New Form"
-              xml.QID4 Major.first.name
+              xml.QID4 FactoryGirl.create(:major)
               xml.QID3 "Yes"
               xml.QID6 "Yes"
             end
@@ -291,7 +294,7 @@ class FoiTest < ActiveSupport::TestCase
               xml.QID2_3 nil
               xml.endDate "2015-01-03 13:45:57"
               xml.QID5 "New Form"
-              xml.QID4 Major.first.name
+              xml.QID4 FactoryGirl.create(:major)
               xml.QID3 "Yes"
               xml.QID6 "Yes"
             end
@@ -301,7 +304,6 @@ class FoiTest < ActiveSupport::TestCase
       end # before
 
       test "Multiple Entries - One student with bad params, one with good params" do
-
         assert_no_difference 'Foi.count' do
           err = assert_raises(RuntimeError) {Foi.import(Paperclip.fixture_file_upload(@test_file_loc))}
           assert_equal "Error in record 2: Validation failed: Student could not be identified.", err.message

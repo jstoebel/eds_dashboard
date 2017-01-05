@@ -1,13 +1,30 @@
----
--
+# == Schema Information
+#
+# Table name: roles
+#
+#  idRoles  :integer          not null, primary key
+#  RoleName :string(45)       not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+
+admin:
   idRoles: 1
   RoleName: admin
--
+
+advisor:
   idRoles: 2
   RoleName: advisor
--
+
+staff:
   idRoles: 3
   RoleName: staff
--
+
+stu_labor:
   idRoles: 4
   RoleName: student labor

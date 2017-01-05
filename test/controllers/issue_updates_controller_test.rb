@@ -19,19 +19,6 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "advisor"]
   role_names = Role.all.pluck :RoleName
 
-  def create_update
-    # create an update belonging to the user in session
-    @user = User.find_by :UserName => session[:user]
-    @advisor = @user.tep_advisor
-
-    @update = FactoryGirl.create, {:tep_advisors_AdvisorBnum => @advisor.id}
-
-    # assign advisor to student
-    AdvisorAssignment.create!({:student_id => @update.student.id,
-      :tep_advisor_id => @advisor.id
-      })
-  end
-
   test "should get new" do
     allowed_roles.each do |r|
       load_session(r)
@@ -63,7 +50,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
           # user needs to be tep_advisor of student
           load_session(r)
           @user = User.find_by :UserName => session[:user]
-          @advisor = @user.tep_advisor
+          @advisor = FactoryGirl.create :tep_advisor, {:user_id => @user.id}
 
           # assign advisor to student
           AdvisorAssignment.create!({:student_id => @iu.student.id,
