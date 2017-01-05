@@ -3,6 +3,8 @@ require 'mocha/mini_test'
 class PraxisScoreReportServiceTest < ActiveSupport::TestCase
 
   before do
+
+    praxis_test = FactoryGirl.create :praxis_test, :id => 5712, :TestCode => "5712"
     score_report_str = %q(
     <scorereport
       candidateid="12345678"
