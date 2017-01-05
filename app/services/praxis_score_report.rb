@@ -1,6 +1,6 @@
 class PraxisScoreReport
 
-  attr_reader :report, :stu
+  attr_reader :report, :stu, :first_name, :last_name
 
   @@logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
@@ -21,7 +21,6 @@ class PraxisScoreReport
   def write_tests
     # write praxis scores to database
     # the resulting PraxisResult object is returned
-
 
     tests = @report.xpath("currenttest").xpath("currenttestinfo")
     tests.each do |test_node|
@@ -123,12 +122,8 @@ class PraxisScoreReport
       SECRET["BANNER_PW"]) do |dbh|
         sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
         row = dbh.select_one(sql, ssn)
-
-        if row.nil?
-          return Student.find_by :Bnum => row["SZVEDSD_ID"]
-        else
-          return nil
-        end
+        bnum = row["SZVEDSD_ID"]
+        return Student.find_by :Bnum => bnum
     end
   end
 

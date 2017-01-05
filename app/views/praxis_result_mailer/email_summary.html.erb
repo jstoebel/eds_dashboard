@@ -1,0 +1,16 @@
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+<p>
+  Praxis Update ran for the report for <%= @report_date %> The following students were proceesed:
+</p>
+
+<ul>
+  <% @reports.each do |report| %>
+    <li><%= "#{report.first_name} #{report.last_name}" + (report.stu.nil? ? " UNMATCHED" : "") %></li>
+  <% end  %>
+</ul>
+
+</body>
