@@ -8,7 +8,7 @@ class PraxisResultMailerTest < ActionMailer::TestCase
     [1, -1].each do |modifier|
       pr = FactoryGirl.build_stubbed :praxis_result
       pr.test_score = (pr.cut_score) + modifier
-      praxis_tests.push pr
+      @tests.push pr
     end
 
     @adv = FactoryGirl.create :tep_advisor

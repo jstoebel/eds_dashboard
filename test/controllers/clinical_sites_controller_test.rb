@@ -110,6 +110,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
           actual_attrs = assigns(:site).attributes
           [expected_attrs, actual_attrs].map { |i| i.delete("id")}
+          actual_attrs["phone"] = PhonyRails.normalize_number(expected_attrs["phone"], country_code: 'EN')
 
           assert_equal expected_attrs, actual_attrs
           assert_redirected_to clinical_sites_path

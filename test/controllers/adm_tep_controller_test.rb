@@ -177,7 +177,7 @@ class AdmTepControllerTest < ActionController::TestCase
                   }
               }
           assert_equal flash[:notice], "Error in saving application."
-          assert assigns(:application).errors[:TEPAdmitDate].include?("Admission date must be before next term begins."),
+          assert assigns(:application).errors[:TEPAdmitDate].include?("Admission date must be given."),
             assigns(:application).errors.full_messages
           assert_response :success
           assert_equal assigns(:term), @app.banner_term
@@ -209,7 +209,8 @@ class AdmTepControllerTest < ActionController::TestCase
 
  describe "index" do
     before do
-      term = FactoryGirl.create :banner_term
+      term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
+        :EndDate => 10.days.from_now}
       @applications = FactoryGirl.create_list :adm_tep, 5, {:banner_term => term,
         :TEPAdmit => nil,
         :TEPAdmitDate => nil,
@@ -227,23 +228,23 @@ class AdmTepControllerTest < ActionController::TestCase
         test "should get index" do
           get :index
           assert_response :success
-          assert_equal assigns(:applications).sorted.to_a.sort, @applications.sorted.to_a.sort
+          assert_equal assigns(:applications).to_a.sort, @applications.to_a.sort
           # test for @current_term, @term, @menu_terms
 
           assert_equal BannerTerm.current_term(exact: false, plan_b: :back), assigns(:current_term)
           assert_equal assigns(:term), assigns(:current_term)
-          assert_equal BannerTerm.all.joins(table_name).group(term_col), assigns(:menu_terms)
+          assert_equal BannerTerm.all.joins(:adm_tep).group(:BannerTerm).to_a, assigns(:menu_terms).to_a
         end
 
         test "should get index -- with term" do
           term_to_use = @applications.first.banner_term
           get :index, :banner_term_id => term_to_use.id
           assert_response :success
-          assert_equal assigns(:applications).sorted.to_a.sort, @applications.sorted.to_a.sort
+          assert_equal assigns(:applications).to_a.sort, @applications.to_a.sort
 
           assert_equal BannerTerm.current_term(exact: false, plan_b: :back), assigns(:current_term)
           assert_equal BannerTerm.find(term_to_use.id), assigns(:term)
-          assert_equal BannerTerm.all.joins(table_name).group(term_col), assigns(:menu_terms)
+          assert_equal BannerTerm.all.joins(:adm_tep).group(:BannerTerm).to_a, assigns(:menu_terms).to_atak
         end
 
       end # inner describe

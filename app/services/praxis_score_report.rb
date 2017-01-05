@@ -10,13 +10,11 @@ class PraxisScoreReport
 
     @report = report
     @best_scores = get_best_scores
-
     ssn = @report.at_xpath('candidateinfo/ssn').text.gsub("-", "")
     full_name = @report.at_xpath('candidateinfo/name').text
     @last_name, @first_name = full_name.split(", ")
     stu = stu_from_ssn ssn
     @stu = stu  # might be nil!
-
     @created_tests = []  # array to store all assembled tests
   end
 
