@@ -54,7 +54,7 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
       end # loop
       PraxisUpdate.create!({:report_date => date_obj})
 
-      summary_email = PraxisResultMailer.email_summary(created_tests, d)
+      summary_email = PraxisResultMailer.email_summary(summary_data, d)
       summary_email.deliver_now
 
     end

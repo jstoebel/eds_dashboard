@@ -124,9 +124,8 @@ class PraxisScoreReport
       SECRET["BANNER_PW"]) do |dbh|
         sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
         row = dbh.select_one(sql, ssn)
-        stu = Student.find_by :Bnum => row.andand["SZVEDSD_ID"]
-
-        return stu
+        bnum = row["SZVEDSD_ID"]
+        return = Student.find_by :Bnum => bnum
     end
   end
 
