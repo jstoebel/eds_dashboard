@@ -125,7 +125,7 @@ class PraxisScoreReport
         sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
         row = dbh.select_one(sql, ssn)
         bnum = row["SZVEDSD_ID"]
-        return = Student.find_by :Bnum => bnum
+        return Student.find_by :Bnum => bnum
     end
   end
 
