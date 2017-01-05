@@ -244,7 +244,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
           assert_equal BannerTerm.current_term(exact: false, plan_b: :back), assigns(:current_term)
           assert_equal BannerTerm.find(term_to_use.id), assigns(:term)
-          assert_equal BannerTerm.all.joins(:adm_tep).group(:BannerTerm).to_a, assigns(:menu_terms).to_atak
+          assert_equal BannerTerm.all.joins(:adm_tep).group(:BannerTerm).to_a, assigns(:menu_terms).to_a
         end
 
       end # inner describe
