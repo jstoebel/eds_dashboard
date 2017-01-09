@@ -1,4 +1,4 @@
-require Rails.root.join('app', 'mailers', 'application_mailer')
+
 if Rails.env.development? || Rails.env.test?
   require 'bundler/audit/scanner'
   include Bundler::Audit
