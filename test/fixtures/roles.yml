@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: roles
+#
+#  idRoles  :integer          not null, primary key
+#  RoleName :string(45)       not null
+#
+
 admin:
   idRoles: 1
   RoleName: admin

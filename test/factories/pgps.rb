@@ -9,18 +9,19 @@
 #  plan        :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  strategies  :text(65535)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  
+
   factory :pgp do
-    association :student 
-    
-    goal_name {"#{Faker::Name.name}"}
-    description {"#{Faker::Name.name}"}
-    plan {"#{Faker::Name.name}"}
-    
+    association :student
+
+    goal_name { Faker::Lorem.sentence }
+    description { Faker::Lorem.paragraph }
+    plan { Faker::Lorem.paragraph }
+    strategies { Faker::Lorem.paragraph }
   end
 end
