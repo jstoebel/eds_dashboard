@@ -59,6 +59,7 @@ group :development do
     gem 'capistrano-ext'
     gem 'knife-solo', '~> 0.4.2'
     gem 'rails-erd'
+    gem 'bundler-audit', require: false
 end
 
 group :test do

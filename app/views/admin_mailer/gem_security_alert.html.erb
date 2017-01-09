@@ -1,0 +1,15 @@
+Security vulnerabilities were detected in Gemfile.lock:
+
+<h2> Unpatched Gems </h2>
+<% @unpatched_gems.each do |g| %>
+  <ul>
+    <%= g %>
+  </ul>
+<% end %>
+
+<h2> Inecure Source </h2>
+<% @insecure_source.each do |s| %>
+  <ul>
+    <%= s %>
+  </ul>
+<% end %>
