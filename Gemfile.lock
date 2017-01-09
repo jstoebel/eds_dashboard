@@ -72,6 +72,9 @@ GEM
       sass (>= 3.2.19)
     bootstrap-switch-rails (3.3.3)
     builder (3.2.2)
+    bundler-audit (0.5.0)
+      bundler (~> 1.2)
+      thor (~> 0.18)
     cancancan (1.15.0)
     capistrano (3.6.1)
       airbrussh (>= 1.0.0)
@@ -440,6 +443,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap-sass
   bootstrap-switch-rails
+  bundler-audit
   cancancan (~> 1.13, >= 1.13.1)
   capistrano (~> 3.1)
   capistrano-bundler
