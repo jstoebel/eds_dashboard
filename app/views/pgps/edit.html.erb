@@ -2,11 +2,13 @@
   <i class=" link-text"> Back</i>
 <% end %>
 <%= form_for(@pgp, url: pgp_path(@pgp.id)) do |f| %>
-    
+<h2>Edit professional growth plan for <%=@student.name_readable%></h2>
+  <%= error_messages_for(@pgp) %>
+
     <table summary="Edit PGP form fields">
-        
+
 	<%= render(partial: 'form', locals: {f: f}) %>
-	
+
 	<div class="form-buttons">
     	<tr>
     	    <td> <%= submit_tag("Edit Professonal Growth Plan") %> </td>

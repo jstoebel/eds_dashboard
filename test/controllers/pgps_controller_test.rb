@@ -9,14 +9,12 @@
 #  plan        :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  strategies  :text(65535)
 #
 
 require 'test_helper'
 
 class PgpsControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  #
 
   allowed_roles = ["admin", "staff"]
 
@@ -45,15 +43,18 @@ class PgpsControllerTest < ActionController::TestCase
   test "should create pgp" do
     allowed_roles.each do |r|
       load_session(r)
-      stu = FactoryGirl.create :student
-      pgp_attrs = {"student_id" => stu.id,
-      "goal_name" => "Test Name",
-      "description" => "Test Descript",
-      "plan" => "Test plan"}
-      post :create, {:pgp=> pgp_attrs}
+      expected_pgp = FactoryGirl.build :pgp
+
+      # stu = FactoryGirl.create :student
+      # pgp_attrs = {"student_id" => stu.id,
+      # "goal_name" => "Test Name",
+      # "description" => "Test Descript",
+      # "plan" => "Test plan"}
+      post :create, {:pgp=> expected_pgp.attributes}
       assert assigns(:pgp).valid?
       assert_equal flash[:notice], "Created professional growth plan."
-      assert_equal assigns(:pgp).attributes.except("id", "created_at", "updated_at"), pgp_attrs
+      assert_equal expected_pgp.attributes.except("id", "created_at", "updated_at"),
+        assigns(:pgp).attributes.except("id", "created_at", "updated_at")
       assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
     end
   end

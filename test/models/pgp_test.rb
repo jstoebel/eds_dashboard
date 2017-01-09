@@ -9,6 +9,7 @@
 #  plan        :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  strategies  :text(65535)
 #
 
 require 'test_helper'
@@ -42,6 +43,13 @@ class PgpTest < ActiveSupport::TestCase
     pgp.plan = nil
 		pgp.valid?
 		assert_equal(["Please enter a plan."], pgp.errors[:plan])
+  end
+
+  test "need a strategies" do
+    pgp = Pgp.new
+    pgp.plan = nil
+    pgp.valid?
+    assert_equal(["Please enter a strategy."], pgp.errors[:strategies])
   end
 
   test "score check pass" do

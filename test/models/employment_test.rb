@@ -2,11 +2,12 @@
 #
 # Table name: employment
 #
-#  student_id  :integer          not null
-#  EmpID       :integer          not null, primary key
-#  EmpDate     :date             not null
-#  EmpCategory :string(45)
-#  Employer    :string(45)
+#  id         :integer          not null, primary key
+#  student_id :integer
+#  category   :integer
+#  employer   :string(255)
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 require 'test_helper'
