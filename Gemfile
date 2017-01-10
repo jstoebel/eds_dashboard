@@ -100,3 +100,4 @@ gem 'roman', '~> 0.2.0'
 gem "marco-polo" # console prompt
 
 gem 'rails_admin', '~> 1.0'
+gem "rails_admin_import", "~> 2.0"

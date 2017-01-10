@@ -9,6 +9,7 @@ class Ability
       # can :dashboard
 
       can :manage, :all
+      can :import, :all
 
     elsif user.is? "advisor"
 
