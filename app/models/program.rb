@@ -16,4 +16,8 @@ class Program < ActiveRecord::Base
 	has_many :prog_exits, {:foreign_key => 'Program_ProgCode'}
   has_many :majors
   has_many :praxis_tests, :foreign_key => "Program_ProgCode"
+
+	def repr
+		return self.EPSBProgName
+	end
 end

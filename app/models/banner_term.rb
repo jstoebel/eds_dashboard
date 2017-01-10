@@ -53,6 +53,10 @@ class BannerTerm < ActiveRecord::Base
     end
   end
 
+	def repr
+		return self.id
+	end
+
   def next_term(exclusive = false)
     # returns the term with the next largest id
 		# exclusive: if the next term should be after the self.EndDate
