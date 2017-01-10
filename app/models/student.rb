@@ -178,6 +178,10 @@ class Student < ActiveRecord::Base
 
 	####~~~Praxis Associations and Methods~~~##############################################
 
+	def repr
+		return self.name_readable
+	end
+
 	def praxisI_pass
 	   	#output if student has passed all praxis I exams.
 
@@ -226,7 +230,7 @@ class Student < ActiveRecord::Base
 		admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
 		return admited.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
 	end
-	
+
 	def admited_programs
 		admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
 		return admited
