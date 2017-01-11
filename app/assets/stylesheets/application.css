@@ -15,7 +15,9 @@
  *= require nav_bar
  *= require concern_dashboard
  *= require_tree .
- *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require bootstrap3-switch
+
+ *= require font-awesome
  /* Admin stylesheet       */
 /* load after public.css */
 

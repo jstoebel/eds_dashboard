@@ -52,8 +52,6 @@ class ClinicalAssignmentsController < ApplicationController
 
     @assignment.CourseID = '???'
 
-    @assignment.Term = current_term({exact: false, plan_b: :forward}).BannerTerm
-
     authorize! :manage, @assignment
 
     if @assignment.save

@@ -2,30 +2,32 @@
 #
 # Table name: students
 #
-#  id               :integer          not null, primary key
-#  Bnum             :string(9)        not null
-#  FirstName        :string(45)       not null
-#  PreferredFirst   :string(45)
-#  MiddleName       :string(45)
-#  LastName         :string(45)       not null
-#  PrevLast         :string(45)
-#  EnrollmentStatus :string(45)
-#  Classification   :string(45)
-#  CurrentMajor1    :string(45)
-#  concentration1   :string(255)
-#  CurrentMajor2    :string(45)
-#  concentration2   :string(255)
-#  CellPhone        :string(45)
-#  CurrentMinors    :string(255)
-#  Email            :string(100)
-#  CPO              :string(45)
-#  withdraws        :text(65535)
-#  term_graduated   :integer
-#  gender           :string(255)
-#  race             :string(255)
-#  hispanic         :boolean
-#  term_expl_major  :integer
-#  term_major       :integer
+#  id                      :integer          not null, primary key
+#  Bnum                    :string(9)        not null
+#  FirstName               :string(45)       not null
+#  PreferredFirst          :string(45)
+#  MiddleName              :string(45)
+#  LastName                :string(45)       not null
+#  PrevLast                :string(45)
+#  EnrollmentStatus        :string(45)
+#  Classification          :string(45)
+#  CurrentMajor1           :string(45)
+#  concentration1          :string(255)
+#  CurrentMajor2           :string(45)
+#  concentration2          :string(255)
+#  CellPhone               :string(45)
+#  CurrentMinors           :string(255)
+#  Email                   :string(100)
+#  CPO                     :string(45)
+#  withdraws               :text(65535)
+#  term_graduated          :integer
+#  gender                  :string(255)
+#  race                    :string(255)
+#  hispanic                :boolean
+#  term_expl_major         :integer
+#  term_major              :integer
+#  presumed_status         :string(255)
+#  presumed_status_comment :text(65535)
 #
 
 class Student < ActiveRecord::Base
@@ -64,15 +66,6 @@ class Student < ActiveRecord::Base
 
 #################################################################
 
-
-####~~~VALIDATIONS~~~##################################################
-	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
-	validates_uniqueness_of :Bnum
-
-#######################################################################
-
-
-
 ####~~~ CLASS VARIABLES ~~~##################################################
 	CERT_CONCENTRATIONS = ["Middle Grades Science Cert",
 	"MUS Ed - Instrumental Emphasis",
@@ -89,9 +82,19 @@ class Student < ActiveRecord::Base
 	"Music Education Vocal Emphasis",
 	"Health and Human Performance, P-12"]
 
+	PROG_STATUES = ["Prospective", "Not Applying", "Candidate",
+		"Dropped", "Completer"]
 ##############################################################################
 
+####~~~VALIDATIONS~~~##################################################
+	validates_presence_of :Bnum, :FirstName, :LastName, :EnrollmentStatus
+	validates_uniqueness_of :Bnum
 
+	validates :presumed_status,
+		inclusion: { in: PROG_STATUES,
+    message: "please enter a valid program status" }, allow_nil: true
+
+#######################################################################
 
 ####~~~SCOPES AND CLASS METHODS (Batch Updates)~~~##################################################
 
@@ -175,6 +178,10 @@ class Student < ActiveRecord::Base
 
 	####~~~Praxis Associations and Methods~~~##############################################
 
+	def repr
+		return self.name_readable
+	end
+
 	def praxisI_pass
 	   	#output if student has passed all praxis I exams.
 
@@ -246,7 +253,7 @@ class Student < ActiveRecord::Base
 			# 	* No admit in adm_tep
 			enrollment = [(not self.was_dismissed?),
 				(self.latest_foi == nil or self.latest_foi.seek_cert),
-				(not graduated), (not transfered)]
+				(not graduated), (not transfered), self.EnrollmentStatus.present?]
 
 			if enrollment.all?
 
@@ -257,8 +264,8 @@ class Student < ActiveRecord::Base
 			# 	A student who was dismissed from the college and never admitted to TEP
 
 			elsif (self.latest_foi.present? and not self.latest_foi.seek_cert) or
-					(self.was_dismissed?) or
-					graduated or transfered
+					(self.was_dismissed?) ||
+					graduated || transfered || self.EnrollmentStatus.blank?
 				return "Not applying"
 			else
 				return "Unknown Status"
@@ -294,21 +301,6 @@ class Student < ActiveRecord::Base
 				return "Unknown Status"
 			end
 		end
-
-
-
-
-		#Add that student has not graduated
-		#Use enrollment status var
-		#Also if they have transfered
-		#graduated? or transferred? possible var names to create and use
-		#create methods for graduated and wd-transferring
-
-
-
-
-
-
 	end
 
 	def was_dismissed?
@@ -437,7 +429,7 @@ class Student < ActiveRecord::Base
     options = defaults.merge(options)
 
 		# filter out courses with no posted grade and order with most recent first then with most valuable courses first
-		courses = self.transcripts.where("grade_ltr is not null").order(term_taken: :desc).order!(quality_points: :desc)
+		courses = self.transcripts.where("grade_ltr is not null").where(:gpa_include => true).order(term_taken: :desc).order!(quality_points: :desc)
 
 		#filter by term if one is given
 		courses = courses.where("term_taken <= ?", options[:term]) if options[:term]
@@ -468,6 +460,8 @@ class Student < ActiveRecord::Base
 
 			break if options[:last].present? && credits >= options[:last]
 		end
+
+		return 0 if credits == 0
 		gpa_raw = qpoints / credits
 		return (gpa_raw * 100).to_i / 100.0
 
@@ -498,12 +492,16 @@ class Student < ActiveRecord::Base
 
 	##########################################################################
 
-
+	def tep_instructors
+		# all tep_advisors (not nessarily assigned to student) that are instructors
+		# of student
+		return TepAdvisor.all.select{|adv| self.is_student_of?(adv.AdvisorBnum)}
+	end
 
 	####~~~Enrollment Methods~~~##############################################
 
 	def graduated
-		self.EnrollmentStatus == "Graduated"
+		self.EnrollmentStatus == "Graduation"
 	end
 
 	def transfered
@@ -511,8 +509,6 @@ class Student < ActiveRecord::Base
 	end
 
 	##########################################################################
-
-
 
 ############################################################################################################
 

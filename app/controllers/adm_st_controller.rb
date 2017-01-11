@@ -131,7 +131,7 @@ class AdmStController < ApplicationController
 
   def destroy
     @app = AdmSt.find(params[:id])
-
+    authorize! :manage, @app
     if @app.STAdmitted== nil
       @app.destroy
       flash[:notice] = "Deleted Successfully!"

@@ -1,59 +1,59 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.12/b-1.2.2/b-html5-1.2.2/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.12/b-1.2.2/b-html5-1.2.2/datatables.min.js"></script>
+
+
 <% @page_title = "Student Reports" %>
 
+
+
 <!-- insert back button -->
-
 <div class="container-fluid">
-
   <!-- dropdown here  -->
 
-  <% headers = ["B#",
-    "Name",
-    "Prog Status",
-    "Major 1",
-    "Conc 1",
-    "Major 2",
-    "Conc 2",
-    "Minors",
-    "Taken 227/228",
-    "Completed 227/228",
-    "Term completing 227",
-    "Term completing 227",
-    "EDS440 or EDS470"
+  <!-- mapping of column name with attribute name in hash -->
+  <% header_mappings = [
+    ["B#", :Bnum],
+    ["Name", :name_readable],
+    ["Prog Status", :prog_status],
+    ["Enrollment Status", :EnrollmentStatus],
+    ["Classification", :Classification],
+    ["Program(s)", :ProgName],
+    ["Major 1", :CurrentMajor1],
+    ["Conc 1", :concentration1],
+    ["Major 2", :CurrentMajor2],
+    ["Conc 2", :concentration2],
+    ["Minors", :CurrentMinors],
+    ["EDS150", :Latest_Term_EDS150],
+    ["Taken 227/228", :Taken227_228],
+    ["Completed 227/228", :Passed_Completion_227],
+    ["Term completing 227", :Latest_Completion_227],
+    ["Term completing 227", :Latest_Completion_228],
+    ["EDS440 or EDS470", :Latest_Term_EDS440_479],
+    ["Advisors", :advisors]
   ] %>
-
   <%= render(partial: "dropdown_checks",
-    locals: {options: headers}) %>
+    locals: {options: header_mappings.transpose[0] } ) %>
 
   <div class="student reports index">
     <h2>Student Information:</h2>
 
-    <table class="small" id="report" class="table table-striped" summary="Student Reports">
+    <table class="cell-border small" id="report" summary="Student Reports">
     </div>
     <thead>
       <tr class="header">
-        <% headers.each do |header| %>
-          <th><%= header %></th>
+        <% header_mappings.each do |a, b| %>
+          <th><%= a %></th>
         <% end %>
 
       </tr>
     </thead>
     <tbody>
       <% @data.each do |stu| %>
-      <tr>
-        <td><%= stu[:Bnum] %></td>
-        <td><%= stu[:name_readable] %></td>
-        <td><%= stu[:prog_status] %></td>
-        <td><%= stu[:CurrentMajor1]%></td>
-        <td><%= stu[:concentration1]%></td>
-        <td><%= stu[:CurrentMajor2]%></td>
-        <td><%= stu[:concentration2]%></td>
-        <td><%= stu[:CurrentMinors]%></td>
-        <td><%= stu[:Taken227_228]%></td>
-        <td><%= stu[:Passed_227_228]%></td>
-        <td><%= stu[:Latest_Completion_227]%></td>
-        <td><%= stu[:Latest_Completion_228]%></td>
-        <td><%= stu[:Latest_Term_EDS440_470]%></td>
-      </tr>
+        <tr>
+          <% header_mappings.each do |a, b| %>
+            <td><%= stu[b] %></td>
+          <% end %>
+        </tr>
       <% end %>
     </tbody>
   </table>

@@ -11,14 +11,16 @@
 #  updated_at               :datetime
 #  visible                  :boolean          default(TRUE), not null
 #  addressed                :boolean
+#  status                   :string(255)
 #
 
 FactoryGirl.define do
   factory :issue_update do
+    association :tep_advisor
     association :issue
     UpdateName {Hipster.sentence}
     Description {Hipster.paragraph}
-    # issue
-    # tep_advisor
+    status "concern"
+    addressed false
   end
 end

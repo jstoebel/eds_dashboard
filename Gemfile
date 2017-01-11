@@ -18,7 +18,7 @@ gem 'uglifier', '>= 1.3.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'jquery-datatables-rails', '~> 3.3.0'
+# gem 'jquery-datatables-rails', '~> 3.3.0'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 # gem 'jquery-turbolinks'
@@ -26,9 +26,8 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-
 gem 'bootstrap-sass'
+gem "font-awesome-rails"
 gem 'autoprefixer-rails'
 gem 'bootstrap-datepicker-rails'
 gem "bootstrap-switch-rails"
@@ -54,12 +53,13 @@ group :development do
     gem 'capistrano', '~> 3.1'
     gem 'capistrano-passenger'
     gem 'capistrano-rbenv', '~> 2.0'
-    # gem 'capistrano-rvm',       require: false
     gem 'capistrano-rails'
     gem 'capistrano-bundler'
     gem 'capistrano3-puma'
-    gem  'capistrano-ext'
+    gem 'capistrano-ext'
+    gem 'knife-solo', '~> 0.4.2'
     gem 'rails-erd'
+    gem 'bundler-audit', require: false
 end
 
 group :test do
@@ -77,7 +77,7 @@ gem 'phony_rails'
 gem 'active_record-acts_as' #for multi table inheritance
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-gem 'annotate', github: 'ctran/annotate_models'
+gem 'annotate'
 gem 'andand', '~> 1.3', '>= 1.3.3'
 gem 'savon', '~> 2.0'
 
@@ -98,3 +98,5 @@ gem 'kaminari'
 gem 'nokogiri', '~> 1.6', '>= 1.6.8'
 gem 'roman', '~> 0.2.0'
 gem "marco-polo" # console prompt
+
+gem 'rails_admin', '~> 1.0'

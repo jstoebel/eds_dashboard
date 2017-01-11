@@ -1,0 +1,53 @@
+<!-- Partial for a popover.
+
+  arguments:
+    stu: the student object
+       -->
+
+
+<!-- Button trigger modal -->
+<a href="#" data-toggle="modal" data-target="#presumed_status-<%= stu.id %>">
+  <%= stu.prog_status %>
+</a>
+<% if stu.presumed_status.present? %>
+  <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Student has a presumed status"></i>
+<% end %>
+<% if stu.prog_status == "Prospective" && !stu.foi.any? %>
+  <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" title="Student has not completed the Form of Intention"></i>
+<% end %>
+
+<!-- Modal -->
+<div class="modal fade" id="presumed_status-<%= stu.id %>" tabindex="-1" role="dialog" aria-labelledby="presumed_status-<%= stu.id %>label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="presumed_status-<%= stu.id %>-label">
+          Status for <%=stu.name_readable %> </h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for stu, :class => "stu-form#{stu.id}" do |f| %>
+          <table>
+            <tr>
+              <th><%= f.label(:presumed_status, "Presumed Status") %></th>
+              <th><%= f.select(:presumed_status, Student::PROG_STATUES, {:prompt => 'Select a status'}) %></th>
+            </tr>
+
+            <tr>
+              <th><%= f.label(:presumed_status_comment, "Comments") %></th>
+              <td><%= f.text_area(:presumed_status_comment, :size => '30x10') %></td>
+            </tr>
+
+          </table>
+
+
+          <div class="modal-footer">
+            <div class="btn btn-primary submit-btn" data-val="<%= stu.id%>" >
+              <span class="glyphicon glyphicon-floppy-disk"></span>
+            </div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -28,25 +28,34 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
     fail("no new praxis reports!") if get_these_dates.empty?
 
     puts "-> done!"
+
+    summary_data = []
+
     get_these_dates.each do |d|  #d: date string, format => %m/%d/%Y
       score_report = fetch_score_report(client, user_name, pw, d)
       root = score_report.root
       reports = root.xpath("scorereport")
 
-      date_obj = DateTime.strptime(d, "%d/%m/%Y")
+      date_obj = DateTime.strptime(d, "%m/%d/%Y")
 
       reports.each do |report|  # one scorereport per student
         report_obj = PraxisScoreReport.new report
         report_obj.write_tests
 
-        if (date_obj >= 30.days.ago) && (send_emails)
+        # should emails go out on this report
+        if (date_obj >= 30.days.ago) && (send_emails) && (report_obj.stu.present?)
           report_obj.email_created
         else
           log_error "email not sent", t
         end
 
+        summary_data << report_obj
+
       end # loop
       PraxisUpdate.create!({:report_date => date_obj})
+
+      summary_email = PraxisResultMailer.email_summary(summary_data, d)
+      summary_email.deliver_now
 
     end
 

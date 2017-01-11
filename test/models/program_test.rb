@@ -7,6 +7,7 @@
 #  EPSBProgName :string(100)
 #  EDSProgName  :string(45)
 #  Current      :boolean
+#  license_code :string(255)
 #
 
 require 'test_helper'

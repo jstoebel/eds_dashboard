@@ -2,15 +2,20 @@
 #
 # Table name: clinical_teachers
 #
-#  id               :integer          not null, primary key
-#  Bnum             :string(45)
-#  FirstName        :string(45)       not null
-#  LastName         :string(45)       not null
-#  Email            :string(45)
-#  Subject          :string(45)
-#  clinical_site_id :integer          not null
-#  Rank             :integer
-#  YearsExp         :integer
+#  id                  :integer          not null, primary key
+#  Bnum                :string(45)
+#  FirstName           :string(45)       not null
+#  LastName            :string(45)       not null
+#  Email               :string(45)
+#  Subject             :string(45)
+#  clinical_site_id    :integer          not null
+#  Rank                :integer
+#  YearsExp            :integer
+#  begin_service       :datetime
+#  epsb_training       :datetime
+#  ct_record           :datetime
+#  co_teacher_training :datetime
+#
 
 class ClinicalTeachersController < ApplicationController
   authorize_resource
@@ -84,7 +89,9 @@ class ClinicalTeachersController < ApplicationController
   private
 
   def teacher_params
-    params.require(:clinical_teacher).permit(:Bnum, :FirstName, :LastName, :Email, :Subject, :clinical_site_id, :Rank, :YearsExp)
+    params.require(:clinical_teacher).permit(:Bnum, :FirstName, :LastName, :Email, 
+    :Subject, :clinical_site_id, :Rank, :begin_service, :epsb_training,
+    :ct_record, :co_teacher_training)
   end
 
   def form_details

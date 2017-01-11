@@ -8,13 +8,14 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 
-    <%# stylesheet_link_tag params[:controller] %>    
+    <%# stylesheet_link_tag params[:controller] %>
     <%= stylesheet_link_tag('application') %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%# javascript_include_tag :defaults %>
 
     <%= javascript_include_tag params[:controller] %>
     <%= javascript_include_tag 'application' %>
+		<%= javascript_include_tag 'all' %>
     <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 	</head>
 	<body>
@@ -23,36 +24,37 @@
   <div class="container-fluid">
 
     <div class="row">    <!-- menu to swap psudo role if user is admin -->
-      <div class="col-xs-12 col-md-3">      <% if session[:role] == 'admin' %>
+      <div class="col-xs-12 col-md-3">
+				<% if session[:role] == 'admin' && Rails.env == "development" %>
 
-        <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
-          Viewing Site As:
-        <% end %>
+	        <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
+	          Viewing Site As:
+	        <% end %>
 
-        <%= form_tag("/access/change_psudo_status") do -%>
-            <p class="navbar-text pull-left">
-            <%= select_tag "view_as", 
-                options_for_select(
-                    Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
-                    session[:view_as] #sets the default
-                    ),
-                  {:prompt => "View Site As...",
-                  :class => "form-control",
-                  :onchange => "this.form.submit()"}
-               %>
-            </p>
-          <% end -%>
-      
-        <% end %>
+	        <%= form_tag("/access/change_psudo_status") do -%>
+	            <p class="navbar-text pull-left">
+	            <%= select_tag "view_as",
+	                options_for_select(
+	                    Role.all.order(:RoleName).collect { |r| [r.RoleName, r.idRoles]},
+	                    session[:view_as] #sets the default
+	                    ),
+	                  {:prompt => "View Site As...",
+	                  :class => "form-control",
+	                  :onchange => "this.form.submit()"}
+	               %>
+	            </p>
+	          <% end -%>
+      	<% end %>
+
       </div>
 
-      <div class="col-xs-12 col-md-3 col-md-offset-6">      
+      <div class="col-xs-12 col-md-3 col-md-offset-6">
         <p class="navbar-text pull-right">
           Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
-        </p>  
+        </p>
       </div>
-        
-      <div class="col-xs-12 col-md-1 pull-right">   
+
+      <div class="col-xs-12 col-md-1 pull-right">
         <%= form_tag("/logout", method: "post") do  %>
           <%= submit_tag("Logout", id: "logout-btn", data: { confirm: 'Are you sure you want to logout?' }) %>
         <% end  %>
@@ -61,11 +63,8 @@
     </div>
 
   </div>
-    <!-- TODO Here is where we render role specific nav bar -->
-    <% if session[:role] == "admin" and (session[:view_as] == 0 or session[:view_as] == Role.where(RoleName: "admin").first.idRoles) %>
-      <%= render :partial => "admin_navbar" %>
 
-    <% elsif session[:role] == "advisor" or session[:view_as] == Role.where(RoleName: "advisor").first.idRoles %>
+    <% if session[:role] == "advisor" or session[:view_as] == Role.where(RoleName: "advisor").first.idRoles %>
       <%= render :partial => "advisor_navbar" %>
 
     <% elsif session[:role] == "staff" or session[:view_as] == Role.where(RoleName: "staff").first.idRoles %>
@@ -73,6 +72,9 @@
 
     <% elsif session[:role] == "student labor" or session[:view_as] == Role.where(RoleName: "student labor").first.idRoles %>
       <%= render :partial => "stu_labor_navbar" %>
+
+		<% elsif session[:role] == "admin" %>
+			<%= render :partial => "admin_navbar" %>
 
     <% end %>
 </div>
@@ -85,11 +87,11 @@
         </div>
       <% end %>
 <div class="yield">  <%= yield %> </div>
-	
+
 		<!--After yield -->
-		
-		
-		
-		
+
+
+
+
 
 </html>

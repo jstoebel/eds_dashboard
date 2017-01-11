@@ -24,6 +24,7 @@ FactoryGirl.define do
     # association :banner_term
     # need to provide Program_ProgCode
     # need to provide BannerTerm_BannerTerm
+    program
     Attempt 1
     TEPAdmit true
     TEPAdmitDate Date.today
@@ -31,5 +32,12 @@ FactoryGirl.define do
     GPA_last30 3.0
     EarnedCredits 30
     association :student_file, factory: :student_file
+
+    factory :pending_adm_tep do
+      TEPAdmit nil
+      TEPAdmitDate nil
+      student_file nil
+      banner_term
+    end
   end
 end

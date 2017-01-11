@@ -21,8 +21,6 @@ passenger.*.pid.lock
 #seed data that can't go into the repo
 /db/seed/secure_seed/*
 
-
-
 #not checking in database.yaml since different deployments need to configure it differently (c9.io users)
 config/database.yml
 
@@ -49,3 +47,14 @@ bower.json
 .powenv
 error_rpt.txt
 error_report.txt
+all_errors.txt
+entrance_exit_FIXED.csv
+
+# only .rb and .rake in lib/tasks/reports
+lib/tasks/reports/**
+lib/**/*.csv
+!lib/tasks/reports/**/*.rb
+!lib/tasks/reports/**/*.rake
+
+config/chef/nodes/*
+!config/chef/nodes/example.json

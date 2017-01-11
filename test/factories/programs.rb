@@ -7,11 +7,20 @@
 #  EPSBProgName :string(100)
 #  EDSProgName  :string(45)
 #  Current      :boolean
+#  license_code :string(255)
 #
 
+include Faker
 FactoryGirl.define do
   factory :program do
-    ProgCode "999"
+    ProgCode do
+      codes = Program.all.pluck :ProgCode
+      while true
+        code = Number.between(1, 999)
+        break if !codes.include? code
+      end
+      code
+    end
     EPSBProgName "EPSB Name"
     EDSProgName "EDS Name"
     Current true

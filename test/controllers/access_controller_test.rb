@@ -1,6 +1,8 @@
 require 'test_helper'
 class AccessControllerTest < ActionController::TestCase
 
+  role_names = Role.all.pluck :RoleName
+
   test "should get index" do
     role_names.each do |r|    #iterating over all possible roles
       load_session(r)
@@ -28,26 +30,17 @@ class AccessControllerTest < ActionController::TestCase
     assert_nil session[:view_as], "session[:view_as] is not nil"
   end
 
-  test "admin should change psudo status" do
-    #tests that admin can change their view_as to advisor (2)
-    load_session("admin")
-    post :change_psudo_status, {"view_as" => "2"}
+  describe "should not change psudo status" do
+    # changing psudo-status is not permitted in production reguardless of role
+    role_names.each do |r|
+      test "as #{r}" do
+        load_session(r)
+        post :change_psudo_status, {"view_as" => "2"}
 
-    #should be redirected to index
-    assert_redirected_to root_path
-
-    #session[:view_as] should be assigned
-    assert session[:view_as] == 2, "view_as is not 2"
-  end
-
-  test "non admin should not change psudo status" do
-    #tests that all non admin roles can't change their view_as to advisor (2)
-    (role_names - ["admin"]).each do |r|
-      load_session(r)
-      post :change_psudo_status, {"view_as" => "2"}
-
-      #should be redirected to index
-      assert_redirected_to "/access_denied"
+        #should be redirected to index
+        assert_redirected_to "/access_denied"
+        assert_nil session[:view_as]
+      end
     end
   end
 

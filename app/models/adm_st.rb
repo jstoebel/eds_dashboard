@@ -49,7 +49,7 @@ class AdmSt < ActiveRecord::Base
   }
 
   validates_presence_of :STAdmitDate, {:message => "Admission date must be given.",
-    :unless => Proc.new{|s| s.STAdmitted.nil?}
+    :if => Proc.new{|s| s.STAdmitted}
   }
 
   validates_presence_of :STAdmitted, {:message => "Please make an admission decision for this student.",
@@ -96,17 +96,20 @@ class AdmSt < ActiveRecord::Base
   end
 
   def admit_date_too_late
-    if self.STAdmitDate and self.STAdmitDate >= self.banner_term.next_term.StartDate
+    if self.STAdmitDate and self.STAdmitDate >= self.banner_term.next_term(exclusive=true).StartDate
       self.errors.add(:STAdmitDate, "Admission date may not be after next term begins.")
     end
   end
 
   def cant_apply_again
-    non_rejected_apps = AdmSt.where({student_id: self.student_id,
-        BannerTerm_BannerTerm: self.BannerTerm_BannerTerm})
-      .where("STAdmitted = 1 or STAdmitted IS NULL")
+    
+    non_rejected_apps = self.student.adm_st
+      .where({ BannerTerm_BannerTerm: self.BannerTerm_BannerTerm })
+      .where("STAdmitted = true or STAdmitted IS NULL")
 
-    if non_rejected_apps.size > 0 and self.new_record?
+
+    if ( non_rejected_apps.size > 0 && self.new_record? ) ||
+      ( non_rejected_apps.size > 1 && !self.new_record? )
       self.errors.add(:base, "Student has already been admitted or has an open applicaiton in this term.")
     end
   end

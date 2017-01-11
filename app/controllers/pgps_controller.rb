@@ -9,6 +9,7 @@
 #  plan        :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  strategies  :text(65535)
 #
 
 class PgpsController < ApplicationController
@@ -91,7 +92,7 @@ class PgpsController < ApplicationController
 
     private
     def pgp_params
-        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan)
+        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan, :strategies)
     end
 
 

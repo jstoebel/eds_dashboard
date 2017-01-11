@@ -6,6 +6,7 @@
 #  student_id        :integer          not null
 #  crn               :string(45)       not null
 #  course_code       :string(45)       not null
+#  course_section    :string(255)
 #  course_name       :string(100)
 #  term_taken        :integer          not null
 #  grade_pt          :float(24)
@@ -27,9 +28,9 @@ class TranscriptTest < ActiveSupport::TestCase
 
     test "student in course in term is unique" do
         attrs = {
-            :student_id => Student.first.id,
+            :student => (FactoryGirl.create :student),
             :crn => "1001",
-            :term_taken => BannerTerm.first.id
+            :banner_term => (FactoryGirl.create :banner_term)
         }
 
         t1 = FactoryGirl.create :transcript, attrs
