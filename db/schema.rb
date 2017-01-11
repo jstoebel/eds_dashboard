@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109171756) do
+ActiveRecord::Schema.define(version: 20170111205141) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -171,11 +171,12 @@ ActiveRecord::Schema.define(version: 20170109171756) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "employment", primary_key: "EmpID", force: :cascade do |t|
-    t.integer "student_id",  limit: 4,  null: false
-    t.date    "EmpDate",                null: false
-    t.string  "EmpCategory", limit: 45
-    t.string  "Employer",    limit: 45
+  create_table "employment", force: :cascade do |t|
+    t.integer  "student_id", limit: 4
+    t.integer  "category",   limit: 4
+    t.string   "employer",   limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "employment", ["student_id"], name: "fk_rails_8b14daa8ce", using: :btree
@@ -515,11 +516,11 @@ ActiveRecord::Schema.define(version: 20170109171756) do
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string  "UserName",      limit: 45, null: false
-    t.string  "FirstName",     limit: 45, null: false
-    t.string  "LastName",      limit: 45, null: false
-    t.string  "Email",         limit: 45, null: false
-    t.integer "Roles_idRoles", limit: 4,  null: false
+    t.string  "UserName",      limit: 45,  null: false
+    t.string  "FirstName",     limit: 45,  null: false
+    t.string  "LastName",      limit: 45,  null: false
+    t.string  "Email",         limit: 100, null: false
+    t.integer "Roles_idRoles", limit: 4,   null: false
   end
 
   add_index "users", ["Roles_idRoles"], name: "fk_users_Roles1_idx", using: :btree
