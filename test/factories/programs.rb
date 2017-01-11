@@ -16,7 +16,7 @@ FactoryGirl.define do
     ProgCode do
       codes = Program.all.pluck :ProgCode
       while true
-        code = Number.between(1, 999)
+        code = Number.between(1, 999).to_s
         break if !codes.include? code
       end
       code
