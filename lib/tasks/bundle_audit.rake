@@ -1,10 +1,8 @@
-
-
-require 'bundler/audit/scanner'
-include Bundler::Audit
 namespace :bundler do
   desc 'Updates the ruby-advisory-db and runs audit'
   task :audit => :environment do
+    require 'bundler/audit/scanner'
+    include Bundler::Audit
     scanner = Bundler::Audit::Scanner.new
     vulnerabilities = 0
     insecure_source = []
