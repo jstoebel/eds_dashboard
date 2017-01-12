@@ -36,6 +36,7 @@ class PgpsController < ApplicationController
     end
 
     def create
+        # byebug if current_user.role.id == 2
         @pgp = Pgp.new
         @pgp.assign_attributes(pgp_params)
         authorize! :manage, @pgp
