@@ -52,14 +52,13 @@ class AccessControllerTest < ActionController::TestCase
           end
         end # envs loop
 
-        # test "not allowed in production" do
-        #   # Rails.stub(env: ActiveSupport::StringInquirer.new("production"))
-        #   # byebug
-        #   Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new("production"))
-        #   post :change_psudo_status, {"view_as" => "2"}
-        #   assert_redirected_to "/access_denied"
-        #   assert_equal session[:role], @original_role.RoleName
-        # end
+        test "not allowed in production" do
+          # Rails.stub(env: ActiveSupport::StringInquirer.new("production"))
+          Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new("production"))
+          post :change_psudo_status, {"view_as" => "2"}
+          assert_redirected_to "/access_denied"
+          assert_equal session[:role], @original_role.RoleName
+        end
 
       end # inner describe
     end # outer describe

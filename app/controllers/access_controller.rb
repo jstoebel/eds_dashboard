@@ -33,7 +33,6 @@ class AccessController < ApplicationController
       session[:role] = new_role.RoleName
 
       user.save!
-      # byebug
       redirect_to root_path
     else
       # not in development
