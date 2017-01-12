@@ -58,3 +58,5 @@ lib/**/*.csv
 
 config/chef/nodes/*
 !config/chef/nodes/example.json
+
+.byebug_history

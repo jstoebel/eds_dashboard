@@ -40,7 +40,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
 gem 'lograge'
 gem 'minitest-fail-fast'
-
+gem "byebug"
 #for working out foreign keys!!1
 # gem 'foreigner', '~> 1.7', '>= 1.7.4'
 gem 'immigrant'
