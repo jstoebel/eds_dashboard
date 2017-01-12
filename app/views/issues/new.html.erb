@@ -9,6 +9,13 @@
 	<h2>Open Advisor Note for <%=@student.name_readable%></h2>
     <%= render(partial: 'form', locals: {f: f}) %>
 
+    <tr>
+      <td>
+        <div class="form-buttons">
+          <%= submit_tag("Open Issue") %>
+      </td>
+    </tr>
+    
     <%= fields_for :issue_update, @update do |update| %>
       <th><%= update.label(:status, "Status of Issue") %></th>
       <td> <%= update.select(:status, IssueUpdate::STATUSES.keys,

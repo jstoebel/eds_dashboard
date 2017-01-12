@@ -8,5 +8,9 @@
   <%= form_for(@issue, :url => issue_path(@issue.id) ) do |f| %>
 	<h2>Edit Advisor Note for <%=@student.name_readable%></h2>
     <%= render(partial: 'form', locals: {f: f}) %>
+  
+  <tr> 
+    <td><%= submit_tag("Update Issue") %></td>
+  </tr>  
   <% end %>
 </div>
