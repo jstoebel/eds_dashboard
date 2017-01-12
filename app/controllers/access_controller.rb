@@ -25,17 +25,13 @@ class AccessController < ApplicationController
   def change_psudo_status
     #if user is admin, change their :view_as status to the requested status
     # this action isn't permitted in production
-    if ["development", "test"] .include? Rails.env
-      # if session[:role] == 'admin'
-      #   session[:view_as] = params[:view_as].to_i
-      #     redirect_to root_path
-      # else
-      #   redirect_to "/access_denied"
-      # end
+    if ["development", "test"].include? Rails.env
+
       user = current_user
       new_role = Role.find params[:view_as].to_i
       user.Roles_idRoles = new_role.id
       session[:role] = new_role.RoleName
+
       user.save!
       # byebug
       redirect_to root_path
