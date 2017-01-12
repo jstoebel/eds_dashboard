@@ -30,18 +30,39 @@ class AccessControllerTest < ActionController::TestCase
     assert_nil session[:view_as], "session[:view_as] is not nil"
   end
 
-  describe "should not change psudo status" do
-    # changing psudo-status is not permitted in production reguardless of role
-    role_names.each do |r|
-      test "as #{r}" do
-        load_session(r)
-        post :change_psudo_status, {"view_as" => "2"}
+  (Role.all.pluck :RoleName).each do |role_name|
+    describe "as "
+  end
 
-        #should be redirected to index
-        assert_redirected_to "/access_denied"
-        assert_nil session[:view_as]
+  describe "change status" do
+    before do
+      @user = FactoryGirl.create :user
+    end
+
+    ["development", "test"].each do |env|
+      test "allowed as #{env}" do
+        Rails.stub(env: ActiveSupport::StringInquirer.new(env))
+
       end
     end
+
+    test "not allowed in production" do
+
+    end
   end
+
+  # describe "should not change psudo status" do
+  #   # changing psudo-status is not permitted in production reguardless of role
+  #   role_names.each do |r|
+  #     test "as #{r}" do
+  #       load_session(r)
+  #       post :change_psudo_status, {"view_as" => "2"}
+  #
+  #       #should be redirected to index
+  #       assert_redirected_to "/access_denied"
+  #       assert_nil session[:view_as]
+  #     end
+  #   end
+  # end
 
 end
