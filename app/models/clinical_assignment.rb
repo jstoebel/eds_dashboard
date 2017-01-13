@@ -28,11 +28,14 @@ class ClinicalAssignment < ActiveRecord::Base
 	validates :student_id,
 		:presence => {message: "Please select a student."}
 
+	validates :Term,
+		:presence => {message: "Could not be determined"}
+
 	validate do |a|
 		a.errors.add(:StartDate, "Please enter a valid start date.") unless a.StartDate.kind_of?(Date)
 		a.errors.add(:EndDate, "Please enter a valid end date.") unless a.EndDate.kind_of?(Date)
 		a.errors.add(:base, "Start date must be before end date.") if a.StartDate and a.EndDate and a.StartDate >= a.EndDate
-		#purposly not validating for start and end dates to fall inside the term.	
+		#purposly not validating for start and end dates to fall inside the term.
 	end
 
 end

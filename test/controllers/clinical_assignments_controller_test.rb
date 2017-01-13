@@ -44,64 +44,57 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
     end
   end
 
-  # # TODO Why doesn't this work??? Always fails on the second role.
-  # test "should get new" do
-  #   role_names.each do |r|
-  #
-  #     load_session(r)
-  #
-  #     get :new
-  #     assert_response :success
-  #     assert assigns(:assignment).new_record? and not assigns(:assignment).changed?
-  #
-  #     user = User.find_by(:UserName => session[:user])
-  #
-  #     abil = Ability.new(user)
-  #     check_form_setup
-  #   end
-  # end
-
   describe "create" do
 
     allowed_roles.each do |r|
-      before do
-        load_session(r)
+      describe "as #{r}" do
+        before do
+          load_session(r)
 
-        FactoryGirl.create_list :clinical_teacher, 5
-        FactoryGirl.create_list :student, 5
-        term = (FactoryGirl.create :banner_term, :StartDate => 5.days.ago,
+          user = User.find_by :UserName => session[:user]
+
+          advisor = FactoryGirl.create :tep_advisor, :user_id => user.id
+
+          adv_assign = FactoryGirl.create :advisor_assignment, :tep_advisor => advisor
+
+          FactoryGirl.create_list :clinical_teacher, 5
+          FactoryGirl.create_list :student, 5
+          term = (FactoryGirl.create :banner_term, :StartDate => 5.days.ago,
           :EndDate => 5.days.from_now
-        )
-        @assignment = FactoryGirl.build :clinical_assignment, {
-          :student_id => (FactoryGirl.create :student).id,
-          :clinical_teacher_id => (FactoryGirl.create :clinical_teacher).id,
-          :Term => term.id,
-          :StartDate => term.StartDate,
-          :EndDate => term.EndDate,
-          :CourseID => "???" # to match controller, for now
-        }
-      end
+          )
 
-      test "should create" do
-        assignment_attrs = @assignment.attributes
-        post :create, {:clinical_assignment => assignment_attrs}
+          @assignment = FactoryGirl.build :clinical_assignment, {
+            :student_id => adv_assign.student.id,
+            :banner_term => term,
+            :StartDate => term.StartDate,
+            :EndDate => term.EndDate,
+            :CourseID => "???" # to match controller, for now
+          }
 
-        expected_attrs = assignment_attrs
-        actual_attrs = assigns(:assignment).attributes
+        end
 
-        assert assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
-        assert_equal expected_attrs.except("id"), actual_attrs.except("id")
-        assert_redirected_to clinical_assignments_path
-      end
+        test "as #{r} should create" do
+          post :create, {:clinical_assignment => @assignment.attributes}
 
-      test "should not create -- bad params" do
-        #can't create record due to a record not saving
-        @assignment.student_id = nil
-        post :create, {:clinical_assignment => @assignment.attributes}
-        assert_response :success
-        check_form_setup
+          expected_attrs = @assignment.attributes
+          actual_attrs = assigns(:assignment).attributes
 
-      end # test
+          assert assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
+          assert_equal expected_attrs.except("id"), actual_attrs.except("id")
+          assert_redirected_to clinical_assignments_path
+        end
+
+        test "as #{r} should not create -- bad params" do
+          #can't create record due to a record not saving
+          @assignment.clinical_teacher_id = nil
+          post :create, {:clinical_assignment => @assignment.attributes}
+          assert_not assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
+          assert_response :success
+          check_form_setup
+
+        end # test
+      end # inner describe
+
     end # roles loop
   end # describe
 

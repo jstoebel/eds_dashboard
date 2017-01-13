@@ -35,8 +35,15 @@ class ClinicalAssignmentsController < ApplicationController
 
     begin
       @assignment.StartDate = params[:clinical_assignment][:StartDate]
+
+      term = BannerTerm.current_term({:exact => false,
+        :plan_b => :forward,
+        :date => @assignment.StartDate
+        })
+      @assignment.Term = term.id
     rescue ArgumentError, TypeError => e
       @assignment.StartDate = nil
+      @assignment.Term = nil
     end
 
     begin
@@ -49,6 +56,8 @@ class ClinicalAssignmentsController < ApplicationController
     #plan b: look up all possible courses irrespective of student
     #plan c: text box (zzzz...)
 
+
+    # determine the term based on start date
 
     @assignment.CourseID = '???'
 
@@ -114,7 +123,7 @@ class ClinicalAssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level)#, :StartDate, :EndDate)
+    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :CourseID, :Level)#, :StartDate, :EndDate)
 
   end
   def form_setup
