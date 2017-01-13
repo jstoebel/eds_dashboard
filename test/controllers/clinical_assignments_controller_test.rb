@@ -68,7 +68,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
             :banner_term => term,
             :StartDate => term.StartDate,
             :EndDate => term.EndDate,
-            :CourseID => "???" # to match controller, for now
+            :transcript => FactoryGirl.create :transcript
           }
 
         end

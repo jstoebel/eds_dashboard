@@ -2,14 +2,14 @@
 #
 # Table name: clinical_assignments
 #
-#  student_id          :integer          not null
 #  id                  :integer          not null, primary key
+#  student_id          :integer          not null
 #  clinical_teacher_id :integer          not null
 #  Term                :integer          not null
-#  CourseID            :string(45)       not null
 #  Level               :string(45)
 #  StartDate           :date
 #  EndDate             :date
+#  transcript_id       :integer
 #
 
 class ClinicalAssignment < ActiveRecord::Base
@@ -17,6 +17,7 @@ class ClinicalAssignment < ActiveRecord::Base
 	belongs_to :student
 	belongs_to :clinical_teacher
 	belongs_to :banner_term, {:foreign_key => 'Term'}
+	belongs_to :transcript
 
 	validates :clinical_teacher_id,
 		uniqueness: {
