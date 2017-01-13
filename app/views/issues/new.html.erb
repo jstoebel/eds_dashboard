@@ -11,16 +11,20 @@
 
     <tr>
       <td>
-        <div class="form-buttons">
           <%= submit_tag("Open Issue") %>
       </td>
+    </tr><br>
+    <tr><br>
+      <div>
+        <%= fields_for :issue_update, @update do |update| %>
+        <th><%= update.label(:status, "Status of Issue:") %></th>
+        <td> <%= update.select(:status, IssueUpdate::STATUSES.keys,
+        {prompt: "Select a status"}) %> </td>
+        <% end %>
+      </div>
     </tr>
-    
-    <%= fields_for :issue_update, @update do |update| %>
-      <th><%= update.label(:status, "Status of Issue") %></th>
-      <td> <%= update.select(:status, IssueUpdate::STATUSES.keys,
-      {prompt: "Select a status"}) %> </td>
-    <% end %>
+
+
 
   <% end %>
 </div>
