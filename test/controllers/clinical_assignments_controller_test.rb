@@ -68,7 +68,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
             :banner_term => term,
             :StartDate => term.StartDate,
             :EndDate => term.EndDate,
-            :transcript => FactoryGirl.create :transcript
+            :transcript => (FactoryGirl.create :transcript)
           }
 
         end

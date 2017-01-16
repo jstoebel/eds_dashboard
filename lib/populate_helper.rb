@@ -231,14 +231,15 @@ module PopulateHelper
 
   def pop_clinical_assignment(stu, teacher)
 
+    # create an assignment for a course
+    while true
+      offset = rand(stu.transcripts.size)
+      course = stu.transcripts.offset(offset).first
+      break if course.clinical_assignments.blank?
+    end
 
-    start_date = Faker::Time.between(4.years.ago, Date.today)
-    term = BannerTerm.current_term({
-      :exact => false,
-      :plan_b => :forward,
-      :date => start_date
-    })
-
+    term = course.banner_term
+    start_date = term.StartDate
     end_date = term.EndDate
 
     assignment = FactoryGirl.build :clinical_assignment, {
@@ -246,7 +247,8 @@ module PopulateHelper
       :clinical_teacher_id => teacher.id,
       :StartDate => start_date,
       :EndDate => end_date,
-      :Term => term.id
+      :Term => term.id,
+      :transcript => course
     }
 
     assignment.save

@@ -18,7 +18,7 @@ FactoryGirl.define do
     association :student
     association :clinical_teacher
     banner_term
-    CourseID {Lorem.characters 6}
+    transcript
     Level {Faker::Number.between(1,3)}
 
     after(:build) do |assignment|

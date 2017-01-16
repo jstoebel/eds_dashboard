@@ -34,7 +34,8 @@ class Ability
       can [:index, :create, :update, :delete, :destroy], PraxisResult
 
     elsif user.is? "student labor"
-      can :index, Student
+      # can :index, Student
+      can :read, Student
       can :manage, [ClinicalAssignment, ClinicalTeacher, ClinicalSite]
       can [:index, :create, :update, :delete, :destroy], PraxisResult
       can [:index, :new, :create, :delete, :destroy], StudentFile   #everything but download!

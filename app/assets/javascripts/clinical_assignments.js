@@ -1,54 +1,43 @@
 $(document).ready(function() {
-  $("#course_select").append('<option value="">Select a Course</option>');
-  return $(document).on('change', '#student_select', function(evt) {
-    $("#course_select").empty();
+    //menu will start out with current course, as selection
+    // look up current sutdents other courses and append them as new choices.s
+    update_menu();
+    $(document).on('change', '#student_select', function(evt){
+      console.log("menu change");
+      $("#course_select").empty();
+      update_menu();
+    });
+})
+
+var update_menu = function(student_id){
+
     $("#course_select").append('<option value="">Select a Course</option>');
-    if ($("#course_select option:selected").val() === "") {
-      return console.log("Its an empty string!");
+    if ($("#student_select option:selected").val() === "") {
+        console.log("no student selected!")
     } else {
-      console.log("Not an empty string!");
       return get_transcripts();
     }
-  });
-});
+}
 
 var get_transcripts = function() {
   console.log("Starting AJAX request");
-  var student_id = $("#course_select option:selected").val()
-  return $.ajax(`/students/${student_id}/transcripts`, {
+  var student_id = $("#student_select option:selected").val()
+  var url = `/students/${student_id}/transcripts`
+  console.log(url);
+  $.ajax(url, {
     type: "GET",
     dataType: "json",
-    data: {
-    },
+    data: {},
     error: function(jqXHR, textStatus, errorThrown) {
-      return console.log("AJAX Error: " + textStatus);
+      console.log("AJAX Error: " + textStatus);
     },
     success: function(courses, textStatus, jqXHR) {
       console.log("AJAX request OK!");
-      console.log(data);
-      var results = courses.forEach(function(course){
-        $("#course_select").append('<option value="' + course.id + '">' + course.course_code + '</option>')
-
+      console.log(courses);
+      courses.forEach(function(course){
+        var row = `<option value=${course.id}> ${course.course_code} </option>`
+        $("#course_select").append(row)
       })
-      return results;
     }
   });
 };
-
-// var build_menu = function(data) {
-//   var id, prog_name, results;
-//   if (data == null) {
-//     data = null;
-//   }
-//   console.log("Starting build menu");
-//   $("#programs_select").empty();
-//   $("#programs_select").append('<option value="">Select a Program to Exit</option>');
-//   if (data !== null) {
-//     results = [];
-//     for (id in data) {
-//       prog_name = data[id];
-//       results.push($("#programs_select").append('<option value="' + id + '">' + prog_name + '</option>'));
-//     }
-//     return results;
-//   }
-// };

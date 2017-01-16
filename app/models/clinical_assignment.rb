@@ -21,7 +21,7 @@ class ClinicalAssignment < ActiveRecord::Base
 
 	validates :clinical_teacher_id,
 		uniqueness: {
-			scope: [:student_id, :CourseID, :Term],
+			scope: [:student_id, :transcript_id, :Term],
 			message: "Student may not be matched with same teacher more than once in the same course in the same semester."
 		},
 		presence: {message: "Please select a clinical teacher."}
@@ -31,6 +31,9 @@ class ClinicalAssignment < ActiveRecord::Base
 
 	validates :Term,
 		:presence => {message: "Could not be determined"}
+
+	validates :transcript_id,
+		:presence => {message: "Course is blank"}
 
 	validate do |a|
 		a.errors.add(:StartDate, "Please enter a valid start date.") unless a.StartDate.kind_of?(Date)
