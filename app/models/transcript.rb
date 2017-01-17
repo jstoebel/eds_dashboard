@@ -79,6 +79,7 @@ class Transcript < ActiveRecord::Base
     #~~~ASSOCIATIONS~~~#
 	belongs_to :student
   belongs_to :banner_term, :foreign_key => "term_taken"
+	has_many :clinical_assignments
 
     #~~~SCOPES~~~#
 	scope :in_term, ->(term_object) { where(term_taken: term_object.BannerTerm)}

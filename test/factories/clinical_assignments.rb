@@ -6,18 +6,19 @@
 #  student_id          :integer          not null
 #  clinical_teacher_id :integer          not null
 #  Term                :integer          not null
-#  CourseID            :string(45)       not null
 #  Level               :string(45)
 #  StartDate           :date
 #  EndDate             :date
+#  transcript_id       :integer
 #
+
 include Faker
 FactoryGirl.define do
   factory :clinical_assignment do
     association :student
     association :clinical_teacher
     banner_term
-    CourseID {Lorem.characters 6}
+    transcript
     Level {Faker::Number.between(1,3)}
 
     after(:build) do |assignment|

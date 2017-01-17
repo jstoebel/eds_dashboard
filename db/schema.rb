@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170111205141) do
+ActiveRecord::Schema.define(version: 20170113214600) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -125,14 +125,15 @@ ActiveRecord::Schema.define(version: 20170111205141) do
     t.integer "student_id",          limit: 4,  null: false
     t.integer "clinical_teacher_id", limit: 4,  null: false
     t.integer "Term",                limit: 4,  null: false
-    t.string  "CourseID",            limit: 45, null: false
     t.string  "Level",               limit: 45
     t.date    "StartDate"
     t.date    "EndDate"
+    t.integer "transcript_id",       limit: 4
   end
 
   add_index "clinical_assignments", ["clinical_teacher_id"], name: "fk_ClinicalAssignments_ClinicalTeacher1_idx", using: :btree
   add_index "clinical_assignments", ["student_id"], name: "fk_rails_4eae3b4e55", using: :btree
+  add_index "clinical_assignments", ["transcript_id"], name: "fk_rails_0f54585493", using: :btree
 
   create_table "clinical_sites", force: :cascade do |t|
     t.string "SiteName",     limit: 45,  null: false
@@ -551,6 +552,7 @@ ActiveRecord::Schema.define(version: 20170111205141) do
   add_foreign_key "banner_updates", "banner_terms", column: "start_term", primary_key: "BannerTerm"
   add_foreign_key "clinical_assignments", "clinical_teachers", name: "clinical_assignments_clinical_teacher_id_fk"
   add_foreign_key "clinical_assignments", "students"
+  add_foreign_key "clinical_assignments", "transcript"
   add_foreign_key "clinical_teachers", "clinical_sites", name: "clinical_teachers_clinical_site_id_fk"
   add_foreign_key "employment", "students"
   add_foreign_key "forms_of_intention", "majors"

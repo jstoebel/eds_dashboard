@@ -2,14 +2,14 @@
 #
 # Table name: clinical_assignments
 #
-#  student_id          :integer          not null
 #  id                  :integer          not null, primary key
+#  student_id          :integer          not null
 #  clinical_teacher_id :integer          not null
 #  Term                :integer          not null
-#  CourseID            :string(45)       not null
 #  Level               :string(45)
 #  StartDate           :date
 #  EndDate             :date
+#  transcript_id       :integer
 #
 
 require 'test_helper'
@@ -34,7 +34,8 @@ class ClinicalAssignmentTest < ActiveSupport::TestCase
 	test "unique assignment pass" do
 		assignment = FactoryGirl.create :clinical_assignment
 		assignment2 = ClinicalAssignment.new(assignment.attributes)
-		assignment2.CourseID = "EDS335"		#a differing course should allow this to pass
+		transcript2 = FactoryGirl.create :transcript
+		assignment2.transcript_id = transcript2.id		#a differing course should allow this to pass
 		assignment2.valid?
 		assert_equal([], assignment2.errors[:clinical_teacher_id])
 
@@ -71,6 +72,12 @@ class ClinicalAssignmentTest < ActiveSupport::TestCase
 		assignment.EndDate = new_end
 		assignment.valid?
 		assert_equal(["Start date must be before end date."], assignment.errors[:base])
+	end
+
+	test "need transcript_id" do
+		assignment = ClinicalAssignment.new
+		assert_not assignment.valid?
+		assert_equal ["Course is blank"], assignment.errors[:transcript_id]
 	end
 
 end

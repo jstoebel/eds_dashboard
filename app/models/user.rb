@@ -6,7 +6,7 @@
 #  UserName      :string(45)       not null
 #  FirstName     :string(45)       not null
 #  LastName      :string(45)       not null
-#  Email         :string(45)       not null
+#  Email         :string(100)      not null
 #  Roles_idRoles :integer          not null
 #
 
