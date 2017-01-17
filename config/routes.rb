@@ -270,6 +270,9 @@ Rails.application.routes.draw do
     resources :clinical_assignments, only: [:index]
   end
 
+  match 'help', via: [:get], controller: 'helps', action: 'home'
+  match 'help/:action', via: [:get], controller: 'helps'
+
   root 'access#index'
 
 end

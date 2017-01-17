@@ -1,0 +1,10 @@
+<h2>Help Articles</h2>
+<% @article_names.each do |f| %>
+  <ul>
+    <%= link_to f, "/help/#{f}"  %>
+  </ul>
+<% end %>
+
+<% if @article_name.present? %>
+  <%= render :partial => @article_name %>
+<% end %>
