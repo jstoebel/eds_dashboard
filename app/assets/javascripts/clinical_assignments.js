@@ -11,7 +11,6 @@ $(document).ready(function() {
 
 var update_menu = function(student_id){
 
-    $("#course_select").append('<option value="">Select a Course</option>');
     if ($("#student_select option:selected").val() === "") {
         console.log("no student selected!")
     } else {
@@ -22,7 +21,7 @@ var update_menu = function(student_id){
 var get_transcripts = function() {
   console.log("Starting AJAX request");
   var student_id = $("#student_select option:selected").val()
-  var url = `/students/${student_id}/transcripts`
+  var url = "/students/" + student_id + "/transcripts";
   console.log(url);
   $.ajax(url, {
     type: "GET",
@@ -33,10 +32,20 @@ var get_transcripts = function() {
     },
     success: function(courses, textStatus, jqXHR) {
       console.log("AJAX request OK!");
-      console.log(courses);
+
+      // gather existing ids, add any new ones
+      var existingIDs = []
+      $("#course_select option").each(function(){
+        console.log(typeof $(this).val());
+        existingIDs.push($(this).val())
+      })
+
       courses.forEach(function(course){
         var row = `<option value=${course.id}> ${course.course_code} </option>`
-        $("#course_select").append(row)
+        if (existingIDs.indexOf(String(course.id)) === -1) {
+          $("#course_select").append(row)
+        }
+
       })
     }
   });
