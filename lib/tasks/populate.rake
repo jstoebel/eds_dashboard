@@ -50,9 +50,9 @@ namespace :db do
       print "#{s.name_readable}"
       #decide the fate of each student going through the program
 
-      # give every student one course
+      # give every student 2 courses
       this_term = BannerTerm.current_term :exact => false, :plan_b => :forward
-      FactoryGirl.create :transcript, {
+      FactoryGirl.create_list :transcript, 2, {
         :student => s,
         :banner_term => this_term
       }
