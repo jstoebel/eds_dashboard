@@ -6,10 +6,10 @@
 #  ExitCode    :string(5)        not null
 #  ExitDiscrip :string(45)       not null
 #
-
+include Faker
 FactoryGirl.define do
   factory :exit_code do
-
-    #need to be entered by the caller
-  end 
+    ExitDiscrip {Hipster.word}
+    ExitCode { Number.between(1, 9999) }
+  end
 end

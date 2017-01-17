@@ -2,31 +2,32 @@
 #
 # Table name: students
 #
-#  id               :integer          not null, primary key
-#  Bnum             :string(9)        not null
-#  FirstName        :string(45)       not null
-#  PreferredFirst   :string(45)
-#  MiddleName       :string(45)
-#  LastName         :string(45)       not null
-#  PrevLast         :string(45)
-#  EnrollmentStatus :string(45)
-#  Classification   :string(45)
-#  CurrentMajor1    :string(45)
-#  concentration1   :string(255)
-#  CurrentMajor2    :string(45)
-#  concentration2   :string(255)
-#  CellPhone        :string(45)
-#  CurrentMinors    :string(255)
-#  Email            :string(100)
-#  CPO              :string(45)
-#  withdraws        :text(65535)
-#  term_graduated   :integer
-#  gender           :string(255)
-#  race             :string(255)
-#  hispanic         :boolean
-#  term_expl_major  :integer
-#  term_major       :integer
-#  presumed_status  :string(255)
+#  id                      :integer          not null, primary key
+#  Bnum                    :string(9)        not null
+#  FirstName               :string(45)       not null
+#  PreferredFirst          :string(45)
+#  MiddleName              :string(45)
+#  LastName                :string(45)       not null
+#  PrevLast                :string(45)
+#  EnrollmentStatus        :string(45)
+#  Classification          :string(45)
+#  CurrentMajor1           :string(45)
+#  concentration1          :string(255)
+#  CurrentMajor2           :string(45)
+#  concentration2          :string(255)
+#  CellPhone               :string(45)
+#  CurrentMinors           :string(255)
+#  Email                   :string(100)
+#  CPO                     :string(45)
+#  withdraws               :text(65535)
+#  term_graduated          :integer
+#  gender                  :string(255)
+#  race                    :string(255)
+#  hispanic                :boolean
+#  term_expl_major         :integer
+#  term_major              :integer
+#  presumed_status         :string(255)
+#  presumed_status_comment :text(65535)
 #
 
 require 'test_helper'
@@ -47,10 +48,12 @@ class StudentsControllerTest < ActionController::TestCase
       describe "as #{r}" do
 
         before do
+
           load_session(r)
 
           @user = User.find_by :UserName => session[:user]
           @my_student = FactoryGirl.create :student
+
           if @user.tep_advisor.blank?
             @advisor = FactoryGirl.create :tep_advisor, {:user_id => @user.id}
           else
@@ -105,7 +108,7 @@ class StudentsControllerTest < ActionController::TestCase
           get :index, {:all => :true}
 
           assert :success
-          assert_equal Student.all.by_last.select{|s| abil.can? :read, s}, assigns(:students)
+          assert_equal [@my_student], assigns(:students).to_a
         end
 
       end # as r
@@ -122,13 +125,25 @@ class StudentsControllerTest < ActionController::TestCase
 
         before do
           load_session(r)
+          user = User.find_by :UserName => session[:user]
+          @my_student = FactoryGirl.create :student
+
+          if user.tep_advisor.blank?
+            advisor = FactoryGirl.create :tep_advisor, {:user_id => user.id}
+          else
+            advisor = user.tep_advisor
+          end
+
+          AdvisorAssignment.create({:student_id => @my_student.id,
+              :tep_advisor_id => advisor.id
+            })
+
         end
 
         test "should get show" do
-            stu = Student.first
-            get :show, :id => stu.AltID
+            get :show, :id => @my_student.AltID
             assert_response :success
-            assert_equal stu, assigns(:student)
+            assert_equal @my_student, assigns(:student)
         end
 
       end
@@ -141,7 +156,8 @@ class StudentsControllerTest < ActionController::TestCase
         end
 
         test "is denied access" do
-          get :show, {:id => Student.first.id}
+          stu = FactoryGirl.create :student
+          get :show, {:id => stu.id}
           assert_redirected_to "/access_denied"
         end
 

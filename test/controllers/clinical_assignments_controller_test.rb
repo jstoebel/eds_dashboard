@@ -69,28 +69,35 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
 
         FactoryGirl.create_list :clinical_teacher, 5
         FactoryGirl.create_list :student, 5
-        term = (FactoryGirl.create :banner_term)
-        @assignment_attrs = FactoryGirl.attributes_for :clinical_assignment, {
+        term = (FactoryGirl.create :banner_term, :StartDate => 5.days.ago,
+          :EndDate => 5.days.from_now
+        )
+        @assignment = FactoryGirl.build :clinical_assignment, {
           :student_id => (FactoryGirl.create :student).id,
           :clinical_teacher_id => (FactoryGirl.create :clinical_teacher).id,
           :Term => term.id,
           :StartDate => term.StartDate,
-          :EndDate => term.EndDate
+          :EndDate => term.EndDate,
+          :CourseID => "???" # to match controller, for now
         }
       end
 
       test "should create" do
-        post :create, {:clinical_assignment => @assignment_attrs}
+        assignment_attrs = @assignment.attributes
+        post :create, {:clinical_assignment => assignment_attrs}
+
+        expected_attrs = assignment_attrs
+        actual_attrs = assigns(:assignment).attributes
 
         assert assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
-        @assignment_attrs.each{|k, v| assert_equal assigns(:assignment)[k], v}
+        assert_equal expected_attrs.except("id"), actual_attrs.except("id")
         assert_redirected_to clinical_assignments_path
       end
 
       test "should not create -- bad params" do
         #can't create record due to a record not saving
-        @assignment_attrs[:student_id] = nil
-        post :create, {:clinical_assignment => @assignment_attrs}
+        @assignment.student_id = nil
+        post :create, {:clinical_assignment => @assignment.attributes}
         assert_response :success
         check_form_setup
 
@@ -137,13 +144,15 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
         @new_teacher = FactoryGirl.create :clinical_teacher
         @assignment.clinical_teacher_id = @new_teacher.id
         @assignment.save!
-        @update_params = {:clinical_teacher_id => @new_teacher.id}
+        @update_params = {:clinical_teacher_id => @new_teacher.id,
+          :StartDate => @assignment.StartDate.strftime("%Y-%m-%d"),
+          :EndDate => @assignment.EndDate.strftime("%Y-%m-%d")}
       end
 
       test "should update" do
-        post :create, {:id => @assignment.id, :clinical_assignment => @update_params}
+        post :update, {:id => @assignment.id, :clinical_assignment => @update_params}
 
-        assert assigns(:assignment).valid?, assigns(:assignment).inspect
+        assert assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
         assert_redirected_to banner_term_clinical_assignments_path(@assignment.banner_term.id)
         assert_equal assigns(:assignment), @assignment
       end

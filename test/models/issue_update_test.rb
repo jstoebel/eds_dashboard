@@ -22,14 +22,14 @@ class IssueUpdateTest < ActiveSupport::TestCase
 		t = FactoryGirl.create :issue_update
 		t.UpdateName = nil
 		t.valid?
-		py_assert(["Please provide an update name."], t.errors[:UpdateName])
+		assert_equal(["Please provide an update name."], t.errors[:UpdateName])
 	end
 
 	test "needs description" do
 		t = FactoryGirl.create :issue_update
 		t.Description = nil
 		t.valid?
-		py_assert(["Please provide an update description."], t.errors[:Description])
+		assert_equal(["Please provide an update description."], t.errors[:Description])
 	end
 
 	test "advisor blank bnum bad" do

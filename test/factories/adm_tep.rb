@@ -32,5 +32,12 @@ FactoryGirl.define do
     GPA_last30 3.0
     EarnedCredits 30
     association :student_file, factory: :student_file
+
+    factory :pending_adm_tep do
+      TEPAdmit nil
+      TEPAdmitDate nil
+      student_file nil
+      banner_term
+    end
   end
 end

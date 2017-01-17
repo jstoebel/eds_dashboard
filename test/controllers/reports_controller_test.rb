@@ -153,13 +153,11 @@ class ReportsControllerTest < ActionController::TestCase
 
               test "two associated programs" do
                 student = FactoryGirl.create :admitted_student
-                admit_term = student.transcripts.first.banner_term.next_term
-                FactoryGirl.create :adm_tep,
-                {
-                  :program => Program.second,
+                admit_term = student.adm_tep.first.banner_term
+                FactoryGirl.create :adm_tep, {
                   :TEPAdmitDate => admit_term.StartDate,
                   :BannerTerm_BannerTerm => admit_term.id,
-                  :student_id => student.id
+                  :student => student
                 }
 
                 get :index

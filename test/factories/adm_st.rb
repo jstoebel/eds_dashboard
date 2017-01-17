@@ -22,7 +22,6 @@
 #
 
 FactoryGirl.define do
-  # TODO: a pending app and a processed app
 
   factory :pending_adm_st, class: AdmSt do
     student
