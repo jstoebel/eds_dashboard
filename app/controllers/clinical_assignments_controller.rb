@@ -51,7 +51,7 @@ class ClinicalAssignmentsController < ApplicationController
     rescue ArgumentError, TypeError => e
       @assignment.EndDate = nil
     end
-    
+
     authorize! :manage, @assignment
 
     if @assignment.save
@@ -124,6 +124,7 @@ class ClinicalAssignmentsController < ApplicationController
       .by_last
       .where(:students => {:EnrollmentStatus => "Active Student"},
         :transcript => {:term_taken => this_term.id})
+      .distinct
       .current
       .select{|s| can? :index, s}
 
