@@ -41,7 +41,7 @@ var get_transcripts = function() {
       })
 
       courses.forEach(function(course){
-        var row = `<option value=${course.id}> ${course.course_code} </option>`
+        var row = "<option value=${course.id}>" + course.course_code + "</option>"
         if (existingIDs.indexOf(String(course.id)) === -1) {
           $("#course_select").append(row)
         }
