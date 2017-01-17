@@ -476,3 +476,8 @@ table > tr > td.issue_discrip {height: 100px;}
 #errorExplanation ul { margin-top: 0; }
 #errorExplanation ul li { list-style: square; }
 .spam { background-color: blue;}
+
+a.help-link, a.help-link:hover, a.help-link:focus{
+  background-color: white !important;
+  color: black !important;
+}
