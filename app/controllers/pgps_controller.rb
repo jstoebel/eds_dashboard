@@ -51,7 +51,9 @@ class PgpsController < ApplicationController
 
     def new
         @pgp = Pgp.new
+        authorize! :manage, Pgp
         @student = Student.find(params[:student_id])
+        authorize! :manage, Student
     end
 
     def update

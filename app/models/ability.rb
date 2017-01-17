@@ -12,7 +12,7 @@ class Ability
 
     elsif user.is? "advisor"
 
-      can :manage, [Issue, IssueUpdate, StudentFile, ClinicalAssignment, Pgp, PgpScore] do |resource|
+      can :manage, [Issue, IssueUpdate, StudentFile, ClinicalAssignment, Pgp, PgpScore, Student] do |resource|
         #map the resource to the student. If the student is assigned to the prof as an advisee or
 
         advisor_check(user, resource)
