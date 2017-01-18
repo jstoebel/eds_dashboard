@@ -7,10 +7,31 @@ class HelpsControllerTest < ActionController::TestCase
 
     roles.each do |r|
 
-      test "as #{r}" do
-        load_session(r)
-        get :home
-        assert_response :success
+      describe "as #{r}" do
+        before do
+          load_session(r)
+          @help_dir = 'app/views/helps'
+          @contents = Dir[@help_dir + '/**/*.md']
+        end
+
+        test "responds with http 200" do
+          get :home
+          assert_response :success
+        end
+
+        test "gets proper file" do
+          re = Regexp.new(@help_dir+"/_(?<filebase>.+?).html.md")
+          a_file = re.match(@contents[0])[:filebase]
+
+          get :home, {:article => a_file}
+          assert_equal a_file, assigns(:article_name)
+        end
+
+        test "grabs all md files" do
+          get :home
+          assert_equal @contents.size, assigns(:article_names).size
+        end
+
       end
     end
 
