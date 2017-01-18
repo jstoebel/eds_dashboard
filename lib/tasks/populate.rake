@@ -50,6 +50,12 @@ namespace :db do
       print "#{s.name_readable}"
       #decide the fate of each student going through the program
 
+      # give every student 2 courses
+      this_term = BannerTerm.current_term :exact => false, :plan_b => :forward
+      FactoryGirl.create_list :transcript, 2, {
+        :student => s,
+        :banner_term => this_term
+      }
       # ADVISOR ASSIGNMENTS
       # assign them to one or both advisors
 
@@ -129,7 +135,7 @@ namespace :db do
       # 30% chance of having clinical_assignments
       if Boolean.boolean 0.3
 
-        num_assignments = Faker::Number.between(0, 5)
+        num_assignments = Faker::Number.between(1, 2)
         my_teachers = clinical_teachers.shuffle.slice(0, num_assignments)
         my_teachers.map { |teacher| pop_clinical_assignment(s, teacher)}
 

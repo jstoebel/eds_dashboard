@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109171756) do
+ActiveRecord::Schema.define(version: 20170113214600) do
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -125,14 +125,15 @@ ActiveRecord::Schema.define(version: 20170109171756) do
     t.integer "student_id",          limit: 4,  null: false
     t.integer "clinical_teacher_id", limit: 4,  null: false
     t.integer "Term",                limit: 4,  null: false
-    t.string  "CourseID",            limit: 45, null: false
     t.string  "Level",               limit: 45
     t.date    "StartDate"
     t.date    "EndDate"
+    t.integer "transcript_id",       limit: 4
   end
 
   add_index "clinical_assignments", ["clinical_teacher_id"], name: "fk_ClinicalAssignments_ClinicalTeacher1_idx", using: :btree
   add_index "clinical_assignments", ["student_id"], name: "fk_rails_4eae3b4e55", using: :btree
+  add_index "clinical_assignments", ["transcript_id"], name: "fk_rails_0f54585493", using: :btree
 
   create_table "clinical_sites", force: :cascade do |t|
     t.string "SiteName",     limit: 45,  null: false
@@ -171,12 +172,11 @@ ActiveRecord::Schema.define(version: 20170109171756) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "employment", force: :cascade do |t|
-    t.integer  "student_id", limit: 4
-    t.integer  "category",   limit: 4
-    t.string   "employer",   limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "employment", primary_key: "EmpID", force: :cascade do |t|
+    t.integer "student_id",  limit: 4,  null: false
+    t.date    "EmpDate",                null: false
+    t.string  "EmpCategory", limit: 45
+    t.string  "Employer",    limit: 45
   end
 
   add_index "employment", ["student_id"], name: "fk_rails_8b14daa8ce", using: :btree
@@ -516,11 +516,11 @@ ActiveRecord::Schema.define(version: 20170109171756) do
   add_index "transcript", ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string  "UserName",      limit: 45, null: false
-    t.string  "FirstName",     limit: 45, null: false
-    t.string  "LastName",      limit: 45, null: false
-    t.string  "Email",         limit: 45, null: false
-    t.integer "Roles_idRoles", limit: 4,  null: false
+    t.string  "UserName",      limit: 45,  null: false
+    t.string  "FirstName",     limit: 45,  null: false
+    t.string  "LastName",      limit: 45,  null: false
+    t.string  "Email",         limit: 100, null: false
+    t.integer "Roles_idRoles", limit: 4,   null: false
   end
 
   add_index "users", ["Roles_idRoles"], name: "fk_users_Roles1_idx", using: :btree
@@ -551,6 +551,7 @@ ActiveRecord::Schema.define(version: 20170109171756) do
   add_foreign_key "banner_updates", "banner_terms", column: "start_term", primary_key: "BannerTerm"
   add_foreign_key "clinical_assignments", "clinical_teachers", name: "clinical_assignments_clinical_teacher_id_fk"
   add_foreign_key "clinical_assignments", "students"
+  add_foreign_key "clinical_assignments", "transcript"
   add_foreign_key "clinical_teachers", "clinical_sites", name: "clinical_teachers_clinical_site_id_fk"
   add_foreign_key "employment", "students"
   add_foreign_key "forms_of_intention", "majors"

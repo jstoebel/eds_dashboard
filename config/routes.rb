@@ -236,6 +236,7 @@ Rails.application.routes.draw do
     resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
       resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
     end
+    resources :transcripts, only: [:index]
   end
 
   resources :fois, only: [:index, :create, :show, :import]
@@ -268,6 +269,9 @@ Rails.application.routes.draw do
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
   end
+
+  match 'help', via: [:get], controller: 'helps', action: 'home'
+  match 'help/:article', via: [:get], controller: 'helps', action: 'home'
 
   root 'access#index'
 

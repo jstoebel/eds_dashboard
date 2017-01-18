@@ -18,7 +18,7 @@ class StudentFile < ActiveRecord::Base
 
 	has_attached_file :doc,
 	  :url => "/student_file/:id/download",		#passes AltID
-	  :path => ":rails_root/public/student_files/#{Rails.env}/:bnum/:basename.:extension",
+	  :path => ":rails_root/storage/student_files/#{Rails.env}/:bnum/:basename.:extension",
 	  :preserve_files => true,
 	  :keep_old_files => true
 

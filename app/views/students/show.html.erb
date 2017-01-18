@@ -46,6 +46,27 @@
       <th>Classification</th>
       <td><%= @student.Classification %> </td>
     </tr>
+    <% if @student.prog_status == "Candidate"%>
+      <tr>
+        <th>Programs</th>
+        <td><%= @student.admited_programs.collect{|x| x.program.EDSProgName}.uniq.join("; ") %></td>
+      </tr>
+    <% elsif @student.prog_status == "Completer" %>
+      <tr>
+        <th>Programs</th>
+        <td><%= @student.admited_programs.collect{|x| x.program.EDSProgName}.uniq.join("; ") %></td>
+      </tr>
+    <% elsif @student.prog_status == "Prospective" and @student.latest_foi == nil %>
+      <tr>
+        <th>Programs</th>
+        <td> </td>
+      </tr>
+    <% elsif @student.prog_status == "Prospective" and @student.latest_foi != nil %>
+      <tr>
+        <th>Programs</th>
+        <td><%= @student.latest_foi.major.name %></td>
+      </tr>
+    <% end %>
 
     <tr>
       <th>Current Majors</th>   	
@@ -74,5 +95,4 @@
     </tr>
 
   </table>
-
 </div>
