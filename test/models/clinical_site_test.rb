@@ -60,11 +60,18 @@ class ClinicalSiteTest < ActiveSupport::TestCase
 		assert_equal ["Please enter a valid phone number."], site.errors[:phone]
 	end
 
-	test "needs email" do
+	test "bad email" do
+		site = FactoryGirl.create :clinical_site
+		site.email = "not an email!"
+		site.valid?
+		assert_equal ["Please enter a valid email."], site.errors[:email]
+	end
+
+	test "allows blank email" do
 		site = FactoryGirl.create :clinical_site
 		site.email = nil
+		assert site.valid?
 		site.valid?
-		assert_equal ["Please enter an email.", "Please enter a valid email."], site.errors[:email]
 	end
 
 	test "invalid email no username" do

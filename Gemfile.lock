@@ -141,6 +141,7 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
+    coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.2.x)
@@ -220,6 +221,7 @@ GEM
       rails
       rdiscount (>= 1.6.8, < 2.0)
     metaclass (0.0.4)
+    method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -282,6 +284,13 @@ GEM
       phony (~> 2.15)
     plist (3.2.0)
     proxifier (1.0.3)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-byebug (3.4.2)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     puma (3.6.0)
     rack (1.6.4)
     rack-pjax (1.0.0)
@@ -400,6 +409,7 @@ GEM
     simple_xlsx_reader (1.0.2)
       nokogiri
       rubyzip
+    slop (3.6.0)
     socksify (1.7.0)
     specinfra (2.63.3)
       net-scp
@@ -485,6 +495,7 @@ DEPENDENCIES
   nokogiri (~> 1.6, >= 1.6.8)
   paperclip (~> 4.3)
   phony_rails
+  pry-byebug
   puma
   rails (~> 4.2)
   rails-erd

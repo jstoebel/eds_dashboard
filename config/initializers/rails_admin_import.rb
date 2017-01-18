@@ -10,7 +10,9 @@ RailsAdmin.config do |config|
   end
 
   config.configure_with(:import) do |config|
-    config.header_converter = header_converter
+    config.header_converter = lambda do |header|
+      header
+    end
   end
 
 
@@ -18,4 +20,6 @@ RailsAdmin.config do |config|
     all
     import
   end
+
+
 end
