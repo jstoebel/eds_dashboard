@@ -1,9 +1,10 @@
- 
+
     <%= error_messages_for(@assignment) %>
+
     <tr>
       <th> <%= f.label(:student_id, "Student:")%> </th>
       <td> <%= f.select(:student_id, @students.map {|s| [name_details(s), s.id]},
-      {prompt: "Select a student"}) %></td>
+      {prompt: "Select a student"}, id: 'student_select') %></td>
     </tr>
 
     <tr>
@@ -12,17 +13,25 @@
       {prompt: "Select a clinical teacher"}) %></td>
     </tr>
 
-    <!-- TODO menu for course ID goes here -->
+    <tr>
+      <th> <%= f.label(:transcript_id, "Course")%> </th>
+      <td> <%= f.select(:transcript_id,
+        options_for_select([ [ @assignment.transcript.andand.course_code, @assignment.transcript.andand.id ] ], @assignment.transcript.andand.id),
+        {},
+        {prompt: "Select a Course", id: 'course_select', :class => 'programs_row' }
+      ) %></td>
+    </tr>
+
 
     <tr>
     <th> <%= f.label(:StartDate, "Start Date:") %></th>
 
-    <td>    
+    <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :StartDate,
                 default: current_term({:exact => false, :plan_b => :forward}).StartDate
-              } )%> 
+              } )%>
     </td>
     </tr>
 
@@ -30,14 +39,13 @@
     <tr>
     <th> <%= f.label(:EndDate, "End Date:") %></th>
 
-    <td>    
+    <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :EndDate,
                 default: current_term({:exact => false, :plan_b => :forward}).EndDate
-              } )%> 
+              } )%>
     </td>
     </tr>
 
   </table>
- 
