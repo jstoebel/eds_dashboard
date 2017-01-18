@@ -54,9 +54,9 @@
 
                     <!-- TODO grayed out button if no praxis results, issues -->
                     <% if can? :be_concerned, Student %>
-                      <% actions.push({menu_name: "Concerns", link_url: student_concern_dashboard_index_path(student.id)}) %>
+                      <% actions.push({menu_name: "Checkpoints", link_url: student_concern_dashboard_index_path(student.id)}) %>
                     <% else %>
-                      <% actions.push({disabld: true, menu_name: "Concerns", link_url: student_concern_dashboard_index_path(student.id)}) %>
+                      <% actions.push({disabld: true, menu_name: "Checkpoints", link_url: student_concern_dashboard_index_path(student.id)}) %>
                     <% end %>
                     <% if can? :index, PraxisResult %>
                       <% actions.push({menu_name: "Praxis Results", link_url: student_praxis_results_path(student.AltID)}) %>

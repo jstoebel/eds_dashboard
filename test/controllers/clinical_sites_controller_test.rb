@@ -106,9 +106,10 @@ class ClinicalSitesControllerTest < ActionController::TestCase
           post :create, {:clinical_site => @site.attributes}
 
           expected_attrs = @site.attributes
-          expected_attrs["phone"] = PhonyRails.normalize_number(expected_attrs["phone"], country_code: 'EN')
+          expected_attrs["phone"] = PhonyRails.normalize_number(expected_attrs["phone"], country_code: 'US')
 
           actual_attrs = assigns(:site).attributes
+          
           [expected_attrs, actual_attrs].map { |i| i.delete("id")}
           actual_attrs["phone"] = PhonyRails.normalize_number(expected_attrs["phone"], country_code: 'EN')
 
