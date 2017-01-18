@@ -271,7 +271,7 @@ Rails.application.routes.draw do
   end
 
   match 'help', via: [:get], controller: 'helps', action: 'home'
-  match 'help/:action', via: [:get], controller: 'helps'
+  match 'help/:article', via: [:get], controller: 'helps', action: 'home'
 
   root 'access#index'
 
