@@ -46,6 +46,8 @@ $(document).ready(function(){
     }).catch(function(json){
       alert(json.message)
     })
-  })
+  }) // change presumed status
+
+  
 
 })

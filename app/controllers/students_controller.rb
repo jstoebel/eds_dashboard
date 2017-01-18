@@ -75,4 +75,21 @@ class StudentsController < ApplicationController
     end
   end
 
+  def get_resource_counts
+    # return json off all of the resources available about this student to
+    # this user with counts
+    # structure:
+    # [
+    #   {
+    #     menuName: 'PGPs',
+    #     linkUrl: '/some/url',
+    #     count: 5,
+    #     disable: false
+    #   }
+    # ]
+
+
+
+  end
+
 end
