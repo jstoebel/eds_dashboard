@@ -21,7 +21,7 @@
 
     <tr>
       <th>Score</th>
-      <td <%= (@test.test_score and @test.test_score >= @test.cut_score) ? nil : "class=bad_text" %>><%= @test.test_score%></td>
+      <td <%= (@test.test_score and @test.test_score >= @test.cut_score) ? nil : "class=bad_text" "border: solid" %>><%= @test.test_score%></td>
     </tr>
 
     <tr>
