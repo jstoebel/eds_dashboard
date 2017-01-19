@@ -75,4 +75,131 @@ class StudentsController < ApplicationController
     end
   end
 
+  def get_resources
+    # return json off all of the resources available about this student to
+    # this user with counts
+    # structure:
+    # [
+    #   {
+    #     menu_name: 'PGPs',  // the name to display in the menu
+    #     link_url: '/some/url', // the link
+    #     disable: false // if the link should be disabled
+    #   }
+    # ]
+
+    actions =[]
+    student = Student.find params[:student_id]
+    if can? :read, student
+      actions.push(
+        {
+          disable: false, menu_name: "Details",
+          link_url: student_path(student.AltID)
+        }
+      )
+    else
+      actions.push(
+        {
+          disable: true,
+          menu_name: "Details",
+          link_url: student_path(student.AltID)
+        }
+      )
+    end
+
+    if can? :be_concerned, student
+     actions.push(
+        {
+          disable: false,
+          menu_name: "Checkpoints",
+          link_url: student_concern_dashboard_index_path(student.id)
+        }
+     )
+
+    else
+      actions.push(
+        {
+          disable: true,
+          menu_name: "Checkpoints",
+          link_url: student_concern_dashboard_index_path(student.id)
+        }
+      )
+    end
+
+    if can? :index, PraxisResult
+      actions.push(
+        {
+          disable: false,
+          menu_name: "Praxis Results",
+          link_url: student_praxis_results_path(student.AltID)
+        }
+      )
+    else
+      actions.push(
+        {
+          disable: true,
+          menu_name: "Praxis Results",
+          link_url: student_praxis_results_path(student.AltID)
+        }
+      )
+    end
+
+    if can? :show, Pgp
+      actions.push(
+        {
+          disable: false,
+          menu_name: "PGPs (#{student.pgps.size})",
+           link_url: student_pgps_path(student.AltID)
+        }
+      )
+
+    else
+      actions.push(
+        {
+          disable: true,
+          menu_name: "PGPs (#{student.pgps.size})",
+          link_url: student_pgps_path(student.AltID)
+        }
+      )
+    end
+
+    if can? :show, Issue
+      actions.push(
+        {
+          disable: false,
+          menu_name: "Issues (#{student.issues.select{|u| u.visible}.size})",
+          link_url: student_issues_path(student.AltID)
+        }
+      )
+    else
+      actions.push(
+        {
+          disable: true,
+          menu_name: "Issues (#{student.issues.select{|u| u.visible}.size})",
+          link_url: student_issues_path(student.AltID)
+        }
+      )
+    end
+
+    if can? :read, StudentFile
+      actions.push(
+        {
+          disable: false,
+          menu_name: "Files (#{student.student_files.active.size})",
+          link_url: student_student_files_path(student.AltID)
+        }
+      )
+    else
+      actions.push(
+        {
+          disable: true,
+          menu_name: "Files (#{student.student_files.active.size})",
+          link_url: student_student_files_path(student.AltID)
+        }
+      )
+    end
+
+    render :json => actions
+
+  end # get_resources
+
 end

@@ -33,9 +33,9 @@ class ClinicalSite < ActiveRecord::Base
 		presence: {message: "Please enter a phone number."},
 		phony_plausible: {message: "Please enter a valid phone number."}
 
-	validates :email, 
-		presence: {message: "Please enter an email."}, 
-		format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, 
+	validates :email,
+		format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i,
+					:allow_blank => true,
 					message: "Please enter a valid email." }
 
 	validates :receptionist,

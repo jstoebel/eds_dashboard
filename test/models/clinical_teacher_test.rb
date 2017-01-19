@@ -110,13 +110,7 @@ class ClinicalTeacherTest < ActiveSupport::TestCase
 		t.valid?
 		assert_equal(["Email max length is 45 characters."], t.errors[:Email])
 	end
-
-	test "need subject" do
-		t = FactoryGirl.build :clinical_teacher, :Subject => nil
-		t.valid?
-		assert_equal(["Please enter a subject."], t.errors[:Subject])
-	end
-
+	
 	test "subject length" do
 		t = FactoryGirl.build :clinical_teacher, :Subject => Subject = "a"*46
 		t.valid?

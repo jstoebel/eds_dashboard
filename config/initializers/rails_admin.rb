@@ -79,4 +79,10 @@ RailsAdmin.config do |config|
       field :Details
     end
   end
+
+  config.model 'ClinicalSite' do
+    import do
+      mapping_key :id
+    end
+  end
 end

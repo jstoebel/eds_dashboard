@@ -41,6 +41,7 @@ gem 'cancancan', '~> 1.13', '>= 1.13.1'
 gem 'lograge'
 gem 'minitest-fail-fast'
 gem "byebug"
+gem 'pry-byebug'
 #for working out foreign keys!!1
 # gem 'foreigner', '~> 1.7', '>= 1.7.4'
 gem 'immigrant'
@@ -100,3 +101,5 @@ gem 'roman', '~> 0.2.0'
 gem "marco-polo" # console prompt
 
 gem 'rails_admin', '~> 1.0'
+gem "rails_admin_import", "~> 2.0"
+gem 'markdown-rails'

@@ -49,13 +49,8 @@
       <div class="col-xs-12 col-md-3 col-md-offset-6">
         <p class="navbar-text pull-right">
           Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
-        </p>
-      </div>
 
-      <div class="col-xs-12 col-md-1 pull-right">
-        <%= form_tag("/logout", method: "post") do  %>
-          <%= submit_tag("Logout", id: "logout-btn", data: { confirm: 'Are you sure you want to logout?' }) %>
-        <% end  %>
+        </p>
       </div>
 
     </div>
@@ -75,6 +70,14 @@
 			<%= render :partial => "admin_navbar" %>
 
     <% end %>
+
+		<ul class="nav navbar-nav">
+			<li>
+				<a href="/help" aria-haspopup="true" aria-expanded="false" class="navbar-brand">Help</a>
+			</li>
+
+		</ul>
+  </div>
 </div>
 
 		<!--Before yield -->
