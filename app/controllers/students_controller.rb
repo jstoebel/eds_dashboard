@@ -33,7 +33,7 @@
 class StudentsController < ApplicationController
 
   layout 'application'
-  skip_authorize_resource :only => [:update_presumed_status]
+  skip_authorize_resource :only => [:update_presumed_status, :get_resources]
   respond_to :html, :json
   def index
     all_students = Student.all.by_last
@@ -129,7 +129,7 @@ class StudentsController < ApplicationController
       actions.push(
         {
           disable: false,
-          menu_name: "Praxis Results",
+          menu_name: "Praxis Results (#{student.praxis_results.size})",
           link_url: student_praxis_results_path(student.AltID)
         }
       )
