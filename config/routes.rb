@@ -140,6 +140,7 @@ Rails.application.routes.draw do
   resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do
     patch "update_presumed_status"
+    get "get_resources"
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
     end
