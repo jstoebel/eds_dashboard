@@ -13,7 +13,7 @@ class Ability
 
     elsif user.is? "advisor"
 
-      can :manage, [IssueUpdate, StudentFile, ClinicalAssignment, Pgp, PgpScore, Student] do |resource|
+      can :manage, [IssueUpdate, StudentFile, ClinicalAssignment, Pgp, PgpScore, Student, IssueUpdate] do |resource|
         #map the resource to the student. If the student is assigned to the prof as an advisee or
         advisor_check(user, resource)
       end
@@ -25,14 +25,12 @@ class Ability
         issue.tep_advisor.id == user.tep_advisor.id
       end
 
-      can :manage, [IssueUpdate]
-
       can :be_concerned, Student do |resource| #permission to be used in the concerns_dashboard
         advisor_check(user, resource)
       end
 
       can :manage, [ClinicalTeacher, ClinicalSite]
-      can :read, [Student, PraxisResult, PraxisSubtestResult] do |resource|
+      can :read, [PraxisResult, PraxisSubtestResult] do |resource|
         advisor_check(user, resource)
       end
 
