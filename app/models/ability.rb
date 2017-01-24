@@ -19,6 +19,8 @@ class Ability
         advisor_check(user, resource)
       end
 
+      cannot :report, Student
+
       can :be_concerned, Student do |resource| #permission to be used in the concerns_dashboard
         advisor_check(user, resource)
       end
