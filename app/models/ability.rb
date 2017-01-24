@@ -24,6 +24,7 @@ class Ability
         advisor_check(user, issue) ||
         issue.tep_advisor.id == user.tep_advisor.id
       end
+      cannot :report, Student
 
       can :be_concerned, Student do |resource| #permission to be used in the concerns_dashboard
         advisor_check(user, resource)
