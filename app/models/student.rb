@@ -230,7 +230,7 @@ class Student < ActiveRecord::Base
 		admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
 		return admited.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
 	end
-	
+
 	def admited_programs
 		admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
 		return admited
@@ -488,6 +488,12 @@ class Student < ActiveRecord::Base
 			return false
 		end
 
+	end
+
+	def last_withdraw
+		# returns the BannerTerm of the students last withdraw
+
+		
 	end
 
 	##########################################################################
