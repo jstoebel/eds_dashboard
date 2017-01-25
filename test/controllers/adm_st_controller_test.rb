@@ -137,6 +137,7 @@ class AdmStControllerTest < ActionController::TestCase
       end # test
 
       test "should not post create bad params" do
+        load_session(r)
         app_attrs = FactoryGirl.attributes_for :pending_adm_st, {:student_id => @stu.id,
           :BannerTerm_BannerTerm => nil
         }
