@@ -109,7 +109,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
           expected_attrs["phone"] = PhonyRails.normalize_number(expected_attrs["phone"], country_code: 'US')
 
           actual_attrs = assigns(:site).attributes
-          
+
           [expected_attrs, actual_attrs].map { |i| i.delete("id")}
           actual_attrs["phone"] = PhonyRails.normalize_number(expected_attrs["phone"], country_code: 'EN')
 
@@ -136,6 +136,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       describe "as #{r}" do
         before do
+          load_session(r)
           @site = FactoryGirl.create :clinical_site
         end
 
