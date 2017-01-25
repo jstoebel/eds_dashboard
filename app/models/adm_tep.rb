@@ -29,7 +29,7 @@ class AdmTep < ActiveRecord::Base
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
   belongs_to :student_file
 
-  has_one :prog_exit, :through => :program
+  has_many :prog_exits, :through => :program
 
   #CALL BACKS
   after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
