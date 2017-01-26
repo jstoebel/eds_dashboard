@@ -306,8 +306,8 @@ class ReportsControllerTest < ActionController::TestCase
         end
 
         test "don't include if status is nil" do
-            stu = FactoryGirl.create :student, :EnrollmentStatus => nil
-
+            stu = FactoryGirl.build :student, :EnrollmentStatus => nil
+            stu.save!(:validate => false)
             get :index
             assert_equal 0, assigns(:data).size
         end
