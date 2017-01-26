@@ -11,13 +11,23 @@ class ReportsController < ApplicationController
         students = Student.all
         students.each do |stu|
             # filter out students who are not actively enrolled and
-            latest_w_date = stu.last_withdraw.andand.EndDate # may be nil!
-            if latest_w_date.present? &&
-                latest_w_date < 1.year.ago &&
-                stu.EnrollmentStatus != "Active Student"
 
+            if stu.EnrollmentStatus.include? 'WD'
+                # skip if student has withdrawn and latest withdraw was more
+                # than 1 year ago
+
+                latest_w_date = stu.last_withdraw.andand.EndDate # may be nil!
+                if latest_w_date.present? &&
+                    latest_w_date < 1.year.ago &&
+                    stu.EnrollmentStatus != "Active Student"
+
+                    next
+                end
+            elsif stu.EnrollmentStatus != "Active Student"
+                # if they aren't withdrawn, skip if not active student
                 next
             end
+
 
             record = { # data that will go into the excel spreadsheet, eventually
                 :Bnum => stu.Bnum,
