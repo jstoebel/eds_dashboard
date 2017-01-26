@@ -1,4 +1,4 @@
- 
+
     <%= error_messages_for(@teacher) %>
     <tr>
       <th> <%= f.label(:FirstName, "First Name")%> </th>
@@ -25,56 +25,55 @@
       <td> <%= f.select(:Subject, @subjects.map {|s| [s.EDSProgName, s.EDSProgName]},
         {:prompt => 'Select a subject'}) %></td>
     </tr>
-    
+
     <tr>
       <th> <%= f.label(:Rank, "Rank")%> </th>
       <td> <%= f.text_field(:Rank) %></td>
     </tr>
-    
+
     <tr>
       <th> <%= f.label(:begin_service, "Date beginning service")%> </th>
-      
-    <td>    
+
+    <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :begin_service,
-                default: Date.today
-              } )%> 
+                default: ""
+              } )%>
     </td>
     </tr>
-    
+
     <tr>
       <th> <%= f.label(:epsb_training, "EPSB Training")%> </th>
-    <td>    
+    <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :epsb_training,
-                default: Date.today
-              } )%> 
+                default: ""
+              } )%>
     </td>
     </tr>
-  
+
     <tr>
       <th> <%= f.label(:ct_record, "CT Record")%> </th>
-    <td>    
+    <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :ct_record,
-                default: Date.today
-              } )%> 
+                default: ""
+              } )%>
     </td>
     </tr>
-    
+
     <tr>
       <th> <%= f.label(:co_teacher_training, "Co-teacher Training")%> </th>
-    <td>    
+    <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :co_teacher_training,
-                default: Date.today
-              } )%> 
+                default: ""
+              } )%>
     </td>
     </tr>
-    
+
   </table>
- 
