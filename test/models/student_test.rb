@@ -537,7 +537,7 @@ class StudentTest < ActiveSupport::TestCase
             second_course.quality_points = nil
             second_course.save!
 
-            assert_equal nil, second_course.quality_points
+            assert_nil second_course.quality_points
             assert_equal 4.0, @stu.gpa
 
         end
@@ -842,14 +842,23 @@ class StudentTest < ActiveSupport::TestCase
     # end # describe
     #
 
-    test "last_withdraw" do
-        terms = (2015..2016).map {|t| FactoryGirl.create :banner_term, :id => t, :PlainTerm => "Fall #{t}"}
-        withdraw_str = terms.map{|bt| "(#{bt.PlainTerm}: Withdraw)"}.join('; ')
-        stu = FactoryGirl.create :student, :withdraws => withdraw_str
-        expected = BannerTerm.find 2016
+    describe "last_withdraw" do
 
-        assert_equal expected, stu.last_withdraw
+        test "with withdraws" do
+            terms = (2015..2016).map {|t| FactoryGirl.create :banner_term, :id => t, :PlainTerm => "Fall #{t}"}
+            withdraw_str = terms.map{|bt| "(#{bt.PlainTerm}: Withdraw)"}.join('; ')
+            stu = FactoryGirl.create :student, :withdraws => withdraw_str
+            expected = BannerTerm.find 2016
+            assert_equal expected, stu.last_withdraw
+        end
+
+        test "with no withdraws" do
+            stu = FactoryGirl.create :student, :withdraws => nil
+            assert_nil stu.last_withdraw
+        end
+
     end
+
 
     test "tep_instructors" do
         @stu = FactoryGirl.create :student

@@ -494,12 +494,14 @@ class Student < ActiveRecord::Base
         # returns the BannerTerm of the students last withdraw
         # withdraws are in this format (Spring 2012: LOA-Spring Term)
         # delineated by "; "
+
+        return nil if self.withdraws.blank?
         re = /\((.+?):.+?\)/
         terms = self.withdraws
             .split('; ')
-            .map{|w|  BannerTerm.find_by :PlainTerm => re.match(w)[1]}
+            .map{|w|  BannerTerm.find_by :PlainTerm => re.match(w).andand[1]}
             .sort
-        return terms.last
+        return terms.last if terms
     end
 
     ##########################################################################
