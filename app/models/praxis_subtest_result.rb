@@ -17,4 +17,8 @@ class PraxisSubtestResult < ActiveRecord::Base
 
 	validates_presence_of :praxis_result_id
 
+	def student
+		return self.praxis_result.student
+	end
+
 end
