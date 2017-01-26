@@ -3,22 +3,22 @@
             <td><%= f.hidden_field(:student_id, :value => @student.id) %></td>
         </tr>
   	  <tr>
-  	    <th><%= f.label(:goal_name, "Goal name") %></th>
+  	    <th><%= f.label(:goal_name, "Goal Name:") %></th>
   	    <td><%= f.text_field(:goal_name) %></td>
   	  </tr>
 
   	  <tr>
-  	    <th><%= f.label(:description, "Goal Description") %></th>
+  	    <th><%= f.label(:description, "Goal Description:") %></th>
   	    <td> <%= f.text_area(:description, :size => '30x10') %> </td>
   	  </tr>
 
   	  <tr>
-  	      <th><%= f.label(:plan, "Action Plan") %></th>
+  	      <th><%= f.label(:plan, "Action Plan:") %></th>
   	      <td><%= f.text_area(:plan, :size => '30x10') %></td>
   	  </tr>
 
       <tr>
-  	      <th><%= f.label(:strategies, "Strategies including timeline and resources") %></th>
+  	      <th><%= f.label(:strategies, "Strategies Including Timeline and Resources:") %></th>
   	      <td><%= f.text_area(:strategies, :size => '30x10') %></td>
   	  </tr>
 

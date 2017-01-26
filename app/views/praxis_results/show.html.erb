@@ -14,14 +14,14 @@
       </div>
 
       <div class="header2">
-        <%= "Praxis Results for #{@test.praxis_test.TestName} take on #{@test.test_date.to_s}"  %>
+        <%= "Praxis Results for #{@test.praxis_test.TestName}"  %>
       </div>
     </caption>
 
 
     <tr>
       <th>Score</th>
-      <td <%= (@test.test_score and @test.test_score >= @test.cut_score) ? nil : "class=bad_text" %>><%= @test.test_score%></td>
+      <td <%= (@test.test_score and @test.test_score >= @test.cut_score) ? nil : "class=bad_text" "border: solid" %>><%= @test.test_score%></td>
     </tr>
 
     <tr>

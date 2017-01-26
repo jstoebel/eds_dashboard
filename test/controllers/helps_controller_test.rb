@@ -11,7 +11,13 @@ class HelpsControllerTest < ActionController::TestCase
         before do
           load_session(r)
           @help_dir = 'app/views/helps'
+          @md_path = @help_dir + "/_spam.html.md"
+          File.open(@md_path, 'w+') {|f| f.write("sample md file") }
           @contents = Dir[@help_dir + '/**/*.md']
+        end
+
+        after do
+          File.delete(@md_path)
         end
 
         test "responds with http 200" do
