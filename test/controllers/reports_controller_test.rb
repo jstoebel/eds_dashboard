@@ -259,17 +259,54 @@ class ReportsControllerTest < ActionController::TestCase
 
     end
 
-    test "skips students with withdraws > 1 year" do
-      load_session("admin")
-      old_term = FactoryGirl.create :banner_term, :StartDate => 2.years.ago,
-       :EndDate => (1.year.ago - 1),
-       :PlainTerm => "A Fall Term"
-      stu = FactoryGirl.create :student, :withdraws => "(#{old_term.PlainTerm}: Withdraw)",
-        :EnrollmentStatus => "Withdraw"
+    describe "filter students" do
+        before do
+            load_session("admin")
+        end
 
-      get :index
-      assert_equal 0, assigns(:data).size
+        test "skips students with withdraws > 1 year" do
+            old_term = FactoryGirl.create :banner_term, :StartDate => 2.years.ago,
+            :EndDate => (1.year.ago - 1),
+            :PlainTerm => "A Fall Term"
+            stu = FactoryGirl.create :student, :withdraws => "(#{old_term.PlainTerm}: Withdraw)",
+            :EnrollmentStatus => "WD - Personal"
+
+            get :index
+            assert_equal 0, assigns(:data).size
+        end
+
+        test "skips if not WD or active student" do
+            stu = FactoryGirl.create :student, :EnrollmentStatus => "Dismissed"
+            get :index
+            assert_equal 0, assigns(:data).size
+        end
+
+        test "include if wd was within 1 year" do
+            near_term = FactoryGirl.create :banner_term, :StartDate => 5.days.ago,
+                :EndDate => 3.days.ago,
+                :PlainTerm => "A recent Fall Term"
+
+            stu = FactoryGirl.create :student, :withdraws => "(#{near_term.PlainTerm}: Withdraw)",
+            :EnrollmentStatus => "WD - Personal"
+
+            get :index
+            assert_equal 1, assigns(:data).size
+        end
+
+        test "include if Active Student" do
+            old_term = FactoryGirl.create :banner_term, :StartDate => 2.years.ago,
+            :EndDate => (1.year.ago - 1),
+            :PlainTerm => "A Fall Term"
+
+            stu = FactoryGirl.create :student, :withdraws => "(#{old_term.PlainTerm}: Withdraw)",
+            :EnrollmentStatus => "Active Student"
+
+            get :index
+            assert_equal 1, assigns(:data).size
+        end
+
     end
+
 
   end # index
 end
