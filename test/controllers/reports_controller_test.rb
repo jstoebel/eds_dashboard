@@ -52,7 +52,6 @@ class ReportsControllerTest < ActionController::TestCase
 
           end
 
-
           describe "taken 227_228" do
 
             courses = ["227", "228", "101"]
@@ -148,8 +147,6 @@ class ReportsControllerTest < ActionController::TestCase
                 end # test
 
               end # context: Student Program
-
-
 
               test "two associated programs" do
                 student = FactoryGirl.create :admitted_student
@@ -261,5 +258,18 @@ class ReportsControllerTest < ActionController::TestCase
       end
 
     end
-  end
+
+    test "skips students with withdraws > 1 year" do
+      load_session("admin")
+      old_term = FactoryGirl.create :banner_term, :StartDate => 2.years.ago,
+       :EndDate => (1.year.ago - 1),
+       :PlainTerm => "A Fall Term"
+      stu = FactoryGirl.create :student, :withdraws => "(#{old_term.PlainTerm}: Withdraw)",
+        :EnrollmentStatus => "Withdraw"
+
+      get :index
+      assert_equal 0, assigns(:data).size
+    end
+
+  end # index
 end
