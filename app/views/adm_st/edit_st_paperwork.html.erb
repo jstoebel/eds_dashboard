@@ -10,33 +10,33 @@
 
 
               <tr>
-                <td> <%= f.label :background_check, "Background Check" %>   </td>
+                <td> <%= f.label :background_check, "Background Check:" %>   </td>
                 <td><%= f.check_box :background_check %></td>
               </tr>
 
               <tr>
-                <td> <%=f.label :beh_train, "Behavior Training"  %> </td>
+                <td> <%=f.label :beh_train, "Behavior Training:"  %> </td>
                 <td><%= f.check_box :beh_train %></td>
               </tr>
 
               <tr>
-                <td> <%=f.label :conf_train, "Confidentiality Training"  %> </td>
+                <td> <%=f.label :conf_train, "Confidentiality Training:"  %> </td>
                 <td><%= f.check_box :conf_train %></td>
               </tr>
 
               <tr>
-                <td> <%=f.label :kfets_in, "KFETS hours in"  %> </td>
+                <td> <%=f.label :kfets_in, "KFETS hours in:"  %> </td>
                 <td><%= f.check_box :kfets_in %></td>
               </tr>
 
               <tr>
-                <td> <%=f.label :STTerm, "Student Teaching Term"  %> </td>
+                <td> <%=f.label :STTerm, "Student Teaching Term:"  %> </td>
                 <td><%= f.select :STTerm, @terms.map { |t| [t.PlainTerm, t.BannerTerm]}, :prompt => "Select a term" %>
                 </td>
               </tr>
 
               <tr>
-                <td> <%=f.label :Notes, "Notes" %> </td>
+                <td> <%=f.label :Notes, "Notes:" %> </td>
                 <td><%= f.text_area(:Notes, :side => '40x10') %></td>
               </tr>
 

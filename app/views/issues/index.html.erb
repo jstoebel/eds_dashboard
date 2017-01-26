@@ -80,11 +80,12 @@
                       <% end %>
 
                       <%= link_to edit_issue_path(issue.id), :class => "btn btn-default" do %>
-                      <span class="glyphicon glyphicon-pencil"></span>
+                        <span class="glyphicon glyphicon-pencil"></span>
                       <% end %>
-
+                  </td>
+                  <td>
                       <%= button_to(issue_path(issue.id), { class: "btn btn-default", method: :delete, data: {confirm: "Are you sure you want to delete this issue?"}} ) do %>
-                       <span class="glyphicon glyphicon-trash"</span>
+                        <span class="glyphicon glyphicon-trash"</span>
                       <% end %>
                   </td>
 

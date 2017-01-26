@@ -1,38 +1,38 @@
 
     <%= error_messages_for(@teacher) %>
     <tr>
-      <th> <%= f.label(:FirstName, "First Name")%> </th>
+      <th> <%= f.label(:FirstName, "First Name:")%> </th>
       <td> <%= f.text_field(:FirstName) %></td>
     </tr>
 
     <tr>
-      <th> <%= f.label(:LastName, "Last Name")%> </th>
+      <th> <%= f.label(:LastName, "Last Name:")%> </th>
       <td> <%= f.text_field(:LastName) %></td>
     </tr>
 
     <tr>
-      <th> <%= f.label(:Email, "Email")%> </th>
+      <th> <%= f.label(:Email, "Email:")%> </th>
       <td> <%= f.text_field(:Email) %></td>
     </tr>
 
     <tr>
-      <th> <%= f.label(:clinical_site_id, "Site")%> </th>
+      <th> <%= f.label(:clinical_site_id, "Site:")%> </th>
       <td> <%= f.select(:clinical_site_id, @sites.map {|s| [s.SiteName, s.id]}, {:prompt => 'Select a clinical site'}) %></td>
     </tr>
 
     <tr>
-      <th> <%= f.label(:Subject, "Subject")%> </th>
+      <th> <%= f.label(:Subject, "Subject:")%> </th>
       <td> <%= f.select(:Subject, @subjects.map {|s| [s.EDSProgName, s.EDSProgName]},
         {:prompt => 'Select a subject'}) %></td>
     </tr>
 
     <tr>
-      <th> <%= f.label(:Rank, "Rank")%> </th>
+      <th> <%= f.label(:Rank, "Rank:")%> </th>
       <td> <%= f.text_field(:Rank) %></td>
     </tr>
 
     <tr>
-      <th> <%= f.label(:begin_service, "Date beginning service")%> </th>
+      <th> <%= f.label(:begin_service, "Date beginning service:")%> </th>
 
     <td>
       <%= render(partial: 'date_picker', :locals => {
@@ -44,7 +44,7 @@
     </tr>
 
     <tr>
-      <th> <%= f.label(:epsb_training, "EPSB Training")%> </th>
+      <th> <%= f.label(:epsb_training, "EPSB Training:")%> </th>
     <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
@@ -55,7 +55,7 @@
     </tr>
 
     <tr>
-      <th> <%= f.label(:ct_record, "CT Record")%> </th>
+      <th> <%= f.label(:ct_record, "CT Record:")%> </th>
     <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
@@ -66,7 +66,7 @@
     </tr>
 
     <tr>
-      <th> <%= f.label(:co_teacher_training, "Co-teacher Training")%> </th>
+      <th> <%= f.label(:co_teacher_training, "Co-teacher Training:")%> </th>
     <td>
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
