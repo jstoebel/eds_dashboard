@@ -38,7 +38,7 @@
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :begin_service,
-                default: ""
+                default: @teacher.begin_service || ""
               } )%>
     </td>
     </tr>
@@ -49,7 +49,7 @@
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :epsb_training,
-                default: ""
+                default: @teacher.epsb_training || ""
               } )%>
     </td>
     </tr>
@@ -60,7 +60,7 @@
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :ct_record,
-                default: ""
+                default: @teacher.ct_record || ""
               } )%>
     </td>
     </tr>
@@ -71,7 +71,7 @@
       <%= render(partial: 'date_picker', :locals => {
                 f: f,
                 field: :co_teacher_training,
-                default: ""
+                default: @teacher.co_teacher_training || ""
               } )%>
     </td>
     </tr>
