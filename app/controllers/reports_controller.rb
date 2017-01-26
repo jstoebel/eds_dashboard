@@ -12,7 +12,9 @@ class ReportsController < ApplicationController
         students.each do |stu|
             # filter out students who are not actively enrolled and
 
-            if stu.EnrollmentStatus.include? 'WD'
+            if stu.EnrollmentStatus.nil?
+                next
+            elsif stu.EnrollmentStatus.include? 'WD'
                 # skip if student has withdrawn and latest withdraw was more
                 # than 1 year ago
 
