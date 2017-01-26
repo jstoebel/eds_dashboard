@@ -17,6 +17,14 @@
     <td> <%= f.select(:disposition_id, @dispositions.map {|d| ["(#{d.code}) #{truncate(d.description)}", d.id]},
     {prompt: "Select a disposition"}) %></td>
   </tr>
+  
+  <tr>
+    <%= fields_for :issue_update, @update do |update| %>
+    <th><%= update.label(:status, "Status of Issue:") %></th>
+    <td> <%= update.select(:status, IssueUpdate::STATUSES.keys,
+    {prompt: "Select a status"}) %> </td>
+    <% end %>
+  </tr>
 
   </div>
 </table>

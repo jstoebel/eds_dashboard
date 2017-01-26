@@ -8,6 +8,7 @@
   <%= form_for(:issue, :url => student_issues_path(@student.AltID) ) do |f| %>
 	<h2>Open Advisor Note for <%=@student.name_readable%></h2>
     <%= render(partial: 'form', locals: {f: f}) %>
+    
   <div class="col-sm-8 col-sm-offset-3">
     <tr>
       <td>
@@ -15,15 +16,7 @@
       </td>
     </tr><br>
   </div>
-    <div class="col-sm-8 col-sm-offset-2">
-    <tr><br><br>
-        <%= fields_for :issue_update, @update do |update| %>
-        <th><%= update.label(:status, "Status of Issue:") %></th>
-        <td> <%= update.select(:status, IssueUpdate::STATUSES.keys,
-        {prompt: "Select a status"}) %> </td>
-        <% end %>
-    </tr>
-    </div>
+
 
 
 
