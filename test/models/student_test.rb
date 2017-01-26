@@ -841,6 +841,16 @@ class StudentTest < ActiveSupport::TestCase
     # 	end
     # end # describe
     #
+
+    test "last_withdraw" do
+        terms = (2015..2016).map {|t| FactoryGirl.create :banner_term, :id => t, :PlainTerm => "Fall #{t}"}
+        withdraw_str = terms.map{|bt| "(#{bt.PlainTerm}: Withdraw)"}.join('; ')
+        stu = FactoryGirl.create :student, :withdraws => withdraw_str
+        expected = BannerTerm.find 2016
+
+        assert_equal expected, stu.last_withdraw
+    end
+
     test "tep_instructors" do
         @stu = FactoryGirl.create :student
         advs = FactoryGirl.create_list :tep_advisor, 3
