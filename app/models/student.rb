@@ -447,9 +447,9 @@ class Student < ActiveRecord::Base
                 course.quality_points.present? and
                 Transcript.standard_grades.include? course.grade_ltr
 
-                    # standard courses
-                    credits += course.credits_attempted * 4
-                    qpoints += course.quality_points * 4
+                # standard courses
+                credits += course.credits_attempted * 4
+                qpoints += course.quality_points * 4
 
             elsif course.grade_ltr == "CA"
                 # convo credit: 1 converted credit, 4.0 converted quality_points
