@@ -314,6 +314,25 @@ class ReportsControllerTest < ActionController::TestCase
 
     end
 
+    describe "gpa" do
+        test "admin has access" do
+            load_session("admin")
+            stus = FactoryGirl.create :admitted_student
+            get :index
+            assigns(:data).each do |record|
+                assert record.keys.include? :gpa
+            end
+        end
+
+        test "staff has no access" do
+            load_session("staff")
+            stus = FactoryGirl.create :admitted_student
+            get :index
+            assigns(:data).each do |record|
+                assert_not record.keys.include? :gpa
+            end
+        end
+    end
 
   end # index
 end
