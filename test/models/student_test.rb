@@ -842,6 +842,44 @@ class StudentTest < ActiveSupport::TestCase
     # end # describe
     #
 
+    desribe "need apply" do
+        before do
+            @stu = FactoryGirl.create :student
+        end
+        describe "pulls" do
+            before do
+                # two standard terms ago
+            end
+
+            test "music student" do
+                music_foi = FactoryGirl.create :applying_foi, {
+                    :major => (FactoryGirl.create :major, :name => "Instrumental Music"),
+                    :student => @stu
+                }
+
+
+
+                assert_equal 1, Student.need_apply
+
+
+            end
+
+            test "pe student" do
+
+            end
+
+            test "reg student" do
+
+
+            end
+
+        end
+
+
+
+
+    end
+
     describe "last_withdraw" do
 
         test "with withdraws" do
