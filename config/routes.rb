@@ -170,33 +170,6 @@ Rails.application.routes.draw do
   resources :reports, only: [:index] do #reports is here
   end
 
-  resources :assessment_items, only: [ :show, :create, :destroy] do
-  end
-
-  match 'assessment_items/update', :via => :patch
-
-  resources :item_levels, only: [:show, :create, :update, :destroy] do
-  end
-
-  resources :assessment_versions, only: [:index, :create, :show, :update, :destroy] do
-    resources :assessment_items, only: [:index] do
-      resources :item_levels, only: [:index]
-    end
-    get "delete"
-    put "update"
-  end
-
-  resources :version_habtm_items, only: [:create, :destroy]
-
-  resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy], shallow: true do
-    resources :assessment_versions, only: [:index] do
-    end
-    get "delete"
-  end
-
-# resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
-
-
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
     get "admit"
