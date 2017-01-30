@@ -71,12 +71,10 @@ class IssueUpdateTest < ActiveSupport::TestCase
             end
         end
 
-        [nil, "spam"].each do |a|
-            test "addressed = #{a}" do
-                @update.addressed = a
-                assert_not @update.valid?
-                assert @update.errors[:addressed].include? ["addressed may not be nil"]
-            end
+        test "addressed = nil" do
+            @update.addressed = nil
+            assert_not @update.valid?
+            assert @update.errors[:addressed].include? "addressed may not be nil"
         end
 
     end
