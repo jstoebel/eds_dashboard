@@ -43,6 +43,7 @@ class IssueUpdatesController < ApplicationController
     user = current_user
 
     @update.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
+    @update.addressed = false # all updates start out as unadressed.
     authorize! :manage, @update
 
     @student = Student.find(@issue.student.id)

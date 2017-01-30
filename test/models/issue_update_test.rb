@@ -46,6 +46,39 @@ class IssueUpdateTest < ActiveSupport::TestCase
 		assert_equal(expected, actual)
 	end
 
+    test "needs a status" do
+        t = FactoryGirl.create :issue_update
+		t.status = nil
+		t.valid?
+		assert t.errors[:status].include?("Please select a status for this update")
+    end
+
+    test "invalid status" do
+        t = FactoryGirl.create :issue_update
+		t.status = "bad status"
+		t.valid?
+		assert t.errors[:status].include?("Invalid status name")
+    end
+
+    describe "addressed must be true or false" do
+        before do
+            @update = FactoryGirl.build :issue_update
+        end
+        [true, false].each do |a|
+            test "addressed = #{a}" do
+                @update.addressed = a
+                assert @update.valid?
+            end
+        end
+
+        test "addressed = nil" do
+            @update.addressed = nil
+            assert_not @update.valid?
+            assert @update.errors[:addressed].include? "addressed may not be nil"
+        end
+
+    end
+
 	describe "resolves?" do
 
 		[true, false].each do |bool|
