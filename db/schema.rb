@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113214600) do
+ActiveRecord::Schema.define(version: 20170131202113) do
+
+  create_table "adm_files", force: :cascade do |t|
+    t.integer  "adm_tep_id",      limit: 4
+    t.integer  "student_file_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -172,11 +179,12 @@ ActiveRecord::Schema.define(version: 20170113214600) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "employment", primary_key: "EmpID", force: :cascade do |t|
-    t.integer "student_id",  limit: 4,  null: false
-    t.date    "EmpDate",                null: false
-    t.string  "EmpCategory", limit: 45
-    t.string  "Employer",    limit: 45
+  create_table "employment", force: :cascade do |t|
+    t.integer  "student_id", limit: 4
+    t.integer  "category",   limit: 4
+    t.string   "employer",   limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "employment", ["student_id"], name: "fk_rails_8b14daa8ce", using: :btree
