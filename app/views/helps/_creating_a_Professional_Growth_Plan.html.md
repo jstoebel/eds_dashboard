@@ -7,7 +7,7 @@ To create a PGP, first click on the Students & Advisees tab at the top of the pa
 
 &nbsp;
 
-You will be presented with a list of avaiable Students and Advisees. Clicking the blue Actions button on the righthand side of your student will bring up a dropdown menu with options you can use to access student information.
+You will be presented with a list of available Students and Advisees. Clicking the blue Actions button on the righthand side of your student will bring up a dropdown menu with options you can use to access student information.
 
 
 ![Students](/help_images/students.JPG)
