@@ -14,7 +14,6 @@ class AdmTepController < ApplicationController
   end
 
   def create
-
     @app = AdmTep.new(new_adm_params)
     authorize! :manage, @app
     stu = @app.student
@@ -26,7 +25,6 @@ class AdmTepController < ApplicationController
 
     apps_this_term = AdmTep.where(student_id: bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: prog_code).size
     @app.Attempt = apps_this_term + 1
-
     if @app.save
 
       name = name_details(stu)
@@ -45,8 +43,8 @@ class AdmTepController < ApplicationController
   def edit
       @application = AdmTep.find(params[:id])
       authorize! :manage, @application
-      @term = BannerTerm.find(@application.BannerTerm_BannerTerm)   #term of application
-      @student = Student.find(@application.student_id)
+      @term = @application.banner_term
+      @student =@application.student
       name_details(@student)
   end
 
@@ -95,7 +93,7 @@ class AdmTepController < ApplicationController
   def index
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
     @applications = @adm_teps.by_term(@term)   #fetch all applications for this term
- 
+
   end
 
   def choose
@@ -146,8 +144,7 @@ class AdmTepController < ApplicationController
   def new_setup
       @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && s.EnrollmentStatus == "Active Student"}
       @programs = Program.where("Current = 1")
-      term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
-      @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
+      @terms = BannerTerm.actual.where("StartDate >= ?", 1.year.ago).order(BannerTerm: :asc)
   end
 
   def error_update

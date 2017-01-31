@@ -38,7 +38,7 @@ module PopulateHelper
       app_attrs = my_programs.each.map { |prog|
         FactoryGirl.build :adm_tep, {
           :student_id => stu.id,
-          :Program_ProgCode => prog.id,
+          :program => prog,
           :BannerTerm_BannerTerm => term.id,
           :TEPAdmit => admit,
           :TEPAdmitDate => (admit ? date_apply : nil),
@@ -134,35 +134,35 @@ module PopulateHelper
         if num_apps == 2
           #this is the first app, and always fails
 
-          app = FactoryGirl.attributes_for :adm_st, {
+          app = FactoryGirl.create :denied_adm_st, {
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
             CoreGPA: 3.0,
-            STAdmitted: false,
-            STAdmitDate: nil,
             student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
           }
-
-          AdmSt.create app
 
         end
 
         #here is the final application
 
-        st_app_attrs = FactoryGirl.attributes_for :adm_st, {
-          student_id: stu.id,
-          BannerTerm_BannerTerm: st_apply_term.id,
-          OverallGPA: 2.75,
-          CoreGPA: 3.0,
-          STAdmitted: st_admit,
-          STAdmitDate: (st_admit ? st_date_apply : nil),
-          student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
-        }
-
-        st_admit_attrs = {STAdmitted: st_admit}
-
-        final_app = AdmSt.create st_app_attrs.merge(st_admit_attrs)
+        if st_admit
+          st_app_attrs = FactoryGirl.create :accepted_adm_st, {
+            student_id: stu.id,
+            BannerTerm_BannerTerm: st_apply_term.id,
+            OverallGPA: 2.75,
+            CoreGPA: 3.0,
+            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+          }
+        else
+          st_app_attrs = FactoryGirl.create :denied_adm_st, {
+            student_id: stu.id,
+            BannerTerm_BannerTerm: st_apply_term.id,
+            OverallGPA: 2.75,
+            CoreGPA: 3.0,
+            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+          }
+        end
       else
         # student hasn't applied. Have they dropped? or are they still eligible to apply
 
@@ -231,14 +231,15 @@ module PopulateHelper
 
   def pop_clinical_assignment(stu, teacher)
 
+    # create an assignment for a course
+    while true
+      offset = rand(stu.transcripts.size)
+      course = stu.transcripts.offset(offset).first
+      break if course.clinical_assignments.blank?
+    end
 
-    start_date = Faker::Time.between(4.years.ago, Date.today)
-    term = BannerTerm.current_term({
-      :exact => false,
-      :plan_b => :forward,
-      :date => start_date
-    })
-
+    term = course.banner_term
+    start_date = term.StartDate
     end_date = term.EndDate
 
     assignment = FactoryGirl.build :clinical_assignment, {
@@ -246,7 +247,8 @@ module PopulateHelper
       :clinical_teacher_id => teacher.id,
       :StartDate => start_date,
       :EndDate => end_date,
-      :Term => term.id
+      :Term => term.id,
+      :transcript => course
     }
 
     assignment.save

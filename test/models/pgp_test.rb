@@ -9,6 +9,7 @@
 #  plan        :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  strategies  :text(65535)
 #
 
 require 'test_helper'
@@ -44,6 +45,13 @@ class PgpTest < ActiveSupport::TestCase
 		assert_equal(["Please enter a plan."], pgp.errors[:plan])
   end
 
+  test "need a strategies" do
+    pgp = Pgp.new
+    pgp.plan = nil
+    pgp.valid?
+    assert_equal(["Please enter a strategy."], pgp.errors[:strategies])
+  end
+
   test "score check pass" do
     pgp = Pgp.new
     pgp.destroy
@@ -61,7 +69,7 @@ class PgpTest < ActiveSupport::TestCase
     score = FactoryGirl.create_list(:pgp_score, num_scores)
     ordered_score = score.sort_by{ |a| [a.pgp_id, a.created_at]}
     sort_ver = PgpScore.sorted
-    assert_equal ordered_score, sort_ver
+    assert_equal ordered_score.to_a, sort_ver.to_a
   end
 
 

@@ -140,6 +140,7 @@ Rails.application.routes.draw do
   resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do
     patch "update_presumed_status"
+    get "get_resources"
     resources :praxis_results, only: [:index, :show, :edit, :update, :destroy] do
       get "delete"
     end
@@ -168,33 +169,6 @@ Rails.application.routes.draw do
 
   resources :reports, only: [:index] do #reports is here
   end
-
-  resources :assessment_items, only: [ :show, :create, :destroy] do
-  end
-
-  match 'assessment_items/update', :via => :patch
-
-  resources :item_levels, only: [:show, :create, :update, :destroy] do
-  end
-
-  resources :assessment_versions, only: [:index, :create, :show, :update, :destroy] do
-    resources :assessment_items, only: [:index] do
-      resources :item_levels, only: [:index]
-    end
-    get "delete"
-    put "update"
-  end
-
-  resources :version_habtm_items, only: [:create, :destroy]
-
-  resources :assessments, only: [:index, :new, :create, :edit, :update, :delete, :destroy], shallow: true do
-    resources :assessment_versions, only: [:index] do
-    end
-    get "delete"
-  end
-
-# resources :clinical_teachers, only: [:index, :edit, :update, :new, :create]
-
 
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
@@ -236,6 +210,7 @@ Rails.application.routes.draw do
     resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
       resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
     end
+    resources :transcripts, only: [:index]
   end
 
   resources :fois, only: [:index, :create, :show, :import]
@@ -268,6 +243,9 @@ Rails.application.routes.draw do
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
   end
+
+  match 'help', via: [:get], controller: 'helps', action: 'home'
+  match 'help/:article', via: [:get], controller: 'helps', action: 'home'
 
   root 'access#index'
 

@@ -9,20 +9,21 @@
 #  plan        :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  strategies  :text(65535)
 #
 
 class Pgp < ActiveRecord::Base
     self.table_name = 'pgps'
-    
-    
+
+
     before_destroy :pgp_scored_check
-    
+
     belongs_to :student
     has_many :pgp_scores, dependent: :destroy
-    
-    
+
+
     scope :sorted, lambda {order(:created_at => :desc)}
-    
+
     validates :student_id,
         presence: {message:"There must be an active student associated."}
     validates :goal_name,
@@ -31,12 +32,13 @@ class Pgp < ActiveRecord::Base
         presence: {message:"Please enter a description."}
     validates :plan,
         presence: {message:"Please enter a plan."}
-    
-    
+    validates :strategies,
+        presence: {message:"Please enter a strategy."}
+
     def latest_score
         self.pgp_scores.order(created_at: :desc).first
     end
-    
+
     def pgp_scored_check
     # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
         if self.pgp_scores.present?

@@ -2,11 +2,12 @@
 #
 # Table name: banner_terms
 #
-#  BannerTerm :integer          not null, primary key
-#  PlainTerm  :string(45)       not null
-#  StartDate  :datetime         not null
-#  EndDate    :datetime         not null
-#  AYStart    :integer          not null
+#  BannerTerm    :integer          not null, primary key
+#  PlainTerm     :string(45)       not null
+#  StartDate     :datetime         not null
+#  EndDate       :datetime         not null
+#  AYStart       :integer          not null
+#  standard_term :boolean
 #
 
 class BannerTerm < ActiveRecord::Base
@@ -51,6 +52,10 @@ class BannerTerm < ActiveRecord::Base
       end
     end
   end
+
+	def repr
+		return self.id
+	end
 
   def next_term(exclusive = false)
     # returns the term with the next largest id

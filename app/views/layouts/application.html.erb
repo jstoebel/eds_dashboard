@@ -25,11 +25,9 @@
 
     <div class="row">    <!-- menu to swap psudo role if user is admin -->
       <div class="col-xs-12 col-md-3">
-				<% if session[:role] == 'admin' && Rails.env == "development" %>
+				<% if ["development", "test"].include? Rails.env %>
 
-	        <% unless session[:view_as] == 1 or session[:view_as] == 0 %>
 	          Viewing Site As:
-	        <% end %>
 
 	        <%= form_tag("/access/change_psudo_status") do -%>
 	            <p class="navbar-text pull-left">
@@ -45,19 +43,12 @@
 	            </p>
 	          <% end -%>
       	<% end %>
-
       </div>
-
+      
       <div class="col-xs-12 col-md-3 col-md-offset-6">
         <p class="navbar-text pull-right">
           Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
         </p>
-      </div>
-
-      <div class="col-xs-12 col-md-1 pull-right">
-        <%= form_tag("/logout", method: "post") do  %>
-          <%= submit_tag("Logout", id: "logout-btn", data: { confirm: 'Are you sure you want to logout?' }) %>
-        <% end  %>
       </div>
 
     </div>
@@ -77,6 +68,10 @@
 			<%= render :partial => "admin_navbar" %>
 
     <% end %>
+
+		<a href="/help" aria-haspopup="true" aria-expanded="true" class="navbar-brand">Help</a>
+
+  </div>
 </div>
 
 		<!--Before yield -->

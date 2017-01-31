@@ -35,8 +35,15 @@ class ClinicalAssignmentsController < ApplicationController
 
     begin
       @assignment.StartDate = params[:clinical_assignment][:StartDate]
+
+      term = BannerTerm.current_term({:exact => false,
+        :plan_b => :forward,
+        :date => @assignment.StartDate
+        })
+      @assignment.Term = term.id
     rescue ArgumentError, TypeError => e
       @assignment.StartDate = nil
+      @assignment.Term = nil
     end
 
     begin
@@ -44,15 +51,6 @@ class ClinicalAssignmentsController < ApplicationController
     rescue ArgumentError, TypeError => e
       @assignment.EndDate = nil
     end
-
-    #TODO ideally, look up student's courses dyanmically using ajax
-    #plan b: look up all possible courses irrespective of student
-    #plan c: text box (zzzz...)
-
-
-    @assignment.CourseID = '???'
-
-    @assignment.Term = current_term({exact: false, plan_b: :forward}).BannerTerm
 
     authorize! :manage, @assignment
 
@@ -116,11 +114,20 @@ class ClinicalAssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :Term, :CourseID, :Level)#, :StartDate, :EndDate)
+    params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :transcript_id, :Level)
 
   end
   def form_setup
-    @students = Student.by_last.where({:EnrollmentStatus => "Active Student"}).current.select{|s| can? :index, s}
+    this_term = BannerTerm.current_term :exact => false, :plan_b => :forward
+    @students = Student
+      .joins(:transcripts) # only want students with at least one course.
+      .by_last
+      .where(:students => {:EnrollmentStatus => "Active Student"},
+        :transcript => {:term_taken => this_term.id})
+      .distinct
+      .current
+      .select{|s| can? :index, s}
+
     @teachers = ClinicalTeacher.all
     @current_term = current_term exact: false, plan_b: :forward
   end

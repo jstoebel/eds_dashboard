@@ -1,1847 +1,1922 @@
-#banner_terms
----
--
-    BannerTerm: 197702
-    standard_term: false
-    PlainTerm: Short Term 78
-    StartDate: 1/5/1978
-    EndDate: 2/1/1978
-    AYStart: 1977
--
-    BannerTerm: 197602
-    standard_term: false
-    PlainTerm: Short Term 77
-    StartDate: 1/10/1977
-    EndDate: 2/5/1977
-    AYStart: 1976
--
-    BannerTerm: 197502
-    standard_term: false
-    PlainTerm: Short Term 76
-    StartDate: 1/5/1976
-    EndDate: 1/30/1976
-    AYStart: 1975
--
-    BannerTerm: 197402
-    standard_term: false
-    PlainTerm: Short Term 75
-    StartDate: 1/6/1975
-    EndDate: 2/1/1975
-    AYStart: 1974
--
-    BannerTerm: 197302
-    standard_term: false
-    PlainTerm: Short Term 74
-    StartDate: 1/7/1974
-    EndDate: 2/2/1974
-    AYStart: 1973
--
-    BannerTerm: 197202
-    standard_term: false
-    PlainTerm: Short Term 73
-    StartDate: 1/8/1973
-    EndDate: 2/3/1973
-    AYStart: 1972
--
-    BannerTerm: 197102
-    standard_term: false
-    PlainTerm: Short Term 72
-    StartDate: 1/3/1972
-    EndDate: 1/29/1972
-    AYStart: 1971
--
-    BannerTerm: 197002
-    standard_term: false
-    PlainTerm: Short Term 71
-    StartDate: 1/4/1971
-    EndDate: 1/30/1971
-    AYStart: 1970
--
-    BannerTerm: 199803
-    standard_term: true
-    PlainTerm: Spring 1999
-    StartDate: 1/31/1999
-    EndDate: 5/20/1999
-    AYStart: 1998
--
-    BannerTerm: 199703
-    standard_term: true
-    PlainTerm: Spring 1998
-    StartDate: 2/1/1998
-    EndDate: 5/21/1998
-    AYStart: 1997
--
-    BannerTerm: 199603
-    standard_term: true
-    PlainTerm: Spring 1997
-    StartDate: 2/6/1997
-    EndDate: 5/22/1997
-    AYStart: 1996
--
-    BannerTerm: 199503
-    standard_term: true
-    PlainTerm: Spring 1996
-    StartDate: 2/6/1996
-    EndDate: 5/23/1996
-    AYStart: 1995
--
-    BannerTerm: 199403
-    standard_term: true
-    PlainTerm: Spring 1995
-    StartDate: 2/7/1995
-    EndDate: 5/25/1995
-    AYStart: 1994
--
-    BannerTerm: 199901
-    standard_term: true
-    PlainTerm: Fall 1999
-    StartDate: 9/1/1999
-    EndDate: 12/30/1999
-    AYStart: 1999
--
-    BannerTerm: 200001
-    standard_term: true
-    PlainTerm: Fall 2000
-    StartDate: 9/1/2000
-    EndDate: 12/30/2000
-    AYStart: 2000
--
-    BannerTerm: 200101
-    standard_term: true
-    PlainTerm: Fall 2001
-    StartDate: 8/30/2001
-    EndDate: 12/13/2001
-    AYStart: 2001
--
-    BannerTerm: 200201
-    standard_term: true
-    PlainTerm: Fall 2002
-    StartDate: 8/28/2002
-    EndDate: 12/12/2002
-    AYStart: 2002
--
-    BannerTerm: 196902
-    standard_term: false
-    PlainTerm: Short Term 70
-    StartDate: 1/2/1970
-    EndDate: 1/31/1970
-    AYStart: 1969
--
-    BannerTerm: 199904
-    standard_term: false
-    PlainTerm: Summer 2000
-    StartDate: 6/1/2000
-    EndDate: 7/31/2000
-    AYStart: 1999
--
-    BannerTerm: 199601
-    standard_term: true
-    PlainTerm: Fall 1996
-    StartDate: 9/5/1996
-    EndDate: 12/19/1996
-    AYStart: 1996
--
-    BannerTerm: 199602
-    standard_term: false
-    PlainTerm: Short Term 97
-    StartDate: 1/6/1997
-    EndDate: 1/31/1997
-    AYStart: 1996
--
-    BannerTerm: 199502
-    standard_term: false
-    PlainTerm: Short Term 96
-    StartDate: 1/3/1996
-    EndDate: 1/30/1996
-    AYStart: 1995
--
-    BannerTerm: 199402
-    standard_term: false
-    PlainTerm: Short Term 95
-    StartDate: 1/5/1995
-    EndDate: 2/1/1995
-    AYStart: 1994
--
-    BannerTerm: 199302
-    standard_term: false
-    PlainTerm: Short Term 94
-    StartDate: 1/3/1994
-    EndDate: 1/28/1994
-    AYStart: 1993
--
-    BannerTerm: 199202
-    standard_term: false
-    PlainTerm: Short Term 93
-    StartDate: 1/4/1993
-    EndDate: 1/29/1993
-    AYStart: 1992
--
-    BannerTerm: 199102
-    standard_term: false
-    PlainTerm: Short Term 92
-    StartDate: 1/3/1992
-    EndDate: 1/30/1992
-    AYStart: 1991
--
-    BannerTerm: 199002
-    standard_term: false
-    PlainTerm: Short Term 91
-    StartDate: 1/3/1991
-    EndDate: 1/30/1991
-    AYStart: 1990
--
-    BannerTerm: 198902
-    standard_term: false
-    PlainTerm: Short Term 90
-    StartDate: 1/3/1990
-    EndDate: 1/30/1990
-    AYStart: 1989
--
-    BannerTerm: 198802
-    standard_term: false
-    PlainTerm: Short Term 89
-    StartDate: 1/4/1989
-    EndDate: 1/31/1989
-    AYStart: 1988
--
-    BannerTerm: 198702
-    standard_term: false
-    PlainTerm: Short Term 88
-    StartDate: 1/4/1988
-    EndDate: 1/29/1988
-    AYStart: 1987
--
-    BannerTerm: 198602
-    standard_term: false
-    PlainTerm: Short Term 87
-    StartDate: 1/5/1987
-    EndDate: 1/30/1987
-    AYStart: 1986
--
-    BannerTerm: 198502
-    standard_term: false
-    PlainTerm: Short Term 86
-    StartDate: 1/3/1986
-    EndDate: 1/30/1986
-    AYStart: 1985
--
-    BannerTerm: 198402
-    standard_term: false
-    PlainTerm: Short Term 85
-    StartDate: 1/3/1985
-    EndDate: 1/30/1985
-    AYStart: 1984
--
-    BannerTerm: 198302
-    standard_term: false
-    PlainTerm: Short Term 84
-    StartDate: 1/5/1984
-    EndDate: 2/1/1984
-    AYStart: 1983
--
-    BannerTerm: 198202
-    standard_term: false
-    PlainTerm: Short Term 83
-    StartDate: 1/3/1983
-    EndDate: 1/28/1983
-    AYStart: 1982
--
-    BannerTerm: 198102
-    standard_term: false
-    PlainTerm: Short Term 82
-    StartDate: 1/4/1982
-    EndDate: 1/29/1982
-    AYStart: 1981
--
-    BannerTerm: 198002
-    standard_term: false
-    PlainTerm: Short Term 81
-    StartDate: 1/5/1981
-    EndDate: 1/30/1981
-    AYStart: 1980
--
-    BannerTerm: 197902
-    standard_term: false
-    PlainTerm: Short Term 80
-    StartDate: 1/3/1980
-    EndDate: 1/30/1980
-    AYStart: 1979
--
-    BannerTerm: 197802
-    standard_term: false
-    PlainTerm: Short Term 79
-    StartDate: 1/4/1979
-    EndDate: 1/31/1979
-    AYStart: 1978
--
-    BannerTerm: 198601
-    standard_term: true
-    PlainTerm: Fall 1986
-    StartDate: 9/5/1986
-    EndDate: 12/18/1986
-    AYStart: 1986
--
-    BannerTerm: 199103
-    standard_term: true
-    PlainTerm: Spring 1992
-    StartDate: 2/4/1992
-    EndDate: 5/21/1992
-    AYStart: 1991
--
-    BannerTerm: 199003
-    standard_term: true
-    PlainTerm: Spring 1991
-    StartDate: 2/5/1991
-    EndDate: 5/23/1991
-    AYStart: 1990
--
-    BannerTerm: 197105
-    standard_term: false
-    PlainTerm: Rising Seniors 1972
-    StartDate: 6/12/1972
-    EndDate: 7/8/1972
-    AYStart: 1971
--
-    BannerTerm: 198701
-    standard_term: true
-    PlainTerm: Fall 1987
-    StartDate: 9/4/1987
-    EndDate: 12/17/1987
-    AYStart: 1987
--
-    BannerTerm: 198903
-    standard_term: true
-    PlainTerm: Spring 1990
-    StartDate: 2/7/1990
-    EndDate: 5/24/1990
-    AYStart: 1989
--
-    BannerTerm: 198803
-    standard_term: true
-    PlainTerm: Spring 1989
-    StartDate: 2/6/1989
-    EndDate: 5/18/1989
-    AYStart: 1988
--
-    BannerTerm: 198801
-    standard_term: true
-    PlainTerm: Fall 1988
-    StartDate: 9/2/1988
-    EndDate: 12/15/1988
-    AYStart: 1988
--
-    BannerTerm: 198703
-    standard_term: true
-    PlainTerm: Spring 1988
-    StartDate: 2/3/1988
-    EndDate: 5/19/1988
-    AYStart: 1987
--
-    BannerTerm: 198603
-    standard_term: true
-    PlainTerm: Spring 1987
-    StartDate: 2/5/1987
-    EndDate: 5/21/1987
-    AYStart: 1986
--
-    BannerTerm: 198503
-    standard_term: true
-    PlainTerm: Spring 1986
-    StartDate: 2/6/1986
-    EndDate: 5/22/1986
-    AYStart: 1985
--
-    BannerTerm: 198403
-    standard_term: true
-    PlainTerm: Spring 1985
-    StartDate: 2/4/1985
-    EndDate: 5/23/1985
-    AYStart: 1984
--
-    BannerTerm: 198405
-    standard_term: false
-    PlainTerm: Rising Snr 85
-    StartDate: 6/9/1985
-    EndDate: 7/3/1985
-    AYStart: 1984
--
-    BannerTerm: 197904
-    standard_term: false
-    PlainTerm: Summer 1980
-    StartDate: 6/9/1980
-    EndDate: 8/1/1980
-    AYStart: 1979
--
-    BannerTerm: 197804
-    standard_term: false
-    PlainTerm: Summer 1979
-    StartDate: 6/4/1979
-    EndDate: 6/27/1979
-    AYStart: 1978
--
-    BannerTerm: 199802
-    standard_term: false
-    PlainTerm: Short Term 99
-    StartDate: 1/2/1999
-    EndDate: 1/31/1999
-    AYStart: 1998
--
-    BannerTerm: 199701
-    standard_term: true
-    PlainTerm: Fall 1997
-    StartDate: 9/1/1997
-    EndDate: 12/18/1997
-    AYStart: 1997
--
-    BannerTerm: 198305
-    standard_term: false
-    PlainTerm: Rising Snr 84
-    StartDate: 6/10/1984
-    EndDate: 7/6/1984
-    AYStart: 1983
--
-    BannerTerm: 199702
-    standard_term: false
-    PlainTerm: Short Term 98
-    StartDate: 1/5/1998
-    EndDate: 1/31/1998
-    AYStart: 1997
--
-    BannerTerm: 199401
-    standard_term: true
-    PlainTerm: Fall 1994
-    StartDate: 9/1/1994
-    EndDate: 12/15/1994
-    AYStart: 1994
--
-    BannerTerm: 198704
-    standard_term: false
-    PlainTerm: Summer 1988
-    StartDate: 6/6/1988
-    EndDate: 7/29/1988
-    AYStart: 1987
--
-    BannerTerm: 198604
-    standard_term: false
-    PlainTerm: Summer 1987
-    StartDate: 6/8/1987
-    EndDate: 7/31/1987
-    AYStart: 1986
--
-    BannerTerm: 198504
-    standard_term: false
-    PlainTerm: Summer 1986
-    StartDate: 6/5/1986
-    EndDate: 8/1/1986
-    AYStart: 1985
--
-    BannerTerm: 198105
-    standard_term: false
-    PlainTerm: Rising Snr 82
-    StartDate: 6/13/1982
-    EndDate: 7/9/1982
-    AYStart: 1981
--
-    BannerTerm: 199501
-    standard_term: true
-    PlainTerm: Fall 1995
-    StartDate: 8/31/1995
-    EndDate: 12/14/1995
-    AYStart: 1995
--
-    BannerTerm: 198404
-    standard_term: false
-    PlainTerm: Summer 1985
-    StartDate: 6/6/1985
-    EndDate: 8/1/1985
-    AYStart: 1984
--
-    BannerTerm: 198304
-    standard_term: false
-    PlainTerm: Summer 1984
-    StartDate: 6/5/1984
-    EndDate: 7/31/1984
-    AYStart: 1983
--
-    BannerTerm: 198204
-    standard_term: false
-    PlainTerm: Summer 1983
-    StartDate: 6/6/1983
-    EndDate: 7/29/1983
-    AYStart: 1982
--
-    BannerTerm: 198005
-    standard_term: false
-    PlainTerm: Rising Snr 81
-    StartDate: 6/14/1981
-    EndDate: 7/10/1981
-    AYStart: 1980
--
-    BannerTerm: 197905
-    standard_term: false
-    PlainTerm: Rising Snr 80
-    StartDate: 6/15/1980
-    EndDate: 7/11/1980
-    AYStart: 1979
--
-    BannerTerm: 198104
-    standard_term: false
-    PlainTerm: Summer 1982
-    StartDate: 6/7/1982
-    EndDate: 7/30/1982
-    AYStart: 1981
--
-    BannerTerm: 198004
-    standard_term: false
-    PlainTerm: Summer 1981
-    StartDate: 6/8/1981
-    EndDate: 7/31/1981
-    AYStart: 1980
--
-    BannerTerm: 197805
-    standard_term: false
-    PlainTerm: Rising Snr 1979
-    StartDate: 6/10/1979
-    EndDate: 7/17/1979
-    AYStart: 1978
--
-    BannerTerm: 199801
-    standard_term: true
-    PlainTerm: Fall 1998
-    StartDate: 9/1/1998
-    EndDate: 12/30/1998
-    AYStart: 1998
--
-    BannerTerm: 199303
-    standard_term: true
-    PlainTerm: Spring 1994
-    StartDate: 2/2/1994
-    EndDate: 5/19/1994
-    AYStart: 1993
--
-    BannerTerm: 199203
-    standard_term: true
-    PlainTerm: Spring 1993
-    StartDate: 2/4/1993
-    EndDate: 5/20/1993
-    AYStart: 1992
--
-    BannerTerm: 197305
-    standard_term: false
-    PlainTerm: Rising Snr 1974
-    StartDate: 6/9/1974
-    EndDate: 7/6/1974
-    AYStart: 1973
--
-    BannerTerm: 197205
-    standard_term: false
-    PlainTerm: Rising Snrs 1973
-    StartDate: 6/10/1973
-    EndDate: 7/7/1973
-    AYStart: 1972
--
-    BannerTerm: 199001
-    standard_term: true
-    PlainTerm: Fall 1990
-    StartDate: 9/7/1990
-    EndDate: 12/20/1990
-    AYStart: 1990
--
-    BannerTerm: 195403
-    standard_term: true
-    PlainTerm: Spring 1955
-    StartDate: 2/4/1955
-    EndDate: 6/3/1955
-    AYStart: 1954
--
-    BannerTerm: 195303
-    standard_term: true
-    PlainTerm: Spring 1954
-    StartDate: 2/5/1954
-    EndDate: 6/4/1954
-    AYStart: 1953
--
-    BannerTerm: 199704
-    standard_term: false
-    PlainTerm: Summer 1998
-    StartDate: 6/8/1998
-    EndDate: 7/31/1998
-    AYStart: 1997
--
-    BannerTerm: 197605
-    standard_term: false
-    PlainTerm: Rising Snr 1977
-    StartDate: 6/12/1977
-    EndDate: 7/9/1977
-    AYStart: 1976
--
-    BannerTerm: 199101
-    standard_term: true
-    PlainTerm: Fall 1991
-    StartDate: 9/6/1991
-    EndDate: 12/19/1991
-    AYStart: 1991
--
-    BannerTerm: 199604
-    standard_term: false
-    PlainTerm: Summer 1997
-    StartDate: 6/9/1997
-    EndDate: 8/1/1997
-    AYStart: 1996
--
-    BannerTerm: 199504
-    standard_term: false
-    PlainTerm: Summer 1996
-    StartDate: 6/5/1996
-    EndDate: 7/31/1996
-    AYStart: 1995
--
-    BannerTerm: 199404
-    standard_term: false
-    PlainTerm: Summer 1995
-    StartDate: 6/7/1995
-    EndDate: 8/1/1995
-    AYStart: 1994
--
-    BannerTerm: 197505
-    standard_term: false
-    PlainTerm: Rising Snr 1976
-    StartDate: 6/13/1976
-    EndDate: 7/10/1976
-    AYStart: 1975
--
-    BannerTerm: 199201
-    standard_term: true
-    PlainTerm: Fall 1992
-    StartDate: 9/4/1992
-    EndDate: 12/17/1992
-    AYStart: 1992
--
-    BannerTerm: 199304
-    standard_term: false
-    PlainTerm: Summer 1994
-    StartDate: 6/6/1994
-    EndDate: 7/29/1994
-    AYStart: 1993
--
-    BannerTerm: 199204
-    standard_term: false
-    PlainTerm: Summer 1993
-    StartDate: 6/7/1993
-    EndDate: 7/30/1993
-    AYStart: 1992
--
-    BannerTerm: 197405
-    standard_term: false
-    PlainTerm: Rising Snr 1975
-    StartDate: 6/8/1975
-    EndDate: 7/5/1975
-    AYStart: 1974
--
-    BannerTerm: 199301
-    standard_term: true
-    PlainTerm: Fall 1993
-    StartDate: 9/3/1993
-    EndDate: 12/16/1993
-    AYStart: 1993
--
-    BannerTerm: 199104
-    standard_term: false
-    PlainTerm: Summer 1992
-    StartDate: 6/8/1992
-    EndDate: 7/31/1992
-    AYStart: 1991
--
-    BannerTerm: 199004
-    standard_term: false
-    PlainTerm: Summer 1991
-    StartDate: 6/10/1991
-    EndDate: 8/2/1991
-    AYStart: 1990
--
-    BannerTerm: 198804
-    standard_term: false
-    PlainTerm: Summer 1989
-    StartDate: 6/5/1989
-    EndDate: 7/28/1989
-    AYStart: 1988
--
-    BannerTerm: 198205
-    standard_term: false
-    PlainTerm: Rising Snr 83
-    StartDate: 6/12/1983
-    EndDate: 7/8/1983
-    AYStart: 1982
--
-    BannerTerm: 195903
-    standard_term: true
-    PlainTerm: Spring 1960
-    StartDate: 2/5/1960
-    EndDate: 6/3/1960
-    AYStart: 1959
--
-    BannerTerm: 195803
-    standard_term: true
-    PlainTerm: Spring 1959
-    StartDate: 1/30/1959
-    EndDate: 5/29/1959
-    AYStart: 1958
--
-    BannerTerm: 197504
-    standard_term: false
-    PlainTerm: Summer 1976
-    StartDate: 6/7/1976
-    EndDate: 7/30/1976
-    AYStart: 1975
--
-    BannerTerm: 198101
-    standard_term: true
-    PlainTerm: Fall 1981
-    StartDate: 9/4/1981
-    EndDate: 12/17/1981
-    AYStart: 1981
--
-    BannerTerm: 195703
-    standard_term: true
-    PlainTerm: Spring 1958
-    StartDate: 1/31/1958
-    EndDate: 5/30/1958
-    AYStart: 1957
--
-    BannerTerm: 195603
-    standard_term: true
-    PlainTerm: Spring 1957
-    StartDate: 2/1/1957
-    EndDate: 5/31/1957
-    AYStart: 1956
--
-    BannerTerm: 198201
-    standard_term: true
-    PlainTerm: Fall 1982
-    StartDate: 9/3/1982
-    EndDate: 12/16/1982
-    AYStart: 1982
--
-    BannerTerm: 198303
-    standard_term: true
-    PlainTerm: Spring 1984
-    StartDate: 2/8/1984
-    EndDate: 5/24/1984
-    AYStart: 1983
--
-    BannerTerm: 198203
-    standard_term: true
-    PlainTerm: Spring 1983
-    StartDate: 2/4/1983
-    EndDate: 5/20/1983
-    AYStart: 1982
--
-    BannerTerm: 198301
-    standard_term: true
-    PlainTerm: Fall 1983
-    StartDate: 9/9/1983
-    EndDate: 12/22/1983
-    AYStart: 1983
--
-    BannerTerm: 198103
-    standard_term: true
-    PlainTerm: Spring 1982
-    StartDate: 2/5/1982
-    EndDate: 5/21/1982
-    AYStart: 1981
--
-    BannerTerm: 198003
-    standard_term: true
-    PlainTerm: Spring 1981
-    StartDate: 2/6/1981
-    EndDate: 5/22/1981
-    AYStart: 1980
--
-    BannerTerm: 198401
-    standard_term: true
-    PlainTerm: Fall 1984
-    StartDate: 9/5/1984
-    EndDate: 12/20/1984
-    AYStart: 1984
--
-    BannerTerm: 197903
-    standard_term: true
-    PlainTerm: Spring 1980
-    StartDate: 2/6/1980
-    EndDate: 5/22/1980
-    AYStart: 1979
--
-    BannerTerm: 197803
-    standard_term: true
-    PlainTerm: Spring 1979
-    StartDate: 2/7/1979
-    EndDate: 5/25/1979
-    AYStart: 1978
--
-    BannerTerm: 197703
-    standard_term: true
-    PlainTerm: Spring 1978
-    StartDate: 2/8/1978
-    EndDate: 5/26/1978
-    AYStart: 1977
--
-    BannerTerm: 197603
-    standard_term: true
-    PlainTerm: Spring 1977
-    StartDate: 2/11/1977
-    EndDate: 5/27/1977
-    AYStart: 1976
--
-    BannerTerm: 198501
-    standard_term: true
-    PlainTerm: Fall 1985
-    StartDate: 9/6/1985
-    EndDate: 12/19/1985
-    AYStart: 1985
--
-    BannerTerm: 199804
-    standard_term: false
-    PlainTerm: Summer 1999
-    StartDate: 6/1/1999
-    EndDate: 7/31/1999
-    AYStart: 1998
--
-    BannerTerm: 197705
-    standard_term: false
-    PlainTerm: Rising Snr 1978
-    StartDate: 6/11/1978
-    EndDate: 7/8/1978
-    AYStart: 1977
--
-    BannerTerm: 197501
-    standard_term: true
-    PlainTerm: Fall 1975
-    StartDate: 9/8/1975
-    EndDate: 12/19/1975
-    AYStart: 1975
--
-    BannerTerm: 196803
-    standard_term: true
-    PlainTerm: Spring 1969
-    StartDate: 1/31/1969
-    EndDate: 5/30/1969
-    AYStart: 1968
--
-    BannerTerm: 196703
-    standard_term: true
-    PlainTerm: Spring 1968
-    StartDate: 2/2/1968
-    EndDate: 5/31/1968
-    AYStart: 1967
--
-    BannerTerm: 197404
-    standard_term: false
-    PlainTerm: Summer 1975
-    StartDate: 6/2/1975
-    EndDate: 7/25/1975
-    AYStart: 1974
--
-    BannerTerm: 197601
-    standard_term: true
-    PlainTerm: Fall 1976
-    StartDate: 9/9/1976
-    EndDate: 12/18/1976
-    AYStart: 1976
--
-    BannerTerm: 196603
-    standard_term: true
-    PlainTerm: Spring 1967
-    StartDate: 2/3/1967
-    EndDate: 6/2/1967
-    AYStart: 1966
--
-    BannerTerm: 196503
-    standard_term: true
-    PlainTerm: Spring 1966
-    StartDate: 2/4/1966
-    EndDate: 6/3/1966
-    AYStart: 1965
--
-    BannerTerm: 197304
-    standard_term: false
-    PlainTerm: Summer 1974
-    StartDate: 6/3/1974
-    EndDate: 7/26/1974
-    AYStart: 1973
--
-    BannerTerm: 197701
-    standard_term: true
-    PlainTerm: Fall 1977
-    StartDate: 9/5/1977
-    EndDate: 12/16/1977
-    AYStart: 1977
--
-    BannerTerm: 196403
-    standard_term: true
-    PlainTerm: Spring 1965
-    StartDate: 2/5/1965
-    EndDate: 6/4/1965
-    AYStart: 1964
--
-    BannerTerm: 197204
-    standard_term: false
-    PlainTerm: Summer 1973
-    StartDate: 6/4/1973
-    EndDate: 7/27/1973
-    AYStart: 1972
--
-    BannerTerm: 197801
-    standard_term: true
-    PlainTerm: Fall 1978
-    StartDate: 9/4/1978
-    EndDate: 12/15/1978
-    AYStart: 1978
--
-    BannerTerm: 196303
-    standard_term: true
-    PlainTerm: Spring 1964
-    StartDate: 1/31/1964
-    EndDate: 5/29/1964
-    AYStart: 1963
--
-    BannerTerm: 196203
-    standard_term: true
-    PlainTerm: Spring 1963
-    StartDate: 2/1/1963
-    EndDate: 5/31/1963
-    AYStart: 1962
--
-    BannerTerm: 197704
-    standard_term: false
-    PlainTerm: Summer 1978
-    StartDate: 6/5/1978
-    EndDate: 7/28/1978
-    AYStart: 1977
--
-    BannerTerm: 197901
-    standard_term: true
-    PlainTerm: Fall 1979
-    StartDate: 9/7/1979
-    EndDate: 12/20/1979
-    AYStart: 1979
--
-    BannerTerm: 196103
-    standard_term: true
-    PlainTerm: Spring 1962
-    StartDate: 2/2/1962
-    EndDate: 6/1/1962
-    AYStart: 1961
--
-    BannerTerm: 196003
-    standard_term: true
-    PlainTerm: Spring 1961
-    StartDate: 2/3/1961
-    EndDate: 6/2/1961
-    AYStart: 1960
--
-    BannerTerm: 197604
-    standard_term: false
-    PlainTerm: Summer 1977
-    StartDate: 6/6/1977
-    EndDate: 7/29/1977
-    AYStart: 1976
--
-    BannerTerm: 198001
-    standard_term: true
-    PlainTerm: Fall 1980
-    StartDate: 9/5/1980
-    EndDate: 12/18/1980
-    AYStart: 1980
--
-    BannerTerm: 195501
-    standard_term: true
-    PlainTerm: Fall 1955
-    StartDate: 9/22/1955
-    EndDate: 1/31/1956
-    AYStart: 1955
--
-    BannerTerm: 198605
-    standard_term: false
-    PlainTerm: Challenge 1987
-    StartDate: 6/14/1987
-    EndDate: 7/10/1987
-    AYStart: 1986
--
-    BannerTerm: 198505
-    standard_term: false
-    PlainTerm: Rising Snr 86
-    StartDate: 6/15/1986
-    EndDate: 7/11/1986
-    AYStart: 1985
--
-    BannerTerm: 195601
-    standard_term: true
-    PlainTerm: Fall 1956
-    StartDate: 9/21/1956
-    EndDate: 1/26/1957
-    AYStart: 1956
--
-    BannerTerm: 195701
-    standard_term: true
-    PlainTerm: Fall 1957
-    StartDate: 9/20/1957
-    EndDate: 1/25/1958
-    AYStart: 1957
--
-    BannerTerm: 195801
-    standard_term: true
-    PlainTerm: Fall 1958
-    StartDate: 9/19/1958
-    EndDate: 1/23/1959
-    AYStart: 1958
--
-    BannerTerm: 198901
-    standard_term: true
-    PlainTerm: Fall 1989
-    StartDate: 9/1/1989
-    EndDate: 12/14/1989
-    AYStart: 1989
--
-    BannerTerm: 197403
-    standard_term: true
-    PlainTerm: Spring 1975
-    StartDate: 2/7/1975
-    EndDate: 5/23/1975
-    AYStart: 1974
--
-    BannerTerm: 197104
-    standard_term: false
-    PlainTerm: Summer 1972
-    StartDate: 5/29/1972
-    EndDate: 7/22/1972
-    AYStart: 1971
--
-    BannerTerm: 197101
-    standard_term: true
-    PlainTerm: Fall 1971
-    StartDate: 9/6/1971
-    EndDate: 12/18/1971
-    AYStart: 1971
--
-    BannerTerm: 197303
-    standard_term: true
-    PlainTerm: Spring 1974
-    StartDate: 2/8/1974
-    EndDate: 5/2/1974
-    AYStart: 1973
--
-    BannerTerm: 197203
-    standard_term: true
-    PlainTerm: Spring 1973
-    StartDate: 2/9/1973
-    EndDate: 5/25/1973
-    AYStart: 1972
--
-    BannerTerm: 197004
-    standard_term: false
-    PlainTerm: Summer 1971
-    StartDate: 5/31/1971
-    EndDate: 7/23/1971
-    AYStart: 1970
--
-    BannerTerm: 197301
-    standard_term: true
-    PlainTerm: Fall 1973
-    StartDate: 9/10/1973
-    EndDate: 12/20/1973
-    AYStart: 1973
--
-    BannerTerm: 197103
-    standard_term: true
-    PlainTerm: Spring 1972
-    StartDate: 2/4/1972
-    EndDate: 5/19/1972
-    AYStart: 1971
--
-    BannerTerm: 197003
-    standard_term: true
-    PlainTerm: Spring 1971
-    StartDate: 2/5/1971
-    EndDate: 5/21/1971
-    AYStart: 1970
--
-    BannerTerm: 196904
-    standard_term: false
-    PlainTerm: Summer 1970
-    StartDate: 6/8/1970
-    EndDate: 8/1/1970
-    AYStart: 1969
--
-    BannerTerm: 197401
-    standard_term: true
-    PlainTerm: Fall 1974
-    StartDate: 9/9/1974
-    EndDate: 12/19/1974
-    AYStart: 1974
--
-    BannerTerm: 196903
-    standard_term: true
-    PlainTerm: Spring 1970
-    StartDate: 1/30/1970
-    EndDate: 5/29/1970
-    AYStart: 1969
--
-    BannerTerm: 196804
-    standard_term: false
-    PlainTerm: Summer 1969
-    StartDate: 6/9/1969
-    EndDate: 8/2/1969
-    AYStart: 1968
--
-    BannerTerm: 196404
-    standard_term: false
-    PlainTerm: Summer 1965
-    StartDate: 6/14/1965
-    EndDate: 8/7/1965
-    AYStart: 1964
--
-    BannerTerm: 197001
-    standard_term: true
-    PlainTerm: Fall 1970
-    StartDate: 9/7/1970
-    EndDate: 12/19/1970
-    AYStart: 1970
--
-    BannerTerm: 197201
-    standard_term: true
-    PlainTerm: Fall 1972
-    StartDate: 9/11/1972
-    EndDate: 12/22/1972
-    AYStart: 1972
--
-    BannerTerm: 197503
-    standard_term: true
-    PlainTerm: Spring 1976
-    StartDate: 2/6/1976
-    EndDate: 5/21/1976
-    AYStart: 1975
--
-    BannerTerm: 196304
-    standard_term: false
-    PlainTerm: Summer 1964
-    StartDate: 6/8/1964
-    EndDate: 8/1/1964
-    AYStart: 1963
--
-    BannerTerm: 196501
-    standard_term: true
-    PlainTerm: Fall 1965
-    StartDate: 9/17/1965
-    EndDate: 1/28/1965
-    AYStart: 1965
--
-    BannerTerm: 196204
-    standard_term: false
-    PlainTerm: Summer 1963
-    StartDate: 6/10/1963
-    EndDate: 8/3/1963
-    AYStart: 1962
--
-    BannerTerm: 0
-    standard_term: false
-    PlainTerm: Begin Time
-    StartDate: 1/1/1900
-    EndDate: 12/30/1900
-    AYStart: 0
--
-    BannerTerm: 199105
-    standard_term: false
-    PlainTerm: Challenge 1992
-    StartDate: 6/14/1992
-    EndDate: 7/10/1992
-    AYStart: 1991
--
-    BannerTerm: 195301
-    standard_term: true
-    PlainTerm: Fall 1953
-    StartDate: 9/18/1953
-    EndDate: 1/29/1954
-    AYStart: 1953
--
-    BannerTerm: 195504
-    standard_term: false
-    PlainTerm: Summer 1956
-    StartDate: 6/11/1956
-    EndDate: 8/4/1956
-    AYStart: 1955
--
-    BannerTerm: 199005
-    standard_term: false
-    PlainTerm: Challenge 1991
-    StartDate: 6/6/1991
-    EndDate: 7/3/1991
-    AYStart: 1990
--
-    BannerTerm: 195503
-    standard_term: true
-    PlainTerm: Spring 1956
-    StartDate: 2/6/1956
-    EndDate: 6/1/1956
-    AYStart: 1955
--
-    BannerTerm: 195404
-    standard_term: false
-    PlainTerm: Summer 1955
-    StartDate: 7/4/1955
-    EndDate: 8/13/1955
-    AYStart: 1954
--
-    BannerTerm: 195304
-    standard_term: false
-    PlainTerm: Summer 1954
-    StartDate: 6/14/1954
-    EndDate: 8/7/1954
-    AYStart: 1953
--
-    BannerTerm: 198904
-    standard_term: false
-    PlainTerm: Summer 1990
-    StartDate: 6/6/1990
-    EndDate: 7/31/1990
-    AYStart: 1989
--
-    BannerTerm: 198905
-    standard_term: false
-    PlainTerm: Challenge 1990
-    StartDate: 6/10/1990
-    EndDate: 7/6/1990
-    AYStart: 1989
--
-    BannerTerm: 195401
-    standard_term: true
-    PlainTerm: Fall 1954
-    StartDate: 9/17/1954
-    EndDate: 1/28/1955
-    AYStart: 1954
--
-    BannerTerm: 198805
-    standard_term: false
-    PlainTerm: Challenge 1989
-    StartDate: 6/11/1989
-    EndDate: 7/8/1989
-    AYStart: 1988
--
-    BannerTerm: 198705
-    standard_term: false
-    PlainTerm: Challenge 1988
-    StartDate: 6/12/1988
-    EndDate: 7/8/1988
-    AYStart: 1987
--
-    BannerTerm: 196104
-    standard_term: false
-    PlainTerm: Summer 1962
-    StartDate: 6/11/1962
-    EndDate: 8/4/1962
-    AYStart: 1961
--
-    BannerTerm: 195901
-    standard_term: true
-    PlainTerm: Fall 1959
-    StartDate: 9/18/1959
-    EndDate: 1/29/1960
-    AYStart: 1959
--
-    BannerTerm: 196004
-    standard_term: false
-    PlainTerm: Summer 1961
-    StartDate: 6/12/1961
-    EndDate: 8/5/1961
-    AYStart: 1960
--
-    BannerTerm: 999999
-    standard_term: false
-    PlainTerm: End of Time
-    StartDate: 12/11/4712
-    EndDate: 12/30/4712
-    AYStart: 9999
--
-    BannerTerm: 196001
-    standard_term: true
-    PlainTerm: Fall 1960
-    StartDate: 9/16/1960
-    EndDate: 1/27/1961
-    AYStart: 1960
--
-    BannerTerm: 195904
-    standard_term: false
-    PlainTerm: Summer 1960
-    StartDate: 6/13/1960
-    EndDate: 8/6/1960
-    AYStart: 1959
--
-    BannerTerm: 196101
-    standard_term: true
-    PlainTerm: Fall 1961
-    StartDate: 9/15/1961
-    EndDate: 1/26/1962
-    AYStart: 1961
--
-    BannerTerm: 195804
-    standard_term: false
-    PlainTerm: Summer 1959
-    StartDate: 6/8/1959
-    EndDate: 8/1/1959
-    AYStart: 1958
--
-    BannerTerm: 196201
-    standard_term: true
-    PlainTerm: Fall 1962
-    StartDate: 9/14/1962
-    EndDate: 1/25/1963
-    AYStart: 1962
--
-    BannerTerm: 195704
-    standard_term: false
-    PlainTerm: Summer 1958
-    StartDate: 6/9/1958
-    EndDate: 8/2/1958
-    AYStart: 1957
--
-    BannerTerm: 196301
-    standard_term: true
-    PlainTerm: Fall 1963
-    StartDate: 9/13/1963
-    EndDate: 1/24/1964
-    AYStart: 1963
--
-    BannerTerm: 195604
-    standard_term: false
-    PlainTerm: Summer 1957
-    StartDate: 6/10/1957
-    EndDate: 8/3/1957
-    AYStart: 1956
--
-    BannerTerm: 196401
-    standard_term: true
-    PlainTerm: Fall 1964
-    StartDate: 9/18/1964
-    EndDate: 1/29/1964
-    AYStart: 1964
--
-    BannerTerm: 196601
-    standard_term: true
-    PlainTerm: Fall 1966
-    StartDate: 9/16/1966
-    EndDate: 1/27/1967
-    AYStart: 1966
--
-    BannerTerm: 196704
-    standard_term: false
-    PlainTerm: Summer 1968
-    StartDate: 6/10/1968
-    EndDate: 8/3/1968
-    AYStart: 1967
--
-    BannerTerm: 196701
-    standard_term: true
-    PlainTerm: Fall 1967
-    StartDate: 9/15/1967
-    EndDate: 1/26/1968
-    AYStart: 1967
--
-    BannerTerm: 196604
-    standard_term: false
-    PlainTerm: Summer 1967
-    StartDate: 6/12/1967
-    EndDate: 8/5/1967
-    AYStart: 1966
--
-    BannerTerm: 196801
-    standard_term: true
-    PlainTerm: Fall 1968
-    StartDate: 9/13/1968
-    EndDate: 1/24/1969
-    AYStart: 1968
--
-    BannerTerm: 196504
-    standard_term: false
-    PlainTerm: Summer 1966
-    StartDate: 6/13/1966
-    EndDate: 8/6/1966
-    AYStart: 1965
--
-    BannerTerm: 196901
-    standard_term: true
-    PlainTerm: Fall 1969
-    StartDate: 9/12/1969
-    EndDate: 1/23/1970
-    AYStart: 1969
--
-    BannerTerm: 200004
-    standard_term: false
-    PlainTerm: Summer 2001
-    StartDate: 6/1/2001
-    EndDate: 7/31/2001
-    AYStart: 2000
--
-    BannerTerm: 200104
-    standard_term: false
-    PlainTerm: Summer 2002
-    StartDate: 6/5/2002
-    EndDate: 7/30/2002
-    AYStart: 2001
--
-    BannerTerm: 200301
-    standard_term: true
-    PlainTerm: Fall 2003
-    StartDate: 9/3/2003
-    EndDate: 12/18/2003
-    AYStart: 2003
--
-    BannerTerm: 200401
-    standard_term: true
-    PlainTerm: Fall 2004
-    StartDate: 9/1/2004
-    EndDate: 12/16/2004
-    AYStart: 2004
--
-    BannerTerm: 200501
-    standard_term: true
-    PlainTerm: Fall 2005
-    StartDate: 8/31/2005
-    EndDate: 12/15/2005
-    AYStart: 2005
--
-    BannerTerm: 200601
-    standard_term: true
-    PlainTerm: Fall 2006
-    StartDate: 8/30/2006
-    EndDate: 12/14/2006
-    AYStart: 2006
--
-    BannerTerm: 200701
-    standard_term: true
-    PlainTerm: Fall 2007
-    StartDate: 8/29/2007
-    EndDate: 12/13/2007
-    AYStart: 2007
--
-    BannerTerm: 200801
-    standard_term: true
-    PlainTerm: Fall 2008
-    StartDate: 8/27/2008
-    EndDate: 12/12/2008
-    AYStart: 2008
--
-    BannerTerm: 199902
-    standard_term: false
-    PlainTerm: Short Term 00
-    StartDate: 1/1/2000
-    EndDate: 1/31/2000
-    AYStart: 1999
--
-    BannerTerm: 199903
-    standard_term: true
-    PlainTerm: Spring 2000
-    StartDate: 2/1/2000
-    EndDate: 5/18/2000
-    AYStart: 1999
--
-    BannerTerm: 200901
-    standard_term: true
-    PlainTerm: Fall 2009
-    StartDate: 9/2/2009
-    EndDate: 12/17/2009
-    AYStart: 2009
--
-    BannerTerm: 200003
-    standard_term: true
-    PlainTerm: Spring 2001
-    StartDate: 2/7/2001
-    EndDate: 5/24/2001
-    AYStart: 2000
--
-    BannerTerm: 200002
-    standard_term: false
-    PlainTerm: Short Term 01
-    StartDate: 1/1/2001
-    EndDate: 1/31/2001
-    AYStart: 2000
--
-    BannerTerm: 200102
-    standard_term: false
-    PlainTerm: Short Term 02
-    StartDate: 1/3/2002
-    EndDate: 1/31/2002
-    AYStart: 2001
--
-    BannerTerm: 200103
-    standard_term: true
-    PlainTerm: Spring 2002
-    StartDate: 2/6/2002
-    EndDate: 5/23/2002
-    AYStart: 2001
--
-    BannerTerm: 200202
-    standard_term: false
-    PlainTerm: Short Term 03
-    StartDate: 1/3/2003
-    EndDate: 1/30/2003
-    AYStart: 2002
--
-    BannerTerm: 200203
-    standard_term: true
-    PlainTerm: Spring 2003
-    StartDate: 2/5/2003
-    EndDate: 5/22/2003
-    AYStart: 2002
--
-    BannerTerm: 200204
-    standard_term: false
-    PlainTerm: Summer 2003
-    StartDate: 6/4/2003
-    EndDate: 7/29/2003
-    AYStart: 2002
--
-    BannerTerm: 200303
-    standard_term: true
-    PlainTerm: Spring 2004
-    StartDate: 2/5/2004
-    EndDate: 5/20/2004
-    AYStart: 2003
--
-    BannerTerm: 200302
-    standard_term: false
-    PlainTerm: Short Term 04
-    StartDate: 1/5/2004
-    EndDate: 1/30/2004
-    AYStart: 2003
--
-    BannerTerm: 200304
-    standard_term: false
-    PlainTerm: Summer 2004
-    StartDate: 6/7/2004
-    EndDate: 7/30/2004
-    AYStart: 2003
--
-    BannerTerm: 200402
-    standard_term: false
-    PlainTerm: Short Term 05
-    StartDate: 1/3/2005
-    EndDate: 1/28/2005
-    AYStart: 2004
--
-    BannerTerm: 200403
-    standard_term: true
-    PlainTerm: Spring 2005
-    StartDate: 2/3/2005
-    EndDate: 5/19/2005
-    AYStart: 2004
--
-    BannerTerm: 200502
-    standard_term: false
-    PlainTerm: Short Term 06
-    StartDate: 1/3/2006
-    EndDate: 1/27/2006
-    AYStart: 2005
--
-    BannerTerm: 200503
-    standard_term: true
-    PlainTerm: Spring 2006
-    StartDate: 2/2/2006
-    EndDate: 5/18/2006
-    AYStart: 2005
--
-    BannerTerm: 200504
-    standard_term: false
-    PlainTerm: Summer 2006
-    StartDate: 6/5/2006
-    EndDate: 7/28/2006
-    AYStart: 2005
--
-    BannerTerm: 200602
-    standard_term: false
-    PlainTerm: Short Term 07
-    StartDate: 1/3/2007
-    EndDate: 1/31/2007
-    AYStart: 2006
--
-    BannerTerm: 200603
-    standard_term: true
-    PlainTerm: Spring 2007
-    StartDate: 2/7/2007
-    EndDate: 5/24/2007
-    AYStart: 2006
--
-    BannerTerm: 200604
-    standard_term: false
-    PlainTerm: Summer 2007
-    StartDate: 6/6/2007
-    EndDate: 7/31/2007
-    AYStart: 2006
--
-    BannerTerm: 200404
-    standard_term: false
-    PlainTerm: Summer 2005
-    StartDate: 6/6/2005
-    EndDate: 7/29/2005
-    AYStart: 2004
--
-    BannerTerm: 200702
-    standard_term: false
-    PlainTerm: Short Term 08
-    StartDate: 1/3/2008
-    EndDate: 1/31/2008
-    AYStart: 2007
--
-    BannerTerm: 200703
-    standard_term: true
-    PlainTerm: Spring 2008
-    StartDate: 2/6/2008
-    EndDate: 5/22/2008
-    AYStart: 2007
--
-    BannerTerm: 200704
-    standard_term: false
-    PlainTerm: Summer 2008
-    StartDate: 6/4/2008
-    EndDate: 7/29/2008
-    AYStart: 2007
--
-    BannerTerm: 200802
-    standard_term: false
-    PlainTerm: Short Term 09
-    StartDate: 1/5/2009
-    EndDate: 1/30/2009
-    AYStart: 2008
--
-    BannerTerm: 200803
-    standard_term: true
-    PlainTerm: Spring 2009
-    StartDate: 2/10/2009
-    EndDate: 5/21/2009
-    AYStart: 2008
--
-    BannerTerm: 200804
-    standard_term: false
-    PlainTerm: Summer 2009
-    StartDate: 6/3/2009
-    EndDate: 7/29/2009
-    AYStart: 2008
--
-    BannerTerm: 200902
-    standard_term: false
-    PlainTerm: Short Term 10
-    StartDate: 1/4/2010
-    EndDate: 1/29/2010
-    AYStart: 2009
--
-    BannerTerm: 200903
-    standard_term: true
-    PlainTerm: Spring  2010
-    StartDate: 2/8/2010
-    EndDate: 5/20/2010
-    AYStart: 2009
--
-    BannerTerm: 200904
-    standard_term: false
-    PlainTerm: Summer 2010
-    StartDate: 6/7/2010
-    EndDate: 7/30/2010
-    AYStart: 2009
--
-    BannerTerm: 200900
-    PlainTerm: Summer Pell 09
-    StartDate: 6/3/2009
-    EndDate: 7/29/2009
-    AYStart: 2009
--
-    BannerTerm: 201011
-    standard_term: true
-    PlainTerm: Fall 2010
-    StartDate: 8/26/2010
-    EndDate: 12/17/2010
-    AYStart: 2010
--
-    BannerTerm: 201012
-    standard_term: true
-    PlainTerm: Spring 2011
-    StartDate: 1/11/2011
-    EndDate: 5/5/2011
-    AYStart: 2010
--
-    BannerTerm: 201013
-    standard_term: false
-    PlainTerm: Sum I of 2011
-    StartDate: 5/11/2011
-    EndDate: 6/8/2011
-    AYStart: 2010
--
-    BannerTerm: 201014
-    standard_term: false
-    PlainTerm: Sum II of 2011
-    StartDate: 6/13/2011
-    EndDate: 8/5/2011
-    AYStart: 2010
--
-    BannerTerm: 201110
-    PlainTerm: Sum 2011 Pell
-    StartDate: 5/11/2011
-    EndDate: 8/5/2011
-    AYStart: 2011
--
-    BannerTerm: 201111
-    standard_term: true
-    PlainTerm: Fall 2011
-    StartDate: 8/24/2011
-    EndDate: 12/16/2011
-    AYStart: 2011
--
-    BannerTerm: 201112
-    standard_term: true
-    PlainTerm: Spring 2012
-    StartDate: 1/10/2012
-    EndDate: 5/3/2012
-    AYStart: 2011
--
-    BannerTerm: 201113
-    standard_term: false
-    PlainTerm: Sum  12-8 Wk
-    StartDate: 5/14/2012
-    EndDate: 7/12/2012
-    AYStart: 2011
--
-    BannerTerm: 201114
-    standard_term: false
-    PlainTerm: Sum 12-1st 4 Wk
-    StartDate: 5/14/2012
-    EndDate: 6/12/2012
-    AYStart: 2011
--
-    BannerTerm: 201211
-    standard_term: true
-    PlainTerm: Fall 2012
-    StartDate: 8/22/2012
-    EndDate: 12/14/2012
-    AYStart: 2012
--
-    BannerTerm: 201212
-    standard_term: true
-    PlainTerm: Spring 2013
-    StartDate: 1/8/2013
-    EndDate: 5/2/2013
-    AYStart: 2012
--
-    BannerTerm: 201213
-    standard_term: false
-    PlainTerm: Sum 8 Wk-13
-    StartDate: 5/13/2013
-    EndDate: 7/10/2013
-    AYStart: 2012
--
-    BannerTerm: 201214
-    standard_term: false
-    PlainTerm: Sum 13-1st 4 Wk
-    StartDate: 5/14/2013
-    EndDate: 6/11/2013
-    AYStart: 2012
--
-    BannerTerm: 201010
-    PlainTerm: Summer 10 Pell
-    StartDate: 6/7/2010
-    EndDate: 7/30/2010
-    AYStart: 2010
--
-    BannerTerm: 201311
-    standard_term: true
-    PlainTerm: Fall 2013
-    StartDate: 8/21/2013
-    EndDate: 12/13/2013
-    AYStart: 2013
--
-    BannerTerm: 201312
-    standard_term: true
-    PlainTerm: Spring 2014
-    StartDate: 1/7/2014
-    EndDate: 5/1/2014
-    AYStart: 2013
--
-    BannerTerm: 201115
-    standard_term: false
-    PlainTerm: Sum 12-2nd 4 Wk
-    StartDate: 6/13/2012
-    EndDate: 7/12/2012
-    AYStart: 2011
--
-    BannerTerm: 201215
-    standard_term: false
-    PlainTerm: Sum 13-2nd 4 Wk
-    StartDate: 6/12/2013
-    EndDate: 7/10/2013
-    AYStart: 2012
--
-    BannerTerm: 201411
-    standard_term: true
-    PlainTerm: Fall 2014
-    StartDate: 8/20/2014
-    EndDate: 12/12/2014
-    AYStart: 2014
--
-    BannerTerm: 201313
-    standard_term: false
-    PlainTerm: Sum 14 8 Wk
-    StartDate: 5/12/2014
-    EndDate: 7/8/2014
-    AYStart: 2013
--
-    BannerTerm: 201314
-    standard_term: false
-    PlainTerm: Sum 14-1st 4 Wk
-    StartDate: 5/12/2014
-    EndDate: 6/6/2014
-    AYStart: 2013
--
-    BannerTerm: 201315
-    standard_term: false
-    PlainTerm: Sum 14-2nd 4 Wk
-    StartDate: 6/9/2014
-    EndDate: 7/8/2014
-    AYStart: 2013
--
-    BannerTerm: 201412
-    standard_term: true
-    PlainTerm: Spring 2015
-    StartDate: 1/6/2015
-    EndDate: 4/30/2015
-    AYStart: 2014
--
-    BannerTerm: 201413
-    standard_term: false
-    PlainTerm: 8 Wk Summer Term
-    StartDate: 5/11/2015
-    EndDate: 7/2/2015
-    AYStart: 2014
--
-    BannerTerm: 201414
-    standard_term: false
-    PlainTerm: 1st 4 Week Summer Term
-    StartDate: 5/11/2015
-    EndDate: 6/5/2015
-    AYStart: 2014
--
-    BannerTerm: 201415
-    standard_term: false
-    PlainTerm: 2nd 4 Week Summer Term
-    StartDate: 6/8/2015
-    EndDate: 7/2/2015
-    AYStart: 2014
--
-    BannerTerm: 201511
-    standard_term: true
-    PlainTerm: Fall Term 2015
-    StartDate: 8/26/2015
-    EndDate: 12/17/2015
-    AYStart: 2015
--
-    BannerTerm: 201512
-    standard_term: true
-    PlainTerm: Spring Term 2016
-    StartDate: 01/12/2016
-    EndDate: 05/05/2016
-    AYStart: 2015
+# == Schema Information
+#
+# Table name: banner_terms
+#
+#  BannerTerm :integer          not null, primary key
+#  PlainTerm  :string(45)       not null
+#  StartDate  :datetime         not null
+#  EndDate    :datetime         not null
+#  AYStart    :integer          not null
+#
+
+BannerTerm_1:
+  BannerTerm: 1
+  PlainTerm: Begin Time
+  StartDate: 1900-01-01 00:00:00.000000000 Z
+  EndDate: 1900-12-30 00:00:00.000000000 Z
+  AYStart: 0
+
+BannerTerm_2:
+  BannerTerm: 195301
+  PlainTerm: Fall 1953
+  StartDate: 1953-09-18 00:00:00.000000000 Z
+  EndDate: 1954-01-29 00:00:00.000000000 Z
+  AYStart: 1953
+
+BannerTerm_3:
+  BannerTerm: 195303
+  PlainTerm: Spring 1954
+  StartDate: 1954-02-05 00:00:00.000000000 Z
+  EndDate: 1954-06-04 00:00:00.000000000 Z
+  AYStart: 1953
+
+BannerTerm_4:
+  BannerTerm: 195304
+  PlainTerm: Summer 1954
+  StartDate: 1954-06-14 00:00:00.000000000 Z
+  EndDate: 1954-08-07 00:00:00.000000000 Z
+  AYStart: 1953
+
+BannerTerm_5:
+  BannerTerm: 195401
+  PlainTerm: Fall 1954
+  StartDate: 1954-09-17 00:00:00.000000000 Z
+  EndDate: 1955-01-28 00:00:00.000000000 Z
+  AYStart: 1954
+
+BannerTerm_6:
+  BannerTerm: 195403
+  PlainTerm: Spring 1955
+  StartDate: 1955-02-04 00:00:00.000000000 Z
+  EndDate: 1955-06-03 00:00:00.000000000 Z
+  AYStart: 1954
+
+BannerTerm_7:
+  BannerTerm: 195404
+  PlainTerm: Summer 1955
+  StartDate: 1955-07-04 00:00:00.000000000 Z
+  EndDate: 1955-08-13 00:00:00.000000000 Z
+  AYStart: 1954
+
+BannerTerm_8:
+  BannerTerm: 195501
+  PlainTerm: Fall 1955
+  StartDate: 1955-09-22 00:00:00.000000000 Z
+  EndDate: 1956-01-31 00:00:00.000000000 Z
+  AYStart: 1955
+
+BannerTerm_9:
+  BannerTerm: 195503
+  PlainTerm: Spring 1956
+  StartDate: 1956-02-06 00:00:00.000000000 Z
+  EndDate: 1956-06-01 00:00:00.000000000 Z
+  AYStart: 1955
+
+BannerTerm_10:
+  BannerTerm: 195504
+  PlainTerm: Summer 1956
+  StartDate: 1956-06-11 00:00:00.000000000 Z
+  EndDate: 1956-08-04 00:00:00.000000000 Z
+  AYStart: 1955
+
+BannerTerm_11:
+  BannerTerm: 195601
+  PlainTerm: Fall 1956
+  StartDate: 1956-09-21 00:00:00.000000000 Z
+  EndDate: 1957-01-26 00:00:00.000000000 Z
+  AYStart: 1956
+
+BannerTerm_12:
+  BannerTerm: 195603
+  PlainTerm: Spring 1957
+  StartDate: 1957-02-01 00:00:00.000000000 Z
+  EndDate: 1957-05-31 00:00:00.000000000 Z
+  AYStart: 1956
+
+BannerTerm_13:
+  BannerTerm: 195604
+  PlainTerm: Summer 1957
+  StartDate: 1957-06-10 00:00:00.000000000 Z
+  EndDate: 1957-08-03 00:00:00.000000000 Z
+  AYStart: 1956
+
+BannerTerm_14:
+  BannerTerm: 195701
+  PlainTerm: Fall 1957
+  StartDate: 1957-09-20 00:00:00.000000000 Z
+  EndDate: 1958-01-25 00:00:00.000000000 Z
+  AYStart: 1957
+
+BannerTerm_15:
+  BannerTerm: 195703
+  PlainTerm: Spring 1958
+  StartDate: 1958-01-31 00:00:00.000000000 Z
+  EndDate: 1958-05-30 00:00:00.000000000 Z
+  AYStart: 1957
+
+BannerTerm_16:
+  BannerTerm: 195704
+  PlainTerm: Summer 1958
+  StartDate: 1958-06-09 00:00:00.000000000 Z
+  EndDate: 1958-08-02 00:00:00.000000000 Z
+  AYStart: 1957
+
+BannerTerm_17:
+  BannerTerm: 195801
+  PlainTerm: Fall 1958
+  StartDate: 1958-09-19 00:00:00.000000000 Z
+  EndDate: 1959-01-23 00:00:00.000000000 Z
+  AYStart: 1958
+
+BannerTerm_18:
+  BannerTerm: 195803
+  PlainTerm: Spring 1959
+  StartDate: 1959-01-30 00:00:00.000000000 Z
+  EndDate: 1959-05-29 00:00:00.000000000 Z
+  AYStart: 1958
+
+BannerTerm_19:
+  BannerTerm: 195804
+  PlainTerm: Summer 1959
+  StartDate: 1959-06-08 00:00:00.000000000 Z
+  EndDate: 1959-08-01 00:00:00.000000000 Z
+  AYStart: 1958
+
+BannerTerm_20:
+  BannerTerm: 195901
+  PlainTerm: Fall 1959
+  StartDate: 1959-09-18 00:00:00.000000000 Z
+  EndDate: 1960-01-29 00:00:00.000000000 Z
+  AYStart: 1959
+
+BannerTerm_21:
+  BannerTerm: 195903
+  PlainTerm: Spring 1960
+  StartDate: 1960-02-05 00:00:00.000000000 Z
+  EndDate: 1960-06-03 00:00:00.000000000 Z
+  AYStart: 1959
+
+BannerTerm_22:
+  BannerTerm: 195904
+  PlainTerm: Summer 1960
+  StartDate: 1960-06-13 00:00:00.000000000 Z
+  EndDate: 1960-08-06 00:00:00.000000000 Z
+  AYStart: 1959
+
+BannerTerm_23:
+  BannerTerm: 196001
+  PlainTerm: Fall 1960
+  StartDate: 1960-09-16 00:00:00.000000000 Z
+  EndDate: 1961-01-27 00:00:00.000000000 Z
+  AYStart: 1960
+
+BannerTerm_24:
+  BannerTerm: 196003
+  PlainTerm: Spring 1961
+  StartDate: 1961-02-03 00:00:00.000000000 Z
+  EndDate: 1961-06-02 00:00:00.000000000 Z
+  AYStart: 1960
+
+BannerTerm_25:
+  BannerTerm: 196004
+  PlainTerm: Summer 1961
+  StartDate: 1961-06-12 00:00:00.000000000 Z
+  EndDate: 1961-08-05 00:00:00.000000000 Z
+  AYStart: 1960
+
+BannerTerm_26:
+  BannerTerm: 196101
+  PlainTerm: Fall 1961
+  StartDate: 1961-09-15 00:00:00.000000000 Z
+  EndDate: 1962-01-26 00:00:00.000000000 Z
+  AYStart: 1961
+
+BannerTerm_27:
+  BannerTerm: 196103
+  PlainTerm: Spring 1962
+  StartDate: 1962-02-02 00:00:00.000000000 Z
+  EndDate: 1962-06-01 00:00:00.000000000 Z
+  AYStart: 1961
+
+BannerTerm_28:
+  BannerTerm: 196104
+  PlainTerm: Summer 1962
+  StartDate: 1962-06-11 00:00:00.000000000 Z
+  EndDate: 1962-08-04 00:00:00.000000000 Z
+  AYStart: 1961
+
+BannerTerm_29:
+  BannerTerm: 196201
+  PlainTerm: Fall 1962
+  StartDate: 1962-09-14 00:00:00.000000000 Z
+  EndDate: 1963-01-25 00:00:00.000000000 Z
+  AYStart: 1962
+
+BannerTerm_30:
+  BannerTerm: 196203
+  PlainTerm: Spring 1963
+  StartDate: 1963-02-01 00:00:00.000000000 Z
+  EndDate: 1963-05-31 00:00:00.000000000 Z
+  AYStart: 1962
+
+BannerTerm_31:
+  BannerTerm: 196204
+  PlainTerm: Summer 1963
+  StartDate: 1963-06-10 00:00:00.000000000 Z
+  EndDate: 1963-08-03 00:00:00.000000000 Z
+  AYStart: 1962
+
+BannerTerm_32:
+  BannerTerm: 196301
+  PlainTerm: Fall 1963
+  StartDate: 1963-09-13 00:00:00.000000000 Z
+  EndDate: 1964-01-24 00:00:00.000000000 Z
+  AYStart: 1963
+
+BannerTerm_33:
+  BannerTerm: 196303
+  PlainTerm: Spring 1964
+  StartDate: 1964-01-31 00:00:00.000000000 Z
+  EndDate: 1964-05-29 00:00:00.000000000 Z
+  AYStart: 1963
+
+BannerTerm_34:
+  BannerTerm: 196304
+  PlainTerm: Summer 1964
+  StartDate: 1964-06-08 00:00:00.000000000 Z
+  EndDate: 1964-08-01 00:00:00.000000000 Z
+  AYStart: 1963
+
+BannerTerm_35:
+  BannerTerm: 196401
+  PlainTerm: Fall 1964
+  StartDate: 1964-09-18 00:00:00.000000000 Z
+  EndDate: 1964-01-29 00:00:00.000000000 Z
+  AYStart: 1964
+
+BannerTerm_36:
+  BannerTerm: 196403
+  PlainTerm: Spring 1965
+  StartDate: 1965-02-05 00:00:00.000000000 Z
+  EndDate: 1965-06-04 00:00:00.000000000 Z
+  AYStart: 1964
+
+BannerTerm_37:
+  BannerTerm: 196404
+  PlainTerm: Summer 1965
+  StartDate: 1965-06-14 00:00:00.000000000 Z
+  EndDate: 1965-08-07 00:00:00.000000000 Z
+  AYStart: 1964
+
+BannerTerm_38:
+  BannerTerm: 196501
+  PlainTerm: Fall 1965
+  StartDate: 1965-09-17 00:00:00.000000000 Z
+  EndDate: 1965-01-28 00:00:00.000000000 Z
+  AYStart: 1965
+
+BannerTerm_39:
+  BannerTerm: 196503
+  PlainTerm: Spring 1966
+  StartDate: 1966-02-04 00:00:00.000000000 Z
+  EndDate: 1966-06-03 00:00:00.000000000 Z
+  AYStart: 1965
+
+BannerTerm_40:
+  BannerTerm: 196504
+  PlainTerm: Summer 1966
+  StartDate: 1966-06-13 00:00:00.000000000 Z
+  EndDate: 1966-08-06 00:00:00.000000000 Z
+  AYStart: 1965
+
+BannerTerm_41:
+  BannerTerm: 196601
+  PlainTerm: Fall 1966
+  StartDate: 1966-09-16 00:00:00.000000000 Z
+  EndDate: 1967-01-27 00:00:00.000000000 Z
+  AYStart: 1966
+
+BannerTerm_42:
+  BannerTerm: 196603
+  PlainTerm: Spring 1967
+  StartDate: 1967-02-03 00:00:00.000000000 Z
+  EndDate: 1967-06-02 00:00:00.000000000 Z
+  AYStart: 1966
+
+BannerTerm_43:
+  BannerTerm: 196604
+  PlainTerm: Summer 1967
+  StartDate: 1967-06-12 00:00:00.000000000 Z
+  EndDate: 1967-08-05 00:00:00.000000000 Z
+  AYStart: 1966
+
+BannerTerm_44:
+  BannerTerm: 196701
+  PlainTerm: Fall 1967
+  StartDate: 1967-09-15 00:00:00.000000000 Z
+  EndDate: 1968-01-26 00:00:00.000000000 Z
+  AYStart: 1967
+
+BannerTerm_45:
+  BannerTerm: 196703
+  PlainTerm: Spring 1968
+  StartDate: 1968-02-02 00:00:00.000000000 Z
+  EndDate: 1968-05-31 00:00:00.000000000 Z
+  AYStart: 1967
+
+BannerTerm_46:
+  BannerTerm: 196704
+  PlainTerm: Summer 1968
+  StartDate: 1968-06-10 00:00:00.000000000 Z
+  EndDate: 1968-08-03 00:00:00.000000000 Z
+  AYStart: 1967
+
+BannerTerm_47:
+  BannerTerm: 196801
+  PlainTerm: Fall 1968
+  StartDate: 1968-09-13 00:00:00.000000000 Z
+  EndDate: 1969-01-24 00:00:00.000000000 Z
+  AYStart: 1968
+
+BannerTerm_48:
+  BannerTerm: 196803
+  PlainTerm: Spring 1969
+  StartDate: 1969-01-31 00:00:00.000000000 Z
+  EndDate: 1969-05-30 00:00:00.000000000 Z
+  AYStart: 1968
+
+BannerTerm_49:
+  BannerTerm: 196804
+  PlainTerm: Summer 1969
+  StartDate: 1969-06-09 00:00:00.000000000 Z
+  EndDate: 1969-08-02 00:00:00.000000000 Z
+  AYStart: 1968
+
+BannerTerm_50:
+  BannerTerm: 196901
+  PlainTerm: Fall 1969
+  StartDate: 1969-09-12 00:00:00.000000000 Z
+  EndDate: 1970-01-23 00:00:00.000000000 Z
+  AYStart: 1969
+
+BannerTerm_51:
+  BannerTerm: 196902
+  PlainTerm: Short Term 70
+  StartDate: 1970-01-02 00:00:00.000000000 Z
+  EndDate: 1970-01-31 00:00:00.000000000 Z
+  AYStart: 1969
+
+BannerTerm_52:
+  BannerTerm: 196903
+  PlainTerm: Spring 1970
+  StartDate: 1970-01-30 00:00:00.000000000 Z
+  EndDate: 1970-05-29 00:00:00.000000000 Z
+  AYStart: 1969
+
+BannerTerm_53:
+  BannerTerm: 196904
+  PlainTerm: Summer 1970
+  StartDate: 1970-06-08 00:00:00.000000000 Z
+  EndDate: 1970-08-01 00:00:00.000000000 Z
+  AYStart: 1969
+
+BannerTerm_54:
+  BannerTerm: 197001
+  PlainTerm: Fall 1970
+  StartDate: 1970-09-07 00:00:00.000000000 Z
+  EndDate: 1970-12-19 00:00:00.000000000 Z
+  AYStart: 1970
+
+BannerTerm_55:
+  BannerTerm: 197002
+  PlainTerm: Short Term 71
+  StartDate: 1971-01-04 00:00:00.000000000 Z
+  EndDate: 1971-01-30 00:00:00.000000000 Z
+  AYStart: 1970
+
+BannerTerm_56:
+  BannerTerm: 197003
+  PlainTerm: Spring 1971
+  StartDate: 1971-02-05 00:00:00.000000000 Z
+  EndDate: 1971-05-21 00:00:00.000000000 Z
+  AYStart: 1970
+
+BannerTerm_57:
+  BannerTerm: 197004
+  PlainTerm: Summer 1971
+  StartDate: 1971-05-31 00:00:00.000000000 Z
+  EndDate: 1971-07-23 00:00:00.000000000 Z
+  AYStart: 1970
+
+BannerTerm_58:
+  BannerTerm: 197101
+  PlainTerm: Fall 1971
+  StartDate: 1971-09-06 00:00:00.000000000 Z
+  EndDate: 1971-12-18 00:00:00.000000000 Z
+  AYStart: 1971
+
+BannerTerm_59:
+  BannerTerm: 197102
+  PlainTerm: Short Term 72
+  StartDate: 1972-01-03 00:00:00.000000000 Z
+  EndDate: 1972-01-29 00:00:00.000000000 Z
+  AYStart: 1971
+
+BannerTerm_60:
+  BannerTerm: 197103
+  PlainTerm: Spring 1972
+  StartDate: 1972-02-04 00:00:00.000000000 Z
+  EndDate: 1972-05-19 00:00:00.000000000 Z
+  AYStart: 1971
+
+BannerTerm_61:
+  BannerTerm: 197104
+  PlainTerm: Summer 1972
+  StartDate: 1972-05-29 00:00:00.000000000 Z
+  EndDate: 1972-07-22 00:00:00.000000000 Z
+  AYStart: 1971
+
+BannerTerm_62:
+  BannerTerm: 197105
+  PlainTerm: Rising Seniors 1972
+  StartDate: 1972-06-12 00:00:00.000000000 Z
+  EndDate: 1972-07-08 00:00:00.000000000 Z
+  AYStart: 1971
+
+BannerTerm_63:
+  BannerTerm: 197201
+  PlainTerm: Fall 1972
+  StartDate: 1972-09-11 00:00:00.000000000 Z
+  EndDate: 1972-12-22 00:00:00.000000000 Z
+  AYStart: 1972
+
+BannerTerm_64:
+  BannerTerm: 197202
+  PlainTerm: Short Term 73
+  StartDate: 1973-01-08 00:00:00.000000000 Z
+  EndDate: 1973-02-03 00:00:00.000000000 Z
+  AYStart: 1972
+
+BannerTerm_65:
+  BannerTerm: 197203
+  PlainTerm: Spring 1973
+  StartDate: 1973-02-09 00:00:00.000000000 Z
+  EndDate: 1973-05-25 00:00:00.000000000 Z
+  AYStart: 1972
+
+BannerTerm_66:
+  BannerTerm: 197204
+  PlainTerm: Summer 1973
+  StartDate: 1973-06-04 00:00:00.000000000 Z
+  EndDate: 1973-07-27 00:00:00.000000000 Z
+  AYStart: 1972
+
+BannerTerm_67:
+  BannerTerm: 197205
+  PlainTerm: Rising Snrs 1973
+  StartDate: 1973-06-10 00:00:00.000000000 Z
+  EndDate: 1973-07-07 00:00:00.000000000 Z
+  AYStart: 1972
+
+BannerTerm_68:
+  BannerTerm: 197301
+  PlainTerm: Fall 1973
+  StartDate: 1973-09-10 00:00:00.000000000 Z
+  EndDate: 1973-12-20 00:00:00.000000000 Z
+  AYStart: 1973
+
+BannerTerm_69:
+  BannerTerm: 197302
+  PlainTerm: Short Term 74
+  StartDate: 1974-01-07 00:00:00.000000000 Z
+  EndDate: 1974-02-02 00:00:00.000000000 Z
+  AYStart: 1973
+
+BannerTerm_70:
+  BannerTerm: 197303
+  PlainTerm: Spring 1974
+  StartDate: 1974-02-08 00:00:00.000000000 Z
+  EndDate: 1974-05-02 00:00:00.000000000 Z
+  AYStart: 1973
+
+BannerTerm_71:
+  BannerTerm: 197304
+  PlainTerm: Summer 1974
+  StartDate: 1974-06-03 00:00:00.000000000 Z
+  EndDate: 1974-07-26 00:00:00.000000000 Z
+  AYStart: 1973
+
+BannerTerm_72:
+  BannerTerm: 197305
+  PlainTerm: Rising Snr 1974
+  StartDate: 1974-06-09 00:00:00.000000000 Z
+  EndDate: 1974-07-06 00:00:00.000000000 Z
+  AYStart: 1973
+
+BannerTerm_73:
+  BannerTerm: 197401
+  PlainTerm: Fall 1974
+  StartDate: 1974-09-09 00:00:00.000000000 Z
+  EndDate: 1974-12-19 00:00:00.000000000 Z
+  AYStart: 1974
+
+BannerTerm_74:
+  BannerTerm: 197402
+  PlainTerm: Short Term 75
+  StartDate: 1975-01-06 00:00:00.000000000 Z
+  EndDate: 1975-02-01 00:00:00.000000000 Z
+  AYStart: 1974
+
+BannerTerm_75:
+  BannerTerm: 197403
+  PlainTerm: Spring 1975
+  StartDate: 1975-02-07 00:00:00.000000000 Z
+  EndDate: 1975-05-23 00:00:00.000000000 Z
+  AYStart: 1974
+
+BannerTerm_76:
+  BannerTerm: 197404
+  PlainTerm: Summer 1975
+  StartDate: 1975-06-02 00:00:00.000000000 Z
+  EndDate: 1975-07-25 00:00:00.000000000 Z
+  AYStart: 1974
+
+BannerTerm_77:
+  BannerTerm: 197405
+  PlainTerm: Rising Snr 1975
+  StartDate: 1975-06-08 00:00:00.000000000 Z
+  EndDate: 1975-07-05 00:00:00.000000000 Z
+  AYStart: 1974
+
+BannerTerm_78:
+  BannerTerm: 197501
+  PlainTerm: Fall 1975
+  StartDate: 1975-09-08 00:00:00.000000000 Z
+  EndDate: 1975-12-19 00:00:00.000000000 Z
+  AYStart: 1975
+
+BannerTerm_79:
+  BannerTerm: 197502
+  PlainTerm: Short Term 76
+  StartDate: 1976-01-05 00:00:00.000000000 Z
+  EndDate: 1976-01-30 00:00:00.000000000 Z
+  AYStart: 1975
+
+BannerTerm_80:
+  BannerTerm: 197503
+  PlainTerm: Spring 1976
+  StartDate: 1976-02-06 00:00:00.000000000 Z
+  EndDate: 1976-05-21 00:00:00.000000000 Z
+  AYStart: 1975
+
+BannerTerm_81:
+  BannerTerm: 197504
+  PlainTerm: Summer 1976
+  StartDate: 1976-06-07 00:00:00.000000000 Z
+  EndDate: 1976-07-30 00:00:00.000000000 Z
+  AYStart: 1975
+
+BannerTerm_82:
+  BannerTerm: 197505
+  PlainTerm: Rising Snr 1976
+  StartDate: 1976-06-13 00:00:00.000000000 Z
+  EndDate: 1976-07-10 00:00:00.000000000 Z
+  AYStart: 1975
+
+BannerTerm_83:
+  BannerTerm: 197601
+  PlainTerm: Fall 1976
+  StartDate: 1976-09-09 00:00:00.000000000 Z
+  EndDate: 1976-12-18 00:00:00.000000000 Z
+  AYStart: 1976
+
+BannerTerm_84:
+  BannerTerm: 197602
+  PlainTerm: Short Term 77
+  StartDate: 1977-01-10 00:00:00.000000000 Z
+  EndDate: 1977-02-05 00:00:00.000000000 Z
+  AYStart: 1976
+
+BannerTerm_85:
+  BannerTerm: 197603
+  PlainTerm: Spring 1977
+  StartDate: 1977-02-11 00:00:00.000000000 Z
+  EndDate: 1977-05-27 00:00:00.000000000 Z
+  AYStart: 1976
+
+BannerTerm_86:
+  BannerTerm: 197604
+  PlainTerm: Summer 1977
+  StartDate: 1977-06-06 00:00:00.000000000 Z
+  EndDate: 1977-07-29 00:00:00.000000000 Z
+  AYStart: 1976
+
+BannerTerm_87:
+  BannerTerm: 197605
+  PlainTerm: Rising Snr 1977
+  StartDate: 1977-06-12 00:00:00.000000000 Z
+  EndDate: 1977-07-09 00:00:00.000000000 Z
+  AYStart: 1976
+
+BannerTerm_88:
+  BannerTerm: 197701
+  PlainTerm: Fall 1977
+  StartDate: 1977-09-05 00:00:00.000000000 Z
+  EndDate: 1977-12-16 00:00:00.000000000 Z
+  AYStart: 1977
+
+BannerTerm_89:
+  BannerTerm: 197702
+  PlainTerm: Short Term 78
+  StartDate: 1978-01-05 00:00:00.000000000 Z
+  EndDate: 1978-02-01 00:00:00.000000000 Z
+  AYStart: 1977
+
+BannerTerm_90:
+  BannerTerm: 197703
+  PlainTerm: Spring 1978
+  StartDate: 1978-02-08 00:00:00.000000000 Z
+  EndDate: 1978-05-26 00:00:00.000000000 Z
+  AYStart: 1977
+
+BannerTerm_91:
+  BannerTerm: 197704
+  PlainTerm: Summer 1978
+  StartDate: 1978-06-05 00:00:00.000000000 Z
+  EndDate: 1978-07-28 00:00:00.000000000 Z
+  AYStart: 1977
+
+BannerTerm_92:
+  BannerTerm: 197705
+  PlainTerm: Rising Snr 1978
+  StartDate: 1978-06-11 00:00:00.000000000 Z
+  EndDate: 1978-07-08 00:00:00.000000000 Z
+  AYStart: 1977
+
+BannerTerm_93:
+  BannerTerm: 197801
+  PlainTerm: Fall 1978
+  StartDate: 1978-09-04 00:00:00.000000000 Z
+  EndDate: 1978-12-15 00:00:00.000000000 Z
+  AYStart: 1978
+
+BannerTerm_94:
+  BannerTerm: 197802
+  PlainTerm: Short Term 79
+  StartDate: 1979-01-04 00:00:00.000000000 Z
+  EndDate: 1979-01-31 00:00:00.000000000 Z
+  AYStart: 1978
+
+BannerTerm_95:
+  BannerTerm: 197803
+  PlainTerm: Spring 1979
+  StartDate: 1979-02-07 00:00:00.000000000 Z
+  EndDate: 1979-05-25 00:00:00.000000000 Z
+  AYStart: 1978
+
+BannerTerm_96:
+  BannerTerm: 197804
+  PlainTerm: Summer 1979
+  StartDate: 1979-06-04 00:00:00.000000000 Z
+  EndDate: 1979-06-27 00:00:00.000000000 Z
+  AYStart: 1978
+
+BannerTerm_97:
+  BannerTerm: 197805
+  PlainTerm: Rising Snr 1979
+  StartDate: 1979-06-10 00:00:00.000000000 Z
+  EndDate: 1979-07-17 00:00:00.000000000 Z
+  AYStart: 1978
+
+BannerTerm_98:
+  BannerTerm: 197901
+  PlainTerm: Fall 1979
+  StartDate: 1979-09-07 00:00:00.000000000 Z
+  EndDate: 1979-12-20 00:00:00.000000000 Z
+  AYStart: 1979
+
+BannerTerm_99:
+  BannerTerm: 197902
+  PlainTerm: Short Term 80
+  StartDate: 1980-01-03 00:00:00.000000000 Z
+  EndDate: 1980-01-30 00:00:00.000000000 Z
+  AYStart: 1979
+
+BannerTerm_100:
+  BannerTerm: 197903
+  PlainTerm: Spring 1980
+  StartDate: 1980-02-06 00:00:00.000000000 Z
+  EndDate: 1980-05-22 00:00:00.000000000 Z
+  AYStart: 1979
+
+BannerTerm_101:
+  BannerTerm: 197904
+  PlainTerm: Summer 1980
+  StartDate: 1980-06-09 00:00:00.000000000 Z
+  EndDate: 1980-08-01 00:00:00.000000000 Z
+  AYStart: 1979
+
+BannerTerm_102:
+  BannerTerm: 197905
+  PlainTerm: Rising Snr 80
+  StartDate: 1980-06-15 00:00:00.000000000 Z
+  EndDate: 1980-07-11 00:00:00.000000000 Z
+  AYStart: 1979
+
+BannerTerm_103:
+  BannerTerm: 198001
+  PlainTerm: Fall 1980
+  StartDate: 1980-09-05 00:00:00.000000000 Z
+  EndDate: 1980-12-18 00:00:00.000000000 Z
+  AYStart: 1980
+
+BannerTerm_104:
+  BannerTerm: 198002
+  PlainTerm: Short Term 81
+  StartDate: 1981-01-05 00:00:00.000000000 Z
+  EndDate: 1981-01-30 00:00:00.000000000 Z
+  AYStart: 1980
+
+BannerTerm_105:
+  BannerTerm: 198003
+  PlainTerm: Spring 1981
+  StartDate: 1981-02-06 00:00:00.000000000 Z
+  EndDate: 1981-05-22 00:00:00.000000000 Z
+  AYStart: 1980
+
+BannerTerm_106:
+  BannerTerm: 198004
+  PlainTerm: Summer 1981
+  StartDate: 1981-06-08 00:00:00.000000000 Z
+  EndDate: 1981-07-31 00:00:00.000000000 Z
+  AYStart: 1980
+
+BannerTerm_107:
+  BannerTerm: 198005
+  PlainTerm: Rising Snr 81
+  StartDate: 1981-06-14 00:00:00.000000000 Z
+  EndDate: 1981-07-10 00:00:00.000000000 Z
+  AYStart: 1980
+
+BannerTerm_108:
+  BannerTerm: 198101
+  PlainTerm: Fall 1981
+  StartDate: 1981-09-04 00:00:00.000000000 Z
+  EndDate: 1981-12-17 00:00:00.000000000 Z
+  AYStart: 1981
+
+BannerTerm_109:
+  BannerTerm: 198102
+  PlainTerm: Short Term 82
+  StartDate: 1982-01-04 00:00:00.000000000 Z
+  EndDate: 1982-01-29 00:00:00.000000000 Z
+  AYStart: 1981
+
+BannerTerm_110:
+  BannerTerm: 198103
+  PlainTerm: Spring 1982
+  StartDate: 1982-02-05 00:00:00.000000000 Z
+  EndDate: 1982-05-21 00:00:00.000000000 Z
+  AYStart: 1981
+
+BannerTerm_111:
+  BannerTerm: 198104
+  PlainTerm: Summer 1982
+  StartDate: 1982-06-07 00:00:00.000000000 Z
+  EndDate: 1982-07-30 00:00:00.000000000 Z
+  AYStart: 1981
+
+BannerTerm_112:
+  BannerTerm: 198105
+  PlainTerm: Rising Snr 82
+  StartDate: 1982-06-13 00:00:00.000000000 Z
+  EndDate: 1982-07-09 00:00:00.000000000 Z
+  AYStart: 1981
+
+BannerTerm_113:
+  BannerTerm: 198201
+  PlainTerm: Fall 1982
+  StartDate: 1982-09-03 00:00:00.000000000 Z
+  EndDate: 1982-12-16 00:00:00.000000000 Z
+  AYStart: 1982
+
+BannerTerm_114:
+  BannerTerm: 198202
+  PlainTerm: Short Term 83
+  StartDate: 1983-01-03 00:00:00.000000000 Z
+  EndDate: 1983-01-28 00:00:00.000000000 Z
+  AYStart: 1982
+
+BannerTerm_115:
+  BannerTerm: 198203
+  PlainTerm: Spring 1983
+  StartDate: 1983-02-04 00:00:00.000000000 Z
+  EndDate: 1983-05-20 00:00:00.000000000 Z
+  AYStart: 1982
+
+BannerTerm_116:
+  BannerTerm: 198204
+  PlainTerm: Summer 1983
+  StartDate: 1983-06-06 00:00:00.000000000 Z
+  EndDate: 1983-07-29 00:00:00.000000000 Z
+  AYStart: 1982
+
+BannerTerm_117:
+  BannerTerm: 198205
+  PlainTerm: Rising Snr 83
+  StartDate: 1983-06-12 00:00:00.000000000 Z
+  EndDate: 1983-07-08 00:00:00.000000000 Z
+  AYStart: 1982
+
+BannerTerm_118:
+  BannerTerm: 198301
+  PlainTerm: Fall 1983
+  StartDate: 1983-09-09 00:00:00.000000000 Z
+  EndDate: 1983-12-22 00:00:00.000000000 Z
+  AYStart: 1983
+
+BannerTerm_119:
+  BannerTerm: 198302
+  PlainTerm: Short Term 84
+  StartDate: 1984-01-05 00:00:00.000000000 Z
+  EndDate: 1984-02-01 00:00:00.000000000 Z
+  AYStart: 1983
+
+BannerTerm_120:
+  BannerTerm: 198303
+  PlainTerm: Spring 1984
+  StartDate: 1984-02-08 00:00:00.000000000 Z
+  EndDate: 1984-05-24 00:00:00.000000000 Z
+  AYStart: 1983
+
+BannerTerm_121:
+  BannerTerm: 198304
+  PlainTerm: Summer 1984
+  StartDate: 1984-06-05 00:00:00.000000000 Z
+  EndDate: 1984-07-31 00:00:00.000000000 Z
+  AYStart: 1983
+
+BannerTerm_122:
+  BannerTerm: 198305
+  PlainTerm: Rising Snr 84
+  StartDate: 1984-06-10 00:00:00.000000000 Z
+  EndDate: 1984-07-06 00:00:00.000000000 Z
+  AYStart: 1983
+
+BannerTerm_123:
+  BannerTerm: 198401
+  PlainTerm: Fall 1984
+  StartDate: 1984-09-05 00:00:00.000000000 Z
+  EndDate: 1984-12-20 00:00:00.000000000 Z
+  AYStart: 1984
+
+BannerTerm_124:
+  BannerTerm: 198402
+  PlainTerm: Short Term 85
+  StartDate: 1985-01-03 00:00:00.000000000 Z
+  EndDate: 1985-01-30 00:00:00.000000000 Z
+  AYStart: 1984
+
+BannerTerm_125:
+  BannerTerm: 198403
+  PlainTerm: Spring 1985
+  StartDate: 1985-02-04 00:00:00.000000000 Z
+  EndDate: 1985-05-23 00:00:00.000000000 Z
+  AYStart: 1984
+
+BannerTerm_126:
+  BannerTerm: 198404
+  PlainTerm: Summer 1985
+  StartDate: 1985-06-06 00:00:00.000000000 Z
+  EndDate: 1985-08-01 00:00:00.000000000 Z
+  AYStart: 1984
+
+BannerTerm_127:
+  BannerTerm: 198405
+  PlainTerm: Rising Snr 85
+  StartDate: 1985-06-09 00:00:00.000000000 Z
+  EndDate: 1985-07-03 00:00:00.000000000 Z
+  AYStart: 1984
+
+BannerTerm_128:
+  BannerTerm: 198501
+  PlainTerm: Fall 1985
+  StartDate: 1985-09-06 00:00:00.000000000 Z
+  EndDate: 1985-12-19 00:00:00.000000000 Z
+  AYStart: 1985
+
+BannerTerm_129:
+  BannerTerm: 198502
+  PlainTerm: Short Term 86
+  StartDate: 1986-01-03 00:00:00.000000000 Z
+  EndDate: 1986-01-30 00:00:00.000000000 Z
+  AYStart: 1985
+
+BannerTerm_130:
+  BannerTerm: 198503
+  PlainTerm: Spring 1986
+  StartDate: 1986-02-06 00:00:00.000000000 Z
+  EndDate: 1986-05-22 00:00:00.000000000 Z
+  AYStart: 1985
+
+BannerTerm_131:
+  BannerTerm: 198504
+  PlainTerm: Summer 1986
+  StartDate: 1986-06-05 00:00:00.000000000 Z
+  EndDate: 1986-08-01 00:00:00.000000000 Z
+  AYStart: 1985
+
+BannerTerm_132:
+  BannerTerm: 198505
+  PlainTerm: Rising Snr 86
+  StartDate: 1986-06-15 00:00:00.000000000 Z
+  EndDate: 1986-07-11 00:00:00.000000000 Z
+  AYStart: 1985
+
+BannerTerm_133:
+  BannerTerm: 198601
+  PlainTerm: Fall 1986
+  StartDate: 1986-09-05 00:00:00.000000000 Z
+  EndDate: 1986-12-18 00:00:00.000000000 Z
+  AYStart: 1986
+
+BannerTerm_134:
+  BannerTerm: 198602
+  PlainTerm: Short Term 87
+  StartDate: 1987-01-05 00:00:00.000000000 Z
+  EndDate: 1987-01-30 00:00:00.000000000 Z
+  AYStart: 1986
+
+BannerTerm_135:
+  BannerTerm: 198603
+  PlainTerm: Spring 1987
+  StartDate: 1987-02-05 00:00:00.000000000 Z
+  EndDate: 1987-05-21 00:00:00.000000000 Z
+  AYStart: 1986
+
+BannerTerm_136:
+  BannerTerm: 198604
+  PlainTerm: Summer 1987
+  StartDate: 1987-06-08 00:00:00.000000000 Z
+  EndDate: 1987-07-31 00:00:00.000000000 Z
+  AYStart: 1986
+
+BannerTerm_137:
+  BannerTerm: 198605
+  PlainTerm: Challenge 1987
+  StartDate: 1987-06-14 00:00:00.000000000 Z
+  EndDate: 1987-07-10 00:00:00.000000000 Z
+  AYStart: 1986
+
+BannerTerm_138:
+  BannerTerm: 198701
+  PlainTerm: Fall 1987
+  StartDate: 1987-09-04 00:00:00.000000000 Z
+  EndDate: 1987-12-17 00:00:00.000000000 Z
+  AYStart: 1987
+
+BannerTerm_139:
+  BannerTerm: 198702
+  PlainTerm: Short Term 88
+  StartDate: 1988-01-04 00:00:00.000000000 Z
+  EndDate: 1988-01-29 00:00:00.000000000 Z
+  AYStart: 1987
+
+BannerTerm_140:
+  BannerTerm: 198703
+  PlainTerm: Spring 1988
+  StartDate: 1988-02-03 00:00:00.000000000 Z
+  EndDate: 1988-05-19 00:00:00.000000000 Z
+  AYStart: 1987
+
+BannerTerm_141:
+  BannerTerm: 198704
+  PlainTerm: Summer 1988
+  StartDate: 1988-06-06 00:00:00.000000000 Z
+  EndDate: 1988-07-29 00:00:00.000000000 Z
+  AYStart: 1987
+
+BannerTerm_142:
+  BannerTerm: 198705
+  PlainTerm: Challenge 1988
+  StartDate: 1988-06-12 00:00:00.000000000 Z
+  EndDate: 1988-07-08 00:00:00.000000000 Z
+  AYStart: 1987
+
+BannerTerm_143:
+  BannerTerm: 198801
+  PlainTerm: Fall 1988
+  StartDate: 1988-09-02 00:00:00.000000000 Z
+  EndDate: 1988-12-15 00:00:00.000000000 Z
+  AYStart: 1988
+
+BannerTerm_144:
+  BannerTerm: 198802
+  PlainTerm: Short Term 89
+  StartDate: 1989-01-04 00:00:00.000000000 Z
+  EndDate: 1989-01-31 00:00:00.000000000 Z
+  AYStart: 1988
+
+BannerTerm_145:
+  BannerTerm: 198803
+  PlainTerm: Spring 1989
+  StartDate: 1989-02-06 00:00:00.000000000 Z
+  EndDate: 1989-05-18 00:00:00.000000000 Z
+  AYStart: 1988
+
+BannerTerm_146:
+  BannerTerm: 198804
+  PlainTerm: Summer 1989
+  StartDate: 1989-06-05 00:00:00.000000000 Z
+  EndDate: 1989-07-28 00:00:00.000000000 Z
+  AYStart: 1988
+
+BannerTerm_147:
+  BannerTerm: 198805
+  PlainTerm: Challenge 1989
+  StartDate: 1989-06-11 00:00:00.000000000 Z
+  EndDate: 1989-07-08 00:00:00.000000000 Z
+  AYStart: 1988
+
+BannerTerm_148:
+  BannerTerm: 198901
+  PlainTerm: Fall 1989
+  StartDate: 1989-09-01 00:00:00.000000000 Z
+  EndDate: 1989-12-14 00:00:00.000000000 Z
+  AYStart: 1989
+
+BannerTerm_149:
+  BannerTerm: 198902
+  PlainTerm: Short Term 90
+  StartDate: 1990-01-03 00:00:00.000000000 Z
+  EndDate: 1990-01-30 00:00:00.000000000 Z
+  AYStart: 1989
+
+BannerTerm_150:
+  BannerTerm: 198903
+  PlainTerm: Spring 1990
+  StartDate: 1990-02-07 00:00:00.000000000 Z
+  EndDate: 1990-05-24 00:00:00.000000000 Z
+  AYStart: 1989
+
+BannerTerm_151:
+  BannerTerm: 198904
+  PlainTerm: Summer 1990
+  StartDate: 1990-06-06 00:00:00.000000000 Z
+  EndDate: 1990-07-31 00:00:00.000000000 Z
+  AYStart: 1989
+
+BannerTerm_152:
+  BannerTerm: 198905
+  PlainTerm: Challenge 1990
+  StartDate: 1990-06-10 00:00:00.000000000 Z
+  EndDate: 1990-07-06 00:00:00.000000000 Z
+  AYStart: 1989
+
+BannerTerm_153:
+  BannerTerm: 199001
+  PlainTerm: Fall 1990
+  StartDate: 1990-09-07 00:00:00.000000000 Z
+  EndDate: 1990-12-20 00:00:00.000000000 Z
+  AYStart: 1990
+
+BannerTerm_154:
+  BannerTerm: 199002
+  PlainTerm: Short Term 91
+  StartDate: 1991-01-03 00:00:00.000000000 Z
+  EndDate: 1991-01-30 00:00:00.000000000 Z
+  AYStart: 1990
+
+BannerTerm_155:
+  BannerTerm: 199003
+  PlainTerm: Spring 1991
+  StartDate: 1991-02-05 00:00:00.000000000 Z
+  EndDate: 1991-05-23 00:00:00.000000000 Z
+  AYStart: 1990
+
+BannerTerm_156:
+  BannerTerm: 199004
+  PlainTerm: Summer 1991
+  StartDate: 1991-06-10 00:00:00.000000000 Z
+  EndDate: 1991-08-02 00:00:00.000000000 Z
+  AYStart: 1990
+
+BannerTerm_157:
+  BannerTerm: 199005
+  PlainTerm: Challenge 1991
+  StartDate: 1991-06-06 00:00:00.000000000 Z
+  EndDate: 1991-07-03 00:00:00.000000000 Z
+  AYStart: 1990
+
+BannerTerm_158:
+  BannerTerm: 199101
+  PlainTerm: Fall 1991
+  StartDate: 1991-09-06 00:00:00.000000000 Z
+  EndDate: 1991-12-19 00:00:00.000000000 Z
+  AYStart: 1991
+
+BannerTerm_159:
+  BannerTerm: 199102
+  PlainTerm: Short Term 92
+  StartDate: 1992-01-03 00:00:00.000000000 Z
+  EndDate: 1992-01-30 00:00:00.000000000 Z
+  AYStart: 1991
+
+BannerTerm_160:
+  BannerTerm: 199103
+  PlainTerm: Spring 1992
+  StartDate: 1992-02-04 00:00:00.000000000 Z
+  EndDate: 1992-05-21 00:00:00.000000000 Z
+  AYStart: 1991
+
+BannerTerm_161:
+  BannerTerm: 199104
+  PlainTerm: Summer 1992
+  StartDate: 1992-06-08 00:00:00.000000000 Z
+  EndDate: 1992-07-31 00:00:00.000000000 Z
+  AYStart: 1991
+
+BannerTerm_162:
+  BannerTerm: 199105
+  PlainTerm: Challenge 1992
+  StartDate: 1992-06-14 00:00:00.000000000 Z
+  EndDate: 1992-07-10 00:00:00.000000000 Z
+  AYStart: 1991
+
+BannerTerm_163:
+  BannerTerm: 199201
+  PlainTerm: Fall 1992
+  StartDate: 1992-09-04 00:00:00.000000000 Z
+  EndDate: 1992-12-17 00:00:00.000000000 Z
+  AYStart: 1992
+
+BannerTerm_164:
+  BannerTerm: 199202
+  PlainTerm: Short Term 93
+  StartDate: 1993-01-04 00:00:00.000000000 Z
+  EndDate: 1993-01-29 00:00:00.000000000 Z
+  AYStart: 1992
+
+BannerTerm_165:
+  BannerTerm: 199203
+  PlainTerm: Spring 1993
+  StartDate: 1993-02-04 00:00:00.000000000 Z
+  EndDate: 1993-05-20 00:00:00.000000000 Z
+  AYStart: 1992
+
+BannerTerm_166:
+  BannerTerm: 199204
+  PlainTerm: Summer 1993
+  StartDate: 1993-06-07 00:00:00.000000000 Z
+  EndDate: 1993-07-30 00:00:00.000000000 Z
+  AYStart: 1992
+
+BannerTerm_167:
+  BannerTerm: 199301
+  PlainTerm: Fall 1993
+  StartDate: 1993-09-03 00:00:00.000000000 Z
+  EndDate: 1993-12-16 00:00:00.000000000 Z
+  AYStart: 1993
+
+BannerTerm_168:
+  BannerTerm: 199302
+  PlainTerm: Short Term 94
+  StartDate: 1994-01-03 00:00:00.000000000 Z
+  EndDate: 1994-01-28 00:00:00.000000000 Z
+  AYStart: 1993
+
+BannerTerm_169:
+  BannerTerm: 199303
+  PlainTerm: Spring 1994
+  StartDate: 1994-02-02 00:00:00.000000000 Z
+  EndDate: 1994-05-19 00:00:00.000000000 Z
+  AYStart: 1993
+
+BannerTerm_170:
+  BannerTerm: 199304
+  PlainTerm: Summer 1994
+  StartDate: 1994-06-06 00:00:00.000000000 Z
+  EndDate: 1994-07-29 00:00:00.000000000 Z
+  AYStart: 1993
+
+BannerTerm_171:
+  BannerTerm: 199401
+  PlainTerm: Fall 1994
+  StartDate: 1994-09-01 00:00:00.000000000 Z
+  EndDate: 1994-12-15 00:00:00.000000000 Z
+  AYStart: 1994
+
+BannerTerm_172:
+  BannerTerm: 199402
+  PlainTerm: Short Term 95
+  StartDate: 1995-01-05 00:00:00.000000000 Z
+  EndDate: 1995-02-01 00:00:00.000000000 Z
+  AYStart: 1994
+
+BannerTerm_173:
+  BannerTerm: 199403
+  PlainTerm: Spring 1995
+  StartDate: 1995-02-07 00:00:00.000000000 Z
+  EndDate: 1995-05-25 00:00:00.000000000 Z
+  AYStart: 1994
+
+BannerTerm_174:
+  BannerTerm: 199404
+  PlainTerm: Summer 1995
+  StartDate: 1995-06-07 00:00:00.000000000 Z
+  EndDate: 1995-08-01 00:00:00.000000000 Z
+  AYStart: 1994
+
+BannerTerm_175:
+  BannerTerm: 199501
+  PlainTerm: Fall 1995
+  StartDate: 1995-08-31 00:00:00.000000000 Z
+  EndDate: 1995-12-14 00:00:00.000000000 Z
+  AYStart: 1995
+
+BannerTerm_176:
+  BannerTerm: 199502
+  PlainTerm: Short Term 96
+  StartDate: 1996-01-03 00:00:00.000000000 Z
+  EndDate: 1996-01-30 00:00:00.000000000 Z
+  AYStart: 1995
+
+BannerTerm_177:
+  BannerTerm: 199503
+  PlainTerm: Spring 1996
+  StartDate: 1996-02-06 00:00:00.000000000 Z
+  EndDate: 1996-05-23 00:00:00.000000000 Z
+  AYStart: 1995
+
+BannerTerm_178:
+  BannerTerm: 199504
+  PlainTerm: Summer 1996
+  StartDate: 1996-06-05 00:00:00.000000000 Z
+  EndDate: 1996-07-31 00:00:00.000000000 Z
+  AYStart: 1995
+
+BannerTerm_179:
+  BannerTerm: 199601
+  PlainTerm: Fall 1996
+  StartDate: 1996-09-05 00:00:00.000000000 Z
+  EndDate: 1996-12-19 00:00:00.000000000 Z
+  AYStart: 1996
+
+BannerTerm_180:
+  BannerTerm: 199602
+  PlainTerm: Short Term 97
+  StartDate: 1997-01-06 00:00:00.000000000 Z
+  EndDate: 1997-01-31 00:00:00.000000000 Z
+  AYStart: 1996
+
+BannerTerm_181:
+  BannerTerm: 199603
+  PlainTerm: Spring 1997
+  StartDate: 1997-02-06 00:00:00.000000000 Z
+  EndDate: 1997-05-22 00:00:00.000000000 Z
+  AYStart: 1996
+
+BannerTerm_182:
+  BannerTerm: 199604
+  PlainTerm: Summer 1997
+  StartDate: 1997-06-09 00:00:00.000000000 Z
+  EndDate: 1997-08-01 00:00:00.000000000 Z
+  AYStart: 1996
+
+BannerTerm_183:
+  BannerTerm: 199701
+  PlainTerm: Fall 1997
+  StartDate: 1997-09-01 00:00:00.000000000 Z
+  EndDate: 1997-12-18 00:00:00.000000000 Z
+  AYStart: 1997
+
+BannerTerm_184:
+  BannerTerm: 199702
+  PlainTerm: Short Term 98
+  StartDate: 1998-01-05 00:00:00.000000000 Z
+  EndDate: 1998-01-31 00:00:00.000000000 Z
+  AYStart: 1997
+
+BannerTerm_185:
+  BannerTerm: 199703
+  PlainTerm: Spring 1998
+  StartDate: 1998-02-01 00:00:00.000000000 Z
+  EndDate: 1998-05-21 00:00:00.000000000 Z
+  AYStart: 1997
+
+BannerTerm_186:
+  BannerTerm: 199704
+  PlainTerm: Summer 1998
+  StartDate: 1998-06-08 00:00:00.000000000 Z
+  EndDate: 1998-07-31 00:00:00.000000000 Z
+  AYStart: 1997
+
+BannerTerm_187:
+  BannerTerm: 199801
+  PlainTerm: Fall 1998
+  StartDate: 1998-09-01 00:00:00.000000000 Z
+  EndDate: 1998-12-30 00:00:00.000000000 Z
+  AYStart: 1998
+
+BannerTerm_188:
+  BannerTerm: 199802
+  PlainTerm: Short Term 99
+  StartDate: 1999-01-02 00:00:00.000000000 Z
+  EndDate: 1999-01-31 00:00:00.000000000 Z
+  AYStart: 1998
+
+BannerTerm_189:
+  BannerTerm: 199803
+  PlainTerm: Spring 1999
+  StartDate: 1999-01-31 00:00:00.000000000 Z
+  EndDate: 1999-05-20 00:00:00.000000000 Z
+  AYStart: 1998
+
+BannerTerm_190:
+  BannerTerm: 199804
+  PlainTerm: Summer 1999
+  StartDate: 1999-06-01 00:00:00.000000000 Z
+  EndDate: 1999-07-31 00:00:00.000000000 Z
+  AYStart: 1998
+
+BannerTerm_191:
+  BannerTerm: 199901
+  PlainTerm: Fall 1999
+  StartDate: 1999-09-01 00:00:00.000000000 Z
+  EndDate: 1999-12-30 00:00:00.000000000 Z
+  AYStart: 1999
+
+BannerTerm_192:
+  BannerTerm: 199902
+  PlainTerm: Short Term 00
+  StartDate: 2000-01-01 00:00:00.000000000 Z
+  EndDate: 2000-01-31 00:00:00.000000000 Z
+  AYStart: 1999
+
+BannerTerm_193:
+  BannerTerm: 199903
+  PlainTerm: Spring 2000
+  StartDate: 2000-02-01 00:00:00.000000000 Z
+  EndDate: 2000-05-18 00:00:00.000000000 Z
+  AYStart: 1999
+
+BannerTerm_194:
+  BannerTerm: 199904
+  PlainTerm: Summer 2000
+  StartDate: 2000-06-01 00:00:00.000000000 Z
+  EndDate: 2000-07-31 00:00:00.000000000 Z
+  AYStart: 1999
+
+BannerTerm_195:
+  BannerTerm: 200001
+  PlainTerm: Fall 2000
+  StartDate: 2000-09-01 00:00:00.000000000 Z
+  EndDate: 2000-12-30 00:00:00.000000000 Z
+  AYStart: 2000
+
+BannerTerm_196:
+  BannerTerm: 200002
+  PlainTerm: Short Term 01
+  StartDate: 2001-01-01 00:00:00.000000000 Z
+  EndDate: 2001-01-31 00:00:00.000000000 Z
+  AYStart: 2000
+
+BannerTerm_197:
+  BannerTerm: 200003
+  PlainTerm: Spring 2001
+  StartDate: 2001-02-07 00:00:00.000000000 Z
+  EndDate: 2001-05-24 00:00:00.000000000 Z
+  AYStart: 2000
+
+BannerTerm_198:
+  BannerTerm: 200004
+  PlainTerm: Summer 2001
+  StartDate: 2001-06-01 00:00:00.000000000 Z
+  EndDate: 2001-07-31 00:00:00.000000000 Z
+  AYStart: 2000
+
+BannerTerm_199:
+  BannerTerm: 200101
+  PlainTerm: Fall 2001
+  StartDate: 2001-08-30 00:00:00.000000000 Z
+  EndDate: 2001-12-13 00:00:00.000000000 Z
+  AYStart: 2001
+
+BannerTerm_200:
+  BannerTerm: 200102
+  PlainTerm: Short Term 02
+  StartDate: 2002-01-03 00:00:00.000000000 Z
+  EndDate: 2002-01-31 00:00:00.000000000 Z
+  AYStart: 2001
+
+BannerTerm_201:
+  BannerTerm: 200103
+  PlainTerm: Spring 2002
+  StartDate: 2002-02-06 00:00:00.000000000 Z
+  EndDate: 2002-05-23 00:00:00.000000000 Z
+  AYStart: 2001
+
+BannerTerm_202:
+  BannerTerm: 200104
+  PlainTerm: Summer 2002
+  StartDate: 2002-06-05 00:00:00.000000000 Z
+  EndDate: 2002-07-30 00:00:00.000000000 Z
+  AYStart: 2001
+
+BannerTerm_203:
+  BannerTerm: 200201
+  PlainTerm: Fall 2002
+  StartDate: 2002-08-28 00:00:00.000000000 Z
+  EndDate: 2002-12-12 00:00:00.000000000 Z
+  AYStart: 2002
+
+BannerTerm_204:
+  BannerTerm: 200202
+  PlainTerm: Short Term 03
+  StartDate: 2003-01-03 00:00:00.000000000 Z
+  EndDate: 2003-01-30 00:00:00.000000000 Z
+  AYStart: 2002
+
+BannerTerm_205:
+  BannerTerm: 200203
+  PlainTerm: Spring 2003
+  StartDate: 2003-02-05 00:00:00.000000000 Z
+  EndDate: 2003-05-22 00:00:00.000000000 Z
+  AYStart: 2002
+
+BannerTerm_206:
+  BannerTerm: 200204
+  PlainTerm: Summer 2003
+  StartDate: 2003-06-04 00:00:00.000000000 Z
+  EndDate: 2003-07-29 00:00:00.000000000 Z
+  AYStart: 2002
+
+BannerTerm_207:
+  BannerTerm: 200301
+  PlainTerm: Fall 2003
+  StartDate: 2003-09-03 00:00:00.000000000 Z
+  EndDate: 2003-12-18 00:00:00.000000000 Z
+  AYStart: 2003
+
+BannerTerm_208:
+  BannerTerm: 200302
+  PlainTerm: Short Term 04
+  StartDate: 2004-01-05 00:00:00.000000000 Z
+  EndDate: 2004-01-30 00:00:00.000000000 Z
+  AYStart: 2003
+
+BannerTerm_209:
+  BannerTerm: 200303
+  PlainTerm: Spring 2004
+  StartDate: 2004-02-05 00:00:00.000000000 Z
+  EndDate: 2004-05-20 00:00:00.000000000 Z
+  AYStart: 2003
+
+BannerTerm_210:
+  BannerTerm: 200304
+  PlainTerm: Summer 2004
+  StartDate: 2004-06-07 00:00:00.000000000 Z
+  EndDate: 2004-07-30 00:00:00.000000000 Z
+  AYStart: 2003
+
+BannerTerm_211:
+  BannerTerm: 200401
+  PlainTerm: Fall 2004
+  StartDate: 2004-09-01 00:00:00.000000000 Z
+  EndDate: 2004-12-16 00:00:00.000000000 Z
+  AYStart: 2004
+
+BannerTerm_212:
+  BannerTerm: 200402
+  PlainTerm: Short Term 05
+  StartDate: 2005-01-03 00:00:00.000000000 Z
+  EndDate: 2005-01-28 00:00:00.000000000 Z
+  AYStart: 2004
+
+BannerTerm_213:
+  BannerTerm: 200403
+  PlainTerm: Spring 2005
+  StartDate: 2005-02-03 00:00:00.000000000 Z
+  EndDate: 2005-05-19 00:00:00.000000000 Z
+  AYStart: 2004
+
+BannerTerm_214:
+  BannerTerm: 200404
+  PlainTerm: Summer 2005
+  StartDate: 2005-06-06 00:00:00.000000000 Z
+  EndDate: 2005-07-29 00:00:00.000000000 Z
+  AYStart: 2004
+
+BannerTerm_215:
+  BannerTerm: 200501
+  PlainTerm: Fall 2005
+  StartDate: 2005-08-31 00:00:00.000000000 Z
+  EndDate: 2005-12-15 00:00:00.000000000 Z
+  AYStart: 2005
+
+BannerTerm_216:
+  BannerTerm: 200502
+  PlainTerm: Short Term 06
+  StartDate: 2006-01-03 00:00:00.000000000 Z
+  EndDate: 2006-01-27 00:00:00.000000000 Z
+  AYStart: 2005
+
+BannerTerm_217:
+  BannerTerm: 200503
+  PlainTerm: Spring 2006
+  StartDate: 2006-02-02 00:00:00.000000000 Z
+  EndDate: 2006-05-18 00:00:00.000000000 Z
+  AYStart: 2005
+
+BannerTerm_218:
+  BannerTerm: 200504
+  PlainTerm: Summer 2006
+  StartDate: 2006-06-05 00:00:00.000000000 Z
+  EndDate: 2006-07-28 00:00:00.000000000 Z
+  AYStart: 2005
+
+BannerTerm_219:
+  BannerTerm: 200601
+  PlainTerm: Fall 2006
+  StartDate: 2006-08-30 00:00:00.000000000 Z
+  EndDate: 2006-12-14 00:00:00.000000000 Z
+  AYStart: 2006
+
+BannerTerm_220:
+  BannerTerm: 200602
+  PlainTerm: Short Term 07
+  StartDate: 2007-01-03 00:00:00.000000000 Z
+  EndDate: 2007-01-31 00:00:00.000000000 Z
+  AYStart: 2006
+
+BannerTerm_221:
+  BannerTerm: 200603
+  PlainTerm: Spring 2007
+  StartDate: 2007-02-07 00:00:00.000000000 Z
+  EndDate: 2007-05-24 00:00:00.000000000 Z
+  AYStart: 2006
+
+BannerTerm_222:
+  BannerTerm: 200604
+  PlainTerm: Summer 2007
+  StartDate: 2007-06-06 00:00:00.000000000 Z
+  EndDate: 2007-07-31 00:00:00.000000000 Z
+  AYStart: 2006
+
+BannerTerm_223:
+  BannerTerm: 200701
+  PlainTerm: Fall 2007
+  StartDate: 2007-08-29 00:00:00.000000000 Z
+  EndDate: 2007-12-13 00:00:00.000000000 Z
+  AYStart: 2007
+
+BannerTerm_224:
+  BannerTerm: 200702
+  PlainTerm: Short Term 08
+  StartDate: 2008-01-03 00:00:00.000000000 Z
+  EndDate: 2008-01-31 00:00:00.000000000 Z
+  AYStart: 2007
+
+BannerTerm_225:
+  BannerTerm: 200703
+  PlainTerm: Spring 2008
+  StartDate: 2008-02-06 00:00:00.000000000 Z
+  EndDate: 2008-05-22 00:00:00.000000000 Z
+  AYStart: 2007
+
+BannerTerm_226:
+  BannerTerm: 200704
+  PlainTerm: Summer 2008
+  StartDate: 2008-06-04 00:00:00.000000000 Z
+  EndDate: 2008-07-29 00:00:00.000000000 Z
+  AYStart: 2007
+
+BannerTerm_227:
+  BannerTerm: 200801
+  PlainTerm: Fall 2008
+  StartDate: 2008-08-27 00:00:00.000000000 Z
+  EndDate: 2008-12-12 00:00:00.000000000 Z
+  AYStart: 2008
+
+BannerTerm_228:
+  BannerTerm: 200802
+  PlainTerm: Short Term 09
+  StartDate: 2009-01-05 00:00:00.000000000 Z
+  EndDate: 2009-01-30 00:00:00.000000000 Z
+  AYStart: 2008
+
+BannerTerm_229:
+  BannerTerm: 200803
+  PlainTerm: Spring 2009
+  StartDate: 2009-02-10 00:00:00.000000000 Z
+  EndDate: 2009-05-21 00:00:00.000000000 Z
+  AYStart: 2008
+
+BannerTerm_230:
+  BannerTerm: 200804
+  PlainTerm: Summer 2009
+  StartDate: 2009-06-03 00:00:00.000000000 Z
+  EndDate: 2009-07-29 00:00:00.000000000 Z
+  AYStart: 2008
+
+BannerTerm_231:
+  BannerTerm: 200900
+  PlainTerm: Summer Pell 09
+  StartDate: 2009-06-03 00:00:00.000000000 Z
+  EndDate: 2009-07-29 00:00:00.000000000 Z
+  AYStart: 2009
+
+BannerTerm_232:
+  BannerTerm: 200901
+  PlainTerm: Fall 2009
+  StartDate: 2009-09-02 00:00:00.000000000 Z
+  EndDate: 2009-12-17 00:00:00.000000000 Z
+  AYStart: 2009
+
+BannerTerm_233:
+  BannerTerm: 200902
+  PlainTerm: Short Term 10
+  StartDate: 2010-01-04 00:00:00.000000000 Z
+  EndDate: 2010-01-29 00:00:00.000000000 Z
+  AYStart: 2009
+
+BannerTerm_234:
+  BannerTerm: 200903
+  PlainTerm: Spring  2010
+  StartDate: 2010-02-08 00:00:00.000000000 Z
+  EndDate: 2010-05-20 00:00:00.000000000 Z
+  AYStart: 2009
+
+BannerTerm_235:
+  BannerTerm: 200904
+  PlainTerm: Summer 2010
+  StartDate: 2010-06-07 00:00:00.000000000 Z
+  EndDate: 2010-07-30 00:00:00.000000000 Z
+  AYStart: 2009
+
+BannerTerm_236:
+  BannerTerm: 201010
+  PlainTerm: Summer 10 Pell
+  StartDate: 2010-06-07 00:00:00.000000000 Z
+  EndDate: 2010-07-30 00:00:00.000000000 Z
+  AYStart: 2010
+
+BannerTerm_237:
+  BannerTerm: 201011
+  PlainTerm: Fall 2010
+  StartDate: 2010-08-26 00:00:00.000000000 Z
+  EndDate: 2010-12-17 00:00:00.000000000 Z
+  AYStart: 2010
+
+BannerTerm_238:
+  BannerTerm: 201012
+  PlainTerm: Spring 2011
+  StartDate: 2011-01-11 00:00:00.000000000 Z
+  EndDate: 2011-05-05 00:00:00.000000000 Z
+  AYStart: 2010
+
+BannerTerm_239:
+  BannerTerm: 201013
+  PlainTerm: Sum I of 2011
+  StartDate: 2011-05-11 00:00:00.000000000 Z
+  EndDate: 2011-06-08 00:00:00.000000000 Z
+  AYStart: 2010
+
+BannerTerm_240:
+  BannerTerm: 201014
+  PlainTerm: Sum II of 2011
+  StartDate: 2011-06-13 00:00:00.000000000 Z
+  EndDate: 2011-08-05 00:00:00.000000000 Z
+  AYStart: 2010
+
+BannerTerm_241:
+  BannerTerm: 201110
+  PlainTerm: Sum 2011 Pell
+  StartDate: 2011-05-11 00:00:00.000000000 Z
+  EndDate: 2011-08-05 00:00:00.000000000 Z
+  AYStart: 2011
+
+BannerTerm_242:
+  BannerTerm: 201111
+  PlainTerm: Fall 2011
+  StartDate: 2011-08-24 00:00:00.000000000 Z
+  EndDate: 2011-12-16 00:00:00.000000000 Z
+  AYStart: 2011
+
+BannerTerm_243:
+  BannerTerm: 201112
+  PlainTerm: Spring 2012
+  StartDate: 2012-01-10 00:00:00.000000000 Z
+  EndDate: 2012-05-03 00:00:00.000000000 Z
+  AYStart: 2011
+
+BannerTerm_244:
+  BannerTerm: 201113
+  PlainTerm: Sum  12-8 Wk
+  StartDate: 2012-05-14 00:00:00.000000000 Z
+  EndDate: 2012-07-12 00:00:00.000000000 Z
+  AYStart: 2011
+
+BannerTerm_245:
+  BannerTerm: 201114
+  PlainTerm: Sum 12-1st 4 Wk
+  StartDate: 2012-05-14 00:00:00.000000000 Z
+  EndDate: 2012-06-12 00:00:00.000000000 Z
+  AYStart: 2011
+
+BannerTerm_246:
+  BannerTerm: 201115
+  PlainTerm: Sum 12-2nd 4 Wk
+  StartDate: 2012-06-13 00:00:00.000000000 Z
+  EndDate: 2012-07-12 00:00:00.000000000 Z
+  AYStart: 2011
+
+BannerTerm_247:
+  BannerTerm: 201211
+  PlainTerm: Fall 2012
+  StartDate: 2012-08-22 00:00:00.000000000 Z
+  EndDate: 2012-12-14 00:00:00.000000000 Z
+  AYStart: 2012
+
+BannerTerm_248:
+  BannerTerm: 201212
+  PlainTerm: Spring 2013
+  StartDate: 2013-01-08 00:00:00.000000000 Z
+  EndDate: 2013-05-02 00:00:00.000000000 Z
+  AYStart: 2012
+
+BannerTerm_249:
+  BannerTerm: 201213
+  PlainTerm: Sum 8 Wk-13
+  StartDate: 2013-05-13 00:00:00.000000000 Z
+  EndDate: 2013-07-10 00:00:00.000000000 Z
+  AYStart: 2012
+
+BannerTerm_250:
+  BannerTerm: 201214
+  PlainTerm: Sum 13-1st 4 Wk
+  StartDate: 2013-05-14 00:00:00.000000000 Z
+  EndDate: 2013-06-11 00:00:00.000000000 Z
+  AYStart: 2012
+
+BannerTerm_251:
+  BannerTerm: 201215
+  PlainTerm: Sum 13-2nd 4 Wk
+  StartDate: 2013-06-12 00:00:00.000000000 Z
+  EndDate: 2013-07-10 00:00:00.000000000 Z
+  AYStart: 2012
+
+BannerTerm_252:
+  BannerTerm: 201311
+  PlainTerm: Fall 2013
+  StartDate: 2013-08-21 00:00:00.000000000 Z
+  EndDate: 2013-12-13 00:00:00.000000000 Z
+  AYStart: 2013
+
+BannerTerm_253:
+  BannerTerm: 201312
+  PlainTerm: Spring 2014
+  StartDate: 2014-01-07 00:00:00.000000000 Z
+  EndDate: 2014-05-01 00:00:00.000000000 Z
+  AYStart: 2013
+
+BannerTerm_254:
+  BannerTerm: 201313
+  PlainTerm: Sum 14 8 Wk
+  StartDate: 2014-05-12 00:00:00.000000000 Z
+  EndDate: 2014-07-08 00:00:00.000000000 Z
+  AYStart: 2013
+
+BannerTerm_255:
+  BannerTerm: 201314
+  PlainTerm: Sum 14-1st 4 Wk
+  StartDate: 2014-05-12 00:00:00.000000000 Z
+  EndDate: 2014-06-06 00:00:00.000000000 Z
+  AYStart: 2013
+
+BannerTerm_256:
+  BannerTerm: 201315
+  PlainTerm: Sum 14-2nd 4 Wk
+  StartDate: 2014-06-09 00:00:00.000000000 Z
+  EndDate: 2014-07-08 00:00:00.000000000 Z
+  AYStart: 2013
+
+BannerTerm_257:
+  BannerTerm: 201411
+  PlainTerm: Fall 2014
+  StartDate: 2014-08-20 00:00:00.000000000 Z
+  EndDate: 2014-12-12 00:00:00.000000000 Z
+  AYStart: 2014
+
+BannerTerm_258:
+  BannerTerm: 201412
+  PlainTerm: Spring 2015
+  StartDate: 2015-01-06 00:00:00.000000000 Z
+  EndDate: 2015-04-30 00:00:00.000000000 Z
+  AYStart: 2014
+
+BannerTerm_259:
+  BannerTerm: 201413
+  PlainTerm: 8 Wk Summer Term
+  StartDate: 2015-05-11 00:00:00.000000000 Z
+  EndDate: 2015-07-02 00:00:00.000000000 Z
+  AYStart: 2014
+
+BannerTerm_260:
+  BannerTerm: 201414
+  PlainTerm: 1st 4 Week Summer Term
+  StartDate: 2015-05-11 00:00:00.000000000 Z
+  EndDate: 2015-06-05 00:00:00.000000000 Z
+  AYStart: 2014
+
+BannerTerm_261:
+  BannerTerm: 201415
+  PlainTerm: 2nd 4 Week Summer Term
+  StartDate: 2015-06-08 00:00:00.000000000 Z
+  EndDate: 2015-07-02 00:00:00.000000000 Z
+  AYStart: 2014
+
+BannerTerm_262:
+  BannerTerm: 201511
+  PlainTerm: Fall Term 2015
+  StartDate: 2015-08-26 00:00:00.000000000 Z
+  EndDate: 2015-12-17 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_263:
+  BannerTerm: 201512
+  PlainTerm: Spring Term 2016
+  StartDate: 2016-01-12 00:00:00.000000000 Z
+  EndDate: 2016-05-05 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_264:
+  BannerTerm: 201513
+  PlainTerm: 8 Week Summer Term
+  StartDate: 2016-05-16 00:00:00.000000000 Z
+  EndDate: 2016-07-08 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_265:
+  BannerTerm: 201514
+  PlainTerm: 1st 4 Week Summer Term
+  StartDate: 2016-05-16 00:00:00.000000000 Z
+  EndDate: 2016-06-10 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_266:
+  BannerTerm: 201515
+  PlainTerm: 2nd Four Week Summer Term
+  StartDate: 2016-06-13 00:00:00.000000000 Z
+  EndDate: 2016-07-08 00:00:00.000000000 Z
+  AYStart: 2015
+
+BannerTerm_267:
+  BannerTerm: 201610
+  PlainTerm: Berea Bridge Program Term
+  StartDate: 2016-07-15 00:00:00.000000000 Z
+  EndDate: 2016-08-13 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_268:
+  BannerTerm: 201611
+  PlainTerm: Fall 2016 Term
+  StartDate: 2016-08-24 00:00:00.000000000 Z
+  EndDate: 2016-12-16 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_269:
+  BannerTerm: 201612
+  PlainTerm: Spring Term 2017
+  StartDate: 2017-01-10 00:00:00.000000000 Z
+  EndDate: 2017-04-27 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_270:
+  BannerTerm: 201613
+  PlainTerm: 8 Week Summer term
+  StartDate: 2017-05-15 00:00:00.000000000 Z
+  EndDate: 2017-07-07 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_271:
+  BannerTerm: 201614
+  PlainTerm: 1st 4 Week Summer Term
+  StartDate: 2017-05-15 00:00:00.000000000 Z
+  EndDate: 2017-06-09 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_272:
+  BannerTerm: 201615
+  PlainTerm: 2nd Four Week Summer Term
+  StartDate: 2017-06-12 00:00:00.000000000 Z
+  EndDate: 2017-07-07 00:00:00.000000000 Z
+  AYStart: 2016
+
+BannerTerm_273:
+  BannerTerm: 999999
+  PlainTerm: End of Time
+  StartDate: 4712-12-11 00:00:00.000000000 Z
+  EndDate: 4712-12-30 00:00:00.000000000 Z
+  AYStart: 9999
+

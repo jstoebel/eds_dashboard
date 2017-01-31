@@ -7,7 +7,9 @@ set :repo_url, 'git@bitbucket.org:stoebelj/eds_dashboard.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "~/eds_dashboard"
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/student_files')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache',
+  'tmp/sockets', 'vendor/bundle', 'public/system', 'storage/student_files'
+  )
 
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup

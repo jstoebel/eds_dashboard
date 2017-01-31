@@ -65,13 +65,18 @@ class ApplicationController < ActionController::Base
     else # we're in development
       #log us in as dev_admin if there is no session info
       unless session[:user]
-        admin_user = User.find_or_create_by({
+        user_params = {
           UserName: "dev_admin",
           FirstName: "Dev",
           LastName: "Admin",
-          Email: "devadmin@test.com",
-          Roles_idRoles: 1
-        })
+          Email: "devadmin@test.com"
+        }
+        admin_user = User.find_by(user_params)
+        
+        if admin_user.blank?
+          admin_user = User.create!(user_params.merge({:Roles_idRoles => 1}))
+        end
+
         session[:user] = admin_user.UserName
         session[:role] = admin_user.role_name
 

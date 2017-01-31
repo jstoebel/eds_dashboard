@@ -18,7 +18,8 @@ FactoryGirl.define do
 
   factory :prog_exit do
 
-      ExitCode_ExitCode "1849"
+      # ExitCode_ExitCode "1849"
+      ExitCode_ExitCode { (FactoryGirl.create :exit_code, {:id => 1849, :ExitCode => "1849"}).id }
       GPA 3.0
       GPA_last60 3.0
       ExitDate Date.today
@@ -27,31 +28,31 @@ FactoryGirl.define do
   end
 
   factory :successful_prog_exit, :class => 'ProgExit' do
-
       student
-      Program_ProgCode {Program.first.id}
-      ExitCode_ExitCode {ExitCode.find_by(:ExitCode => "1849").id}
-      ExitTerm {(BannerTerm.current_term({:exact => false, :plan_b => :back})).id}
-      ExitDate {(BannerTerm.current_term({:exact => false, :plan_b => :back})).EndDate}
-      RecommendDate {(BannerTerm.current_term({:exact => false, :plan_b => :back})).EndDate}
+      program
+      banner_term { FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
+          :EndDate => 10.days.from_now}
+      }
+      ExitCode_ExitCode { (FactoryGirl.create :exit_code, {:id => 1849, :ExitCode => "1849"}).id }
+      ExitDate {Date.today}
+      RecommendDate {Date.today}
 
-      after(:build){ |exit|
+      after(:build){ |prog_exit|
         # create course work
-        stu = exit.student
-
+        stu = prog_exit.student
         courses = FactoryGirl.create_list :transcript, 12, {:student_id => stu.id,
           :grade_pt => 4.0,
           :grade_ltr => "A",
           :credits_earned =>  1.0,
           :credits_attempted => 1.0,
-          :term_taken => exit.banner_term.prev_term.id,
+          :term_taken => prog_exit.banner_term.prev_term.id,
           :gpa_include => true
         }
       }
 
-      after(:build){ |exit|
-        stu = exit.student
-        test_term = exit.banner_term.prev_term
+      after(:build){ |prog_exit|
+        stu = prog_exit.student
+        test_term = prog_exit.banner_term.prev_term
         date_taken = test_term.StartDate
         p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
 
@@ -68,18 +69,26 @@ FactoryGirl.define do
         praxis_attrs.map { |t| PraxisResult.create t }
 
       }
-      after(:build) { |exit|
-        FactoryGirl.create :adm_tep, {:student_id => exit.student.id,
-          :Program_ProgCode => exit.program.id,
-          :BannerTerm_BannerTerm => exit.banner_term.id,
-          :TEPAdmitDate => (exit.ExitDate - 1)
+      after(:build) { |prog_exit|
+        FactoryGirl.create :adm_tep, {:student_id => prog_exit.student.id,
+          :Program_ProgCode => prog_exit.program.id,
+          :BannerTerm_BannerTerm => prog_exit.banner_term.id,
+          :TEPAdmitDate => (prog_exit.banner_term.StartDate)
         }
       }
 
-      after(:build){|exit|
-        stu = exit.student
+      after(:build){|prog_exit|
+        stu = prog_exit.student
         stu.EnrollmentStatus = "Graduation"
-        stu.save!
       }
+
+      # after(:create) do |prog_exit|
+      #   stu = prog_exit.student
+      #   puts stu.gpa({term: prog_exit.banner_term.prev_term.id})
+      #
+      #   prog_exit.update_attributes!({:ExitDate => prog_exit.banner_term.EndDate,
+      #     :RecommendDate => prog_exit.banner_term.EndDate
+      #   })
+      # end
   end
 end

@@ -23,6 +23,8 @@ RailsAdmin.config do |config|
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar true
 
+  config.label_methods = [:repr]
+
   config.authorize_with do
     # not happy with this solution at the moment. I'd prefer not having to check the env.
     case Rails.env
@@ -55,5 +57,32 @@ RailsAdmin.config do |config|
     ## With an audit adapter, you can add:
     # history_index
     # history_show
+  end
+
+
+  # config.model "Program" do
+  #   object_label_method do
+  #
+  #   end
+  # end
+
+  config.model 'ProgExit' do
+    export do
+      field :student
+      field :program
+      field :exit_code
+      field :banner_term
+      field :ExitDate
+      field :GPA
+      field :GPA_last60
+      field :RecommendDate
+      field :Details
+    end
+  end
+
+  config.model 'ClinicalSite' do
+    import do
+      mapping_key :id
+    end
   end
 end

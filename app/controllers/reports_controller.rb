@@ -6,15 +6,61 @@ class ReportsController < ApplicationController
     layout 'application'
 
     def index
+        authorize! :report, Student
         @data = []
         students = Student.all
+
+        @header_mappings = [
+          ["B#", :Bnum],
+          ["Name", :name_readable],
+          ["Prog Status", :prog_status],
+          ["Enrollment Status", :EnrollmentStatus],
+          ["Classification", :Classification],
+          ["Program(s)", :ProgName],
+          ["Major 1", :CurrentMajor1],
+          ["Conc 1", :concentration1],
+          ["Major 2", :CurrentMajor2],
+          ["Conc 2", :concentration2],
+          ["Minors", :CurrentMinors],
+          ["EDS150", :Latest_Term_EDS150],
+          ["Taken 227/228", :Taken227_228],
+          ["Completed 227/228", :Passed_Completion_227],
+          ["Term completing 227", :Latest_Completion_227],
+          ["Term completing 227", :Latest_Completion_228],
+          ["EDS440 or EDS470", :Latest_Term_EDS440_479],
+          ["Advisors", :advisors]
+        ]
+        if current_user.is?("admin")
+            @header_mappings.push(["GPA", :gpa])
+        end
         students.each do |stu|
-            authorize! :read, stu
-            record = { # data that will go into the exceel spreadsheet, eventually
+            # filter out students who are not actively enrolled and
+
+            if stu.EnrollmentStatus.nil?
+                next
+            elsif stu.EnrollmentStatus.include? 'WD'
+                # skip if student has withdrawn and latest withdraw was more
+                # than 1 year ago
+
+                latest_w_date = stu.last_withdraw.andand.EndDate # may be nil!
+                if latest_w_date.present? &&
+                    latest_w_date < 1.year.ago &&
+                    stu.EnrollmentStatus != "Active Student"
+
+                    next
+                end
+            elsif stu.EnrollmentStatus != "Active Student"
+                # if they aren't withdrawn, skip if not active student
+                next
+            end
+
+
+            record = { # data that will go into the table
                 :Bnum => stu.Bnum,
                 :name_readable => stu.name_readable,
                 :prog_status => stu.prog_status,
                 :EnrollmentStatus => stu.EnrollmentStatus,
+                :Classification => stu.Classification,
                 :CurrentMajor1 => stu.CurrentMajor1,
                 :concentration1 => stu.concentration1,
                 :CurrentMajor2 => stu.CurrentMajor2,
@@ -29,6 +75,15 @@ class ReportsController < ApplicationController
                 :ProgName => student_program(stu),
                 :advisors => advisors(stu)
             }
+
+            if current_user.is?("admin")
+                begin
+                    record[:gpa] = stu.gpa
+                rescue NoMethodError
+                    record[:gpa] = nil
+                end
+            end
+
             @data.push record
         end
     end

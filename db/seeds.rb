@@ -10,7 +10,7 @@ if ["development", "test"].include? Rails.env
     model = c.camelize.singularize.constantize
     if model.count == 0
       print "loading #{c}..."
-      ActiveRecord::FixtureSet::create_fixtures(Rails.root.join("test", "fixtures"), c)
+      ActiveRecord::FixtureSet::create_fixtures(Rails.root.join("db", "seed"), c)
       puts "-> done!"
     end
   end

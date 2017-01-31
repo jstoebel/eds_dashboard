@@ -42,46 +42,19 @@
               </td>
               <td class="actions">
 
-                  <% actions =[] %>
+                <!-- Actions dropdown -->
+                <div class="dropdown student-actions-menu">
+                  <button id= <%= "stu-actions-menu-#{student.id}" %>
+                    class="btn btn-primary dropdown-toggle"
+                    type="button" data-toggle="dropdown">
+                    Actions
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <!-- available actions populated here -->
+                  </ul>
+                </div>
 
-
-                  <% if can? :show, Student %>
-                  <% actions.push({menu_name: "Details", link_url: student_path(student.AltID)}) %>
-                  <% else %>
-                  <% actions.push({disable: true, menu_name: "Details", link_url: student_path(student.AltID) }) %>
-                  <%end  %>
-
-
-                    <!-- TODO grayed out button if no praxis results, issues -->
-                    <% if can? :be_concerned, Student %>
-                      <% actions.push({menu_name: "Concerns", link_url: student_concern_dashboard_index_path(student.id)}) %>
-                    <% else %>
-                      <% actions.push({disabld: true, menu_name: "Concerns", link_url: student_concern_dashboard_index_path(student.id)}) %>
-                    <% end %>
-                    <% if can? :index, PraxisResult %>
-                      <% actions.push({menu_name: "Praxis Results", link_url: student_praxis_results_path(student.AltID)}) %>
-                    <% else %>
-                      <% actions.push({disable: true, menu_name: "Praxis Results", link_url: student_praxis_results_path(student.AltID)}) %>
-                    <% end %>
-
-                    <% if can? :show, Pgp %>
-                      <% actions.push({menu_name: "PGPs (#{student.pgps.size})", link_url: student_pgps_path(student.AltID)}) %>
-                    <% else %>
-                      <% actions.push({disable: true, menu_name: "PGPs (#{student.pgps.size})", link_url: student_pgps_path(student.AltID)}) %>
-                    <% end %>
-
-                    <% if can? :show, Issue %>
-                      <% actions.push({menu_name: "Issues (#{student.issues.select{|u| u.visible}.size})", link_url: student_issues_path(student.AltID)}) %>
-                    <% else %>
-                      <% actions.push({disable: true, menu_name: "Issues (#{student.issues.select{|u| u.visible}.size})", link_url: student_issues_path(student.AltID)}) %>
-                    <% end %>
-
-                    <% if can? :read, StudentFile %>
-                      <% actions.push({menu_name: "Files (#{student.student_files.active.size})", link_url: student_student_files_path(student.AltID)}) %>
-                    <% else %>
-                      <% actions.push({disable: true, menu_name: "Files (#{student.student_files.active.size})", link_url: student_student_files_path(student.AltID),}) %>
-                    <% end %>
-                  <%= render(partial: 'dropdown', locals: {:actions => actions}) %>
               </td>
             </tr>
 

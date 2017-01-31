@@ -17,170 +17,164 @@ require 'test_helper'
 class ClinicalAssignmentsControllerTest < ActionController::TestCase
   #everyone should be allowed to access this resource
 
-  test "should get index" do
-    role_names.each do |r|
-      load_session(r)
-      get :index
-      assert_response :success
-      term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
-      assert_equal assigns(:assignments).to_a, (ClinicalAssignment.where(Term: term).select {|a| can? :read, a }).to_a
-      assert_equal assigns(:term), ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+  allowed_roles = Role.all.pluck :RoleName
+
+  describe "get index" do
+    allowed_roles.each do |r|
+      test "as #{r}" do
+        load_session(r)
+        get :index
+        assert_response :success
+        term = ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+        assert_equal assigns(:assignments).to_a, (ClinicalAssignment.where(Term: term).select {|a| can? :read, a }).to_a
+        assert_equal assigns(:term), ApplicationController.helpers.current_term(exact: false, plan_b: :back)
+      end
     end
   end
 
-  # TODO Why doesn't this work??? Always fails on the second role.
-  test "should get new" do
-    role_names.each do |r|
-
-      load_session(r)
-
-      get :new
-      assert_response :success
-      assert assigns(:assignment).new_record? and not assigns(:assignment).changed?
-
-      user = User.find_by(:UserName => session[:user])
-
-      abil = Ability.new(user)
-      check_form_setup
+  describe "get new" do
+    allowed_roles.each do |r|
+      test "as #{r}" do
+        load_session(r)
+        get :new
+        assert_response :success
+        assert assigns(:assignment).new_record? and not assigns(:assignment).changed?
+        check_form_setup
+      end
     end
   end
 
-  test "should post create" do
-    role_names.each do |r|
-      load_session(r)
+  describe "create" do
 
-      current_assignment = ClinicalAssignment.first
+    allowed_roles.each do |r|
+      describe "as #{r}" do
+        before do
+          load_session(r)
 
-      teacher = ClinicalTeacher.first
-      stu = Student.first
-      expected_term = BannerTerm.current_term(exact: false, plan_b: :forward)
+          user = User.find_by :UserName => session[:user]
 
-      #delete current_assignment so new assignment can go through
-      current_assignment.destroy
+          advisor = FactoryGirl.create :tep_advisor, :user_id => user.id
 
-      # assert false, expected_term.StartDate.strftime("%m/%d/%Y")
+          adv_assign = FactoryGirl.create :advisor_assignment, :tep_advisor => advisor
 
-      create_params = {:clinical_assignment => {
-              :student_id => stu.id,
-              :clinical_teacher_id => teacher.id,
-              :StartDate => expected_term.StartDate.strftime("%Y/%m/%d"),
-              :EndDate => expected_term.EndDate.strftime("%Y/%m/%d")
-              },
-              :commit =>"Create Assignment"
-            }
+          FactoryGirl.create_list :clinical_teacher, 5
+          FactoryGirl.create_list :student, 5
+          term = (FactoryGirl.create :banner_term, :StartDate => 5.days.ago,
+          :EndDate => 5.days.from_now
+          )
 
-      post :create, create_params
-      assignment_params = create_params[:clinical_assignment]
-      expected_assignment = ClinicalAssignment.new assignment_params
+          @assignment = FactoryGirl.build :clinical_assignment, {
+            :student_id => adv_assign.student.id,
+            :banner_term => term,
+            :StartDate => term.StartDate,
+            :EndDate => term.EndDate,
+            :transcript => (FactoryGirl.create :transcript)
+          }
 
-      #filter down the expected and the actual based on the keys we want to compare.
-      expected_filtered = expected_assignment.attributes.select { |k, v| assignment_params.include?(k.to_sym)}
-      actual_filtered = assigns(:assignment).attributes.select { |k, v| assignment_params.include?(k.to_sym)}
+        end
 
-      assert_equal expected_filtered, actual_filtered
+        test "as #{r} should create" do
+          post :create, {:clinical_assignment => @assignment.attributes}
 
-      assert assigns(:assignment).valid?, assigns(:assignment).inspect
-      assert_redirected_to clinical_assignments_path
+          expected_attrs = @assignment.attributes
+          actual_attrs = assigns(:assignment).attributes
 
-    end
-  end
+          assert assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
+          assert_equal expected_attrs.except("id"), actual_attrs.except("id")
+          assert_redirected_to clinical_assignments_path
+        end
 
-test "should not post create bad record" do
-  #can't create record due to a record not saving
-    role_names.each do |r|
-      load_session(r)
+        test "as #{r} should not create -- bad params" do
+          #can't create record due to a record not saving
+          @assignment.clinical_teacher_id = nil
+          post :create, {:clinical_assignment => @assignment.attributes}
+          assert_not assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
+          assert_response :success
+          check_form_setup
 
-      current_assignment = ClinicalAssignment.first
+        end # test
+      end # inner describe
 
-      teacher = ClinicalTeacher.first
-      stu = Student.first
-      expected_term = ApplicationController.helpers.current_term(exact: false, plan_b: :forward)
-      expected_assignment_id = [stu.Bnum, expected_term.BannerTerm.to_s, teacher.id.to_s, "???"].join("-")
+    end # roles loop
+  end # describe
 
-      post :create, :clinical_assignment => {
-        :Bnum => stu.Bnum,
-        :clinical_teacher_id => teacher.id,
-        :StartDate => expected_term.EndDate.strftime("%m/%d/%Y"),
-        :EndDate => ((expected_term.StartDate) -1 ).strftime("%m/%d/%Y")  #end before start
-        },
-      :commit =>"Create Assignment"
+  describe "edit" do
 
-      assert_response :success
+    allowed_roles.each do |r|
+      before do
+        load_session(r)
+      end
 
+      test "should get" do
+        FactoryGirl.create_list :clinical_teacher, 5
+        FactoryGirl.create_list :student, 5
+        assignment = FactoryGirl.create :clinical_assignment
+        get :edit, {:id => assignment.id}
+        assert_response :success
+        assert_equal assigns(:assignment), assignment
+        check_form_setup
+      end
 
-    end
-  end
+      test "should not get -- bad id" do
+        assert_raises(ActiveRecord::RecordNotFound) { get :edit, {:id => "bad id"} }
+      end # test
+    end # roles loop
+  end # describe
 
-  # TODO Why doesn't this work??? Always fals on the second role.
-  test "should get edit" do
-    role_names.each do |r|
-      load_session(r)
-      assert ClinicalAssignment.all.size > 0
-      assignment = ClinicalAssignment.first
-      get :edit, {:id => assignment.id}
-      assert_response :success
-      assert_equal assigns(:assignment), assignment
-      check_form_setup
+  describe "update" do
 
-    end
-  end
+    allowed_roles.each do |r|
+      before do
+        load_session(r)
 
-  test "should not get edit bad id" do
-    role_names.each do |r|
-      load_session(r)
-      assert ClinicalAssignment.all.size > 0
-      assignment = ClinicalAssignment.first
-
-      assert_raises(ActiveRecord::RecordNotFound) { get :edit, {:id => "bad id"} }
-    end
-  end
-
-
-  test "should post update" do
-    role_names.each do |r|
-      load_session(r)
-      assignment = ClinicalAssignment.first
-      assignment.Level = 3
-      update_params = assignment.attributes
-
-      post :update, {:id => assignment.id, :clinical_assignment => update_params}
-      assert assigns(:assignment).valid?, assigns(:assignment).inspect
-      assert_redirected_to banner_term_clinical_assignments_path(assigns(:assignment).banner_term.id)
-      assert_equal assigns(:assignment), assignment
-    end
-  end
-
-  test "should not post update bad id" do
-    role_names.each do |r|
-      load_session(r)
-      assignment = ClinicalAssignment.first
-      assignment.Level = 3
-      update_params = {:Level => assignment.Level}
-
-      assert_raises(ActiveRecord::RecordNotFound) {
-        post :update, {:id => "bad id", :clinical_assignment => update_params}
-      }
-    end
-  end
-
-  test "should post choose" do
-    role_names.each do |r|
-      load_session(r)
-      term = ApplicationController.helpers.current_term({:exact => false, :plan_b => :back})
-      term_int = term.BannerTerm
-
-      post :choose, {
-        :clinical_assignment_id => "pick",
-        :banner_term => {
-          :menu_terms => term_int
+        FactoryGirl.create_list :clinical_teacher, 5
+        FactoryGirl.create_list :student, 5
+        @assignment = FactoryGirl.create :clinical_assignment, {
+          :student_id => (FactoryGirl.create :student).id,
+          :clinical_teacher_id => (FactoryGirl.create :clinical_teacher).id,
+          :Term => (FactoryGirl.create :banner_term).id
         }
-      }
+        @new_teacher = FactoryGirl.create :clinical_teacher
+        @assignment.clinical_teacher_id = @new_teacher.id
+        @assignment.save!
+        @update_params = {:clinical_teacher_id => @new_teacher.id,
+          :StartDate => @assignment.StartDate.strftime("%Y-%m-%d"),
+          :EndDate => @assignment.EndDate.strftime("%Y-%m-%d")}
+      end
 
-      assert_redirected_to banner_term_clinical_assignments_path(term_int)
+      test "should update" do
+        post :update, {:id => @assignment.id, :clinical_assignment => @update_params}
 
-      term = BannerTerm.find(term_int)
-      assert assigns(:assignments).to_a, (ClinicalAssignment.where(Term: term).select {|a| can? :read, a }).to_a
-      assert_equal assigns(:term), term_int.to_s
+        assert assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
+        assert_redirected_to banner_term_clinical_assignments_path(@assignment.banner_term.id)
+        assert_equal assigns(:assignment), @assignment
+      end
+
+      test "should not update -- bad params" do
+        assert_raises(ActiveRecord::RecordNotFound) {
+          post :update, {:id => "bad id", :clinical_assignment => @update_params}
+        }
+      end # test
+    end # roles loop
+  end # describe
+
+  describe "choose" do
+    allowed_roles.each do |r|
+      test "should get as #{r}" do
+        load_session(r)
+        FactoryGirl.create_list :clinical_assignment, 5
+        term = FactoryGirl.create :banner_term
+        post :choose, {
+          :clinical_assignment_id => "pick",
+          :banner_term => {
+            :menu_terms => term.id
+          }
+        }
+
+        assert_redirected_to banner_term_clinical_assignments_path(term.id)
+        assert assigns(:assignments).to_a, (ClinicalAssignment.where(Term: term).select {|a| can? :read, a }).to_a
+        assert_equal assigns(:term).to_s, term.id.to_s
+      end
     end
   end
 
@@ -189,7 +183,7 @@ test "should not post create bad record" do
   def check_form_setup
     user = User.find_by(:UserName => session[:user])
     abil = Ability.new(user)
-    
+
     # TODO figure out why this doesn't work as expected
     # expected_students = Student.by_last.where({:EnrollmentStatus => "Active Student"}).current.select{|s| abil.can? :index, s}
     # assert_equal expected_students.to_a, assigns(:students).to_a

@@ -1,0 +1,31 @@
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-xs-12 col-md-3">
+      <h2>Help Articles</h2>
+      <ul>
+        <li><%= link_to 'Home', "/help" %></li>
+        <% @article_names.each do |f| %>
+        <li>
+          <%= link_to f.humanize, "/help/#{f}"  %>
+        </li>
+        <% end %>
+      </ul>
+
+    </div> <!-- end TOC column -->
+
+    <div class="col-xs-12 col-md-9">
+
+      <% if @article_name.present? %>
+        <%= render :partial => @article_name %>
+      <% else %>
+        <h2>Help Articles</h2>
+        <p>Click a link to the left to get started.</p>
+      <% end %>
+
+    </div> <!-- end content column -->
+
+  </div> <!-- end row -->
+
+</div>

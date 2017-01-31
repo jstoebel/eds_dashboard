@@ -2,14 +2,14 @@
 #
 # Table name: clinical_assignments
 #
-#  student_id          :integer          not null
 #  id                  :integer          not null, primary key
+#  student_id          :integer          not null
 #  clinical_teacher_id :integer          not null
 #  Term                :integer          not null
-#  CourseID            :string(45)       not null
 #  Level               :string(45)
 #  StartDate           :date
 #  EndDate             :date
+#  transcript_id       :integer
 #
 
 require 'test_helper'
@@ -17,60 +17,67 @@ require 'test_helper'
 class ClinicalAssignmentTest < ActiveSupport::TestCase
 
 	test "no teacher id" do
-		assignment = ClinicalAssignment.first
+		assignment = FactoryGirl.create :clinical_assignment
 		assignment.clinical_teacher_id = nil
 		assignment.valid?
-		py_assert(["Please select a clinical teacher."], assignment.errors[:clinical_teacher_id])	
+		assert_equal(["Please select a clinical teacher."], assignment.errors[:clinical_teacher_id])
 	end
 
 	test "unique assignment catch" do
-		assignment = ClinicalAssignment.first
+		assignment = FactoryGirl.create :clinical_assignment
 		assignment2 = assignment.clone
 		assignment2.id = nil
 		assignment2.valid?
-		py_assert(["Student may not be matched with same teacher more than once in the same course in the same semester."], assignment2.errors[:clinical_teacher_id])
+		assert_equal(["Student may not be matched with same teacher more than once in the same course in the same semester."], assignment2.errors[:clinical_teacher_id])
 	end
 
 	test "unique assignment pass" do
-		assignment = ClinicalAssignment.first
+		assignment = FactoryGirl.create :clinical_assignment
 		assignment2 = ClinicalAssignment.new(assignment.attributes)
-		assignment2.CourseID = "EDS335"		#a differing course should allow this to pass
+		transcript2 = FactoryGirl.create :transcript
+		assignment2.transcript_id = transcript2.id		#a differing course should allow this to pass
 		assignment2.valid?
-		py_assert([], assignment2.errors[:clinical_teacher_id])
+		assert_equal([], assignment2.errors[:clinical_teacher_id])
 
 	end
 
 	test "need bnum" do
-		assignment = ClinicalAssignment.first
+		assignment = FactoryGirl.create :clinical_assignment
 		assignment.student_id = nil
 		assignment.valid?
-		py_assert(["Please select a student."], assignment.errors[:student_id])
+		assert_equal(["Please select a student."], assignment.errors[:student_id])
 
 	end
 
 	test "need start date" do
-		assignment = ClinicalAssignment.first
+		assignment = FactoryGirl.create :clinical_assignment
 		assignment.StartDate = nil
 		assignment.valid?
-		py_assert(["Please enter a valid start date."], assignment.errors[:StartDate])
+		assert_equal(["Please enter a valid start date."], assignment.errors[:StartDate])
 	end
 
 	test "need end date" do
-		assignment = ClinicalAssignment.first
+		assignment = FactoryGirl.create :clinical_assignment
 		assignment.EndDate = nil
 		assignment.valid?
-		py_assert(["Please enter a valid end date."], assignment.errors[:EndDate])
+		assert_equal(["Please enter a valid end date."], assignment.errors[:EndDate])
 	end
 
 	test "start before end" do
-		assignment = ClinicalAssignment.first
+		assignment = FactoryGirl.create :clinical_assignment
 		#swap start and end dates
 		new_start = assignment.EndDate
 		new_end = assignment.StartDate
 		assignment.StartDate = new_start
 		assignment.EndDate = new_end
 		assignment.valid?
-		py_assert(["Start date must be before end date."], assignment.errors[:base])
+		assert_equal(["Start date must be before end date."], assignment.errors[:base])
 	end
-		
+
+	test "need transcript_id" do
+		assignment = ClinicalAssignment.new
+		assert_not assignment.valid?
+		assert_equal ["Course is blank"], assignment.errors[:transcript_id]
+	end
+
 end

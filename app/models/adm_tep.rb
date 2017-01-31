@@ -29,8 +29,6 @@ class AdmTep < ActiveRecord::Base
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
   belongs_to :student_file
 
-  has_one :prog_exit, :through => :program
-
   #CALL BACKS
   after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
   after_validation :complex_validations, :unless =>  Proc.new{|s| s.errors.any?}
@@ -58,7 +56,7 @@ class AdmTep < ActiveRecord::Base
     }
 
   validates_presence_of :TEPAdmitDate, {:message => "Admission date must be given.",
-    :unless => Proc.new{|s| s.TEPAdmit.nil?}# self.TEPAdmit.nil?
+    :if => Proc.new{|s| s.TEPAdmit.present?}# self.TEPAdmit.nil?
   }
 
   def good_credits?
@@ -92,7 +90,8 @@ class AdmTep < ActiveRecord::Base
   def complex_validations
     # these only run if all simple validations passed
     validations = [:admit_date_too_early, :admit_date_too_late, :bad_praxisI,
-      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision
+      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision, :uniqueness_of_second_program
+
     ]
 
     validations.each do |v|
@@ -103,6 +102,17 @@ class AdmTep < ActiveRecord::Base
   def admit_date_too_early
     if self.TEPAdmitDate.present? && self.TEPAdmitDate < self.banner_term.StartDate
       self.errors.add(:TEPAdmitDate, "Admission date must be after term begins.")
+    end
+  end
+
+  def uniqueness_of_second_program
+    stu = self.student
+    # all of the student's adm_tep, where TEPAdmit = true or nil -> pull out program codes of each of these
+    current_programs = stu.adm_tep.where("TEPAdmit = 1 or TEPAdmit is null").where(:Program_ProgCode => self.Program_ProgCode)
+
+    #add error if there is more than one program found
+    if current_programs.size > 1
+      self.errors.add(:Program_ProgCode, "This student already has an accepted or pending application to this program")
     end
   end
 
@@ -120,7 +130,7 @@ class AdmTep < ActiveRecord::Base
 
   def bad_gpa
     if self.TEPAdmit && !self.good_gpa?
-        self.errors.add(:base, "Student does not have sufficent GPA to be admitted this term.")
+        self.errors.add(:base, "Student does not have sufficient GPA to be admitted this term.")
     end
   end
 
@@ -134,8 +144,10 @@ class AdmTep < ActiveRecord::Base
 
     attrs = self.attributes.slice("student_id", "Program_ProgCode", "BannerTerm_BannerTerm")
     accepted_or_pending_apps = AdmTep.where(attrs).where("TEPAdmit = 1 or TEPAdmit IS NULL")
-    if accepted_or_pending_apps.size > 0 && self.new_record?
-      self.errors.add(:base, "Student has already been admitted or has an open applicaiton for this program in this term.")
+    if ( accepted_or_pending_apps.size > 0 && self.new_record? ||
+         accepted_or_pending_apps.size > 1 && !self.new_record?
+      )
+      self.errors.add(:base, "Student has already been admitted or has an open application for this program in this term.")
     end
   end
 

@@ -40,7 +40,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
 gem 'lograge'
 gem 'minitest-fail-fast'
-
+gem "byebug"
+gem 'pry-byebug'
 #for working out foreign keys!!1
 # gem 'foreigner', '~> 1.7', '>= 1.7.4'
 gem 'immigrant'
@@ -59,6 +60,7 @@ group :development do
     gem 'capistrano-ext'
     gem 'knife-solo', '~> 0.4.2'
     gem 'rails-erd'
+    gem 'bundler-audit', require: false
 end
 
 group :test do
@@ -76,7 +78,7 @@ gem 'phony_rails'
 gem 'active_record-acts_as' #for multi table inheritance
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-gem 'annotate', github: 'ctran/annotate_models'
+gem 'annotate'
 gem 'andand', '~> 1.3', '>= 1.3.3'
 gem 'savon', '~> 2.0'
 
@@ -98,4 +100,6 @@ gem 'nokogiri', '~> 1.6', '>= 1.6.8'
 gem 'roman', '~> 0.2.0'
 gem "marco-polo" # console prompt
 
-gem 'rails_admin', '~> 1.0'
+gem 'rails_admin', '~> 1.1', '>= 1.1.1'
+gem "rails_admin_import", "~> 2.0"
+gem 'markdown-rails'

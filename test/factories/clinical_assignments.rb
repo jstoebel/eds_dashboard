@@ -6,20 +6,26 @@
 #  student_id          :integer          not null
 #  clinical_teacher_id :integer          not null
 #  Term                :integer          not null
-#  CourseID            :string(45)       not null
 #  Level               :string(45)
 #  StartDate           :date
 #  EndDate             :date
+#  transcript_id       :integer
 #
+
 include Faker
 FactoryGirl.define do
   factory :clinical_assignment do
     association :student
     association :clinical_teacher
-    #banner_term must be supplied
-    CourseID {Lorem.characters 6}
+    banner_term
+    transcript
     Level {Faker::Number.between(1,3)}
 
-    #start and end date dependant on banner_term, and thus must also be supplied
+    after(:build) do |assignment|
+      [:StartDate, :EndDate].each do |attr|
+        assignment[attr] = assignment.banner_term.send(attr)
+      end
+    end
+
   end
 end
