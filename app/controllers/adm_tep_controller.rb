@@ -7,9 +7,9 @@ class AdmTepController < ApplicationController
 
   def new
     #display menu for possible names and possible programs
-
     @app = AdmTep.new
     authorize! :manage, @app
+    @app.student_id = params[:student_id]
     new_setup
   end
 
