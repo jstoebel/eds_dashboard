@@ -1,0 +1,60 @@
+<div class="container">
+  <table class="listing table table-striped" summary="Student list">
+
+    <div class="row">
+      <caption>
+        <div class="header1 col-xs-12">Students ready to apply to TEP</div></br>
+        <div class="header2 col-xs-12"> <%= @stus.size %> found</div></br>
+      </caption>
+    </div>
+
+    </div>
+      <tr class="header">
+        <th>B#</th>
+        <th>Name</th>
+        <th>Intended Program</th>
+        <th> Sufficient GPA</th>
+        <th>Sufficient Credits</th>
+        <th>Praxis Pass</th>
+        <th></th>  <!-- column for action button -->
+      </tr>
+      <% @stus.each do |stu| %>
+
+        <td><%= stu.Bnum %></td>
+        <td><%= stu.name_readable %></td>
+        <td> <%= stu.latest_foi.andand.major.andand.name %> </td>
+        <td>
+
+          <% if stu.gpa >= 2.75 || stu.gpa(:last => 30) >= 3.0 %>
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <% else %>
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          <% end %>
+        </td>
+
+        <td>
+          <% if stu.credits >= 30 %>
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <% else %>
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          <% end %>
+        </td>
+
+        <td>
+          <% if stu.praxisI_pass %>
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <% else %>
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          <% end %>
+        </td>
+
+        <td class="actions">
+          <%= link_to("Create Application", new_student_adm_tep_path(stu.id), :class => "action details btn btn-info action-small issues")%>
+        </td>
+
+        </tr>
+
+      <% end %>
+    </table>
+
+  </div> <!--end container -->

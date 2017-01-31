@@ -61,6 +61,7 @@ group :development do
     gem 'knife-solo', '~> 0.4.2'
     gem 'rails-erd'
     gem 'bundler-audit', require: false
+    gem 'pry-rails'
 end
 
 group :test do

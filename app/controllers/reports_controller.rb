@@ -88,8 +88,13 @@ class ReportsController < ApplicationController
         end
     end
 
-    private
+    def need_apply_tep
+        authorize! :report, Student
+        @current_term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
+        @stus = Student.need_apply
+    end
 
+    private
     def taken_227_228(student)
         return student.transcripts.where(:course_code => ["EDS227", "EDS228"]).any?
     end
