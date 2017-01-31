@@ -175,24 +175,23 @@ class Student < ActiveRecord::Base
         # depending on intended major
             # music or pe: satisfactory grade for eds150 + 2 additonal standard terms
             # all other majors: satisfactory grade for eds150 and 227/228 or eds150
-
         active_students = Student.where({:EnrollmentStatus => "Active Student"})
 
         needs_apply = active_students.select do |stu|
-
             _150_term = stu.transcripts
                 .where({:course_code => "EDS150"})
                 .where("grade_pt >= 2.0")
                 .order(:term_taken)
                 .last
-
+            # byebug
             next false if _150_term.blank?  # student hasn't taken 150
 
-            intended_major = stu.latest_foi.major.name
-            music_pe = ["PE", "Music"].map{|m| intended_major.include? m}.any?
+            intended_major = stu.latest_foi.andand.major.andand.name
+
+            music_pe = ["PE", "Music"].map{|m| intended_major.andand.include? m}.any?
             this_term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
             if music_pe
-                terms_since_150 = BannerTerm.where({:standard => true})
+                terms_since_150 = BannerTerm.where({:standard_term => true})
                     .where("BannerTerm < ?", this_term.id)
                     .where("BannerTerm >= ?", _150_term.id)
                     .size
@@ -205,10 +204,10 @@ class Student < ActiveRecord::Base
                 end
 
             else
-                # any other major
+                # any other major or no major
                 _227_228_count = stu.transcripts
                     .where({:course_code => ["EDS227", "EDS228"]})
-                    .where("grade_pt >= 2.0")
+                    .where("grade_pt >= 2.7")
 
                 if stu.prog_status == "Prospective" && _227_228_count.present?
                     next true
