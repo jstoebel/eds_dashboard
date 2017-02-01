@@ -1,18 +1,18 @@
 
 
 <tr>
-  <th> <%= f.label(:student_id, "Name")%> </th>
-  <td> <%= f.select(:student_id, @students.map {|s| [s.name_readable, s.id]}, {:prompt => 'Select a name'}) %></td>
+  <th> <%= f.label(:student_id, "Name:")%> </th>
+  <td> <%= f.select(:student_id, @students.map{|s| [name_details(s, file_as=true), s.id]}, {:prompt => 'Select a name'}) %></td>
 </tr>
 
 <tr>
-  <th> <%= f.label(:praxis_test_id, "Test Name")%> </th>
+  <th> <%= f.label(:praxis_test_id, "Test Name:")%> </th>
   <td> <%= f.select(:praxis_test_id,  @test_options.map {|t| [t.TestName, t.TestCode]},
   {:prompt => 'Select a test'}) %></td>
 </tr>
 
 <tr>
-  <th> <%= f.label(:test_date, "Test Date")%> </th>
+  <th> <%= f.label(:test_date, "Test Date:")%> </th>
 
   <td>
     <%= render(partial: 'date_picker', :locals => {
@@ -24,7 +24,7 @@
 </tr>
 
 <tr>
-  <th> <%= f.label(:reg_date, "Regsitration Date")%> </th>
+  <th> <%= f.label(:reg_date, "Regsitration Date:")%> </th>
   <td>
     <%= render(partial: 'date_picker', :locals => {
         f: f,
@@ -35,6 +35,6 @@
 </tr>
 
 <tr>
-  <th> <%= f.label(:paid_by, "Paid By")%> </th>
+  <th> <%= f.label(:paid_by, "Paid By:")%> </th>
   <td> <%= f.select(:paid_by, ['EDS', 'ETS (fee waiver)', 'Student'], {prompt: 'Paid By'})  %></td>
 </tr>

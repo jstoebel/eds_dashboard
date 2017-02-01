@@ -5,7 +5,9 @@ class RailsAdminTest < ActionDispatch::IntegrationTest
   all_roles = Role.all.pluck :RoleName
 
   test "gets admin" do
-    request_admin("admin")
+    # request_admin("admin")
+    user = FactoryGirl.create :admin
+    get '/admin', env: { "REMOTE_USER" => user.andand.UserName}
     assert_response :success
   end
 

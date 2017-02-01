@@ -59,7 +59,6 @@ class ClinicalSitesController < ApplicationController
     end
   end
 
-
   def delete
     @site = ClinicalSite.find(params[:clinical_site_id])
     authorize! :manage, @site

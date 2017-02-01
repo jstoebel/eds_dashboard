@@ -37,9 +37,11 @@ class IssuesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       describe "allowed role: #{r}" do
         before do
-          @issue = FactoryGirl.create :issue
-          get :edit, :id => @issue.id
           load_session(r)
+          user = User.find_by :UserName => session[:user]
+          stu = make_advisee(user)
+          @issue = FactoryGirl.create :issue, :student => stu
+          get :edit, :id => @issue.id
         end
 
         test "http success" do

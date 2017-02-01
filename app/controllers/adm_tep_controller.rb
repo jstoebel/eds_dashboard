@@ -7,9 +7,9 @@ class AdmTepController < ApplicationController
 
   def new
     #display menu for possible names and possible programs
-
     @app = AdmTep.new
     authorize! :manage, @app
+    @app.student_id = params[:student_id]
     new_setup
   end
 
@@ -144,8 +144,7 @@ class AdmTepController < ApplicationController
   def new_setup
       @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && s.EnrollmentStatus == "Active Student"}
       @programs = Program.where("Current = 1")
-      term_now = BannerTerm.current_term({:exact => false, :plan_b => :back})
-      @terms = BannerTerm.actual.where("BannerTerm >= ?", term_now.id).order(BannerTerm: :asc)
+      @terms = BannerTerm.actual.where("StartDate >= ?", 1.year.ago).order(BannerTerm: :asc)
   end
 
   def error_update

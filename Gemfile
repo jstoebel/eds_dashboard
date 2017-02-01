@@ -61,6 +61,7 @@ group :development do
     gem 'knife-solo', '~> 0.4.2'
     gem 'rails-erd'
     gem 'bundler-audit', require: false
+    gem 'pry-rails'
 end
 
 group :test do
@@ -100,6 +101,6 @@ gem 'nokogiri', '~> 1.6', '>= 1.6.8'
 gem 'roman', '~> 0.2.0'
 gem "marco-polo" # console prompt
 
-gem 'rails_admin', '~> 1.0'
+gem 'rails_admin', '~> 1.1', '>= 1.1.1'
 gem "rails_admin_import", "~> 2.0"
 gem 'markdown-rails'

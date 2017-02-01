@@ -6,7 +6,7 @@
 
 
   <%= form_for(:pgp, :url => student_pgps_path(@student.id) ) do |f| %>
-	<h2>Create new professional growth plan for <%=@student.name_readable%></h2>
+	<h2>Create New Professional Growth Plan for <%=@student.name_readable%></h2>
   	<%= error_messages_for(@pgp) %>
 
 	<table summary="PGPs form fields">

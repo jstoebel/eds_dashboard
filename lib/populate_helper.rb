@@ -61,6 +61,25 @@ module PopulateHelper
       end
 
       pop_transcript stu, 12, gpa, term.StartDate - 200, term.EndDate
+
+      # give student 150 2 terms ago and 227 1 term ago
+
+      this_term = BannerTerm.current_term(:exact => false, :plan_b => :forward)
+      prev_standard_terms = BannerTerm.where("BannerTerm < ?", this_term.id)
+        .where({:standard_term => true})
+
+      FactoryGirl.create :transcript, {
+          :student => stu,
+          :course_code => "EDS150",
+          :banner_term => prev_standard_terms[-2]
+      }
+
+      FactoryGirl.create :transcript, {
+          :student => stu,
+          :course_code => "EDS227",
+          :banner_term => prev_standard_terms[-1]
+      }
+
       pop_praxisI stu, date_apply - 30, praxis_pass
 
       app_attrs.each do |i|

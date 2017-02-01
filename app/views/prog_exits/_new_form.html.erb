@@ -10,12 +10,12 @@
 		<%= error_messages_for(@exit) %>
 
 		<tr>
-		    <th> <%=f.label :student_id, "Student to Exit"%> </th>
+		    <th> <%=f.label :student_id, "Student to Exit:"%> </th>
 		    <td>
 			<%= f.select :student_id,
-			options_for_select(@students.map { |s| [name_details(s), s.id] }, :selected => @exit.student_id ? @exit.student.AltID : "" ),
+			options_for_select(@students.map{|s| [name_details(s, file_as=true), s.id]}, :selected => @exit.student_id ? @exit.student.AltID : "" ),
 
-				{:include_blank => "Select a student to exit"},
+				{:include_blank => "Select a student to exit:"},
 
 		      	{id: 'names_select',
 		        :ajax_path => prog_exits_get_programs_path } %>
@@ -23,7 +23,7 @@
 		</tr>
 
 		<tr>
-		  <th> <%= f.label :Program_ProgCode, "Program to Exit", :class => 'programs_row'  %> </th>
+		  <th> <%= f.label :Program_ProgCode, "Program to Exit:", :class => 'programs_row'  %> </th>
 		  <td>
 		  <%= f.select :Program_ProgCode, options_for_select([]), {}, {prompt: "Select a Program to Exit", id: 'programs_select', :class => 'programs_row'} %>
 		  </td>
@@ -31,7 +31,7 @@
 
 		<tr>
 			<th>
-				<%= f.label :ExitCode_ExitCode, "Exit Reason" %>
+				<%= f.label :ExitCode_ExitCode, "Exit Reason:" %>
 			</th>
 			<td>
 				<%= f.select :ExitCode_ExitCode, options_for_select(@exit_reasons.collect { |er| [er.ExitDiscrip, er.id]})  %>
@@ -40,7 +40,7 @@
 
 		<tr>
 			<th>
-				<%= f.label :ExitDate, "Exit Date" %>
+				<%= f.label :ExitDate, "Exit Date:" %>
 			</th>
 
             <td class="date-admit">
@@ -56,7 +56,7 @@
 
 		<tr>
 			<th>
-				<%= f.label :RecommendDate, "Date Recommend Certification"  %>
+				<%= f.label :RecommendDate, "Date Recommend Certification:"  %>
 			</th>
 
             <td class="date-admit">

@@ -5,9 +5,9 @@
       <caption>
         <span class="header1 col-xs-12"><%= "Forms of Intention:" %> </span><br>
         <span class="header2 col-xs-12"><%= @fois.size %> found</span>
-        <div class="col-xs-1">
+        <div class="col-xs-1"><br>
           <%= form_tag import_fois_path, multipart: true do %>
-            <%= file_field_tag :file %>
+            <%= file_field_tag :file %><br>
             <%= submit_tag "Import CSV" %>
           <% end %>
         </div>
