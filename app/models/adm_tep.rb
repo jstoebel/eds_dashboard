@@ -27,7 +27,9 @@ class AdmTep < ActiveRecord::Base
   belongs_to :program, {foreign_key: "Program_ProgCode"}
   belongs_to :student
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
-  belongs_to :student_file
+
+  has_many :adm_files
+  has_many :student_files, :through => :adm_files
 
   #CALL BACKS
   after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
@@ -51,12 +53,8 @@ class AdmTep < ActiveRecord::Base
   validates_presence_of :BannerTerm_BannerTerm,
     :message => "No term could be determined."
 
-  validates_presence_of :student_file_id,{:message => "Please attach an admission letter.",
-      :unless => Proc.new{|s| s.TEPAdmit.nil?}
-    }
-
   validates_presence_of :TEPAdmitDate, {:message => "Admission date must be given.",
-    :if => Proc.new{|s| s.TEPAdmit.present?}# self.TEPAdmit.nil?
+    :if => Proc.new{|s| s.TEPAdmit.present?}
   }
 
   def good_credits?

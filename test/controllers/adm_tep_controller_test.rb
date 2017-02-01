@@ -16,7 +16,7 @@ class AdmTepControllerTest < ActionController::TestCase
       @term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
         :EndDate => 10.days.from_now}
       end
-      @later_term = FactoryGirl.create :banner_term, {:StartDate => 1.year.ago - 1, 
+      @later_term = FactoryGirl.create :banner_term, {:StartDate => 1.year.ago - 1,
         :EndDate => Date.today}
     allowed_roles.each do |r|
       describe "as #{r}" do
@@ -28,6 +28,7 @@ class AdmTepControllerTest < ActionController::TestCase
           get :new
 
           assert_response :success
+          byebug
           assert_equal @prospectives.to_a.sort, assigns(:students).to_a.sort
           assert_equal  Program.where("Current = 1").to_a, assigns(:programs).to_a
           assert_equal  BannerTerm.actual.where("StartDate >= ?", 1.year.ago).order(BannerTerm: :asc).to_a, assigns(:terms).to_a

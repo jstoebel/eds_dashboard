@@ -299,14 +299,6 @@ class AdmTepTest < ActiveSupport::TestCase
     assert_equal(app.errors[:EarnedCredits], ["Student needs to have earned 30 credit hours and has only earned #{app.EarnedCredits}."])
   end
 
-  test "no admission letter" do
-    app = FactoryGirl.build :adm_tep, {:student_file => nil}
-    app.TEPAdmit = true
-    # pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
-    app.valid?
-    assert_equal(app.errors[:student_file_id], ["Please attach an admission letter."])
-  end
-
   test "already enrolled" do
     #student can't be admitted because they are already enrolled
     stu = FactoryGirl.create :admitted_student

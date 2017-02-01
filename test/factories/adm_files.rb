@@ -11,6 +11,7 @@
 
 FactoryGirl.define do
   factory :adm_file do
-    
+    student_file
+    accepted_adm_tep
   end
 end

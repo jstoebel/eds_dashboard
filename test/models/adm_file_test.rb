@@ -12,7 +12,8 @@
 require 'test_helper'
 
 class AdmFileTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+    test "adm_tep_id required" do
+        
+    end
 end

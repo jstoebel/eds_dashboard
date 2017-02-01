@@ -12,7 +12,6 @@
 #
 
 class StudentFile < ActiveRecord::Base
-
 	belongs_to :student
     before_save :check_file_unique
 
