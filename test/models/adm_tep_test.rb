@@ -36,7 +36,6 @@ class AdmTepTest < ActiveSupport::TestCase
       :student => stu,
       :program => program,
       :banner_term => stu.adm_tep.first.banner_term,
-      :student_file => stu_file,
       :TEPAdmit => false
     }
 
@@ -85,13 +84,11 @@ class AdmTepTest < ActiveSupport::TestCase
         :banner_term => term,
         :TEPAdmit => nil,
         :TEPAdmitDate => nil,
-        :student_file => nil
       }
       first_adm_tep.save!
       second_adm_tep = FactoryGirl.build :adm_tep, {:program => program,
         :TEPAdmit => false,
-        :TEPAdmitDate => nil,
-        :student_file => nil
+        :TEPAdmitDate => nil
       }
       assert_not second_adm_tep.valid?
     end # test
@@ -328,8 +325,7 @@ class AdmTepTest < ActiveSupport::TestCase
     app = FactoryGirl.create :adm_tep, {:student => stu,
       :banner_term => apply_term,
       :TEPAdmitDate => nil,
-      :TEPAdmit => nil,
-      :student_file => nil
+      :TEPAdmit => nil
     }
 
     app2 = FactoryGirl.build :adm_tep, {

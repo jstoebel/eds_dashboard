@@ -76,7 +76,7 @@ FactoryGirl.define do
           # need to associate a file with this app
           adm_file = AdmFile.create!({
               :adm_tep_id => app.id,
-              :student_file => (FactoryGirl.create :student_file)
+              :student_file => (FactoryGirl.create :student_file, {:student => app.student})
           })
       end
 

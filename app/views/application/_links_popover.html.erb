@@ -1,0 +1,37 @@
+<!-- Partial for a links popover.
+
+  arguments:
+      record_id: an id for the record the popover will represent. Must be unique to the page
+      popover_title: the title of the popover.
+      button_title: the name of the button
+      links(array): an array of hashes, each representing a link. Structure:
+      [
+        {:name => "link name", :url => "/some/url"}
+      ]
+       -->
+
+
+<!-- Button trigger modal -->
+<button class="btn btn-info action-small"+ <%= links.present? ? "" : "disabled" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
+  <%= button_title  %>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exit-<%= record_id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= record_id %>-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exit-<%= record_id %>-label">
+          <%=popover_title %> </h4>
+      </div>
+      <div class="modal-body">
+          <% links.each do |link| %>
+            <%= link_to(link[:name], link[:url]) %>
+          <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

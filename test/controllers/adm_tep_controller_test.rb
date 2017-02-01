@@ -28,7 +28,6 @@ class AdmTepControllerTest < ActionController::TestCase
           get :new
 
           assert_response :success
-          byebug
           assert_equal @prospectives.to_a.sort, assigns(:students).to_a.sort
           assert_equal  Program.where("Current = 1").to_a, assigns(:programs).to_a
           assert_equal  BannerTerm.actual.where("StartDate >= ?", 1.year.ago).order(BannerTerm: :asc).to_a, assigns(:terms).to_a
@@ -218,8 +217,7 @@ class AdmTepControllerTest < ActionController::TestCase
         :EndDate => 10.days.from_now}
       @applications = FactoryGirl.create_list :adm_tep, 5, {:banner_term => term,
         :TEPAdmit => nil,
-        :TEPAdmitDate => nil,
-        :student_file => nil
+        :TEPAdmitDate => nil
       }
     end
 

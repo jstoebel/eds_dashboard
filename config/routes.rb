@@ -248,6 +248,10 @@ Rails.application.routes.draw do
     resources :clinical_assignments, only: [:index]
   end
 
+  resources :adm_files, only: [] do
+      get :download
+  end
+
   match 'help', via: [:get], controller: 'helps', action: 'home'
   match 'help/:article', via: [:get], controller: 'helps', action: 'home'
 

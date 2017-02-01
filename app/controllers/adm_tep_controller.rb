@@ -115,7 +115,6 @@ class AdmTepController < ApplicationController
     app = AdmTep.find(params[:adm_tep_id])
     authorize! :read, app
     send_file app.student_file.doc.path
-
   end
 
   def destroy

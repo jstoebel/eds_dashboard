@@ -44,8 +44,7 @@ module PopulateHelper
           :TEPAdmitDate => (admit ? date_apply : nil),
           :GPA => nil,
           :GPA_last30 => nil,
-          :EarnedCredits => nil,
-          :student_file_id => (admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+          :EarnedCredits => nil
         }
       }
 
@@ -53,7 +52,6 @@ module PopulateHelper
         #student qualifies for admission
         gpa = 3.0 #good enough GPA
         praxis_pass = true #pass the praxis
-
       else
         #student is denied admission
         gpa = 2.0 #not good enough GPA
@@ -84,6 +82,12 @@ module PopulateHelper
 
       app_attrs.each do |i|
         i.save
+        if !admit == false
+            adm_file = AdmFile.create!({
+                :adm_tep_id => i.id,
+                :student_file => (FactoryGirl.create :student_file, {:student => i.student})
+            })
+        end
       end
 
     end
