@@ -107,22 +107,19 @@
           <%= link_to("Details", adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
         </td>
 
-        <% if app.adm_files.present?  -%>
-            <td>
-                <%= render(partial: "links_popover", :locals => {
-                    :record_id => app.id,
-                    :popover_title => "Application Documents for #{app.student.name_readable}",
-                    :button_title => "Docs",
-                    :links => (app.adm_files.map{|f| {
-                        :name => f.student_file.doc_file_name,
-                        :url => adm_file_download_path(f.id)
-                    }
-                    })
+        <td>
+            <%= render(partial: "links_popover", :locals => {
+                :record_id => app.id,
+                :popover_title => "Application Documents for #{app.student.name_readable}",
+                :button_title => "Docs",
+                :links => (app.adm_files.map{|f| {
+                    :name => f.student_file.doc_file_name,
+                    :url => adm_file_download_path(f.id)
+                }
+                })
 
-                    }) %>
-            </td>
-
-        <% end %>
+                }) %>
+        </td>
 
         <td>
 

@@ -22,7 +22,7 @@ class AdmTep < ActiveRecord::Base
 
   include ApplicationHelper
 
-  attr_accessor :fks_in   #if forign keys are in.
+  attr_accessor :fks_in, :adm_file
 
   belongs_to :program, {foreign_key: "Program_ProgCode"}
   belongs_to :student
@@ -34,6 +34,7 @@ class AdmTep < ActiveRecord::Base
   #CALL BACKS
   after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
   after_validation :complex_validations, :unless =>  Proc.new{|s| s.errors.any?}
+  after_save :create_adm_file
 
   #SCOPES
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
@@ -153,6 +154,14 @@ class AdmTep < ActiveRecord::Base
     if ((self.TEPAdmitDate.present? || self.student_file_id.present?) && self.TEPAdmit == nil )
       self.errors.add(:TEPAdmit, "Please make an admission decision for this student.")
     end
+  end
+
+  def create_adm_file
+      byebug
+      AdmFile.create!({
+          :student_file_id => self.adm_file.id,
+          :adm_tep_id => self.id
+      })
   end
 
 end

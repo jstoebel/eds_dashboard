@@ -177,7 +177,7 @@ Rails.application.routes.draw do
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
     get "admit"
-    get "download"
+    resources :adm_files, only: [:create]
   end
 
   resources :adm_st, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
@@ -225,10 +225,6 @@ Rails.application.routes.draw do
 
   resources :praxis_result_temps, only: [:index], shallow: true do
     post "resolve"
-  end
-
-  resources :student_files do
-    get "download"
   end
 
   resources :issues, only: [:index, :new, :create, :destroy, :edit, :update],  shallow: true do

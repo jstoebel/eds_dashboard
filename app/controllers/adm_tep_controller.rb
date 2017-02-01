@@ -67,7 +67,7 @@ class AdmTepController < ApplicationController
       })
 
     @letter.save
-    @application.student_file_id = @letter.id
+    @application.adm_file = @letter
 
     @application.Notes = params[:adm_tep][:Notes]
 

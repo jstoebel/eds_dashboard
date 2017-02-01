@@ -8,6 +8,8 @@
       [
         {:name => "link name", :url => "/some/url"}
       ]
+      new_button (hash): ingrediants for a new button:
+        example: {:label => "New", :url => "/some/url"}
        -->
 
 
@@ -25,11 +27,32 @@
           <%=popover_title %> </h4>
       </div>
       <div class="modal-body">
-          <% links.each do |link| %>
-            <%= link_to(link[:name], link[:url]) %>
+              <% links.each do |link| %>
+
+                <%= link_to(link[:name], link[:url]) %>
+              <% end %>
+          <%= form_for(:adm_file, :url =>  adm_tep_adm_files_path(record_id), method: :post ) do |f| %>
+
+            <table>
+              </tr>
+                  <td class="letter-attach">
+                      <%= f.file_field :doc %>
+                  </td>
+              </tr>
+
+              <tr>
+                  <td>
+                      <div class="form-buttons">
+                          <%= submit_tag("Submit") %>
+                      </div>
+                  </td>
+              </tr>
+
+            </table>
           <% end %>
       </div>
       <div class="modal-footer">
+
         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
       </div>
     </div>

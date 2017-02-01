@@ -14,9 +14,9 @@ class AdmFile < ActiveRecord::Base
     belongs_to :student_file
 
     validates :adm_tep_id,
-      :presence => true,
-      :uniqueness => {message: "This file is already associated."}
+      :presence => true
 
     validates :student_file_id,
-        :presence => true
+        :presence => true,
+        :uniqueness => {message: "This file is already associated."}
 end
