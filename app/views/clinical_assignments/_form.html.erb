@@ -3,7 +3,7 @@
 
     <tr>
       <th> <%= f.label(:student_id, "Student:")%> </th>
-      <td> <%= f.select(:student_id, @students.map {|s| [name_details(s), s.id]},
+      <td> <%= f.select(:student_id, @students.map{|s| [name_details(s, file_as=true), s.id]},
       {prompt: "Select a student"}, id: 'student_select') %></td>
     </tr>
 
