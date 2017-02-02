@@ -233,6 +233,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :student_files, only: [] do
+      get 'download'
+  end
+
   resources :pgps, shallow: true do
     resources :pgp_scores
   end

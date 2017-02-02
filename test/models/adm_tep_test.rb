@@ -80,13 +80,15 @@ class AdmTepTest < ActiveSupport::TestCase
       stu = FactoryGirl.create :student
       term = FactoryGirl.create :banner_term
       program = FactoryGirl.create :program
-      first_adm_tep = FactoryGirl.build :adm_tep, {:program => program,
+      first_adm_tep = FactoryGirl.build :adm_tep, {:student => stu,
+        :program => program,
         :banner_term => term,
         :TEPAdmit => nil,
         :TEPAdmitDate => nil,
       }
       first_adm_tep.save!
-      second_adm_tep = FactoryGirl.build :adm_tep, {:program => program,
+      second_adm_tep = FactoryGirl.build :adm_tep, {:student => stu,
+        :program => program,
         :TEPAdmit => false,
         :TEPAdmitDate => nil
       }
@@ -183,7 +185,7 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "Unique Programs for AdmTep" do
     stu = FactoryGirl.create :admitted_student
-    second_app = FactoryGirl.build :adm_tep, {:student_id => stu.id, :Program_ProgCode => stu.adm_tep.first.id}
+    second_app = FactoryGirl.build :adm_tep, {:student => stu, :program => stu.adm_tep.first.program}
     assert_not second_app.valid?
   end
 

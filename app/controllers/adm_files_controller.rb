@@ -10,9 +10,11 @@ class AdmFilesController < ApplicationController
     end
 
     def create
+
         adm = AdmTep.find params[:adm_tep_id]
 
-        student_file = StudentFile.create!({
+        authorize! :manage, adm
+        student_file = StudentFile.create({
             :doc => params[:adm_file][:doc],
             :student_id => adm.student.id
         })
@@ -29,6 +31,7 @@ class AdmFilesController < ApplicationController
 
     def destroy
         adm_file = AdmFile.find params[:id]
+        authorize! :read, adm_file
         adm_file.destroy
         flash[:notice] = "Removed file: #{adm_file.student_file.doc_file_name}"
         redirect_to banner_term_adm_tep_index_path(adm_file.adm_tep.banner_term.id)

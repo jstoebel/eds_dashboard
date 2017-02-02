@@ -141,7 +141,7 @@ class AdmTep < ActiveRecord::Base
 
   def cant_apply_again
 
-    attrs = self.attributes.slice("student_id", "Program_ProgCode", "BannerTerm_BannerTerm")
+    attrs = self.attributes.slice("student_id", "Program_ProgCode")
     accepted_or_pending_apps = AdmTep.where(attrs).where("TEPAdmit = 1 or TEPAdmit IS NULL")
     if ( accepted_or_pending_apps.size > 0 && self.new_record? ||
          accepted_or_pending_apps.size > 1 && !self.new_record?
