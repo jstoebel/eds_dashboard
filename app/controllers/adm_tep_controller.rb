@@ -22,7 +22,6 @@ class AdmTepController < ApplicationController
     prog_code = params[:adm_tep][:Program_ProgCode]
 
     #how many times has this student applied this term?
-
     apps_this_term = AdmTep.where(student_id: bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: prog_code).size
     @app.Attempt = apps_this_term + 1
     if @app.save
@@ -55,10 +54,7 @@ class AdmTepController < ApplicationController
     @current_term = BannerTerm.current_term(exact: false, :plan_b => :back)
 
     @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
-
-    #assigns the letter if it was given. While this is admitadly verbose, I don't
-    #know how to pass in a letter in my test request.
-
+    
     @application.Notes = params[:adm_tep][:Notes]
 
     begin
