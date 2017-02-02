@@ -10,7 +10,6 @@ class AdmFilesController < ApplicationController
     end
 
     def create
-
         adm = AdmTep.find params[:adm_tep_id]
 
         authorize! :manage, adm

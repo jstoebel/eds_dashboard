@@ -5,7 +5,7 @@ include ActionDispatch::TestProcess
 class AdmFilesControllerTest < ActionController::TestCase
 
     all_roles = Role.all.pluck :RoleName
-    allowed_roles = [:admin, :staff]
+    allowed_roles = ["admin", "staff"]
 
     describe "allowed roles" do
 
@@ -96,6 +96,41 @@ class AdmFilesControllerTest < ActionController::TestCase
 
                 end
             end
+        end
+    end
+
+    (all_roles - allowed_roles).each do |r|
+        puts r
+        describe "restricted roles" do
+            before do
+                load_session(r)
+                @adm_tep = FactoryGirl.create :accepted_adm_tep
+                @adm_file = @adm_tep.adm_files.first
+            end
+
+            describe "as #{r}" do
+                test "can't get download" do
+                    get :download, :adm_file_id => @adm_file.id
+                    assert_redirected_to "/access_denied"
+                end
+
+                test "can't post create" do
+                    post :create, {
+                        :adm_tep_id => @adm_tep.id,
+                        :adm_file => {
+                            :doc => fixture_file_upload('test_file.txt')
+                        }
+                    }
+                    assert_redirected_to "/access_denied"
+                end
+
+                test "can't delete destroy" do
+                    delete :destroy, :id => @adm_file.id
+                    assert_redirected_to "/access_denied"
+                end
+
+            end
+
         end
     end
 
