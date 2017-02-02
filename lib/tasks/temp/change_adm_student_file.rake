@@ -12,7 +12,7 @@ namespace :temp do
             # create an associative file for each student file related to an
             # adm_tep
 
-            if app.student_file.present?
+            if app.student_file_id.present?
                 AdmFile.create!({
                     :student_file_id => app.student_file_id,
                     :adm_tep_id => app.id
