@@ -109,16 +109,9 @@
 
         <td>
             <%= render(partial: "links_popover", :locals => {
-                :record_id => app.id,
-                :popover_title => "Application Documents for #{app.student.name_readable}",
-                :button_title => "Docs",
-                :links => (app.adm_files.map{|f| {
-                    :name => f.student_file.doc_file_name,
-                    :url => adm_file_download_path(f.id)
-                }
-                })
-
-                }) %>
+                            :app => app
+                        }
+                    ) %>
         </td>
 
         <td>

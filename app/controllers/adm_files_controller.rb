@@ -27,4 +27,11 @@ class AdmFilesController < ApplicationController
         redirect_to banner_term_adm_tep_index_path(adm.banner_term.id)
     end
 
+    def destroy
+        adm_file = AdmFile.find params[:id]
+        adm_file.destroy
+        flash[:notice] = "Removed file: #{adm_file.student_file.doc_file_name}"
+        redirect_to banner_term_adm_tep_index_path(adm_file.adm_tep.banner_term.id)
+    end
+
 end

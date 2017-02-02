@@ -1,37 +1,48 @@
 <!-- Partial for a links popover.
 
   arguments:
-      record_id: an id for the record the popover will represent. Must be unique to the page
-      popover_title: the title of the popover.
-      button_title: the name of the button
-      links(array): an array of hashes, each representing a link. Structure:
-      [
-        {:name => "link name", :url => "/some/url"}
-      ]
-      new_button (hash): ingrediants for a new button:
-        example: {:label => "New", :url => "/some/url"}
+      app: the adm_tep record this popover represents
        -->
 
 
 <!-- Button trigger modal -->
-<button class="btn btn-info action-small"+ <%= links.present? ? "" : "disabled" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
-  <%= button_title  %>
+<button class="btn btn-info action-small" data-toggle="modal" data-target="#exit-<%= app.id %>-details">
+  Docs
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exit-<%= record_id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= record_id %>-label" aria-hidden="true">
+<div class="modal fade" id="exit-<%= app.id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= app.id %>-label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exit-<%= record_id %>-label">
-          <%=popover_title %> </h4>
+        <h4 class="modal-title" id="exit-<%= app.id %>-label">
+          <%="Applicaiton Files for #{app.student.name_readable} (#{app.banner_term.readable}): #{app.program.EDSProgName}" %>
+        </h4>
       </div>
       <div class="modal-body">
-              <% links.each do |link| %>
 
-                <%= link_to(link[:name], link[:url]) %>
+          <div class="container-fluid">
+
+            <table class="listing summary adm_tep list table table-striped">
+
+              <% app.adm_files.each do |f|  %>
+                <tr>
+                    <td>
+                        <%= link_to(f.student_file.doc_file_name, adm_file_download_path(f.id)) %>
+                    </td>
+
+                    <td>
+                        <%= button_to(adm_file_path(f.id), { class: "btn btn-default", method: :delete, data: {confirm: "Are you sure you want to remove this file?"} } ) do %>
+                        <span class="glyphicon glyphicon-trash"> </span>
+                        <% end %>
+                    </td>
+                </tr>
+
               <% end %>
-          <%= form_for(:adm_file, :url =>  adm_tep_adm_files_path(record_id), method: :post ) do |f| %>
+            </table>
+
+          </div>
+          <%= form_for(:adm_file, :url =>  adm_tep_adm_files_path(app.id), method: :post ) do |f| %>
 
             <table>
               </tr>

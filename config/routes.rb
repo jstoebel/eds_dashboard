@@ -244,7 +244,7 @@ Rails.application.routes.draw do
     resources :clinical_assignments, only: [:index]
   end
 
-  resources :adm_files, only: [] do
+  resources :adm_files, only: [:destroy] do
       get :download
   end
 

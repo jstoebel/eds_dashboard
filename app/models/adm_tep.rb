@@ -28,7 +28,7 @@ class AdmTep < ActiveRecord::Base
   belongs_to :student
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
 
-  has_many :adm_files
+  has_many :adm_files, :dependent => :destroy
   has_many :student_files, :through => :adm_files
 
   #CALL BACKS
@@ -157,11 +157,12 @@ class AdmTep < ActiveRecord::Base
   end
 
   def create_adm_file
-      byebug
-      AdmFile.create!({
-          :student_file_id => self.adm_file.id,
-          :adm_tep_id => self.id
-      })
+      if self.adm_file.present?
+          AdmFile.create!({
+              :student_file_id => self.adm_file.id,
+              :adm_tep_id => self.id
+          })
+      end
   end
 
 end
