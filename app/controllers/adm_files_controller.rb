@@ -12,6 +12,12 @@ class AdmFilesController < ApplicationController
     def create
         adm = AdmTep.find params[:adm_tep_id]
 
+        if params[:adm_file].blank?
+            flash[:notice] = "Please provide a file"
+            redirect_to banner_term_adm_tep_index_path(adm.banner_term.id)
+            return
+        end
+
         authorize! :manage, adm
         student_file = StudentFile.create({
             :doc => params[:adm_file][:doc],

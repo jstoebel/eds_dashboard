@@ -59,14 +59,11 @@ class AdmFilesControllerTest < ActionController::TestCase
 
                         test "fails with no doc" do
                             post :create, {
-                                :adm_tep_id => @adm_tep.id,
-                                :adm_file => {
-                                    :doc => nil
-                                }
+                                :adm_tep_id => @adm_tep.id
                             }
 
                             assert_redirected_to banner_term_adm_tep_index_path(@adm_tep.banner_term.id)
-                            assert_equal "There was a problem uploading your file", flash[:notice]
+                            assert_equal "Please provide a file", flash[:notice]
                         end
 
 
