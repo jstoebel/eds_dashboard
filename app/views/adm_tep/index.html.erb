@@ -108,6 +108,13 @@
         </td>
 
         <td>
+            <%= render(partial: "links_popover", :locals => {
+                            :app => app
+                        }
+                    ) %>
+        </td>
+
+        <td>
 
           <%= button_to(adm_tep_path(app.id), { class: "btn btn-default #{app.TEPAdmit==nil ? "" : "disabled" }",
           method: :delete,
@@ -120,15 +127,6 @@
 
         </td>
 
-        <% if app.student_file  %>
-
-        <td class="doc-download">
-
-              <%= link_to adm_tep_download_path(app.id), :class => "btn btn-default glyphicon glyphicon-paperclip action-small" do %>
-              <% end %>
-        </td>
-
-        <% end %>
 
         </tr>
           <!-- end of if statement for content-->

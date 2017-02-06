@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~>4.2'
-# gem 'rails', '~> 4.2', '>= 4.2.5'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.3.18'
 gem 'sqlite3', '~> 1.3', '>= 1.3.11'
@@ -67,6 +66,7 @@ end
 group :test do
   gem 'minitest-spec-rails'
   gem 'mocha'
+  gem 'minitest-reporters', '~> 1.1', '>= 1.1.14'
 end
 
 

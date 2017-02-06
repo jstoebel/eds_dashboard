@@ -177,7 +177,7 @@ Rails.application.routes.draw do
   resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"
     get "admit"
-    get "download"
+    resources :adm_files, only: [:create]
   end
 
   resources :adm_st, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
@@ -227,14 +227,14 @@ Rails.application.routes.draw do
     post "resolve"
   end
 
-  resources :student_files do
-    get "download"
-  end
-
   resources :issues, only: [:index, :new, :create, :destroy, :edit, :update],  shallow: true do
     resources :issue_updates do
         patch 'update'
     end
+  end
+
+  resources :student_files, only: [] do
+      get 'download'
   end
 
   resources :pgps, shallow: true do
@@ -246,6 +246,10 @@ Rails.application.routes.draw do
     resources :adm_st, only: [:index]
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
+  end
+
+  resources :adm_files, only: [:destroy] do
+      get :download
   end
 
   match 'help', via: [:get], controller: 'helps', action: 'home'

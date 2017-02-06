@@ -50,6 +50,7 @@ GEM
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
+    ansi (1.5.0)
     arel (6.0.4)
     autoprefixer-rails (6.7.0)
       execjs
@@ -230,6 +231,11 @@ GEM
     minitest (5.10.1)
     minitest-fail-fast (0.1.0)
       minitest (~> 5)
+    minitest-reporters (1.1.14)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
     minitest-spec-rails (5.4.0)
       minitest (~> 5.0)
       rails (>= 4.1)
@@ -381,6 +387,7 @@ GEM
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby-graphviz (1.2.2)
     ruby-oci8 (2.2.3)
+    ruby-progressbar (1.8.1)
     rubyzip (1.2.0)
     sass (3.2.19)
     sass-rails (4.0.5)
@@ -491,6 +498,7 @@ DEPENDENCIES
   marco-polo
   markdown-rails
   minitest-fail-fast
+  minitest-reporters (~> 1.1, >= 1.1.14)
   minitest-spec-rails
   mocha
   mysql2 (~> 0.3.18)
