@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206222250) do
+ActiveRecord::Schema.define(version: 20170207193703) do
 
   create_table "adm_files", force: :cascade do |t|
     t.integer  "adm_tep_id",      limit: 4
@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(version: 20170206222250) do
     t.text     "reason",     limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.boolean  "active"
   end
 
   create_table "employment", force: :cascade do |t|
