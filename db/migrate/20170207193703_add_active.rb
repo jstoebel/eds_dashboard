@@ -1,4 +1,4 @@
-class AddResolved < ActiveRecord::Migration
+class AddActive < ActiveRecord::Migration
   def up
     add_column :downtimes, :active, :boolean
   end
