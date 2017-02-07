@@ -16,12 +16,14 @@ class TranscriptsControllerTest < ActionController::TestCase
           @course = FactoryGirl.create :transcript, :student => assignment.student,
             :banner_term => this_term
           get :index, :student_id => @course.student.id
+
+          @expected = @course.attributes
         end
 
         test "successful" do
           # puts response.body
           assert :success
-          assert_equal @course, JSON.parse(response.body)
+          assert_equal [@expected], JSON.parse(response.body)
         end
 
       end

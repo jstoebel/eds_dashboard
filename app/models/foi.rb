@@ -13,8 +13,6 @@
 #  updated_at      :datetime
 #
 require 'csv'
-
-
 class Foi < ActiveRecord::Base
   self.table_name = 'forms_of_intention'
   belongs_to :student

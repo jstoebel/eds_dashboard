@@ -6,7 +6,7 @@
 #  PlainTerm  :string(45)       not null
 #  StartDate  :datetime         not null
 #  EndDate    :datetime         not null
-#  AYStart    :integer          not null
+#  AYStart    :integer          not nu
 #
 
 BannerTerm_1:
@@ -22,6 +22,7 @@ BannerTerm_2:
   StartDate: 1953-09-18 00:00:00.000000000 Z
   EndDate: 1954-01-29 00:00:00.000000000 Z
   AYStart: 1953
+  standard_term: true
 
 BannerTerm_3:
   BannerTerm: 195303
@@ -29,6 +30,7 @@ BannerTerm_3:
   StartDate: 1954-02-05 00:00:00.000000000 Z
   EndDate: 1954-06-04 00:00:00.000000000 Z
   AYStart: 1953
+  standard_term: true
 
 BannerTerm_4:
   BannerTerm: 195304
@@ -43,6 +45,7 @@ BannerTerm_5:
   StartDate: 1954-09-17 00:00:00.000000000 Z
   EndDate: 1955-01-28 00:00:00.000000000 Z
   AYStart: 1954
+  standard_term: true
 
 BannerTerm_6:
   BannerTerm: 195403
@@ -50,6 +53,7 @@ BannerTerm_6:
   StartDate: 1955-02-04 00:00:00.000000000 Z
   EndDate: 1955-06-03 00:00:00.000000000 Z
   AYStart: 1954
+  standard_term: true
 
 BannerTerm_7:
   BannerTerm: 195404
@@ -64,6 +68,7 @@ BannerTerm_8:
   StartDate: 1955-09-22 00:00:00.000000000 Z
   EndDate: 1956-01-31 00:00:00.000000000 Z
   AYStart: 1955
+  standard_term: true
 
 BannerTerm_9:
   BannerTerm: 195503
@@ -71,6 +76,7 @@ BannerTerm_9:
   StartDate: 1956-02-06 00:00:00.000000000 Z
   EndDate: 1956-06-01 00:00:00.000000000 Z
   AYStart: 1955
+  standard_term: true
 
 BannerTerm_10:
   BannerTerm: 195504
@@ -85,6 +91,7 @@ BannerTerm_11:
   StartDate: 1956-09-21 00:00:00.000000000 Z
   EndDate: 1957-01-26 00:00:00.000000000 Z
   AYStart: 1956
+  standard_term: true
 
 BannerTerm_12:
   BannerTerm: 195603
@@ -92,6 +99,7 @@ BannerTerm_12:
   StartDate: 1957-02-01 00:00:00.000000000 Z
   EndDate: 1957-05-31 00:00:00.000000000 Z
   AYStart: 1956
+  standard_term: true
 
 BannerTerm_13:
   BannerTerm: 195604
@@ -106,6 +114,7 @@ BannerTerm_14:
   StartDate: 1957-09-20 00:00:00.000000000 Z
   EndDate: 1958-01-25 00:00:00.000000000 Z
   AYStart: 1957
+  standard_term: true
 
 BannerTerm_15:
   BannerTerm: 195703
@@ -113,6 +122,7 @@ BannerTerm_15:
   StartDate: 1958-01-31 00:00:00.000000000 Z
   EndDate: 1958-05-30 00:00:00.000000000 Z
   AYStart: 1957
+  standard_term: true
 
 BannerTerm_16:
   BannerTerm: 195704
@@ -127,6 +137,7 @@ BannerTerm_17:
   StartDate: 1958-09-19 00:00:00.000000000 Z
   EndDate: 1959-01-23 00:00:00.000000000 Z
   AYStart: 1958
+  standard_term: true
 
 BannerTerm_18:
   BannerTerm: 195803
@@ -134,6 +145,7 @@ BannerTerm_18:
   StartDate: 1959-01-30 00:00:00.000000000 Z
   EndDate: 1959-05-29 00:00:00.000000000 Z
   AYStart: 1958
+  standard_term: true
 
 BannerTerm_19:
   BannerTerm: 195804
@@ -148,6 +160,7 @@ BannerTerm_20:
   StartDate: 1959-09-18 00:00:00.000000000 Z
   EndDate: 1960-01-29 00:00:00.000000000 Z
   AYStart: 1959
+  standard_term: true
 
 BannerTerm_21:
   BannerTerm: 195903
@@ -155,6 +168,7 @@ BannerTerm_21:
   StartDate: 1960-02-05 00:00:00.000000000 Z
   EndDate: 1960-06-03 00:00:00.000000000 Z
   AYStart: 1959
+  standard_term: true
 
 BannerTerm_22:
   BannerTerm: 195904
@@ -169,6 +183,7 @@ BannerTerm_23:
   StartDate: 1960-09-16 00:00:00.000000000 Z
   EndDate: 1961-01-27 00:00:00.000000000 Z
   AYStart: 1960
+  standard_term: true
 
 BannerTerm_24:
   BannerTerm: 196003
@@ -176,6 +191,7 @@ BannerTerm_24:
   StartDate: 1961-02-03 00:00:00.000000000 Z
   EndDate: 1961-06-02 00:00:00.000000000 Z
   AYStart: 1960
+  standard_term: true
 
 BannerTerm_25:
   BannerTerm: 196004
@@ -190,6 +206,7 @@ BannerTerm_26:
   StartDate: 1961-09-15 00:00:00.000000000 Z
   EndDate: 1962-01-26 00:00:00.000000000 Z
   AYStart: 1961
+  standard_term: true
 
 BannerTerm_27:
   BannerTerm: 196103
@@ -197,6 +214,7 @@ BannerTerm_27:
   StartDate: 1962-02-02 00:00:00.000000000 Z
   EndDate: 1962-06-01 00:00:00.000000000 Z
   AYStart: 1961
+  standard_term: true
 
 BannerTerm_28:
   BannerTerm: 196104
@@ -211,6 +229,7 @@ BannerTerm_29:
   StartDate: 1962-09-14 00:00:00.000000000 Z
   EndDate: 1963-01-25 00:00:00.000000000 Z
   AYStart: 1962
+  standard_term: true
 
 BannerTerm_30:
   BannerTerm: 196203
@@ -218,6 +237,7 @@ BannerTerm_30:
   StartDate: 1963-02-01 00:00:00.000000000 Z
   EndDate: 1963-05-31 00:00:00.000000000 Z
   AYStart: 1962
+  standard_term: true
 
 BannerTerm_31:
   BannerTerm: 196204
@@ -232,6 +252,7 @@ BannerTerm_32:
   StartDate: 1963-09-13 00:00:00.000000000 Z
   EndDate: 1964-01-24 00:00:00.000000000 Z
   AYStart: 1963
+  standard_term: true
 
 BannerTerm_33:
   BannerTerm: 196303
@@ -239,6 +260,7 @@ BannerTerm_33:
   StartDate: 1964-01-31 00:00:00.000000000 Z
   EndDate: 1964-05-29 00:00:00.000000000 Z
   AYStart: 1963
+  standard_term: true
 
 BannerTerm_34:
   BannerTerm: 196304
@@ -253,6 +275,7 @@ BannerTerm_35:
   StartDate: 1964-09-18 00:00:00.000000000 Z
   EndDate: 1964-01-29 00:00:00.000000000 Z
   AYStart: 1964
+  standard_term: true
 
 BannerTerm_36:
   BannerTerm: 196403
@@ -260,6 +283,7 @@ BannerTerm_36:
   StartDate: 1965-02-05 00:00:00.000000000 Z
   EndDate: 1965-06-04 00:00:00.000000000 Z
   AYStart: 1964
+  standard_term: true
 
 BannerTerm_37:
   BannerTerm: 196404
@@ -274,6 +298,7 @@ BannerTerm_38:
   StartDate: 1965-09-17 00:00:00.000000000 Z
   EndDate: 1965-01-28 00:00:00.000000000 Z
   AYStart: 1965
+  standard_term: true
 
 BannerTerm_39:
   BannerTerm: 196503
@@ -281,6 +306,7 @@ BannerTerm_39:
   StartDate: 1966-02-04 00:00:00.000000000 Z
   EndDate: 1966-06-03 00:00:00.000000000 Z
   AYStart: 1965
+  standard_term: true
 
 BannerTerm_40:
   BannerTerm: 196504
@@ -295,6 +321,7 @@ BannerTerm_41:
   StartDate: 1966-09-16 00:00:00.000000000 Z
   EndDate: 1967-01-27 00:00:00.000000000 Z
   AYStart: 1966
+  standard_term: true
 
 BannerTerm_42:
   BannerTerm: 196603
@@ -302,6 +329,7 @@ BannerTerm_42:
   StartDate: 1967-02-03 00:00:00.000000000 Z
   EndDate: 1967-06-02 00:00:00.000000000 Z
   AYStart: 1966
+  standard_term: true
 
 BannerTerm_43:
   BannerTerm: 196604
@@ -316,6 +344,7 @@ BannerTerm_44:
   StartDate: 1967-09-15 00:00:00.000000000 Z
   EndDate: 1968-01-26 00:00:00.000000000 Z
   AYStart: 1967
+  standard_term: true
 
 BannerTerm_45:
   BannerTerm: 196703
@@ -323,6 +352,7 @@ BannerTerm_45:
   StartDate: 1968-02-02 00:00:00.000000000 Z
   EndDate: 1968-05-31 00:00:00.000000000 Z
   AYStart: 1967
+  standard_term: true
 
 BannerTerm_46:
   BannerTerm: 196704
@@ -337,6 +367,7 @@ BannerTerm_47:
   StartDate: 1968-09-13 00:00:00.000000000 Z
   EndDate: 1969-01-24 00:00:00.000000000 Z
   AYStart: 1968
+  standard_term: true
 
 BannerTerm_48:
   BannerTerm: 196803
@@ -344,6 +375,7 @@ BannerTerm_48:
   StartDate: 1969-01-31 00:00:00.000000000 Z
   EndDate: 1969-05-30 00:00:00.000000000 Z
   AYStart: 1968
+  standard_term: true
 
 BannerTerm_49:
   BannerTerm: 196804
@@ -358,6 +390,7 @@ BannerTerm_50:
   StartDate: 1969-09-12 00:00:00.000000000 Z
   EndDate: 1970-01-23 00:00:00.000000000 Z
   AYStart: 1969
+  standard_term: true
 
 BannerTerm_51:
   BannerTerm: 196902
@@ -372,6 +405,7 @@ BannerTerm_52:
   StartDate: 1970-01-30 00:00:00.000000000 Z
   EndDate: 1970-05-29 00:00:00.000000000 Z
   AYStart: 1969
+  standard_term: true
 
 BannerTerm_53:
   BannerTerm: 196904
@@ -386,6 +420,7 @@ BannerTerm_54:
   StartDate: 1970-09-07 00:00:00.000000000 Z
   EndDate: 1970-12-19 00:00:00.000000000 Z
   AYStart: 1970
+  standard_term: true
 
 BannerTerm_55:
   BannerTerm: 197002
@@ -400,6 +435,7 @@ BannerTerm_56:
   StartDate: 1971-02-05 00:00:00.000000000 Z
   EndDate: 1971-05-21 00:00:00.000000000 Z
   AYStart: 1970
+  standard_term: true
 
 BannerTerm_57:
   BannerTerm: 197004
@@ -414,6 +450,7 @@ BannerTerm_58:
   StartDate: 1971-09-06 00:00:00.000000000 Z
   EndDate: 1971-12-18 00:00:00.000000000 Z
   AYStart: 1971
+  standard_term: true
 
 BannerTerm_59:
   BannerTerm: 197102
@@ -428,6 +465,7 @@ BannerTerm_60:
   StartDate: 1972-02-04 00:00:00.000000000 Z
   EndDate: 1972-05-19 00:00:00.000000000 Z
   AYStart: 1971
+  standard_term: true
 
 BannerTerm_61:
   BannerTerm: 197104
@@ -449,6 +487,7 @@ BannerTerm_63:
   StartDate: 1972-09-11 00:00:00.000000000 Z
   EndDate: 1972-12-22 00:00:00.000000000 Z
   AYStart: 1972
+  standard_term: true
 
 BannerTerm_64:
   BannerTerm: 197202
@@ -463,6 +502,7 @@ BannerTerm_65:
   StartDate: 1973-02-09 00:00:00.000000000 Z
   EndDate: 1973-05-25 00:00:00.000000000 Z
   AYStart: 1972
+  standard_term: true
 
 BannerTerm_66:
   BannerTerm: 197204
@@ -484,6 +524,7 @@ BannerTerm_68:
   StartDate: 1973-09-10 00:00:00.000000000 Z
   EndDate: 1973-12-20 00:00:00.000000000 Z
   AYStart: 1973
+  standard_term: true
 
 BannerTerm_69:
   BannerTerm: 197302
@@ -498,6 +539,7 @@ BannerTerm_70:
   StartDate: 1974-02-08 00:00:00.000000000 Z
   EndDate: 1974-05-02 00:00:00.000000000 Z
   AYStart: 1973
+  standard_term: true
 
 BannerTerm_71:
   BannerTerm: 197304
@@ -519,6 +561,7 @@ BannerTerm_73:
   StartDate: 1974-09-09 00:00:00.000000000 Z
   EndDate: 1974-12-19 00:00:00.000000000 Z
   AYStart: 1974
+  standard_term: true
 
 BannerTerm_74:
   BannerTerm: 197402
@@ -533,6 +576,7 @@ BannerTerm_75:
   StartDate: 1975-02-07 00:00:00.000000000 Z
   EndDate: 1975-05-23 00:00:00.000000000 Z
   AYStart: 1974
+  standard_term: true
 
 BannerTerm_76:
   BannerTerm: 197404
@@ -554,6 +598,7 @@ BannerTerm_78:
   StartDate: 1975-09-08 00:00:00.000000000 Z
   EndDate: 1975-12-19 00:00:00.000000000 Z
   AYStart: 1975
+  standard_term: true
 
 BannerTerm_79:
   BannerTerm: 197502
@@ -568,6 +613,7 @@ BannerTerm_80:
   StartDate: 1976-02-06 00:00:00.000000000 Z
   EndDate: 1976-05-21 00:00:00.000000000 Z
   AYStart: 1975
+  standard_term: true
 
 BannerTerm_81:
   BannerTerm: 197504
@@ -589,6 +635,7 @@ BannerTerm_83:
   StartDate: 1976-09-09 00:00:00.000000000 Z
   EndDate: 1976-12-18 00:00:00.000000000 Z
   AYStart: 1976
+  standard_term: true
 
 BannerTerm_84:
   BannerTerm: 197602
@@ -603,6 +650,7 @@ BannerTerm_85:
   StartDate: 1977-02-11 00:00:00.000000000 Z
   EndDate: 1977-05-27 00:00:00.000000000 Z
   AYStart: 1976
+  standard_term: true
 
 BannerTerm_86:
   BannerTerm: 197604
@@ -624,6 +672,7 @@ BannerTerm_88:
   StartDate: 1977-09-05 00:00:00.000000000 Z
   EndDate: 1977-12-16 00:00:00.000000000 Z
   AYStart: 1977
+  standard_term: true
 
 BannerTerm_89:
   BannerTerm: 197702
@@ -638,6 +687,7 @@ BannerTerm_90:
   StartDate: 1978-02-08 00:00:00.000000000 Z
   EndDate: 1978-05-26 00:00:00.000000000 Z
   AYStart: 1977
+  standard_term: true
 
 BannerTerm_91:
   BannerTerm: 197704
@@ -659,6 +709,7 @@ BannerTerm_93:
   StartDate: 1978-09-04 00:00:00.000000000 Z
   EndDate: 1978-12-15 00:00:00.000000000 Z
   AYStart: 1978
+  standard_term: true
 
 BannerTerm_94:
   BannerTerm: 197802
@@ -673,6 +724,7 @@ BannerTerm_95:
   StartDate: 1979-02-07 00:00:00.000000000 Z
   EndDate: 1979-05-25 00:00:00.000000000 Z
   AYStart: 1978
+  standard_term: true
 
 BannerTerm_96:
   BannerTerm: 197804
@@ -694,6 +746,7 @@ BannerTerm_98:
   StartDate: 1979-09-07 00:00:00.000000000 Z
   EndDate: 1979-12-20 00:00:00.000000000 Z
   AYStart: 1979
+  standard_term: true
 
 BannerTerm_99:
   BannerTerm: 197902
@@ -708,6 +761,7 @@ BannerTerm_100:
   StartDate: 1980-02-06 00:00:00.000000000 Z
   EndDate: 1980-05-22 00:00:00.000000000 Z
   AYStart: 1979
+  standard_term: true
 
 BannerTerm_101:
   BannerTerm: 197904
@@ -729,6 +783,7 @@ BannerTerm_103:
   StartDate: 1980-09-05 00:00:00.000000000 Z
   EndDate: 1980-12-18 00:00:00.000000000 Z
   AYStart: 1980
+  standard_term: true
 
 BannerTerm_104:
   BannerTerm: 198002
@@ -743,6 +798,7 @@ BannerTerm_105:
   StartDate: 1981-02-06 00:00:00.000000000 Z
   EndDate: 1981-05-22 00:00:00.000000000 Z
   AYStart: 1980
+  standard_term: true
 
 BannerTerm_106:
   BannerTerm: 198004
@@ -764,6 +820,7 @@ BannerTerm_108:
   StartDate: 1981-09-04 00:00:00.000000000 Z
   EndDate: 1981-12-17 00:00:00.000000000 Z
   AYStart: 1981
+  standard_term: true
 
 BannerTerm_109:
   BannerTerm: 198102
@@ -778,6 +835,7 @@ BannerTerm_110:
   StartDate: 1982-02-05 00:00:00.000000000 Z
   EndDate: 1982-05-21 00:00:00.000000000 Z
   AYStart: 1981
+  standard_term: true
 
 BannerTerm_111:
   BannerTerm: 198104
@@ -799,6 +857,7 @@ BannerTerm_113:
   StartDate: 1982-09-03 00:00:00.000000000 Z
   EndDate: 1982-12-16 00:00:00.000000000 Z
   AYStart: 1982
+  standard_term: true
 
 BannerTerm_114:
   BannerTerm: 198202
@@ -813,6 +872,7 @@ BannerTerm_115:
   StartDate: 1983-02-04 00:00:00.000000000 Z
   EndDate: 1983-05-20 00:00:00.000000000 Z
   AYStart: 1982
+  standard_term: true
 
 BannerTerm_116:
   BannerTerm: 198204
@@ -834,6 +894,7 @@ BannerTerm_118:
   StartDate: 1983-09-09 00:00:00.000000000 Z
   EndDate: 1983-12-22 00:00:00.000000000 Z
   AYStart: 1983
+  standard_term: true
 
 BannerTerm_119:
   BannerTerm: 198302
@@ -848,6 +909,7 @@ BannerTerm_120:
   StartDate: 1984-02-08 00:00:00.000000000 Z
   EndDate: 1984-05-24 00:00:00.000000000 Z
   AYStart: 1983
+  standard_term: true
 
 BannerTerm_121:
   BannerTerm: 198304
@@ -869,6 +931,7 @@ BannerTerm_123:
   StartDate: 1984-09-05 00:00:00.000000000 Z
   EndDate: 1984-12-20 00:00:00.000000000 Z
   AYStart: 1984
+  standard_term: true
 
 BannerTerm_124:
   BannerTerm: 198402
@@ -883,6 +946,7 @@ BannerTerm_125:
   StartDate: 1985-02-04 00:00:00.000000000 Z
   EndDate: 1985-05-23 00:00:00.000000000 Z
   AYStart: 1984
+  standard_term: true
 
 BannerTerm_126:
   BannerTerm: 198404
@@ -904,6 +968,7 @@ BannerTerm_128:
   StartDate: 1985-09-06 00:00:00.000000000 Z
   EndDate: 1985-12-19 00:00:00.000000000 Z
   AYStart: 1985
+  standard_term: true
 
 BannerTerm_129:
   BannerTerm: 198502
@@ -918,6 +983,7 @@ BannerTerm_130:
   StartDate: 1986-02-06 00:00:00.000000000 Z
   EndDate: 1986-05-22 00:00:00.000000000 Z
   AYStart: 1985
+  standard_term: true
 
 BannerTerm_131:
   BannerTerm: 198504
@@ -939,6 +1005,7 @@ BannerTerm_133:
   StartDate: 1986-09-05 00:00:00.000000000 Z
   EndDate: 1986-12-18 00:00:00.000000000 Z
   AYStart: 1986
+  standard_term: true
 
 BannerTerm_134:
   BannerTerm: 198602
@@ -953,6 +1020,7 @@ BannerTerm_135:
   StartDate: 1987-02-05 00:00:00.000000000 Z
   EndDate: 1987-05-21 00:00:00.000000000 Z
   AYStart: 1986
+  standard_term: true
 
 BannerTerm_136:
   BannerTerm: 198604
@@ -974,6 +1042,7 @@ BannerTerm_138:
   StartDate: 1987-09-04 00:00:00.000000000 Z
   EndDate: 1987-12-17 00:00:00.000000000 Z
   AYStart: 1987
+  standard_term: true
 
 BannerTerm_139:
   BannerTerm: 198702
@@ -988,6 +1057,7 @@ BannerTerm_140:
   StartDate: 1988-02-03 00:00:00.000000000 Z
   EndDate: 1988-05-19 00:00:00.000000000 Z
   AYStart: 1987
+  standard_term: true
 
 BannerTerm_141:
   BannerTerm: 198704
@@ -1009,6 +1079,7 @@ BannerTerm_143:
   StartDate: 1988-09-02 00:00:00.000000000 Z
   EndDate: 1988-12-15 00:00:00.000000000 Z
   AYStart: 1988
+  standard_term: true
 
 BannerTerm_144:
   BannerTerm: 198802
@@ -1023,6 +1094,7 @@ BannerTerm_145:
   StartDate: 1989-02-06 00:00:00.000000000 Z
   EndDate: 1989-05-18 00:00:00.000000000 Z
   AYStart: 1988
+  standard_term: true
 
 BannerTerm_146:
   BannerTerm: 198804
@@ -1044,6 +1116,7 @@ BannerTerm_148:
   StartDate: 1989-09-01 00:00:00.000000000 Z
   EndDate: 1989-12-14 00:00:00.000000000 Z
   AYStart: 1989
+  standard_term: true
 
 BannerTerm_149:
   BannerTerm: 198902
@@ -1058,6 +1131,7 @@ BannerTerm_150:
   StartDate: 1990-02-07 00:00:00.000000000 Z
   EndDate: 1990-05-24 00:00:00.000000000 Z
   AYStart: 1989
+  standard_term: true
 
 BannerTerm_151:
   BannerTerm: 198904
@@ -1079,6 +1153,7 @@ BannerTerm_153:
   StartDate: 1990-09-07 00:00:00.000000000 Z
   EndDate: 1990-12-20 00:00:00.000000000 Z
   AYStart: 1990
+  standard_term: true
 
 BannerTerm_154:
   BannerTerm: 199002
@@ -1093,6 +1168,7 @@ BannerTerm_155:
   StartDate: 1991-02-05 00:00:00.000000000 Z
   EndDate: 1991-05-23 00:00:00.000000000 Z
   AYStart: 1990
+  standard_term: true
 
 BannerTerm_156:
   BannerTerm: 199004
@@ -1114,6 +1190,7 @@ BannerTerm_158:
   StartDate: 1991-09-06 00:00:00.000000000 Z
   EndDate: 1991-12-19 00:00:00.000000000 Z
   AYStart: 1991
+  standard_term: true
 
 BannerTerm_159:
   BannerTerm: 199102
@@ -1128,6 +1205,7 @@ BannerTerm_160:
   StartDate: 1992-02-04 00:00:00.000000000 Z
   EndDate: 1992-05-21 00:00:00.000000000 Z
   AYStart: 1991
+  standard_term: true
 
 BannerTerm_161:
   BannerTerm: 199104
@@ -1149,6 +1227,7 @@ BannerTerm_163:
   StartDate: 1992-09-04 00:00:00.000000000 Z
   EndDate: 1992-12-17 00:00:00.000000000 Z
   AYStart: 1992
+  standard_term: true
 
 BannerTerm_164:
   BannerTerm: 199202
@@ -1163,6 +1242,7 @@ BannerTerm_165:
   StartDate: 1993-02-04 00:00:00.000000000 Z
   EndDate: 1993-05-20 00:00:00.000000000 Z
   AYStart: 1992
+  standard_term: true
 
 BannerTerm_166:
   BannerTerm: 199204
@@ -1177,6 +1257,7 @@ BannerTerm_167:
   StartDate: 1993-09-03 00:00:00.000000000 Z
   EndDate: 1993-12-16 00:00:00.000000000 Z
   AYStart: 1993
+  standard_term: true
 
 BannerTerm_168:
   BannerTerm: 199302
@@ -1191,6 +1272,7 @@ BannerTerm_169:
   StartDate: 1994-02-02 00:00:00.000000000 Z
   EndDate: 1994-05-19 00:00:00.000000000 Z
   AYStart: 1993
+  standard_term: true
 
 BannerTerm_170:
   BannerTerm: 199304
@@ -1205,6 +1287,7 @@ BannerTerm_171:
   StartDate: 1994-09-01 00:00:00.000000000 Z
   EndDate: 1994-12-15 00:00:00.000000000 Z
   AYStart: 1994
+  standard_term: true
 
 BannerTerm_172:
   BannerTerm: 199402
@@ -1219,6 +1302,7 @@ BannerTerm_173:
   StartDate: 1995-02-07 00:00:00.000000000 Z
   EndDate: 1995-05-25 00:00:00.000000000 Z
   AYStart: 1994
+  standard_term: true
 
 BannerTerm_174:
   BannerTerm: 199404
@@ -1233,6 +1317,7 @@ BannerTerm_175:
   StartDate: 1995-08-31 00:00:00.000000000 Z
   EndDate: 1995-12-14 00:00:00.000000000 Z
   AYStart: 1995
+  standard_term: true
 
 BannerTerm_176:
   BannerTerm: 199502
@@ -1247,6 +1332,7 @@ BannerTerm_177:
   StartDate: 1996-02-06 00:00:00.000000000 Z
   EndDate: 1996-05-23 00:00:00.000000000 Z
   AYStart: 1995
+  standard_term: true
 
 BannerTerm_178:
   BannerTerm: 199504
@@ -1261,6 +1347,7 @@ BannerTerm_179:
   StartDate: 1996-09-05 00:00:00.000000000 Z
   EndDate: 1996-12-19 00:00:00.000000000 Z
   AYStart: 1996
+  standard_term: true
 
 BannerTerm_180:
   BannerTerm: 199602
@@ -1275,6 +1362,7 @@ BannerTerm_181:
   StartDate: 1997-02-06 00:00:00.000000000 Z
   EndDate: 1997-05-22 00:00:00.000000000 Z
   AYStart: 1996
+  standard_term: true
 
 BannerTerm_182:
   BannerTerm: 199604
@@ -1289,6 +1377,7 @@ BannerTerm_183:
   StartDate: 1997-09-01 00:00:00.000000000 Z
   EndDate: 1997-12-18 00:00:00.000000000 Z
   AYStart: 1997
+  standard_term: true
 
 BannerTerm_184:
   BannerTerm: 199702
@@ -1303,6 +1392,7 @@ BannerTerm_185:
   StartDate: 1998-02-01 00:00:00.000000000 Z
   EndDate: 1998-05-21 00:00:00.000000000 Z
   AYStart: 1997
+  standard_term: true
 
 BannerTerm_186:
   BannerTerm: 199704
@@ -1317,6 +1407,7 @@ BannerTerm_187:
   StartDate: 1998-09-01 00:00:00.000000000 Z
   EndDate: 1998-12-30 00:00:00.000000000 Z
   AYStart: 1998
+  standard_term: true
 
 BannerTerm_188:
   BannerTerm: 199802
@@ -1331,6 +1422,7 @@ BannerTerm_189:
   StartDate: 1999-01-31 00:00:00.000000000 Z
   EndDate: 1999-05-20 00:00:00.000000000 Z
   AYStart: 1998
+  standard_term: true
 
 BannerTerm_190:
   BannerTerm: 199804
@@ -1345,6 +1437,7 @@ BannerTerm_191:
   StartDate: 1999-09-01 00:00:00.000000000 Z
   EndDate: 1999-12-30 00:00:00.000000000 Z
   AYStart: 1999
+  standard_term: true
 
 BannerTerm_192:
   BannerTerm: 199902
@@ -1359,6 +1452,7 @@ BannerTerm_193:
   StartDate: 2000-02-01 00:00:00.000000000 Z
   EndDate: 2000-05-18 00:00:00.000000000 Z
   AYStart: 1999
+  standard_term: true
 
 BannerTerm_194:
   BannerTerm: 199904
@@ -1373,6 +1467,7 @@ BannerTerm_195:
   StartDate: 2000-09-01 00:00:00.000000000 Z
   EndDate: 2000-12-30 00:00:00.000000000 Z
   AYStart: 2000
+  standard_term: true
 
 BannerTerm_196:
   BannerTerm: 200002
@@ -1387,6 +1482,7 @@ BannerTerm_197:
   StartDate: 2001-02-07 00:00:00.000000000 Z
   EndDate: 2001-05-24 00:00:00.000000000 Z
   AYStart: 2000
+  standard_term: true
 
 BannerTerm_198:
   BannerTerm: 200004
@@ -1401,6 +1497,7 @@ BannerTerm_199:
   StartDate: 2001-08-30 00:00:00.000000000 Z
   EndDate: 2001-12-13 00:00:00.000000000 Z
   AYStart: 2001
+  standard_term: true
 
 BannerTerm_200:
   BannerTerm: 200102
@@ -1415,6 +1512,7 @@ BannerTerm_201:
   StartDate: 2002-02-06 00:00:00.000000000 Z
   EndDate: 2002-05-23 00:00:00.000000000 Z
   AYStart: 2001
+  standard_term: true
 
 BannerTerm_202:
   BannerTerm: 200104
@@ -1429,6 +1527,7 @@ BannerTerm_203:
   StartDate: 2002-08-28 00:00:00.000000000 Z
   EndDate: 2002-12-12 00:00:00.000000000 Z
   AYStart: 2002
+  standard_term: true
 
 BannerTerm_204:
   BannerTerm: 200202
@@ -1443,6 +1542,7 @@ BannerTerm_205:
   StartDate: 2003-02-05 00:00:00.000000000 Z
   EndDate: 2003-05-22 00:00:00.000000000 Z
   AYStart: 2002
+  standard_term: true
 
 BannerTerm_206:
   BannerTerm: 200204
@@ -1457,6 +1557,7 @@ BannerTerm_207:
   StartDate: 2003-09-03 00:00:00.000000000 Z
   EndDate: 2003-12-18 00:00:00.000000000 Z
   AYStart: 2003
+  standard_term: true
 
 BannerTerm_208:
   BannerTerm: 200302
@@ -1471,6 +1572,7 @@ BannerTerm_209:
   StartDate: 2004-02-05 00:00:00.000000000 Z
   EndDate: 2004-05-20 00:00:00.000000000 Z
   AYStart: 2003
+  standard_term: true
 
 BannerTerm_210:
   BannerTerm: 200304
@@ -1485,6 +1587,7 @@ BannerTerm_211:
   StartDate: 2004-09-01 00:00:00.000000000 Z
   EndDate: 2004-12-16 00:00:00.000000000 Z
   AYStart: 2004
+  standard_term: true
 
 BannerTerm_212:
   BannerTerm: 200402
@@ -1499,6 +1602,7 @@ BannerTerm_213:
   StartDate: 2005-02-03 00:00:00.000000000 Z
   EndDate: 2005-05-19 00:00:00.000000000 Z
   AYStart: 2004
+  standard_term: true
 
 BannerTerm_214:
   BannerTerm: 200404
@@ -1513,6 +1617,7 @@ BannerTerm_215:
   StartDate: 2005-08-31 00:00:00.000000000 Z
   EndDate: 2005-12-15 00:00:00.000000000 Z
   AYStart: 2005
+  standard_term: true
 
 BannerTerm_216:
   BannerTerm: 200502
@@ -1527,6 +1632,7 @@ BannerTerm_217:
   StartDate: 2006-02-02 00:00:00.000000000 Z
   EndDate: 2006-05-18 00:00:00.000000000 Z
   AYStart: 2005
+  standard_term: true
 
 BannerTerm_218:
   BannerTerm: 200504
@@ -1541,6 +1647,7 @@ BannerTerm_219:
   StartDate: 2006-08-30 00:00:00.000000000 Z
   EndDate: 2006-12-14 00:00:00.000000000 Z
   AYStart: 2006
+  standard_term: true
 
 BannerTerm_220:
   BannerTerm: 200602
@@ -1555,6 +1662,7 @@ BannerTerm_221:
   StartDate: 2007-02-07 00:00:00.000000000 Z
   EndDate: 2007-05-24 00:00:00.000000000 Z
   AYStart: 2006
+  standard_term: true
 
 BannerTerm_222:
   BannerTerm: 200604
@@ -1569,6 +1677,7 @@ BannerTerm_223:
   StartDate: 2007-08-29 00:00:00.000000000 Z
   EndDate: 2007-12-13 00:00:00.000000000 Z
   AYStart: 2007
+  standard_term: true
 
 BannerTerm_224:
   BannerTerm: 200702
@@ -1583,6 +1692,7 @@ BannerTerm_225:
   StartDate: 2008-02-06 00:00:00.000000000 Z
   EndDate: 2008-05-22 00:00:00.000000000 Z
   AYStart: 2007
+  standard_term: true
 
 BannerTerm_226:
   BannerTerm: 200704
@@ -1597,6 +1707,7 @@ BannerTerm_227:
   StartDate: 2008-08-27 00:00:00.000000000 Z
   EndDate: 2008-12-12 00:00:00.000000000 Z
   AYStart: 2008
+  standard_term: true
 
 BannerTerm_228:
   BannerTerm: 200802
@@ -1611,6 +1722,7 @@ BannerTerm_229:
   StartDate: 2009-02-10 00:00:00.000000000 Z
   EndDate: 2009-05-21 00:00:00.000000000 Z
   AYStart: 2008
+  standard_term: true
 
 BannerTerm_230:
   BannerTerm: 200804
@@ -1632,6 +1744,7 @@ BannerTerm_232:
   StartDate: 2009-09-02 00:00:00.000000000 Z
   EndDate: 2009-12-17 00:00:00.000000000 Z
   AYStart: 2009
+  standard_term: true
 
 BannerTerm_233:
   BannerTerm: 200902
@@ -1646,6 +1759,7 @@ BannerTerm_234:
   StartDate: 2010-02-08 00:00:00.000000000 Z
   EndDate: 2010-05-20 00:00:00.000000000 Z
   AYStart: 2009
+  standard_term: true
 
 BannerTerm_235:
   BannerTerm: 200904
@@ -1667,6 +1781,7 @@ BannerTerm_237:
   StartDate: 2010-08-26 00:00:00.000000000 Z
   EndDate: 2010-12-17 00:00:00.000000000 Z
   AYStart: 2010
+  standard_term: true
 
 BannerTerm_238:
   BannerTerm: 201012
@@ -1674,6 +1789,7 @@ BannerTerm_238:
   StartDate: 2011-01-11 00:00:00.000000000 Z
   EndDate: 2011-05-05 00:00:00.000000000 Z
   AYStart: 2010
+  standard_term: true
 
 BannerTerm_239:
   BannerTerm: 201013
@@ -1702,6 +1818,7 @@ BannerTerm_242:
   StartDate: 2011-08-24 00:00:00.000000000 Z
   EndDate: 2011-12-16 00:00:00.000000000 Z
   AYStart: 2011
+  standard_term: true
 
 BannerTerm_243:
   BannerTerm: 201112
@@ -1709,6 +1826,7 @@ BannerTerm_243:
   StartDate: 2012-01-10 00:00:00.000000000 Z
   EndDate: 2012-05-03 00:00:00.000000000 Z
   AYStart: 2011
+  standard_term: true
 
 BannerTerm_244:
   BannerTerm: 201113
@@ -1737,6 +1855,7 @@ BannerTerm_247:
   StartDate: 2012-08-22 00:00:00.000000000 Z
   EndDate: 2012-12-14 00:00:00.000000000 Z
   AYStart: 2012
+  standard_term: true
 
 BannerTerm_248:
   BannerTerm: 201212
@@ -1744,6 +1863,7 @@ BannerTerm_248:
   StartDate: 2013-01-08 00:00:00.000000000 Z
   EndDate: 2013-05-02 00:00:00.000000000 Z
   AYStart: 2012
+  standard_term: true
 
 BannerTerm_249:
   BannerTerm: 201213
@@ -1772,6 +1892,7 @@ BannerTerm_252:
   StartDate: 2013-08-21 00:00:00.000000000 Z
   EndDate: 2013-12-13 00:00:00.000000000 Z
   AYStart: 2013
+  standard_term: true
 
 BannerTerm_253:
   BannerTerm: 201312
@@ -1779,6 +1900,7 @@ BannerTerm_253:
   StartDate: 2014-01-07 00:00:00.000000000 Z
   EndDate: 2014-05-01 00:00:00.000000000 Z
   AYStart: 2013
+  standard_term: true
 
 BannerTerm_254:
   BannerTerm: 201313
@@ -1807,6 +1929,7 @@ BannerTerm_257:
   StartDate: 2014-08-20 00:00:00.000000000 Z
   EndDate: 2014-12-12 00:00:00.000000000 Z
   AYStart: 2014
+  standard_term: true
 
 BannerTerm_258:
   BannerTerm: 201412
@@ -1814,6 +1937,7 @@ BannerTerm_258:
   StartDate: 2015-01-06 00:00:00.000000000 Z
   EndDate: 2015-04-30 00:00:00.000000000 Z
   AYStart: 2014
+  standard_term: true
 
 BannerTerm_259:
   BannerTerm: 201413
@@ -1842,6 +1966,7 @@ BannerTerm_262:
   StartDate: 2015-08-26 00:00:00.000000000 Z
   EndDate: 2015-12-17 00:00:00.000000000 Z
   AYStart: 2015
+  standard_term: true
 
 BannerTerm_263:
   BannerTerm: 201512
@@ -1849,6 +1974,7 @@ BannerTerm_263:
   StartDate: 2016-01-12 00:00:00.000000000 Z
   EndDate: 2016-05-05 00:00:00.000000000 Z
   AYStart: 2015
+  standard_term: true
 
 BannerTerm_264:
   BannerTerm: 201513
@@ -1884,6 +2010,7 @@ BannerTerm_268:
   StartDate: 2016-08-24 00:00:00.000000000 Z
   EndDate: 2016-12-16 00:00:00.000000000 Z
   AYStart: 2016
+  standard_term: true
 
 BannerTerm_269:
   BannerTerm: 201612
@@ -1891,6 +2018,7 @@ BannerTerm_269:
   StartDate: 2017-01-10 00:00:00.000000000 Z
   EndDate: 2017-04-27 00:00:00.000000000 Z
   AYStart: 2016
+  standard_term: true
 
 BannerTerm_270:
   BannerTerm: 201613
@@ -1919,4 +2047,3 @@ BannerTerm_273:
   StartDate: 4712-12-11 00:00:00.000000000 Z
   EndDate: 4712-12-30 00:00:00.000000000 Z
   AYStart: 9999
-

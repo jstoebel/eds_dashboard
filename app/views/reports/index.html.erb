@@ -4,35 +4,12 @@
 
 <% @page_title = "Student Reports" %>
 
-
-
 <!-- insert back button -->
 <div class="container-fluid">
   <!-- dropdown here  -->
 
-  <!-- mapping of column name with attribute name in hash -->
-  <% header_mappings = [
-    ["B#", :Bnum],
-    ["Name", :name_readable],
-    ["Prog Status", :prog_status],
-    ["Enrollment Status", :EnrollmentStatus],
-    ["Classification", :Classification],
-    ["Program(s)", :ProgName],
-    ["Major 1", :CurrentMajor1],
-    ["Conc 1", :concentration1],
-    ["Major 2", :CurrentMajor2],
-    ["Conc 2", :concentration2],
-    ["Minors", :CurrentMinors],
-    ["EDS150", :Latest_Term_EDS150],
-    ["Taken 227/228", :Taken227_228],
-    ["Completed 227/228", :Passed_Completion_227],
-    ["Term completing 227", :Latest_Completion_227],
-    ["Term completing 227", :Latest_Completion_228],
-    ["EDS440 or EDS470", :Latest_Term_EDS440_479],
-    ["Advisors", :advisors]
-  ] %>
   <%= render(partial: "dropdown_checks",
-    locals: {options: header_mappings.transpose[0] } ) %>
+    locals: {options: @header_mappings.transpose[0] } ) %>
 
   <div class="student reports index">
     <h2>Student Information:</h2>
@@ -41,7 +18,7 @@
     </div>
     <thead>
       <tr class="header">
-        <% header_mappings.each do |a, b| %>
+        <% @header_mappings.each do |a, b| %>
           <th><%= a %></th>
         <% end %>
 
@@ -50,7 +27,7 @@
     <tbody>
       <% @data.each do |stu| %>
         <tr>
-          <% header_mappings.each do |a, b| %>
+          <% @header_mappings.each do |a, b| %>
             <td><%= stu[b] %></td>
           <% end %>
         </tr>
