@@ -19,3 +19,7 @@ Select Issue from the actions dropdown menu.
 This will lead you to the selected student's Issue menu. You can submit a new Issue for the student by selecting the New Issue button.
 
 ![Issue Page](/help_images/issue_action.JPG)
+
+
+
+
