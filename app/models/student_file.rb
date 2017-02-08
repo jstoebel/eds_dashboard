@@ -12,9 +12,8 @@
 #
 
 class StudentFile < ActiveRecord::Base
-
 	belongs_to :student
-    before_save :check_file_unique
+  before_save :check_file_unique
 
 	has_attached_file :doc,
 	  :url => "/student_file/:id/download",		#passes AltID
@@ -32,16 +31,32 @@ class StudentFile < ActiveRecord::Base
 
     private
     def check_file_unique
-        #if file isn't unique for this student, append a number to the file end (example letter.docx and letter-1.docx)
+      # this is VERY unlikly but let's make sure that we never are trying to save
+      # over a file with the same name.
 
-        match_count = StudentFile.where(:student_id => self.student.id, :doc_file_name => self.doc_file_name).where.not(id: self.id).size
+      dir = File.dirname(self.doc.path) # the directory to look in.
+      ext = File.extname self.doc_file_name # the extension of the file
+      basename = File.basename self.doc_file_name, ext # just the basename
 
-        extension = File.extname self.doc_file_name
-        base = File.basename self.doc_file_name, extension
+      all_paths = Dir[File.join(dir, '*')] # full paths of all files in same directory
 
-        if match_count> 0
-            self.doc_file_name = "#{base}-#{match_count}#{extension}"
-        end
+      contents = all_paths.map do |path| # name of just the file
+        File.basename path
+      end
+
+      attempted_name = "#{basename}#{ext}" # the orginal shouldn't have a 1 at the end.
+      version = 1 # the version to try appending
+      while true
+        break if !contents.include? attempted_name
+
+        # that file name isn' uniqe. Let's try something else
+        version += 1
+        attempted_name = "#{basename}-#{version}#{ext}"
+
+      end
+
+      self.doc_file_name = attempted_name
+
     end
 
 end

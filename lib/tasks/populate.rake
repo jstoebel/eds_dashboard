@@ -198,7 +198,7 @@ namespace :db do
     task :clean_dev_files do
       desc "remove public/student_files/development"
 
-        sh "rm -rf #{Rails.root}/public/student_files/development"
+        sh "rm -rf #{Rails.root}/storage/student_files/development"
     end
 
   end

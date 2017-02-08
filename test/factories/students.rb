@@ -86,48 +86,51 @@ FactoryGirl.define do
     presumed_status "Prospective"
 
     factory :admitted_student do
+        after(:create) do |stu|
+            FactoryGirl.create :accepted_adm_tep, :student => stu
+        end
 
-      after(:create) do |stu|
-        # give course work, 12 courses
-        courses = FactoryGirl.create_list :transcript, 12, {:student_id => stu.id,
-          :grade_pt => 4.0,
-          :grade_ltr => "A",
-          :credits_earned =>  4.0,
-          :term_taken => BannerTerm.current_term(exact: false, plan_b: :back).id,
-          :gpa_include => true
-        }
-      end
-
-      after(:create) do |stu|
-        test_term = stu.transcripts.first.banner_term
-        date_taken = test_term.StartDate
-        p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
-
-        praxis_attrs = p1_tests.map { |test|
-          FactoryGirl.attributes_for :praxis_result, {
-            :student_id => stu.id,
-            :praxis_test_id =>  test.id,
-            :test_score => test.CutScore,
-            :test_date => date_taken,
-            :reg_date => date_taken
-          }
-        }
-
-        praxis_attrs.map { |t| PraxisResult.create t }
-
-      end
-
-      after(:create) do |stu|
-        apply_term = stu.transcripts.first.banner_term
-
-        app = FactoryGirl.create :adm_tep, {
-          :student => stu,
-          :TEPAdmitDate => apply_term.StartDate,
-          :program => (FactoryGirl.create :program),
-          :banner_term => apply_term,
-          :student_file => (FactoryGirl.create :student_file, {:student => stu})
-        }
-      end  # after
+    #   after(:create) do |stu|
+    #     # give course work, 12 courses
+    #     courses = FactoryGirl.create_list :transcript, 12, {:student_id => stu.id,
+    #       :grade_pt => 4.0,
+    #       :grade_ltr => "A",
+    #       :credits_earned =>  4.0,
+    #       :term_taken => BannerTerm.current_term(exact: false, plan_b: :back).id,
+    #       :gpa_include => true
+    #     }
+    #   end
+      #
+    #   after(:create) do |stu|
+    #     test_term = stu.transcripts.first.banner_term
+    #     date_taken = test_term.StartDate
+    #     p1_tests = PraxisTest.where({:TestFamily => 1, :CurrentTest => true})
+      #
+    #     praxis_attrs = p1_tests.map { |test|
+    #       FactoryGirl.attributes_for :praxis_result, {
+    #         :student_id => stu.id,
+    #         :praxis_test_id =>  test.id,
+    #         :test_score => test.CutScore,
+    #         :test_date => date_taken,
+    #         :reg_date => date_taken
+    #       }
+    #     }
+      #
+    #     praxis_attrs.map { |t| PraxisResult.create t }
+      #
+    #   end
+      #
+    #   after(:create) do |stu|
+    #     apply_term = stu.transcripts.first.banner_term
+      #
+    #     app = FactoryGirl.create :adm_tep, {
+    #       :student => stu,
+    #       :TEPAdmitDate => apply_term.StartDate,
+    #       :program => (FactoryGirl.create :program),
+    #       :banner_term => apply_term,
+    #       :student_file => (FactoryGirl.create :student_file, {:student => stu})
+    #     }
+    #   end  # after
     end # admitted_student
   end
 end

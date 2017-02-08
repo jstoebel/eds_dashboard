@@ -22,16 +22,19 @@ class AdmTep < ActiveRecord::Base
 
   include ApplicationHelper
 
-  attr_accessor :fks_in   #if forign keys are in.
+  attr_accessor :fks_in, :adm_file
 
   belongs_to :program, {foreign_key: "Program_ProgCode"}
   belongs_to :student
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
-  belongs_to :student_file
+
+  has_many :adm_files, :dependent => :destroy
+  has_many :student_files, :through => :adm_files
 
   #CALL BACKS
   after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
   after_validation :complex_validations, :unless =>  Proc.new{|s| s.errors.any?}
+  after_save :create_adm_file
 
   #SCOPES
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
@@ -51,12 +54,8 @@ class AdmTep < ActiveRecord::Base
   validates_presence_of :BannerTerm_BannerTerm,
     :message => "No term could be determined."
 
-  validates_presence_of :student_file_id,{:message => "Please attach an admission letter.",
-      :unless => Proc.new{|s| s.TEPAdmit.nil?}
-    }
-
   validates_presence_of :TEPAdmitDate, {:message => "Admission date must be given.",
-    :if => Proc.new{|s| s.TEPAdmit.present?}# self.TEPAdmit.nil?
+    :if => Proc.new{|s| s.TEPAdmit.present?}
   }
 
   def good_credits?
@@ -142,7 +141,7 @@ class AdmTep < ActiveRecord::Base
 
   def cant_apply_again
 
-    attrs = self.attributes.slice("student_id", "Program_ProgCode", "BannerTerm_BannerTerm")
+    attrs = self.attributes.slice("student_id", "Program_ProgCode")
     accepted_or_pending_apps = AdmTep.where(attrs).where("TEPAdmit = 1 or TEPAdmit IS NULL")
     if ( accepted_or_pending_apps.size > 0 && self.new_record? ||
          accepted_or_pending_apps.size > 1 && !self.new_record?
@@ -155,6 +154,15 @@ class AdmTep < ActiveRecord::Base
     if ((self.TEPAdmitDate.present? || self.student_file_id.present?) && self.TEPAdmit == nil )
       self.errors.add(:TEPAdmit, "Please make an admission decision for this student.")
     end
+  end
+
+  def create_adm_file
+      if self.adm_file.present?
+          AdmFile.create!({
+              :student_file_id => self.adm_file.id,
+              :adm_tep_id => self.id
+          })
+      end
   end
 
 end
