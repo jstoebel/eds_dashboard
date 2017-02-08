@@ -57,7 +57,7 @@ class ProgExitsControllerTest < ActionController::TestCase
 
       assert_response :success
       assert assigns(:exit).new_record?
-      test_new_setup
+      test_form_setup
     end
   end
 
@@ -126,6 +126,8 @@ class ProgExitsControllerTest < ActionController::TestCase
         get :edit, {:id => expected_exit.AltID}
         assert_response :success
         assert_equal expected_exit, assigns(:exit)
+        test_form_setup
+      
       end # test
     end # roles loop
 
@@ -149,7 +151,12 @@ class ProgExitsControllerTest < ActionController::TestCase
         stu.EnrollmentStatus = "Graduation"
         stu.save!
 
-        new_attrs = prog_exit.attributes.merge({"RecommendDate" => prog_exit.RecommendDate + 1})
+        new_attrs = prog_exit.attributes.merge({
+          "RecommendDate" => nil,
+          "ExitCode_ExitCode" => (FactoryGirl.create :exit_code).id,
+          "ExitDate" => prog_exit.ExitDate + 1,
+          "Details" => "This is but a test."
+        })
 
         post :update, :id => prog_exit.id, :prog_exit => new_attrs
         assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
@@ -255,7 +262,6 @@ class ProgExitsControllerTest < ActionController::TestCase
 
   test "should not get new_specific bad role" do
     (role_names - allowed_roles).each do |r|
-
       load_session(r)
       get :new_specific, {:prog_exit_id => "altid", :program_id => "progid"}
       assert_redirected_to "/access_denied"
@@ -272,7 +278,7 @@ class ProgExitsControllerTest < ActionController::TestCase
   end
 
   private
-  def test_new_setup
+  def test_form_setup
     expected_students = Student.all.select {|s| s.prog_status == "Candidate"}
     assert_equal expected_students, assigns(:students)
     assert_equal [], assigns(:programs)
