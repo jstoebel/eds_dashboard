@@ -144,43 +144,25 @@ class ProgExitsControllerTest < ActionController::TestCase
 
   describe "update" do
     allowed_roles.each do |r|
-      describe "as #{r}" do
-        
-        before do
-          load_session(r)
-          @prog_exit = FactoryGirl.create :successful_prog_exit
-          stu = @prog_exit.student
-          stu.EnrollmentStatus = "Graduation"
-          stu.save!
-        end
+      test "as #{r} should post" do
+        load_session(r)
+        prog_exit = FactoryGirl.create :successful_prog_exit
+        stu = prog_exit.student
+        stu.EnrollmentStatus = "Graduation"
+        stu.save!
 
-        test "should update" do
-          new_attrs = @prog_exit.attributes.merge({
+        new_attrs = prog_exit.attributes.merge({
           "RecommendDate" => nil,
           "ExitCode_ExitCode" => (FactoryGirl.create :exit_code).id,
-          "ExitDate" => @prog_exit.ExitDate + 1,
+          "ExitDate" => prog_exit.ExitDate + 1,
           "Details" => "This is but a test."
-          })
+        })
 
-          post :update, :id => @prog_exit.id, :prog_exit => new_attrs
-          assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
-          assert_equal new_attrs, assigns(:exit).attributes
-          assert_equal flash[:notice], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
-          assert_redirected_to banner_term_prog_exits_path(@prog_exit.banner_term.id)
-        end # should update
-
-        test "should not update" do
-          new_attrs = @prog_exit.attributes.merge({
-          "RecommendDate" => @prog_exit.RecommendDate + 1,
-          "ExitCode_ExitCode" => (FactoryGirl.create :exit_code).id,
-          "ExitDate" => @prog_exit.ExitDate + 1,
-          "Details" => "This is but a test."
-          })
-          post :update, :id => @prog_exit.id, :prog_exit => new_attrs
-          assert_not assigns(:exit).valid?, assigns(:exit).errors.full_messages
-          assert_template "edit"
-          test_form_setup
-        end
+        post :update, :id => prog_exit.id, :prog_exit => new_attrs
+        assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
+        assert_equal new_attrs, assigns(:exit).attributes
+        assert_equal flash[:notice], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
+        assert_redirected_to banner_term_prog_exits_path(prog_exit.banner_term.id)
       end
     end
 
