@@ -27,7 +27,7 @@
 
 		<tr>
 			<th>Exit Date: </th>
-			<td><%= @exit.ExitDate.strftime("%Y-%m-%d") %></td>
+			<td><%= @exit.ExitDate.andand.strftime("%Y-%m-%d") %></td>
 		</tr>
 
 		<tr>
