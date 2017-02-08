@@ -3,9 +3,7 @@
 <%= form_for @exit, url: prog_exits_path do |f|   %>
 	<table summary="prog_exit form fields" class="new">
 
-    <caption>
-    	<span class="header1"> Exit a student</span>
-    </caption>
+
 
 		<%= error_messages_for(@exit) %>
 
@@ -25,7 +23,7 @@
 		<tr>
 		  <th> <%= f.label :Program_ProgCode, "Program to Exit:", :class => 'programs_row'  %> </th>
 		  <td>
-		  <%= f.select :Program_ProgCode, options_for_select([]), {}, {prompt: "Select a Program to Exit", id: 'programs_select', :class => 'programs_row'} %>
+		  	<%= f.select :Program_ProgCode, options_for_select([]), {}, {prompt: "Select a Program to Exit", id: 'programs_select', :class => 'programs_row'} %>
 		  </td>
 		</tr>
 
@@ -71,7 +69,7 @@
 
 		<tr>
 			<th>
-				<%= f.label :Details %>
+				<%= f.label :Details, "Details:" %>
 			</th>
 
 			<td>
@@ -79,7 +77,5 @@
 			</td>
 
 		</tr>
-	<tr>
-		<td><%= submit_tag("Submit Exit") %></td>
-	</tr>
+
 <% end %>
