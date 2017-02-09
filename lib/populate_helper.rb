@@ -161,8 +161,7 @@ module PopulateHelper
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
-            CoreGPA: 3.0,
-            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+            CoreGPA: 3.0
           }
 
         end
@@ -174,16 +173,14 @@ module PopulateHelper
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
-            CoreGPA: 3.0,
-            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+            CoreGPA: 3.0
           }
         else
           st_app_attrs = FactoryGirl.create :denied_adm_st, {
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
-            CoreGPA: 3.0,
-            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+            CoreGPA: 3.0
           }
         end
       else

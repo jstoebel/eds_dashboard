@@ -98,6 +98,12 @@
                         2) we are currently inside a term
                         3) the term displayed is a current term.-->
 
+                <%= render(partial: "links_popover", :locals => {
+                                :app => app
+                            }
+                        )
+                %>
+
                 <%= link_to("Edit", adm_st_edit_st_paperwork_path(app.id) , :class => "action details btn btn-info action-small") %>
 
                 <% if app.student_file %>

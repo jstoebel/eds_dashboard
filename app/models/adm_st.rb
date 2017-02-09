@@ -25,17 +25,21 @@ class AdmSt < ActiveRecord::Base
   self.table_name = 'adm_st'
   include ApplicationHelper
 
-	attr_accessor :skip_val_letter
+  attr_accessor :skip_val_letter, :st_file
 
   belongs_to :student
   belongs_to :banner_term, foreign_key: "BannerTerm_BannerTerm"
-  belongs_to :student_file
 
-	scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
+  has_many :st_files, :dependent => :destroy
+  has_many :student_files, :through => :st_files
+
+  scope :by_term, ->(term) {where("BannerTerm_BannerTerm = ?", term)}
 
   #CALL BACKS
   after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
   after_validation :complex_validations, :unless =>  Proc.new{|s| s.errors.any?}
+  after_save :create_st_file
+
 
   #BASIC VALIDATIONS
   validates_presence_of :student_id,
@@ -43,10 +47,6 @@ class AdmSt < ActiveRecord::Base
 
   validates_presence_of :BannerTerm_BannerTerm,
     :message => "No term could be determined."
-
-  validates_presence_of :student_file_id,{:message => "Please attach an admission letter.",
-    :unless => Proc.new{|s| s.STAdmitted.nil?}
-  }
 
   validates_presence_of :STAdmitDate, {:message => "Admission date must be given.",
     :if => Proc.new{|s| s.STAdmitted}
@@ -102,7 +102,7 @@ class AdmSt < ActiveRecord::Base
   end
 
   def cant_apply_again
-    
+
     non_rejected_apps = self.student.adm_st
       .where({ BannerTerm_BannerTerm: self.BannerTerm_BannerTerm })
       .where("STAdmitted = true or STAdmitted IS NULL")
@@ -112,6 +112,15 @@ class AdmSt < ActiveRecord::Base
       ( non_rejected_apps.size > 1 && !self.new_record? )
       self.errors.add(:base, "Student has already been admitted or has an open applicaiton in this term.")
     end
+  end
+
+  def create_st_file do
+      if self.st_file.present?
+          StFile.create!({
+              :student_file_id => self.adm_file.id,
+              :adm_tep_id => self.id
+          })
+      end
   end
 
 end
