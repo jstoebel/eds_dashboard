@@ -34,7 +34,7 @@ class ProgExitsController < ApplicationController
   def new
     #create a new exit
     @exit = ProgExit.new
-    form_setup
+    new_setup
   end
 
   def create
@@ -49,7 +49,7 @@ class ProgExitsController < ApplicationController
       flash[:notice] = "Successfully exited #{@exit.student.name_readable} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
       redirect_to prog_exits_path
     else
-      form_setup
+      new_setup
       render('new')
 
     end
@@ -66,14 +66,13 @@ class ProgExitsController < ApplicationController
 
     program = params[:program_id]
     @exit.Program_ProgCode = program
-    form_setup
+    new_setup
 
   end
 
 
   def edit
     @exit = ProgExit.find params[:id]
-    form_setup
   end
 
   def update
@@ -85,8 +84,8 @@ class ProgExitsController < ApplicationController
       flash[:notice] = "Edited exit record for #{name_details(@exit.student)}"
       redirect_to banner_term_prog_exits_path(@exit.banner_term.id)
     else
-      form_setup
       render('edit')
+
     end
 
   end
@@ -122,10 +121,10 @@ class ProgExitsController < ApplicationController
   end
 
   def edit_exit_params
-    params.require(:prog_exit).permit(:Details, :RecommendDate, :ExitDate, :ExitCode_ExitCode )
+    params.require(:prog_exit).permit(:Details, :RecommendDate)
   end
 
-  def form_setup
+  def new_setup
 
     @students = Student.all.select {|s| s.prog_status == "Candidate"}
     # @students = Student.all.where("ProgStatus in (?, ?)", "Candidate", "Completer").by_last    #TODO all candidates with unexited programs

@@ -1,16 +1,5 @@
 <%= link_to prog_exits_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
-
-    <div>
-        <caption>
-    	    <span class="header1"> Exit a student</span>
-        </caption>
-
-        <%= render(partial: 'form') %>
-
-        <tr>
-	        <td><%= submit_tag("Submit Exit") %></td>
-        </tr>
-    </div>
+<%= render(partial: 'new_form') %>
 

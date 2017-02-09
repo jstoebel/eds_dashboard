@@ -18,28 +18,16 @@
 
 		<tr>
 			<th>
-				<%= f.label :ExitCode_ExitCode, "Exit Reason:" %>
+				Exit Reason:
 			</th>
 			<td>
-				<%= f.select :ExitCode_ExitCode, options_for_select(@exit_reasons.collect { |er| [er.ExitDiscrip, er.id]})  %>
+				<%= @exit.exit_code.ExitDiscrip %>
 			</td>
 		</tr>
 
-
 		<tr>
-			<th>
-				<%= f.label :ExitDate, "Exit Date:" %>
-			</th>
-
-            <td class="date-admit">
-
-
-				<%= render(partial: 'date_picker', :locals => {
-					f: f,
-					field: :ExitDate,
-					default: @exit.ExitDate ? (@exit.ExitDate) : ""
-				} )%>
-            </td>
+			<th>Exit Date: </th>
+			<td><%= @exit.ExitDate.andand.strftime("%Y-%m-%d") %></td>
 		</tr>
 
 		<tr>
@@ -48,7 +36,7 @@
 			</th>
 
             <td class="date-admit">
-	
+
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :RecommendDate,
@@ -65,6 +53,7 @@
 			<td>
 				<%= f.text_area(:Details, :side => '40x10') %>
 			</td>
+
 		</tr>
 
 	<tr>
