@@ -65,7 +65,7 @@ class ClinicalTeacher < ActiveRecord::Base
       allow_blank: true
       
       
-    def clinical_teacher_name_details(file_as = false)
+    def name_readable(file_as = false)
       first_name = " #{self.FirstName}"
       last_name = "#{self.LastName}"
       if file_as

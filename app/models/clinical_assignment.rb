@@ -19,8 +19,6 @@ class ClinicalAssignment < ActiveRecord::Base
 	belongs_to :banner_term, {:foreign_key => 'Term'}
 	belongs_to :transcript
 	
-	scope :by_last, lambda {order(LastName: :asc)}
-
 	validates :clinical_teacher_id,
 		uniqueness: {
 			scope: [:student_id, :transcript_id, :Term],
