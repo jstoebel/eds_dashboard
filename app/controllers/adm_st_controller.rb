@@ -72,7 +72,6 @@ class AdmStController < ApplicationController
     end
 
     if @app.save
-      letter.save
       flash[:notice] = "Student application successfully updated."
       redirect_to(adm_st_index_path)
     else

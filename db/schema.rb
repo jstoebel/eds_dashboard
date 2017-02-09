@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207193703) do
+ActiveRecord::Schema.define(version: 20170209155721) do
 
   create_table "adm_files", force: :cascade do |t|
     t.integer  "adm_tep_id",      limit: 4
@@ -426,6 +426,13 @@ ActiveRecord::Schema.define(version: 20170207193703) do
   end
 
   add_index "roles", ["RoleName"], name: "RoleName_UNIQUE", unique: true, using: :btree
+
+  create_table "st_files", force: :cascade do |t|
+    t.integer  "adm_st_id",       limit: 4
+    t.integer  "student_file_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "student_files", force: :cascade do |t|
     t.integer  "student_id",       limit: 4,                  null: false

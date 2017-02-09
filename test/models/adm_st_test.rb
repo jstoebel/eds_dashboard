@@ -45,10 +45,6 @@ class AdmStTest < ActiveSupport::TestCase
 			assert_equal ["No term could be determined."], @app.errors[:BannerTerm_BannerTerm]
 		end
 
-		test "student_file is ok" do
-			assert_equal [], @app.errors[:student_file_id]
-		end
-
 		test "admit date is ok" do
 			assert_equal [], @app.errors[:STAdmitDate]
 		end
@@ -62,10 +58,6 @@ class AdmStTest < ActiveSupport::TestCase
 			before do
 				@app.STAdmitted = true
 				@app.valid?
-			end
-
-			test "student_file" do
-				assert_equal ["Please attach an admission letter."], @app.errors[:student_file_id]
 			end
 
 			test "admit date" do
@@ -97,7 +89,6 @@ class AdmStTest < ActiveSupport::TestCase
 
 		test "admit too early" do
 			@app.assign_attributes({:STAdmitDate => @app.banner_term.StartDate - 1,
-				:student_file_id => (FactoryGirl.create :student_file).id,
 				:STAdmitted => true})
 			@app.valid?
 			assert_equal ["Admission date must be after term begins."], @app.errors[:STAdmitDate]
@@ -109,7 +100,6 @@ class AdmStTest < ActiveSupport::TestCase
 			}
 
 			@app.assign_attributes({:STAdmitDate => next_term.StartDate,
-				:student_file_id => (FactoryGirl.create :student_file).id,
 				:STAdmitted => true})
 			@app.valid?
 			assert_equal ["Admission date may not be after next term begins."], @app.errors[:STAdmitDate]
