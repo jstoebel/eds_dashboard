@@ -1,0 +1,2 @@
+module StFilesHelper
+end

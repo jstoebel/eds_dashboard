@@ -1,0 +1,71 @@
+<!-- Partial for a links popover.
+
+  arguments:
+      app: the adm_tep record this popover represents
+       -->
+
+
+<!-- Button trigger modal -->
+<button class="btn btn-info action-small" data-toggle="modal" data-target="#exit-<%= app.id %>-details">
+  Docs
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exit-<%= app.id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= app.id %>-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exit-<%= app.id %>-label">
+          <%="Applicaiton Files for #{app.student.name_readable} (#{app.banner_term.readable})" %>
+        </h4>
+      </div>
+      <div class="modal-body">
+
+          <div class="container-fluid">
+
+            <table class="listing summary adm_tep list table table-striped">
+
+              <% app.st_files.each do |f|  %>
+                <tr>
+                    <td>
+                        <%= link_to(f.student_file.doc_file_name, st_file_download_path(f.id)) %>
+                    </td>
+
+                    <td>
+                        <%= button_to(st_file_path(f.id), { class: "btn btn-default", method: :delete, data: {confirm: "Are you sure you want to remove this file?"} } ) do %>
+                        <span class="glyphicon glyphicon-trash"> </span>
+                        <% end %>
+                    </td>
+                </tr>
+
+              <% end %>
+            </table>
+
+          </div>
+          <%= form_for(:adm_file, :url =>  adm_st_st_files_path(app.id), method: :post ) do |f| %>
+
+            <table>
+              </tr>
+                  <td class="letter-attach">
+                      <%= f.file_field :doc %>
+                  </td>
+              </tr>
+
+              <tr>
+                  <td>
+                      <div class="form-buttons">
+                          <%= submit_tag("Submit") %>
+                      </div>
+                  </td>
+              </tr>
+
+            </table>
+          <% end %>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
