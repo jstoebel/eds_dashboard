@@ -6,16 +6,16 @@
 
 
 <!-- Button trigger modal -->
-<button class="btn btn-info action-small" data-toggle="modal" data-target="#exit-<%= app.id %>-details">
+<button class="btn btn-info action-small" data-toggle="modal" data-target="#app-<%= app.id %>-details">
   Docs
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exit-<%= app.id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= app.id %>-label" aria-hidden="true">
+<div class="modal fade" id="app-<%= app.id %>-details" tabindex="-1" role="dialog" aria-labelledby="app-<%= app.id %>-label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exit-<%= app.id %>-label">
+        <h4 class="modal-title" id="app-<%= app.id %>-label">
           <%="Applicaiton Files for #{app.student.name_readable} (#{app.banner_term.readable}): #{app.program.EDSProgName}" %>
         </h4>
       </div>
