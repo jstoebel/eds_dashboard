@@ -19,7 +19,7 @@ namespace :temp do
                 })
             end
 
-            puts "created record for #{app.student.name_readable}: #{app.banner_term.id}, #{app.program.EDSProgName}"
+            puts "created record for #{app.student.name_readable}: #{app.banner_term.id}."
         end
     end # transaction
 
