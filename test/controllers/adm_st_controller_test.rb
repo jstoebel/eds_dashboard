@@ -212,8 +212,6 @@ class AdmStControllerTest < ActionController::TestCase
     end # roles loop
   end
 
- # TODO NEED TO TEST DOWNLOAD
-
    describe "should post update" do
 
      allowed_roles.each do |r|
@@ -239,8 +237,7 @@ class AdmStControllerTest < ActionController::TestCase
                  :id => @app.id,
                  :adm_st => {
                    :STAdmitted => true,
-                   :STAdmitDate => @term.StartDate,
-                   :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                   :STAdmitDate => @term.StartDate
                    }
                }
            assert assigns(:app).valid?, assigns(:app).errors.full_messages
@@ -252,8 +249,7 @@ class AdmStControllerTest < ActionController::TestCase
                  :id => @app.id,
                  :adm_st => {
                    :STAdmitted => nil,
-                   :STAdmitDate => @term.StartDate,
-                   :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+                   :STAdmitDate => @term.StartDate
                    }
                }
            assert_response :success
@@ -311,14 +307,12 @@ class AdmStControllerTest < ActionController::TestCase
        stu = FactoryGirl.create :admitted_student
        app = FactoryGirl.build :accepted_adm_st, {:student_id => stu.id,
           :BannerTerm_BannerTerm => BannerTerm.current_term({exact: false, plan_b: :back}).id}
-       letter = attach_letter(app)
        app.save
        puts app.errors.full_messages
        post :update_st_paperwork, {
          adm_st_id: app.id,
          :adm_st => {
-           :background_check => 1,
-           :letter => Paperclip.fixture_file_upload("test/fixtures/test_file.txt")
+           :background_check => 1
          }
        }
 
@@ -376,11 +370,6 @@ class AdmStControllerTest < ActionController::TestCase
     end # roles loop
 
   end # describe
-
-   test "should not get download bad id" do
-     load_session("admin")
-     assert_raises(ActiveRecord::RecordNotFound) { get :download, {adm_st_id: "badid"} }
-   end
 
    test "should post choose" do
      allowed_roles.each do |r|
@@ -479,12 +468,5 @@ class AdmStControllerTest < ActionController::TestCase
      end
    end
 
-   test "should not get download bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       post :download, {:adm_st_id => "who_cares"}
-       assert_redirected_to "/access_denied"
-     end
-   end
 
 end

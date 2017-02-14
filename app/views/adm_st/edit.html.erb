@@ -1,10 +1,10 @@
 <%= link_to adm_st_index_path, class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do %>
   <i class=" link-text"> Back</i>
 <% end %>
-    
 
 
-    <%= error_messages_for(@app) %> 
+
+    <%= error_messages_for(@app) %>
     <%= form_for(:adm_st, :url => adm_st_path(@app.id), method: :patch ) do |f| %>
     <table summary="adm_st form fields">
         <caption>
@@ -14,13 +14,13 @@
         <tr>
             <th><%= f.label(:STAdmitted, "Admission Decision", ) %></th>
 
-            <td><%= f.select(:STAdmitted, 
+            <td><%= f.select(:STAdmitted,
                         {"Admitted" =>  true, "Not Admitted" => false},
                         {prompt: "Admission Decision"}, :class => "admit-choice") %></td>
         </tr>
 
 
-        <tr>            
+        <tr>
         <th class="date-admit"><%= f.label(:STAdmitDate, "Admit Date") %></th>
 
             <td class="date-admit">
@@ -30,7 +30,7 @@
                         f: f,
                         field: :STAdmitDate,
                         default: Date.today
-                      } )%> 
+                      } )%>
 
         </td>
 
@@ -39,11 +39,6 @@
               <td><%= f.text_area(:Notes, :side => '40x10') %></td>
             </tr>
 
-            <td class="letter-attach">
-                <%= f.file_field :letter %>
-
-
-            </td>
         </tr>
 
 
@@ -53,9 +48,9 @@
                 <div class="form-buttons">
                     <%= submit_tag("Submit") %>
                 </div>
-            </td>   
+            </td>
 
-        </tr> 
+        </tr>
         </table>
-        <% end %>         
+        <% end %>
 </div>
