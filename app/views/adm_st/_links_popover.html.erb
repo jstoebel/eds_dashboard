@@ -6,16 +6,16 @@
 
 
 <!-- Button trigger modal -->
-<button class="btn btn-info action-small" data-toggle="modal" data-target="#exit-<%= app.id %>-details">
+<button class="btn btn-info action-small" data-toggle="modal" data-target="#st-link-<%= app.id %>-details">
   Docs
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exit-<%= app.id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= app.id %>-label" aria-hidden="true">
+<div class="modal fade" id="st-link-<%= app.id %>-details" tabindex="-1" role="dialog" aria-labelledby="st-link-<%= app.id %>-label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exit-<%= app.id %>-label">
+        <h4 class="modal-title" id="st-link-<%= app.id %>-label">
           <%="Applicaiton Files for #{app.student.name_readable} (#{app.banner_term.readable})" %>
         </h4>
       </div>
@@ -42,8 +42,7 @@
             </table>
 
           </div>
-          <%= form_for(:adm_file, :url =>  adm_st_st_files_path(app.id), method: :post ) do |f| %>
-
+          <%= form_for(:st_file, :url =>  adm_st_st_files_path(app.id), method: :post ) do |f| %>
             <table>
               </tr>
                   <td class="letter-attach">
