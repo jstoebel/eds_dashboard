@@ -80,12 +80,6 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model "Student" do
-      index do
-          field self.gpa
-      end
-  end
-
   config.model 'ClinicalSite' do
     import do
       mapping_key :id

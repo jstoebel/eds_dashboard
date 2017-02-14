@@ -212,8 +212,6 @@ class AdmStControllerTest < ActionController::TestCase
     end # roles loop
   end
 
- # TODO NEED TO TEST DOWNLOAD
-
    describe "should post update" do
 
      allowed_roles.each do |r|
@@ -373,11 +371,6 @@ class AdmStControllerTest < ActionController::TestCase
 
   end # describe
 
-   test "should not get download bad id" do
-     load_session("admin")
-     assert_raises(ActiveRecord::RecordNotFound) { get :download, {adm_st_id: "badid"} }
-   end
-
    test "should post choose" do
      allowed_roles.each do |r|
        load_session(r)
@@ -475,12 +468,5 @@ class AdmStControllerTest < ActionController::TestCase
      end
    end
 
-   test "should not get download bad role" do
-     (role_names - allowed_roles).each do |r|
-       load_session(r)
-       post :download, {:adm_st_id => "who_cares"}
-       assert_redirected_to "/access_denied"
-     end
-   end
 
 end

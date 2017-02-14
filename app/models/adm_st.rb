@@ -117,8 +117,8 @@ class AdmSt < ActiveRecord::Base
   def create_st_file
       if self.st_file.present?
           StFile.create!({
-              :student_file_id => self.adm_file.id,
-              :adm_tep_id => self.id
+              :student_file_id => self.st_file.id,
+              :adm_st_id => self.id
           })
       end
   end

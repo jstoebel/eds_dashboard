@@ -4,7 +4,7 @@ class StFilesController < ApplicationController
     authorize_resource
 
     def download
-        adm_file = StFile.find params[:st_file_id]
+        st_file = StFile.find params[:st_file_id]
         authorize! :read, st_file
         send_file st_file.student_file.doc.path
     end

@@ -15,9 +15,9 @@ class StFileTest < ActiveSupport::TestCase
     end
 
     test "student_file can't repeat" do
-        adm_tep = FactoryGirl.create :accepted_adm_st
+        adm_st = FactoryGirl.create :accepted_adm_st
         second_file = StFile.new({
-            :adm_st_id => adm_tep.id,
+            :adm_st_id => adm_st.id,
             :student_file_id => adm_st.st_files.first.student_file_id
         })
 

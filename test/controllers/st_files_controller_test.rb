@@ -20,7 +20,7 @@ class StFilesControllerTest < ActionController::TestCase
                     before do
                         adm_st = FactoryGirl.create :accepted_adm_st
                         @st_file = adm_st.st_files.first
-                        get :download, :st_file_id => @adm_file.id
+                        get :download, :st_file_id => @st_file.id
                     end
 
                     test "response" do
@@ -32,7 +32,7 @@ class StFilesControllerTest < ActionController::TestCase
                 describe "create" do
 
                     before do
-                        @adm_tep = FactoryGirl.create :pending_adm_st
+                        @adm_st = FactoryGirl.create :pending_adm_st
                     end
 
                     describe "success" do
@@ -59,7 +59,7 @@ class StFilesControllerTest < ActionController::TestCase
 
                         test "fails with no doc" do
                             post :create, {
-                                :adm_tep_id => @adm_st.id
+                                :adm_st_id => @adm_st.id
                             }
 
                             assert_redirected_to banner_term_adm_st_index_path(@adm_st.banner_term.id)
@@ -102,7 +102,7 @@ class StFilesControllerTest < ActionController::TestCase
             before do
                 load_session(r)
                 @adm_st = FactoryGirl.create :accepted_adm_st
-                @st_file = @adm_st.adm_files.first
+                @st_file = @adm_st.st_files.first
             end
 
             describe "as #{r}" do
