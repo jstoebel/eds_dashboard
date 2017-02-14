@@ -174,7 +174,7 @@ Rails.application.routes.draw do
 
   get "reports/need_apply_tep", to: "reports#need_apply_tep"
 
-  resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  resources :adm_tep, only: [:index, :new, :create, :edit, :update, :destroy] do
     post "choose"
     get "admit"
     resources :adm_files, only: [:create]

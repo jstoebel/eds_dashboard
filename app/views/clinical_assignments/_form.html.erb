@@ -9,8 +9,8 @@
 
     <tr>
       <th> <%= f.label(:clinical_teacher_id, "Teacher:")%> </th>
-      <td> <%= f.select(:clinical_teacher_id, @teachers.map {|t| ["#{t.FirstName} #{t.LastName}", t.id]},
-      {prompt: "Select a clinical teacher"}) %></td>
+      <td> <%= f.select(:clinical_teacher_id, @teachers.map{|t| [t.name_readable(file_as = true), t.id]},
+      {prompt: "Select a clinical teacher"}, id: "clinical_teacher_select") %></td>
     </tr>
 
     <tr>
