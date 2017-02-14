@@ -1,0 +1,9 @@
+- if Downtime.has_impending?
+    .alert.alert-danger
+        %p
+            = "The Dashboard will go down for maintiance momentarily. Any work submitted might not be saved!"
+
+- Downtime.all.active.where("start_time > ?", DateTime.now).each do |downtime|
+    .alert.alert-warning
+        %p
+            = "The Dashboard will be down for maintiance between #{downtime.time_range}"

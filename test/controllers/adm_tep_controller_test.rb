@@ -262,46 +262,6 @@ class AdmTepControllerTest < ActionController::TestCase
   end # outer describe
 
 
-
- describe "show" do
-    before do
-      @app = FactoryGirl.create :pending_adm_tep
-    end
-
-    allowed_roles.each do |r|
-      describe "as #{r}" do
-
-        before do
-          load_session(r)
-        end
-
-        test "should get show" do
-          get :show, {id: @app.id}
-          assert_response :success
-          assert_equal assigns(:app), @app
-          assert_equal assigns(:term), @app.banner_term
-          assert_equal assigns(:student), @app.student
-        end
-
-        test "should not show -- bad params" do
-          assert_raises(ActiveRecord::RecordNotFound) { get :show, {id: "badid"} }
-        end
-
-      end # inner describe
-    end # roles loop
-
-    (all_roles - allowed_roles).each do |r|
-
-      test "should not show as #{r} -- access denied" do
-        load_session(r)
-        get :show, {id: @app.id}
-        assert_redirected_to "/access_denied"
-      end
-    end # roles loop
-
-  end # outer describe
-
-
  describe "delete" do
     before do
       @app = FactoryGirl.create :pending_adm_tep

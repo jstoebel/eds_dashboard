@@ -26,13 +26,8 @@
 		</tr>
 
 		<tr>
-			<th>
-				Exit Date:
-			</th>
-			<td>
-				<%= @exit.ExitDate.strftime("%m/%d/%Y") %>
-			</td>
-
+			<th>Exit Date: </th>
+			<td><%= @exit.ExitDate.andand.strftime("%Y-%m-%d") %></td>
 		</tr>
 
 		<tr>
@@ -41,7 +36,7 @@
 			</th>
 
             <td class="date-admit">
-	
+
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :RecommendDate,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131202113) do
+ActiveRecord::Schema.define(version: 20170207193703) do
 
   create_table "adm_files", force: :cascade do |t|
     t.integer  "adm_tep_id",      limit: 4
@@ -179,6 +179,18 @@ ActiveRecord::Schema.define(version: 20170131202113) do
     t.datetime "updated_at",                null: false
   end
 
+<<<<<<< HEAD
+=======
+  create_table "downtimes", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.text     "reason",     limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.boolean  "active"
+  end
+
+>>>>>>> cccbc1beefbb99b08ec1c5b4a7576d2f7e54f93a
   create_table "employment", primary_key: "EmpID", force: :cascade do |t|
     t.integer "student_id",  limit: 4,  null: false
     t.date    "EmpDate",                null: false

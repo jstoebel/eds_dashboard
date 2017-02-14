@@ -128,7 +128,8 @@ class ClinicalAssignmentsController < ApplicationController
       .current
       .select{|s| can? :index, s}
 
-    @teachers = ClinicalTeacher.all
+    @teachers = ClinicalTeacher
+      .by_last
     @current_term = current_term exact: false, plan_b: :forward
   end
 
