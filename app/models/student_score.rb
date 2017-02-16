@@ -11,14 +11,9 @@
 #  updated_at            :datetime
 #
 
-=begin
-=end
-
 class StudentScore < ActiveRecord::Base
     belongs_to :student
-    belongs_to :assessment_version
     belongs_to :item_level
-    belongs_to :assessment_item
-    
-    validates_presence_of :student_id, :assessment_version_id, :assessment_item_id, :item_level_id
+
+    validates_presence_of :student_id, :item_level_id
 end

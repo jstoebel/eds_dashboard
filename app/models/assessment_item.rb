@@ -19,26 +19,22 @@ class AssessmentItem < ActiveRecord::Base
     before_validation :check_scores
     before_destroy :check_scores
 
+    belongs_to :assessment
+
     has_many :item_levels, dependent: :destroy, autosave: true
-    has_many :student_scores
-    has_many :version_habtm_items
-    has_many :assessment_versions, :through => :version_habtm_items
     accepts_nested_attributes_for :item_levels
 
     validates_presence_of :name, :slug
 
     scope :sorted, lambda {order(:name => :asc)}
 
+    def repr
+      return self.slug
+    end
+    
     def has_scores?
       #Determines whether item is on version associated with score. Returns true if so
-      @versions = self.assessment_versions
-      @versions.each do |v|
-          score = v.has_scores
-          if score == true
-              return true
-          end
-      end
-      return false
+      # TODO
     end
 
     def check_scores
@@ -50,7 +46,4 @@ class AssessmentItem < ActiveRecord::Base
         end
     end
 
-    def repr
-      return self.slug
-    end
 end

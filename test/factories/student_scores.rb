@@ -20,8 +20,6 @@ include Faker
 FactoryGirl.define do
   factory :student_score do
     student
-    assessment_version
-    assessment_item
     item_level
   end
 end

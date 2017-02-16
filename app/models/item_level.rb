@@ -31,6 +31,10 @@ class ItemLevel < ActiveRecord::Base
 
     scope :sorted, lambda {order(:ord => :asc)}
 
+    def repr
+      self.descriptor
+    end
+
     def has_item_id?
       return self.assessment_item_id != nil
     end
@@ -53,7 +57,4 @@ class ItemLevel < ActiveRecord::Base
       end
     end
 
-    def repr
-      self.descriptor
-    end
 end

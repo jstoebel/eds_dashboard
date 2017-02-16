@@ -20,11 +20,16 @@ FactoryGirl.define do
     descriptor Lorem.paragraph
     level Lorem.word
     sequence(:ord, (1..4).cycle)
-    cut_score { if ord < 2
-                  true
-      else
-                  false
+    cut_score { Boolean.boolean(0.5) }
+
+    factory :level_with_scores do
+
+      after(:create) do |level|
+        FactoryGirl.create :student_score, {
+          :item_level => level
+        }
       end
-    }
+
+    end
   end
 end
