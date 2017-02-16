@@ -1,0 +1,57 @@
+  <!-- Partial for a popover.
+
+    arguments:
+      site: active record object for the site.
+         -->
+
+
+  <!-- Button trigger modal -->
+  <button class="btn btn-info action-small" data-toggle="modal" data-target="#record-<%= site.id %>-details">
+    <span>Details</span>
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="record-<%= site.id %>-details" tabindex="-1" role="dialog" aria-labelledby="record-<%= site.id %>-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="record-<%= site.id %>-label">
+            <%= "Clinical Site Details for #{site.SiteName}" %> 
+          </h4>
+        </div>
+        <div class="modal-body">
+          <table class="vertical-table">
+            
+            <tr>
+              <th>Principal</th>
+              <td><%= site.Principal %></td>
+            </tr>
+              
+            <tr >
+              <th>Phone Number</th>
+              <td><%= site.phone %></td>
+            </tr>
+            
+            <tr>
+              <th>Receptionist</th>
+              <td><%= site.receptionist %></td>
+            </tr>
+            
+            <tr>
+              <th>Website</th>
+              <td class="wrap"><%= link_to(site.website, site.website)%></td>
+            </tr>
+            
+            <tr>
+              <th>Email</th>
+              <td class="weap"><%= mail_to(site.email, site.email) %></td>
+            </tr>
+          
+          </table></br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

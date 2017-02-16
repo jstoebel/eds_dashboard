@@ -33,11 +33,15 @@
         <td class="actions">
 
           <!-- actions:
-             see teachers
-             edit school-->
-            <%= link_to clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
-                  <span class="small-btn-text">Details</span>
-                <% end %>
+             details
+             index teachers
+             edit school
+          -->
+          <%= render :partial => "details_popover", :locals => {
+              :site => site
+            } 
+          %> 
+          
         <!-- edit school  -->
             <%= link_to edit_clinical_site_path(site.id), :class => "btn btn-info action-small" do %>
                   <span class="small-btn-text">Edit</span>

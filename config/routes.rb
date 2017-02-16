@@ -160,7 +160,7 @@ Rails.application.routes.draw do
   match "/logout" => "access#logout", :via => :post
 
 
-  resources :clinical_sites, only: [:index, :edit, :update, :new, :create, :destroy, :show], shallow: true do
+  resources :clinical_sites, only: [:index, :edit, :update, :new, :create, :destroy], shallow: true do
     resources :clinical_teachers, only: [:index]
     get "delete"
   end
