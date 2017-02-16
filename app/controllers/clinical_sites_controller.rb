@@ -71,11 +71,6 @@ class ClinicalSitesController < ApplicationController
     flash[:notice] = "Deleted Successfully"
     redirect_to(clinical_sites_path)
   end
-  
-  def show
-    @site = ClinicalSite.find(params[:id])
-    authorize! :read, @site
-  end
 
   private
   def site_params
