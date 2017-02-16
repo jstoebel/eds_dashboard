@@ -31,24 +31,24 @@
         <td><%= site.County %></td>
         <td><%= site.District %> </td>
         <td class="actions">
-          
+          <%= button_to(clinical_site_path(site.id), {class: "btn btn-default btn-block", method: :delete,
+            data: {confirm: "Are you sure you want to delete this clinical site?"}})do %>  
+              <span class="glyphicon glyphicon-trash"></span>
+          <% end %> 
           <!-- available actions populated here -->
           <%= render :partial => "details_popover", :locals => {
             :site => site
             } 
           %> 
           
-          <%= button_to(clinical_site_path(site.id), {class: "btn btn-default", method: :delete,
-            data: {confirm: "Are you sure you want to delete this clinical site?"}})do %>  
-            <span class="glyphicon glyphicon-trash"></span>
-          <% end %>  
+ 
           
           <div class="dropdown clinical_sites-actions-menu">
             <button id= <%= "clinical_site-actions-menu-#{site.id}" %>
-              class="btn btn-primary dropdown-toggle"
+              class="btn btn-info btn-block action-small dropdown-toggle"
               type="button" data-toggle="dropdown">
               Actions
-              <span class="caret"></span>
+              <span class=""></span>
             </button>
             <ul class="dropdown-menu">
               <li>
