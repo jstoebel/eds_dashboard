@@ -17,6 +17,7 @@
 class ClinicalSitesController < ApplicationController
   authorize_resource
 
+
   def index
     @sites = ClinicalSite.all.select {|r| can? :read, r }
   end
@@ -71,11 +72,11 @@ class ClinicalSitesController < ApplicationController
     flash[:notice] = "Deleted Successfully"
     redirect_to(clinical_sites_path)
   end
+  
 
   private
   def site_params
     params.require(:clinical_site).permit(:SiteName, :City, :County, :Principal, :District, :phone, :receptionist, :website, :email)
-
   end
 
   def get_districts
