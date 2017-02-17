@@ -22,6 +22,7 @@ class Assessment < ActiveRecord::Base
     ### ASSOCIATIONS ###
     has_many :assessment_items
     has_many :item_levels, :through => :assessment_item
+    has_many :student_scores, :through => :item_levels
 
     ### VALIDATIONS ###
     validates :name, :presence => true
@@ -32,6 +33,8 @@ class Assessment < ActiveRecord::Base
 
     def has_scores
       # TODO
+      levels = self.item_levels
+      scores = levels
     end
 
     def can_destroy
