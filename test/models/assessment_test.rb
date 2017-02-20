@@ -21,8 +21,8 @@ class AssessmentTest < ActiveSupport::TestCase
 
   test "has_scores" do
     assess = FactoryGirl.create :assessment_with_scores
-    score = assess.assessment_versions.select { |v| v.student_scores.present?}.size > 0
-    assert_equal assess.has_scores, score
+    has_scores = assess.student_scores.size > 0
+    assert_equal assess.has_scores, has_scores
   end
 
   test "repr" do

@@ -22,7 +22,7 @@ class AssessmentItem < ActiveRecord::Base
     belongs_to :assessment
 
     has_many :item_levels, dependent: :destroy, autosave: true
-    accepts_nested_attributes_for :item_levels
+    has_many :student_scores, :through => :item_levels
 
     validates_presence_of :name, :slug
 
@@ -31,19 +31,21 @@ class AssessmentItem < ActiveRecord::Base
     def repr
       return self.slug
     end
-    
+
     def has_scores?
       #Determines whether item is on version associated with score. Returns true if so
-      # TODO
+      return self.student_scores.size > 0
     end
 
-    def check_scores
-        if self.has_scores?
-          self.errors.add(:base, "Can't modify item. Has associated scores.")
-          return false
-        else
-          return true    #if there are no scores/can delete
-        end
-    end
+
+    private
+      def check_scores
+          if self.has_scores?
+            self.errors.add(:base, "Can't modify item. Has associated scores.")
+            return false
+          else
+            return true    #if there are no scores/can delete
+          end
+      end
 
 end
