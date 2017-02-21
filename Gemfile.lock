@@ -50,6 +50,7 @@ GEM
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
+    ansi (1.5.0)
     arel (6.0.4)
     autoprefixer-rails (6.7.0)
       execjs
@@ -178,9 +179,20 @@ GEM
       builder (>= 2.1.2)
     haml (4.0.7)
       tilt
+    haml-rails (0.9.0)
+      actionpack (>= 4.0.1)
+      activesupport (>= 4.0.1)
+      haml (>= 4.0.6, < 5.0)
+      html2haml (>= 1.0.1)
+      railties (>= 4.0.1)
     hashie (3.4.6)
     highline (1.7.8)
     hike (1.2.3)
+    html2haml (2.1.0)
+      erubis (~> 2.7.0)
+      haml (~> 4.0)
+      nokogiri (>= 1.6.0)
+      ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     httpi (2.4.2)
       rack
@@ -230,6 +242,11 @@ GEM
     minitest (5.10.1)
     minitest-fail-fast (0.1.0)
       minitest (~> 5)
+    minitest-reporters (1.1.14)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
     minitest-spec-rails (5.4.0)
       minitest (~> 5.0)
       rails (>= 4.1)
@@ -291,6 +308,8 @@ GEM
     pry-byebug (3.4.2)
       byebug (~> 9.0)
       pry (~> 0.10)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     public_suffix (2.0.5)
     puma (3.6.2)
     rack (1.6.5)
@@ -379,6 +398,9 @@ GEM
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby-graphviz (1.2.2)
     ruby-oci8 (2.2.3)
+    ruby-progressbar (1.8.1)
+    ruby_parser (3.8.4)
+      sexp_processor (~> 4.1)
     rubyzip (1.2.0)
     sass (3.2.19)
     sass-rails (4.0.5)
@@ -405,6 +427,7 @@ GEM
       rspec (~> 3.0)
       rspec-its
       specinfra (~> 2.53)
+    sexp_processor (4.7.0)
     sfl (2.3)
     simple_xlsx_reader (1.0.2)
       nokogiri
@@ -480,6 +503,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   faker (~> 1.6, >= 1.6.3)
   font-awesome-rails
+  haml-rails (~> 0.9.0)
   immigrant
   jbuilder (~> 2.0)
   jquery-rails
@@ -489,6 +513,7 @@ DEPENDENCIES
   marco-polo
   markdown-rails
   minitest-fail-fast
+  minitest-reporters (~> 1.1, >= 1.1.14)
   minitest-spec-rails
   mocha
   mysql2 (~> 0.3.18)
@@ -496,6 +521,7 @@ DEPENDENCIES
   paperclip (~> 4.3)
   phony_rails
   pry-byebug
+  pry-rails
   puma
   rails (~> 4.2)
   rails-erd

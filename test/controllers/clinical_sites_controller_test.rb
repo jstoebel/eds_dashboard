@@ -20,7 +20,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
   #all roles have access to this resource
   allowed_roles = ["admin", "advisor", "staff", "student labor"]
-
+  all_roles = Role.all.pluck :RoleName
   describe "index" do
     allowed_roles.each do |r|
       before do
@@ -58,7 +58,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       end
     end
   end
-
+  
   describe "update" do
     allowed_roles.each do |r|
       describe "as #{r}" do

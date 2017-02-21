@@ -136,7 +136,7 @@ require 'api_constraints'
 Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  #A resource must be top level before it can be nested in another resource (I think)
+
   resources :praxis_results, only: [:new, :create]
   resources :students, only: [:index, :show], shallow: true do
     patch "update_presumed_status"
@@ -147,6 +147,8 @@ Rails.application.routes.draw do
     resources :issues, only: [:index, :new, :create, :destroy, :edit, :update]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     resources :concern_dashboard, only: [:index], :path => "concerns"
+    resources :adm_tep, only: [:new]
+
   end
 
   match 'prog_exits/get_programs', via: [:post, :get]
@@ -170,18 +172,20 @@ Rails.application.routes.draw do
   resources :reports, only: [:index] do #reports is here
   end
 
-  resources :adm_tep, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  get "reports/need_apply_tep", to: "reports#need_apply_tep"
+
+  resources :adm_tep, only: [:index, :new, :create, :edit, :update, :destroy] do
     post "choose"
     get "admit"
-    get "download"
+    resources :adm_files, only: [:create]
   end
 
   resources :adm_st, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post "choose"   #choose a term to display in index
     get "admit"
-    get "download"  #download admission letter
     get "edit_st_paperwork"
     post "update_st_paperwork"
+    resources :st_files, only: [:create]
   end
 
   resources :prog_exits, only: [:index, :show, :new, :create, :edit, :update] do
@@ -223,14 +227,14 @@ Rails.application.routes.draw do
     post "resolve"
   end
 
-  resources :student_files do
-    get "download"
-  end
-
   resources :issues, only: [:index, :new, :create, :destroy, :edit, :update],  shallow: true do
     resources :issue_updates do
         patch 'update'
     end
+  end
+
+  resources :student_files, only: [] do
+      get 'download'
   end
 
   resources :pgps, shallow: true do
@@ -242,6 +246,14 @@ Rails.application.routes.draw do
     resources :adm_st, only: [:index]
     resources :prog_exits, only: [:index]
     resources :clinical_assignments, only: [:index]
+  end
+
+  resources :adm_files, only: [:destroy] do
+      get :download
+  end
+
+  resources :st_files, only: [:destroy] do
+      get :download
   end
 
   match 'help', via: [:get], controller: 'helps', action: 'home'

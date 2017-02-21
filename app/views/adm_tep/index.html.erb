@@ -27,7 +27,7 @@
 
             <div class="col-xs-12">
               <%= link_to new_adm_tep_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do %>
-                 <span class="large-btn-text">Add New Student</span>
+                 <span class="large-btn-text">Add New Application</span>
               <% end %>
             </div>
           </div>
@@ -102,9 +102,21 @@
               <% end %>
         </td>
 
-
         <td>
-          <%= link_to("Details", adm_tep_path(app.id), :class => "action details btn btn-info action-small issues")%>
+          <%= render(partial: 'details_popover',
+            locals: {
+              :record_id => "details-#{app.id}",
+              :popover_title => "Adm TEP Details",
+              :button_title => "Details",
+              :content => app.Notes,
+              } )  %>
+        </td>
+        
+        <td>
+            <%= render(partial: "links_popover", :locals => {
+                            :app => app
+                        }
+                    ) %>
         </td>
 
         <td>
@@ -120,15 +132,6 @@
 
         </td>
 
-        <% if app.student_file  %>
-
-        <td class="doc-download">
-
-              <%= link_to adm_tep_download_path(app.id), :class => "btn btn-default glyphicon glyphicon-paperclip action-small" do %>
-              <% end %>
-        </td>
-
-        <% end %>
 
         </tr>
           <!-- end of if statement for content-->

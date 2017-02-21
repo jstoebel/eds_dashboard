@@ -842,6 +842,158 @@ class StudentTest < ActiveSupport::TestCase
     # end # describe
     #
 
+    describe "need apply" do
+        before do
+            @stu = FactoryGirl.create :student
+
+            # two standard terms ago
+            @terms = 70.step(10, -30).map {|s|
+                FactoryGirl.create :banner_term, {
+                    :StartDate => s.days.ago,
+                    :EndDate => (s+20).days.ago,
+                    :standard_term => true
+                }
+            }
+        end
+        describe "pulls" do
+            before do
+
+                # 150 course 2 terms ago
+                FactoryGirl.create :transcript, {
+                    :student => @stu,
+                    :course_code => "EDS150",
+                    :banner_term => @terms[0],
+                    :grade_pt => 4.0,
+                    :grade_ltr => "A",
+                }
+
+            end
+
+            # music and PE
+            ["Instrumental Music", "PE"].each do |major|
+                test "major: #{major}" do
+                    music_foi = FactoryGirl.create :applying_foi, {
+                        :major => (FactoryGirl.create :major, :name => major),
+                        :student => @stu
+                    }
+
+                    assert_equal [@stu], Student.need_apply
+
+                end
+            end # music/pe
+
+            describe "reg student" do
+                ["EDS227", "EDS228"].each do |course|
+                    describe "with course: #{course}" do
+                        before do
+                            FactoryGirl.create :transcript, {
+                                :student => @stu,
+                                :course_code => course,
+                                :banner_term => @terms[1],
+                                :grade_pt => 4.0,
+                                :grade_ltr => "A",
+                            }
+                        end
+
+                        test "with foi" do
+                            FactoryGirl.create :applying_foi, {:student => @stu}
+                            assert_equal [@stu], Student.need_apply
+                        end
+
+                        test "with no foi" do
+                            assert_equal [@stu], Student.need_apply
+                        end
+
+                    end
+                end # 227/228
+
+            end # reg student
+
+        end # pulls
+
+        describe "doesn't pull" do
+            # bad 150 grade
+            # no 150
+            # music/pe: 150 term < 2 terms ago
+            # reg major: bad 227/228 grade
+            # reg major: no 227/228 grade
+
+            describe "music/pe" do
+
+                before do
+                    music_foi = FactoryGirl.create :applying_foi, {
+                        :major => (FactoryGirl.create :major, :name => "Instrumental Music"),
+                        :student => @stu
+                    }
+                end
+
+                test "no 150" do
+                    assert_equal 0, Student.need_apply.size
+                end
+
+                test "bad 150 grade" do
+                    # 150 course 2 terms ago
+                    FactoryGirl.create :transcript, {
+                        :student => @stu,
+                        :course_code => "EDS150",
+                        :banner_term => @terms[0],
+                        :grade_pt => 1.7,
+                        :grade_ltr => "C-",
+                    }
+
+                    assert_equal 0, Student.need_apply.size
+                end
+
+                test "150 term < 2 terms ago" do
+                    FactoryGirl.create :transcript, {
+                        :student => @stu,
+                        :course_code => "EDS150",
+                        :banner_term => @terms[1],
+                        :grade_pt => 1.7,
+                        :grade_ltr => "C-",
+                    }
+
+                    assert_equal 0, Student.need_apply.size
+                end
+            end # music/pe
+
+            describe "reg major" do
+                before do
+                    foi = FactoryGirl.create :applying_foi, { :student => @stu }
+                    FactoryGirl.create :transcript, {
+                        :student => @stu,
+                        :course_code => "EDS150",
+                        :banner_term => @terms[0],
+                        :grade_pt => 2.0,
+                        :grade_ltr => "C",
+                    }
+                end
+
+                test "no 227/228 grade" do
+                    assert_equal 0, Student.need_apply.size
+                end
+
+                test "bad 227/228 grade" do
+                    FactoryGirl.create :transcript, {
+                        :student => @stu,
+                        :course_code => "EDS227",
+                        :banner_term => @terms[1],
+                        :grade_pt => 2.3,
+                        :grade_ltr => "C+",
+                    }
+
+                    assert_equal 0, Student.need_apply.size
+                end
+
+            end
+
+
+
+
+        end
+
+    end # need apply
+
     describe "last_withdraw" do
 
         test "with withdraws" do

@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113214600) do
+ActiveRecord::Schema.define(version: 20170214204917) do
+
+  create_table "adm_files", force: :cascade do |t|
+    t.integer  "adm_tep_id",      limit: 4
+    t.integer  "student_file_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -89,7 +96,9 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   end
 
   create_table "assessment_versions", force: :cascade do |t|
-    t.integer  "assessment_id", limit: 4, null: false
+    t.string   "slug",          limit: 255
+    t.datetime "retired_on"
+    t.integer  "assessment_id", limit: 4,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -170,6 +179,15 @@ ActiveRecord::Schema.define(version: 20170113214600) do
     t.boolean  "current"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+  end
+
+  create_table "downtimes", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.text     "reason",     limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.boolean  "active"
   end
 
   create_table "employment", primary_key: "EmpID", force: :cascade do |t|
@@ -409,6 +427,13 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   end
 
   add_index "roles", ["RoleName"], name: "RoleName_UNIQUE", unique: true, using: :btree
+
+  create_table "st_files", force: :cascade do |t|
+    t.integer  "adm_st_id",       limit: 4
+    t.integer  "student_file_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "student_files", force: :cascade do |t|
     t.integer  "student_id",       limit: 4,                  null: false

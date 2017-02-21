@@ -18,7 +18,7 @@ class ClinicalAssignment < ActiveRecord::Base
 	belongs_to :clinical_teacher
 	belongs_to :banner_term, {:foreign_key => 'Term'}
 	belongs_to :transcript
-
+	
 	validates :clinical_teacher_id,
 		uniqueness: {
 			scope: [:student_id, :transcript_id, :Term],
@@ -41,5 +41,6 @@ class ClinicalAssignment < ActiveRecord::Base
 		a.errors.add(:base, "Start date must be before end date.") if a.StartDate and a.EndDate and a.StartDate >= a.EndDate
 		#purposly not validating for start and end dates to fall inside the term.
 	end
+	
 
 end

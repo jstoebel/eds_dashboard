@@ -7,9 +7,9 @@ class AdmTepController < ApplicationController
 
   def new
     #display menu for possible names and possible programs
-
     @app = AdmTep.new
     authorize! :manage, @app
+    @app.student_id = params[:student_id]
     new_setup
   end
 
@@ -22,7 +22,6 @@ class AdmTepController < ApplicationController
     prog_code = params[:adm_tep][:Program_ProgCode]
 
     #how many times has this student applied this term?
-
     apps_this_term = AdmTep.where(student_id: bnum).where(BannerTerm_BannerTerm: @app.BannerTerm_BannerTerm).where(Program_ProgCode: prog_code).size
     @app.Attempt = apps_this_term + 1
     if @app.save
@@ -55,20 +54,7 @@ class AdmTepController < ApplicationController
     @current_term = BannerTerm.current_term(exact: false, :plan_b => :back)
 
     @application.TEPAdmit = string_to_bool(params[:adm_tep][:TEPAdmit])
-
-    #assigns the letter if it was given. While this is admitadly verbose, I don't
-    #know how to pass in a letter in my test request.
-
-
-    @letter = StudentFile.create ({
-        :doc => params[:adm_tep][:letter],
-        :active => true,
-        :student_id => @application.student.id
-      })
-
-    @letter.save
-    @application.student_file_id = @letter.id
-
+    
     @application.Notes = params[:adm_tep][:Notes]
 
     begin
@@ -84,7 +70,6 @@ class AdmTepController < ApplicationController
 
     else
         flash[:notice] = "Error in saving application."
-        @letter.destroy!
         error_update
         return
     end
@@ -100,22 +85,6 @@ class AdmTepController < ApplicationController
     #display applicants for a term
     @term = params[:banner_term][:menu_terms]
     redirect_to(banner_term_adm_tep_index_path(@term))
-  end
-
-  def show
-    @app = AdmTep.find(params[:id])
-    authorize! :read, @app
-    @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
-    @student = Student.find(@app.student_id)
-    name_details(@student)
-  end
-
-  def download
-    #download an admission letter
-    app = AdmTep.find(params[:adm_tep_id])
-    authorize! :read, app
-    send_file app.student_file.doc.path
-
   end
 
   def destroy

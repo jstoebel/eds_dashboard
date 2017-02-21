@@ -36,7 +36,6 @@ class AdmTepTest < ActiveSupport::TestCase
       :student => stu,
       :program => program,
       :banner_term => stu.adm_tep.first.banner_term,
-      :student_file => stu_file,
       :TEPAdmit => false
     }
 
@@ -81,17 +80,17 @@ class AdmTepTest < ActiveSupport::TestCase
       stu = FactoryGirl.create :student
       term = FactoryGirl.create :banner_term
       program = FactoryGirl.create :program
-      first_adm_tep = FactoryGirl.build :adm_tep, {:program => program,
+      first_adm_tep = FactoryGirl.build :adm_tep, {:student => stu,
+        :program => program,
         :banner_term => term,
         :TEPAdmit => nil,
         :TEPAdmitDate => nil,
-        :student_file => nil
       }
       first_adm_tep.save!
-      second_adm_tep = FactoryGirl.build :adm_tep, {:program => program,
+      second_adm_tep = FactoryGirl.build :adm_tep, {:student => stu,
+        :program => program,
         :TEPAdmit => false,
-        :TEPAdmitDate => nil,
-        :student_file => nil
+        :TEPAdmitDate => nil
       }
       assert_not second_adm_tep.valid?
     end # test
@@ -186,7 +185,7 @@ class AdmTepTest < ActiveSupport::TestCase
 
   test "Unique Programs for AdmTep" do
     stu = FactoryGirl.create :admitted_student
-    second_app = FactoryGirl.build :adm_tep, {:student_id => stu.id, :Program_ProgCode => stu.adm_tep.first.id}
+    second_app = FactoryGirl.build :adm_tep, {:student => stu, :program => stu.adm_tep.first.program}
     assert_not second_app.valid?
   end
 
@@ -299,14 +298,6 @@ class AdmTepTest < ActiveSupport::TestCase
     assert_equal(app.errors[:EarnedCredits], ["Student needs to have earned 30 credit hours and has only earned #{app.EarnedCredits}."])
   end
 
-  test "no admission letter" do
-    app = FactoryGirl.build :adm_tep, {:student_file => nil}
-    app.TEPAdmit = true
-    # pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
-    app.valid?
-    assert_equal(app.errors[:student_file_id], ["Please attach an admission letter."])
-  end
-
   test "already enrolled" do
     #student can't be admitted because they are already enrolled
     stu = FactoryGirl.create :admitted_student
@@ -336,8 +327,7 @@ class AdmTepTest < ActiveSupport::TestCase
     app = FactoryGirl.create :adm_tep, {:student => stu,
       :banner_term => apply_term,
       :TEPAdmitDate => nil,
-      :TEPAdmit => nil,
-      :student_file => nil
+      :TEPAdmit => nil
     }
 
     app2 = FactoryGirl.build :adm_tep, {

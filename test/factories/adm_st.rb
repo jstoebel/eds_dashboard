@@ -38,11 +38,17 @@ FactoryGirl.define do
     STAdmitted true
     OverallGPA 2.75
     CoreGPA 3.0
-    student_file
 
     after(:build) do |app|
       app.STAdmitDate = app.banner_term.StartDate
     end # build
+
+    after(:create) do |app|
+        adm_file = StFile.create!({
+            :adm_st_id => app.id,
+            :student_file_id => (FactoryGirl.create :student_file, {:student => app.student}).id
+        })
+    end
   end # factory
 
   factory :denied_adm_st, class: AdmSt do
@@ -52,7 +58,13 @@ FactoryGirl.define do
     STAdmitted false
     OverallGPA 2.75
     CoreGPA 3.0
-    student_file
+
+    after(:create) do |app|
+        adm_file = StFile.create!({
+            :adm_st_id => app.id,
+            :student_file => (FactoryGirl.create :student_file, {:student => app.student})
+        })
+    end
 
   end # factory
 

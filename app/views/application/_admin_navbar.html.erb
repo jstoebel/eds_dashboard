@@ -1,6 +1,6 @@
 
 <div class="navbar-header">
-  <span class="navbar-brand">Education Studies Dashboard</span>
+  <span class="navbar-text">Education Studies Dashboard</span>
 </div>
 <ul class="nav navbar-nav">
   <li class="active"><%= link_to("Students & Advisees", students_path) %></li>
@@ -30,9 +30,13 @@
     <ul class="dropdown-menu">
       <li> <%= link_to("Praxis Result Resolution", praxis_result_temps_path) %> </li>
       <li> <%= link_to("All students", reports_path) %></li>
+      <li> <%= link_to("Ready for TEP", reports_need_apply_tep_path) %> </li>
       <li> <%= link_to("Forms of Intention", fois_path) %></li>
       <li> <%= link_to("All Open Issues", issues_path) %> </li>
     </ul>
   </li>
 
+  <li class="dropdown active">
+		<a href="/help" aria-haspopup="true" aria-expanded="false" >Help</a>
+	</li>
 </ul>
