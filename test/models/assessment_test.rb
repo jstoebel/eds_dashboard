@@ -19,12 +19,6 @@ class AssessmentTest < ActiveSupport::TestCase
     assert_equal ["can't be blank"], assess.errors[:name]
   end
 
-  test "has_scores" do
-    assess = FactoryGirl.create :assessment_with_scores
-    has_scores = assess.student_scores.size > 0
-    assert_equal assess.has_scores, has_scores
-  end
-
   test "repr" do
     assessment = FactoryGirl.create :assessment
     assert_equal assessment.name, assessment.repr

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: st_files
+#
+#  id              :integer          not null, primary key
+#  adm_st_id       :integer
+#  student_file_id :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class StFile < ActiveRecord::Base
 
     belongs_to :adm_st

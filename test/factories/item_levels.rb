@@ -3,7 +3,7 @@
 # Table name: item_levels
 #
 #  id                 :integer          not null, primary key
-#  assessment_item_id :integer          not null
+#  assessment_item_id :integer
 #  descriptor         :text(65535)
 #  level              :string(255)
 #  ord                :integer

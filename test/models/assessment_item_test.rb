@@ -2,12 +2,13 @@
 #
 # Table name: assessment_items
 #
-#  id          :integer          not null, primary key
-#  slug        :string(255)
-#  description :text(65535)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  name        :string(255)
+#  id            :integer          not null, primary key
+#  assessment_id :integer
+#  name          :string(255)
+#  slug          :string(255)
+#  description   :text(65535)
+#  created_at    :datetime
+#  updated_at    :datetime
 #
 
 require 'test_helper'
@@ -35,17 +36,6 @@ class AssessmentItemTest < ActiveSupport::TestCase
     items = FactoryGirl.create_list(:assessment_item, num_item)
     ordered_items = items.sort_by{ |i| i.name }
     assert_equal ordered_items, AssessmentItem.sorted
-  end
-
-  test "has_scores? is true" do
-    item = FactoryGirl.create :item_with_scores
-    byebug
-    assert item.has_scores?
-  end
-
-  test "has_scores? is false" do
-    item = FactoryGirl.create :assessment_item
-    assert_not item.has_scores?
   end
 
   test "repr" do

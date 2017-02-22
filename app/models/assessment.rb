@@ -31,17 +31,4 @@ class Assessment < ActiveRecord::Base
         return self.name
     end
 
-    def has_scores
-      self.student_scores.size > 0
-    end
-
-    def can_destroy
-        #returns false if has scores and cannot delete
-        #returns true if does not have scores and can delete
-        if self.has_scores == true
-            return false
-        else
-            return true
-        end
-    end
 end
