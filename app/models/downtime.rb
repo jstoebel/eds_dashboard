@@ -25,12 +25,13 @@ class Downtime < ActiveRecord::Base
 
         return Downtime.all
             .where({:active => true})
-            .where("start_time < ?", DateTime.now)
+            .where("start_time < ?", DateTime.now)  # anything scheduled to start in the past?
             .size > 0
     end
 
     def init
-        self.active = true
+        # set defaults for new record
+        self.active = true if self.new_record?
     end
 
     def time_range
