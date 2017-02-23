@@ -1,25 +1,22 @@
 
 
 ## Creating a Professonial Growth Plan (PGP)
-To create a PGP, first click on the Students & Advisees tab at the top of the page.
 
+To create a PGP, you must first make sure you are at the student's PGP overview page.
+***
+#### Getting to the Student's PGP Page
+1. First click on the Students & Advisees tab at the top of the page.
 ![Students & Advisees tab](/help_images/students_tab.JPG)
-
-&nbsp;
-
-You will be presented with a list of available Students and Advisees. Clicking the blue Actions button on the righthand side of your student will bring up a dropdown menu with options you can use to access student information.
-
-
+2. You will be presented with a list of available Students and Advisees.
 ![Students](/help_images/students.JPG)
-
-
-Select PGP from the actions dropdown menu.
-
+3. Select PGP from the actions dropdown menu.
 ![Actions_Button](/help_images/creating_a_professional_growth_plan/actions_button.JPG)
 
-&nbsp;
-
+***
+#### Creating the PGP
 This will lead you to the selected student's PGP menu. You can submit a new Professional Growth Plan for the student by selecting the New Professional Growth Plan button.
+
+&nbsp;
 
 ![PGP menu](/help_images/creating_a_professional_growth_plan/PGP_button.JPG)
 
