@@ -14,7 +14,7 @@ class AssessmentVersionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
-  
+
   test "Should destroy dependent version_habtm_items" do
     item_ver = FactoryGirl.create :version_habtm_item
     ver = AssessmentVersion.find_by(:id => item_ver.assessment_version_id)
@@ -27,10 +27,10 @@ class AssessmentVersionTest < ActiveSupport::TestCase
     ver = AssessmentVersion.new
     assert_not ver.valid?
     assert_equal [:assessment_id], ver.errors.keys
-    assert_equal [:assessment_id].map{|i| [i, ["Assessment must be selected."]]}.to_h, 
+    assert_equal [:assessment_id].map{|i| [i, ["Assessment must be selected."]]}.to_h,
       ver.errors.messages
   end
-  
+
   test "sorted scope" do
     num_ver = 3
     ver = FactoryGirl.create_list(:assessment_version, num_ver)
@@ -41,17 +41,17 @@ class AssessmentVersionTest < ActiveSupport::TestCase
     sort_ver = AssessmentVersion.sorted
     assert_equal ordered_vers, sort_ver
   end
-  
+
   test "has_scores returns true" do
     ver = FactoryGirl.create :version_with_items
     assert ver.has_scores
   end
-  
+
   test "has_scores returns false" do
     ver = FactoryGirl.create :assessment_version
     assert_not ver.has_scores
   end
-  
+
   test "version_num" do
     ver = FactoryGirl.create :assessment_version
     assess = ver.assessment
@@ -63,4 +63,15 @@ class AssessmentVersionTest < ActiveSupport::TestCase
     actual = sib_ver.version_num
     assert_equal expected, actual
   end
+
+  test "repr" do
+    ver = FactoryGirl.create :assessment_version
+    assert_equal "#{ver.assessment.name}-#{ver.version_num}", ver.repr
+  end
+
+  test "repr-new record" do
+    ver = AssessmentVersion.new
+    assert_equal "new version", ver.repr
+  end
+
 end

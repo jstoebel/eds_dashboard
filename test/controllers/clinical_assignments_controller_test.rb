@@ -188,7 +188,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
     # expected_students = Student.by_last.where({:EnrollmentStatus => "Active Student"}).current.select{|s| abil.can? :index, s}
     # assert_equal expected_students.to_a, assigns(:students).to_a
 
-    assert_equal assigns(:teachers), ClinicalTeacher.all
+    assert_equal assigns(:teachers).to_a, ClinicalTeacher.by_last.all.to_a
     assert_equal assigns(:current_term), ApplicationController.helpers.current_term(exact: false, plan_b: :forward)
   end
 

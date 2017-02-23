@@ -9,16 +9,16 @@
 
 
   <!-- Button trigger modal -->
-  <button class="btn btn-info action-small"+ <%= content.to_s == "" ? "disabled" : "" %> data-toggle="modal" data-target="#exit-<%= record_id %>-details">
+  <button class="btn btn-info action-small"+ <%= content.to_s == "" ? "disabled" : "" %> data-toggle="modal" data-target="#record-<%= record_id %>-details">
     <%= button_title  %>
   </button>
 
   <!-- Modal -->
-  <div class="modal fade" id="exit-<%= record_id %>-details" tabindex="-1" role="dialog" aria-labelledby="exit-<%= record_id %>-label" aria-hidden="true">
+  <div class="modal fade" id="record-<%= record_id %>-details" tabindex="-1" role="dialog" aria-labelledby="record-<%= record_id %>-label" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="exit-<%= record_id %>-label"> 
+          <h4 class="modal-title" id="record-<%= record_id %>-label">
             <%=popover_title %> </h4>
         </div>
         <div class="modal-body">

@@ -71,17 +71,7 @@ class AdmStController < ApplicationController
       @app.STAdmitDate = nil
     end
 
-    letter = StudentFile.create ({
-        :doc => params[:adm_st][:letter],
-        :active => true,
-        :student_id => @app.student.id
-      })
-
-    letter.save
-    @app.student_file_id = letter.id
-
     if @app.save
-      letter.save
       flash[:notice] = "Student application successfully updated."
       redirect_to(adm_st_index_path)
     else
@@ -140,14 +130,6 @@ class AdmStController < ApplicationController
       flash[:notice] = "Could not successfully delete record!"
     end
     redirect_to(banner_term_adm_st_index_path(@app.BannerTerm_BannerTerm))
-  end
-
-  def download
-    #download an admission letter
-    app = AdmSt.find(params[:adm_st_id])
-    authorize! :manage, @app
-    send_file app.letter.path
-
   end
 
   def choose
