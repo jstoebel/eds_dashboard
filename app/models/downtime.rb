@@ -14,6 +14,7 @@
 class Downtime < ActiveRecord::Base
 
     after_initialize :init
+    before_save :fix_times
 
     validates_presence_of :start_time, :end_time, :reason
 
@@ -32,6 +33,22 @@ class Downtime < ActiveRecord::Base
     def init
         # set defaults for new record
         self.active = true if self.new_record?
+    end
+
+    def fix_times
+      # if the start or end time was changed, parse the time as being in EST
+      # if self.send(:start_time_changed?) do
+      #     new_time = ActiveSupport::TimeZone.new('America/New_York').local_to_utc(self.send(:start_time))
+      #     self.send(:"#{start_time}=", new_time)
+      # end
+
+      [:start_time, :end_time].each do |attr|
+
+        if self.send("#{attr}_changed?")
+          new_time = ActiveSupport::TimeZone.new('America/New_York').local_to_utc(self.send(attr))
+          self.send("#{attr}=", new_time)
+        end
+      end
     end
 
     def time_range

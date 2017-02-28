@@ -49,4 +49,31 @@ class DowntimeTest < ActiveSupport::TestCase
 
         assert_equal "#{dt.start_time.strftime('%c')} and #{dt.end_time.strftime('%c')}", dt.time_range
     end
+
+    describe "fix_time" do
+
+      [:start_time, :end_time].each do |attr|
+
+        describe "for #{attr}" do
+
+          test "alters time if attr changed" do
+            dt = FactoryGirl.build :downtime
+            before_save = dt.send(attr)
+            dt.save
+            assert_equal 5, ((dt.send(attr) - before_save) / 1.hour)
+
+          end
+
+          test "does not alter time if attr not changed" do
+            dt = FactoryGirl.create :downtime
+            before_save = dt.send(attr)
+            dt.save
+            assert_equal 0, dt.send(attr) - before_save
+          end
+
+        end
+
+      end
+
+    end
 end
