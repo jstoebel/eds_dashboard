@@ -165,4 +165,43 @@ class AdmTep < ActiveRecord::Base
       end
   end
 
+
+  def completed_foundationals?
+    # returns if student has completed their foundational courses
+    # throws NotImplementedError for Music PE and Health
+
+    # EDS150: C or better
+    # EDS227/228: B- or better, if applicable
+    stu = self.student
+
+    passed_150 =  stu
+                    .transcripts
+                    .where({:course_code => "EDS150"})
+                    .where("grade_pt >= ?", 2.0)
+                    .present?
+
+    if self.program.ProgCode == '14'
+      second_course = "EDS227"
+    elsif ['40', '65', '28', '29', '23'].include? self.program.ProgCode
+      # TODO:
+        # Music's is MUS118B, but students can waive out of it.
+          # we aren't yet sure how to handle the waiver so we are going to skip for now
+        # pe: course not established
+
+        raise NotImplementedError
+    else
+      # secondary
+      second_course = "EDS228"
+    end
+
+    passed_second = stu
+                    .transcripts
+                    .where({:course_code => second_course})
+                    .where("grade_pt >= ?", 2.7)
+                    .present?
+
+    return passed_150 && passed_second
+
+  end # completed_foundationals
+
 end
