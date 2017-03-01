@@ -89,10 +89,14 @@
         <td>
 
           <% begin %>
-            <span class="glyphicon glyphicon-<%= app.completed_foundationals? ? "ok": "remove" %>" aria-hidden="true"></span>
-          <% rescue %>
-            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            <% sign =  app.completed_foundationals? ? 'ok': 'remove'%>
+
+          <% rescue NotImplementedError %>
+            <% sign = 'question-sign' %>
           <% end %>
+
+          <span class="glyphicon glyphicon-<%= sign %>" aria-hidden="true"></span>
+
 
         </td>
         <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td>
