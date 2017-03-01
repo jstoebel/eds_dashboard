@@ -37,11 +37,7 @@ class Downtime < ActiveRecord::Base
 
     def fix_times
       # if the start or end time was changed, parse the time as being in EST
-      # if self.send(:start_time_changed?) do
-      #     new_time = ActiveSupport::TimeZone.new('America/New_York').local_to_utc(self.send(:start_time))
-      #     self.send(:"#{start_time}=", new_time)
-      # end
-
+      
       [:start_time, :end_time].each do |attr|
 
         if self.send("#{attr}_changed?")
