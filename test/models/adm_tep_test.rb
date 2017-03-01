@@ -415,7 +415,6 @@ class AdmTepTest < ActiveSupport::TestCase
             :course_code => prog[:course_code],
             :grade_pt => 2.3
           }
-
           assert_equal false, @app.completed_foundationals?
         end
 
