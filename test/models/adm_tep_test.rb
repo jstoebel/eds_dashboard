@@ -355,4 +355,93 @@ class AdmTepTest < ActiveSupport::TestCase
 
   end
 
+  describe "completed foudationals" do
+
+    before do
+      @stu = FactoryGirl.create :admitted_student
+      @app = @stu.adm_tep.first
+      @prog = @app.program
+    end
+
+
+    test "returns false, no 150 grade" do
+      assert_equal false, @app.completed_foundationals?
+    end
+
+    test "returns false, bad 150 grade" do
+      FactoryGirl.create :transcript, {
+        :student => @stu,
+        :course_code => "EDS150",
+        :grade_pt => 1.7
+      }
+
+      assert_equal false, @app.completed_foundationals?
+    end
+
+    progs = [
+      {:prog_code => "14", :course_code => "EDS227"},
+      {:prog_code => "3", :course_code => "EDS228"}
+    ]
+
+    # tests for p5 and secondary, but not music or pe
+    progs.each do |prog|
+
+      describe "with prog_code = #{prog[:prog_code]}" do
+
+        before do
+          FactoryGirl.create :transcript, {
+            :student => @stu,
+            :course_code => "EDS150",
+            :grade_pt => 2.7
+          }
+
+          @prog.ProgCode = prog[:prog_code]
+          @prog.save!
+        end
+
+        test "should return true" do
+          FactoryGirl.create :transcript, {
+            :student => @stu,
+            :course_code => prog[:course_code],
+            :grade_pt => 2.7
+          }
+
+          assert @app.completed_foundationals?
+        end
+
+        test "should return false - bad grade" do
+          FactoryGirl.create :transcript, {
+            :student => @stu,
+            :course_code => prog[:course_code],
+            :grade_pt => 2.3
+          }
+            assert_equal false, @app.completed_foundationals?
+        end
+
+        test "should return false - no grade" do
+          assert_equal false, @app.completed_foundationals?
+        end
+
+      end # inner describe
+
+
+      ['28', '40', '23'].each do |prog_code|
+        describe "not implemented programs" do
+
+          test "prog_code = #{prog_code}" do
+            @prog.ProgCode = prog_code
+            @prog.save!
+
+            assert_raise NotImplementedError do
+              @app.completed_foundationals?
+            end
+          end
+
+        end
+      end
+
+    end # loop
+
+  end
+
 end

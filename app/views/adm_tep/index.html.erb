@@ -44,6 +44,7 @@
               <th> Sufficient GPA</th>
               <th>Sufficient Credits</th>
               <th>Praxis Pass</th>
+              <th> Foundational Courses </th>
               <th>Admit Date</th>
               <th>Admission Decision</th>
 
@@ -83,7 +84,21 @@
 
           <% end %>
 
-          </td>
+        </td>
+
+        <td>
+
+          <% begin %>
+            <% sign =  app.completed_foundationals? ? 'ok': 'remove'%>
+
+          <% rescue NotImplementedError %>
+            <% sign = 'question-sign' %>
+          <% end %>
+
+          <span class="glyphicon glyphicon-<%= sign %>" aria-hidden="true"></span>
+
+
+        </td>
         <td><%= app.TEPAdmitDate ? app.TEPAdmitDate.strftime("%m/%d/%Y") : nil%></td>
 
   			<td class="actions">
@@ -111,7 +126,7 @@
               :content => app.Notes,
               } )  %>
         </td>
-        
+
         <td>
             <%= render(partial: "links_popover", :locals => {
                             :app => app
