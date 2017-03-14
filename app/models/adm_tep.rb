@@ -89,8 +89,8 @@ class AdmTep < ActiveRecord::Base
   def complex_validations
     # these only run if all simple validations passed
     validations = [:admit_date_too_early, :admit_date_too_late, :bad_praxisI,
-      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision, :uniqueness_of_second_program
-
+      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision, :uniqueness_of_second_program,
+      :meet_foundationals
     ]
 
     validations.each do |v|
@@ -153,6 +153,18 @@ class AdmTep < ActiveRecord::Base
   def need_decision
     if ((self.TEPAdmitDate.present? || self.student_file_id.present?) && self.TEPAdmit == nil )
       self.errors.add(:TEPAdmit, "Please make an admission decision for this student.")
+    end
+  end
+
+  def meet_foundationals
+    if self.new_record?
+      begin
+        if self.TEPAdmit && !self.completed_foundationals?
+          self.errors.add(:base, "Student has not satisfied a foundational course.")
+        end
+      rescue NotImplementedError
+        # can't handle these
+      end
     end
   end
 

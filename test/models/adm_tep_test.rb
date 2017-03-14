@@ -210,7 +210,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "needs foreign keys" do
-  	#test validation: needing a program.
+    #test validation: needing a program.
     app = FactoryGirl.build :adm_tep, {:student => nil,
       :program => nil,
       :banner_term => nil
@@ -268,25 +268,38 @@ class AdmTepTest < ActiveSupport::TestCase
     letter = attach_letter(app)
     pop_transcript(app.student, 12, 2.0, app.banner_term.prev_term)
     app.valid?
-    assert_equal ["Student does not have sufficient GPA to be admitted this term."], app.errors[:base]
+    assert_includes app.errors[:base], "Student does not have sufficient GPA to be admitted this term."
   end
 
-  test "overall gpa bad only" do
-    app = FactoryGirl.build :adm_tep, {:banner_term => FactoryGirl.create(:banner_term)}
-    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
-    app.TEPAdmit = true
-    app.valid?
-    assert_equal(app.errors[:base], [])
+
+  [:GPA, :GPA_last30].each do |attr|
+    test "Just #{attr} bad" do
+
+      stu = FactoryGirl.create :admitted_student
+      app = stu.adm_tep.first
+      app.assign_attributes({attr => 1.0})
+      app.valid?
+      assert_equal(app.errors[:base], [])
+
+    end
   end
 
-  test "last 30 gpa bad" do
-    app = FactoryGirl.build :adm_tep, {:banner_term => FactoryGirl.create(:banner_term)}
-    app.TEPAdmit = true
-    app.GPA_last30 = 2.99
-    pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
-    app.valid?
-    assert_equal(app.errors[:base], [])
-  end
+  # test "overall gpa bad only" do
+  #   app = FactoryGirl.build :adm_tep, {:banner_term => FactoryGirl.create(:banner_term)}
+  #   pop_transcript(app.student, 12, 3.0, app.banner_term.prev_term)
+  #   app.TEPAdmit = true
+  #   app.valid?
+  #   assert_equal(app.errors[:base], [])
+  # end
+  #
+  # test "last 30 gpa bad only" do
+  #
+  #   stu = FactoryGirl.create :admitted_student
+  #   app = stu.adm_tep.first
+  #   app.GPA_last30 = 2.99
+  #   app.valid?
+  #   assert_equal(app.errors[:base], [])
+  # end
 
   test "earned credits bad" do
 
@@ -338,7 +351,7 @@ class AdmTepTest < ActiveSupport::TestCase
     }
 
     app2.valid?
-    assert_equal(app2.errors[:base], ["Student has already been admitted or has an open application for this program in this term."])
+    assert_includes app2.errors[:base], "Student has already been admitted or has an open application for this program in this term."
 
   end
 
@@ -358,8 +371,8 @@ class AdmTepTest < ActiveSupport::TestCase
   describe "completed foudationals" do
 
     before do
-      @stu = FactoryGirl.create :admitted_student
-      @app = @stu.adm_tep.first
+      @app = FactoryGirl.build :pending_adm_tep
+      @stu = @app.student
       @prog = @app.program
     end
 
@@ -441,6 +454,84 @@ class AdmTepTest < ActiveSupport::TestCase
       end
 
     end # loop
+
+  end
+
+  describe "meet_foundationals" do
+    # function called before_create to validate
+
+    before do
+
+      @app = FactoryGirl.build :pending_adm_tep, {
+        :TEPAdmit => true,
+        :TEPAdmitDate => Date.today
+      }
+      12.times.map {|i| FactoryGirl.create(:transcript, {
+        :student => @app.student,
+        :credits_attempted => 4.0,
+        :credits_earned => 4.0,
+        :gpa_include => true,
+        :term_taken => @app.banner_term.prev_term(exclusive=true).id,
+        :grade_pt => 4.0,
+        :grade_ltr => "A",
+        :course_code => "EDS10#{i}"
+        })
+      }
+    end
+
+    describe "requirement met" do
+
+      before do
+        FactoryGirl.create :transcript, {
+          :student => @app.student,
+          :credits_attempted => 4.0,
+          :credits_earned => 4.0,
+          :gpa_include => true,
+          :term_taken => @app.banner_term.prev_term(exclusive=true).id,
+          :grade_pt => 4.0,
+          :grade_ltr => "A",
+          :course_code => "EDS150"
+        }
+      end
+
+      [{prog_code: "14", course: "EDS227"}, {prog_code: "99", course: "EDS228"}].each do |data|
+        test "for prog: #{data[:prog_code]}" do
+          FactoryGirl.create :transcript, {
+            :student => @app.student,
+            :credits_attempted => 4.0,
+            :credits_earned => 4.0,
+            :gpa_include => true,
+            :term_taken => @app.banner_term.prev_term(exclusive=true).id,
+            :grade_pt => 4.0,
+            :grade_ltr => "A",
+            :course_code => data[:course]
+          }
+
+          prog = @app.program
+          prog.ProgCode = data[:prog_code]
+          prog.save!
+          assert @app.valid?
+        end
+      end
+
+    end
+
+    test "requirement not met" do
+
+      assert_not @app.valid?
+      assert  @app.errors[:base].include? "Student has not satisfied a foundational course."
+
+    end
+
+    test "valid for unimplemented program" do
+      # music, pe, health
+      prog = @app.program
+      prog.ProgCode = "28"
+      prog.save!
+
+      assert @app.valid?, @app.errors.full_messages
+
+    end
 
   end
 

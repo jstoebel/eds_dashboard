@@ -9,7 +9,7 @@
 #  ord                :integer
 #  created_at         :datetime
 #  updated_at         :datetime
-#  cut_score          :boolean
+#  passing            :boolean
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
@@ -20,7 +20,7 @@ FactoryGirl.define do
     descriptor Lorem.paragraph
     level Lorem.word
     sequence(:ord, (1..4).cycle)
-    passing { Boolean.boolean(0.5) }
+    passing {Boolean.boolean 0.5}
 
     factory :level_with_scores do
 

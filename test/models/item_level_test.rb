@@ -9,7 +9,7 @@
 #  ord                :integer
 #  created_at         :datetime
 #  updated_at         :datetime
-#  cut_score          :boolean
+#  passing            :boolean
 #
 
 require 'test_helper'
