@@ -16,8 +16,7 @@ specific versions of an assessment are modeled in AssessmentVersion
 
 =end
 
-class Assessment < ActiveRecord::Base
-    before_destroy :can_destroy
+class Assessment < ActiveRecord::Base 
 
     ### ASSOCIATIONS ###
     has_many :assessment_items

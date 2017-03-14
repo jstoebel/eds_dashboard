@@ -20,12 +20,13 @@
 #
 
 class Transcript < ActiveRecord::Base
-	self.table_name = 'transcript'
+  self.table_name = 'transcript'
 
 
     #~~~CLASS VARIABLES AND METHODS~~~#
 
     LTG = {
+        "A+" => 4.0,
         "A" => 4.0,
         "A-" => 3.7,
         "B+" => 3.3,
@@ -47,12 +48,14 @@ class Transcript < ActiveRecord::Base
 
     def self.g_to_l(grade_pt)
         #returns the letter grade coorsponding to grade_pt
+        # keys are readin in order from top to bottom with newer keys replacing
+        # old. In this case, 4.0 is mapped to "A" not "A+"
         return LTG.invert[grade_pt.to_f]
     end
 
-		def self.standard_grades
-			return LTG.keys
-		end
+    def self.standard_grades
+      return LTG.keys
+    end
 
     def self.batch_upsert(hashes)
         # bulk upserts transcript records
@@ -77,12 +80,12 @@ class Transcript < ActiveRecord::Base
 
 
     #~~~ASSOCIATIONS~~~#
-	belongs_to :student
+  belongs_to :student
   belongs_to :banner_term, :foreign_key => "term_taken"
-	has_many :clinical_assignments
+  has_many :clinical_assignments
 
     #~~~SCOPES~~~#
-	scope :in_term, ->(term_object) { where(term_taken: term_object.BannerTerm)}
+  scope :in_term, ->(term_object) { where(term_taken: term_object.BannerTerm)}
 
 
     #~~~VALIDATIONS~~~#
@@ -103,16 +106,16 @@ class Transcript < ActiveRecord::Base
     end
 
 
-		#~~~INSTANCE METHODS ~~~#
+    #~~~INSTANCE METHODS ~~~#
 
-		def inst_bnums
-			# returns an array of instructor B#s for this course
-			profs_raw = self.instructors.andand.split ";"
-			if profs_raw.present?
-				return profs_raw.map{|r| r.match(/\{(.+)\}/)[1]}
-			else
-				return []
-			end
-		end
+    def inst_bnums
+      # returns an array of instructor B#s for this course
+      profs_raw = self.instructors.andand.split ";"
+      if profs_raw.present?
+        return profs_raw.map{|r| r.match(/\{(.+)\}/)[1]}
+      else
+        return []
+      end
+    end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170216151814) do
+ActiveRecord::Schema.define(version: 20170223203550) do
 
   create_table "adm_files", force: :cascade do |t|
     t.integer  "adm_tep_id",      limit: 4
@@ -91,12 +91,16 @@ ActiveRecord::Schema.define(version: 20170216151814) do
     t.integer  "assessment_id", limit: 4
     t.string   "name",          limit: 255
     t.string   "slug",          limit: 255
+    t.integer  "start_term",    limit: 4
+    t.integer  "end_term",      limit: 4
     t.text     "description",   limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "assessment_items", ["assessment_id"], name: "index_assessment_items_on_assessment_id", using: :btree
+  add_index "assessment_items", ["end_term"], name: "fk_rails_70fb68bab9", using: :btree
+  add_index "assessment_items", ["start_term"], name: "fk_rails_7a5cf3e547", using: :btree
 
   create_table "assessments", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -249,7 +253,7 @@ ActiveRecord::Schema.define(version: 20170216151814) do
     t.integer  "ord",                limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "cut_score"
+    t.boolean  "passing"
   end
 
   add_index "item_levels", ["assessment_item_id"], name: "index_item_levels_on_assessment_item_id", using: :btree
@@ -550,6 +554,8 @@ ActiveRecord::Schema.define(version: 20170216151814) do
   add_foreign_key "advisor_assignments", "students"
   add_foreign_key "advisor_assignments", "tep_advisors"
   add_foreign_key "alumni_info", "students", column: "Student_Bnum", primary_key: "Bnum", name: "fk_AlumniInfo_Student"
+  add_foreign_key "assessment_items", "banner_terms", column: "end_term", primary_key: "BannerTerm"
+  add_foreign_key "assessment_items", "banner_terms", column: "start_term", primary_key: "BannerTerm"
   add_foreign_key "banner_updates", "banner_terms", column: "end_term", primary_key: "BannerTerm"
   add_foreign_key "banner_updates", "banner_terms", column: "start_term", primary_key: "BannerTerm"
   add_foreign_key "clinical_assignments", "clinical_teachers", name: "clinical_assignments_clinical_teacher_id_fk"

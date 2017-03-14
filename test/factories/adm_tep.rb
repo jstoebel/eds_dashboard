@@ -58,7 +58,25 @@ FactoryGirl.define do
       end # pass praxis
 
       after(:build) do |app|
-          courses = 12.times.map {|i| FactoryGirl.build(:transcript, {
+
+          # pass foundationals reguardless of program
+          ["EDS150", "EDS227", "EDS228"].each do |course_code|
+
+            FactoryGirl.create :transcript, {
+              :student => app.student,
+              :credits_attempted => 4.0,
+              :credits_earned => 4.0,
+              :gpa_include => true,
+              :term_taken => app.banner_term.prev_term(exclusive=true).id,
+              :grade_pt => 4.0,
+              :grade_ltr => "A",
+              :course_code => course_code
+            }
+
+          end
+
+          # 9 more courses
+          courses = 9.times.map {|i| FactoryGirl.build(:transcript, {
               :student_id => app.student.id,
               :credits_attempted => 4.0,
               :credits_earned => 4.0,
