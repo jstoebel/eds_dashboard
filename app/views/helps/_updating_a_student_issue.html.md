@@ -6,7 +6,7 @@ To update a student Issue, go to the student's Issue overview page.
 ***
 #### Getting to the Student's Issue Page
 1. First click on the Students & Advisees tab at the top of the page.
-![Students & Advisees tab](/help_images/students_tab.JPG)
+![Students & Advisees Tab](/help_images/students_tab.JPG)
 2. You will be presented with a list of available Students and Advisees. Clicking the blue Actions button on the righthand side of your student will bring up a dropdown menu with options you can use to access student information.
 ![Students](/help_images/students.JPG)
 3. Select Issue from the actions dropdown menu.
