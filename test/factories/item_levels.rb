@@ -20,7 +20,7 @@ FactoryGirl.define do
     descriptor Lorem.paragraph
     level Lorem.word
     sequence(:ord, (1..4).cycle)
-    cut_score { Boolean.boolean(0.5) }
+    passing { Boolean.boolean(0.5) }
 
     factory :level_with_scores do
 
