@@ -28,6 +28,8 @@ class AdmTep < ActiveRecord::Base
   belongs_to :student
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
 
+  has_many :prog_exits, :through => :program
+
   has_many :adm_files, :dependent => :destroy
   has_many :student_files, :through => :adm_files
 
