@@ -9,6 +9,8 @@
 #  description   :text(65535)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  start_term    :integer
+#  end_term      :integer
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
