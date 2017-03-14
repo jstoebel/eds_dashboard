@@ -6,6 +6,8 @@
 #  assessment_id :integer
 #  name          :string(255)
 #  slug          :string(255)
+#  start_term    :integer
+#  end_term      :integer
 #  description   :text(65535)
 #  created_at    :datetime
 #  updated_at    :datetime
