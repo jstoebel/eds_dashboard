@@ -210,7 +210,7 @@ class AdmTepTest < ActiveSupport::TestCase
   end
 
   test "needs foreign keys" do
-  	#test validation: needing a program.
+    #test validation: needing a program.
     app = FactoryGirl.build :adm_tep, {:student => nil,
       :program => nil,
       :banner_term => nil
@@ -479,15 +479,51 @@ class AdmTepTest < ActiveSupport::TestCase
       }
     end
 
-    test "requirement not met" do
+    describe "requirement met" do
 
+      before do
+        FactoryGirl.create :transcript, {
+          :student => @app.student,
+          :credits_attempted => 4.0,
+          :credits_earned => 4.0,
+          :gpa_include => true,
+          :term_taken => @app.banner_term.prev_term(exclusive=true).id,
+          :grade_pt => 4.0,
+          :grade_ltr => "A",
+          :course_code => "EDS150"
+        }
+      end
+
+      [{prog_code: "14", course: "EDS227"}, {prog_code: "99", course: "EDS228"}].each do |data|
+        test "for prog: #{data[:prog_code]}" do
+          FactoryGirl.create :transcript, {
+            :student => @app.student,
+            :credits_attempted => 4.0,
+            :credits_earned => 4.0,
+            :gpa_include => true,
+            :term_taken => @app.banner_term.prev_term(exclusive=true).id,
+            :grade_pt => 4.0,
+            :grade_ltr => "A",
+            :course_code => data[:course]
+          }
+
+          prog = @app.program
+          prog.ProgCode = data[:prog_code]
+          prog.save!
+          assert @app.valid?
+        end
+      end
+
+    end
+
+    test "requirement not met" do
 
       assert_not @app.valid?
       assert  @app.errors[:base].include? "Student has not satisfied a foundational course."
 
     end
 
-    test "no error for unimplemented program" do
+    test "valid for unimplemented program" do
       # music, pe, health
       prog = @app.program
       prog.ProgCode = "28"
