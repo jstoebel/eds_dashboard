@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113214600) do
+ActiveRecord::Schema.define(version: 20170223203550) do
+
+  create_table "adm_files", force: :cascade do |t|
+    t.integer  "adm_tep_id",      limit: 4
+    t.integer  "student_file_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "adm_st", force: :cascade do |t|
     t.integer  "student_id",            limit: 4,     null: false
@@ -81,20 +88,19 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_index "alumni_info", ["Student_Bnum"], name: "fk_AlumniInfo_Student1_idx", using: :btree
 
   create_table "assessment_items", force: :cascade do |t|
-    t.string   "slug",        limit: 255
-    t.text     "description", limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",        limit: 255
-  end
-
-  create_table "assessment_versions", force: :cascade do |t|
-    t.integer  "assessment_id", limit: 4, null: false
+    t.integer  "assessment_id", limit: 4
+    t.string   "name",          limit: 255
+    t.string   "slug",          limit: 255
+    t.integer  "start_term",    limit: 4
+    t.integer  "end_term",      limit: 4
+    t.text     "description",   limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "assessment_versions", ["assessment_id"], name: "fk_rails_69aa91aaac", using: :btree
+  add_index "assessment_items", ["assessment_id"], name: "index_assessment_items_on_assessment_id", using: :btree
+  add_index "assessment_items", ["end_term"], name: "fk_rails_70fb68bab9", using: :btree
+  add_index "assessment_items", ["start_term"], name: "fk_rails_7a5cf3e547", using: :btree
 
   create_table "assessments", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -172,6 +178,15 @@ ActiveRecord::Schema.define(version: 20170113214600) do
     t.datetime "updated_at",                null: false
   end
 
+  create_table "downtimes", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.text     "reason",     limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.boolean  "active"
+  end
+
   create_table "employment", primary_key: "EmpID", force: :cascade do |t|
     t.integer "student_id",  limit: 4,  null: false
     t.date    "EmpDate",                null: false
@@ -232,16 +247,16 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_index "issues", ["tep_advisors_AdvisorBnum"], name: "fk_Issues_tep_advisors1_idx", using: :btree
 
   create_table "item_levels", force: :cascade do |t|
-    t.integer  "assessment_item_id", limit: 4,     null: false
+    t.integer  "assessment_item_id", limit: 4
     t.text     "descriptor",         limit: 65535
     t.string   "level",              limit: 255
     t.integer  "ord",                limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "cut_score"
+    t.boolean  "passing"
   end
 
-  add_index "item_levels", ["assessment_item_id"], name: "fk_rails_e6a2147994", using: :btree
+  add_index "item_levels", ["assessment_item_id"], name: "index_item_levels_on_assessment_item_id", using: :btree
 
   create_table "last_names", force: :cascade do |t|
     t.integer  "student_id", limit: 4
@@ -410,6 +425,13 @@ ActiveRecord::Schema.define(version: 20170113214600) do
 
   add_index "roles", ["RoleName"], name: "RoleName_UNIQUE", unique: true, using: :btree
 
+  create_table "st_files", force: :cascade do |t|
+    t.integer  "adm_st_id",       limit: 4
+    t.integer  "student_file_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
   create_table "student_files", force: :cascade do |t|
     t.integer  "student_id",       limit: 4,                  null: false
     t.boolean  "active",                       default: true
@@ -422,18 +444,14 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_index "student_files", ["student_id"], name: "fk_rails_78ba6603b4", using: :btree
 
   create_table "student_scores", force: :cascade do |t|
-    t.integer  "student_id",            limit: 4, null: false
-    t.integer  "assessment_version_id", limit: 4, null: false
-    t.integer  "assessment_item_id",    limit: 4, null: false
-    t.integer  "item_level_id",         limit: 4, null: false
+    t.integer  "student_id",    limit: 4
+    t.integer  "item_level_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "student_scores", ["assessment_item_id"], name: "fk_rails_e8e505d224", using: :btree
-  add_index "student_scores", ["assessment_version_id"], name: "fk_rails_2ba42fd723", using: :btree
-  add_index "student_scores", ["item_level_id"], name: "fk_rails_30b71fc0a4", using: :btree
-  add_index "student_scores", ["student_id"], name: "fk_rails_076846734f", using: :btree
+  add_index "student_scores", ["item_level_id"], name: "index_student_scores_on_item_level_id", using: :btree
+  add_index "student_scores", ["student_id"], name: "index_student_scores_on_student_id", using: :btree
 
   create_table "students", force: :cascade do |t|
     t.string  "Bnum",                    limit: 9,     null: false
@@ -526,16 +544,6 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_index "users", ["Roles_idRoles"], name: "fk_users_Roles1_idx", using: :btree
   add_index "users", ["UserName"], name: "UserName_UNIQUE", unique: true, using: :btree
 
-  create_table "version_habtm_items", force: :cascade do |t|
-    t.integer  "assessment_version_id", limit: 4, null: false
-    t.integer  "assessment_item_id",    limit: 4, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "version_habtm_items", ["assessment_item_id"], name: "fk_rails_5d2c803ddf", using: :btree
-  add_index "version_habtm_items", ["assessment_version_id"], name: "fk_rails_c41fee807a", using: :btree
-
   add_foreign_key "adm_st", "banner_terms", column: "BannerTerm_BannerTerm", primary_key: "BannerTerm", name: "fk_AdmST_BannerTerm"
   add_foreign_key "adm_st", "student_files"
   add_foreign_key "adm_st", "students"
@@ -546,7 +554,8 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_foreign_key "advisor_assignments", "students"
   add_foreign_key "advisor_assignments", "tep_advisors"
   add_foreign_key "alumni_info", "students", column: "Student_Bnum", primary_key: "Bnum", name: "fk_AlumniInfo_Student"
-  add_foreign_key "assessment_versions", "assessments"
+  add_foreign_key "assessment_items", "banner_terms", column: "end_term", primary_key: "BannerTerm"
+  add_foreign_key "assessment_items", "banner_terms", column: "start_term", primary_key: "BannerTerm"
   add_foreign_key "banner_updates", "banner_terms", column: "end_term", primary_key: "BannerTerm"
   add_foreign_key "banner_updates", "banner_terms", column: "start_term", primary_key: "BannerTerm"
   add_foreign_key "clinical_assignments", "clinical_teachers", name: "clinical_assignments_clinical_teacher_id_fk"
@@ -561,7 +570,6 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_foreign_key "issues", "dispositions"
   add_foreign_key "issues", "students"
   add_foreign_key "issues", "tep_advisors", column: "tep_advisors_AdvisorBnum"
-  add_foreign_key "item_levels", "assessment_items"
   add_foreign_key "last_names", "students"
   add_foreign_key "pgp_scores", "pgps"
   add_foreign_key "pgps", "students"
@@ -577,10 +585,6 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_foreign_key "prog_exits", "programs", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "students"
   add_foreign_key "student_files", "students"
-  add_foreign_key "student_scores", "assessment_items"
-  add_foreign_key "student_scores", "assessment_versions"
-  add_foreign_key "student_scores", "item_levels"
-  add_foreign_key "student_scores", "students"
   add_foreign_key "students", "banner_terms", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_graduated", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_major", primary_key: "BannerTerm"
@@ -590,6 +594,4 @@ ActiveRecord::Schema.define(version: 20170113214600) do
   add_foreign_key "transcript", "banner_terms", column: "term_taken", primary_key: "BannerTerm", name: "fk_transcript_banner_terms"
   add_foreign_key "transcript", "students"
   add_foreign_key "users", "roles", column: "Roles_idRoles", primary_key: "idRoles", name: "fk_users_Roles"
-  add_foreign_key "version_habtm_items", "assessment_items"
-  add_foreign_key "version_habtm_items", "assessment_versions"
 end

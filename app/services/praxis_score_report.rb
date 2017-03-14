@@ -122,6 +122,7 @@ class PraxisScoreReport
       SECRET["BANNER_PW"]) do |dbh|
         sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
         row = dbh.select_one(sql, ssn)
+        return nil if row.nil? # if no student found, return nil
         bnum = row["SZVEDSD_ID"]
         return Student.find_by :Bnum => bnum
     end

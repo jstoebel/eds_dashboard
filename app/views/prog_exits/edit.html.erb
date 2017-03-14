@@ -3,14 +3,14 @@
 	<table summary="prog_exit form fields" class="edit">
 
     <caption>
-    	<span class="header1"> Edit student exit</span>
+    	<span class="header1"> Edit Student Exit for</span>
     	<span class="header2"> <%=name_details(@exit.student, file_as=true)  %> </span>
     </caption>
 
 		<%= error_messages_for(@exit) %>
 
 		<tr>
-		  <th> Program </th>
+		  <th> Program: </th>
 		  <td>
 		  <%= @exit.program.EDSProgName %>
 		  </td>
@@ -18,7 +18,7 @@
 
 		<tr>
 			<th>
-				Exit Reason
+				Exit Reason:
 			</th>
 			<td>
 				<%= @exit.exit_code.ExitDiscrip %>
@@ -26,22 +26,17 @@
 		</tr>
 
 		<tr>
-			<th>
-				Exit Date
-			</th>
-			<td>
-				<%= @exit.ExitDate.strftime("%m/%d/%Y") %>
-			</td>
-
+			<th>Exit Date: </th>
+			<td><%= @exit.ExitDate.andand.strftime("%Y-%m-%d") %></td>
 		</tr>
 
 		<tr>
 			<th>
-				<%= f.label :RecommendDate, "Date Recomend Certificaiton"  %>
+				<%= f.label :RecommendDate, "Date Recomend Certificaiton:"  %>
 			</th>
 
             <td class="date-admit">
-	
+
 				<%= render(partial: 'date_picker', :locals => {
 					f: f,
 					field: :RecommendDate,
@@ -52,7 +47,7 @@
 
 		<tr>
 			<th>
-				<%= f.label :Details %>
+				<%= f.label "Details:" %>
 			</th>
 
 			<td>
@@ -62,7 +57,7 @@
 		</tr>
 
 	<tr>
-		<td><%= submit_tag("Edit Exit") %></td>
+		<td><%= submit_tag("Update Exit") %></td>
 	</tr>
 
 <% end %>

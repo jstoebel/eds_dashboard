@@ -37,12 +37,7 @@ namespace :db do
     clinical_sites = FactoryGirl.create_list :clinical_site, 10
     clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
 
-    #Assessment data
-    assessments = FactoryGirl.create_list :assessment, 5
     dispositions = FactoryGirl.create_list :disposition, 10
-
-    versions = assessments.map{ |assess| FactoryGirl.create_list :version_with_items, 3}.flatten
-    levels = FactoryGirl.create_list :item_level, 2
 
     puts "creating data for students..."
     students.each do |s|
@@ -198,7 +193,7 @@ namespace :db do
     task :clean_dev_files do
       desc "remove public/student_files/development"
 
-        sh "rm -rf #{Rails.root}/public/student_files/development"
+        sh "rm -rf #{Rails.root}/storage/student_files/development"
     end
 
   end

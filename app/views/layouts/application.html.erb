@@ -43,13 +43,11 @@
 	            </p>
 	          <% end -%>
       	<% end %>
-
       </div>
 
       <div class="col-xs-12 col-md-3 col-md-offset-6">
         <p class="navbar-text pull-right">
           Welcome, <%= "#{session[:user]} (#{session[:role]})" %>
-
         </p>
       </div>
 
@@ -71,16 +69,11 @@
 
     <% end %>
 
-		<ul class="nav navbar-nav">
-			<li>
-				<a href="/help" aria-haspopup="true" aria-expanded="false" class="navbar-brand">Help</a>
-			</li>
-
-		</ul>
   </div>
 </div>
 
 		<!--Before yield -->
+      <%= render :partial => "downtimes" %>
 
       <% if !flash[:notice].blank? %>
         <div class="notice">

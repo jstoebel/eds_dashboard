@@ -21,6 +21,7 @@ class ClinicalTeacher < ActiveRecord::Base
 
 	has_many :clinical_assignments, dependent: :destroy
 	belongs_to :clinical_site
+	scope :by_last, lambda {order(LastName: :asc)}
 
     BNUM_REGEX = /\AB00\d{6}\Z/i
     validates :Bnum,
@@ -62,5 +63,17 @@ class ClinicalTeacher < ActiveRecord::Base
   		:numericality => {greater_than: 0,
         message: "Years of experience must be an positive integer."},
       allow_blank: true
+      
+      
+    def name_readable(file_as = false)
+      first_name = " #{self.FirstName}"
+      last_name = "#{self.LastName}"
+      if file_as
+          return [last_name+',', first_name].join(' ')  #return last name first
+      else
+          return [first_name, last_name].join(' ')  #return first name first
+      end
+    end
+
 
 end

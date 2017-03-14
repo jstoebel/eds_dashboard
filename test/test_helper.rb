@@ -98,4 +98,37 @@ class ActiveSupport::TestCase
 
   end
 
+  def make_advisor(user)
+    # make an advisor for this user
+    adv = user.tep_advisor
+    if user.tep_advisor.blank?
+      adv = FactoryGirl.create :tep_advisor, :user => user
+    end
+    return adv
+  end
+
+  def make_student(user)
+    # make a student for this user
+    # return the student
+
+    adv = make_advisor(user)
+    this_term = FactoryGirl.create :banner_term, {:StartDate => 5.days.ago,
+      :EndDate => 5.days.from_now}
+
+    course = FactoryGirl.create :transcript, {:instructors => "FirstName, LastName {#{adv.AdvisorBnum}}",
+      :banner_term => this_term
+    }
+    return course.student
+  end
+
+  def make_advisee(user)
+    # make an advisee for this user
+    # return the student
+
+    adv = make_advisor(user)
+    assignment = FactoryGirl.create :advisor_assignment, :tep_advisor => adv
+    return assignment.student
+
+  end
+
 end

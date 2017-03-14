@@ -22,18 +22,21 @@ class AdmTep < ActiveRecord::Base
 
   include ApplicationHelper
 
-  attr_accessor :fks_in   #if forign keys are in.
+  attr_accessor :fks_in, :adm_file
 
   belongs_to :program, {foreign_key: "Program_ProgCode"}
   belongs_to :student
   belongs_to :banner_term, {foreign_key: "BannerTerm_BannerTerm"}
-  belongs_to :student_file
 
   has_many :prog_exits, :through => :program
+
+  has_many :adm_files, :dependent => :destroy
+  has_many :student_files, :through => :adm_files
 
   #CALL BACKS
   after_validation :setters, :unless => Proc.new{|s| s.errors.any?}
   after_validation :complex_validations, :unless =>  Proc.new{|s| s.errors.any?}
+  after_save :create_adm_file
 
   #SCOPES
   scope :admitted, lambda { where("TEPAdmit = ?", true)}
@@ -53,12 +56,8 @@ class AdmTep < ActiveRecord::Base
   validates_presence_of :BannerTerm_BannerTerm,
     :message => "No term could be determined."
 
-  validates_presence_of :student_file_id,{:message => "Please attach an admission letter.",
-      :unless => Proc.new{|s| s.TEPAdmit.nil?}
-    }
-
   validates_presence_of :TEPAdmitDate, {:message => "Admission date must be given.",
-    :if => Proc.new{|s| s.TEPAdmit.present?}# self.TEPAdmit.nil?
+    :if => Proc.new{|s| s.TEPAdmit.present?}
   }
 
   def good_credits?
@@ -92,8 +91,8 @@ class AdmTep < ActiveRecord::Base
   def complex_validations
     # these only run if all simple validations passed
     validations = [:admit_date_too_early, :admit_date_too_late, :bad_praxisI,
-      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision, :uniqueness_of_second_program
-
+      :bad_gpa, :bad_credits, :cant_apply_again, :need_decision, :uniqueness_of_second_program,
+      :meet_foundationals
     ]
 
     validations.each do |v|
@@ -144,7 +143,7 @@ class AdmTep < ActiveRecord::Base
 
   def cant_apply_again
 
-    attrs = self.attributes.slice("student_id", "Program_ProgCode", "BannerTerm_BannerTerm")
+    attrs = self.attributes.slice("student_id", "Program_ProgCode")
     accepted_or_pending_apps = AdmTep.where(attrs).where("TEPAdmit = 1 or TEPAdmit IS NULL")
     if ( accepted_or_pending_apps.size > 0 && self.new_record? ||
          accepted_or_pending_apps.size > 1 && !self.new_record?
@@ -158,5 +157,65 @@ class AdmTep < ActiveRecord::Base
       self.errors.add(:TEPAdmit, "Please make an admission decision for this student.")
     end
   end
+
+  def meet_foundationals
+    if self.new_record?
+      begin
+        if self.TEPAdmit && !self.completed_foundationals?
+          self.errors.add(:base, "Student has not satisfied a foundational course.")
+        end
+      rescue NotImplementedError
+        # can't handle these
+      end
+    end
+  end
+
+  def create_adm_file
+      if self.adm_file.present?
+          AdmFile.create!({
+              :student_file_id => self.adm_file.id,
+              :adm_tep_id => self.id
+          })
+      end
+  end
+
+
+  def completed_foundationals?
+    # returns if student has completed their foundational courses
+    # throws NotImplementedError for Music PE and Health
+
+    # EDS150: C or better
+    # EDS227/228: B- or better, if applicable
+    stu = self.student
+
+    passed_150 =  stu
+                    .transcripts
+                    .where({:course_code => "EDS150"})
+                    .where("grade_pt >= ?", 2.0)
+                    .present?
+
+    if self.program.ProgCode == '14'
+      second_course = "EDS227"
+    elsif ['40', '65', '28', '29', '23'].include? self.program.ProgCode
+      # TODO:
+        # Music's is MUS118B, but students can waive out of it.
+          # we aren't yet sure how to handle the waiver so we are going to skip for now
+        # pe: course not established
+
+        raise NotImplementedError
+    else
+      # secondary
+      second_course = "EDS228"
+    end
+
+    passed_second = stu
+                    .transcripts
+                    .where({:course_code => second_course})
+                    .where("grade_pt >= ?", 2.7)
+                    .present?
+
+    return passed_150 && passed_second
+
+  end # completed_foundationals
 
 end

@@ -45,7 +45,7 @@ class StudentFileTest < ActiveSupport::TestCase
         f2 = StudentFile.create(f.attributes.except("id"))
         extension = File.extname f.doc_file_name
         base = File.basename f.doc_file_name, extension
-        assert_equal "#{base}-#{1}#{extension}", f2.doc_file_name
+        assert_equal "#{base}-#{2}#{extension}", f2.doc_file_name
 
     end
 

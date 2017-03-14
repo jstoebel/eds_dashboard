@@ -8,14 +8,14 @@
 
     <caption>
     	<span class="header1"> Edit Clinical Teacher</span></br>
-    	<span class="heeader2"> <%= [@teacher.FirstName, @teacher.LastName].join(' ') %></span>
-
     </caption>
 
 	<%= render(partial: 'form', locals: {f: f}) %>
-
+	<br>
+	<div class="col-sm-8 col-sm-offset-1">
 	<tr>
-		<td><%= submit_tag("Edit Teacher") %></td>
+		<td><%= submit_tag("Update Teacher") %></td>
 	</tr>
+	</div>
 
 <% end %>

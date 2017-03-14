@@ -69,7 +69,7 @@ class PgpTest < ActiveSupport::TestCase
     score = FactoryGirl.create_list(:pgp_score, num_scores)
     ordered_score = score.sort_by{ |a| [a.pgp_id, a.created_at]}
     sort_ver = PgpScore.sorted
-    assert_equal ordered_score, sort_ver
+    assert_equal ordered_score.to_a, sort_ver.to_a
   end
 
 

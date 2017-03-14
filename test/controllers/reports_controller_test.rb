@@ -52,7 +52,6 @@ class ReportsControllerTest < ActionController::TestCase
 
           end
 
-
           describe "taken 227_228" do
 
             courses = ["227", "228", "101"]
@@ -148,8 +147,6 @@ class ReportsControllerTest < ActionController::TestCase
                 end # test
 
               end # context: Student Program
-
-
 
               test "two associated programs" do
                 student = FactoryGirl.create :admitted_student
@@ -261,5 +258,81 @@ class ReportsControllerTest < ActionController::TestCase
       end
 
     end
-  end
+
+    describe "filter students" do
+        before do
+            load_session("admin")
+        end
+
+        test "skips students with withdraws > 1 year" do
+            old_term = FactoryGirl.create :banner_term, :StartDate => 2.years.ago,
+            :EndDate => (1.year.ago - 1),
+            :PlainTerm => "A Fall Term"
+            stu = FactoryGirl.create :student, :withdraws => "(#{old_term.PlainTerm}: Withdraw)",
+            :EnrollmentStatus => "WD - Personal"
+
+            get :index
+            assert_equal 0, assigns(:data).size
+        end
+
+        test "skips if not WD or active student" do
+            stu = FactoryGirl.create :student, :EnrollmentStatus => "Dismissed"
+            get :index
+            assert_equal 0, assigns(:data).size
+        end
+
+        test "include if wd was within 1 year" do
+            near_term = FactoryGirl.create :banner_term, :StartDate => 5.days.ago,
+                :EndDate => 3.days.ago,
+                :PlainTerm => "A recent Fall Term"
+
+            stu = FactoryGirl.create :student, :withdraws => "(#{near_term.PlainTerm}: Withdraw)",
+            :EnrollmentStatus => "WD - Personal"
+
+            get :index
+            assert_equal 1, assigns(:data).size
+        end
+
+        test "include if Active Student" do
+            old_term = FactoryGirl.create :banner_term, :StartDate => 2.years.ago,
+            :EndDate => (1.year.ago - 1),
+            :PlainTerm => "A Fall Term"
+
+            stu = FactoryGirl.create :student, :withdraws => "(#{old_term.PlainTerm}: Withdraw)",
+            :EnrollmentStatus => "Active Student"
+
+            get :index
+            assert_equal 1, assigns(:data).size
+        end
+
+        test "don't include if status is nil" do
+            stu = FactoryGirl.build :student, :EnrollmentStatus => nil
+            stu.save!(:validate => false)
+            get :index
+            assert_equal 0, assigns(:data).size
+        end
+
+    end
+
+    describe "gpa" do
+        test "admin has access" do
+            load_session("admin")
+            stus = FactoryGirl.create :admitted_student
+            get :index
+            assigns(:data).each do |record|
+                assert record.keys.include? :gpa
+            end
+        end
+
+        test "staff has no access" do
+            load_session("staff")
+            stus = FactoryGirl.create :admitted_student
+            get :index
+            assigns(:data).each do |record|
+                assert_not record.keys.include? :gpa
+            end
+        end
+    end
+
+  end # index
 end

@@ -44,8 +44,7 @@ module PopulateHelper
           :TEPAdmitDate => (admit ? date_apply : nil),
           :GPA => nil,
           :GPA_last30 => nil,
-          :EarnedCredits => nil,
-          :student_file_id => (admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+          :EarnedCredits => nil
         }
       }
 
@@ -53,7 +52,6 @@ module PopulateHelper
         #student qualifies for admission
         gpa = 3.0 #good enough GPA
         praxis_pass = true #pass the praxis
-
       else
         #student is denied admission
         gpa = 2.0 #not good enough GPA
@@ -61,10 +59,35 @@ module PopulateHelper
       end
 
       pop_transcript stu, 12, gpa, term.StartDate - 200, term.EndDate
+
+      # give student 150 2 terms ago and 227 1 term ago
+
+      this_term = BannerTerm.current_term(:exact => false, :plan_b => :forward)
+      prev_standard_terms = BannerTerm.where("BannerTerm < ?", this_term.id)
+        .where({:standard_term => true})
+
+      FactoryGirl.create :transcript, {
+          :student => stu,
+          :course_code => "EDS150",
+          :banner_term => prev_standard_terms[-2]
+      }
+
+      FactoryGirl.create :transcript, {
+          :student => stu,
+          :course_code => "EDS227",
+          :banner_term => prev_standard_terms[-1]
+      }
+
       pop_praxisI stu, date_apply - 30, praxis_pass
 
       app_attrs.each do |i|
         i.save
+        if !admit == false
+            adm_file = AdmFile.create!({
+                :adm_tep_id => i.id,
+                :student_file => (FactoryGirl.create :student_file, {:student => i.student})
+            })
+        end
       end
 
     end
@@ -138,8 +161,7 @@ module PopulateHelper
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
-            CoreGPA: 3.0,
-            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+            CoreGPA: 3.0
           }
 
         end
@@ -151,16 +173,14 @@ module PopulateHelper
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
-            CoreGPA: 3.0,
-            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+            CoreGPA: 3.0
           }
         else
           st_app_attrs = FactoryGirl.create :denied_adm_st, {
             student_id: stu.id,
             BannerTerm_BannerTerm: st_apply_term.id,
             OverallGPA: 2.75,
-            CoreGPA: 3.0,
-            student_file_id: (st_admit != nil ? FactoryGirl.create(:student_file, {:student_id => stu.id}).id : nil)
+            CoreGPA: 3.0
           }
         end
       else
