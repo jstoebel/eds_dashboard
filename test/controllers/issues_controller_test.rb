@@ -37,26 +37,33 @@ class IssuesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       describe "allowed role: #{r}" do
         before do
+
           load_session(r)
           user = User.find_by :UserName => session[:user]
           stu = make_advisee(user)
-          @issue = FactoryGirl.create :issue, :student => stu
-          get :edit, :id => @issue.id
+          @issue = FactoryGirl.create :issue, {
+            :student => stu,
+            :tep_advisor => user.tep_advisor
+          }
         end
 
         test "http success" do
+          get :edit, :id => @issue.id
           assert_response :success
         end
 
         test "pulls issue" do
+          get :edit, :id => @issue.id
           assert_equal @issue, assigns(:issue)
         end
 
         test "pulls student" do
+          get :edit, :id => @issue.id
           assert_equal @issue.student, assigns(:student)
         end
 
         test "pulls dispositions" do
+          get :edit, :id => @issue.id
           assert_equal Disposition.current.ordered, assigns(:dispositions)
         end
 
