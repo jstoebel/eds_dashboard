@@ -13,5 +13,5 @@ class StudentScore < ActiveRecord::Base
     belongs_to :student
     belongs_to :item_level
 
-    validates_presence_of :student_id, :item_level_id
+    validates_presence_of :student_id, :item_level_id, :scored_at
 end

@@ -12,16 +12,18 @@
 require 'test_helper'
 
 class StudentScoreTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-  test "Object not valid, validations fail" do
-    stu_scor=StudentScore.new
-    assert_not stu_scor.valid?
-    assert_equal [:student_id,
-      :item_level_id] ,
-      stu_scor.errors.keys
-    assert_equal [:student_id, :item_level_id].map{|i| [i, ["can't be blank"]]}.to_h,
-     stu_scor.errors.messages
+
+  describe "validations" do
+    before do
+      @stu_score = StudentScore.new
+      @stu_score.valid?
+    end
+    [:student_id, :item_level_id, :scored_at].each do |attr|
+      test attr do
+        assert_equal ["can't be blank"], @stu_score.errors[attr]
+
+      end
+    end
   end
+
 end
