@@ -67,7 +67,7 @@ config/chef/nodes/*
 # for student scores folder - keep directory structure but no files
 /student_scores/**/*
 
-!/student_scores/raw
+!/student_scores/raw/
 !/student_scores/formatted
 
 /student_scores/raw/**/*
@@ -75,3 +75,4 @@ config/chef/nodes/*
 
 !/student_scores/raw/.gitkeep
 !/student_scores/formatted/.gitkeep
+!/student_scores/README.md
