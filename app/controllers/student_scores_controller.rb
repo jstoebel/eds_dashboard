@@ -13,9 +13,10 @@ class StudentScoresController < ApplicationController
     file = params[:file]
     file_format = params[:format]
 
+    byebug
     # process the file. Should return an array containing results of
     # processing each record
-    
+
 
   end
 
