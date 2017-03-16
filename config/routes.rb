@@ -256,6 +256,17 @@ Rails.application.routes.draw do
       get :download
   end
 
+  resources :student_scores, only: [:index, :import]
+
+  # get "student_scores", controller: 'student_scores', action: 'index'
+  # post "student_scores/upload", controller: 'student_scores', action: 'upload'
+
+  resources :student_scores, only: [:index] do
+    collection do
+      post :import
+    end
+  end
+
   match 'help', via: [:get], controller: 'helps', action: 'home'
   match 'help/:article', via: [:get], controller: 'helps', action: 'home'
 

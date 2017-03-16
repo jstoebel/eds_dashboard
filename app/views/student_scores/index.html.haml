@@ -1,0 +1,12 @@
+%h2 Upload student scores
+
+= form_tag import_student_scores_path, multipart: true do
+  .form-group
+    %label{:for => :file} File
+    = file_field_tag :file, class: "form-control", id: "file"
+  .form-group
+    %label{:for => :format} Input Format
+    = select_tag :format, options_for_select(@format_types), class: "form-control", id: "format"
+
+  .form-group
+    = submit_tag "Import CSV"
