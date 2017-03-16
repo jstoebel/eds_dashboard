@@ -44,7 +44,7 @@ FactoryGirl.define do
       bnums = Student.all.pluck :Bnum
 
       while true do
-        random_n = Number.between(0, 10**6)
+        random_n = Number.between(0, 999999)
         bnum = "B00#{random_n.to_s.rjust(6, '0')}"
         break if !bnums.include? bnum
       end

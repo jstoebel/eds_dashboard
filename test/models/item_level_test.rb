@@ -3,13 +3,13 @@
 # Table name: item_levels
 #
 #  id                 :integer          not null, primary key
-#  assessment_item_id :integer          not null
+#  assessment_item_id :integer
 #  descriptor         :text(65535)
 #  level              :string(255)
 #  ord                :integer
 #  created_at         :datetime
 #  updated_at         :datetime
-#  cut_score          :boolean
+#  passing            :boolean
 #
 
 require 'test_helper'
@@ -63,51 +63,6 @@ class ItemLevelTest < ActiveSupport::TestCase
   test "has_item_id? return true" do
     level = FactoryGirl.create :item_level
     assert_equal level.has_item_id?, level.assessment_item_id.present?
-  end
-
-   test "lvl_scores? return false" do
-     #level has no scores
-     level = FactoryGirl.create :item_level
-     assert_equal level.lvl_scores?, level.student_scores.present?
-   end
-
-   test "lvl_scores? return true" do
-     #level has scores
-     score = FactoryGirl.create :student_score
-     level = score.item_level
-     assert_equal level.lvl_scores?, level.student_scores.present?
-   end
-
-   test "check_scores returns true" do
-     #level has no scores, item has no scores
-     level = FactoryGirl.create :item_level
-     item = level.assessment_item
-     #returns false if no scores
-     lvl_score = level.lvl_scores? == false
-     item_score = item.has_scores? == false
-     assert_equal level.check_scores, lvl_score
-     assert_equal level.check_scores, item_score
-   end
-
-   test "check_scores returns false, lvl has scores" do
-     #level has scores
-     score = FactoryGirl.create :student_score
-     level = score.item_level
-     #returns false if has no scores. So item_score == false
-     lvl_score = level.lvl_scores? == false
-     assert level.assessment_item.has_scores? == false
-     assert_equal level.check_scores, lvl_score
-   end
-
-  test "check scores returns false, item has scores" do
-    #level has no scores, but item does
-    item = FactoryGirl.create(:version_with_items).student_scores.first.assessment_item
-    #level doesn't have scores, but parent item does
-    level = item.item_levels.select{|l| l.student_scores.empty?}.first
-    #has_scores? returns true since item has scores. item_score == false
-    assert item.has_scores?
-    assert_not level.lvl_scores?
-    assert_not level.check_scores
   end
 
   test "repr" do

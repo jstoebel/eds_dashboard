@@ -4,7 +4,6 @@ RailsAdmin.config do |config|
   # See https://github.com/sferik/rails_admin/wiki/Actions
   header_converter = lambda do |header|
     # check for nil/blank headers
-    puts header
     next if header.blank?
     header
   end

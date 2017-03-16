@@ -2,13 +2,11 @@
 #
 # Table name: student_scores
 #
-#  id                    :integer          not null, primary key
-#  student_id            :integer          not null
-#  assessment_version_id :integer          not null
-#  assessment_item_id    :integer          not null
-#  item_level_id         :integer          not null
-#  created_at            :datetime
-#  updated_at            :datetime
+#  id            :integer          not null, primary key
+#  student_id    :integer
+#  item_level_id :integer
+#  created_at    :datetime
+#  updated_at    :datetime
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
@@ -20,8 +18,7 @@ include Faker
 FactoryGirl.define do
   factory :student_score do
     student
-    assessment_version
-    assessment_item
     item_level
+    scored_at Date.today
   end
 end

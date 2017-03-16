@@ -136,6 +136,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       describe "as #{r}" do
         before do
+          load_session(r)
           @site = FactoryGirl.create :clinical_site
           load_session(r)
         end

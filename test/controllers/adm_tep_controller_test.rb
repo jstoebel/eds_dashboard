@@ -266,6 +266,15 @@ class AdmTepControllerTest < ActionController::TestCase
     before do
       @app = FactoryGirl.create :pending_adm_tep
 
+      ["150", "227", "228"].each do |code|
+        FactoryGirl.create :transcript, {
+          :student => @app.student,
+          :course_code => "EDS#{code}",
+          :grade_ltr => "A",
+          :grade_pt => 4.0
+        }
+      end
+
       @term = FactoryGirl.create :banner_term, {:StartDate => 10.days.ago,
         :EndDate => 10.days.from_now}
 
@@ -319,7 +328,6 @@ class AdmTepControllerTest < ActionController::TestCase
             :BannerTerm_BannerTerm => @term.id
           }
           expected_app = AdmTep.create app_attrs
-
           allowed_roles.each do |r|
             load_session(r)
             post :destroy, {:id => expected_app.id}
