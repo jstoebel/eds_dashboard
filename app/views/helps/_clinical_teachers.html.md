@@ -17,7 +17,6 @@ To create/edit/delete a clinical teacher see the directions below.
   ![Clinical Teachers Page](/help_images/clinical_teachers/all_clinical_teachers_page.JPG)
 
 ***
-
 ### Creating a Clinical Teacher
 To create a new Clinical Teacher, first select the Add New Clinical Teacher button located at the top of the clincial teacher list.
 
@@ -65,3 +64,21 @@ This will redirect you back to the Clinical Teacher master list page. A message 
 
 ***
 ### Deleting a Clinical Teacher entry
+To delete a clinical teacher entry, identify the entry to be deleted and click on the red trash can located on the right side of the edit button.
+
+
+  ![Delete Teacher](/help_images/clinical_teachers/delete_created_teacher.JPG)
+
+Selecting the trash can will prompt a response to delete the selected teacher and the assignments associated with that teacher. 
+Confirm your request to delete the teacher entry by selecting Delete Teacher.
+
+  
+  ![Delete Teacher](/help_images/clinical_teachers/delete_clinical_teacher.JPG)
+
+Once pressed, the page will redirect back to the main teacher list page. A notification will be displayed above signaling the successful deletion of the clinical teacher entry.
+
+  ![Deleted Teacher](/help_images/clinical_teachers/deleted_teacher.JPG)
+
+***
+
+
