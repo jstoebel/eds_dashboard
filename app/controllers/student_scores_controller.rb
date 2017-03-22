@@ -38,6 +38,7 @@ class StudentScoresController < ApplicationController
     # end
     # redirect_to student_scores_path
 
+    redirect_to student_scores_path
   end
 
 end
