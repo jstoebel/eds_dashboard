@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     #get the ip address as a second way to verify we are on the production server
     ip=Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
 
-    if Rails.env.production? or ip.ip_address == "10.40.42.106"
+    if Rails.env.production? || ip.andand.ip_address == "10.40.42.106"
       #login if we are in production
       unless session[:user].present?    #look up username and role if we don't have it.
 
@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
           Email: "devadmin@test.com"
         }
         admin_user = User.find_by(user_params)
-        
+
         if admin_user.blank?
           admin_user = User.create!(user_params.merge({:Roles_idRoles => 1}))
         end

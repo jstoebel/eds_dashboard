@@ -18,6 +18,13 @@ class StudentScore < ApplicationRecord
 
     validates_presence_of :student_id, :item_level_id, :scored_at
 
+    validates :student_id,
+      :presence => true,
+      :uniqueness => {
+        :message => "Duplicate record: student has already been scored for this item at this time",
+        :scope => [:scored_at, :item_level_id]
+      }
+
     def self.import_setup(file, format)
       # dispatch file to right method here
       self.send("import_#{format}", file)
@@ -28,7 +35,7 @@ class StudentScore < ApplicationRecord
       # file: a spreadsheet of records from moodle
       # post:
         # records are imported
-        # returns array of results for each record
+        # returns count of students and scores imported
 
       spreadsheet = Roo::Spreadsheet.open(file)
       sheet = spreadsheet.sheet(0)  # assume the data is in the first sheet
@@ -37,36 +44,56 @@ class StudentScore < ApplicationRecord
       headers_i = find_headers_index(sheet, "First name")
       headers = sheet.row( headers_i )
 
-
+      student_count = 0
+      score_count = 0
       self.transaction do
 
         (headers_i + 1..sheet.count).each do |row_i|
 
+          # identify the student
           begin
-            stu = Student.find_by! :Bnum => sheet.cell('c', row_i)
+            stu = Student.find_by! :Bnum => sheet.cell(row_i, 'c' )
           rescue
             name = ('a'..'b').map{ |ltr| sheet.cell(ltr, row_i) }.join(' ')
             raise "Could not find student at row #{row_i}: #{name}"
           end
 
+          
+          begin
+            time_graded_str = sheet.cell(row_i, headers.size) # example Tuesday, September 20, 2016, 10:37 AM
+            time_graded = DateTime.strptime(time_graded_str, "%A, %B %e, %Y, %l:%M %P") # assumes blank padded date and hour
+          rescue
+            raise "Improper date at row #{row_i}"
+          end
+
           # index of each item_level definition
           item_levels_indecies = headers.each_index.select{|i| headers[i] == 'Definition'}
           item_levels_indecies.each do |level_i|
+
+            # create student scores, assemble array of results for each
             begin
               level = ItemLevel.find_by! :descriptor =>  sheet.cell(row_i, level_i + 1)
-              StudentScore.create!({:student_id => stu.id, :item_level_id => level.id})
-
             rescue
-              byebug
-              raise "Could not find descriptor at cell #{(65+level_i).chr}, #{row_i}: #{sheet.cell(row_i, level_i + 1)}"
+              raise "Improper descriptor at cell #{(65+level_i).chr}, #{row_i}: #{sheet.cell(row_i, level_i + 1)}"
             end # error handling
+
+            begin
+              StudentScore.create!({:student_id => stu.id,
+                :item_level_id => level.id,
+                :scored_at => time_graded
+              })
+            rescue => e
+              raise "Error at row #{row_i}: " + e.message
+            end
+            score_count += 1
 
           end # item levels loop
 
+          student_count += 1
         end # records loop
 
       end # transaction
-
+      return student_count, score_count
     end # import_moodle
 
     private
