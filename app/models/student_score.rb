@@ -21,18 +21,27 @@ class StudentScore < ApplicationRecord
     validates :student_id,
       :presence => true,
       :uniqueness => {
-        :message => "Duplicate record: student has already been scored for this item at this time",
+        :message => "Duplicate record: student has already been scored for this item with this time stamp.",
         :scope => [:scored_at, :item_level_id]
       }
 
-    def self.import_setup(file, format)
+    def self.format_types
+      return [:moodle, :qualtrics]
+    end
+
+    def self.import_setup(file, format, assessment)
       # dispatch file to right method here
-      self.send("import_#{format}", file)
+        # file: the file to improt
+        # format: which format the file is in (example: moodle)
+        # assessment (AR object) the assessment this data is being imported for
+
+      self.send("import_#{format}", file, assessment)
 
     end
 
-    def self.import_moodle(file)
+    def self.import_moodle(file, assessment)
       # file: a spreadsheet of records from moodle
+      # assessment (AR object) the assessment this data is being imported for
       # post:
         # records are imported
         # returns count of students and scores imported
@@ -58,12 +67,12 @@ class StudentScore < ApplicationRecord
             raise "Could not find student at row #{row_i}: #{name}"
           end
 
-          
+
           begin
             time_graded_str = sheet.cell(row_i, headers.size) # example Tuesday, September 20, 2016, 10:37 AM
             time_graded = DateTime.strptime(time_graded_str, "%A, %B %e, %Y, %l:%M %P") # assumes blank padded date and hour
           rescue
-            raise "Improper date at row #{row_i}"
+            raise "Improper timestamp at row #{row_i}"
           end
 
           # index of each item_level definition
@@ -72,7 +81,7 @@ class StudentScore < ApplicationRecord
 
             # create student scores, assemble array of results for each
             begin
-              level = ItemLevel.find_by! :descriptor =>  sheet.cell(row_i, level_i + 1)
+              level = assessment.item_levels.find_by! :descriptor =>  sheet.cell(row_i, level_i + 1)
             rescue
               raise "Improper descriptor at cell #{(65+level_i).chr}, #{row_i}: #{sheet.cell(row_i, level_i + 1)}"
             end # error handling

@@ -21,6 +21,6 @@ FactoryGirl.define do
   factory :student_score do
     student
     item_level
-    scored_at Date.today
+    scored_at { Faker::Date.between(2.days.ago, Date.today) }
   end
 end

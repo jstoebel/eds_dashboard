@@ -33,6 +33,23 @@ class AssessmentItemTest < ActiveSupport::TestCase
       assess_item.errors.messages
   end
 
+  describe "unique within assessment" do
+
+    [:name, :description].each do |attr|
+      test attr do
+
+        first_item = FactoryGirl.create :assessment_item
+        second_item = FactoryGirl.build :assessment_item, first_item.attributes
+
+        assert_not second_item.valid?
+        assert_equal ["An item with that #{attr} already exists for this assessment"],
+          second_item.errors[attr]
+
+      end
+    end
+
+  end
+
   test "Sorted scope" do
     num_item = 3
     items = FactoryGirl.create_list(:assessment_item, num_item)

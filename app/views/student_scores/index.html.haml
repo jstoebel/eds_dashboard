@@ -9,4 +9,8 @@
     = select_tag :format, options_for_select(@format_types), class: "form-control", id: "format"
 
   .form-group
+    %label{:for => :assessment} Assessment
+    = select_tag :assessment, options_for_select(@assessments), class: "form-control", id: "assessment"
+
+  .form-group
     = submit_tag "Import CSV"

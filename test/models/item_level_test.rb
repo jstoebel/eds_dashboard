@@ -70,4 +70,21 @@ class ItemLevelTest < ActiveSupport::TestCase
     il = FactoryGirl.create :item_level
     assert_equal il.descriptor, il.repr
   end
+
+  describe "unique within assessment_item" do
+
+    [:descriptor, :level, :ord].each do |attr|
+      test attr do
+
+        first_item = FactoryGirl.create :item_level
+        second_item = FactoryGirl.build :item_level, first_item.attributes
+
+        assert_not second_item.valid?
+        assert_equal ["A level with that #{attr} already exists for this assessment_item"],
+          second_item.errors[attr]
+
+      end
+    end
+
+  end
 end

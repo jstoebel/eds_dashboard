@@ -26,7 +26,24 @@ class ItemLevel < ApplicationRecord
     has_many :student_scores
 
     validates_presence_of :descriptor, :level, :assessment_item_id
-    validates_uniqueness_of :ord, scope: :assessment_item_id
+
+    validates :descriptor,
+      :uniqueness => {
+        :message => "A level with that descriptor already exists for this assessment_item",
+        :scope => [:assessment_item_id]
+    }
+
+    validates :level,
+      :uniqueness => {
+        :message => "A level with that level already exists for this assessment_item",
+        :scope => [:assessment_item_id]
+    }
+
+    validates :ord,
+      :uniqueness => {
+        :message => "A level with that ord already exists for this assessment_item",
+        :scope => [:assessment_item_id]
+    }
 
     scope :sorted, lambda {order(:ord => :asc)}
 
