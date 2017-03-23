@@ -77,15 +77,22 @@ module PopulateHelper
           :course_code => "EDS227",
           :banner_term => prev_standard_terms[-1]
       }
-
+      
+      FactoryGirl.create :transcript, {
+          :student => stu,
+          :course_code => "EDS228",
+          :banner_term => prev_standard_terms[-1]
+      }
+      
       pop_praxisI stu, date_apply - 30, praxis_pass
 
-      app_attrs.each do |i|
-        i.save
+      app_attrs.each do |app|
+        app.save
+        byebug if !app.valid?
         if !admit == false
             adm_file = AdmFile.create!({
-                :adm_tep_id => i.id,
-                :student_file => (FactoryGirl.create :student_file, {:student => i.student})
+                :adm_tep_id => app.id,
+                :student_file => (FactoryGirl.create :student_file, {:student => app.student})
             })
         end
       end
