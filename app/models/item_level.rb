@@ -35,7 +35,7 @@ class ItemLevel < ApplicationRecord
 
     validates :level,
       :uniqueness => {
-        :message => "A level with that level already exists for this assessment_item",
+        :message => "A level with that level number already exists for this assessment_item",
         :scope => [:assessment_item_id]
     }
 
