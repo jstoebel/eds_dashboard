@@ -58,17 +58,15 @@ class StudentScore < ApplicationRecord
       student_count = 0
       score_count = 0
       self.transaction do
-
         (headers_i + 1..sheet.count).each do |row_i|
 
           # identify the student
           begin
-            stu = Student.find_by! :Bnum => sheet.cell(row_i, 'c' )
+            stu = Student.find_by! :Bnum => sheet.cell(row_i, 3 )
           rescue
-            name = ('a'..'b').map{ |ltr| sheet.cell(ltr, row_i) }.join(' ')
+            name = (1..2).map{ |col| sheet.cell(row_i, col) }.join(' ')
             raise "Could not find student at row #{row_i}: #{name}"
           end
-
 
           begin
             time_graded_str = sheet.cell(row_i, headers.size) # example Tuesday, September 20, 2016, 10:37 AM
@@ -85,7 +83,7 @@ class StudentScore < ApplicationRecord
             begin
               level = assessment.item_levels.find_by! :descriptor =>  sheet.cell(row_i, level_i + 1)
             rescue
-              raise "Improper descriptor at cell #{(65+level_i).chr}, #{row_i}: #{sheet.cell(row_i, level_i + 1)}"
+              raise "Improper descriptor at cell #{(65+level_i).chr}#{row_i}: #{sheet.cell(row_i, level_i + 1)}"
             end # error handling
 
             begin
