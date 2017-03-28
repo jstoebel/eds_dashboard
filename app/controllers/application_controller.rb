@@ -115,7 +115,6 @@ class ApplicationController < ActionController::Base
     else
       @term = @current_term   #if no params passed, the term to render is current term
     end
-
     @menu_terms = BannerTerm.all.joins(table_name).group(term_col)
 
   end

@@ -4,6 +4,7 @@ class HelpsController < ApplicationController
   # 1) add a .html.md file to app/views/helps. Prepend an `_` to the begning of the file
     # example: _spam.html.md
   # That's it!
+  # all help files are found at /help or /help/<file_name>
 
   def home
     base_path = 'app/views/helps'

@@ -58,34 +58,23 @@ module PopulateHelper
         praxis_pass = false #fail praxis
       end
 
-      pop_transcript stu, 12, gpa, term.StartDate - 200, term.EndDate
+      pop_transcript stu, 12, gpa, term.prev_term(exclusive = true).StartDate - 200, term.prev_term(exclusive = true).EndDate
 
       # give student 150 2 terms ago and 227 1 term ago
 
       this_term = BannerTerm.current_term(:exact => false, :plan_b => :forward)
       prev_standard_terms = BannerTerm.where("BannerTerm < ?", this_term.id)
         .where({:standard_term => true})
-
-      FactoryGirl.create :transcript, {
-          :student => stu,
-          :course_code => "EDS150",
-          :banner_term => prev_standard_terms[-2]
-      }
-
-      FactoryGirl.create :transcript, {
-          :student => stu,
-          :course_code => "EDS227",
-          :banner_term => prev_standard_terms[-1]
-      }
-
+      
       pop_praxisI stu, date_apply - 30, praxis_pass
 
-      app_attrs.each do |i|
-        i.save
+      app_attrs.each do |app|
+        app.save
+        byebug if !app.valid?
         if !admit == false
             adm_file = AdmFile.create!({
-                :adm_tep_id => i.id,
-                :student_file => (FactoryGirl.create :student_file, {:student => i.student})
+                :adm_tep_id => app.id,
+                :student_file => (FactoryGirl.create :student_file, {:student => app.student})
             })
         end
       end
@@ -122,7 +111,7 @@ module PopulateHelper
         })
       }
 
-      courses = course_terms.map {|term| FactoryGirl.build(:transcript, {
+      courses = course_terms.slice(0, 9).map {|term| FactoryGirl.build(:transcript, {
           :student_id => stu.id,
           :credits_attempted => 4.0,
           :credits_earned => 4.0,
@@ -132,6 +121,32 @@ module PopulateHelper
           :grade_ltr => Transcript.g_to_l(grade_pt)
         })
       }
+      ["EDS150", "EDS227", "EDS228"].map {|course_code| FactoryGirl.create :transcript, {
+          :student => stu,
+          :grade_pt => grade_pt,
+          :course_code => course_code,
+          :banner_term => course_terms[-1]
+        }
+      }
+      
+      # FactoryGirl.create :transcript, {
+      #     :student => stu,
+      #     :course_code => "EDS150",
+      #     :banner_term => course_terms[-2]
+      # }
+
+      # FactoryGirl.create :transcript, {
+      #     :student => stu,
+      #     :course_code => "EDS227",
+      #     :banner_term => course_terms[-1]
+      # }
+      
+      # FactoryGirl.create :transcript, {
+      #     :student => stu,
+      #     :course_code => "EDS228",
+      #     :banner_term => course_terms[-1]
+      # }
+
 
       courses.each { |i| i.save}
 
