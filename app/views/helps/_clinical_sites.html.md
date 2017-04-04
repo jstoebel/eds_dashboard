@@ -6,7 +6,7 @@ To create/edit/delete a clinical site see the directions below.
 ***
 
 ### Getting to the Clinical Site's Page
-1. First click on the Field Experience tab at the top of the page. It will lead to a dropdown menu. In this dropdown menu, click on the Clinical Teacher tab.
+1. First click on the Field Experience tab at the top of the page. It will lead to a drop down menu. In this drop down menu, click on the Clinical Teacher tab.
 
     ![Field Experience Tab](/help_images/clinical_teachers/advisor_nav_bar.JPG)
 
@@ -18,7 +18,7 @@ To create/edit/delete a clinical site see the directions below.
 
 ***
 ### Creating a Clinical Site
-To create a new Clincial Site, select the Add New Site located at the top of the Clinical Sites master list.
+To create a new Clinical Site, select the Add New Site located at the top of the Clinical Sites master list.
 
    ![Add New Button](/help_images/clinical_sites/add_new_site_button.JPG)
 
@@ -32,8 +32,8 @@ This will reroute back to the Clinical Site main page and a message will be disp
 
 ***
 ### Editing a Clinical Site
-To edit a Clincal Site, first locate the site to be editted and select the actions button located next to the District column.
-This will lead to a dropdown menu, select Edit from the dropdown menu.
+To edit a Clinical Site, first locate the site to be edited and select the actions button located next to the District column.
+This will lead to a drop down menu, select Edit from the drop down menu.
 
    ![Actions Tab](/help_images/clinical_sites/action_drop_down.JPG)
 

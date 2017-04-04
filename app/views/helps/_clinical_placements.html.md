@@ -6,7 +6,7 @@ To create/edit/delete a clinical placement see the directions below.
 ***
 
 ### Getting to the Clinical Placement's Page
-1. First click on the Field Experience tab at the top of the page. It will lead to a dropdown menu. In this dropdown menu, click on the Clinical Placements tab.
+1. First click on the Field Experience tab at the top of the page. It will lead to a drop down menu. In this drop down menu, click on the Clinical Placements tab.
 
     ![Field Experience Tab](/help_images/clinical_teachers/advisor_nav_bar.JPG)
 
@@ -18,7 +18,7 @@ To create/edit/delete a clinical placement see the directions below.
 
 ***
 ### Creating a Clinical Placement
-To create a new Clinical Placement, first select the New Assignment button located at the top of the clincial placement list.
+To create a new Clinical Placement, first select the New Assignment button located at the top of the clinical placement list.
 
 &nbsp;
 
@@ -26,7 +26,7 @@ To create a new Clinical Placement, first select the New Assignment button locat
 
 &nbsp;
 
-This will redirect to a page to add a new clincial assignment to the database. Here you will provide information relating to the clinical assignment.
+This will redirect to a page to add a new clinical assignment to the database. Here you will provide information relating to the clinical assignment.
 Once that has been done, select Create Assignment.
 
   ![New Clinical Placement Form](/help_images/clinical_placements/clinical_assigment_create.JPG)
@@ -68,7 +68,7 @@ To delete a Clinical Placement, select the trash can icon located next to the Ed
 
 &nbsp;
 
-Once pressed, a popup window will ask if you are sure you want to delete the selected clinical assignment.
+Once pressed, a pop-up window will ask if you are sure you want to delete the selected clinical assignment.
 
 &nbsp;
 
@@ -76,7 +76,7 @@ Once pressed, a popup window will ask if you are sure you want to delete the sel
 
 &nbsp;
 
-Pressing OK, will commence the deletion procress. It will lead back to the main clincial placement page and a message will be displayed on the successful completion of the chosen deletion.
+Pressing OK, will commence the deletion process. It will lead back to the main clinical placement page and a message will be displayed on the successful completion of the chosen deletion.
 
 &nbsp;
 
