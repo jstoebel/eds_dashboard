@@ -205,6 +205,7 @@ GEM
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     nori (2.6.0)
+    orphanage (0.3.0)
     paperclip (4.3.7)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -412,6 +413,7 @@ DEPENDENCIES
   mocha
   mysql2 (~> 0.3.18)
   nokogiri (~> 1.6, >= 1.6.8)
+  orphanage (~> 0.3.0)
   paperclip (~> 4.3)
   phony_rails
   pry-byebug

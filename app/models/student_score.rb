@@ -103,6 +103,38 @@ class StudentScore < ApplicationRecord
       return student_count, score_count
     end # import_moodle
 
+    def self.import_qualtrics(file, assessment)
+
+      xml = File.open(file.path) { |f| Nokogiri::XML(f) }
+
+      responses = xml.xpath("//Response")
+
+      responses.each do |resp|
+        binding.pry
+        full_name = resp.at_xpath("//QID56_2").text
+
+        # get all nodes that have text contaning Accomplished
+        # items = resp.xpath("//*[contains(text(), 'Accomplished')]")
+
+
+
+        qry = Student.with_name full_name
+        possible_matches = Student.joins(:last_names).where(qry)
+        if possible_matches.andand.size == 1
+          stu = possible_matches.first
+          StudentScore.create!({:student_id => stu.id,
+            # TODO
+          })
+        else
+
+        end
+
+
+        # student full name is at QID56_2
+      end
+
+    end # self.import_qualtrics
+
     private
     def self.find_headers_index(sheet, evidence)
       # finds the headers row of a sheet and returns the index

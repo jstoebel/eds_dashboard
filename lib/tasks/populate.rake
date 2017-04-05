@@ -39,6 +39,8 @@ namespace :db do
 
     dispositions = FactoryGirl.create_list :disposition, 10
 
+    assessments = FactoryGirl.create_list :assessment, 5
+
     puts "creating data for students..."
     students.each do |s|
 

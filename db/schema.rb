@@ -425,9 +425,20 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_78ba6603b4", using: :btree
   end
 
-  create_table "student_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "student_id"
-    t.integer  "item_level_id"
+  add_index "student_files", ["student_id"], name: "fk_rails_78ba6603b4", using: :btree
+
+  create_table "student_score_temps", force: :cascade do |t|
+    t.integer  "student_id",    limit: 4
+    t.integer  "item_level_id", limit: 4
+    t.datetime "scored_at"
+    t.string   "full_name",     limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "student_scores", force: :cascade do |t|
+    t.integer  "student_id",    limit: 4
+    t.integer  "item_level_id", limit: 4
     t.datetime "scored_at"
     t.datetime "created_at"
     t.datetime "updated_at"
