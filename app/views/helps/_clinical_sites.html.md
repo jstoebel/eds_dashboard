@@ -8,9 +8,9 @@ To create/edit/delete a clinical site see the directions below.
 ### Getting to the Clinical Site's Page
 1. First click on the Field Experience tab at the top of the page. It will lead to a drop down menu. In this drop down menu, click on the Clinical Teacher tab.
 
-    ![Field Experience Tab](/help_images/clinical_teachers/advisor_nav_bar.JPG)
+    ![Field Experience Tab](/help_images/clinical_sites/advisor_nav_bar.JPG)
 
-    ![Field Experience Dropdown Menu](/help_images/clinical_teachers/field_exp_drop_down.JPG)
+    ![Field Experience Dropdown Menu](/help_images/clinical_sites/sites_drop_down.JPG)
 
 2. You will be presented with a list of clinical sites that are within the database.
   

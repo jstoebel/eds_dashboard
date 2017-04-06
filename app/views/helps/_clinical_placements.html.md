@@ -8,9 +8,9 @@ To create/edit/delete a clinical placement see the directions below.
 ### Getting to the Clinical Placement's Page
 1. First click on the Field Experience tab at the top of the page. It will lead to a drop down menu. In this drop down menu, click on the Clinical Placements tab.
 
-    ![Field Experience Tab](/help_images/clinical_teachers/advisor_nav_bar.JPG)
+    ![Field Experience Tab](/help_images/clinical_placements/advisor_nav_bar.JPG)
 
-    ![Field Experience Dropdown Menu](/help_images/clinical_teachers/field_exp_drop_down.JPG)
+    ![Field Experience Dropdown Menu](/help_images/clinical_placements/placements_drop_down.JPG)
     
 2. You will be presented with a list of student clinical assignments that are within the database. The system lists are arranged alphabetically by the student's last name. Here you will be presented with a scroll down menu where you can select a term.
 
@@ -22,7 +22,7 @@ To create a new Clinical Placement, first select the New Assignment button locat
 
 &nbsp;
 
-  ![New Clinical Placement](/help_images/clinical_placements/clinical_assigment_all.JPG)
+  ![New Clinical Placement](/help_images/clinical_placements/new_assignment_button.JPG)
 
 &nbsp;
 
@@ -41,7 +41,7 @@ To edit a Clinical Placement, select the Edit button located next to the End Dat
 
 &nbsp;
 
-  ![Edit Button](/help_images/clinical_placements/clinical_assigment_edit.JPG)
+  ![Edit Button](/help_images/clinical_placements/clinical_assigment_edit_button.JPG)
 
 &nbsp;
 
@@ -64,7 +64,7 @@ To delete a Clinical Placement, select the trash can icon located next to the Ed
 
 &nbsp;
 
-  ![Locate Delete](/help_images/clinical_placements/clinical_assigment_all.JPG)
+  ![Locate Delete](/help_images/clinical_placements/clinical_assigment_delete_button.JPG)
 
 &nbsp;
 

@@ -10,7 +10,7 @@ To create/edit/delete a clinical teacher see the directions below.
 
     ![Field Experience Tab](/help_images/clinical_teachers/advisor_nav_bar.JPG)
 
-    ![Field Experience Dropdown Menu](/help_images/clinical_teachers/field_exp_drop_down.JPG)
+    ![Field Experience Dropdown Menu](/help_images/clinical_teachers/teachers_drop_down.JPG)
 
 2. You will be presented with a list of teachers that are within the database. The system lists are arranged alphabetically by the teacher's last name.
 
