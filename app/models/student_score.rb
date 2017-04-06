@@ -104,34 +104,92 @@ class StudentScore < ApplicationRecord
     end # import_moodle
 
     def self.import_qualtrics(file, assessment)
+      # assumptions of all qualtrics assessments:
+        # scores are provided in CSV format
+        # the student's Bnum will not be provided
+        # the field containing the student's name will vary by assessment.
+          # but they will all contain the string "Student Full Name"
+        # exactly one column will contain the string "Student Full Name"
 
-      xml = File.open(file.path) { |f| Nokogiri::XML(f) }
+      spreadsheet = Roo::Spreadsheet.open(file)
+      sheet = spreadsheet.sheet(0)
 
-      responses = xml.xpath("//Response")
+      first_headers_row = sheet.row(1)
+      second_headers_row = sheet.row(2)
 
-      responses.each do |resp|
-        binding.pry
-        full_name = resp.at_xpath("//QID56_2").text
+      # use select to ensure that exactly one column will fit our criteria
+      # use find_index to see what index that column is at
 
-        # get all nodes that have text contaning Accomplished
-        # items = resp.xpath("//*[contains(text(), 'Accomplished')]")
-
+      name_col_count =  second_headers_row.select{|h| (h =~ /Student Full Name/).present? }.size
 
 
-        qry = Student.with_name full_name
-        possible_matches = Student.joins(:last_names).where(qry)
-        if possible_matches.andand.size == 1
-          stu = possible_matches.first
-          StudentScore.create!({:student_id => stu.id,
-            # TODO
-          })
+      if name_col_count != 1
+        if name_col_count == 0
+          problem = "Could not identify the column containing student names."
         else
-
+          problem = "More than one column found that could contain student names. "
         end
 
-
-        # student full name is at QID56_2
+        raise problem + 'Ensure exactly one column (and no more) contains the string "Student Full Name"'
       end
+
+      name_col_i = second_headers_row.find_index { |i| /Student Full Name/ =~ i } # 0 based
+      recorded_at_col_i = second_headers_row.find_index { |i| /RecordedDate/ =~ i }
+
+      # array of arrays
+        # each inner array: [assessment_item (AR object), col index (0 based)]
+      item_levels_mapping = second_headers_row
+        .each_with_index
+        .map{|item, i| [(AssessmentItem.find_by :name => item), i ]}
+        .select{|item, i| item.present?}
+
+      # find which row the data starts on
+
+      student_count = 0
+      confirmed_scores = 0
+      temp_scores = 0
+      strptime_pattern = "%Y-%m-%d %H:%M:%S"
+      self.transaction do
+        sheet.each.with_index(2) do |row|
+          # starting at row 3. We can safly assume the first two rows are headers
+
+          # test: the value in the first column should be a valid date. otherwise
+          # its a junk row
+          begin
+            DateTime.strptime row[0], strptime_pattern
+          rescue ArgumentError
+            # not a row with data
+            next
+          end # error handle
+
+          student_count += 1
+          full_name = row[name_col_i]
+          binding.pry
+          recorded_at = DateTime.strptime row[recorded_at_col_i], strptime_pattern # FIXME
+
+          qry = Student.with_name full_name
+          possible_matches = Student.joins(:last_names).where(qry)
+
+          item_levels_mapping.each do |item|
+            item_level = ItemLevel.find_by! :descriptor => row[item[1]]
+
+            if possible_matches == 1
+              self.create!({:student_id => possible_matches.first.id,
+                :item_level_id => item_level.id,
+                :scored_at => recorded_at
+              })
+              confirmed_scores += 1
+            else
+              StudentScoreTemp.create!({:full_name => full_name,
+                :scored_at => recorded_at
+              })
+              temp_scores += 1
+            end # if
+
+          end # item_levels loop
+        end # sheet loop
+      end # transaction
+      return "Successfully imported #{pluralize student_count, 'student'}, #{pluralize confirmed_scores 'matched score'}, #{pluralize temp_scores, 'unmatched score'}"
 
     end # self.import_qualtrics
 

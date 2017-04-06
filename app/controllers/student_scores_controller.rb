@@ -20,13 +20,16 @@ class StudentScoresController < ApplicationController
     # TODO: need the ability to distinguish between different assessments.
     # user can provide the assessment name
     begin
-      student_count, score_count = StudentScore.import_setup params[:file], params[:format], assessment
-      flash[:notice] = "Successfully imported #{pluralize score_count, 'score'}, #{pluralize student_count, 'student'}"
+      msg = StudentScore.import_setup params[:file], params[:format], assessment
+      flash[:notice] = msg
     rescue => e
+      puts "*"*50
+      puts e.backtrace
+      puts "*"*50
       flash[:notice] = "Error encountered. All imports rolled back." + e.message
     end
     redirect_to student_scores_path
-    
+
   end
 
 end
