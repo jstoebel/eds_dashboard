@@ -116,6 +116,25 @@ class IssueTest < ActiveSupport::TestCase
         :created_at => issue.issue_updates.last.created_at + 10}
     assert_equal second_update, issue.current_status
   end
+  
+  test "current_status with hidden update" do
+    # create an issue with two updates, the first visible and the second
+    # not visible. assert that the second (while created later) is not the current_status
+    issue = FactoryGirl.create :issue
+    second_update = FactoryGirl.create :issue_update,
+      { :Issues_IssueID => issue.id,
+        :created_at => issue.issue_updates.last.created_at + 8,
+        :visible => true
+      }
+    third_update = FactoryGirl.create :issue_update,
+      { :Issues_IssueID => issue.id,
+        :created_at => issue.issue_updates.last.created_at + 10,
+        :visible => false
+      }
+    
+    assert_equal second_update, issue.current_status
+  
+  end
 
   test "resolved and open ok with no updates" do
     issue = FactoryGirl.create :issue

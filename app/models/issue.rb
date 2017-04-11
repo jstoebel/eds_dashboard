@@ -37,7 +37,7 @@ class Issue < ActiveRecord::Base
 		:presence => { message: "Could not find an advisor profile for this user."}
 
 	def resolved?
-		return self.issue_updates.order(:created_at).last.andand.resolves?
+		return self.current_status.andand.resolves?
 	end
 
 	def open?
@@ -45,7 +45,10 @@ class Issue < ActiveRecord::Base
 	end
 
 	def current_status
-		return self.issue_updates.order(:created_at).last
+		return self.issue_updates
+						.order(:created_at)
+						.where(:visible => true)
+						.last
 	end
 
 	private
