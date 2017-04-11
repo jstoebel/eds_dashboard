@@ -204,7 +204,7 @@ class AdmTep < ActiveRecord::Base
 
         raise NotImplementedError
     else
-      # secondary
+      # middle/secondary
       second_course = "EDS228"
     end
 
@@ -213,6 +213,7 @@ class AdmTep < ActiveRecord::Base
                     .where({:course_code => second_course})
                     .where("grade_pt >= ?", 2.7)
                     .present?
+    
 
     return passed_150 && passed_second
 

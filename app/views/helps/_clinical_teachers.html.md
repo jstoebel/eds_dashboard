@@ -6,11 +6,11 @@ To create/edit/delete a clinical teacher see the directions below.
 ***
 
 ### Getting to the Clinical Teacher's Page
-1. First click on the Field Experience tab at the top of the page. It will lead to a dropdown menu. In this dropdown menu, click on the Clinical Teacher tab.
+1. First click on the Field Experience tab at the top of the page. It will lead to a drop down menu. In this drop down menu, click on the Clinical Teacher tab.
 
     ![Field Experience Tab](/help_images/clinical_teachers/advisor_nav_bar.JPG)
 
-    ![Field Experience Dropdown Menu](/help_images/clinical_teachers/field_exp_drop_down.JPG)
+    ![Field Experience Dropdown Menu](/help_images/clinical_teachers/teachers_drop_down.JPG)
 
 2. You will be presented with a list of teachers that are within the database. The system lists are arranged alphabetically by the teacher's last name.
 
@@ -18,7 +18,7 @@ To create/edit/delete a clinical teacher see the directions below.
 
 ***
 ### Creating a Clinical Teacher
-To create a new Clinical Teacher, first select the Add New Clinical Teacher button located at the top of the clincial teacher list.
+To create a new Clinical Teacher, first select the Add New Clinical Teacher button located at the top of the clinical teacher list.
 
 &nbsp;
 
@@ -31,7 +31,7 @@ Here you will have to provide the teacher's credentials and information before t
 
 Once that has been done press Add Teacher located at the bottom of the form.
 
-  ![Add Teacher Page](/help_images/clinical_teachers/add_clinical_teacher.JPG)
+  ![Add Teacher Page](/help_images/clinical_teachers/add_teacher_button.JPG)
 
 &nbsp;
 
@@ -53,7 +53,7 @@ To edit a Clinical Teacher, select the edit button located on the right of scree
 &nbsp;
 
 You will be redirected to the selected teacher's page to edit the form.
-Once completed, select the Update Teacher button at the botton of the page.
+Once completed, select the Update Teacher button at the bottom of the page.
 &nbsp;
 
   ![Edit Teacher Info](/help_images/clinical_teachers/edit_clinical_teacher.JPG)
