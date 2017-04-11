@@ -110,6 +110,8 @@ class StudentScore < ApplicationRecord
         # the field containing the student's name will vary by assessment.
           # but they will all contain the string "Student Full Name"
         # exactly one column will contain the string "Student Full Name"
+        # the date recorded will be called RecordedDate. If there is more than
+          # one such named column the first one will be used
 
       spreadsheet = Roo::Spreadsheet.open(file)
       sheet = spreadsheet.sheet(0)
@@ -122,7 +124,6 @@ class StudentScore < ApplicationRecord
 
       name_col_count =  second_headers_row.select{|h| (h =~ /Student Full Name/).present? }.size
 
-
       if name_col_count != 1
         if name_col_count == 0
           problem = "Could not identify the column containing student names."
@@ -134,7 +135,9 @@ class StudentScore < ApplicationRecord
       end
 
       name_col_i = second_headers_row.find_index { |i| /Student Full Name/ =~ i } # 0 based
-      recorded_at_col_i = second_headers_row.find_index { |i| /RecordedDate/ =~ i }
+
+      # RecordedDate
+      recorded_at_col_i = first_headers_row.find_index { |i| i == "RecordedDate"}
 
       # array of arrays
         # each inner array: [assessment_item (AR object), col index (0 based)]
@@ -153,7 +156,7 @@ class StudentScore < ApplicationRecord
         sheet.each.with_index(2) do |row|
           # starting at row 3. We can safly assume the first two rows are headers
 
-          # test: the value in the first column should be a valid date. otherwise
+          # test that the value in the first column should be a valid date. otherwise
           # its a junk row
           begin
             DateTime.strptime row[0], strptime_pattern
@@ -164,15 +167,15 @@ class StudentScore < ApplicationRecord
 
           student_count += 1
           full_name = row[name_col_i]
-          binding.pry
-          recorded_at = DateTime.strptime row[recorded_at_col_i], strptime_pattern # FIXME
+          recorded_at = DateTime.strptime row[recorded_at_col_i], strptime_pattern
 
           qry = Student.with_name full_name
           possible_matches = Student.joins(:last_names).where(qry)
 
           item_levels_mapping.each do |item|
-            item_level = ItemLevel.find_by! :descriptor => row[item[1]]
+            item_level = ItemLevel.find_by :descriptor => row[item[1]]
 
+            binding.pry if item_level.nil?
             if possible_matches == 1
               self.create!({:student_id => possible_matches.first.id,
                 :item_level_id => item_level.id,
