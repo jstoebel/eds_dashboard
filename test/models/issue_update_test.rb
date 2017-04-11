@@ -154,5 +154,14 @@ class IssueUpdateTest < ActiveSupport::TestCase
 		end
 
 	end
+	
+	test "status_color" do
+		# TODO
+		# assert what status color should be
+		issue = FactoryGirl.create :issue_update, {:status => "progressing"}
+		assert_equal issue.status_color, :warning
+		
+	
+	end
 
 end
