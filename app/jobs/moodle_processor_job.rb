@@ -1,4 +1,5 @@
 class MoodleProcessorJob < ActiveJob::Base
+  include StudentScoresHelper
   queue_as :default
 
   def perform(file_path, assessment)
@@ -80,4 +81,5 @@ class MoodleProcessorJob < ActiveJob::Base
     end # exception handle
 
   end
+  handle_asynchronously :perform
 end

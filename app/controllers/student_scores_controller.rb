@@ -40,6 +40,19 @@ class StudentScoresController < ApplicationController
 
     redirect_to student_scores_path
 
+    # # process the file. Should return an array containing results of
+    # # processing each record
+    #
+    # # TODO: need the ability to distinguish between different assessments.
+    # # user can provide the assessment name
+    # begin
+    #   msg = StudentScore.import_setup params[:file], params[:format], assessment
+    #   flash[:notice] = msg
+    # rescue => e
+    #   flash[:notice] = "Error encountered. All imports rolled back." + e.message
+    # end
+    # redirect_to student_scores_path
+
   end
 
 end
