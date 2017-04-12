@@ -96,3 +96,5 @@ gem "browser"
 gem 'rubocop', require: false
 
 gem 'orphanage', '~> 0.3.0'
+gem 'delayed_job_active_record'
+gem 'daemons'

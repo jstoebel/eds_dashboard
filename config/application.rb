@@ -37,5 +37,7 @@ module Eds
       :enable_starttls_auto => true
     }
 
+    Rails.application.config.active_job.queue_adapter = :delayed_job
+
   end
 end

@@ -3,6 +3,8 @@ class CreateStudentScoreUploads < ActiveRecord::Migration
     create_table :student_score_uploads do |t|
 
       t.string :source # qualtrics, moodle, etc
+      t.boolean :success
+      t.text :message
       t.timestamps null: false
     end
 
