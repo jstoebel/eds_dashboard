@@ -1,0 +1,10 @@
+= form_for @student_score_upload do |f|
+  - if @student_score_upload.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@student_score_upload.errors.count, "error")} prohibited this student_score_upload from being saved:"
+      %ul
+        - @student_score_upload.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'

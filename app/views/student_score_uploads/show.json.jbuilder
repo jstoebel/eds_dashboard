@@ -1,0 +1,1 @@
+json.partial! "student_score_uploads/student_score_upload", student_score_upload: @student_score_upload

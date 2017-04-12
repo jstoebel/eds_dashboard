@@ -428,25 +428,37 @@ ActiveRecord::Schema.define(version: 20170711195858) do
   add_index "student_files", ["student_id"], name: "fk_rails_78ba6603b4", using: :btree
 
   create_table "student_score_temps", force: :cascade do |t|
-    t.integer  "student_id",    limit: 4
-    t.integer  "item_level_id", limit: 4
+    t.integer  "student_id",              limit: 4
+    t.integer  "item_level_id",           limit: 4
     t.datetime "scored_at"
-    t.string   "full_name",     limit: 255
+    t.string   "full_name",               limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "student_score_upload_id", limit: 4
+  end
+
+  add_index "student_score_temps", ["student_score_upload_id"], name: "fk_rails_96a8917b0f", using: :btree
+
+  create_table "student_score_uploads", force: :cascade do |t|
+    t.string   "source",     limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "student_scores", force: :cascade do |t|
-    t.integer  "student_id",    limit: 4
-    t.integer  "item_level_id", limit: 4
+    t.integer  "student_id",              limit: 4
+    t.integer  "item_level_id",           limit: 4
     t.datetime "scored_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["item_level_id"], name: "index_student_scores_on_item_level_id", using: :btree
-    t.index ["student_id"], name: "index_student_scores_on_student_id", using: :btree
+    t.integer  "student_score_upload_id", limit: 4
   end
 
-  create_table "students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  add_index "student_scores", ["item_level_id"], name: "index_student_scores_on_item_level_id", using: :btree
+  add_index "student_scores", ["student_id"], name: "index_student_scores_on_student_id", using: :btree
+  add_index "student_scores", ["student_score_upload_id"], name: "fk_rails_12c700da29", using: :btree
+
+  create_table "students", force: :cascade do |t|
     t.string  "Bnum",                    limit: 9,     null: false
     t.string  "FirstName",               limit: 45,    null: false
     t.string  "PreferredFirst",          limit: 45
@@ -573,6 +585,8 @@ ActiveRecord::Schema.define(version: 20170711195858) do
   add_foreign_key "prog_exits", "programs", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "students"
   add_foreign_key "student_files", "students"
+  add_foreign_key "student_score_temps", "student_score_uploads"
+  add_foreign_key "student_scores", "student_score_uploads"
   add_foreign_key "students", "banner_terms", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_graduated", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_major", primary_key: "BannerTerm"

@@ -135,6 +135,7 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
+  resources :student_score_uploads
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   resources :praxis_results, only: [:new, :create]
