@@ -1,5 +1,4 @@
 class QualtricsProcessorJob < ActiveJob::Base
-  include StudentScoresHelper
   queue_as :default
 
   def perform(file_path, assessment)
