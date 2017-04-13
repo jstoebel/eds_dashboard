@@ -1,9 +1,7 @@
 class QualtricsProcessorJob < ActiveJob::Base
-  include StudentScoresHelper
   queue_as :default
 
   def perform(file_path, assessment)
-    # Do something later
 
     # assumptions of all qualtrics assessments:
       # scores are provided in CSV format
@@ -112,8 +110,10 @@ class QualtricsProcessorJob < ActiveJob::Base
     rescue => e
       # all scores are rolled back, but keep report to display error messsage
       report.update_attributes!({:success => false, :message => e.message})
-    end
 
+    ensure
+      FileUtils.rm file_path # clean up the file
+    end
 
   end # perform
 end

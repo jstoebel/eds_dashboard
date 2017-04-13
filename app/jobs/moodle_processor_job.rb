@@ -1,5 +1,4 @@
 class MoodleProcessorJob < ActiveJob::Base
-  include StudentScoresHelper
   queue_as :default
 
   def perform(file_path, assessment)
@@ -71,6 +70,9 @@ class MoodleProcessorJob < ActiveJob::Base
       report.update_attributes!({:success => true, :message => msg})
     rescue => e
       report.update_attributes!({:success => false, :message => e.message})
+
+    ensure
+      FileUtils.rm file_path # clean up the file
     end # exception handle
 
   end

@@ -10,12 +10,17 @@ class StudentScoresController < ApplicationController
   def import
     # process a file
     file = params[:file]
+
+    # move the attached file so it will remain when the request finishes.
+    persisted_path = "tmp/#{file.original_filename}"
+    FileUtils.copy_file file.path, persisted_path
+
     file_format = params[:format]
     assessment = Assessment.find_by! :name => params[:assessment]
     "#{file_format.capitalize}ProcessorJob"
       .constantize
-      .set(queue: 'urgent', wait: 5.seconds)
-      .perform_now file.path, assessment
+      .delay
+      .perform_now persisted_path, assessment
 
     flash[:notice] = "File recieved for processing. We'll post the results here when its done."
     redirect_to student_scores_path

@@ -1,4 +1,5 @@
 module StudentScoresHelper
+
   def self.find_headers_index(sheet, evidence)
     # finds the headers row of a sheet and returns the index
     # defined as the row where the first cell is "First name"
