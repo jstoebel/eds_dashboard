@@ -80,9 +80,9 @@ class QualtricsProcessorJob < ActiveJob::Base
           possible_matches = Student.joins(:last_names).where(qry)
 
           item_levels_mapping.each do |item|
-
+  
             descriptor = StudentScoresHelper.str_transform(row[item[1]])
-            item_level = ItemLevel.find_by :descriptor => descriptor, :assessment_item_id => item[0].id
+            item_level = ItemLevel.find_by! :descriptor => descriptor, :assessment_item_id => item[0].id
 
             if possible_matches.size == 1
               StudentScore.create!({:student_id => possible_matches.first.id,

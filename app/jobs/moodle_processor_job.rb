@@ -8,6 +8,9 @@ class MoodleProcessorJob < ActiveJob::Base
       # records are imported
       # returns count of students and scores imported
 
+    # assumptions
+      # need to remove attendes that were not scored (such as faculty and staff)
+
     report = StudentScoreUpload.create! source: :moodle
 
     begin
@@ -44,6 +47,7 @@ class MoodleProcessorJob < ActiveJob::Base
 
             # create student scores, assemble array of results for each
             begin
+              descriptor = StudentScoresHelper.str_transform(sheet.cell(row_i, level_i + 1))
               level = assessment.item_levels.find_by! :descriptor =>  sheet.cell(row_i, level_i + 1)
             rescue
               raise "Improper descriptor at cell #{(65+level_i).chr}#{row_i}: #{sheet.cell(row_i, level_i + 1)}"
@@ -76,5 +80,4 @@ class MoodleProcessorJob < ActiveJob::Base
     end # exception handle
 
   end
-  handle_asynchronously :perform
 end

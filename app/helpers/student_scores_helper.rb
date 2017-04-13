@@ -21,7 +21,10 @@ module StudentScoresHelper
 
     new_str = str.dup
     replacements = [
-      [/\u2019/, "'"]
+      [/\u2018/, "'"],
+      [/\u2019/, "'"],
+      ["\u201c", '"'],
+      ["\u201d", '"']
     ]
 
     replacements.each {|replacement| new_str.gsub!(replacement[0], replacement[1])}
