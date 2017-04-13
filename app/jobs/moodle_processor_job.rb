@@ -80,5 +80,4 @@ class MoodleProcessorJob < ActiveJob::Base
     end # exception handle
 
   end
-  handle_asynchronously :perform
 end
