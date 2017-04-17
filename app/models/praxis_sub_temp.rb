@@ -12,7 +12,7 @@
 #  avg_low               :integer
 #
 
-class PraxisSubTemp < ActiveRecord::Base
+class PraxisSubTemp < ApplicationRecord
 
   belongs_to :praxis_result_temp
 

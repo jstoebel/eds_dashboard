@@ -25,7 +25,7 @@
 #  Notes               :text(4294967295)
 #
 
-class PraxisPrep < ActiveRecord::Base
+class PraxisPrep < ApplicationRecord
   self.table_name = 'praxis_prep'
 
   belongs_to :student

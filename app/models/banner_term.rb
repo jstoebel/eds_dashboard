@@ -10,7 +10,7 @@
 #  standard_term :boolean
 #
 
-class BannerTerm < ActiveRecord::Base
+class BannerTerm < ApplicationRecord
 	has_many :adm_tep, foreign_key: "BannerTerm_BannerTerm"
 	has_many :adm_st, foreign_key: "BannerTerm_BannerTerm"
 	has_many :prog_exit, foreign_key: "ExitTerm"

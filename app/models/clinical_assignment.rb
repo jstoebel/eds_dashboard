@@ -12,7 +12,7 @@
 #  transcript_id       :integer
 #
 
-class ClinicalAssignment < ActiveRecord::Base
+class ClinicalAssignment < ApplicationRecord
 
 	belongs_to :student
 	belongs_to :clinical_teacher

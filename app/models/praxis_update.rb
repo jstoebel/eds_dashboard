@@ -8,5 +8,5 @@
 #  updated_at  :datetime
 #
 
-class PraxisUpdate < ActiveRecord::Base
+class PraxisUpdate < ApplicationRecord
 end

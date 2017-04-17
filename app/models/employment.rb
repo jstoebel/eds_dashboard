@@ -10,6 +10,6 @@
 #  updated_at :datetime
 #
 
-class Employment < ActiveRecord::Base
+class Employment < ApplicationRecord
   self.table_name = 'employment'
 end

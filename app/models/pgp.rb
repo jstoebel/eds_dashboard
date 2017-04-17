@@ -12,7 +12,7 @@
 #  strategies  :text(65535)
 #
 
-class Pgp < ActiveRecord::Base
+class Pgp < ApplicationRecord
     self.table_name = 'pgps'
 
 

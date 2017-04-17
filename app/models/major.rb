@@ -6,6 +6,6 @@
 #  name :string(255)
 #
 
-class Major < ActiveRecord::Base
+class Major < ApplicationRecord
     has_many :foi
 end

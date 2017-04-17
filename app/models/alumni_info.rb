@@ -16,6 +16,6 @@
 #  ZIP          :string(45)
 #
 
-class AlumniInfo < ActiveRecord::Base
+class AlumniInfo < ApplicationRecord
   self.table_name = 'alumni_info'
 end

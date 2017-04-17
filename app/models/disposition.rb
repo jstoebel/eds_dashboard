@@ -10,7 +10,7 @@
 #  updated_at  :datetime         not null
 #
 
-class Disposition < ActiveRecord::Base
+class Disposition < ApplicationRecord
   has_many :issues
 
   validates :code,

@@ -10,7 +10,7 @@
 #  Roles_idRoles :integer          not null
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 
 	attr_accessor :view_as
 

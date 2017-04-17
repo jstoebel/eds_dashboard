@@ -11,7 +11,7 @@
 #  active     :boolean
 #
 
-class Downtime < ActiveRecord::Base
+class Downtime < ApplicationRecord
 
     after_initialize :init
     before_save :fix_times

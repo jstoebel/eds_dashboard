@@ -12,7 +12,7 @@
 #  best_score     :integer
 #
 
-class PraxisResult < ActiveRecord::Base
+class PraxisResult < ApplicationRecord
 
 	attr_accessor :from_ets  #if this record is coming from ETS and should therefor
 	# not expect some validations

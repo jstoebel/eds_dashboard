@@ -19,7 +19,7 @@
 represents a single item that can belong to any number of different assessments
 =end
 
-class AssessmentItem < ActiveRecord::Base
+class AssessmentItem < ApplicationRecord
 
     belongs_to :assessment
 

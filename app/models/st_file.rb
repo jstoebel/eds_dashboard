@@ -9,7 +9,7 @@
 #  updated_at      :datetime         not null
 #
 
-class StFile < ActiveRecord::Base
+class StFile < ApplicationRecord
 
     belongs_to :adm_st
     belongs_to :student_file

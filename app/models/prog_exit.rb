@@ -14,7 +14,7 @@
 #  Details           :text(65535)
 #
 
-class ProgExit < ActiveRecord::Base
+class ProgExit < ApplicationRecord
 
 	#RELATIONSHIPS
 	belongs_to :student
