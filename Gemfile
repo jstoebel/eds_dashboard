@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>4.2'
+gem 'rails', '~> 5.0', '< 5.1'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.3.18'
 gem 'sqlite3', '~> 1.3', '>= 1.3.11'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -32,9 +32,9 @@ gem 'autoprefixer-rails'
 gem 'bootstrap-datepicker-rails'
 gem "bootstrap-switch-rails"
 gem "paperclip", "~> 4.3"
-gem 'seed_dump'
+
 gem 'db_fixtures_dump'
-gem 'composite_primary_keys', '~> 8.1', '>= 8.1.3'
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
@@ -77,7 +77,6 @@ gem 'faker', '~> 1.6', '>= 1.6.3'
 gem 'puma'
 gem 'phony_rails'
 
-gem 'active_record-acts_as' #for multi table inheritance
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 gem 'annotate'
