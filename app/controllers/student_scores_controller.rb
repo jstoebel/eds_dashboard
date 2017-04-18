@@ -12,7 +12,7 @@ class StudentScoresController < ApplicationController
     file = params[:file]
 
     # move the attached file so it will remain when the request finishes.
-    persisted_path = "tmp/#{file.original_filename}"
+    persisted_path = "app/jobs/#{file.original_filename}"
     FileUtils.copy_file file.path, persisted_path
 
     file_format = params[:format]
