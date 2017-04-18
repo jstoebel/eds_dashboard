@@ -83,9 +83,8 @@ gem 'annotate'
 gem 'andand', '~> 1.3', '>= 1.3.3'
 gem 'savon', '~> 2.0'
 
-#connecting to Banner
-gem 'dbi', '~> 0.4.5'
-#exclude from codeship build and c9 env
+# banner(Oracle) connection: exclude from codeship build and c9 env
+gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0',  :group => :cs_c9_exclude
 gem 'ruby-oci8', '~> 2.2', '>= 2.2.2',  :group => :cs_c9_exclude
 
 gem 'zip-zip'
