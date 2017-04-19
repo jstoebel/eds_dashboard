@@ -5,70 +5,70 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
   setup do
     ActionMailer::Base.deliveries.clear
     @row_template = {
-      "SZVEDSD_ID" => nil,
-      "SZVEDSD_LAST_NAME" => nil,
-      "SZVEDSD_FIRST_NAME" => nil,
-      "SZVEDSD_MIDDLE_NAME" => nil,
-      "SZVEDSD_ENROLL_STAT" => nil,
-      "SZVEDSD_CLASSIFICATION" => nil,
-      "SZVEDSD_WITHDRAWALS" => nil,
-      "SZVEDSD_TERM_GRADUATED" => nil,
-      "SZVEDSD_GENDER" => nil,
-      "SZVEDSD_SSN" => nil,
-      "SZVEDSD_DOB" => nil,
-      "SZVEDSD_RACE" => nil,
-      "SZVEDSD_HISPANIC" => nil,
-      "SZVEDSD_STATE" => nil,
-      "SZVEDSD_COUNTY" => nil,
-      "SZVEDSD_CITIZENSHIP" => nil,
-      "SZVEDSD_COUNTRY_ORIGIN" => nil,
-      "SZVEDSD_ESL" => nil,
-      "SZVEDSD_COMPUTER_TOEFL" => nil,
-      "SZVEDSD_TOEFL" => nil,
-      "SZVEDSD_TOEFL_ESSAY" => nil,
-      "SZVEDSD_TOEFL_LISTENING" => nil,
-      "SZVEDSD_TOEFL_READING" => nil,
-      "SZVEDSD_TOEFL_SPEAKING" => nil,
-      "SZVEDSD_TOEFL_STRUCT_WRITING" => nil,
-      "SZVEDSD_TOEFL_TOTAL" => nil,
-      "SZVEDSD_TOEFL_WRITING" => nil,
-      "SZVEDSD_TEST_WRITTEN_ENGLISH" => nil,
-      "SZVEDSD_IELTS_LISTENING" => nil,
-      "SZVEDSD_IELTS_READING" => nil,
-      "SZVEDSD_IELTS_WRITING" => nil,
-      "SZVEDSD_IELTS_SPEAKING" => nil,
-      "SZVEDSD_IELTS_BAND_SCORE" => nil,
-      "SZVEDSD_TRANSFER_STUDENT" => nil,
-      "SZVEDSD_TERM_EDS_EXPLOR_MJR" => nil,
-      "SZVEDSD_TERM_DECLARED_EDS_MJR" => nil,
-      "SZVEDSD_PRIMARY_MAJOR" => nil,
-      "SZVEDSD_PRIMARY_MAJOR_CONC" => nil,
-      "SZVEDSD_SECONDARY_MAJOR" => nil,
-      "SZVEDSD_SECONDARY_MAJOR_CONC" => nil,
-      "SZVEDSD_ADVISOR" => nil,
-      "SZVEDSD_HIGH_SCHOOL_GPA UMBER" => nil,
-      "SZVEDSD_HIGH_SCHOLL_RANK UMBER" => nil,
-      "SZVEDSD_ACT_ENGLISH" => nil,
-      "SZVEDSD_ACT_MATH" => nil,
-      "SZVEDSD_ACT_READING" => nil,
-      "SZVEDSD_ACT_SCIENCE_REASONING" => nil,
-      "SZVEDSD_ACT_COMPOSITE" => nil,
-      "SZVEDSD_SAT_VERB_CRIT_READING" => nil,
-      "SZVEDSD_SAT_MATH" => nil,
-      "SZVEDSD_SAT_WRITING" => nil,
-      "SZVEDSD_TERM_TAKEN" => nil,
-      "SZVEDSD_CRN" => nil,
-      "SZVEDSD_COURSE" => nil,
-      "SZVEDSD_GRADE" => nil,
-      "SZVEDSD_REGISTRATION_STAT" => nil,
-      "SZVEDSD_CREDITS_ATTEMPTED" => nil,
-      "SZVEDSD_CREDITS_EARNED" => nil,
-      "SZVEDSD_MINORS" => nil,
-      "SZVEDSD_GPA_IND" => nil,
-      "SZVEDSD_EMAIL" => nil,
-      "SZVEDSD_CPO" => nil,
-      "SZVEDSD_FILTER_TERM" => nil,
-      "SAVEDSD_INSTRUCTOR" =>nil
+      "szvedsd_id" => nil,
+      "szvedsd_last_name" => nil,
+      "szvedsd_first_name" => nil,
+      "szvedsd_middle_name" => nil,
+      "szvedsd_enroll_stat" => nil,
+      "szvedsd_classification" => nil,
+      "szvedsd_withdrawals" => nil,
+      "szvedsd_term_graduated" => nil,
+      "szvedsd_gender" => nil,
+      "szvedsd_ssn" => nil,
+      "szvedsd_dob" => nil,
+      "szvedsd_race" => nil,
+      "szvedsd_hispanic" => nil,
+      "szvedsd_state" => nil,
+      "szvedsd_county" => nil,
+      "szvedsd_citizenship" => nil,
+      "szvedsd_country_origin" => nil,
+      "szvedsd_esl" => nil,
+      "szvedsd_computer_toefl" => nil,
+      "szvedsd_toefl" => nil,
+      "szvedsd_toefl_essay" => nil,
+      "szvedsd_toefl_listening" => nil,
+      "szvedsd_toefl_reading" => nil,
+      "szvedsd_toefl_speaking" => nil,
+      "szvedsd_toefl_struct_writing" => nil,
+      "szvedsd_toefl_total" => nil,
+      "szvedsd_toefl_writing" => nil,
+      "szvedsd_test_written_english" => nil,
+      "szvedsd_ielts_listening" => nil,
+      "szvedsd_ielts_reading" => nil,
+      "szvedsd_ielts_writing" => nil,
+      "szvedsd_ielts_speaking" => nil,
+      "szvedsd_ielts_band_score" => nil,
+      "szvedsd_transfer_student" => nil,
+      "szvedsd_term_eds_explor_mjr" => nil,
+      "szvedsd_term_declared_eds_mjr" => nil,
+      "szvedsd_primary_major" => nil,
+      "szvedsd_primary_major_conc" => nil,
+      "szvedsd_secondary_major" => nil,
+      "szvedsd_secondary_major_conc" => nil,
+      "szvedsd_advisor" => nil,
+      "szvedsd_high_school_gpa umber" => nil,
+      "szvedsd_high_scholl_rank umber" => nil,
+      "szvedsd_act_english" => nil,
+      "szvedsd_act_math" => nil,
+      "szvedsd_act_reading" => nil,
+      "szvedsd_act_science_reasoning" => nil,
+      "szvedsd_act_composite" => nil,
+      "szvedsd_sat_verb_crit_reading" => nil,
+      "szvedsd_sat_math" => nil,
+      "szvedsd_sat_writing" => nil,
+      "szvedsd_term_taken" => nil,
+      "szvedsd_crn" => nil,
+      "szvedsd_course" => nil,
+      "szvedsd_grade" => nil,
+      "szvedsd_registration_stat" => nil,
+      "szvedsd_credits_attempted" => nil,
+      "szvedsd_credits_earned" => nil,
+      "szvedsd_minors" => nil,
+      "szvedsd_gpa_ind" => nil,
+      "szvedsd_email" => nil,
+      "szvedsd_cpo" => nil,
+      "szvedsd_filter_term" => nil,
+      "savedsd_instructor" =>nil
       }
 
   end
@@ -82,70 +82,70 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       @new_stu = FactoryGirl.attributes_for :student
 
       @new_attrs = {
-        "SZVEDSD_ID" => @new_stu[:Bnum],
-        "SZVEDSD_LAST_NAME" => @new_stu[:LastName],
-        "SZVEDSD_FIRST_NAME" => @new_stu[:FirstName],
-        "SZVEDSD_ENROLL_STAT" => "Active Student",
-        "SZVEDSD_MIDDLE_NAME" => @new_stu[:MiddleName],
-        "SZVEDSD_CLASSIFICATION" => @new_stu[:Classification],
-        "SZVEDSD_WITHDRAWALS" => @new_stu[:withdraws],
-        "SZVEDSD_TERM_GRADUATED" => @new_stu[:term_graduated],
-        "SZVEDSD_GENDER" => @new_stu[:gender],
-        "SZVEDSD_SSN" => nil,
-        "SZVEDSD_DOB" => nil,
-        "SZVEDSD_RACE" => @new_stu[:race],
-        "SZVEDSD_HISPANIC" => @new_stu[:hispanic] ? "yes" : "no",
-        "SZVEDSD_STATE" => nil,
-        "SZVEDSD_COUNTY" => nil,
-        "SZVEDSD_CITIZENSHIP" => nil,
-        "SZVEDSD_COUNTRY_ORIGIN" => nil,
-        "SZVEDSD_ESL" => nil,
-        "SZVEDSD_COMPUTER_TOEFL" => nil,
-        "SZVEDSD_TOEFL" => nil,
-        "SZVEDSD_TOEFL_ESSAY" => nil,
-        "SZVEDSD_TOEFL_LISTENING" => nil,
-        "SZVEDSD_TOEFL_READING" => nil,
-        "SZVEDSD_TOEFL_SPEAKING" => nil,
-        "SZVEDSD_TOEFL_STRUCT_WRITING" => nil,
-        "SZVEDSD_TOEFL_TOTAL" => nil,
-        "SZVEDSD_TOEFL_WRITING" => nil,
-        "SZVEDSD_TEST_WRITTEN_ENGLISH" => nil,
-        "SZVEDSD_IELTS_LISTENING" => nil,
-        "SZVEDSD_IELTS_READING" => nil,
-        "SZVEDSD_IELTS_WRITING" => nil,
-        "SZVEDSD_IELTS_SPEAKING" => nil,
-        "SZVEDSD_IELTS_BAND_SCORE" => nil,
-        "SZVEDSD_TRANSFER_STUDENT" => nil,
-        "SZVEDSD_TERM_EDS_EXPLOR_MJR" => nil,
-        "SZVEDSD_TERM_DECLARED_EDS_MJR" => nil,
-        "SZVEDSD_PRIMARY_MAJOR" => @new_stu[:CurrentMajor1],
-        "SZVEDSD_PRIMARY_MAJOR_CONC" => @new_stu[:concentration1],
-        "SZVEDSD_SECONDARY_MAJOR" => @new_stu[:CurrentMajor2],
-        "SZVEDSD_SECONDARY_MAJOR_CONC" => @new_stu[:concentration2],
-        "SZVEDSD_ADVISOR" => nil,
-        "SZVEDSD_HIGH_SCHOOL_GPA UMBER" => nil,
-        "SZVEDSD_HIGH_SCHOLL_RANK UMBER" => nil,
-        "SZVEDSD_ACT_ENGLISH" => nil,
-        "SZVEDSD_ACT_MATH" => nil,
-        "SZVEDSD_ACT_READING" => nil,
-        "SZVEDSD_ACT_SCIENCE_REASONING" => nil,
-        "SZVEDSD_ACT_COMPOSITE" => nil,
-        "SZVEDSD_SAT_VERB_CRIT_READING" => nil,
-        "SZVEDSD_SAT_MATH" => nil,
-        "SZVEDSD_SAT_WRITING" => nil,
-        "SZVEDSD_TERM_TAKEN" => nil,
-        "SZVEDSD_CRN" => nil,
-        "SZVEDSD_COURSE" => nil,
-        "SZVEDSD_GRADE" => nil,
-        "SZVEDSD_REGISTRATION_STAT" => nil,
-        "SZVEDSD_CREDITS_ATTEMPTED" => nil,
-        "SZVEDSD_CREDITS_EARNED" => nil,
-        "SZVEDSD_MINORS" => @new_stu[:CurrentMinors],
-        "SZVEDSD_GPA_IND" => nil,
-        "SZVEDSD_EMAIL" => nil,
-        "SZVEDSD_CPO" => @new_stu[:CPO],
-        "SZVEDSD_FILTER_TERM" => nil,
-        "SAVEDSD_INSTRUCTOR" =>nil
+        "szvedsd_id" => @new_stu[:Bnum],
+        "szvedsd_last_name" => @new_stu[:LastName],
+        "szvedsd_first_name" => @new_stu[:FirstName],
+        "szvedsd_enroll_stat" => "Active Student",
+        "szvedsd_middle_name" => @new_stu[:MiddleName],
+        "szvedsd_classification" => @new_stu[:Classification],
+        "szvedsd_withdrawals" => @new_stu[:withdraws],
+        "szvedsd_term_graduated" => @new_stu[:term_graduated],
+        "szvedsd_gender" => @new_stu[:gender],
+        "szvedsd_ssn" => nil,
+        "szvedsd_dob" => nil,
+        "szvedsd_race" => @new_stu[:race],
+        "szvedsd_hispanic" => @new_stu[:hispanic] ? "yes" : "no",
+        "szvedsd_state" => nil,
+        "szvedsd_county" => nil,
+        "szvedsd_citizenship" => nil,
+        "szvedsd_country_origin" => nil,
+        "szvedsd_esl" => nil,
+        "szvedsd_computer_toefl" => nil,
+        "szvedsd_toefl" => nil,
+        "szvedsd_toefl_essay" => nil,
+        "szvedsd_toefl_listening" => nil,
+        "szvedsd_toefl_reading" => nil,
+        "szvedsd_toefl_speaking" => nil,
+        "szvedsd_toefl_struct_writing" => nil,
+        "szvedsd_toefl_total" => nil,
+        "szvedsd_toefl_writing" => nil,
+        "szvedsd_test_written_english" => nil,
+        "szvedsd_ielts_listening" => nil,
+        "szvedsd_ielts_reading" => nil,
+        "szvedsd_ielts_writing" => nil,
+        "szvedsd_ielts_speaking" => nil,
+        "szvedsd_ielts_band_score" => nil,
+        "szvedsd_transfer_student" => nil,
+        "szvedsd_term_eds_explor_mjr" => nil,
+        "szvedsd_term_declared_eds_mjr" => nil,
+        "szvedsd_primary_major" => @new_stu[:CurrentMajor1],
+        "szvedsd_primary_major_conc" => @new_stu[:concentration1],
+        "szvedsd_secondary_major" => @new_stu[:CurrentMajor2],
+        "szvedsd_secondary_major_conc" => @new_stu[:concentration2],
+        "szvedsd_advisor" => nil,
+        "szvedsd_high_school_gpa umber" => nil,
+        "szvedsd_high_scholl_rank umber" => nil,
+        "szvedsd_act_english" => nil,
+        "szvedsd_act_math" => nil,
+        "szvedsd_act_reading" => nil,
+        "szvedsd_act_science_reasoning" => nil,
+        "szvedsd_act_composite" => nil,
+        "szvedsd_sat_verb_crit_reading" => nil,
+        "szvedsd_sat_math" => nil,
+        "szvedsd_sat_writing" => nil,
+        "szvedsd_term_taken" => nil,
+        "szvedsd_crn" => nil,
+        "szvedsd_course" => nil,
+        "szvedsd_grade" => nil,
+        "szvedsd_registration_stat" => nil,
+        "szvedsd_credits_attempted" => nil,
+        "szvedsd_credits_earned" => nil,
+        "szvedsd_minors" => @new_stu[:CurrentMinors],
+        "szvedsd_gpa_ind" => nil,
+        "szvedsd_email" => nil,
+        "szvedsd_cpo" => @new_stu[:CPO],
+        "szvedsd_filter_term" => nil,
+        "savedsd_instructor" =>nil
       }
 
       @row = @row_template.merge @new_attrs
@@ -176,10 +176,10 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       new_stu = FactoryGirl.create :student
 
       new_attrs = {
-        "SZVEDSD_ID" => new_stu[:Bnum],
-        "SZVEDSD_LAST_NAME" => new_stu[:LastName] + "!!!!",
-        "SZVEDSD_FIRST_NAME" => new_stu[:FirstName],
-        "SZVEDSD_ENROLL_STAT" => "Active Student",
+        "szvedsd_id" => new_stu[:Bnum],
+        "szvedsd_last_name" => new_stu[:LastName] + "!!!!",
+        "szvedsd_first_name" => new_stu[:FirstName],
+        "szvedsd_enroll_stat" => "Active Student",
       }
 
       row = @row_template.merge new_attrs
@@ -213,10 +213,10 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
         }
 
         @drop_attrs = @row_template.merge({
-          "SZVEDSD_ID" => @stu[:Bnum],
-          "SZVEDSD_LAST_NAME" => @stu[:LastName],
-          "SZVEDSD_FIRST_NAME" => @stu[:FirstName],
-          "SZVEDSD_ENROLL_STAT" => @stu[:EnrollmentStatus],
+          "szvedsd_id" => @stu[:Bnum],
+          "szvedsd_last_name" => @stu[:LastName],
+          "szvedsd_first_name" => @stu[:FirstName],
+          "szvedsd_enroll_stat" => @stu[:EnrollmentStatus],
         })
 
       end
@@ -271,8 +271,8 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
 
       new_attrs = {
-        "SZVEDSD_ID" => @stu.Bnum,
-        'SZVEDSD_ADVISOR' => adv_str
+        "szvedsd_id" => @stu.Bnum,
+        'szvedsd_advisor' => adv_str
       }
 
       row = @row_template.merge new_attrs
@@ -306,7 +306,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
         })}
 
       new_attrs = {
-        "SZVEDSD_ID" => @stu.Bnum
+        "szvedsd_id" => @stu.Bnum
       } # no advisors!
 
       row = @row_template.merge new_attrs
@@ -336,8 +336,8 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
 
       new_attrs = {
-        "SZVEDSD_ID" => nil,
-        'SZVEDSD_ADVISOR' => adv_str
+        "szvedsd_id" => nil,
+        'szvedsd_advisor' => adv_str
       }
 
       row = @row_template.merge new_attrs
@@ -350,8 +350,8 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       adv_str = @advisors.map{ |a| "#{a.first_name} #{a.last_name} {Primary-#{a.AdvisorBnum}}" }.join("; ")
 
       new_attrs = {
-        "SZVEDSD_ID" => nil,
-        'SZVEDSD_ADVISOR' => adv_str
+        "szvedsd_id" => nil,
+        'szvedsd_advisor' => adv_str
       }
 
       row = @row_template.merge new_attrs
@@ -369,17 +369,18 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       Transcript.delete_all
       @course = FactoryGirl.build :transcript, {:grade_ltr => 'C', :grade_pt => 2.0}
       term = BannerTerm.find @course[:term_taken]
+
       new_attrs={
-        'SZVEDSD_ID' => @course.student.Bnum,
-        'SZVEDSD_TERM_TAKEN' => "#{term.id} - #{term.PlainTerm}",
-        'SZVEDSD_COURSE' => "#{@course[:course_code].insert(3, " ")} - #{@course[:course_name]}",
-        'SZVEDSD_GRADE' => @course[:grade_ltr],
-        'SZVEDSD_CRN' => @course[:crn],
-        'SZVEDSD_CREDITS_ATTEMPTED' => @course[:credits_attempted],
-        'SZVEDSD_CREDITS_EARNED' => @course[:credits_earned],
-        'SZVEDSD_REGISTRATION_STAT' => @course[:reg_status],
-        'SAVEDSD_INSTRUCTOR' => @course[:instructors],
-        'SZVEDSD_GPA_IND' => @course[:gpa_include] ? "Include" : "Exclude"
+        'szvedsd_id' => @course.student.Bnum,
+        'szvedsd_term_taken' => "#{term.id} - #{term.PlainTerm}",
+        'szvedsd_course' => "#{@course[:course_code].insert(3, " ")} - #{@course[:course_name]}",
+        'szvedsd_grade' => @course[:grade_ltr],
+        'szvedsd_crn' => @course[:crn],
+        'szvedsd_credits_attempted' => @course[:credits_attempted],
+        'szvedsd_credits_earned' => @course[:credits_earned],
+        'szvedsd_registration_stat' => @course[:reg_status],
+        'savedsd_instructor' => @course[:instructors],
+        'szvedsd_gpa_ind' => @course[:gpa_include] ? "Include" : "Exclude"
       }
 
       @inter_row = @row_template.merge new_attrs
@@ -401,7 +402,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       t0 = Transcript.all.size
 
       as_for_everyone={
-        'SZVEDSD_GRADE' => 'A'
+        'szvedsd_grade' => 'A'
       }
 
       final_row = @inter_row.merge as_for_everyone
@@ -417,7 +418,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       @course.save!
 
       nil_grade_ltr ={
-        'SZVEDSD_GRADE' => nil
+        'szvedsd_grade' => nil
       }
 
       final_row = @inter_row.merge nil_grade_ltr
@@ -429,7 +430,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
 
     test "3 character course code" do
       @inter_row.merge!({
-          'SZVEDSD_COURSE' => "EDS 150 - A 3 char course",
+          'szvedsd_course' => "EDS 150 - A 3 char course",
         })
         row_service = ProcessStudent.new @inter_row
         row_service.upsert_course
@@ -439,7 +440,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
 
     test "4 character course code" do
       @inter_row.merge!({
-          'SZVEDSD_COURSE' => "GSTR 110 - A 4 char course",
+          'szvedsd_course' => "GSTR 110 - A 4 char course",
         })
         row_service = ProcessStudent.new @inter_row
         row_service.upsert_course
@@ -448,7 +449,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
 
     test "course section" do
       @inter_row.merge!({
-          'SZVEDSD_COURSE' => "GSTR 110A - A 4 char course",
+          'szvedsd_course' => "GSTR 110A - A 4 char course",
         })
         row_service = ProcessStudent.new @inter_row
         row_service.upsert_course
@@ -457,18 +458,17 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
 
     test "irregular course code" do
       @inter_row.merge!({
-          'SZVEDSD_COURSE' => "GSTRRR 110 - A strange course code",
+          'szvedsd_course' => "GSTRRR 110 - A strange course code",
         })
         row_service = ProcessStudent.new @inter_row
         row_service.upsert_course
         assert_equal "GSTRRR110", row_service.course.course_code
-
     end
 
     test "irregular course code no dash" do
       # very strange format for course, there isn't even a dash seperating the course code and name
       @inter_row.merge!({
-          'SZVEDSD_COURSE' => "strangecourse",
+          'szvedsd_course' => "strangecourse",
         })
         row_service = ProcessStudent.new @inter_row
         row_service.upsert_course
@@ -481,7 +481,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       ["Include", "Include in GPA Only", "something strange", nil].each do |val|
 
         test "true value: #{val.to_s}" do
-          @inter_row["SZVEDSD_GPA_IND"] = val
+          @inter_row["szvedsd_gpa_ind"] = val
           row_service = ProcessStudent.new @inter_row
           row_service.upsert_course
           assert_equal true, row_service.course.gpa_include
@@ -490,7 +490,7 @@ class ProcessStudentServiceTest < ActiveSupport::TestCase
       end # loop
 
       test "false value: Exclude" do
-        @inter_row["SZVEDSD_GPA_IND"] = "exclude"
+        @inter_row["szvedsd_gpa_ind"] = "exclude"
         row_service = ProcessStudent.new @inter_row
         row_service.upsert_course
         assert_equal false, row_service.course.gpa_include

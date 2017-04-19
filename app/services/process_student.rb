@@ -130,7 +130,7 @@ class ProcessStudent
      grade_ltr = @row['szvedsd_grade']
      grade_pt = Transcript.l_to_g(grade_ltr)
 
-     @course = Transcript.find_or_initialize_by({:crn => row['SZVEDSD_CRN'],
+     @course = Transcript.find_or_initialize_by({:crn => row['szvedsd_crn'],
        :student_id => @stu.id,
        :term_taken => term
      })
