@@ -13,7 +13,8 @@
             <div class="header1 col-xs-12">Students</div></br>
             <div class="header2 col-xs-12"> <%= @students.size %> found</div></br>
             <div class="col-xs-12">
-              <%= render partial: "search", locals: {:path => params,
+
+              <%= render partial: "search", locals: {:path => @search_path,
                   :prompt => "first or last name"} %>
             </div></br>
 

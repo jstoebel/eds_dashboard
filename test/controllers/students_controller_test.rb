@@ -80,7 +80,7 @@ class StudentsControllerTest < ActionController::TestCase
 
           fields.each do |f|
             test f do
-              get :index, {:search => @my_student.send(f)}
+              get :index, params: {:search => @my_student.send(f)}
               assert :success
               assert_equal [@my_student], assigns(:students).to_a
             end
@@ -90,14 +90,14 @@ class StudentsControllerTest < ActionController::TestCase
 
         test "with prev last name" do
           stu_last = @my_student.last_names.first.last_name
-          get :index, {:search => stu_last}
+          get :index, params: {:search => stu_last}
           assert :success
           assert_equal [@my_student], assigns(:students).to_a
         end
 
         test "with multiple words" do
           search_str = "#{@my_student.FirstName} spam"
-          get :index, {:search => search_str}
+          get :index, params: {:search => search_str}
           assert :success
           assert_equal [@my_student], assigns(:students).to_a
         end
@@ -105,7 +105,7 @@ class StudentsControllerTest < ActionController::TestCase
         test "with all" do
           abil = Ability.new(@user)
 
-          get :index, {:all => :true}
+          get :index, params: {:all => :true}
 
           assert :success
           assert_equal [@my_student], assigns(:students).to_a
@@ -141,7 +141,7 @@ class StudentsControllerTest < ActionController::TestCase
         end
 
         test "should get show" do
-            get :show, :id => @my_student.AltID
+            get :show, params: {:id => @my_student.AltID}
             assert_response :success
             assert_equal @my_student, assigns(:student)
         end
@@ -166,7 +166,7 @@ class StudentsControllerTest < ActionController::TestCase
 
         test "updates student" do
           new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
-          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          patch :update_presumed_status, params: {:student_id => @stu.id, :student => new_params}
           assert_response :success
           stu = Student.find @stu.id
           new_params.each do |key, value|
@@ -177,7 +177,7 @@ class StudentsControllerTest < ActionController::TestCase
 
         test "doesn't update student" do
           new_params = {presumed_status: "bad status", presumed_status_comment: "spam" }
-          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          patch :update_presumed_status, params: {:student_id => @stu.id, :student => new_params}
           assert_response :unprocessable_entity
           stu = Student.find @stu.id
           new_params.each do |key, value|
@@ -196,7 +196,7 @@ class StudentsControllerTest < ActionController::TestCase
         end
         test "redirects to access_denied" do
           new_params = {presumed_status: "Prospective", presumed_status_comment: "spam" }
-          patch :update_presumed_status, :student_id => @stu.id, :student => new_params
+          patch :update_presumed_status, params: {:student_id => @stu.id, :student => new_params}
           assert_response :unprocessable_entity
         end # test
 
@@ -223,7 +223,7 @@ class StudentsControllerTest < ActionController::TestCase
         end
 
         test "details" do
-          get :get_resources, @with_student
+          get :get_resources, params: @with_student
           assert_response :success
 
           resp = JSON.parse(@response.body)
@@ -237,7 +237,7 @@ class StudentsControllerTest < ActionController::TestCase
         test "checkpointss" do
 
           FactoryGirl.create :failing_test, @with_student
-          get :get_resources, @with_student
+          get :get_resources, params: @with_student
           assert_response :success
 
           resp = JSON.parse(@response.body)
@@ -254,7 +254,7 @@ class StudentsControllerTest < ActionController::TestCase
         test "praxis results" do
 
           FactoryGirl.create :failing_test, @with_student
-          get :get_resources, @with_student
+          get :get_resources, params: @with_student
           assert_response :success
 
           resp = JSON.parse(@response.body)
@@ -268,7 +268,7 @@ class StudentsControllerTest < ActionController::TestCase
         test "pgp" do
 
           FactoryGirl.create :pgp, @with_student
-          get :get_resources, @with_student
+          get :get_resources, params: @with_student
           assert_response :success
 
           resp = JSON.parse(@response.body)
@@ -285,7 +285,7 @@ class StudentsControllerTest < ActionController::TestCase
 
         test "issues" do
           FactoryGirl.create :issue, @with_student
-          get :get_resources, @with_student
+          get :get_resources, params: @with_student
           assert_response :success
 
           resp = JSON.parse(@response.body)
@@ -301,7 +301,7 @@ class StudentsControllerTest < ActionController::TestCase
 
         test "student files" do
           FactoryGirl.create :student_file, @with_student
-          get :get_resources, @with_student
+          get :get_resources, params: @with_student
           assert_response :success
 
           resp = JSON.parse(@response.body)
