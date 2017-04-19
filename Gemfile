@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0', '< 5.1'
 # Use mysql as the database for Active Record
@@ -10,17 +9,10 @@ gem 'sqlite3', '~> 1.3', '>= 1.3.11'
 gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .js.coffee assets and views
-# gem 'coffee-rails', '~> 4.0.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# gem 'jquery-datatables-rails', '~> 3.3.0'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-# gem 'turbolinks'
-# gem 'jquery-turbolinks'
+
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
@@ -42,11 +34,8 @@ gem 'lograge'
 gem 'minitest-fail-fast'
 gem "byebug"
 gem 'pry-byebug'
-#for working out foreign keys!!1
-# gem 'foreigner', '~> 1.7', '>= 1.7.4'
+
 gem 'immigrant'
-# Use unicorn as the app server
-# gem 'unicorn'
 
 # Use Capistrano for deployment
 group :development do
@@ -68,6 +57,7 @@ group :test do
   gem 'minitest-spec-rails'
   gem 'mocha'
   gem 'minitest-reporters', '~> 1.1', '>= 1.1.14'
+  gem 'rails-controller-testing'
 end
 
 
