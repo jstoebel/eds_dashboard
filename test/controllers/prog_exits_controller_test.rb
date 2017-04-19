@@ -153,8 +153,7 @@ class ProgExitsControllerTest < ActionController::TestCase
 
         post :update, params: {:id => prog_exit.id, :prog_exit => new_attrs}
         assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
-        binding.pry
-        assert_equal new_attrs, assigns(:exit).attributes
+        assert_equal new_attrs["RecommendDate"], assigns(:exit).attributes["RecommendDate"]
         assert_equal flash[:notice], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
         assert_redirected_to banner_term_prog_exits_path(prog_exit.banner_term.id)
       end
