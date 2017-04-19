@@ -15,7 +15,7 @@ class TranscriptsControllerTest < ActionController::TestCase
             :EndDate => 5.days.from_now
           @course = FactoryGirl.create :transcript, :student => assignment.student,
             :banner_term => this_term
-          get :index, :student_id => @course.student.id
+          get :index, params: {:student_id => @course.student.id}
 
           @expected = @course.attributes
         end
