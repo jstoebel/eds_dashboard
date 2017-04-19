@@ -26,7 +26,7 @@ class IssuesControllerTest < ActionController::TestCase
       load_session(r)
       issue = Issue.new
       student = FactoryGirl.create :student
-      get :new, :student_id => student.AltID
+      get :new, params: {:student_id => student.id}
       assert_response :success
       assert_equal assigns(:student), student
     end
@@ -48,22 +48,22 @@ class IssuesControllerTest < ActionController::TestCase
         end
 
         test "http success" do
-          get :edit, :id => @issue.id
+          get :edit, params: {:id => @issue.id}
           assert_response :success
         end
 
         test "pulls issue" do
-          get :edit, :id => @issue.id
+          get :edit, params: {:id => @issue.id}
           assert_equal @issue, assigns(:issue)
         end
 
         test "pulls student" do
-          get :edit, :id => @issue.id
+          get :edit, params: {:id => @issue.id}
           assert_equal @issue.student, assigns(:student)
         end
 
         test "pulls dispositions" do
-          get :edit, :id => @issue.id
+          get :edit, params: {:id => @issue.id}
           assert_equal Disposition.current.ordered, assigns(:dispositions)
         end
 
@@ -185,7 +185,7 @@ class IssuesControllerTest < ActionController::TestCase
             :tep_advisor_id => @adv.id
             })
 
-          get :index, {:student_id => issue.student.id}
+          get :index, params: {:student_id => issue.student.id}
           assert_response :success
           assert_equal assigns(:student), issue.student
           assert_equal assigns(:issues), issue.student.issues.sorted.select {|r| @abil.can? :read, r }
@@ -216,7 +216,7 @@ class IssuesControllerTest < ActionController::TestCase
       load_session(r)
       student = FactoryGirl.create :student
 
-      get :index, {:student_id => student.AltID}
+      get :index, params: {:student_id => student.AltID}
       assert_response :success
       assert_equal assigns(:student), student
       assert_equal assigns(:issues), student.issues.sorted.select {|r| can? :read, r }
@@ -232,7 +232,7 @@ class IssuesControllerTest < ActionController::TestCase
       load_session(r)
       student = FactoryGirl.create :student
 
-      get :index, {:student_id => student.AltID}
+      get :index, params: {:student_id => student.AltID}
       assert_redirected_to "/access_denied"
     end
   end
@@ -241,7 +241,7 @@ class IssuesControllerTest < ActionController::TestCase
     (allowed_roles).each do |r|
       load_session(r)
           issue = FactoryGirl.create(:issue)
-          delete :destroy, {:id => issue.id}
+          delete :destroy, params: {:id => issue.id}
           assert_not assigns(:issue).visible
           assert_equal flash[:notice], "Deleted Successfully!"
           assert_redirected_to(student_issues_path(issue.student.id)) # makes sure the user has been redirected to the index page of the student issue page
@@ -254,7 +254,7 @@ class IssuesControllerTest < ActionController::TestCase
     issue = FactoryGirl.create(:issue)
     (role_names - allowed_roles).each do |r|
       load_session(r)
-        post :destroy, {:id => issue.id}
+        post :destroy, params: {:id => issue.id}
         assert_redirected_to "/access_denied"
     end
   end

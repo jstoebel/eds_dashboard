@@ -29,7 +29,7 @@ class HelpsControllerTest < ActionController::TestCase
           re = Regexp.new(@help_dir+"/_(?<filebase>.+?).html.md")
           a_file = re.match(@contents[0])[:filebase]
 
-          get :home, {:article => a_file}
+          get :home, params: {:article => a_file}
           assert_equal a_file, assigns(:article_name)
         end
 

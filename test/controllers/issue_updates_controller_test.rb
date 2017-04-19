@@ -25,7 +25,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
       issue = FactoryGirl.create :issue  #add an update to this issue
 
-      get :new, {:issue_id => issue.id}
+      get :new, params: {:issue_id => issue.id}
       assert_response :success
       assert_equal issue, assigns(:issue)
       assert_equal issue.student, assigns(:student)
@@ -61,7 +61,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
         test "success" do
 
           @iu.tep_advisors_AdvisorBnum = @advisor.id
-          post :create, {:issue_id => @iu.issue.id, :issue_updates => @iu.attributes}
+          post :create, params: {:issue_id => @iu.issue.id, :issue_updates => @iu.attributes}
 
           #remove some attrs
           to_exclude = ["UpdateID", "created_at", "updated_at"]
@@ -82,8 +82,8 @@ class IssueUpdatesControllerTest < ActionController::TestCase
           records0 = IssueUpdate.count
 
           params = @iu.attributes
-          bad_params = @iu.attributes.merge(:UpdateName => nil)
-          post :create, {:issue_id => @iu.issue.id, :issue_updates => bad_params}
+          bad_params = @iu.attributes.merge("UpdateName" => nil)
+          post :create, params: {:issue_id => @iu.issue.id, :issue_updates => bad_params}
           assert_response :success
           assert_template 'new'
           assert_equal 0, records0 - IssueUpdate.count
@@ -102,7 +102,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
         end
 
         test "gets access denied" do
-          post :create, {:issue_id => @iu.issue.id, :issue_updates => @iu.attributes}
+          post :create, params: {:issue_id => @iu.issue.id, :issue_updates => @iu.attributes}
           assert_redirected_to "/access_denied"
         end
 
@@ -118,7 +118,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       issue = update.issue
       stu = issue.student
 
-      get :index, {:issue_id => issue.id}
+      get :index, params: {:issue_id => issue.id}
 
       assert_response :success
       assert_equal issue, assigns(:issue)
@@ -134,7 +134,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
       update = FactoryGirl.create :issue_update
 
-      get :show, {:id => update.id}
+      get :show, params: {:id => update.id}
       assert_response :success
       assert_equal update.issue, assigns(:issue)
       assert_equal update.issue.student, assigns(:student)
@@ -149,7 +149,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
       change_to = !update.addressed
 
-      patch :update, {:id => update.id, :issue_update => {:addressed => change_to}}
+      patch :update, params: {:id => update.id, :issue_update => {:addressed => change_to}}
 
       resp = JSON.parse @response.body
       assert_response :success
@@ -158,7 +158,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   end
 
   test "should not patch update bad params" do
-    #don't sent a value for addressed
+    #don't send a value for addressed
     allowed_roles.each do |r|
       load_session(r)
 
@@ -166,7 +166,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
       change_to = !update.addressed
 
-      patch :update, {:id => update.id, :issue_update => {}}
+      patch :update, params: {:id => update.id, :issue_update => update.attributes.except("addressed")}
 
       resp = JSON.parse @response.body
       assert_response :unprocessable_entity
@@ -178,7 +178,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   test "should not get new bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :new, {:issue_id => "who cares"}
+      get :new, params: {:issue_id => "who cares"}
       assert_redirected_to "/access_denied"
     end
   end
@@ -186,7 +186,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   test "should not get index bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :index, {:issue_id => "who cares"}
+      get :index, params: {:issue_id => "who cares"}
       assert_redirected_to "/access_denied"
     end
   end
@@ -194,7 +194,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
   test "should not get show bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :show, {:id => "spam"}
+      get :show, params: {:id => "spam"}
       assert_redirected_to "/access_denied"
     end
   end
@@ -207,7 +207,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
         iss = FactoryGirl.create(:issue, {:student_id => stu.id})
         iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => admtep.id,
         :Issues_IssueID => iss.id, :visible => true})
-        delete :destroy, {:id => iss_up.id}
+        delete :destroy, params: {:id => iss_up.id}
         assert_equal flash[:notice], "Deleted Successfully!"
         assert_not assigns(:update).visible
         assert_redirected_to(issue_issue_updates_path(assigns(:update).issue.id))
@@ -222,7 +222,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
         iss = FactoryGirl.create(:issue, {:student_id => stu.id})
         iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => tepadv.id,
         :Issues_IssueID => iss.id, :visible => true})
-        delete :destroy, {:id => iss_up.id}
+        delete :destroy, params: {:id => iss_up.id}
         assert_redirected_to "/access_denied"
     end
   end
@@ -232,7 +232,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
       load_session(r)
       update = FactoryGirl.create :issue_update
       change_to = !update.addressed
-      patch :update, {:id => update.id, :issue_update => {:addressed => change_to}}
+      patch :update, params: {:id => update.id, :issue_update => {:addressed => change_to}}
       assert_redirected_to "/access_denied"
     end
   end

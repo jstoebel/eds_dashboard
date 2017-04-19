@@ -101,7 +101,7 @@ class FoisControllerTest < ActionController::TestCase
               File.write(@test_file_loc, @b.to_xml)
               file = Paperclip.fixture_file_upload(@test_file_loc)
               load_session(r)
-              post :import, :file => file
+              post :import, params: {:file => file}
             end
 
             test "imports record" do
@@ -128,7 +128,7 @@ class FoisControllerTest < ActionController::TestCase
             file = Paperclip.fixture_file_upload(@test_file_loc)
 
             load_session(r)
-            post :import, :file => Paperclip.fixture_file_upload(@test_file_loc)
+            post :import, params: {:file => Paperclip.fixture_file_upload(@test_file_loc)}
 
           end
 
@@ -159,7 +159,7 @@ class FoisControllerTest < ActionController::TestCase
             file = Paperclip.fixture_file_upload(@test_file_loc)
 
             load_session(r)
-            post :import, :file => file
+            post :import, params: {:file => file}
           end
 
           test "doesn't import records" do
