@@ -24,11 +24,16 @@ class ClinicalAssignmentTest < ActiveSupport::TestCase
 	end
 
 	test "unique assignment catch" do
-		assignment = FactoryGirl.create :clinical_assignment
-		assignment2 = assignment.clone
-		assignment2.id = nil
-		assignment2.valid?
-		assert_equal(["Student may not be matched with same teacher more than once in the same course in the same semester."], assignment2.errors[:clinical_teacher_id])
+    assignment = FactoryGirl.create :clinical_assignment
+
+    assignment2 = FactoryGirl.build :clinical_assignment, {student: assignment.student,
+      transcript: assignment.transcript,
+      Term: assignment.Term,
+      clinical_teacher: assignment.clinical_teacher
+    }
+    assert_not assignment2.valid?
+    assert_equal(["Student may not be matched with same teacher more than once in the same course in the same semester."], assignment2.errors[:clinical_teacher_id])
+
 	end
 
 	test "unique assignment pass" do
