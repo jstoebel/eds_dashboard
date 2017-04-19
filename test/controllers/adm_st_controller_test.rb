@@ -36,7 +36,7 @@ class AdmStControllerTest < ActionController::TestCase
         test "should get index with term" do
           #should be accessible for admin and staff only
 
-          get :index, {:banner_term_id => @term.BannerTerm}
+          get :index, params: {:banner_term_id => @term.BannerTerm}
           assert_response :success, "unexpected http response, role=#{r}"
           assert_equal assigns(:applications).to_a, @apps
         end # test
@@ -91,7 +91,7 @@ class AdmStControllerTest < ActionController::TestCase
           allowed_roles.each do |r|
             load_session(r)
             app = FactoryGirl.create :accepted_adm_st
-            get :edit, {:id => app.id}
+            get :edit, params: {:id => app.id}
             assert_response :success, "unexpected http response, role=#{r}"
             assert_equal assigns(:app), app
             assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
@@ -128,7 +128,7 @@ class AdmStControllerTest < ActionController::TestCase
         app_attrs = FactoryGirl.attributes_for :pending_adm_st, {:student_id => @stu.id,
           :BannerTerm_BannerTerm => @term.id
         }
-        post :create, {:adm_st => app_attrs}
+        post :create, params: {:adm_st => app_attrs}
 
         assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
         assert_equal assigns(:app).student_id, @stu.id
@@ -141,7 +141,7 @@ class AdmStControllerTest < ActionController::TestCase
         app_attrs = FactoryGirl.attributes_for :pending_adm_st, {:student_id => @stu.id,
           :BannerTerm_BannerTerm => nil
         }
-        post :create, {:adm_st => {
+        post :create, params: {:adm_st => {
            :student_id=> @stu.id}
         }
 
@@ -161,7 +161,7 @@ class AdmStControllerTest < ActionController::TestCase
           app_attrs = FactoryGirl.attributes_for :pending_adm_st, {:student_id => @stu.id,
             :BannerTerm_BannerTerm => @term.id
           }
-          post :create, {:adm_st => app_attrs}
+          post :create, params: {:adm_st => app_attrs}
           assert_redirected_to "/access_denied"
         end
       end # inner describe
@@ -181,7 +181,7 @@ class AdmStControllerTest < ActionController::TestCase
 
         test "should get edit" do
            app = FactoryGirl.create :pending_adm_st
-           get :edit, {:id => app.id}
+           get :edit, params: {:id => app.id}
            assert_response :success, "unexpected http response, role=#{r}"
            assert_equal assigns(:app), app
            assert_equal assigns(:term), BannerTerm.find(app.BannerTerm_BannerTerm)
@@ -189,7 +189,7 @@ class AdmStControllerTest < ActionController::TestCase
         end
 
         test "should not get edit bad id" do
-          assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
+          assert_raises(ActiveRecord::RecordNotFound) { get :edit, params: {id: "badid"} }
         end
 
       end # inner describe
@@ -204,7 +204,7 @@ class AdmStControllerTest < ActionController::TestCase
 
         test "redirects to access denied" do
           app = FactoryGirl.create :pending_adm_st
-          get :edit, {:id => app.id}
+          get :edit, params: {:id => app.id}
           assert_redirected_to "/access_denied"
         end
 
@@ -233,7 +233,7 @@ class AdmStControllerTest < ActionController::TestCase
         end
 
         test "should post create" do
-           post :update, {
+           post :update, params: {
                  :id => @app.id,
                  :adm_st => {
                    :STAdmitted => true,
@@ -245,7 +245,7 @@ class AdmStControllerTest < ActionController::TestCase
         end # test
 
         test "should not post create -- no admit decision" do
-           post :update, {
+           post :update, params: {
                  :id => @app.id,
                  :adm_st => {
                    :STAdmitted => nil,
@@ -271,7 +271,7 @@ class AdmStControllerTest < ActionController::TestCase
            :banner_term => stu.adm_tep.first.banner_term
          }
 
-         post :update, {
+         post :update, params: {
                :id => app.id,
                :adm_st => {
                  :STAdmitted => "true"
@@ -288,7 +288,7 @@ class AdmStControllerTest < ActionController::TestCase
      allowed_roles.each do |r|
        load_session(r)
        app = FactoryGirl.create :accepted_adm_st
-       get :edit_st_paperwork, {adm_st_id: app.id}
+       get :edit_st_paperwork, params: {adm_st_id: app.id}
        assert_response :success, "unexpected http response, role=#{r}"
        assert_equal assigns(:app), app
        assert_equal assigns(:student), app.student
@@ -298,7 +298,7 @@ class AdmStControllerTest < ActionController::TestCase
  #
    test "should not get edit_st_paperwork bad id" do
      load_session("admin")
-     assert_raises(ActiveRecord::RecordNotFound) { get :edit_st_paperwork, {adm_st_id: "badid"} }
+     assert_raises(ActiveRecord::RecordNotFound) { get :edit_st_paperwork, params: {adm_st_id: "badid"} }
    end
 
    test "should post update_st_paperwork" do
@@ -309,7 +309,7 @@ class AdmStControllerTest < ActionController::TestCase
           :BannerTerm_BannerTerm => BannerTerm.current_term({exact: false, plan_b: :back}).id}
        app.save
        puts app.errors.full_messages
-       post :update_st_paperwork, {
+       post :update_st_paperwork, params: {
          adm_st_id: app.id,
          :adm_st => {
            :background_check => 1
@@ -336,7 +336,7 @@ class AdmStControllerTest < ActionController::TestCase
         test "should destroy" do
           app = FactoryGirl.create(:pending_adm_st, {:student_id => @stu.id,
              :BannerTerm_BannerTerm => @stu.adm_tep.first.banner_term.id})
-          post :destroy, {:id => app.id}
+          post :destroy, params: {:id => app.id}
           assert_equal(app, assigns(:app))
           assert_equal flash[:notice], "Deleted Successfully!"
           assert assigns(:app).destroyed?
@@ -347,7 +347,7 @@ class AdmStControllerTest < ActionController::TestCase
           test "shouldn't destory - #{status}" do
             app = FactoryGirl.create(status, {:student_id => @stu.id,
                  :BannerTerm_BannerTerm => @stu.adm_tep.first.banner_term.id})
-            post :destroy, {:id => app.id}
+            post :destroy, params: {:id => app.id}
             assert_equal(app, assigns(:app))
             assert_equal flash[:notice], "Could not successfully delete record!"
             assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
@@ -364,7 +364,7 @@ class AdmStControllerTest < ActionController::TestCase
         term = FactoryGirl.create :banner_term
         app = FactoryGirl.create :accepted_adm_st, {:student => stu, :banner_term => term}
         load_session(r)
-        post :destroy, {:id => app.id}
+        post :destroy, params: {:id => app.id}
         assert_redirected_to "/access_denied"
       end # test
     end # roles loop
@@ -376,7 +376,7 @@ class AdmStControllerTest < ActionController::TestCase
        load_session(r)
        term = FactoryGirl.create :banner_term
 
-       post :choose, {
+       post :choose, params: {
          :adm_st_id => "pick",
          :banner_term => {
            :menu_terms => term.id
@@ -410,7 +410,7 @@ class AdmStControllerTest < ActionController::TestCase
      (role_names - allowed_roles).each do |r|
        load_session(r)
        stu = FactoryGirl.create :accepted_adm_st
-       post :create, {:adm_st => {
+       post :create, params: {:adm_st => {
          :student_id => stu.id}
        }
        assert_redirected_to "/access_denied"
@@ -421,7 +421,7 @@ class AdmStControllerTest < ActionController::TestCase
      (role_names - allowed_roles).each do |r|
        load_session(r)
        app = FactoryGirl.create :accepted_adm_st
-       get :edit, {:id => app.id}
+       get :edit, params: {:id => app.id}
        assert_redirected_to "/access_denied"
      end
    end
@@ -439,7 +439,7 @@ class AdmStControllerTest < ActionController::TestCase
        app.STAdmitDate = nil
        app.save
 
-       post :update, {
+       post :update, params: {
              :id => app.id,
              :adm_st => {
                :STAdmitted => "true"
@@ -454,7 +454,7 @@ class AdmStControllerTest < ActionController::TestCase
      (role_names - allowed_roles).each do |r|
        load_session(r)
        app = FactoryGirl.create :accepted_adm_st
-       get :edit_st_paperwork, {adm_st_id: app.id}
+       get :edit_st_paperwork, params: {adm_st_id: app.id}
        assert_redirected_to "/access_denied"
 
      end
@@ -463,7 +463,7 @@ class AdmStControllerTest < ActionController::TestCase
    test "should not post update_st_paperwork bad role" do
      (role_names - allowed_roles).each do |r|
        load_session(r)
-       post :update_st_paperwork, {:adm_st_id => "who_cares"}
+       post :update_st_paperwork, params: {:adm_st_id => "who_cares"}
        assert_redirected_to "/access_denied"
      end
    end

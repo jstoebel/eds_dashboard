@@ -77,7 +77,7 @@ class AdmTepControllerTest < ActionController::TestCase
         end
 
         test "should create" do
-            post :create, {:adm_tep => @app_attrs}
+            post :create, params: {:adm_tep => @app_attrs}
             assert assigns(:app).valid?, assigns(:app).errors.full_messages
             assert_redirected_to adm_tep_index_path
             assert_equal flash[:notice], "New application added: #{@stu.name_readable}-#{@prog.EDSProgName}"
@@ -85,7 +85,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
         test "should not create -- bad params" do
           @app_attrs[:BannerTerm_BannerTerm] = nil
-          post :create, {:adm_tep => @app_attrs}
+          post :create, params: {:adm_tep => @app_attrs}
           assert_not assigns(:app).valid?
           assert_equal flash[:notice], "Application not saved."
           assert_response :success
@@ -98,7 +98,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
       test "should not post create as #{r} -- access denied" do
         load_session(r)
-        post :create, {:adm_tep => @app_attrs}
+        post :create, params: {:adm_tep => @app_attrs}
         assert_redirected_to "/access_denied"
       end
     end # roles loop
@@ -117,7 +117,7 @@ class AdmTepControllerTest < ActionController::TestCase
         end
 
         test "should get edit" do
-          get :edit, {:id => @app.id}
+          get :edit, params: {:id => @app.id}
           assert_response :success
           assert_equal assigns(:application), @app
           assert_equal assigns(:term), @app.banner_term
@@ -125,7 +125,7 @@ class AdmTepControllerTest < ActionController::TestCase
         end
 
         test "should not get id -- bad id" do
-          assert_raises(ActiveRecord::RecordNotFound) { get :edit, {id: "badid"} }
+          assert_raises(ActiveRecord::RecordNotFound) { get :edit, params: {id: "badid"} }
         end
 
       end # inner describe
@@ -135,7 +135,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
       test "should not get edit #{r} -- access denied" do
         load_session(r)
-        get :edit, {:id => @app.id}
+        get :edit, params: {:id => @app.id}
         assert_redirected_to "/access_denied"
       end
 
@@ -157,7 +157,7 @@ class AdmTepControllerTest < ActionController::TestCase
         end
 
         test "should post update" do
-          post :update, {
+          post :update, params: {
             :id => @app.id,
             :adm_tep => {
               :TEPAdmit => "true",
@@ -171,7 +171,7 @@ class AdmTepControllerTest < ActionController::TestCase
         end
 
         test "should not post update -- bad params" do
-          post :update, {
+          post :update, params: {
                 :id => @app.id,
                 :adm_tep => {
                   :TEPAdmit => "true",
@@ -193,7 +193,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
       test "should not post update as #{r} -- access denied" do
         load_session(r)
-          post :update, {
+          post :update, params: {
               :id => @app.id,
               :adm_tep => {
                 :TEPAdmit => true,
@@ -238,7 +238,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
         test "should get index -- with term" do
           term_to_use = @applications.first.banner_term
-          get :index, :banner_term_id => term_to_use.id
+          get :index, params: {:banner_term_id => term_to_use.id}
           assert_response :success
           assert_equal assigns(:applications).to_a.sort, @applications.to_a.sort
 
@@ -305,7 +305,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
           expected_app = AdmTep.create app_attrs
 
-          post :destroy, {:id => expected_app.id}
+          post :destroy, params: {:id => expected_app.id}
 
           assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
           assert assigns(:app).destroyed?             # failed for expected_app
@@ -330,7 +330,7 @@ class AdmTepControllerTest < ActionController::TestCase
           expected_app = AdmTep.create app_attrs
           allowed_roles.each do |r|
             load_session(r)
-            post :destroy, {:id => expected_app.id}
+            post :destroy, params: {:id => expected_app.id}
             assert_equal flash[:notice], "Record cannot be deleted"
             #assert_redirected_to banner_term_adm_tep_index_path( assigns(:app.BannerTerm_BannerTerm))
             assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)
@@ -359,7 +359,7 @@ class AdmTepControllerTest < ActionController::TestCase
         (role_names - allowed_roles).each do |r|
           load_session(r)
 
-          post :destroy, {:id => expected_app.id}
+          post :destroy, params: {:id => expected_app.id}
           assert_redirected_to "/access_denied"
         end
       end
@@ -374,7 +374,7 @@ class AdmTepControllerTest < ActionController::TestCase
       term = FactoryGirl.create :banner_term, {:StartDate => 1.days.ago,
         :EndDate => 1.days.from_now}
 
-      post :choose, {
+      post :choose, params: {
         :adm_tep_id => "pick",
         :banner_term => {
           :menu_terms => term.id
