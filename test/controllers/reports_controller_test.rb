@@ -26,10 +26,6 @@ class ReportsControllerTest < ActionController::TestCase
 
         end
 
-        # test "http 200" do
-        #   assert_response :success
-        # end
-
         describe "pulls records" do
 
           test "basic info matches" do
@@ -175,7 +171,9 @@ class ReportsControllerTest < ActionController::TestCase
             # tests for term taken 440/479
             describe "context: 440_479" do
 
-              ["440", "479", "101"].each do |course_code|
+
+
+              ["440", "479"].each do |course_code|
 
                 test "with #{course_code}" do
                   course = FactoryGirl.create :transcript, {:course_code => "EDS#{course_code}",
@@ -200,37 +198,76 @@ class ReportsControllerTest < ActionController::TestCase
                     end
                   end
                 end
+              end # course loop
+
+              test "with EDS101" do
+                course = FactoryGirl.create :transcript, {:course_code => "EDS101",
+                :grade_pt => 3.0
+                }
+                stu = course.student
+
+                get :index
+
+                expected_data = assigns(:data)
+
+                expected_data.each do |stu_hash|
+                  if stu.Bnum == stu_hash[:Bnum] # find student in array of hashes
+
+                    actual_term_taken = stu_hash[:Latest_Term_EDS440_479]
+
+                    assert_nil actual_term_taken
+                  end
+                end
               end
-            end
+            end # context 440_479
 
             # tests for term taken 150
             describe "context: EDS150" do
 
-              ["150", "101"].each do |course_code|
+              test "with EDS150" do
+                course = FactoryGirl.create :transcript, {:course_code => "EDS150",
+                :grade_pt => 3.0
+                }
+                stu = course.student
 
-                test "with #{course_code}" do
-                  course = FactoryGirl.create :transcript, {:course_code => "EDS#{course_code}",
-                  :grade_pt => 3.0
-                  }
-                  stu = course.student
+                get :index
 
-                  get :index
+                expected_data = assigns(:data)
 
-                  expected_data = assigns(:data)
+                expected_data.each do |stu_hash|
+                  if stu.Bnum == stu_hash[:Bnum] # find student in array of hashes
+                    expected_term_taken = stu.transcripts
+                      .where(:course_code => ["EDS150"])
+                      .order(:term_taken).last.andand.banner_term.andand.readable
 
-                  expected_data.each do |stu_hash|
-                    if stu.Bnum == stu_hash[:Bnum] # find student in array of hashes
-                      expected_term_taken = stu.transcripts
-                        .where(:course_code => ["EDS150"])
-                        .order(:term_taken).last.andand.banner_term.andand.readable
+                    actual_term_taken = stu_hash[:Latest_Term_EDS150]
 
-                      actual_term_taken = stu_hash[:Latest_Term_EDS150]
-
-                      assert_equal expected_term_taken, actual_term_taken
-                    end
+                    assert_equal expected_term_taken, actual_term_taken
                   end
                 end
-              end
+              end # with EDS150
+
+              test "with EDS101" do
+                course = FactoryGirl.create :transcript, {:course_code => "EDS101",
+                :grade_pt => 3.0
+                }
+                stu = course.student
+
+                get :index
+
+                expected_data = assigns(:data)
+
+                expected_data.each do |stu_hash|
+                  if stu.Bnum == stu_hash[:Bnum] # find student in array of hashes
+
+                    actual_term_taken = stu_hash[:Latest_Term_EDS150]
+
+                    assert_nil actual_term_taken
+                  end
+                end
+
+              end # test with EDS101
+
             end
 
           end
