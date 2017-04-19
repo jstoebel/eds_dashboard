@@ -33,7 +33,7 @@ RailsAdmin.config do |config|
     when "development"
       user_name = session[:user]
     when "test"
-      user_name = request.filtered_parameters["env"]["REMOTE_USER"]
+      user_name = request.env["REMOTE_USER"]
     else
       raise "unknown enviornment: #{Rails.env}"
     end
@@ -42,7 +42,7 @@ RailsAdmin.config do |config|
     redirect_to "/access_denied" if [!user.andand.is?("admin") || user.nil?].any?
   end
 
-  config.excluded_models = ["Access", "Report"]
+  config.excluded_models = ["Access", "Report", "Banner"]
 
   config.actions do
     dashboard                     # mandatory

@@ -1,4 +1,5 @@
 class Banner < ApplicationRecord
+
   establish_connection :banner
   self.table_name = "saturn.szvedsd"
 
