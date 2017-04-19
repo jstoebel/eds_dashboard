@@ -82,7 +82,7 @@ class IssuesControllerTest < ActionController::TestCase
 
       describe "allowed role: #{r}" do
 
-        let(:post_create) { post :create, {:student_id => @issue.student_id,
+        let(:post_create) { post :create, params: {:student_id => @issue.student_id,
           :issue => @issue.attributes,
           :issue_update => {:status => "concern"}} }
 

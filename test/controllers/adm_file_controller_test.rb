@@ -20,7 +20,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                     before do
                         adm_tep = FactoryGirl.create :accepted_adm_tep
                         @adm_file = adm_tep.adm_files.first
-                        get :download, :adm_file_id => @adm_file.id
+                        get :download, params: {:adm_file_id => @adm_file.id}
                     end
 
                     test "response" do
@@ -38,7 +38,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                     describe "success" do
 
                         before do
-                            post :create, {
+                            post :create, params: {
                                 :adm_tep_id => @adm_tep.id,
                                 :adm_file => {
                                     :doc => fixture_file_upload('test_file.txt')
@@ -58,7 +58,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                     describe "fail, bad params" do
 
                         test "fails with no doc" do
-                            post :create, {
+                            post :create, params: {
                                 :adm_tep_id => @adm_tep.id
                             }
 
@@ -76,7 +76,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                     before do
                         @adm_tep = FactoryGirl.create :accepted_adm_tep
                         @adm_file  = @adm_tep.adm_files.first
-                        delete :destroy, {:id => @adm_file.id}
+                        delete :destroy, params: {:id => @adm_file.id}
                     end
 
                     test "destroys record" do
@@ -97,7 +97,6 @@ class AdmFilesControllerTest < ActionController::TestCase
     end
 
     (all_roles - allowed_roles).each do |r|
-        puts r
         describe "restricted roles" do
             before do
                 load_session(r)
@@ -107,12 +106,12 @@ class AdmFilesControllerTest < ActionController::TestCase
 
             describe "as #{r}" do
                 test "can't get download" do
-                    get :download, :adm_file_id => @adm_file.id
+                    get :download, params: { :adm_file_id => @adm_file.id}
                     assert_redirected_to "/access_denied"
                 end
 
                 test "can't post create" do
-                    post :create, {
+                    post :create, params: {
                         :adm_tep_id => @adm_tep.id,
                         :adm_file => {
                             :doc => fixture_file_upload('test_file.txt')
@@ -122,7 +121,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                 end
 
                 test "can't delete destroy" do
-                    delete :destroy, :id => @adm_file.id
+                    delete :destroy, params: {:id => @adm_file.id}
                     assert_redirected_to "/access_denied"
                 end
 
