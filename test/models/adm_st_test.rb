@@ -159,7 +159,7 @@ class AdmStTest < ActiveSupport::TestCase
 		expected_apps = AdmSt.by_term(curr_term)
 		actual_apps = AdmSt.all.where("BannerTerm_BannerTerm = ?", curr_term)
 
-		assert_equal(expected_apps.slice(0, expected_apps.size), actual_apps.slice(0, actual_apps.size))
+		assert_equal(expected_apps.to_a.slice(0, expected_apps.size), actual_apps.to_a.slice(0, actual_apps.size))
 
 	end
 
