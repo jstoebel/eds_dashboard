@@ -5,7 +5,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
     allowed_roles = ["admin", "advisor"]
     role_names = Role.all.map{|i| i.RoleName}.to_a
 
-    subject{get :index, :student_id => @stu.id}
+    subject{get :index, params: {:student_id => @stu.id} }
     let(:praxis_concern){assigns(:concerns)[:praxis]}
     let(:issue_concern){assigns(:concerns)[:issues]}
 
@@ -71,7 +71,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
 
           it "as #{r} pulls no args for no issue" do
               subject
-              expect issue_concern.must_equal nil
+              assert_nil issue_concern
           end
 
 

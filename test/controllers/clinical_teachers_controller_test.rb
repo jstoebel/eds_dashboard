@@ -40,7 +40,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       teacher = FactoryGirl.create :clinical_teacher
-      get :edit, :id => teacher.id
+      get :edit, params: {:id => teacher.id}
       assert_response :success
       assert_form_details
       assert_equal assigns(:teacher), teacher
@@ -56,7 +56,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       teacher.assign_attributes update_params
 
       #post!
-      post :update, {:id => teacher.id, :clinical_teacher => update_params}
+      post :update, params: {:id => teacher.id, :clinical_teacher => update_params}
       assert_redirected_to clinical_teachers_path
       assert_equal assigns(:teacher), teacher
       assert_equal flash[:notice], "Updated Teacher #{assigns(:teacher).FirstName} #{assigns(:teacher).LastName}."
@@ -73,7 +73,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
     update_params = {:FirstName => teacher.FirstName}
 
     #post!
-    post :update, {:id => teacher.id, :clinical_teacher => update_params}
+    post :update, params: {:id => teacher.id, :clinical_teacher => update_params}
     assert_response :success
     assert_template 'edit'
     assert_form_details
@@ -96,13 +96,13 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       site = FactoryGirl.create :clinical_site
       new_params = FactoryGirl.attributes_for :clinical_teacher, :clinical_site_id => site.id
 
-      post :create, {:clinical_teacher => new_params}
+      post :create, params: {:clinical_teacher => new_params}
       assert assigns(:teacher).valid?, assigns(:teacher).errors.full_messages
       assert_redirected_to clinical_teachers_path
       expected_teacher = ClinicalTeacher.create(new_params)
 
       actual_teacher = assigns(:teacher)
-      assert_equal actual_teacher.attributes.delete(:id), expected_teacher.attributes.delete(:id)
+      assert_equal actual_teacher.attributes.except("id"), expected_teacher.attributes.except("id")
       assert_equal flash[:notice], "Created new teacher #{expected_teacher.FirstName} #{expected_teacher.LastName}."
 
     end
@@ -115,7 +115,7 @@ test "should not post create bad params" do
     site = FactoryGirl.create :clinical_site
     new_params = FactoryGirl.attributes_for :clinical_teacher # Won't make an attribute for clinical site and will fail
 
-    post :create, {:clinical_teacher => new_params}
+    post :create, params: {:clinical_teacher => new_params}
     assert_response :success
     assert_form_details
     assert_template 'new'
@@ -135,7 +135,7 @@ test "should delete teacher and dependent assignments" do
         :EndDate => expected_term.EndDate.strftime("%Y/%m/%d")
       }
 
-    post :destroy, {:id => teach.id}
+    post :destroy, params: {:id => teach.id}
 
     assert_equal(teach, assigns(:teacher))
     assert assigns(:teacher).destroyed?
@@ -148,7 +148,7 @@ test "should delete teacher and dependent assignments" do
   test "deletion for bad role" do
     (role_names - allowed_roles).each do |r|
     teach = FactoryGirl.create :clinical_teacher
-      post :destroy, {:id => teach.id}
+      post :destroy, params: {:id => teach.id}
       assert_redirected_to "/access_denied"
     end
   end
@@ -158,7 +158,7 @@ test "should delete teacher and dependent assignments" do
     allowed_roles.each do |r|
       load_session(r)
       teach = FactoryGirl.create :clinical_teacher
-      get :delete, {:clinical_teacher_id => teach.id}
+      get :delete, params: {:clinical_teacher_id => teach.id}
       assert_equal teach, assigns(:teacher)
     end
   end
@@ -167,7 +167,7 @@ test "should delete teacher and dependent assignments" do
     teach=FactoryGirl.create :clinical_teacher
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :delete, {:id => teach.id}
+      get :delete, params: {:id => teach.id}
       assert_redirected_to "/access_denied"
     end
   end
