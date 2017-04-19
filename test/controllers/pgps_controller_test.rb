@@ -23,7 +23,7 @@ class PgpsControllerTest < ActionController::TestCase
     allowed_roles.each do |r|
       load_session(r)
       stu = FactoryGirl.create :student
-      get :index, {:student_id => stu.id}
+      get :index, params: {:student_id => stu.id}
       assert_response :success
       expected_pgp = Pgp.all
       assert_equal assigns(:pgps).to_a, expected_pgp.to_a
@@ -36,7 +36,7 @@ class PgpsControllerTest < ActionController::TestCase
       load_session(r)
       stu = FactoryGirl.create :student
       pgp = FactoryGirl.create :pgp
-      get :index, {:student_id => stu.id}
+      get :index, params: {:student_id => stu.id}
       assert_redirected_to "/access_denied"
     end
   end
@@ -65,7 +65,7 @@ class PgpsControllerTest < ActionController::TestCase
 
           expected_pgp = FactoryGirl.build :pgp, {:student => @adv_assign.student}
           stu = expected_pgp.student
-          post :create, {:pgp=> expected_pgp.attributes}
+          post :create, params: {:pgp=> expected_pgp.attributes}
           assert assigns(:pgp).valid?
           assert_equal flash[:notice], "Created professional growth plan."
           assert_equal expected_pgp.attributes.except("id", "created_at", "updated_at"),
@@ -83,7 +83,7 @@ class PgpsControllerTest < ActionController::TestCase
           expected_pgp = FactoryGirl.build :pgp, {:student => stu,
             :goal_name => nil
           }
-          post :create, {:pgp=> expected_pgp.attributes}
+          post :create, params: {:pgp=> expected_pgp.attributes}
 
           assert_not assigns(:pgp).valid?
           assert_template 'new'
@@ -100,7 +100,7 @@ class PgpsControllerTest < ActionController::TestCase
         load_session(r)
         stu = FactoryGirl.create :student
         pgp = FactoryGirl.create :pgp
-        post :create, {:student_id => stu.id}
+        post :create, params: {:student_id => stu.id}
         assert_redirected_to "/access_denied"
       end
     end
@@ -119,7 +119,7 @@ class PgpsControllerTest < ActionController::TestCase
       pgp = FactoryGirl.create :pgp,
       {:student_id => stu.id, :goal_name => "test name",:description => "description", :plan => "plan"}
       expected_attr = {"description" => "new descript", "plan" => "new plan"}
-      post :update, {:id => pgp.id, :pgp => expected_attr}
+      post :update, params: {:id => pgp.id, :pgp => expected_attr}
 
       all_attrs = assigns(:pgp).attributes
       actual_attrs = all_attrs.select{ |k,v| expected_attr.include?(k)}
@@ -146,7 +146,7 @@ class PgpsControllerTest < ActionController::TestCase
       pgp = FactoryGirl.create :pgp,
       {:student_id => stu.id, :goal_name => "test name",:description => "description", :plan => "plan"}
       expected_attr = {:description => "new descript", :plan => nil}
-      post :update, {:id => pgp.id, :pgp => expected_attr}
+      post :update, params: {:id => pgp.id, :pgp => expected_attr}
 
       assert_equal(assigns(:pgp), pgp)
       assert_equal pgp.student, assigns(:student)
@@ -167,7 +167,7 @@ class PgpsControllerTest < ActionController::TestCase
       pgp = FactoryGirl.create :pgp,
       {:student_id => stu.id, :goal_name => "test name",:description => "nil", :plan => "nil"}
       expected_attr = {:description => "new descript", :plan => "new plan"}
-      post :update, {:id => pgp.id, :pgp => expected_attr}
+      post :update, params: {:id => pgp.id, :pgp => expected_attr}
       assert_redirected_to "/access_denied"
     end
   end
@@ -178,7 +178,7 @@ class PgpsControllerTest < ActionController::TestCase
       load_session(r)
       stu = FactoryGirl.create :student
       pgp = FactoryGirl.create :pgp
-      post :edit, {:id => pgp.id}
+      post :edit, params: {:id => pgp.id}
       assert_redirected_to "/access_denied"
     end
   end
@@ -188,7 +188,7 @@ class PgpsControllerTest < ActionController::TestCase
       load_session(r)
       stu = FactoryGirl.create :student
       pgp = FactoryGirl.create :pgp
-      post :destroy, {:id => pgp.id}
+      post :destroy, params: {:id => pgp.id}
       assert_equal(assigns(:pgp), pgp)
       assert assigns(:pgp).destroyed?
       assert_equal flash[:notice], "Professional growth plan deleted successfully"
@@ -202,7 +202,7 @@ class PgpsControllerTest < ActionController::TestCase
       stu = FactoryGirl.create :student
       score = FactoryGirl.create :pgp_score
       pgp = score.pgp
-      post :destroy, {:id => pgp.id}
+      post :destroy, params: {:id => pgp.id}
       assert_redirected_to "/access_denied"
     end
   end
@@ -212,7 +212,7 @@ class PgpsControllerTest < ActionController::TestCase
       load_session(r)
       pgp = FactoryGirl.create :pgp
       score = FactoryGirl.create :pgp_score, {:pgp_id => pgp.id}
-      post :destroy, {:id => pgp.id}
+      post :destroy, params: {:id => pgp.id}
       assert_equal flash[:notice], "Unable to alter due to scoring"
       assert_equal assigns(:pgp), pgp
     end

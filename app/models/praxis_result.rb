@@ -82,7 +82,7 @@ class PraxisResult < ApplicationRecord
 			praxis_test_id: self.praxis_test_id,
 			test_date: self.test_date
 			 )
-		# puts "I found #{matching_ids.size} matching ids"
+
 		if matching_ids.size > 1
 			self.errors.add(:base, "Student may not take the same exam on the same day.")
 		end
@@ -91,7 +91,7 @@ class PraxisResult < ApplicationRecord
 	def check_alterability
 		if !self.can_alter?
 			self.errors.add(:base, "Test has scores and may not be altered.")
-			return false
+			throw :abort
 		end
 		return true
 	end

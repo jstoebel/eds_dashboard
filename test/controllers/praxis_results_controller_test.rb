@@ -29,7 +29,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
 
       stu = test.student
 
-      get :index, {:student_id => stu.AltID}
+      get :index, params: {:student_id => stu.AltID}
 
       assert_response :success
 
@@ -50,7 +50,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       AdvisorAssignment.create({:student_id => stu.id,
           :tep_advisor_id => adv.id
         })
-      get :show, {:id => test.AltID}
+      get :show, params: {:id => test.AltID}
 
       assert_response :success
       assert_equal test, assigns(:test)
@@ -80,7 +80,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       stu = result.student
 
       allowed_attrs = [:student_id, :praxis_test_id, :test_date, :reg_date, :paid_by]
-      post :create, {:praxis_result => result.attributes}
+      post :create, params: {:praxis_result => result.attributes}
 
       #created result should match across allowed_attrs
       expected_attrs = result.attributes.slice(*allowed_attrs)
@@ -107,7 +107,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
         :paid_by => nil  #break the record here
       }
 
-      post :create, {:praxis_result => test_params}
+      post :create, params: {:praxis_result => test_params}
 
       assert_equal assigns(:students), Student.all.by_last.current
       assert_equal assigns(:test_options), PraxisTest.all.current
@@ -120,7 +120,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       load_session(r)
 
       test = FactoryGirl.create :praxis_result
-      get :edit, {:id => test.id}
+      get :edit, params: {:id => test.id}
       assert_response :success
       assert_equal test, assigns(:test)
     end
@@ -134,7 +134,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = FactoryGirl.create :praxis_result
       test.test_score = 123
       test.save
-      get :edit, {:id => test.id}
+      get :edit, params: {:id => test.id}
       assert_equal flash[:notice], "Test may not be altered."
       assert_redirected_to student_praxis_results_path(test.student.AltID)
     end
@@ -147,7 +147,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = FactoryGirl.create :praxis_result, :test_score => nil
       test.reg_date += 1
       update_params = {:reg_date => test.reg_date}
-      post :update, {:id => test.id,
+      post :update, params: {:id => test.id,
        :praxis_result => update_params
       }
 
@@ -173,7 +173,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
 
       update_params = {:reg_date => test.reg_date}
 
-      post :update, {:id => test.AltID,
+      post :update, params: {:id => test.AltID,
        :praxis_result => update_params
       }
       assert_equal flash[:notice], "Can't update test #{ApplicationController.helpers.name_details(test.student)}, #{PraxisTest.find(test.praxis_test_id).TestName}, #{test.test_date.strftime("%m/%d/%Y")}"
@@ -191,7 +191,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
 
       update_params = {:reg_date => test.reg_date}
 
-      post :update, {:id => test.id,
+      post :update, params: {:id => test.id,
        :praxis_result => update_params
       }
 
@@ -214,7 +214,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       sub_tests = test.praxis_subtest_results
       sub_tests.destroy_all
 
-      post :destroy, {:id => test.id}
+      post :destroy, params: {:id => test.id}
       assert_redirected_to student_praxis_results_path(alt_id)
       assert_nil PraxisResult.find_by(:id => test.id)
 
@@ -239,7 +239,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = FactoryGirl.create :praxis_result
       test.test_score = 123
       test.save
-      post :destroy, {:id => test.AltID}
+      post :destroy, params: {:id => test.AltID}
       assert_redirected_to student_praxis_results_path(test.student.AltID)
       assert_not PraxisResult.find_by(:id => test.id).destroyed?
     end
@@ -252,7 +252,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       load_session(r)
 
       test = FactoryGirl.create :praxis_result
-      get :show, {:id => test.id}
+      get :show, params: {:id => test.id}
       assert_redirected_to "/access_denied"
 
     end
@@ -279,7 +279,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
         :paid_by => nil  #break the record here
       }
 
-      post :create, {:praxis_result => test_params}
+      post :create, params: {:praxis_result => test_params}
       assert_redirected_to "/access_denied"
     end
   end
@@ -288,7 +288,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
     ["advisor"].each do |r|
       load_session(r)
       test = FactoryGirl.create :praxis_result
-      get :edit, {:id => test.id}
+      get :edit, params: {:id => test.id}
       assert_redirected_to "/access_denied"
     end
   end
@@ -299,7 +299,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = FactoryGirl.create :praxis_result
       test.reg_date += 1
       update_params = {:reg_date => test.reg_date}
-      post :update, {:id => test.id,
+      post :update, params: {:id => test.id,
        :praxis_results => update_params
       }
       assert_redirected_to "/access_denied"
@@ -312,7 +312,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test = FactoryGirl.create :praxis_result
       test.test_score = 123
       test.save
-      post :destroy, {:id => test.id}
+      post :destroy, params: {:id => test.id}
       assert_redirected_to "/access_denied"
     end
   end

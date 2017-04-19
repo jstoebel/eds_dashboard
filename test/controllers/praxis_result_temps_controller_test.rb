@@ -41,7 +41,7 @@ class PraxisResultTempsControllerTest < ActionController::TestCase
 
   describe "resolve" do
 
-    subject {post :resolve, params}
+    subject {post :resolve, params: params}
 
     before do
       @stu = FactoryGirl.create :student
@@ -53,7 +53,7 @@ class PraxisResultTempsControllerTest < ActionController::TestCase
     describe "resolves record" do
 
       let(:params) { {:praxis_result_temp_id => @temp.id, :student_id => @stu.id} }
-      
+
       test "removes temp" do
         allowed_roles.each do |r|
           load_session(r)
