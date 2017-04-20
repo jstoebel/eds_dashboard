@@ -2,7 +2,8 @@ require_relative 'boot'
 require 'rails/all'
 require 'csv'
 
-secrets_file = '~/.eds_secrets.yml'
+# assume a capistrano deployment with current deployment sitting in ~/eds_dashboard/current
+secrets_file = File.join(File.dirname(__FILE__), '../../../..', '.eds_secrets.yml')
 SECRET = File.exists?(secrets_file) ? YAML.load_file(secrets_file) : {}
 
 # Require the gems listed in Gemfile, including any gems
