@@ -6,31 +6,31 @@ class ProcessStudent
    def initialize(row)
      # row: a row extracted from Banner query
      @row = row
-     @stu = Student.find_or_initialize_by :Bnum => row['SZVEDSD_ID']
+     @stu = Student.find_or_initialize_by :Bnum => row['szvedsd_id']
    end
 
    def upsert_student
      # upserts a student.
 
-      @stu.assign_attributes({:FirstName => @row['SZVEDSD_FIRST_NAME'],
-        :MiddleName => @row['SZVEDSD_MIDDLE_NAME'],
-        :LastName => @row['SZVEDSD_LAST_NAME'],
-        :EnrollmentStatus => @row['SZVEDSD_ENROLL_STAT'],
-        :Classification => @row['SZVEDSD_CLASSIFICATION'],
-        :CurrentMajor1 => @row['SZVEDSD_PRIMARY_MAJOR'],
-        :concentration1 => @row['SZVEDSD_PRIMARY_MAJOR_CONC'],
-        :CurrentMajor2 => @row['SZVEDSD_SECONDARY_MAJOR'],
-        :concentration2 => @row['SZVEDSD_SECONDARY_MAJOR_CONC'],
-        :CurrentMinors => @row['SZVEDSD_MINORS'],
-        :Email => @row['SZVEDSD_EMAIL'],
-        :CPO => @row['SZVEDSD_CPO'],
-        :withdraws => @row['SZVEDSD_WITHDRAWALS'],
-        :term_graduated => @row['SZVEDSD_TERM_GRADUATED'],
-        :gender => @row['SZVEDSD_GENDER'],
-        :race => @row['SZVEDSD_RACE'],
-        :hispanic => @row['SZVEDSD_HISPANIC'].andand.downcase=='yes' ? true : false,
-        :term_expl_major => @row['SZVEDSD_TERM_EDS_EXPLOR_MJR'],
-        :term_major => @row['SZVEDSD_TERM_DECLARED_EDS_MJR']
+      @stu.assign_attributes({:FirstName => @row['szvedsd_first_name'],
+        :MiddleName => @row['szvedsd_middle_name'],
+        :LastName => @row['szvedsd_last_name'],
+        :EnrollmentStatus => @row['szvedsd_enroll_stat'],
+        :Classification => @row['szvedsd_classification'],
+        :CurrentMajor1 => @row['szvedsd_primary_major'],
+        :concentration1 => @row['szvedsd_primary_major_conc'],
+        :CurrentMajor2 => @row['szvedsd_secondary_major'],
+        :concentration2 => @row['szvedsd_secondary_major_conc'],
+        :CurrentMinors => @row['szvedsd_minors'],
+        :Email => @row['szvedsd_email'],
+        :CPO => @row['szvedsd_cpo'],
+        :withdraws => @row['szvedsd_withdrawals'],
+        :term_graduated => @row['szvedsd_term_graduated'],
+        :gender => @row['szvedsd_gender'],
+        :race => @row['szvedsd_race'],
+        :hispanic => @row['szvedsd_hispanic'].andand.downcase=='yes' ? true : false,
+        :term_expl_major => @row['szvedsd_term_eds_explor_mjr'],
+        :term_major => @row['szvedsd_term_declared_eds_mjr']
      })
 
      # email alert if candidate appears to have left program according to concentration change
@@ -52,7 +52,7 @@ class ProcessStudent
      # determines any changes in advisor assignments and adds/removes to match.
      # example: FirstName LastName {Primary-B00xxxxxx}; FirstName LastName {Minor-B00xxxxxx}
 
-     advisors_raw = @row['SZVEDSD_ADVISOR']
+     advisors_raw = @row['szvedsd_advisor']
      if advisors_raw.present?
        advisors = advisors_raw.split ";" # array of each advisor with B#
        info = advisors_raw.split(";").map{ |adv| adv.match(/\{(.+)\}/i)[1] } # array like this ["Primary-B00xxxxxx", "Minor-B00xxxxxx"]
@@ -100,11 +100,11 @@ class ProcessStudent
 
    def upsert_course
 
-     term_raw = @row['SZVEDSD_TERM_TAKEN']  #looks like this 201512 - Spring Term 2016
+     term_raw = @row['szvedsd_term_taken']  #looks like this 201512 - Spring Term 2016
      #split at first dash
      term = term_raw.slice(0, term_raw.index('-')).strip
 
-     course_raw = @row['SZVEDSD_COURSE']    # looks like this SOC 220X  - Social Problems
+     course_raw = @row['szvedsd_course']    # looks like this SOC 220X  - Social Problems
      delim = course_raw.index('-')
 
      begin
@@ -127,10 +127,10 @@ class ProcessStudent
        course_section = nil
      end
 
-     grade_ltr = @row['SZVEDSD_GRADE']
+     grade_ltr = @row['szvedsd_grade']
      grade_pt = Transcript.l_to_g(grade_ltr)
 
-     @course = Transcript.find_or_initialize_by({:crn => row['SZVEDSD_CRN'],
+     @course = Transcript.find_or_initialize_by({:crn => row['szvedsd_crn'],
        :student_id => @stu.id,
        :term_taken => term
      })
@@ -140,11 +140,11 @@ class ProcessStudent
         :course_section => course_section,
         :grade_pt => grade_pt,
         :grade_ltr => grade_ltr,
-        :credits_attempted => @row['SZVEDSD_CREDITS_ATTEMPTED'],
-        :credits_earned => @row['SZVEDSD_CREDITS_EARNED'],
-        :reg_status => @row['SZVEDSD_REGISTRATION_STAT'],
-        :instructors => @row['SAVEDSD_INSTRUCTOR'], # example format FirstName LastName {B00123456}; FirstName LastName {B00687001}
-        :gpa_include => @row['SZVEDSD_GPA_IND'].andand.downcase == 'exclude' ? false : true
+        :credits_attempted => @row['szvedsd_credits_attempted'],
+        :credits_earned => @row['szvedsd_credits_earned'],
+        :reg_status => @row['szvedsd_registration_stat'],
+        :instructors => @row['savedsd_instructor'], # example format FirstName LastName {B00123456}; FirstName LastName {B00687001}
+        :gpa_include => @row['szvedsd_gpa_ind'].andand.downcase == 'exclude' ? false : true
       })
 
 

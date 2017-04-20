@@ -20,7 +20,7 @@ class PgpScoresControllerTest < ActionController::TestCase
         allowed_roles.each do |r|
             load_session(r)
             pgp = FactoryGirl.create :pgp
-            get :index, {:pgp_id => pgp.id}
+            get :index, params: {:pgp_id => pgp.id}
             assert_response :success
             expected_pgp_score = PgpScore.all
             assert_equal assigns(:pgp_scores).to_a, expected_pgp_score.to_a
@@ -32,7 +32,7 @@ class PgpScoresControllerTest < ActionController::TestCase
         pgp = FactoryGirl.create :pgp
         score = FactoryGirl.create :pgp_score
 
-        get :index, {:pgp_id => pgp.id}
+        get :index, params: {:pgp_id => pgp.id}
         assert_redirected_to "/access_denied"
         end
     end
@@ -42,7 +42,7 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             pgp = FactoryGirl.create :pgp
             create_pgp_score = {:pgp_id => pgp.id, :goal_score => 2, :score_reason => "Test Reason"}
-            post :create, {:pgp_id => pgp.id, :pgp_score => create_pgp_score}
+            post :create, params: {:pgp_id => pgp.id, :pgp_score => create_pgp_score}
             assert assigns(:pgp_score).valid?
             assert_equal flash[:notice], "Scored professional growth plan."
             assert_redirected_to pgp_pgp_scores_path(assigns(:pgp_score).pgp_id)
@@ -54,7 +54,7 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             pgp = FactoryGirl.create :pgp
             create_pgp_score = {:pgp_id => pgp.id, :goal_score => 2}
-            post :create, {:pgp_id => pgp.id, :pgp_score => create_pgp_score}
+            post :create, params: {:pgp_id => pgp.id, :pgp_score => create_pgp_score}
             assert_not assigns(:pgp_score).valid?
             assert_equal flash[:notice], "Error creating professional growth plan."
             assert_equal pgp, assigns(:pgp)
@@ -68,7 +68,7 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             pgp = FactoryGirl.create :pgp
             pgp_score = FactoryGirl.create :pgp_score
-            post :create, {:pgp_id => pgp.id}
+            post :create, params: {:pgp_id => pgp.id}
             assert_redirected_to "/access_denied"
         end
     end
@@ -79,7 +79,7 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             score = FactoryGirl.create :pgp_score, {:pgp_id => pgp.id, :goal_score => 1, :score_reason => "nil"}
             expected_attr = {"goal_score" => 3, "score_reason" => "Test reason"}
-            post :update, {:id => score.id, :pgp_score => expected_attr}
+            post :update, params: {:id => score.id, :pgp_score => expected_attr}
 
             all_attrs = assigns(:pgp_score).attributes
             actual_attrs = all_attrs.select{ |k,v| expected_attr.include?(k)}
@@ -97,9 +97,7 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             score = FactoryGirl.create :pgp_score, {:pgp_id => pgp.id, :goal_score => 1, :score_reason => "reason goes here"}
             expected_attr = {"goal_score" => 3, "score_reason" => nil}
-            post :update, {:id => score.id, :pgp_score => expected_attr}
-
-
+            post :update, params: {:id => score.id, :pgp_score => expected_attr}
 
             assert_equal score, assigns(:pgp_score)
             assert_equal score.pgp, assigns(:pgp)
@@ -118,7 +116,7 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             score = FactoryGirl.create :pgp_score, {:pgp_id => pgp.id, :goal_score => 1, :score_reason => "nil"}
             expected_attr = {:goal_score => 3, :score_reason => "Test reason"}
-            post :update, {:id => score.id, :pgp_score => expected_attr}
+            post :update, params: {:id => score.id, :pgp_score => expected_attr}
             assert_redirected_to "access_denied/"
         end
     end
@@ -128,7 +126,7 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             pgp = FactoryGirl.create :pgp
             score = FactoryGirl.create :pgp_score
-            post :destroy, {:id => score.id}
+            post :destroy, params: {:id => score.id}
             assert_equal(assigns(:pgp_score), score)
             assert_equal flash[:notice], "Deleted Successfully"
             assert_redirected_to pgp_pgp_scores_path(assigns(:pgp_score).pgp_id)
@@ -140,10 +138,9 @@ class PgpScoresControllerTest < ActionController::TestCase
             load_session(r)
             pgp = FactoryGirl.create :pgp
             score = FactoryGirl.create :pgp_score
-            post :destroy, {:id => score.id}
+            post :destroy, params: {:id => score.id}
             assert_redirected_to "access_denied/"
         end
     end
-
-
+    
 end

@@ -18,7 +18,7 @@ for example a single assessment item might have for different levels each with i
 level name and level number
 =end
 
-class ItemLevel < ActiveRecord::Base
+class ItemLevel < ApplicationRecord
 
     belongs_to :assessment_item
 

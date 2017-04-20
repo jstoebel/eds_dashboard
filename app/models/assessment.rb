@@ -16,7 +16,7 @@ specific versions of an assessment are modeled in AssessmentVersion
 
 =end
 
-class Assessment < ActiveRecord::Base 
+class Assessment < ApplicationRecord 
 
     ### ASSOCIATIONS ###
     has_many :assessment_items

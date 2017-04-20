@@ -17,7 +17,7 @@
 #  co_teacher_training :datetime
 #
 
-class ClinicalTeacher < ActiveRecord::Base
+class ClinicalTeacher < ApplicationRecord
 
 	has_many :clinical_assignments, dependent: :destroy
 	belongs_to :clinical_site

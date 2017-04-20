@@ -30,7 +30,7 @@ class StudentFilesControllerTest < ActionController::TestCase
     role_names.each do |r|
       load_session(r)
 
-      get :index, {:student_id => stu.AltID}
+      get :index, params: {:student_id => stu.AltID}
 
       test_index_setup(stu)
       assert_response :success
@@ -50,7 +50,7 @@ class StudentFilesControllerTest < ActionController::TestCase
         :active => true)
       expected_stu_file.doc = fixture_file_upload 'test_file.txt'
 
-      post :create, {:student_id => stu.AltID,
+      post :create, params: {:student_id => stu.AltID,
         :active => true,
         :student_file =>
           {:doc => fixture_file_upload('test_file.txt')}
@@ -78,7 +78,7 @@ class StudentFilesControllerTest < ActionController::TestCase
       load_session(r)
       stu = Student.first
 
-      get :create, {:student_id => stu.AltID,
+      post :create, params: {:student_id => stu.AltID,
         :active => true,
         :student_file =>
           {:doc => fixture_file_upload('badfile.bad')}
@@ -97,7 +97,7 @@ class StudentFilesControllerTest < ActionController::TestCase
       load_session(r)
       StudentFile.delete_all
       file = FactoryGirl.create :student_file
-      post :destroy, {:id => file.id}
+      post :destroy, params: {:id => file.id}
 
       assert_equal file, assigns(:file)
       puts assigns(:file).errors.full_messages
@@ -121,7 +121,7 @@ class StudentFilesControllerTest < ActionController::TestCase
     bad_roles = ["student labor"]
     bad_roles.each do |r|
       load_session(r)
-      get :download, :student_file_id => "who cares"
+      get :download, params: {:student_file_id => "who cares"}
       assert_redirected_to "/access_denied"
     end
   end

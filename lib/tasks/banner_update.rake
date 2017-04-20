@@ -1,4 +1,3 @@
-require 'dbi'
 task :banner_update, [:start_term, :end_term] => :environment do |task, args|
   # updates banner pulling all students who were enrolled in EDS 150 in any of
   # the terms between start_term and end_term
@@ -40,15 +39,14 @@ task :banner_update, [:start_term, :end_term] => :environment do |task, args|
 
       puts "Query for #{t.BannerTerm}"
 
-      conn = BannerConnection.new t.BannerTerm
-      rows = conn.get_results
+      rows = Banner.by_term t.BannerTerm
 
       visited_students = []
       existing_students = Student.all
 
       rows.each do |row|
 
-        bnum = row["SZVEDSD_ID"]
+        bnum = row.szvedsd_id
 
         row_service = ProcessStudent.new row
 

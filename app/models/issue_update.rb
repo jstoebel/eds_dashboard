@@ -14,7 +14,7 @@
 #  status                   :string(255)
 #
 
-class IssueUpdate < ActiveRecord::Base
+class IssueUpdate < ApplicationRecord
 	belongs_to :issue, foreign_key: 'Issues_IssueID'
 	belongs_to :tep_advisor, {:foreign_key => 'tep_advisors_AdvisorBnum'}
 	after_validation :add_addressed

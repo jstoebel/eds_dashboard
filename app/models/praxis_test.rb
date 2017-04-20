@@ -18,7 +18,7 @@
 #  CurrentTest      :boolean
 #
 
-class PraxisTest < ActiveRecord::Base
+class PraxisTest < ApplicationRecord
 
 	has_many :praxis_results
 	has_many :praxis_result_temps

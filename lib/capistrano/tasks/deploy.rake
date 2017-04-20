@@ -21,6 +21,5 @@ namespace :deploy do
   end
 
   before :deploy, "deploy:check_revision"
-  after :deploy, "deploy:update_dbi"
 
 end

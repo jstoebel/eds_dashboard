@@ -198,15 +198,15 @@ class AdmTepTest < ActiveSupport::TestCase
 
     #since different SQL was used, slice the records into an array
     #and compare the array
-    assert_equal(expected.slice(0, expected.size),
-      expected.slice(0, expected.size))
+    assert_equal(expected.to_a.slice(0, expected.size),
+      expected.to_a.slice(0, expected.size))
   end
 
   test "scope by term" do
     expected = AdmTep.where(BannerTerm_BannerTerm: 201511)
     actual = AdmTep.by_term(201511)
-    assert_equal(expected.slice(0, expected.size),
-      expected.slice(0, expected.size))
+    assert_equal(expected.to_a.slice(0, expected.size),
+      expected.to_a.slice(0, expected.size))
   end
 
   test "needs foreign keys" do

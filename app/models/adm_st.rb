@@ -21,7 +21,7 @@
 #  student_file_id       :integer
 #
 
-class AdmSt < ActiveRecord::Base
+class AdmSt < ApplicationRecord
   self.table_name = 'adm_st'
   include ApplicationHelper
 

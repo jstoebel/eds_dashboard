@@ -47,6 +47,7 @@ class StudentsController < ApplicationController
       @students = all_students.active_student.current.select{|s| can? :read, s}
     end
 
+    @search_path = {:search => params[:search]}
     respond_with @students
   end
 

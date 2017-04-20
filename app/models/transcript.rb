@@ -19,7 +19,7 @@
 #  gpa_include       :boolean          not null
 #
 
-class Transcript < ActiveRecord::Base
+class Transcript < ApplicationRecord
   self.table_name = 'transcript'
 
 

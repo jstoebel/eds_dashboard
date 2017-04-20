@@ -1,10 +1,8 @@
-require File.expand_path('../boot', __FILE__)
-
+require_relative 'boot'
 require 'rails/all'
 require 'csv'
 
-
-secrets_file = '/home/stoebelj/.eds_secrets.yml'
+secrets_file = '~/.eds_secrets.yml'
 SECRET = File.exists?(secrets_file) ? YAML.load_file(secrets_file) : {}
 
 # Require the gems listed in Gemfile, including any gems
@@ -25,8 +23,6 @@ module Eds
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.delivery_method = :smtp
     # SMTP settings for mailgun

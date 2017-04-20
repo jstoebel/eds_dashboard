@@ -12,7 +12,7 @@
 #  avg_low          :integer
 #
 
-class PraxisSubtestResult < ActiveRecord::Base
+class PraxisSubtestResult < ApplicationRecord
 	belongs_to :praxis_result
 
 	validates_presence_of :praxis_result_id

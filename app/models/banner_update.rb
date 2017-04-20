@@ -9,7 +9,7 @@
 #  end_term   :integer
 #
 
-class BannerUpdate < ActiveRecord::Base
+class BannerUpdate < ApplicationRecord
 
 	# before_validation :check_terms
     validates_presence_of :start_term, :end_term

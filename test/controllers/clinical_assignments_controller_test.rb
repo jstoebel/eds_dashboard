@@ -60,7 +60,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
           FactoryGirl.create_list :clinical_teacher, 5
           FactoryGirl.create_list :student, 5
           term = (FactoryGirl.create :banner_term, :StartDate => 5.days.ago,
-          :EndDate => 5.days.from_now
+            :EndDate => 5.days.from_now
           )
 
           @assignment = FactoryGirl.build :clinical_assignment, {
@@ -74,7 +74,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
         end
 
         test "as #{r} should create" do
-          post :create, {:clinical_assignment => @assignment.attributes}
+          post :create, params: {:clinical_assignment => @assignment.attributes}
 
           expected_attrs = @assignment.attributes
           actual_attrs = assigns(:assignment).attributes
@@ -87,7 +87,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
         test "as #{r} should not create -- bad params" do
           #can't create record due to a record not saving
           @assignment.clinical_teacher_id = nil
-          post :create, {:clinical_assignment => @assignment.attributes}
+          post :create, params: {:clinical_assignment => @assignment.attributes}
           assert_not assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
           assert_response :success
           check_form_setup
@@ -109,14 +109,14 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
         FactoryGirl.create_list :clinical_teacher, 5
         FactoryGirl.create_list :student, 5
         assignment = FactoryGirl.create :clinical_assignment
-        get :edit, {:id => assignment.id}
+        get :edit, params: {:id => assignment.id}
         assert_response :success
         assert_equal assigns(:assignment), assignment
         check_form_setup
       end
 
       test "should not get -- bad id" do
-        assert_raises(ActiveRecord::RecordNotFound) { get :edit, {:id => "bad id"} }
+        assert_raises(ActiveRecord::RecordNotFound) { get :edit, params: {:id => "bad id"} }
       end # test
     end # roles loop
   end # describe
@@ -143,7 +143,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
       end
 
       test "should update" do
-        post :update, {:id => @assignment.id, :clinical_assignment => @update_params}
+        post :update, params: {:id => @assignment.id, :clinical_assignment => @update_params}
 
         assert assigns(:assignment).valid?, assigns(:assignment).errors.full_messages
         assert_redirected_to banner_term_clinical_assignments_path(@assignment.banner_term.id)
@@ -152,7 +152,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
 
       test "should not update -- bad params" do
         assert_raises(ActiveRecord::RecordNotFound) {
-          post :update, {:id => "bad id", :clinical_assignment => @update_params}
+          post :update, params: {:id => "bad id", :clinical_assignment => @update_params}
         }
       end # test
     end # roles loop
@@ -164,7 +164,7 @@ class ClinicalAssignmentsControllerTest < ActionController::TestCase
         load_session(r)
         FactoryGirl.create_list :clinical_assignment, 5
         term = FactoryGirl.create :banner_term
-        post :choose, {
+        post :choose, params: {
           :clinical_assignment_id => "pick",
           :banner_term => {
             :menu_terms => term.id

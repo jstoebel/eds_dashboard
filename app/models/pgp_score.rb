@@ -10,7 +10,7 @@
 #  updated_at   :datetime
 #
 
-class PgpScore< ActiveRecord::Base
+class PgpScore< ApplicationRecord
     
     self.table_name = 'pgp_scores'
     

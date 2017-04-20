@@ -7,7 +7,7 @@
 #  tep_advisor_id :integer          not null
 #
 
-class AdvisorAssignment < ActiveRecord::Base
+class AdvisorAssignment < ApplicationRecord
 	belongs_to :student
 	belongs_to :tep_advisor
 end

@@ -12,7 +12,7 @@
 #  best_score     :integer
 #
 
-class PraxisResult < ActiveRecord::Base
+class PraxisResult < ApplicationRecord
 
 	attr_accessor :from_ets  #if this record is coming from ETS and should therefor
 	# not expect some validations
@@ -82,7 +82,7 @@ class PraxisResult < ActiveRecord::Base
 			praxis_test_id: self.praxis_test_id,
 			test_date: self.test_date
 			 )
-		# puts "I found #{matching_ids.size} matching ids"
+
 		if matching_ids.size > 1
 			self.errors.add(:base, "Student may not take the same exam on the same day.")
 		end
@@ -91,7 +91,7 @@ class PraxisResult < ActiveRecord::Base
 	def check_alterability
 		if !self.can_alter?
 			self.errors.add(:base, "Test has scores and may not be altered.")
-			return false
+			throw :abort
 		end
 		return true
 	end

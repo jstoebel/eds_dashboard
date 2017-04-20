@@ -14,7 +14,7 @@
 #  email        :string(255)
 #
 
-class ClinicalSite < ActiveRecord::Base
+class ClinicalSite < ApplicationRecord
 	has_many :clinical_teachers , dependent: :destroy
 
 	validates :SiteName,

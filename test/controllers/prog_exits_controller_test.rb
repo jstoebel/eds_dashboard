@@ -36,7 +36,7 @@ class ProgExitsControllerTest < ActionController::TestCase
   test "should get need_exit" do
     allowed_roles.each do |r|
       load_session(r)
-      get :need_exit, {:prog_exit_id => "exit"}
+      get :need_exit, params: {:prog_exit_id => "exit"}
 
       assert_response :success
       #TODO
@@ -70,7 +70,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         stu.EnrollmentStatus = "Graduation"
         stu.save!
 
-        post :create, :student_id => stu.id, :prog_exit => prog_exit.attributes
+        post :create, params: {:student_id => stu.id, :prog_exit => prog_exit.attributes}
         assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
         assert_redirected_to prog_exits_path
         assert_equal flash[:notice], "Successfully exited #{ApplicationController.helpers.name_details(assigns(:exit).student)} from #{assigns(:exit).program.EDSProgName}. Reason: #{assigns(:exit).exit_code.ExitDiscrip}."
@@ -80,7 +80,7 @@ class ProgExitsControllerTest < ActionController::TestCase
     ( role_names - allowed_roles).each do |r|
       test "as #{r} should not post" do
         load_session(r)
-        post :create, {:prog_exit => {
+        post :create, params: {:prog_exit => {
           :student_id => "bnum",
           :Program_ProgCode => "id",
           :ExitCode_ExitCode => "1826",   #dropped out
@@ -107,7 +107,7 @@ class ProgExitsControllerTest < ActionController::TestCase
           :Program_ProgCode => prog.id
         })
 
-      get :new_specific, {:prog_exit_id => stu.AltID, :program_id => prog.id}
+      get :new_specific, params: {:prog_exit_id => stu.AltID, :program_id => prog.id}
 
       assert_response :success
       assert assigns(:exit).new_record?
@@ -123,7 +123,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         load_session(r)
 
         expected_exit = FactoryGirl.create :successful_prog_exit
-        get :edit, {:id => expected_exit.AltID}
+        get :edit, params: {:id => expected_exit.AltID}
         assert_response :success
         assert_equal expected_exit, assigns(:exit)
       end # test
@@ -133,7 +133,7 @@ class ProgExitsControllerTest < ActionController::TestCase
       test "as #{r} should not get" do
 
         load_session(r)
-        get :edit, {:id => "id"}
+        get :edit, params: {:id => "id"}
         assert_redirected_to "/access_denied"
       end
     end # roles loop
@@ -151,9 +151,9 @@ class ProgExitsControllerTest < ActionController::TestCase
 
         new_attrs = prog_exit.attributes.merge({"RecommendDate" => prog_exit.RecommendDate + 1})
 
-        post :update, :id => prog_exit.id, :prog_exit => new_attrs
+        post :update, params: {:id => prog_exit.id, :prog_exit => new_attrs}
         assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
-        assert_equal new_attrs, assigns(:exit).attributes
+        assert_equal new_attrs["RecommendDate"], assigns(:exit).attributes["RecommendDate"]
         assert_equal flash[:notice], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
         assert_redirected_to banner_term_prog_exits_path(prog_exit.banner_term.id)
       end
@@ -165,7 +165,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         update_params = {
           :Details => "Details"
         }
-        post :update, {:id => "id", :prog_exit => update_params}
+        post :update, params: {:id => "id", :prog_exit => update_params}
         assert_redirected_to "/access_denied"
       end
     end
@@ -180,7 +180,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         prog_exit = FactoryGirl.create :successful_prog_exit
 
         expected_term = prog_exit.banner_term
-        get :choose, {:prog_exit_id => "pick", :banner_term => {:menu_terms => expected_term.id}}
+        get :choose, params: {:prog_exit_id => "pick", :banner_term => {:menu_terms => expected_term.id}}
         assert_redirected_to (banner_term_prog_exits_path(assigns(:term)))
 
       end
@@ -189,7 +189,7 @@ class ProgExitsControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
       test "as #{r} should not" do
         load_session(r)
-        get :choose, {:prog_exit_id => "pick", :banner_term => {:menu_terms => "expected_term.id"}}
+        get :choose, params: {:prog_exit_id => "pick", :banner_term => {:menu_terms => "expected_term.id"}}
         assert_redirected_to "/access_denied"
       end
     end
@@ -211,7 +211,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         expected_json.merge!({ p.ProgCode => p.EDSProgName })
       end
 
-      get :get_programs, {:id => expected_student.id}
+      get :get_programs, params: {:id => expected_student.id}
       assert_response :success
 
       json_response = JSON.parse(@response.body)
@@ -235,7 +235,7 @@ class ProgExitsControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
 
       load_session(r)
-      get :need_exit, {:prog_exit_id => "who cares"}
+      get :need_exit, params: {:prog_exit_id => "who cares"}
       assert_redirected_to "/access_denied"
 
     end
@@ -257,7 +257,7 @@ class ProgExitsControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
 
       load_session(r)
-      get :new_specific, {:prog_exit_id => "altid", :program_id => "progid"}
+      get :new_specific, params: {:prog_exit_id => "altid", :program_id => "progid"}
       assert_redirected_to "/access_denied"
 
     end
@@ -266,7 +266,7 @@ class ProgExitsControllerTest < ActionController::TestCase
   test "should not get get_programs bad role" do
     (role_names - allowed_roles).each do |r|
       load_session(r)
-      get :get_programs, {:alt_id => "expected_student.AltID"}
+      get :get_programs, params: {:alt_id => "expected_student.AltID"}
       assert_redirected_to "/access_denied"
     end
   end

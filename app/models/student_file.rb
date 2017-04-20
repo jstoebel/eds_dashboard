@@ -11,7 +11,7 @@
 #  doc_updated_at   :datetime
 #
 
-class StudentFile < ActiveRecord::Base
+class StudentFile < ApplicationRecord
 	belongs_to :student
   before_save :check_file_unique
 

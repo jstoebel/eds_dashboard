@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #
 
-class LastName < ActiveRecord::Base
+class LastName < ApplicationRecord
 	belongs_to :student
 	validates_presence_of :student_id
 end

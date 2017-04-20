@@ -9,7 +9,7 @@
 #  updated_at    :datetime
 #
 
-class StudentScore < ActiveRecord::Base
+class StudentScore < ApplicationRecord
     belongs_to :student
     belongs_to :item_level
 

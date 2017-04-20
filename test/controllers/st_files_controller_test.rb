@@ -20,7 +20,7 @@ class StFilesControllerTest < ActionController::TestCase
                     before do
                         adm_st = FactoryGirl.create :accepted_adm_st
                         @st_file = adm_st.st_files.first
-                        get :download, :st_file_id => @st_file.id
+                        get :download, params: {:st_file_id => @st_file.id}
                     end
 
                     test "response" do
@@ -38,7 +38,7 @@ class StFilesControllerTest < ActionController::TestCase
                     describe "success" do
 
                         before do
-                            post :create, {
+                            post :create, params: {
                                 :adm_st_id => @adm_st.id,
                                 :st_file => {
                                     :doc => fixture_file_upload('test_file.txt')
@@ -58,7 +58,7 @@ class StFilesControllerTest < ActionController::TestCase
                     describe "fail, bad params" do
 
                         test "fails with no doc" do
-                            post :create, {
+                            post :create, params: {
                                 :adm_st_id => @adm_st.id
                             }
 
@@ -76,7 +76,7 @@ class StFilesControllerTest < ActionController::TestCase
                     before do
                         @adm_st = FactoryGirl.create :accepted_adm_st
                         @st_file  = @adm_st.st_files.first
-                        delete :destroy, {:id => @st_file.id}
+                        delete :destroy, params: {:id => @st_file.id}
                     end
 
                     test "destroys record" do
@@ -107,12 +107,12 @@ class StFilesControllerTest < ActionController::TestCase
 
             describe "as #{r}" do
                 test "can't get download" do
-                    get :download, :st_file_id => @st_file.id
+                    get :download, params: {:st_file_id => @st_file.id}
                     assert_redirected_to "/access_denied"
                 end
 
                 test "can't post create" do
-                    post :create, {
+                    post :create, params: {
                         :adm_st_id => @adm_st.id,
                         :st_file => {
                             :doc => fixture_file_upload('test_file.txt')
@@ -122,7 +122,7 @@ class StFilesControllerTest < ActionController::TestCase
                 end
 
                 test "can't delete destroy" do
-                    delete :destroy, :id => @st_file.id
+                    delete :destroy, params: {:id => @st_file.id}
                     assert_redirected_to "/access_denied"
                 end
 

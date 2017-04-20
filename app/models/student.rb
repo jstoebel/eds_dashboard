@@ -30,7 +30,7 @@
 #  presumed_status_comment :text(65535)
 #
 
-class Student < ActiveRecord::Base
+class Student < ApplicationRecord
     include ApplicationHelper
 
 ####~~~ASSOCIATIONS without Model Methods~~~####################################################

@@ -11,7 +11,7 @@
 #  email       :string(255)
 #
 
-class TepAdvisor < ActiveRecord::Base
+class TepAdvisor < ApplicationRecord
 	self.table_name = "tep_advisors"
 
 	has_many :advisor_assignments

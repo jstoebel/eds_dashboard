@@ -11,7 +11,7 @@
 #  best_score     :integer
 #
 
-class PraxisResultTemp < ActiveRecord::Base
+class PraxisResultTemp < ApplicationRecord
 
   has_many :praxis_sub_temps, :dependent => :delete_all
   belongs_to :praxis_test

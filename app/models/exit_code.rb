@@ -7,7 +7,7 @@
 #  ExitDiscrip :string(45)       not null
 #
 
-class ExitCode < ActiveRecord::Base
+class ExitCode < ApplicationRecord
 	has_many :prog_exits, foreign_key: "ExitCode_ExitCode"
 
 	def repr

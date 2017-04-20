@@ -12,7 +12,7 @@
 #  strategies  :text(65535)
 #
 
-class Pgp < ActiveRecord::Base
+class Pgp < ApplicationRecord
     self.table_name = 'pgps'
 
 
@@ -40,10 +40,10 @@ class Pgp < ActiveRecord::Base
     end
 
     def pgp_scored_check
-    # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
+        # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
         if self.pgp_scores.present?
-           self.errors.add(:base, "Unable to alter due to scoring")
-           return false
+            self.errors.add(:base, "Unable to alter due to scoring")
+            throw :abort
         else
             return true
         end

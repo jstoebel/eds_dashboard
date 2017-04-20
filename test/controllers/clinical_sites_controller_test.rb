@@ -47,18 +47,18 @@ class ClinicalSitesControllerTest < ActionController::TestCase
         end
 
         test "should get" do
-          get :edit, :id => @site.id
+          get :edit, params: {:id => @site.id}
           assert_response :success
           assert_equal @site, assigns(:site)
         end
 
         test "should not get -- bad id" do
-          assert_raise(ActiveRecord::RecordNotFound){get :edit, :id => "bad_id"}
+          assert_raise(ActiveRecord::RecordNotFound){get :edit, params: {:id => "bad_id"}}
         end
       end
     end
   end
-  
+
   describe "update" do
     allowed_roles.each do |r|
       describe "as #{r}" do
@@ -71,7 +71,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
           @site.SiteName = "changed!"
           update_params = {:SiteName => @site.SiteName}
-          post :update, {:id => @site.id, :clinical_site => update_params}
+          post :update, params: {:id => @site.id, :clinical_site => update_params}
           assert_redirected_to clinical_sites_path
           assert_equal assigns(:site), @site
         end
@@ -83,7 +83,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
           update_params = {:SiteName => @site.SiteName}
 
           #post!
-          post :update, {:id => @site.id, :clinical_site => update_params}
+          post :update, params: {:id => @site.id, :clinical_site => update_params}
           assert_response :success
           assert_template 'edit'
           assert_equal "Error updating site.", flash[:notice]
@@ -103,7 +103,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
         test "should post" do
 
-          post :create, {:clinical_site => @site.attributes}
+          post :create, params: {:clinical_site => @site.attributes}
 
           expected_attrs = @site.attributes
           expected_attrs["phone"] = PhonyRails.normalize_number(expected_attrs["phone"], country_code: 'US')
@@ -120,7 +120,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
         test "should not post -- bad params" do
           @site.SiteName = nil
-          post :create, {:clinical_site => @site.attributes}
+          post :create, params: {:clinical_site => @site.attributes}
 
           assert :successs
           assert_equal flash[:notice], "Error creating site."
@@ -142,12 +142,12 @@ class ClinicalSitesControllerTest < ActionController::TestCase
         end
 
         test "should get" do
-          get :delete, {:clinical_site_id => @site.id}
+          get :delete, params: {:clinical_site_id => @site.id}
           assert_equal @site, assigns(:site)
         end
 
         test "should not get -- bad id" do
-          assert_raise(ActiveRecord::RecordNotFound) {get :delete, {:clinical_site_id => "bad id"}}
+          assert_raise(ActiveRecord::RecordNotFound) {get :delete, params: {:clinical_site_id => "bad id"}}
         end
       end
     end
@@ -164,7 +164,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
         test "should post" do
 
-          post :destroy, {:id => @site.id}
+          post :destroy, params: {:id => @site.id}
 
           assert_equal(@site, assigns(:site))
           assert assigns(:site).destroyed?

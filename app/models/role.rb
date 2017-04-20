@@ -6,7 +6,7 @@
 #  RoleName :string(45)       not null
 #
 
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
 
 	has_many :users, foreign_key: "Roles_idRoles"
 end
