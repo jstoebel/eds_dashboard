@@ -4,7 +4,7 @@
  -->
 
 <%= form_tag path, :method => 'get'  do %>
-    <%= text_field_tag :search, :placeholder => prompt %>
+    <%= text_field_tag :search, prompt %>
     <%= submit_tag "Search", :name => nil, :class => "btn btn-primary" %>
     <%= link_to path.merge({:all => "true"}), :class => "btn btn-primary" do %>
       <span>All</span>
