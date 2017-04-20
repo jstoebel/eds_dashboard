@@ -39,18 +39,17 @@ gem 'immigrant'
 
 # Use Capistrano for deployment
 group :development do
-    gem 'spring'
-    gem 'capistrano', '~> 3.1'
-    gem 'capistrano-passenger'
-    gem 'capistrano-rbenv', '~> 2.0'
-    gem 'capistrano-rails'
-    gem 'capistrano-bundler'
-    gem 'capistrano3-puma'
-    gem 'capistrano-ext'
-    gem 'knife-solo', '~> 0.4.2'
-    gem 'rails-erd'
-    gem 'bundler-audit', require: false
-    gem 'pry-rails'
+  gem 'spring'
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-passenger'
+  gem 'capistrano-rbenv', '~> 2.0'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano3-puma'
+  gem 'capistrano-ext'
+  gem 'rails-erd'
+  gem 'bundler-audit', require: false
+  gem 'pry-rails'
 end
 
 group :test do
@@ -59,7 +58,6 @@ group :test do
   gem 'minitest-reporters', '~> 1.1', '>= 1.1.14'
   gem 'rails-controller-testing'
 end
-
 
 gem 'database_cleaner', '~> 1.5', '>= 1.5.1'
 gem "factory_girl_rails", "~> 4.0"
