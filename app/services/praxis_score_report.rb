@@ -117,15 +117,10 @@ class PraxisScoreReport
     # NOTE: a failure to find a student could be because the student misreported
     # their SSN to ETS.
 
-    DBI.connect("DBI:OCI8:bannerdbrh.berea.edu:1521/rhprod",
-      SECRET["BANNER_UN"],
-      SECRET["BANNER_PW"]) do |dbh|
-        sql = "SELECT * FROM saturn.szvedsd WHERE SZVEDSD_SSN = ?"
-        row = dbh.select_one(sql, ssn)
-        return nil if row.nil? # if no student found, return nil
-        bnum = row["SZVEDSD_ID"]
-        return Student.find_by :Bnum => bnum
-    end
+    row = Banner.by_ssn(ssn)
+    return nil if row.nil? # if no student found, return nil
+    bnum = row["szvedsd_id"]
+    return Student.find_by :Bnum => bnum
   end
 
   def get_best_scores
