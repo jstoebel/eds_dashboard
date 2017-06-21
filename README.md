@@ -85,10 +85,10 @@ A growing number of help files can be found [here](app/views/helps). For conveni
 
 I've been blogging about this project and what I've learned about Ruby / Rails along the way:
 
-[Notes on Upgrading to Rails 5](http://www.jstoebel.com/upgrading-the-eds-dashobard-to-rails-5)
-[Intro to Fakes, Mocks and Stubs](http://www.jstoebel.com/a-no-frills-jump-into-fakes-mocks-and-stubs/)
-[Automating Gem Security Warnings](http://www.jstoebel.com/automate-gem-security-warnings-with-bundle-audit)
-[Seriously, Use Factories and Not Fixtures: A Survivor's Story](http://www.jstoebel.com/seriously-use-factories-and-not-fixtures-a-survivors-story)
-[Using and Securing Rails Admin](http://www.jstoebel.com/using-and-securing-rails_admin/)
-[Think twice before you change your Rails primary key data type](http://www.jstoebel.com/never-change-your-rails-primary-key-data-type)
-[Setting Up Capistrano](http://www.jstoebel.com/deploying-eds_dashboard-with-capistrano/)
+ - [Notes on Upgrading to Rails 5](http://www.jstoebel.com/upgrading-the-eds-dashobard-to-rails-5)
+ - [Intro to Fakes, Mocks and Stubs](http://www.jstoebel.com/a-no-frills-jump-into-fakes-mocks-and-stubs/)
+ - [Automating Gem Security Warnings](http://www.jstoebel.com/automate-gem-security-warnings-with-bundle-audit)
+ - [Seriously, Use Factories and Not Fixtures: A Survivor's Story](http://www.jstoebel.com/seriously-use-factories-and-not-fixtures-a-survivors-story)
+ - [Using and Securing Rails Admin](http://www.jstoebel.com/using-and-securing-rails_admin/)
+ - [Think twice before you change your Rails primary key data type](http://www.jstoebel.com/never-change-your-rails-primary-key-data-type)
+ - [Setting Up Capistrano](http://www.jstoebel.com/deploying-eds_dashboard-with-capistrano/)
