@@ -1,2 +1,0 @@
-class NoStudentFound < Exception
-end
