@@ -10,7 +10,7 @@ The Education Studies Department at Berea College maintains state and federal ce
 
  - install dependencies `bundle install`
 
- - This project connects with our Banner our enterprise database (Oracle). If your machine doesn't have Oracle client installed, use 'bundle install --without cs_c9_exclude'
+ - This project connects with our Banner our enterprise database (Oracle). If your machine doesn't have Oracle client installed, use `bundle install --without cs_c9_exclude`
 
  - Also: this app does not ship with a database.yml file. Several folks on our team
 develop in a cloud based environment and have specific requirements for
