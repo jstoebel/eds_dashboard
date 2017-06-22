@@ -553,7 +553,8 @@ class Student < ApplicationRecord
         re = /\((.+?):.+?\)/
         terms = self.withdraws
             .split('; ')
-            .map{|w|  BannerTerm.find_by :PlainTerm => re.match(w).andand[1]}
+            .map{|w|  BannerTerm.find_by :PlainTerm => re.match(w).andand[1]} # this could be nil
+            .select{|t| !t.nil?}
             .sort
         return terms.last if terms
     end
