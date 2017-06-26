@@ -40,7 +40,7 @@ class ProgExitsController < ApplicationController
   def create
     #create a new exit.
 
-    #mass assign AltID, program code, exit code, details
+    # safe mass assign AltID, program code, exit code, details
     @exit = ProgExit.new(new_exit_params)
 
     # model will find the exit date and GPAs on its own
@@ -97,6 +97,8 @@ class ProgExitsController < ApplicationController
   end
 
   def get_programs
+    # TODO: move this method to the programs controller. just makes more sense
+    # handle's populating a students potential programs to exit via an ajax request
     #gets programs for a given student's id, respond with json of all of students opened programs
 
     stu = Student.find params[:id]
@@ -113,11 +115,14 @@ class ProgExitsController < ApplicationController
 
   end
 
-  #PRIVATE METHODS
   private
   def new_exit_params
-    params.require(:prog_exit).permit(:student_id, :Program_ProgCode,
-      :ExitCode_ExitCode, :Details, :ExitDate, :RecommendDate)
+    params
+      .require(:prog_exit)
+      .permit(
+        :student_id, :Program_ProgCode, :ExitCode_ExitCode, :Details, :ExitDate, 
+        :RecommendDate
+      )
   end
 
   def edit_exit_params
@@ -125,7 +130,7 @@ class ProgExitsController < ApplicationController
   end
 
   def new_setup
-
+    # set up a new form
     @students = Student.all.select {|s| s.prog_status == "Candidate"}
     # @students = Student.all.where("ProgStatus in (?, ?)", "Candidate", "Completer").by_last    #TODO all candidates with unexited programs
     @programs = []
@@ -134,9 +139,7 @@ class ProgExitsController < ApplicationController
 
   def exits_needed
     #pre: nothing
-    #post:
-      #programs: program admissions belonging to: students who have a non
-      # TEP major.
+    #post: all students who need to be exited
 
     programs = []
 

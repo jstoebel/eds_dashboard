@@ -33,6 +33,8 @@ class ClinicalSitesController < ApplicationController
     @site.update_attributes(site_params)
 
     authorize! :manage, @site
+    
+    # TODO: handle this logic in model
     if @site.save
       flash[:notice] = "Updated #{@site.SiteName}."
       redirect_to (clinical_sites_path)
@@ -51,6 +53,8 @@ class ClinicalSitesController < ApplicationController
     @site = ClinicalSite.new
     @site.update_attributes(site_params)
     authorize! :manage, @site
+    
+    # TODO: handle this logic in model
     if @site.save
       flash[:notice] = "Created #{@site.SiteName}."
       redirect_to (clinical_sites_path)
@@ -75,15 +79,8 @@ class ClinicalSitesController < ApplicationController
   
 
   private
-  def site_params
-    params.require(:clinical_site).permit(:SiteName, :City, :County, :Principal, :District, :phone, :receptionist, :website, :email)
-  end
-
-  def get_districts
-    #get all preexisting districts
-  end
-
-  def get_counties
-    #get all preexisting counties
-  end
+    def site_params
+      params.require(:clinical_site).permit(:SiteName, :City, :County, :Principal, :District, :phone, :receptionist, :website, :email)
+    end
+  
 end

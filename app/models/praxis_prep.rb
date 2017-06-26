@@ -25,6 +25,8 @@
 #  Notes               :text(4294967295)
 #
 
+# a score on a praxis prep exam
+
 class PraxisPrep < ApplicationRecord
   self.table_name = 'praxis_prep'
 

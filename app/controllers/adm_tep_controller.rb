@@ -14,6 +14,7 @@ class AdmTepController < ApplicationController
   end
 
   def create
+    # create a new application
     @app = AdmTep.new(new_adm_params)
     authorize! :manage, @app
     stu = @app.student
@@ -40,6 +41,7 @@ class AdmTepController < ApplicationController
   end
 
   def edit
+      # edit an existing application
       @application = AdmTep.find(params[:id])
       authorize! :manage, @application
       @term = @application.banner_term
@@ -57,6 +59,7 @@ class AdmTepController < ApplicationController
     
     @application.Notes = params[:adm_tep][:Notes]
 
+    # TODO: this logic should be handled in the model
     begin
       @application.TEPAdmitDate = params[:adm_tep][:TEPAdmitDate]
     rescue ArgumentError, TypeError => e
@@ -76,6 +79,7 @@ class AdmTepController < ApplicationController
   end
 
   def index
+    # pull all applications and prepare term menu
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
     @applications = @adm_teps.by_term(@term)   #fetch all applications for this term
 
@@ -92,6 +96,8 @@ class AdmTepController < ApplicationController
     #calls destroy method if TEPAdmit does not have value
     @app = AdmTep.find(params[:id])    #find object and assign to instance variable
     authorize! :manage, @app
+    
+    # TODO: handle logic in the model
     if @app.TEPAdmit == nil            #if TEPAdmit does not have a value
       @app.destroy
       flash[:notice] = "Record deleted successfully"
@@ -103,14 +109,17 @@ class AdmTepController < ApplicationController
 
   private
   def new_adm_params
+    # param safe listing
     params.require(:adm_tep).permit(:student_id, :Program_ProgCode, :BannerTerm_BannerTerm)
   end
 
   def edit_adm_params
+    # param safe listing
     params.require(:adm_tep).permit(:TEPAdmit, :TEPAdmitDate)
   end
 
   def new_setup
+      # general setup for new view. prepares students, programs and terms
       @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Prospective" && s.EnrollmentStatus == "Active Student"}
       @programs = Program.where("Current = 1")
       @terms = BannerTerm.actual.where("StartDate >= ?", 1.year.ago).order(BannerTerm: :asc)

@@ -21,7 +21,8 @@ class PraxisResultTempsController < ApplicationController
   end
 
   def resolve
-    # resolve the result
+    # when an orphan record needs to be merged into the home Table
+    # TODO: refactor to use Orphanage
 
     temp_record = PraxisResultTemp.find params[:praxis_result_temp_id]
     temp_record.student_id = params[:student_id]

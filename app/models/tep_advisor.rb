@@ -11,17 +11,18 @@
 #  email       :string(255)
 #
 
+# an advisor profile on a user
 class TepAdvisor < ApplicationRecord
-	self.table_name = "tep_advisors"
+  self.table_name = "tep_advisors"
 
-	has_many :advisor_assignments
-	has_many :students
+  has_many :advisor_assignments
+  has_many :students
 
-	belongs_to :user
+  belongs_to :user
 
-	def get_email
-		# gets the advisor's email, if it doesn't exists looks in user
-		return self.email if self.email.present?
-		return self.user.andand.Email
-	end
+  def get_email
+    # gets the advisor's email, if it doesn't exists looks in user record
+    return self.email if self.email.present?
+    return self.user.andand.Email
+  end
 end

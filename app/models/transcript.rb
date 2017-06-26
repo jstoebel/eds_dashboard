@@ -24,7 +24,7 @@ class Transcript < ApplicationRecord
 
 
     #~~~CLASS VARIABLES AND METHODS~~~#
-
+    # berea college mapping of grades to grade points
     LTG = {
         "A+" => 4.0,
         "A" => 4.0,
@@ -54,6 +54,7 @@ class Transcript < ApplicationRecord
     end
 
     def self.standard_grades
+      # only standard letter grades (not things like I)
       return LTG.keys
     end
 
@@ -96,7 +97,7 @@ class Transcript < ApplicationRecord
         message: "student may not have duplicates of the same course in the same term." }
 
     def set_quality_points
-
+        # determine quality points for a course grade
         if self.grade_pt.present? && self.credits_earned.present?
             #sets quality_points for a record
             if self.grade_pt_changed? || self.credits_earned_changed?

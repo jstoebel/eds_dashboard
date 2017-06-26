@@ -95,6 +95,7 @@ class PraxisResultsController < ApplicationController
   private
 
   def info_for_flash
+    # TODO: refactor me to use model methods. Much more readable
     return "#{ApplicationController.helpers.name_details(@test.student)}, #{PraxisTest.find(@test.praxis_test_id).TestName}, #{@test.test_date.strftime("%m/%d/%Y")}"
   end
 
@@ -108,6 +109,7 @@ class PraxisResultsController < ApplicationController
   end
 
   def get_testid(params)
+    # TODO: redo this feature using a date picker. Much more elegant!
     result = params["praxis_result"]
     return [
         result[:AltID],

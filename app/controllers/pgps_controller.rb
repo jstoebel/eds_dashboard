@@ -77,9 +77,12 @@ class PgpsController < ApplicationController
 
 
     def destroy
+        # 
         @pgp = Pgp.find(params[:id])
         authorize! :manage, @pgp
         @pgp.destroy
+        
+        # TODO: handle this logic in model
         if @pgp.destroyed?
             flash[:notice] = "Professional growth plan deleted successfully"
         else
@@ -92,7 +95,9 @@ class PgpsController < ApplicationController
 
     private
     def pgp_params
-        params.require(:pgp).permit(:student_id, :goal_name, :description, :plan, :strategies)
+        params
+          .require(:pgp)
+          .permit(:student_id, :goal_name, :description, :plan, :strategies)
     end
 
 
@@ -101,7 +106,7 @@ class PgpsController < ApplicationController
     end
 
     def error_update
-        #sends user back to edit
+        #sends user back to edit with student pulled
         @student = Student.find(@pgp.student_id)
         render('edit')
     end

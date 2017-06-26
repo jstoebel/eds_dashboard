@@ -12,6 +12,7 @@
 #  transcript_id       :integer
 #
 
+# represents a student assigned to a clinical site
 class ClinicalAssignment < ApplicationRecord
 
 	belongs_to :student
@@ -35,6 +36,7 @@ class ClinicalAssignment < ApplicationRecord
 	validates :transcript_id,
 		:presence => {message: "Course is blank"}
 
+  # advanced validations
 	validate do |a|
 		a.errors.add(:StartDate, "Please enter a valid start date.") unless a.StartDate.kind_of?(Date)
 		a.errors.add(:EndDate, "Please enter a valid end date.") unless a.EndDate.kind_of?(Date)

@@ -9,6 +9,8 @@
 #  updated_at      :datetime         not null
 #
 
+# represents a admission to TEP file
+
 class AdmFile < ApplicationRecord
     belongs_to :adm_tep
     belongs_to :student_file

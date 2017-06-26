@@ -12,6 +12,7 @@
 #  avg_low               :integer
 #
 
+# an orphan sub test
 class PraxisSubTemp < ApplicationRecord
 
   belongs_to :praxis_result_temp

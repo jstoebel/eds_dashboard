@@ -40,13 +40,16 @@ class Foi < ApplicationRecord
         message: "Could not determine if student is seeking certification."
       }
 
+  # COMPLEX VALIDATIONS
   def check_major_id
+    # need to have given a major if you are seeking cert
     if self.seek_cert == true && self.major_id.blank?
       self.errors.add(:major_id, "is required and could not be determined.")
     end
   end
 
   def check_eds_only
+    # need to answer if you are seeking eds only if you are not seeking cert
     if self.seek_cert == false  && self.eds_only.nil?
       self.errors.add(:eds_only, "Could not determine if student is seeking EDS only")
     end
@@ -54,9 +57,10 @@ class Foi < ApplicationRecord
 
 
   def self.import(file)
-    #  file: type Rack::Test::UploadedFile
-    # open the csv file, drop one row from the begining and then from the remainder open the first row
-    # this returns an the resulting row inside of an array so pull it out using [0]
+    # file: type Rack::Test::UploadedFile
+    # open the csv file, skip the first row then read the rest
+    # return: the results of perfoming the import (hash) of shape:
+      # {success: true, message: nil, records: record_count }
 
     if File.extname(file.original_filename) != ".xml"
       return {success: false, message: "File is not an .xml file."}
@@ -76,7 +80,7 @@ class Foi < ApplicationRecord
       end
     rescue ActiveRecord::RecordInvalid => e
       raise "Error in record #{record_count + 1}: #{e.message}"
-    end # begin
+    end # begin block
 
     return {success: true, message: nil, records: record_count }
 
@@ -127,8 +131,6 @@ class Foi < ApplicationRecord
       # if student is seeking cert, major should be Undecided, otherwise its nil
       attrs[:major_id] = Major.find_by(:name => "Undecided").id
     end
-
-
 
     #expected format: 9/2/16 9:25
     date_str = row["endDate"]  #date completing, from the csv

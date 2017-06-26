@@ -9,7 +9,8 @@
 #  updated_at :datetime
 #
 
+# a single instance of a student's last name
 class LastName < ApplicationRecord
-	belongs_to :student
-	validates_presence_of :student_id
+  belongs_to :student
+  validates_presence_of :student_id
 end

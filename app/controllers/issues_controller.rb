@@ -21,7 +21,8 @@ class IssuesController < ApplicationController
   layout 'application'
 
   def index
-
+    # display either all issues you have permission to or just issues for a 
+    # single student
     if params[:student_id].present?
       @student = Student.find params[:student_id]
       authorize! :show, @student
@@ -54,6 +55,7 @@ class IssuesController < ApplicationController
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
 
+    # transaction to create an issue and its first update
     begin
       Issue.transaction do
         @issue.save!
@@ -66,6 +68,7 @@ class IssuesController < ApplicationController
         })
 
       end # transaction
+      
       flash[:notice] = "New issue opened for: #{@student.name_readable}"
       redirect_to(student_issues_path(@student.AltID))
     rescue => e
@@ -75,10 +78,8 @@ class IssuesController < ApplicationController
 
   end # action
 
-  #destroy method added to issue controller;
-  #should destory records and make them not visible to the user,
-  # but still exist in the database
   def destroy
+    # hide records the user but still exist in the database
     @issue = Issue.find(params[:id])
     authorize! :manage, @issue # added after test --> check w/JS #read,write, and manage
     @issue.visible = false
@@ -111,10 +112,8 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-  #same as using params[:subject] except that:
-    #raises an error if :praxis_result is not present
-    #allows listed attributes to be mass-assigned
-  params.require(:issue).permit(:Name, :Description, :disposition_id)
+    # params safe listing
+    params.require(:issue).permit(:Name, :Description, :disposition_id)
 
   end
 

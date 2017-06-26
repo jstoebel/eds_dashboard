@@ -25,12 +25,14 @@ class AssessmentItemsController < ApplicationController
   end
 
   def show
+    # respond with info on a single item
     @item = AssessmentItem.find(params[:id])
     authorize! :read, @item
     render json: @item, status: :ok
   end
 
   def create
+    # create a new item
     @item = AssessmentItem.new
     authorize! :manage, @item
     @item.update_attributes(create_params)

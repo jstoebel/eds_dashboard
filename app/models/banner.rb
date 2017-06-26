@@ -1,4 +1,7 @@
 =begin
+
+Model to map to table in Banner
+
 column names
 
 SZVEDSD_ID

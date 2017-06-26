@@ -27,8 +27,7 @@ class ClinicalTeachersController < ApplicationController
     else
       @teachers = ClinicalTeacher.all.by_last.select {|r| can? :read, r }
     end
-
-
+    
   end
 
   def show
@@ -44,6 +43,8 @@ class ClinicalTeachersController < ApplicationController
     @teacher = ClinicalTeacher.find(params[:id])
     @teacher.update_attributes(teacher_params)
     authorize! :manage, @teacher
+    
+    # TODO: handle this logic in model
     if @teacher.save
       flash[:notice] = "Updated Teacher #{@teacher.FirstName} #{@teacher.LastName}."
       redirect_to(clinical_teachers_path)
@@ -89,12 +90,18 @@ class ClinicalTeachersController < ApplicationController
   private
 
   def teacher_params
-    params.require(:clinical_teacher).permit(:Bnum, :FirstName, :LastName, :Email, 
-    :Subject, :clinical_site_id, :Rank, :begin_service, :epsb_training,
-    :ct_record, :co_teacher_training)
+    
+    params
+      .require(:clinical_teacher)
+      .permit(
+        :Bnum, :FirstName, :LastName, :Email, 
+        :Subject, :clinical_site_id, :Rank, :begin_service, :epsb_training,
+        :ct_record, :co_teacher_training
+      )
   end
 
   def form_details
+    # pull clinical sites and programs for the new/edit page
     @sites = ClinicalSite.all
     @subjects = Program.where(Current: true).order(:EDSProgName)
   end

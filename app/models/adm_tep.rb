@@ -17,6 +17,7 @@
 #  student_file_id       :integer
 #
 
+# represents an admission to TEP
 class AdmTep < ApplicationRecord
   self.table_name = 'adm_tep'
 

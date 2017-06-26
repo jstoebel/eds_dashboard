@@ -39,11 +39,14 @@ class StudentsController < ApplicationController
     all_students = Student.all.by_last
 
     if (params[:all]) == "true"
+      # display all students I have access to
       @students = all_students.select{|s| can? :read, s}
     elsif (params[:search]).present?
+      # display students resulting from search
       query = Student.with_name(params[:search])
       @students = all_students.joins(:last_names).where(query).select{|s| can? :read, s}
     else # no params given
+      # display only active and current students
       @students = all_students.active_student.current.select{|s| can? :read, s}
     end
 
@@ -57,7 +60,8 @@ class StudentsController < ApplicationController
   end
 
   def update_presumed_status
-
+    
+    # ajax endpoint for updating a students presumed status
     @student = Student.find params[:student_id]
     begin
       authorize! :write, @student
@@ -77,7 +81,7 @@ class StudentsController < ApplicationController
   end
 
   def get_resources
-    # return json off all of the resources available about this student to
+    # return json of all of the resources available about this student to
     # this user with counts
     # structure:
     # [
@@ -90,6 +94,9 @@ class StudentsController < ApplicationController
 
     actions =[]
     student = Student.find params[:student_id]
+    
+    # determine if each of the following options should be displayed in
+    # the dropdown menu
     if can? :read, student
       actions.push(
         {

@@ -53,6 +53,7 @@ class AdmStController < ApplicationController
   end
 
   def edit
+    # edit an admission to student teaching application
     @app = AdmSt.find(params[:id])
     authorize! :manage, @app
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)   #term of application
@@ -60,6 +61,7 @@ class AdmStController < ApplicationController
   end
 
   def update
+    # update an admission to student teaching file by making an admission decision
     @app = AdmSt.find(params[:id])
     authorize! :manage, @app
     @current_term = current_term(exact: false, plan_b: :back)
@@ -81,6 +83,7 @@ class AdmStController < ApplicationController
   end
 
   def edit_st_paperwork
+    # edit screen post admission decision paperwork
     @app = AdmSt.find(params[:adm_st_id])
     authorize! :manage, @app
     @student = @app.student
@@ -89,7 +92,7 @@ class AdmStController < ApplicationController
   end
 
   def update_st_paperwork
-    #update st paperwork
+    #update post app to st paperwork
     @app = AdmSt.find(params[:adm_st_id])
     authorize! :manage, @app
 
@@ -120,9 +123,10 @@ class AdmStController < ApplicationController
   end
 
   def destroy
+    # remove an applicatio unless an admission decision has been made
     @app = AdmSt.find(params[:id])
     authorize! :manage, @app
-    if @app.STAdmitted== nil
+    if @app.STAdmitted== nil # TODO: refactor to handle this logic in the model
       @app.destroy
       flash[:notice] = "Deleted Successfully!"
 
@@ -142,33 +146,31 @@ class AdmStController < ApplicationController
   private
 
   def index_setup
+    # general setup for the index page. prepares the terms drop down and pulls applications
     term_menu_setup(controller_name.classify.constantize.table_name.to_sym, :BannerTerm_BannerTerm)
 
     @applications = AdmSt.all.by_term(@term)   #fetch all applications for this term
   end
-
+  
+  def new_setup
+    # general setup for new page. prepares students and terms available
+    @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && s.EnrollmentStatus == "Active Student"}
+    @terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc)
+  end
+  
   def new_adm_params
+    # parameter safe listing
     params.require(:adm_st).permit(:student_id, :BannerTerm_BannerTerm)
   end
 
   def update_adm_params
+    # parameter safe listing
     params.require(:adm_st).permit(:STAdmitted, :Notes)
   end
 
-  # def st_paperwork_params
-  #   #safe add params for ST_paperwork
-  #   params.require(:adm_st).permit(:background_check, :beh_train, :conf_train, :kfets_in)
-  # end
-
   def param_to_int(param)
-
+    # casts a param to an integer
     return params[:adm_st][param].to_i
-
-  end
-
-  def new_setup
-    @students = Student.all.order(LastName: :asc).select { |s| s.prog_status == "Candidate" && s.EnrollmentStatus == "Active Student"}
-    @terms = BannerTerm.actual.where("EndDate >= ?", 2.years.ago).order(BannerTerm: :asc)
   end
 
   def error_update
@@ -176,6 +178,5 @@ class AdmStController < ApplicationController
     @term = BannerTerm.find(@app.BannerTerm_BannerTerm)
     @student = Student.find(@app.student_id)
     render('edit')
-
   end
 end

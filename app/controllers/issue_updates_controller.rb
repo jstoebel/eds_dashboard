@@ -82,10 +82,10 @@ class IssueUpdatesController < ApplicationController
 
   end
 
-  #destroy method added to issue controller;
-  #should destory records and make them not visible to the user,
-  # but still exist in the database
   def destroy
+    #should destory records and make them not visible to the user,
+    # but still presist in the database
+    
     authorize! :read, @manage
     @update = IssueUpdate.find(params[:id])
     @update.visible = false
@@ -96,7 +96,7 @@ class IssueUpdatesController < ApplicationController
 
 
   def update
-    # user may toggle the issues addressed attr
+    # user may toggle if the issue is addressed attr
     update = IssueUpdate.find params[:id]
     authorize! :manage, update
     update.addressed = params[:issue_update][:addressed]
@@ -117,7 +117,9 @@ class IssueUpdatesController < ApplicationController
   end
 
   def issue_update_params
-    params.require(:issue_updates).permit(:UpdateName, :Description, :status, :addressed)
+    params
+      .require(:issue_updates)
+      .permit(:UpdateName, :Description, :status, :addressed)
   end
 
 end

@@ -11,6 +11,7 @@
 #  active     :boolean
 #
 
+# represents a single downtime even while in production
 class Downtime < ApplicationRecord
 
     after_initialize :init

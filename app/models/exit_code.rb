@@ -7,10 +7,12 @@
 #  ExitDiscrip :string(45)       not null
 #
 
+# an EPSB program exit code
 class ExitCode < ApplicationRecord
-	has_many :prog_exits, foreign_key: "ExitCode_ExitCode"
+  has_many :prog_exits, foreign_key: "ExitCode_ExitCode"
 
-	def repr
-		return self.ExitDiscrip
-	end
+  def repr
+    # display for rails_admin
+    return self.ExitDiscrip
+  end
 end
