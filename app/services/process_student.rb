@@ -11,6 +11,7 @@ class ProcessStudent
 
    def upsert_student
      # upserts a student.
+     # returns: nothing
 
       @stu.assign_attributes({:FirstName => @row['szvedsd_first_name'],
         :MiddleName => @row['szvedsd_middle_name'],
@@ -56,7 +57,7 @@ class ProcessStudent
      if advisors_raw.present?
        advisors = advisors_raw.split ";" # array of each advisor with B#
        info = advisors_raw.split(";").map{ |adv| adv.match(/\{(.+)\}/i)[1] } # array like this ["Primary-B00xxxxxx", "Minor-B00xxxxxx"]
-       # note: don't handle hypen above as ad advisor name might contain a hyphen.
+       # note: don't handle hyphen above as advisor name might contain a hyphen.
 
        new_bnums = info.map{ |i| i.match(/.+-(.+)/i)[1]}
      else
@@ -74,12 +75,13 @@ class ProcessStudent
              :tep_advisor_id => adv.id
          })
          if @stu.EnrollmentStatus == "Active Student"
+          # send email alerting about advisor status change
            BannerUpdateMailer.add_drop_advisor(@stu, adv, "added").deliver_now
          end
        end
      end
 
-     delete_me = current_bnums - new_bnums # in current and not in new
+     delete_me = current_bnums - new_bnums # in current and not in new -> advisors to remove
 
 
 
@@ -99,7 +101,7 @@ class ProcessStudent
    end
 
    def upsert_course
-
+     
      term_raw = @row['szvedsd_term_taken']  #looks like this 201512 - Spring Term 2016
      #split at first dash
      term = term_raw.slice(0, term_raw.index('-')).strip
@@ -116,6 +118,8 @@ class ProcessStudent
      end
 
      code_section.gsub!(" ", "")  #course code should look like "SOC220X"
+     
+     # grab course code and section name
      code_sec_match = /^(?<course_code>[A-Z]{3,4}[0-9]{3})(?<section>.*)$/.match(code_section)
 
      # if parse was successful assign code and section otherwise dump it all into course code
@@ -128,7 +132,7 @@ class ProcessStudent
      end
 
      grade_ltr = @row['szvedsd_grade']
-     grade_pt = Transcript.l_to_g(grade_ltr)
+     grade_pt = Transcript.l_to_g(grade_ltr) # compute grade point
 
      @course = Transcript.find_or_initialize_by({:crn => row['szvedsd_crn'],
        :student_id => @stu.id,

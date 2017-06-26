@@ -9,6 +9,7 @@
 #  updated_at    :datetime
 #
 
+# a score on an assessment
 class StudentScore < ApplicationRecord
     belongs_to :student
     belongs_to :item_level

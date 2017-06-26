@@ -9,6 +9,7 @@
 #  updated_at      :datetime         not null
 #
 
+# a file attached to a student teaching application. the actual file is found at student_file
 class StFile < ApplicationRecord
 
     belongs_to :adm_st

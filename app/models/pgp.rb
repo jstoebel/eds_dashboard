@@ -12,6 +12,7 @@
 #  strategies  :text(65535)
 #
 
+# a single proffesional growth plan item
 class Pgp < ApplicationRecord
     self.table_name = 'pgps'
 
@@ -40,7 +41,8 @@ class Pgp < ApplicationRecord
     end
 
     def pgp_scored_check
-        # set up a validation that checks out if the pgp has a score, if it has a score, the goal name cannot be edited
+        # set up a validation that checks out if the pgp has a score, 
+        # if it has a score, the goal name cannot be edited or destroyed
         if self.pgp_scores.present?
             self.errors.add(:base, "Unable to alter due to scoring")
             throw :abort

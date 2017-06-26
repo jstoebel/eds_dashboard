@@ -10,6 +10,7 @@
 #  updated_at   :datetime
 #
 
+# a single score on a PGP item
 class PgpScore< ApplicationRecord
     
     self.table_name = 'pgp_scores'
@@ -29,6 +30,7 @@ class PgpScore< ApplicationRecord
     end
     
     def latest_score
+        # the latest score recieved on this item
         self.pgp_scores.order(:created_at).first
     end
 

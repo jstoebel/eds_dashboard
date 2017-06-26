@@ -8,5 +8,6 @@
 #  updated_at  :datetime
 #
 
+# an instance of an update run from ETS
 class PraxisUpdate < ApplicationRecord
 end

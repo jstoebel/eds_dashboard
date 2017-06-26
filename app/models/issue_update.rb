@@ -24,7 +24,7 @@ class IssueUpdate < ApplicationRecord
 
   BNUM_REGEX = /\AB00\d{6}\Z/i
 
-	# the possible statuses for an issue update
+	# the possible statuses for an issue update and coorsponding attrs
 	STATUSES = { resolved: {name: "resolved", status_color: :success, resolved: true},
 							progressing: {name: "progressing", status_color: :warning, resolved: false},
 							concern: {name: "concern", status_color: :danger, resolved: false}
@@ -47,10 +47,12 @@ class IssueUpdate < ApplicationRecord
 		inclusion: { in: [true, false], message: "addressed may not be nil"}
 
 	def student
+    # fetch the owning sudent
 		return self.issue.student
 	end
 
 	def status_color
+    # what color should be displayed for this update
 		return STATUSES[self.status.to_sym][:status_color]
 	end
 
@@ -60,24 +62,26 @@ class IssueUpdate < ApplicationRecord
 	end
 
 	private
-	def add_addressed
-		self.addressed = false if self.new_record?
-	end
+  	def add_addressed
+      # all new issue_updates are not addressed
+  		self.addressed = false if self.new_record?
+  	end
 
-	def creation_alert
-		# email all advisors, instructors and admins
-		stu = self.student
-		recipients = [] # array of tep_advisors to email
-		# advisors
-		recipients += stu.tep_advisors
-		recipients += stu.tep_instructors
-		recipients += TepAdvisor.all.select{|adv| adv.user.andand.is? "admin"}
-		recipients.uniq!
+  	def creation_alert
+      # alert advisors re: the creation of this update
+  		# email all advisors, instructors and admins
+  		stu = self.student
+  		recipients = [] # array of tep_advisors to email
+  		# advisors
+  		recipients += stu.tep_advisors
+  		recipients += stu.tep_instructors
+  		recipients += TepAdvisor.all.select{|adv| adv.user.andand.is? "admin"}
+  		recipients.uniq!
 
-		recipients.each do |r|
-			IssueUpdateMailer.alert_new(stu, r).deliver_now
-		end
+  		recipients.each do |r|
+  			IssueUpdateMailer.alert_new(stu, r).deliver_now
+  		end
 
-	end
+  	end
 
 end

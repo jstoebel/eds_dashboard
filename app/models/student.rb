@@ -67,6 +67,7 @@ class Student < ApplicationRecord
 #################################################################
 
 ####~~~ CLASS VARIABLES ~~~##################################################
+    # possible certification concentrations
     CERT_CONCENTRATIONS = ["Middle Grades Science Cert",
     "MUS Ed - Instrumental Emphasis",
     "MUS Ed - Vocal Emphasis",
@@ -81,7 +82,8 @@ class Student < ApplicationRecord
     "Music Education Instrumental Emphasis",
     "Music Education Vocal Emphasis",
     "Health and Human Performance, P-12"]
-
+    
+    # possible statuses in a program
     PROG_STATUES = ["Prospective", "Not Applying", "Candidate",
         "Dropped", "Completer"]
 ##############################################################################
@@ -103,8 +105,6 @@ class Student < ApplicationRecord
     scope :current, lambda {select {|s| ["Candidate", "Prospective"].include?(s.prog_status) }}
     scope :candidates, lambda {select {|s| ["Candidate"].include?(s.prog_status) }}
 
-
-    # TODO: add support for searching through previous last names
     # scope :with_name, ->(name) {where("FirstName=? or PreferredFirst=? or LastName=?", name, name, name)}
 
     def self.with_name(str)
@@ -233,6 +233,7 @@ class Student < ApplicationRecord
     ####~~~Praxis Associations and Methods~~~##############################################
 
     def repr
+        # name to display in rails_admin
         return self.name_readable
     end
 
@@ -263,8 +264,8 @@ class Student < ApplicationRecord
     has_many :last_names
 
     def name_readable(file_as = false)
-    #returns full student name with additional first and last names as needed
-    #if file_as, return student with last name first (Fee, Jon)
+        #returns full student name with additional first and last names as needed
+        #if file_as, return student with last name first (Fee, Jon)
 
         first_name = self.PreferredFirst.present? ? self.PreferredFirst + " (#{self.FirstName})" : self.FirstName
         last_name = self.PrevLast.present? ? last_name = self.LastName + " (#{self.PrevLast})" : self.LastName
@@ -281,11 +282,13 @@ class Student < ApplicationRecord
     ####~~~AdmTep Associations and Methods~~~#############################################
 
     def open_programs
+        # all of a students programs they are still enrolled in
         admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
         return admited.select { |a| ProgExit.find_by({:student_id => a.student_id, :Program_ProgCode => a.Program_ProgCode}) == nil }
     end
 
     def admited_programs
+        # all programs this student was admitted to
         admited = AdmTep.where(:student_id => self.id, :TEPAdmit => true)
         return admited
     end
@@ -296,7 +299,10 @@ class Student < ApplicationRecord
     ####~~~FOI associations and methods~~~#################################################
 
     def prog_status
-
+        # what status does this student have in the program
+        # returns one of ["Prospective", "Not Applying", "Candidate",
+            #"Dropped", "Completer"]
+        
         if (self.adm_tep.where(:TEPAdmit => true).size == 0)
             # student has not been admitted
 
@@ -322,7 +328,7 @@ class Student < ApplicationRecord
                     graduated || transfered || self.EnrollmentStatus.blank?
                 return "Not applying"
             else
-                return "Unknown Status"
+                return "Unknown Status" # something is missing from data
             end
 
         else	# student has been admitted
@@ -352,12 +358,13 @@ class Student < ApplicationRecord
                 return "Completer"
 
             else
-                return "Unknown Status"
+                return "Unknown Status" # something missing from data
             end
         end
     end
 
     def was_dismissed?
+        # stuent was dismissed from the college
         return self.EnrollmentStatus.andand.include?("Dismissed").present?
     end
 
@@ -374,6 +381,7 @@ class Student < ApplicationRecord
     has_many :transcripts
 
     def credits(last_term=nil)
+        # how many credits does this student have?
         #last_term: latest term_id to use in total (optional)
         credits = 0
         courses = self.transcripts.where("credits_earned is not null")
@@ -393,7 +401,7 @@ class Student < ApplicationRecord
 
     ####~~~Advisee of Advisor Method~~~##################################################
     def is_advisee_of(advisor_profile)
-        #is this student advisee of the prof with prof_bnum?
+        # is this student an advisee of person with advisor_profile
         adv_assigns = self.advisor_assignments	#students advisor assignments
         my_advisors = self.advisor_assignments.map { |a| a.tep_advisor }
         return my_advisors.include?(advisor_profile)
@@ -405,6 +413,7 @@ class Student < ApplicationRecord
 
     def is_student_of?(inst_bnum)
         # if student has any current student/instructor relatilonship with this instructor
+        # inst_bnum(str): a valid berea B#
         return self.is_present_student_of?(inst_bnum) ||
             self.is_recent_student_of?(inst_bnum) ||
             self.will_be_student_of?(inst_bnum) ||
@@ -523,6 +532,13 @@ class Student < ApplicationRecord
 
     #methods for is/was eds_major/cert_concentration
 
+
+    # here we are defining four methods:
+    
+      # is_eds_major -> does the student have EDS as a current major
+      # was_eds_major -> prior to attrs change, did the student have eds as a major
+      # is_cert_concentration -> does the student have a certification concentration
+      # was_cert_concentration -> prior to attrs change, did the student have a certification concentration
     ["is", "was"].each do |pre|
 
         suffix = pre=="was" ? "_was" : ""
@@ -570,10 +586,12 @@ class Student < ApplicationRecord
     ####~~~Enrollment Methods~~~##############################################
 
     def graduated
+        # has the student graduated
         self.EnrollmentStatus == "Graduation"
     end
 
     def transfered
+        # did the student transfer
         self.EnrollmentStatus == "WD-Transferring"
     end
 

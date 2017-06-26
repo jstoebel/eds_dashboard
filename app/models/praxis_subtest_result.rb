@@ -12,13 +12,14 @@
 #  avg_low          :integer
 #
 
+# a subtest
 class PraxisSubtestResult < ApplicationRecord
-	belongs_to :praxis_result
+  belongs_to :praxis_result
 
-	validates_presence_of :praxis_result_id
+  validates_presence_of :praxis_result_id
 
-	def student
-		return self.praxis_result.student
-	end
+  def student
+    return self.praxis_result.student
+  end
 
 end

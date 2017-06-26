@@ -16,109 +16,109 @@
 
 class ProgExit < ApplicationRecord
 
-	#RELATIONSHIPS
-	belongs_to :student
-	belongs_to :program, foreign_key: "Program_ProgCode"
-	belongs_to :exit_code, foreign_key: "ExitCode_ExitCode"
-	belongs_to :banner_term, foreign_key: "ExitTerm"
+  #RELATIONSHIPS
+  belongs_to :student
+  belongs_to :program, foreign_key: "Program_ProgCode"
+  belongs_to :exit_code, foreign_key: "ExitCode_ExitCode"
+  belongs_to :banner_term, foreign_key: "ExitTerm"
 
-	has_one :adm_tep, :through => :program
-	#CALLBACKS
-	before_validation :add_term, :set_gpas
+  has_one :adm_tep, :through => :program
+  #CALLBACKS
+  before_validation :add_term, :set_gpas
 
-	#SCOPES
-	scope :by_term, ->(term) {where("ExitTerm = ?", term)}
+  #SCOPES
+  scope :by_term, ->(term) {where("ExitTerm = ?", term)}
 
-	#ADVANCED VALIDATIONS
-	validate :if => :check_basics do |e|
-		#GPA must be 2.5 or 3.0 in last 60 credit hours.
+  #ADVANCED VALIDATIONS
+  validate :if => :check_basics do |e|
+    #GPA must be 2.5 or 3.0 in last 60 credit hours.
 
-		completer_code = ExitCode.find_by :ExitCode => "1849"
+    completer_code = ExitCode.find_by :ExitCode => "1849"
 
-		e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") if !good_gpa?
+    e.errors.add(:base, "Student must have 2.5 GPA or 3.0 in the last 60 credit hours.") if !good_gpa?
 
-		#recommend date must be >= exit date
-		e.errors.add(:RecommendDate, "Student may not be recommended for certification before exiting program.") if e.RecommendDate.present? && e.ExitDate > e.RecommendDate
+    #recommend date must be >= exit date
+    e.errors.add(:RecommendDate, "Student may not be recommended for certification before exiting program.") if e.RecommendDate.present? && e.ExitDate > e.RecommendDate
 
-		#can only have a recommend date if student completed program
+    #can only have a recommend date if student completed program
 
-		e.errors.add(:RecommendDate, "Student may not be recommended for certificaiton unless they have sucessfully completed the program.") if e.RecommendDate.present? and e.exit_code.id != completer_code.id
+    e.errors.add(:RecommendDate, "Student may not be recommended for certificaiton unless they have sucessfully completed the program.") if e.RecommendDate.present? and e.exit_code.id != completer_code.id
 
-		#TODO Can't be recomended without passing Praxis II
-			#need to know which program each PraxisII exam belongs to.
+    #TODO Can't be recomended without passing Praxis II
+      #need to know which program each PraxisII exam belongs to.
 
-		#Can't be recommended without graduating with EDS with certification
-			#The best I can do right now is make sure student has graduated.
-			#TODO Make sure the student graduated with a certification major
+    #Can't be recommended without graduating with EDS with certification
+      #The best I can do right now is make sure student has graduated.
+      #TODO Make sure the student graduated with a certification major
 
-		e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == 1849 and e.student.EnrollmentStatus != 'Graduation'
+    e.errors.add(:ExitCode_ExitCode, "Student must have graduated in order to complete their program.") if e.ExitCode_ExitCode == 1849 and e.student.EnrollmentStatus != 'Graduation'
 
-		#security validations. Won't come up in typical user experience.
-		check_admited if e.new_record?		#if record is new, let's make sure that we are closing an open program
+    #security validations. Won't come up in typical user experience.
+    check_admited if e.new_record?		#if record is new, let's make sure that we are closing an open program
 
-	end
-
-	def AltID
-		return self.id
-	end
-
-	def good_gpa?
-
-		# if either is nil and the other isn't true, return nil
-		# there is missing information that might qualify the student
-		if [self.GPA.nil? || self.GPA_last60.nil?] &&
-			[!(self.GPA.andand >= 2.5).present? && !(self.GPA_last60.andand >= 3.0).present?].all?
-
-			return nil
-		else
-    	return (self.GPA.andand >= 2.50 or self.GPA_last60.andand >= 3.0)
-		end
   end
 
-	private
+  def AltID
+    return self.id
+  end
 
-	def check_basics
-		#checks the presence of foreign keys before running more advanced validations.
+  def good_gpa?
+    # is gpa sufficent to complete program?
+    # if either is nil and the other isn't true, return nil
+    # there is missing information that might qualify the student
+    if [self.GPA.nil? || self.GPA_last60.nil?] &&
+      [!(self.GPA.andand >= 2.5).present? && !(self.GPA_last60.andand >= 3.0).present?].all?
 
-	    self.errors.add(:student_id, "Please select a student.") if self.student_id.blank?
-	    self.errors.add(:Program_ProgCode, "Please select a program.") if self.Program_ProgCode.blank?
-	    self.errors.add(:ExitCode_ExitCode, "Please select an exit code.") if self.ExitCode_ExitCode.blank?
-	    self.errors.add(:ExitTerm, "No exit term could be determined.") if self.ExitTerm.blank?
+      return nil
+    else
+      return (self.GPA.andand >= 2.50 or self.GPA_last60.andand >= 3.0)
+    end
+  end
 
-	    if self.errors.size == 0
-	      return true
-	    else
-	      return false
-	    end
-	end
+  private
 
-	def check_admited
-		#check that the student was admitted to this program
+  def check_basics
+      #checks the presence of foreign keys before running more advanced validations.
 
-		stu = self.student
-		admissions = stu.adm_tep
-		program_ids = admissions.map { |adm| adm.program.id}
+      self.errors.add(:student_id, "Please select a student.") if self.student_id.blank?
+      self.errors.add(:Program_ProgCode, "Please select a program.") if self.Program_ProgCode.blank?
+      self.errors.add(:ExitCode_ExitCode, "Please select an exit code.") if self.ExitCode_ExitCode.blank?
+      self.errors.add(:ExitTerm, "No exit term could be determined.") if self.ExitTerm.blank?
 
-		if !program_ids.include? self.Program_ProgCode
-			self.errors.add(:Program_ProgCode, "Student was never admitted to this program.")
-		end
-	end
+      if self.errors.size == 0
+        return true
+      else
+        return false
+      end
+  end
 
-	def add_term
-		#adds the banner term to record based on date.
+  def check_admited
+    #check that the student was admitted to this program. otherwise they can't exit!
 
-		if self.ExitDate.present?
-			term = BannerTerm.current_term({:date => self.ExitDate, :exact => false, :plan_b => :back})
-			if term
-				self.ExitTerm = term.BannerTerm
-			else
-				#add error to object
-				self.errors.add(:ExitDate, "Exit date out of range.")
-			end
-		end
-	end
+    stu = self.student
+    admissions = stu.adm_tep
+    program_ids = admissions.map { |adm| adm.program.id}
 
-	def set_gpas
+    if !program_ids.include? self.Program_ProgCode
+      self.errors.add(:Program_ProgCode, "Student was never admitted to this program.")
+    end
+  end
+
+  def add_term
+    #adds the banner term to record based on date.
+
+    if self.ExitDate.present?
+      term = BannerTerm.current_term({:date => self.ExitDate, :exact => false, :plan_b => :back})
+      if term
+        self.ExitTerm = term.BannerTerm
+      else
+        #add error to object
+        self.errors.add(:ExitDate, "Exit date out of range.")
+      end
+    end
+  end
+
+  def set_gpas
     #set GPAs for record
 
     if self.errors.blank? && self.student_id.present?

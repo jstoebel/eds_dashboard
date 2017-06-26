@@ -11,6 +11,9 @@
 #  best_score     :integer
 #
 
+# an orphan praxis result recod
+# TODO: refactor to use orphanage
+
 class PraxisResultTemp < ApplicationRecord
 
   has_many :praxis_sub_temps, :dependent => :delete_all
