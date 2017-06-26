@@ -25,7 +25,6 @@ class ClinicalAssignmentsController < ApplicationController
   def new
     @assignment = ClinicalAssignment.new
     form_setup
-
   end
 
   def create
@@ -33,6 +32,7 @@ class ClinicalAssignmentsController < ApplicationController
     @assignment = ClinicalAssignment.new
     @assignment.assign_attributes(assignment_params)
 
+    # TODO: handle all of this logic in the controller
     begin
       @assignment.StartDate = params[:clinical_assignment][:StartDate]
 
@@ -95,6 +95,7 @@ class ClinicalAssignmentsController < ApplicationController
       @assignment.EndDate = nil
     end
 
+    # TODO: handle this logic in model
     if @assignment.save
       flash[:notice] = "Updated Assignment #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
       redirect_to(banner_term_clinical_assignments_path(@assignment.banner_term.id))
@@ -106,18 +107,23 @@ class ClinicalAssignmentsController < ApplicationController
   end
 
   def choose
-  #display applicants for a term
-  @term = params[:banner_term][:menu_terms]
-  redirect_to(banner_term_clinical_assignments_path(@term))
+    #display applicants for a term
+    @term = params[:banner_term][:menu_terms]
+    redirect_to(banner_term_clinical_assignments_path(@term))
   end
 
   private
 
   def assignment_params
     params.require(:clinical_assignment).permit(:student_id, :clinical_teacher_id, :transcript_id, :Level)
-
   end
+  
   def form_setup
+    # set up the new/edit form by determining which students go in menu.
+    # defined as all students who are
+      # Active students
+      # enrolled in atleast one class this term or the term coming up
+    
     this_term = BannerTerm.current_term :exact => false, :plan_b => :forward
     @students = Student
       .joins(:transcripts) # only want students with at least one course.

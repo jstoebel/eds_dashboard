@@ -10,6 +10,8 @@
 #  standard_term :boolean
 #
 
+# represents a single term at Berea College. Coorsponds to a term listed in Banner
+
 class BannerTerm < ApplicationRecord
 	has_many :adm_tep, foreign_key: "BannerTerm_BannerTerm"
 	has_many :adm_st, foreign_key: "BannerTerm_BannerTerm"
@@ -20,6 +22,9 @@ class BannerTerm < ApplicationRecord
   scope :actual, lambda {where("BannerTerm > ? and BannerTerm < ?", 1, 999999)}
 
   def self.current_term(options = {})
+    # get the current term based on a given date. Provides options if that date
+    # is between terms
+    
     defaults = {
       :exact => true,         #bool, does the date need to match the term perfectly
         #(dates outside of terms are rejected.)
@@ -54,6 +59,7 @@ class BannerTerm < ApplicationRecord
   end
 
 	def repr
+    # how term should be represented
 		return self.id
 	end
 
@@ -81,6 +87,8 @@ class BannerTerm < ApplicationRecord
   end
 
   def readable
+    # provides a readble term. since some terms don't give a year, this method
+    # appends the academic year if needed
     if self.PlainTerm =~ /\d{4}/
       return self.PlainTerm
     else

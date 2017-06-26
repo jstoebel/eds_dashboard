@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def user_bnum
+    # fetch the user's B number
     user = current_user
     bnum = user.tep_advisor.AdvisorBnum
   end
@@ -85,6 +86,8 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  
+    # methods to find resources. 
   	def find_student(alt_id)
   		return Student.where(AltID: alt_id).first
 
@@ -118,11 +121,5 @@ class ApplicationController < ActionController::Base
     @menu_terms = BannerTerm.all.joins(table_name).group(term_col)
 
   end
-
-   def to_console(object)
-    puts "*"*100
-    puts object
-    puts "*"*100
-   end
 
 end

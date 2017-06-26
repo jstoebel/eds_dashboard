@@ -7,6 +7,7 @@
 #  ExitDiscrip :string(45)       not null
 #
 
+# an EPSB program exit code
 class ExitCode < ApplicationRecord
 	has_many :prog_exits, foreign_key: "ExitCode_ExitCode"
 

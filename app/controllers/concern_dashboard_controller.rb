@@ -1,7 +1,9 @@
 class ConcernDashboardController < ApplicationController
 
     def index
-
+        # displays all concerns for a paticular student
+        
+        
         @student = Student.find params[:student_id]
         authorize! :be_concerned, @student
 
@@ -9,7 +11,7 @@ class ConcernDashboardController < ApplicationController
         areas = [:praxis, :issues]
 
         # based on the value that the method returns, this determines some standard values
-        # for output
+        # for output.
         outcomes = {
             nil => {:alert_status => "info", :glyph => "question-sign"},
             true => {:alert_status => "success", :glyph => "ok-sign"},
@@ -32,7 +34,18 @@ class ConcernDashboardController < ApplicationController
     end
 
     private
-    #here is where you define how each resource should be examined and what args are returned (if any).
+    
+    
+    # concern checkers. Each method below defines how to determine a student's
+    # status in a single area. Each well return a hash with the following attributes
+    
+      # :outcome(bool)(required) determining if the area is a concern
+      # :msg(str)(required) the coorsponding message
+      # :link(str): the url to view details on this area
+      # :link_title(str): what the link should be displayed as
+      # :link num(number like): if a badge should be displayed what number to use?
+      
+      
     def praxis_check(stu)
 
         args = {:title => "Praxis I", :link => student_praxis_results_path(stu.id), :link_title => "View Praxis Results", :link_num => stu.praxis_results.size}

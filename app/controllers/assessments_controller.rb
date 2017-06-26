@@ -26,6 +26,8 @@ class AssessmentsController < ApplicationController
     @assessment = Assessment.new
     authorize! :manage, @assessment  
     @assessment.assign_attributes(assessment_params)
+
+    # TODO: handle this logic in model
     if @assessment.save
       flash[:notice] = "Created Assessment #{@assessment.name}."
       redirect_to(assessments_path)
@@ -43,6 +45,8 @@ class AssessmentsController < ApplicationController
     @assessment = Assessment.find(params[:id])
     authorize! :manage, @assessment  
     @assessment.update_attributes(assessment_params)
+    
+    # TODO: handle this logic in model
     if @assessment.save
       flash[:notice] = "Updated Assessment #{@assessment.name}."
       redirect_to(assessments_path)
@@ -59,6 +63,7 @@ class AssessmentsController < ApplicationController
   def destroy
     @assessment = Assessment.find(params[:id])
     authorize! :manage, @assessment
+    # TODO: handle this logic in model
     if @assessment.destroy
       flash[:notice] = "Record deleted successfully"
     else

@@ -66,6 +66,7 @@ class ClinicalTeacher < ApplicationRecord
       
       
     def name_readable(file_as = false)
+      # how should this teachers name be displayed?
       first_name = " #{self.FirstName}"
       last_name = "#{self.LastName}"
       if file_as

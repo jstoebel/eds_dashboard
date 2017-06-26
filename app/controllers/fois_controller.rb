@@ -24,6 +24,7 @@ class FoisController < ApplicationController
     end
 
     def import
+        # import an foi spreadsheet
         file = params[:file]
 
         begin
@@ -37,9 +38,9 @@ class FoisController < ApplicationController
           num_records = result[:records]
           redirect_to fois_path, :notice => "#{num_records} #{"form".pluralize(num_records) + " of intention"} successfully imported."
           return
-            # went ok
+          # went ok
         else
-            redirect_to fois_path, :notice => "something went wrong." #result[:message]
+            redirect_to fois_path, :notice => "something went wrong."
             return
             # didn't go ok
         end
@@ -47,8 +48,14 @@ class FoisController < ApplicationController
     end
 
     private
+    # param safe listing
     def foi_params
-        params.require(:foi).permit(:student_id, :date_completing, :new_form, :major_id, :seek_cert, :eds_only)
+        params
+          .require(:foi) 
+          .permit(
+            :student_id, :date_completing, :new_form, :major_id, :seek_cert, 
+            :eds_only
+          )
     end
 
 end

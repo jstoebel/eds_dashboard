@@ -10,6 +10,8 @@
 #  updated_at  :datetime         not null
 #
 
+# represents a disposition in the dispositions repository
+
 class Disposition < ApplicationRecord
   has_many :issues
 

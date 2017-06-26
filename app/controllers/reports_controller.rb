@@ -6,10 +6,12 @@ class ReportsController < ApplicationController
     layout 'application'
 
     def index
+        # the general all students report
         authorize! :report, Student
         @data = []
         students = Student.all
 
+        # maps header names to attributes
         @header_mappings = [
           ["B#", :Bnum],
           ["Name", :name_readable],
@@ -75,7 +77,8 @@ class ReportsController < ApplicationController
                 :ProgName => student_program(stu),
                 :advisors => advisors(stu)
             }
-
+            
+            # only admins can see GPA!
             if current_user.is?("admin")
                 begin
                     record[:gpa] = stu.gpa
@@ -89,6 +92,7 @@ class ReportsController < ApplicationController
     end
 
     def need_apply_tep
+        # display students needing to apply to the TEP
         authorize! :report, Student
         @current_term = BannerTerm.current_term({:exact => false, :plan_b => :forward})
         @stus = Student.need_apply

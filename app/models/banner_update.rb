@@ -9,17 +9,11 @@
 #  end_term   :integer
 #
 
+# represents a record in updating from banner.
 class BannerUpdate < ApplicationRecord
 
 	# before_validation :check_terms
     validates_presence_of :start_term, :end_term
     validates_numericality_of :start_term, :less_than_or_equal_to => :end_term
-
-    # private
-	# def check_terms
-	# 	if self.start_term > self.end_term
-	# 		self.errors.add(:base, "Start term may not be after end term.")
-	# 	end
-	# end
 
 end

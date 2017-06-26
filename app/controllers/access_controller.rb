@@ -11,6 +11,7 @@ class AccessController < ApplicationController
   end
 
   def access_denied
+    # used when a cancan denies access to a resource
     redirect_to "/access_denied.html"
   end
 
@@ -35,14 +36,10 @@ class AccessController < ApplicationController
       user.save!
       redirect_to root_path
     else
-      # not in development
+      # not in development -> can't work!
       redirect_to "/access_denied"
     end
 
-  end
-
-  def get_env
-		@env = request.env
   end
 
 end

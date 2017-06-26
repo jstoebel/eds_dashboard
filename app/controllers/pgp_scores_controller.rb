@@ -36,7 +36,7 @@ class PgpScoresController < ApplicationController
         authorize! :manage, @pgp_score
         authorize! :manage, @pgp
         @pgp_score.assign_attributes(pgp_score_params)
-
+        # TODO: handle this logic in model
         if @pgp_score.save
             flash[:notice] = "PGP score successfully updated"
             redirect_to pgp_pgp_scores_path(@pgp_score.pgp_id)
@@ -54,6 +54,7 @@ class PgpScoresController < ApplicationController
         @pgp_score = PgpScore.new
         authorize! :manage, @pgp_score
         @pgp_score.assign_attributes(pgp_score_params)
+        # TODO: handle this logic in model
         if @pgp_score.save
           flash[:notice] = "Scored professional growth plan."
           redirect_to(pgp_pgp_scores_path())
@@ -84,7 +85,7 @@ class PgpScoresController < ApplicationController
         @pgp_score = PgpScore.find(params[:id])
         authorize! :manage, @pgp_score
         authorize! :manage, @pgp
-        # added after test --> check w/JS #read,write, and manage
+        # TODO: handle this logic in model
         @pgp_score.destroy
         if @pgp_score.destroyed?
             flash[:notice] = "Deleted Successfully"
@@ -97,6 +98,8 @@ class PgpScoresController < ApplicationController
     private
 
     def pgp_score_params
-        params.require(:pgp_score).permit(:pgp_id, :goal_score, :score_reason, :score_date)
+        params
+          .require(:pgp_score)
+          .permit(:pgp_id, :goal_score, :score_reason, :score_date)
     end
 end

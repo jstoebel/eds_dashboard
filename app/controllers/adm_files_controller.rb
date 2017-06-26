@@ -4,12 +4,14 @@ class AdmFilesController < ApplicationController
     authorize_resource
 
     def download
+        # download an adm_file
         adm_file = AdmFile.find params[:adm_file_id]
         authorize! :read, adm_file
         send_file adm_file.student_file.doc.path
     end
 
     def create
+        # create a new adm_file
         adm = AdmTep.find params[:adm_tep_id]
 
         if params[:adm_file].blank?
@@ -35,6 +37,7 @@ class AdmFilesController < ApplicationController
     end
 
     def destroy
+        # completly remove an adm_file
         adm_file = AdmFile.find params[:id]
         authorize! :read, adm_file
         adm_file.destroy

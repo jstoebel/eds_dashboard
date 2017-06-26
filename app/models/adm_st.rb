@@ -21,6 +21,7 @@
 #  student_file_id       :integer
 #
 
+# represents an application to student teaching
 class AdmSt < ApplicationRecord
   self.table_name = 'adm_st'
   include ApplicationHelper

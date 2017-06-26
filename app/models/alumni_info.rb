@@ -16,6 +16,7 @@
 #  ZIP          :string(45)
 #
 
+# represents an entry in information on an alumni
 class AlumniInfo < ApplicationRecord
   self.table_name = 'alumni_info'
 end
