@@ -16,27 +16,38 @@
 
               <tr class="header">
                 <th>Test Name</th>
+                <th>Test Family (I or II)</th>
                 <th>Date Taken</th>
+                <% if can? :read, PraxisResult %>
+                    <th>Passing?</th>
+                <% end %>
               </tr>
               <% @tests.each do |result| %>
-              <td><%= PraxisTest.find(result.praxis_test_id).TestName %></td>
-              <td><%= result.test_date.strftime("%m/%d/%Y")%> </td>
-               <td class="actions">
-                  <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
-                      <span class="small-btn-text">Details</span>
-                  <% end %>
+                <td><%= result.praxis_test.andand.TestName %></td>
+                <td><%= result.praxis_test.andand.family_readable %></td>
+                <td><%= result.test_date.andand.strftime("%m/%d/%Y")%> </td>
+                <% if can? :read, result %>
+                    <td>
+                        <span class="glyphicon glyphicon-<%= result.passing? ? 'ok' : 'remove' %>" aria-hidden="true"></span>
+                    </td>
+                  
+                <% end %>
+                 <td class="actions">
+                    <%= link_to praxis_result_path(result.AltID), class: "btn btn-info action-small issues" do %>
+                        <span class="small-btn-text">Details</span>
+                    <% end %>
 
-                  <%= link_to edit_praxis_result_path(result.AltID), class: "btn btn-info #{result.can_alter? ? "" : "disabled"}" do %>
-                      <span class="glyphicon glyphicon-pencil"></span>
-                  <% end %>
-                  <td>
-                     <%= button_to praxis_result_path(result.AltID), {class: "btn btn-default #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
-                        <span class="glyphicon glyphicon-trash"></span>
-                      <% end %>
-                  </td>
-              </tr>
+                    <%= link_to edit_praxis_result_path(result.AltID), class: "btn btn-info #{result.can_alter? ? "" : "disabled"}" do %>
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    <% end %>
+                    <td>
+                       <%= button_to praxis_result_path(result.AltID), {class: "btn btn-default #{result.can_alter? ? "" : "disabled"}", method: :delete, data: {confirm: "Are you sure you want to delete this test?"}} do %>
+                          <span class="glyphicon glyphicon-trash"></span>
+                        <% end %>
+                    </td>
+                </tr>
 
-              <% end %>
+                <% end %>
 
         <% end %>
 

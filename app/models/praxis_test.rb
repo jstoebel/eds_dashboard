@@ -25,7 +25,18 @@ class PraxisTest < ApplicationRecord
   has_many :praxis_result_temps
   belongs_to :program, :foreign_key => "Program_ProgCode"
 
-
-
   scope :current, lambda {where ("CurrentTest=1")}
+  
+  def family_roman
+    # returns the roman numeral representation of the test family
+    self.TestFamily.andand.to_i.andand.to_roman.andand.to_s
+  end # family_roman
+  
+  def family_readable
+    # returns a string of the test family. Exmple: Praxis I
+    # if 
+    numeral = self.family_roman
+    numeral.nil? ? nil : "Praxis #{numeral}"
+  end # family_readable
+   
 end
