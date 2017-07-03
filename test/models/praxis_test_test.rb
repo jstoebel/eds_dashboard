@@ -27,7 +27,35 @@ class PraxisTestTest < ActiveSupport::TestCase
 		FactoryGirl.create_list :praxis_test, 2, {:CurrentTest => false}
 		expected = PraxisTest.current
 		assert_equal(expected.to_a.sort, current_tests.sort)
-	end
+	end # scope current
+  
+	describe "family_roman" do
+		
+		test "with a value" do
+			pt = FactoryGirl.create :praxis_test, :TestFamily => 1
+			assert_equal 'I', pt.family_roman
+		end # with a value
+		
+		test "with no value" do
+			pt = FactoryGirl.create :praxis_test, :TestFamily => nil
+			assert_nil pt.family_roman
+		end # with no value
+	
+	end # describe family_roman
+	
+	describe "family_readable" do
+		
+		test "with a value" do
+			pt = FactoryGirl.create :praxis_test, :TestFamily => 1
+			assert_equal 'Praxis I', pt.family_readable
+		end # with a value
+		
+		test "with no value" do
+			pt = FactoryGirl.create :praxis_test, :TestFamily => nil
+			assert_nil pt.family_readable
+		end # with no value
+		
+	end # describe family_readable
 
 
 end
