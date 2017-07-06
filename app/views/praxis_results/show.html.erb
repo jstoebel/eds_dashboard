@@ -6,7 +6,7 @@
 
 <div class="test details show">
 
-  <table summary="Student detail view">
+  <table class='table' summary="Student detail view">
 
     <caption>  
       <div class="header1">
@@ -52,25 +52,29 @@
 
       <% if @test.praxis_subtest_results.size > 0 %>
 
-        <table>
+        <table class=table>
         <caption>
           Sub-tests
         </caption>
-          <tr class="header">
-            <th>Section Name</th>
-            <th>Points Earned</th>
-            <th>Points Available</th>
-            <th>Performance of Middle 50%</th>      
+          <thead>
+            <tr class="header">
+              <th scope="row">Section Name</th>
+              <th>Points Earned</th>
+              <th>Points Available</th>
+              <th>Performance of Middle 50%</th>      
 
-          </tr>
-          <tr>
+            </tr>
+          </thead>
+          <tbody>
             <% @test.praxis_subtest_results.each do |sub| %>
-              <td> <%= sub.name %></td>
-              <td class="<%= (sub.pts_earned and sub.avg_low and sub.pts_earned < sub.avg_low) ? "test-fail" : "test-pass" %>"> <%= sub.pts_earned %></td>
-              <td> <%= sub.pts_aval %></td>
-              <td> <%= "#{sub.avg_low}-#{sub.avg_high}"%></td>
-        </tr>
+              <tr>
+                <td> <%= sub.name %></td>
+                <td class="<%= (sub.pts_earned and sub.avg_low and sub.pts_earned < sub.avg_low) ? "test-fail" : "test-pass" %>"> <%= sub.pts_earned %></td>
+                <td> <%= sub.pts_aval %></td>
+                <td> <%= "#{sub.avg_low}-#{sub.avg_high}"%></td>
+              </tr>
             <% end %>
+          </tbody>
         </table>
       <% else %>
       <p align="center">Test section data were not found for this exam.</p>

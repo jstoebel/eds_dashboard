@@ -425,9 +425,9 @@ td.wrap {
   padding-left: 0px;
 }
 
-.show table { clear: both; margin: 0 100px 50px; width: 300px;
-  }
-.show table td, .show table th {border-style: solid; border-width: 1px;}
+/*.show table { clear: both; margin: 0 100px 50px; width: 300px;
+  }*/
+/*.show table td, .show table th {border-style: solid; border-width: 1px;}*/
 .show table.wide { width: 600px; margin: 0 50px; }
 .show table tr th { white-space: nowrap; padding-right: 5px;}
 .show table tr td { }
