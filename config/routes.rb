@@ -228,7 +228,7 @@ Rails.application.routes.draw do
   end
 
   resources :issues, only: [:index, :new, :create, :destroy, :edit, :update],  shallow: true do
-    resources :issue_updates do
+    resources :issue_updates, except: [:show] do
         patch 'update'
     end
   end
