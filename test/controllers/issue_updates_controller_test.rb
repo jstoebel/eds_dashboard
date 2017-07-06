@@ -127,20 +127,6 @@ class IssueUpdatesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get show" do
-    allowed_roles.each do |r|
-      load_session(r)
-
-
-      update = FactoryGirl.create :issue_update
-
-      get :show, params: {:id => update.id}
-      assert_response :success
-      assert_equal update.issue, assigns(:issue)
-      assert_equal update.issue.student, assigns(:student)
-    end
-  end
-
   test "should patch update" do
     allowed_roles.each do |r|
       load_session(r)
@@ -187,14 +173,6 @@ class IssueUpdatesControllerTest < ActionController::TestCase
     (role_names - allowed_roles).each do |r|
       load_session(r)
       get :index, params: {:issue_id => "who cares"}
-      assert_redirected_to "/access_denied"
-    end
-  end
-
-  test "should not get show bad role" do
-    (role_names - allowed_roles).each do |r|
-      load_session(r)
-      get :show, params: {:id => "spam"}
       assert_redirected_to "/access_denied"
     end
   end

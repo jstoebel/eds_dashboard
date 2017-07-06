@@ -180,7 +180,7 @@ Rails.application.routes.draw do
     resources :adm_files, only: [:create]
   end
 
-  resources :adm_st, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  resources :adm_st, only: [:index, :new, :create, :edit, :update, :destroy] do
     post "choose"   #choose a term to display in index
     get "admit"
     get "edit_st_paperwork"
@@ -228,7 +228,7 @@ Rails.application.routes.draw do
   end
 
   resources :issues, only: [:index, :new, :create, :destroy, :edit, :update],  shallow: true do
-    resources :issue_updates do
+    resources :issue_updates, except: [:show] do
         patch 'update'
     end
   end
