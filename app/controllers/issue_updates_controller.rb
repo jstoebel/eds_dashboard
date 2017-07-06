@@ -68,20 +68,6 @@ class IssueUpdatesController < ApplicationController
     @updates = @issue.issue_updates.sorted.where(:visible => true).select {|r| can? :read, r }  #no additional auth needed. If you can? the issue you can? the updates
   end
 
-  def show
-    #shows info on this issue update
-    #TODO implement as a popover
-    @update = IssueUpdate.find(params[:id])
-    @issue = @update.issue
-    authorize! :read, @issue
-
-    @student = @issue.student
-    authorize! :read, @student
-
-    name_details(@student)
-
-  end
-
   def destroy
     #should destory records and make them not visible to the user,
     # but still presist in the database
