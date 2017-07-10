@@ -2042,6 +2042,41 @@ BannerTerm_272:
   AYStart: 2016
 
 BannerTerm_273:
+  BannerTerm: 201711
+  PlainTerm: Fall 2017 Term
+  StartDate: 2017-08-28 00:00:00.000000000 Z
+  EndDate: 2017-12-15 00:00:00.000000000 Z
+  AYStart: 2017
+  
+BannerTerm_274:
+  BannerTerm: 201712
+  PlainTerm: Spring 2018 Term
+  StartDate: 2017-01-09 00:00:00.000000000 Z
+  EndDate: 2017-05-03 00:00:00.000000000 Z
+  AYStart: 2017
+
+BannerTerm_275:
+  BannerTerm: 201713
+  PlainTerm: 8 Week Summer Term 2018
+  StartDate: 2017-05-14 00:00:00.000000000 Z
+  EndDate: 2017-07-06 00:00:00.000000000 Z
+  AYStart: 2017
+
+BannerTerm_276:
+  BannerTerm: 201714
+  PlainTerm:  1st 4 Week Summer Term 2018
+  StartDate: 2017-05-14 00:00:00.000000000 Z
+  EndDate: 2017-06-08 00:00:00.000000000 Z
+  AYStart: 2017
+
+BannerTerm_277:
+  BannerTerm: 201715
+  PlainTerm:  2nd 4 Week Summer Term 2018
+  StartDate: 2017-06-11 00:00:00.000000000 Z
+  EndDate: 2017-07-06 00:00:00.000000000 Z
+  AYStart: 2017
+
+BannerTerm_278:
   BannerTerm: 999999
   PlainTerm: End of Time
   StartDate: 4712-12-11 00:00:00.000000000 Z
