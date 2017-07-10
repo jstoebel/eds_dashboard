@@ -19,7 +19,10 @@ class ClinicalSitesController < ApplicationController
 
 
   def index
-    @sites = ClinicalSite.all.select {|r| can? :read, r }
+    @sites = ClinicalSite
+      .all
+      .sorted
+      .select {|r| can? :read, r }
   end
 
   def edit
@@ -34,7 +37,6 @@ class ClinicalSitesController < ApplicationController
 
     authorize! :manage, @site
     
-    # TODO: handle this logic in model
     if @site.save
       flash[:notice] = "Updated #{@site.SiteName}."
       redirect_to (clinical_sites_path)

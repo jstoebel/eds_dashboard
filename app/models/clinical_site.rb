@@ -17,6 +17,8 @@
 class ClinicalSite < ApplicationRecord
 	has_many :clinical_teachers , dependent: :destroy
 
+  scope :sorted, lambda {order :SiteName}
+
 	validates :SiteName,
 		presence: { message: "Please enter a site name."}
 
