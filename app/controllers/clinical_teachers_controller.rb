@@ -102,7 +102,7 @@ class ClinicalTeachersController < ApplicationController
 
   def form_details
     # pull clinical sites and programs for the new/edit page
-    @sites = ClinicalSite.all
+    @sites = ClinicalSite.all.sorted
     @subjects = Program.where(Current: true).order(:EDSProgName)
   end
 end
