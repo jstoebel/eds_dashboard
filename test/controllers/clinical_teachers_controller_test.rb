@@ -22,7 +22,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
   allowed_roles = ["admin", "advisor", "staff", "student labor"]
 
   def assert_form_details
-        assert_equal assigns(:sites).to_a, ClinicalSite.all.to_a
+        assert_equal assigns(:sites).to_a, ClinicalSite.all.sorted.to_a
         assert_equal assigns(:subjects).to_a, Program.where(Current: true).order(:EDSProgName).to_a
   end
 

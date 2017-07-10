@@ -31,7 +31,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
       test "as #{r} should get" do
         get :index
         assert_response :success
-        assert_equal assigns(:sites), ClinicalSite.all
+        assert_equal assigns(:sites), ClinicalSite.all.sorted
       end
     end
   end
