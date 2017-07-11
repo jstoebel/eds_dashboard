@@ -29,7 +29,7 @@ class AssessmentsController < ApplicationController
 
     # TODO: handle this logic in model
     if @assessment.save
-      flash[:notice] = "Created Assessment #{@assessment.name}."
+      flash[:info] = "Created Assessment #{@assessment.name}."
       redirect_to(assessments_path)
     else
       render('new')    #renders new view
@@ -48,7 +48,7 @@ class AssessmentsController < ApplicationController
     
     # TODO: handle this logic in model
     if @assessment.save
-      flash[:notice] = "Updated Assessment #{@assessment.name}."
+      flash[:info] = "Updated Assessment #{@assessment.name}."
       redirect_to(assessments_path)
     else
       render ('edit')
@@ -65,9 +65,9 @@ class AssessmentsController < ApplicationController
     authorize! :manage, @assessment
     # TODO: handle this logic in model
     if @assessment.destroy
-      flash[:notice] = "Record deleted successfully"
+      flash[:info] = "Record deleted successfully"
     else
-      flash[:notice] = "Record cannot be deleted"
+      flash[:info] = "Record cannot be deleted"
     end
     redirect_to(assessments_path)
   end

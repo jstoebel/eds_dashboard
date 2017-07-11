@@ -69,7 +69,7 @@ class IssuesController < ApplicationController
 
       end # transaction
       
-      flash[:notice] = "New issue opened for: #{@student.name_readable}"
+      flash[:info] = "New issue opened for: #{@student.name_readable}"
       redirect_to(student_issues_path(@student.AltID))
     rescue => e
       @dispositions = Disposition.current.ordered
@@ -84,7 +84,7 @@ class IssuesController < ApplicationController
     authorize! :manage, @issue # added after test --> check w/JS #read,write, and manage
     @issue.visible = false
     @issue.save
-    flash[:notice] = "Deleted Successfully!"
+    flash[:info] = "Deleted Successfully!"
     redirect_to(student_issues_path(@issue.student.id))
   end
 
@@ -100,7 +100,7 @@ class IssuesController < ApplicationController
     @issue.assign_attributes issue_params
     @student = @issue.student
     if @issue.save
-      flash[:notice] = "Issue updated for: #{@student.name_readable}"
+      flash[:info] = "Issue updated for: #{@student.name_readable}"
       redirect_to(student_issues_path(@student.AltID))
     else
       @dispositions = Disposition.current.ordered

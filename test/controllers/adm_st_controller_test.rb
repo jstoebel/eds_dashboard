@@ -84,7 +84,7 @@ class AdmStControllerTest < ActionController::TestCase
           }
          get :new
          assert_redirected_to adm_st_index_path
-         assert_equal flash[:notice], "No Berea term is currently in session. You may not add a new student to apply."
+         assert_equal flash[:info], "No Berea term is currently in session. You may not add a new student to apply."
         end
 
         test "should get edit" do
@@ -132,7 +132,7 @@ class AdmStControllerTest < ActionController::TestCase
 
         assert_redirected_to adm_st_index_path, "unexpected http response, role=#{r}"
         assert_equal assigns(:app).student_id, @stu.id
-        assert_equal flash[:notice], "New application added for #{@stu.name_readable(file_as=true)}"
+        assert_equal flash[:info], "New application added for #{@stu.name_readable(file_as=true)}"
 
       end # test
 
@@ -146,7 +146,7 @@ class AdmStControllerTest < ActionController::TestCase
         }
 
         assert_response :success
-        assert_equal flash[:notice], "Application not saved."
+        assert_equal flash[:info], "Application not saved."
       end
 
     end # roles loop
@@ -318,7 +318,7 @@ class AdmStControllerTest < ActionController::TestCase
 
 
        assert_redirected_to adm_st_index_path
-       assert_equal flash[:notice], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
+       assert_equal flash[:info], "Record updated for #{ApplicationController.helpers.name_details(app.student, file_as=true)}"
      end
    end
 
@@ -338,7 +338,7 @@ class AdmStControllerTest < ActionController::TestCase
              :BannerTerm_BannerTerm => @stu.adm_tep.first.banner_term.id})
           post :destroy, params: {:id => app.id}
           assert_equal(app, assigns(:app))
-          assert_equal flash[:notice], "Deleted Successfully!"
+          assert_equal flash[:info], "Deleted Successfully!"
           assert assigns(:app).destroyed?
           assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
         end # test
@@ -349,7 +349,7 @@ class AdmStControllerTest < ActionController::TestCase
                  :BannerTerm_BannerTerm => @stu.adm_tep.first.banner_term.id})
             post :destroy, params: {:id => app.id}
             assert_equal(app, assigns(:app))
-            assert_equal flash[:notice], "Could not successfully delete record!"
+            assert_equal flash[:info], "Could not successfully delete record!"
             assert_redirected_to(banner_term_adm_st_index_path(assigns(:app).BannerTerm_BannerTerm)) #Could not determine banner_term
           end # test
         end # status loop

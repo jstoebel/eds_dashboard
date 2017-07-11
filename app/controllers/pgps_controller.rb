@@ -40,10 +40,10 @@ class PgpsController < ApplicationController
         @pgp.assign_attributes(pgp_params)
         authorize! :manage, @pgp
         if @pgp.save
-          flash[:notice] = "Created professional growth plan."
+          flash[:info] = "Created professional growth plan."
           redirect_to(student_pgps_path(@pgp.student_id))
         else
-          flash[:notice] = "Error creating professional growth plan."
+          flash[:info] = "Error creating professional growth plan."
           @student = @pgp.student
           render 'new'
         end
@@ -64,12 +64,12 @@ class PgpsController < ApplicationController
          @pgp.assign_attributes(pgp_params)
 
          if @pgp.save
-             flash[:notice] = "PGP successfully updated"
+             flash[:info] = "PGP successfully updated"
              redirect_to student_pgps_path(@pgp.student.id)
              return
 
          else
-             flash[:notice] = "Error in editing PGP."
+             flash[:info] = "Error in editing PGP."
              error_update
              return
          end
@@ -84,9 +84,9 @@ class PgpsController < ApplicationController
         
         # TODO: handle this logic in model
         if @pgp.destroyed?
-            flash[:notice] = "Professional growth plan deleted successfully"
+            flash[:info] = "Professional growth plan deleted successfully"
         else
-            flash[:notice] = "Unable to alter due to scoring"
+            flash[:info] = "Unable to alter due to scoring"
         end
         redirect_to(student_pgps_path(@pgp.student_id))
     end

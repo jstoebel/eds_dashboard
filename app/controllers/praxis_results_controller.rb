@@ -45,7 +45,7 @@ class PraxisResultsController < ApplicationController
     authorize! :create, @test     #this should restrict advisors from adding new tests
     if @test.save
       @student = @test.student
-      flash[:notice] = "Registration successful: #{info_for_flash}"
+      flash[:info] = "Registration successful: #{info_for_flash}"
       redirect_to new_praxis_result_path
     else
       error_setup
@@ -60,7 +60,7 @@ class PraxisResultsController < ApplicationController
     @test = PraxisResult.find params[:id]
     authorize! :update, @test
     if !@test.can_alter?
-      flash[:notice] = "Test may not be altered."
+      flash[:info] = "Test may not be altered."
       redirect_to student_praxis_results_path(@test.student.AltID)
     end
     form_setup
@@ -72,10 +72,10 @@ class PraxisResultsController < ApplicationController
     @test = PraxisResult.find params[:id]
     authorize! :update, @test
     if @test.update_attributes(safe_params)
-      flash[:notice] = "Registration updated: #{info_for_flash}"
+      flash[:info] = "Registration updated: #{info_for_flash}"
       redirect_to student_praxis_results_path(@test.student.AltID)
     else
-      flash[:notice] = "Can't update test #{info_for_flash}"
+      flash[:info] = "Can't update test #{info_for_flash}"
       error_setup
       render 'edit'
     end
@@ -123,7 +123,7 @@ class PraxisResultsController < ApplicationController
 
   def error_setup
     #if we need to rerender edit or new, this sets up the needed instance variables.
-    # flash[:notice] = "Error in creating registration. Please review this form and try again."
+    # flash[:info] = "Error in creating registration. Please review this form and try again."
     @students = Student.all.by_last.current
     @test_options = PraxisTest.all.current
   end

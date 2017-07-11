@@ -80,14 +80,14 @@ class AdmTepControllerTest < ActionController::TestCase
             post :create, params: {:adm_tep => @app_attrs}
             assert assigns(:app).valid?, assigns(:app).errors.full_messages
             assert_redirected_to adm_tep_index_path
-            assert_equal flash[:notice], "New application added: #{@stu.name_readable}-#{@prog.EDSProgName}"
+            assert_equal flash[:info], "New application added: #{@stu.name_readable}-#{@prog.EDSProgName}"
         end
 
         test "should not create -- bad params" do
           @app_attrs[:BannerTerm_BannerTerm] = nil
           post :create, params: {:adm_tep => @app_attrs}
           assert_not assigns(:app).valid?
-          assert_equal flash[:notice], "Application not saved."
+          assert_equal flash[:info], "Application not saved."
           assert_response :success
         end
 
@@ -167,7 +167,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
           assert assigns(:application).valid?, assigns(:application).errors.full_messages
           assert_redirected_to banner_term_adm_tep_index_path(@app.banner_term.id)
-          assert_equal flash[:notice], "Student application successfully updated"
+          assert_equal flash[:info], "Student application successfully updated"
         end
 
         test "should not post update -- bad params" do
@@ -178,7 +178,7 @@ class AdmTepControllerTest < ActionController::TestCase
                   :TEPAdmitDate => nil
                 }
               }
-          assert_equal flash[:notice], "Error in saving application."
+          assert_equal flash[:info], "Error in saving application."
           assert assigns(:application).errors[:TEPAdmitDate].include?("Admission date must be given."),
             assigns(:application).errors.full_messages
           assert_response :success
@@ -309,7 +309,7 @@ class AdmTepControllerTest < ActionController::TestCase
 
           assert_equal expected_app, assigns(:app)    #finds (:) generated in controller
           assert assigns(:app).destroyed?             # failed for expected_app
-          assert_equal flash[:notice], "Record deleted successfully"    #assert flash message
+          assert_equal flash[:info], "Record deleted successfully"    #assert flash message
           assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)      #asserted equal. can use expected_app.BannerTerm_BannerTerm?#method(instance variable.object attribute)
 
         end
@@ -331,7 +331,7 @@ class AdmTepControllerTest < ActionController::TestCase
           allowed_roles.each do |r|
             load_session(r)
             post :destroy, params: {:id => expected_app.id}
-            assert_equal flash[:notice], "Record cannot be deleted"
+            assert_equal flash[:info], "Record cannot be deleted"
             #assert_redirected_to banner_term_adm_tep_index_path( assigns(:app.BannerTerm_BannerTerm))
             assert_redirected_to banner_term_adm_tep_index_path(assigns(:app).BannerTerm_BannerTerm)
           end

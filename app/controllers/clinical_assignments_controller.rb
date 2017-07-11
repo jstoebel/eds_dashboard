@@ -55,7 +55,7 @@ class ClinicalAssignmentsController < ApplicationController
     authorize! :manage, @assignment
 
     if @assignment.save
-      flash[:notice] = "Created Assignment: #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
+      flash[:info] = "Created Assignment: #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
       redirect_to(clinical_assignments_path)
     else
       form_setup
@@ -74,7 +74,7 @@ class ClinicalAssignmentsController < ApplicationController
   def destroy
     @assignment = ClinicalAssignment.find(params[:id])
     @assignment.destroy
-    flash[:notice] = "Deleted Sucessfully!"
+    flash[:info] = "Deleted Sucessfully!"
     redirect_to(banner_term_clinical_assignments_path(@assignment.Term))
   end
 
@@ -97,7 +97,7 @@ class ClinicalAssignmentsController < ApplicationController
 
     # TODO: handle this logic in model
     if @assignment.save
-      flash[:notice] = "Updated Assignment #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
+      flash[:info] = "Updated Assignment #{name_details(@assignment.student, file_as=true)} with #{@assignment.clinical_teacher.FirstName} #{@assignment.clinical_teacher.LastName}."
       redirect_to(banner_term_clinical_assignments_path(@assignment.banner_term.id))
     else
       form_setup

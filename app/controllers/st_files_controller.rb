@@ -13,7 +13,7 @@ class StFilesController < ApplicationController
         adm = AdmSt.find params[:adm_st_id]
 
         if params[:st_file].blank?
-            flash[:notice] = "Please provide a file"
+            flash[:info] = "Please provide a file"
             redirect_to banner_term_adm_st_index_path(adm.banner_term.id)
             return
         end
@@ -27,9 +27,9 @@ class StFilesController < ApplicationController
         adm.st_file = student_file
 
         if adm.save
-            flash[:notice] = "File successfully uploaded"
+            flash[:info] = "File successfully uploaded"
         else
-            flash[:notice] = "There was a problem uploading your file"
+            flash[:info] = "There was a problem uploading your file"
         end
         redirect_to banner_term_adm_st_index_path(adm.banner_term.id)
     end
@@ -38,7 +38,7 @@ class StFilesController < ApplicationController
         st_file = StFile.find params[:id]
         authorize! :read, st_file
         st_file.destroy
-        flash[:notice] = "Removed file: #{st_file.student_file.doc_file_name}"
+        flash[:info] = "Removed file: #{st_file.student_file.doc_file_name}"
         redirect_to banner_term_adm_st_index_path(st_file.adm_st.banner_term.id)
     end
 

@@ -75,7 +75,7 @@ class PraxisResultTempsControllerTest < ActionController::TestCase
         allowed_roles.each do |r|
           load_session(r)
           subject
-          assert_equal "Successfully resolved praxis record.", flash[:notice]
+          assert_equal "Successfully resolved praxis record.", flash[:info]
         end
       end
 
@@ -114,7 +114,7 @@ class PraxisResultTempsControllerTest < ActionController::TestCase
         allowed_roles.each do |r|
           load_session(r)
           subject
-          assert_equal "There was a problem resolving this record. Please try again later.", flash[:notice]
+          assert_equal "There was a problem resolving this record. Please try again later.", flash[:info]
         end
 
       end

@@ -87,7 +87,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       actual_attrs = assigns(:test).attributes.slice(*allowed_attrs)
       assert_equal expected_attrs, actual_attrs
       assert_redirected_to new_praxis_result_path, assigns(:test).errors.full_messages
-      assert_equal flash[:notice], "Registration successful: #{stu.name_readable}, #{result.praxis_test.TestName}, #{result.test_date.strftime("%m/%d/%Y")}"
+      assert_equal flash[:info], "Registration successful: #{stu.name_readable}, #{result.praxis_test.TestName}, #{result.test_date.strftime("%m/%d/%Y")}"
       assert_equal assigns(:student), result.student
 
     end
@@ -135,7 +135,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       test.test_score = 123
       test.save
       get :edit, params: {:id => test.id}
-      assert_equal flash[:notice], "Test may not be altered."
+      assert_equal flash[:info], "Test may not be altered."
       assert_redirected_to student_praxis_results_path(test.student.AltID)
     end
   end
@@ -176,7 +176,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
       post :update, params: {:id => test.AltID,
        :praxis_result => update_params
       }
-      assert_equal flash[:notice], "Can't update test #{ApplicationController.helpers.name_details(test.student)}, #{PraxisTest.find(test.praxis_test_id).TestName}, #{test.test_date.strftime("%m/%d/%Y")}"
+      assert_equal flash[:info], "Can't update test #{ApplicationController.helpers.name_details(test.student)}, #{PraxisTest.find(test.praxis_test_id).TestName}, #{test.test_date.strftime("%m/%d/%Y")}"
       assert_template 'edit'
 
     end
@@ -195,7 +195,7 @@ class PraxisResultsControllerTest < ActionController::TestCase
        :praxis_result => update_params
       }
 
-      assert_equal flash[:notice], "Can't update test #{ApplicationController.helpers.name_details(test.student)}, #{PraxisTest.find(test.praxis_test_id).TestName}, #{test.test_date.strftime("%m/%d/%Y")}"
+      assert_equal flash[:info], "Can't update test #{ApplicationController.helpers.name_details(test.student)}, #{PraxisTest.find(test.praxis_test_id).TestName}, #{test.test_date.strftime("%m/%d/%Y")}"
       assert_template 'edit'
     end
   end

@@ -59,7 +59,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
       post :update, params: {:id => teacher.id, :clinical_teacher => update_params}
       assert_redirected_to clinical_teachers_path
       assert_equal assigns(:teacher), teacher
-      assert_equal flash[:notice], "Updated Teacher #{assigns(:teacher).FirstName} #{assigns(:teacher).LastName}."
+      assert_equal flash[:info], "Updated Teacher #{assigns(:teacher).FirstName} #{assigns(:teacher).LastName}."
     end
   end
 
@@ -103,7 +103,7 @@ class ClinicalTeachersControllerTest < ActionController::TestCase
 
       actual_teacher = assigns(:teacher)
       assert_equal actual_teacher.attributes.except("id"), expected_teacher.attributes.except("id")
-      assert_equal flash[:notice], "Created new teacher #{expected_teacher.FirstName} #{expected_teacher.LastName}."
+      assert_equal flash[:info], "Created new teacher #{expected_teacher.FirstName} #{expected_teacher.LastName}."
 
     end
   end
@@ -140,7 +140,7 @@ test "should delete teacher and dependent assignments" do
     assert_equal(teach, assigns(:teacher))
     assert assigns(:teacher).destroyed?
     assigns(:teacher).clinical_assignments.each{|i| assert i.destroyed?}
-    assert_equal flash[:notice], "Deleted Successfully!"
+    assert_equal flash[:info], "Deleted Successfully!"
     assert_redirected_to(clinical_teachers_path)
    end
   end

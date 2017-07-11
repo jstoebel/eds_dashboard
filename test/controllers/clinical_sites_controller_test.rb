@@ -86,7 +86,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
           post :update, params: {:id => @site.id, :clinical_site => update_params}
           assert_response :success
           assert_template 'edit'
-          assert_equal "Error updating site.", flash[:notice]
+          assert_equal "Error updating site.", flash[:info]
         end
 
       end
@@ -115,7 +115,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
 
           assert_equal expected_attrs, actual_attrs
           assert_redirected_to clinical_sites_path
-          assert_equal flash[:notice], "Created #{assigns(:site).SiteName}."
+          assert_equal flash[:info], "Created #{assigns(:site).SiteName}."
         end
 
         test "should not post -- bad params" do
@@ -123,7 +123,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
           post :create, params: {:clinical_site => @site.attributes}
 
           assert :successs
-          assert_equal flash[:notice], "Error creating site."
+          assert_equal flash[:info], "Error creating site."
           assert_template "new"
         end
 
@@ -170,7 +170,7 @@ class ClinicalSitesControllerTest < ActionController::TestCase
           assert assigns(:site).destroyed?
           assigns(:site).clinical_teachers.each{|i| assert i.destroyed?}    #should auto delete any teacher assignments when teacher destroyed
           assigns(:site).clinical_teachers.each{|i| i.clinical_assignments.each{|j| assert j.destroyed?}}    #are all assignments destroyed?
-          assert_equal flash[:notice], "Deleted Successfully"
+          assert_equal flash[:info], "Deleted Successfully"
           assert_redirected_to(clinical_sites_path)
         end
 

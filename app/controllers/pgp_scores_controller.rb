@@ -38,12 +38,12 @@ class PgpScoresController < ApplicationController
         @pgp_score.assign_attributes(pgp_score_params)
         # TODO: handle this logic in model
         if @pgp_score.save
-            flash[:notice] = "PGP score successfully updated"
+            flash[:info] = "PGP score successfully updated"
             redirect_to pgp_pgp_scores_path(@pgp_score.pgp_id)
             return
         else
             @student = @pgp.student
-            flash[:notice] = "Error in updating PGP score."
+            flash[:info] = "Error in updating PGP score."
             render "edit"
             return
         end
@@ -56,10 +56,10 @@ class PgpScoresController < ApplicationController
         @pgp_score.assign_attributes(pgp_score_params)
         # TODO: handle this logic in model
         if @pgp_score.save
-          flash[:notice] = "Scored professional growth plan."
+          flash[:info] = "Scored professional growth plan."
           redirect_to(pgp_pgp_scores_path())
         else
-          flash[:notice] = "Error creating professional growth plan."
+          flash[:info] = "Error creating professional growth plan."
           @pgp = Pgp.find params[:pgp_id]
           @student = @pgp.student
           render 'new'
@@ -88,9 +88,9 @@ class PgpScoresController < ApplicationController
         # TODO: handle this logic in model
         @pgp_score.destroy
         if @pgp_score.destroyed?
-            flash[:notice] = "Deleted Successfully"
+            flash[:info] = "Deleted Successfully"
         else
-            flash[:notice] = "Error in Deleting PGP Score"
+            flash[:info] = "Error in Deleting PGP Score"
         end
         redirect_to(pgp_pgp_scores_path(@pgp_score.pgp_id))
     end
