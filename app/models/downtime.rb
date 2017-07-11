@@ -11,8 +11,7 @@
 #  active     :boolean
 #
 
-# represents a single downtime even while in production
-class Downtime < ApplicationRecord
+class Downtime < ActiveRecord::Base
 
     after_initialize :init
     before_save :fix_times

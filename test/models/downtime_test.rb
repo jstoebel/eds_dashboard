@@ -14,9 +14,6 @@
 require 'test_helper'
 
 class DowntimeTest < ActiveSupport::TestCase
-    tz = TZInfo::Timezone.get('America/New_York')
-    current_tz_info = tz.current_period
-    current_offset = current_tz_info.utc_total_offset # seconds offset from utc (accounting for DST)
 
     describe "validate_presence_of" do
 
@@ -63,7 +60,7 @@ class DowntimeTest < ActiveSupport::TestCase
             dt = FactoryGirl.build :downtime
             before_save = dt.send(attr)
             dt.save
-            assert_equal current_offset, before_save - dt.send(attr)
+            assert_equal 5, ((dt.send(attr) - before_save) / 1.hour)
 
           end
 
@@ -71,7 +68,7 @@ class DowntimeTest < ActiveSupport::TestCase
             dt = FactoryGirl.create :downtime
             before_save = dt.send(attr)
             dt.save
-            assert_equal 0, before_save - dt.send(attr)
+            assert_equal 0, dt.send(attr) - before_save
           end
 
         end
