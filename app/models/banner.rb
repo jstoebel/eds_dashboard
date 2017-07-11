@@ -71,12 +71,16 @@ SAVEDSD_INSTRUCTOR
 
 =end
 
-class Banner < ApplicationRecord
-
-  establish_connection :banner
-  self.table_name = "saturn.szvedsd"
-
-  scope :by_term, ->(term) {where :SZVEDSD_FILTER_TERM => term}
-  scope :by_ssn, ->(ssn) {find_by :SZVEDSD_SSN => ssn}
-
+# HACK. I don't know how else to skip when trying to annotate
+if !ENV["annotate"] == "true"
+  
+  class Banner < ApplicationRecord
+    
+    establish_connection :banner 
+    self.table_name = "saturn.szvedsd"
+    
+    scope :by_term, ->(term) {where :SZVEDSD_FILTER_TERM => term}
+    scope :by_ssn, ->(ssn) {find_by :SZVEDSD_SSN => ssn}
+    
+  end
 end

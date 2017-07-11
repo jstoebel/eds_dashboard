@@ -68,6 +68,10 @@ This app regularly connects to two external services to update its own data:
  - This app uses Minitest for all tests.
  - All commits to this app are built remotely using the Continuous Integration Service CodeShip.
 
+### Annotation
+
+We use the `annotate` gem to annotate our models. Since one of our models (`Banner`) connects to a service not available in your development environment, we came up with a hack to skip this model when running annotate. Run `annotate="true" bundle exec annotate` to run `annotate`. If you don't include the environment variable at the beginning, you'll get an error.
+
 ### Deployment instructions
 
  - Berea College deploys this app in an Ubuntu VM in our data center.
