@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   def check_notices
     # check the notices table for a notice
     notice = Notice.active
-    flash[:notice] = notice.message
+    flash[:notice] = notice.message if notice.present?
   end # check_notices
 
   def authorize
