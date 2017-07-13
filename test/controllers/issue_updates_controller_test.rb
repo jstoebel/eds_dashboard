@@ -71,7 +71,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
           # user needs to be a tep_advisor of student
           assert_redirected_to issue_issue_updates_path(assigns(:issue).IssueID)
-          assert_equal "New update added", flash[:notice]
+          assert_equal "New update added", flash[:info]
           assert_equal expected_attrs, actual_attrs
           assert_equal @issue, assigns(:issue)
 
@@ -186,7 +186,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
         iss_up = FactoryGirl.create(:issue_update, {:tep_advisors_AdvisorBnum => admtep.id,
         :Issues_IssueID => iss.id, :visible => true})
         delete :destroy, params: {:id => iss_up.id}
-        assert_equal flash[:notice], "Deleted Successfully!"
+        assert_equal flash[:info], "Deleted Successfully!"
         assert_not assigns(:update).visible
         assert_redirected_to(issue_issue_updates_path(assigns(:update).issue.id))
     end

@@ -38,10 +38,10 @@ class ClinicalSitesController < ApplicationController
     authorize! :manage, @site
     
     if @site.save
-      flash[:notice] = "Updated #{@site.SiteName}."
+      flash[:info] = "Updated #{@site.SiteName}."
       redirect_to (clinical_sites_path)
     else
-      flash[:notice] = "Error updating site."
+      flash[:info] = "Error updating site."
       render 'edit'
     end
   end
@@ -58,10 +58,10 @@ class ClinicalSitesController < ApplicationController
     
     # TODO: handle this logic in model
     if @site.save
-      flash[:notice] = "Created #{@site.SiteName}."
+      flash[:info] = "Created #{@site.SiteName}."
       redirect_to (clinical_sites_path)
     else
-      flash[:notice] = "Error creating site."
+      flash[:info] = "Error creating site."
       render 'new'
     end
   end
@@ -75,7 +75,7 @@ class ClinicalSitesController < ApplicationController
     @site = ClinicalSite.find(params[:id])
     authorize! :manage, @site
     @site.destroy
-    flash[:notice] = "Deleted Successfully"
+    flash[:info] = "Deleted Successfully"
     redirect_to(clinical_sites_path)
   end
   

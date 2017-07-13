@@ -142,7 +142,7 @@ class IssuesControllerTest < ActionController::TestCase
 
         test "flash notice" do
           post_create
-          assert_equal "New issue opened for: #{@issue.student.name_readable}", flash[:notice]
+          assert_equal "New issue opened for: #{@issue.student.name_readable}", flash[:info]
         end
 
         test "redirects to issues index" do
@@ -243,7 +243,7 @@ class IssuesControllerTest < ActionController::TestCase
           issue = FactoryGirl.create(:issue)
           delete :destroy, params: {:id => issue.id}
           assert_not assigns(:issue).visible
-          assert_equal flash[:notice], "Deleted Successfully!"
+          assert_equal flash[:info], "Deleted Successfully!"
           assert_redirected_to(student_issues_path(issue.student.id)) # makes sure the user has been redirected to the index page of the student issue page
     end
   end

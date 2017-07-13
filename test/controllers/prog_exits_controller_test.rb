@@ -73,7 +73,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         post :create, params: {:student_id => stu.id, :prog_exit => prog_exit.attributes}
         assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
         assert_redirected_to prog_exits_path
-        assert_equal flash[:notice], "Successfully exited #{ApplicationController.helpers.name_details(assigns(:exit).student)} from #{assigns(:exit).program.EDSProgName}. Reason: #{assigns(:exit).exit_code.ExitDiscrip}."
+        assert_equal flash[:info], "Successfully exited #{ApplicationController.helpers.name_details(assigns(:exit).student)} from #{assigns(:exit).program.EDSProgName}. Reason: #{assigns(:exit).exit_code.ExitDiscrip}."
       end
     end
 
@@ -154,7 +154,7 @@ class ProgExitsControllerTest < ActionController::TestCase
         post :update, params: {:id => prog_exit.id, :prog_exit => new_attrs}
         assert assigns(:exit).valid?, assigns(:exit).errors.full_messages
         assert_equal new_attrs["RecommendDate"], assigns(:exit).attributes["RecommendDate"]
-        assert_equal flash[:notice], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
+        assert_equal flash[:info], "Edited exit record for #{ApplicationController.helpers.name_details(assigns(:exit).student)}"
         assert_redirected_to banner_term_prog_exits_path(prog_exit.banner_term.id)
       end
     end

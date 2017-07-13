@@ -50,7 +50,7 @@ class IssueUpdatesController < ApplicationController
     authorize! :read, @student
 
     if @update.save
-      flash[:notice] = "New update added"
+      flash[:info] = "New update added"
       redirect_to(issue_issue_updates_path(@issue.IssueID))
     else
       render('new')
@@ -76,7 +76,7 @@ class IssueUpdatesController < ApplicationController
     @update = IssueUpdate.find(params[:id])
     @update.visible = false
     @update.save
-    flash[:notice] = "Deleted Successfully!"
+    flash[:info] = "Deleted Successfully!"
     redirect_to(issue_issue_updates_path(@update.issue.id))
   end
 

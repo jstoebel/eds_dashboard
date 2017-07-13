@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   before_filter :authorize
+  before_filter :check_browser
+  before_filter :check_notices
   protect_from_forgery with: :exception
 
   def current_user
@@ -26,6 +28,20 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do | exception |
     redirect_to "/access_denied"
   end
+
+  def check_browser
+    if browser.ie?
+      flash[:warning] = "Internet Explorer is not a supported browser. Please use either Firefox or Chrome." 
+    end
+  end # check_browser
+
+  def check_notices
+    # check the notices table for a notice
+    notice = Notice.active
+    if notice.present?
+      flash[:notice] = notice.message
+    end
+  end # check_notices
 
   def authorize
     #if the user gets here they are authenticated as a Berea College user.
@@ -50,9 +66,9 @@ class ApplicationController < ActionController::Base
 
           #redirect to their home page!
           if user.FirstName.present? and user.LastName.present?
-            flash[:notice] = "Welcome, #{user.FirstName} #{user.LastName}!"
+            flash[:info] = "Welcome, #{user.FirstName} #{user.LastName}!"
           else
-            flash[:notice] = "Welcome, #{user.UserName}!"
+            flash[:info] = "Welcome, #{user.UserName}!"
           end
 
           #done!

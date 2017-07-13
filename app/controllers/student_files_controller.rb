@@ -27,11 +27,11 @@ class StudentFilesController < ApplicationController
     authorize! :manage, @file
 
     if @file.save
-      flash[:notice] = "File successfully uploaded."
+      flash[:info] = "File successfully uploaded."
       redirect_to student_student_files_path(student.id)
     else
       index_setup
-      flash[:notice] = "Error uploading file."
+      flash[:info] = "Error uploading file."
       @student = Student.find params[:student_id]
       
       render 'index'      
@@ -45,10 +45,10 @@ class StudentFilesController < ApplicationController
     @file.active = false
 
     if @file.save
-      flash[:notice] = "File successfully removed."
+      flash[:info] = "File successfully removed."
       redirect_to student_student_files_path(@file.student.id)
     else
-      flash[:notice] = "Error removing file."
+      flash[:info] = "Error removing file."
       redirect_to student_student_files_path(@file.student.id)      
     end
   end

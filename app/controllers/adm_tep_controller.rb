@@ -30,10 +30,10 @@ class AdmTepController < ApplicationController
       name = name_details(stu)
       prog = @app.program
 
-      flash[:notice] = "New application added: #{name}-#{prog.EDSProgName}"
+      flash[:info] = "New application added: #{name}-#{prog.EDSProgName}"
       redirect_to(action: 'index')
     else
-      flash[:notice] = "Application not saved."
+      flash[:info] = "Application not saved."
       new_setup
       render ('new')
     end
@@ -67,12 +67,12 @@ class AdmTepController < ApplicationController
     end
 
     if @application.save
-        flash[:notice] = "Student application successfully updated"
+        flash[:info] = "Student application successfully updated"
         redirect_to banner_term_adm_tep_index_path(@application.banner_term.id)
         return
 
     else
-        flash[:notice] = "Error in saving application."
+        flash[:info] = "Error in saving application."
         error_update
         return
     end
@@ -100,9 +100,9 @@ class AdmTepController < ApplicationController
     # TODO: handle logic in the model
     if @app.TEPAdmit == nil            #if TEPAdmit does not have a value
       @app.destroy
-      flash[:notice] = "Record deleted successfully"
+      flash[:info] = "Record deleted successfully"
     else                               #if TEPAdmit does have a value
-      flash[:notice] = "Record cannot be deleted"    #notifies user that object cannot be deleted
+      flash[:info] = "Record cannot be deleted"    #notifies user that object cannot be deleted
     end
     redirect_to(banner_term_adm_tep_index_path(@app.BannerTerm_BannerTerm))    #method(method(object.attribute)) appropriate method found through routing page
   end

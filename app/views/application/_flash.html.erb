@@ -1,0 +1,14 @@
+
+<!--  
+  locals:
+    type: either success, info, warning or danger
+    msg: the message to display
+-->
+
+<div class="alert alert-<%= type %> fade in text-center" >
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>
+    <%= msg %>
+  </strong>
+  
+</div>

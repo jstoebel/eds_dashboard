@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417195309) do
+ActiveRecord::Schema.define(version: 20170711195858) do
 
   create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "adm_tep_id"
@@ -161,21 +161,6 @@ ActiveRecord::Schema.define(version: 20170417195309) do
     t.index ["clinical_site_id"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
   end
 
-  create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "priority",                 default: 0, null: false
-    t.integer  "attempts",                 default: 0, null: false
-    t.text     "handler",    limit: 65535,             null: false
-    t.text     "last_error", limit: 65535
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-  end
-
   create_table "dispositions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "code"
     t.text     "description", limit: 65535
@@ -270,6 +255,13 @@ ActiveRecord::Schema.define(version: 20170417195309) do
 
   create_table "majors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "name"
+  end
+
+  create_table "notices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.text     "message",    limit: 65535, null: false
+    t.boolean  "active",                   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "pgp_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -433,35 +425,14 @@ ActiveRecord::Schema.define(version: 20170417195309) do
     t.index ["student_id"], name: "fk_rails_78ba6603b4", using: :btree
   end
 
-  create_table "student_score_temps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "student_id"
-    t.integer  "item_level_id"
-    t.datetime "scored_at"
-    t.string   "full_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "student_score_upload_id"
-    t.index ["student_score_upload_id"], name: "fk_rails_96a8917b0f", using: :btree
-  end
-
-  create_table "student_score_uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "source"
-    t.boolean  "success"
-    t.text     "message",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
   create_table "student_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "student_id"
     t.integer  "item_level_id"
     t.datetime "scored_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "student_score_upload_id"
     t.index ["item_level_id"], name: "index_student_scores_on_item_level_id", using: :btree
     t.index ["student_id"], name: "index_student_scores_on_student_id", using: :btree
-    t.index ["student_score_upload_id"], name: "fk_rails_12c700da29", using: :btree
   end
 
   create_table "students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -540,16 +511,6 @@ ActiveRecord::Schema.define(version: 20170417195309) do
     t.index ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
   end
 
-  create_table "trigrams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string  "trigram",     limit: 3
-    t.integer "score",       limit: 2
-    t.integer "owner_id"
-    t.string  "owner_type"
-    t.string  "fuzzy_field"
-    t.index ["owner_id", "owner_type", "fuzzy_field", "trigram", "score"], name: "index_for_match", using: :btree
-    t.index ["owner_id", "owner_type"], name: "index_by_owner", using: :btree
-  end
-
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string  "UserName",      limit: 45,  null: false
     t.string  "FirstName",     limit: 45,  null: false
@@ -601,8 +562,6 @@ ActiveRecord::Schema.define(version: 20170417195309) do
   add_foreign_key "prog_exits", "programs", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "students"
   add_foreign_key "student_files", "students"
-  add_foreign_key "student_score_temps", "student_score_uploads"
-  add_foreign_key "student_scores", "student_score_uploads"
   add_foreign_key "students", "banner_terms", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_graduated", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_major", primary_key: "BannerTerm"

@@ -58,7 +58,7 @@ class StudentFilesControllerTest < ActionController::TestCase
 
       assert assigns(:file).errors.blank?, assigns(:file).errors.full_messages
       assert_redirected_to student_student_files_path(stu.AltID)
-      assert_equal "File successfully uploaded.", flash[:notice]
+      assert_equal "File successfully uploaded.", flash[:info]
 
       #are the records the same except for their id?
       expected_attrs = expected_stu_file.attributes
@@ -85,7 +85,7 @@ class StudentFilesControllerTest < ActionController::TestCase
       }
 
       assert_response :success
-      assert_equal "Error uploading file.", flash[:notice]
+      assert_equal "Error uploading file.", flash[:info]
       assert_template :index
     end
 
@@ -101,7 +101,7 @@ class StudentFilesControllerTest < ActionController::TestCase
 
       assert_equal file, assigns(:file)
       puts assigns(:file).errors.full_messages
-      assert_equal "File successfully removed.", flash[:notice]
+      assert_equal "File successfully removed.", flash[:info]
 
       assert_redirected_to student_student_files_path(file.student.AltID)
     end

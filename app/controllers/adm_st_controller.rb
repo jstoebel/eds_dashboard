@@ -12,7 +12,7 @@ class AdmStController < ApplicationController
     #display menu for possible names and possible programs
 
     if current_term(exact: true) == nil
-      flash[:notice] = "No Berea term is currently in session. You may not add a new student to apply."
+      flash[:info] = "No Berea term is currently in session. You may not add a new student to apply."
       redirect_to(adm_st_index_path)
       return
     end
@@ -42,10 +42,10 @@ class AdmStController < ApplicationController
     if @app.save
       @student = Student.find(stu_id)
       name_details(@student)
-      flash[:notice] = "New application added for #{name_details(@student, file_as=true)}"
+      flash[:info] = "New application added for #{name_details(@student, file_as=true)}"
       redirect_to(action: 'index')
     else
-      flash[:notice] = "Application not saved."
+      flash[:info] = "Application not saved."
       new_setup
       render 'new'
 
@@ -74,10 +74,10 @@ class AdmStController < ApplicationController
     end
 
     if @app.save
-      flash[:notice] = "Student application successfully updated."
+      flash[:info] = "Student application successfully updated."
       redirect_to(adm_st_index_path)
     else
-      flash[:notice] = "Error in saving application."
+      flash[:info] = "Error in saving application."
       error_update
     end
   end
@@ -112,12 +112,12 @@ class AdmStController < ApplicationController
 
     @app.assign_attributes(:skip_val_letter => true)    #let's not validate for the letter.
     if @app.save
-      flash[:notice] = "Record updated for #{name_details(@app.student, file_as=true)}"
+      flash[:info] = "Record updated for #{name_details(@app.student, file_as=true)}"
       redirect_to adm_st_index_path
     else
       index_setup
       render 'index'
-      # flash[:notice] = "Problem updating record for #{name_details(app.student)}"
+      # flash[:info] = "Problem updating record for #{name_details(app.student)}"
       # redirect_to adm_st_index_path
     end
   end
@@ -128,10 +128,10 @@ class AdmStController < ApplicationController
     authorize! :manage, @app
     if @app.STAdmitted== nil # TODO: refactor to handle this logic in the model
       @app.destroy
-      flash[:notice] = "Deleted Successfully!"
+      flash[:info] = "Deleted Successfully!"
 
     else
-      flash[:notice] = "Could not successfully delete record!"
+      flash[:info] = "Could not successfully delete record!"
     end
     redirect_to(banner_term_adm_st_index_path(@app.BannerTerm_BannerTerm))
   end

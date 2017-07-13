@@ -47,7 +47,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                         end
 
                         test "successful flash message" do
-                            assert_equal "File successfully uploaded", flash[:notice]
+                            assert_equal "File successfully uploaded", flash[:info]
                         end
 
                         test "redirects" do
@@ -63,7 +63,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                             }
 
                             assert_redirected_to banner_term_adm_tep_index_path(@adm_tep.banner_term.id)
-                            assert_equal "Please provide a file", flash[:notice]
+                            assert_equal "Please provide a file", flash[:info]
                         end
 
 
@@ -88,7 +88,7 @@ class AdmFilesControllerTest < ActionController::TestCase
                     end
 
                     test "flash message" do
-                        assert_equal "Removed file: #{@adm_file.student_file.doc_file_name}", flash[:notice]
+                        assert_equal "Removed file: #{@adm_file.student_file.doc_file_name}", flash[:info]
                     end
 
                 end

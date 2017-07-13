@@ -110,7 +110,7 @@ class FoisControllerTest < ActionController::TestCase
 
             test "flash message" do
               num_rows = 1
-              assert_equal "#{num_rows} #{"form".pluralize(num_rows) + " of intention"} successfully imported.", flash[:notice]
+              assert_equal "#{num_rows} #{"form".pluralize(num_rows) + " of intention"} successfully imported.", flash[:info]
             end
 
             test "redirect to index" do
@@ -138,7 +138,7 @@ class FoisControllerTest < ActionController::TestCase
 
           test "flash message" do
             expected_message = "Error in record 1: Validation failed: Student could not be identified."
-            assert_equal expected_message, flash[:notice]
+            assert_equal expected_message, flash[:info]
           end
 
           test "redirect to index" do

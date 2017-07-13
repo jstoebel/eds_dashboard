@@ -46,7 +46,7 @@ class ClinicalTeachersController < ApplicationController
     
     # TODO: handle this logic in model
     if @teacher.save
-      flash[:notice] = "Updated Teacher #{@teacher.FirstName} #{@teacher.LastName}."
+      flash[:info] = "Updated Teacher #{@teacher.FirstName} #{@teacher.LastName}."
       redirect_to(clinical_teachers_path)
     else
       form_details
@@ -65,7 +65,7 @@ class ClinicalTeachersController < ApplicationController
     @teacher.update_attributes(teacher_params)
     authorize! :manage, @teacher
     if @teacher.save
-      flash[:notice] = "Created new teacher #{@teacher.FirstName} #{@teacher.LastName}."
+      flash[:info] = "Created new teacher #{@teacher.FirstName} #{@teacher.LastName}."
       redirect_to(clinical_teachers_path)
     else
       form_details
@@ -83,7 +83,7 @@ class ClinicalTeachersController < ApplicationController
     @teacher = ClinicalTeacher.find(params[:id])
     authorize! :manage, @teacher
     @teacher.destroy
-    flash[:notice] = "Deleted Successfully!"
+    flash[:info] = "Deleted Successfully!"
     redirect_to(clinical_teachers_path)
   end
 

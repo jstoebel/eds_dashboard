@@ -46,7 +46,7 @@ class ProgExitsController < ApplicationController
     # model will find the exit date and GPAs on its own
 
     if @exit.save
-      flash[:notice] = "Successfully exited #{@exit.student.name_readable} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
+      flash[:info] = "Successfully exited #{@exit.student.name_readable} from #{@exit.program.EDSProgName}. Reason: #{@exit.exit_code.ExitDiscrip}."
       redirect_to prog_exits_path
     else
       new_setup
@@ -81,7 +81,7 @@ class ProgExitsController < ApplicationController
     @exit.assign_attributes(edit_exit_params)
 
     if @exit.save
-      flash[:notice] = "Edited exit record for #{name_details(@exit.student)}"
+      flash[:info] = "Edited exit record for #{name_details(@exit.student)}"
       redirect_to banner_term_prog_exits_path(@exit.banner_term.id)
     else
       render('edit')

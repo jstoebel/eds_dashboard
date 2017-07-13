@@ -2,11 +2,13 @@
 #
 # Table name: student_scores
 #
-#  id            :integer          not null, primary key
-#  student_id    :integer
-#  item_level_id :integer
-#  created_at    :datetime
-#  updated_at    :datetime
+#  id                      :integer          not null, primary key
+#  student_id              :integer
+#  item_level_id           :integer
+#  scored_at               :datetime
+#  created_at              :datetime
+#  updated_at              :datetime
+#  student_score_upload_id :integer
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

@@ -67,7 +67,7 @@ class PgpsControllerTest < ActionController::TestCase
           stu = expected_pgp.student
           post :create, params: {:pgp=> expected_pgp.attributes}
           assert assigns(:pgp).valid?
-          assert_equal flash[:notice], "Created professional growth plan."
+          assert_equal flash[:info], "Created professional growth plan."
           assert_equal expected_pgp.attributes.except("id", "created_at", "updated_at"),
           assigns(:pgp).attributes.except("id", "created_at", "updated_at")
           assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
@@ -87,7 +87,7 @@ class PgpsControllerTest < ActionController::TestCase
 
           assert_not assigns(:pgp).valid?
           assert_template 'new'
-          assert_equal flash[:notice], "Error creating professional growth plan."
+          assert_equal flash[:info], "Error creating professional growth plan."
           assert_equal stu, assigns(:student)
         end # test
 
@@ -130,7 +130,7 @@ class PgpsControllerTest < ActionController::TestCase
 
       assert assigns(:pgp).valid?
 
-      assert_equal flash[:notice], "PGP successfully updated"
+      assert_equal flash[:info], "PGP successfully updated"
       assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
 
     end
@@ -151,7 +151,7 @@ class PgpsControllerTest < ActionController::TestCase
       assert_equal(assigns(:pgp), pgp)
       assert_equal pgp.student, assigns(:student)
       assert_not assigns(:pgp).valid?
-      assert_equal flash[:notice], "Error in editing PGP."
+      assert_equal flash[:info], "Error in editing PGP."
       assert_template 'edit'
       assert_response :success
 
@@ -191,7 +191,7 @@ class PgpsControllerTest < ActionController::TestCase
       post :destroy, params: {:id => pgp.id}
       assert_equal(assigns(:pgp), pgp)
       assert assigns(:pgp).destroyed?
-      assert_equal flash[:notice], "Professional growth plan deleted successfully"
+      assert_equal flash[:info], "Professional growth plan deleted successfully"
       assert_redirected_to student_pgps_path(assigns(:pgp).student_id)
     end
   end
@@ -213,7 +213,7 @@ class PgpsControllerTest < ActionController::TestCase
       pgp = FactoryGirl.create :pgp
       score = FactoryGirl.create :pgp_score, {:pgp_id => pgp.id}
       post :destroy, params: {:id => pgp.id}
-      assert_equal flash[:notice], "Unable to alter due to scoring"
+      assert_equal flash[:info], "Unable to alter due to scoring"
       assert_equal assigns(:pgp), pgp
     end
   end
