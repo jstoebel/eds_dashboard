@@ -11,16 +11,16 @@
 
 class Notice < ApplicationRecord
   
-  before_validation :allow_one_active
+  before_validation :allow_one_active, on: :create
   
-  def self.latest
-    order(:created_at).last
+  def self.active
+    find_by active: true
   end
   
-  def allow_one_active
-    if Notice.where(active: true).count > 1
+  def allow_one_active  
+    if self.active && Notice.where(active: true).count > 0
       self.errors.add(:base, "can't have more than one active notice") 
-    end
+    end 
   end
   
 end

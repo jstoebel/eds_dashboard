@@ -14,16 +14,23 @@ require 'test_helper'
 class NoticeTest < ActiveSupport::TestCase
   
   test "latest" do
-    notices = (1..2).map{|i| FactoryGirl.create :notice, {:created_at => i.days.ago,
-        :active => false
-      }
+    notices = [false, true].map{|state| FactoryGirl.create :notice, 
+      {:active => state}
     }
-    assert_equal Notice.latest, notices.last
+    assert_equal Notice.active, notices.last
+  end
+  
+  test "latest return nil if no active notices" do
+    notice = FactoryGirl.create :notice, active: false
+    
+    assert_nil Notice.active
   end
   
   test "allow_one_active" do
     n1 = FactoryGirl.create :notice
-    assert_raises 
+    assert_raises ActiveRecord::RecordInvalid do 
+      FactoryGirl.create :notice
+    end
   end
   
 end

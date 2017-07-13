@@ -29,11 +29,16 @@ class ApplicationController < ActionController::Base
     redirect_to "/access_denied"
   end
 
-  def check_browser 
-    flash[:warning] = "Internet Explorer is not a supported browser. Please use either Firefox or Chrome." if browser.ie?
+  def check_browser
+    if browser.ie?
+      flash[:warning] = "Internet Explorer is not a supported browser. Please use either Firefox or Chrome." 
+    end
   end # check_browser
 
-  def check_notice
+  def check_notices
+    # check the notices table for a notice
+    notice = Notice.active
+    flash[:notice] = notice.message
   end # check_notices
 
   def authorize

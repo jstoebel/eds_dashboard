@@ -76,8 +76,14 @@
   </div>
 </div>
     
-		<% flash.keys.each do |key|  %>
-			<%= render :partial => "flash", locals: {type: key, msg: flash[key]} %>
+    <% if flash[:notice].present? %>
+      <%= render :partial => "notice", locals: {msg: flash[:notice]} %>
+    <% end %>
+    
+		<% [:danger, :warning, :success, :info].each do |key| %>
+			<% if flash[key].present? %>
+			  <%= render :partial => "flash", locals: {type: key, msg: flash[key]} %>
+			<% end %>
 		<% end %>
 			
 <div class="yield">  <%= yield %> </div>
