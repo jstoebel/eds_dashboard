@@ -30,17 +30,20 @@ class FoisController < ApplicationController
         begin
           result = Foi.import(file)
         rescue => e
-          redirect_to fois_path, :info => e.message
+          flash[:info] = e.message
+          redirect_to fois_path
           return
         end
 
         if result[:success]
           num_records = result[:records]
-          redirect_to fois_path, :info => "#{num_records} #{"form".pluralize(num_records) + " of intention"} successfully imported."
+          flash[:info] = "#{num_records} #{"form".pluralize(num_records) + " of intention"} successfully imported."
+          redirect_to fois_path
           return
           # went ok
         else
-            redirect_to fois_path, :info => "something went wrong."
+            flash[:info] = "something went wrong."
+            redirect_to fois_path
             return
             # didn't go ok
         end
