@@ -3,6 +3,7 @@
     arguments:
         record_id: an id for the record the popover will represent. Must be unique to the page
         popover_title: the title of the popover.
+        popover_subtitle: the subtitle
         button_title: the name of the button
         content: the main content to be dispalyed
          -->
@@ -19,7 +20,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="record-<%= record_id %>-label">
-            <%=popover_title %> </h4>
+            <%= popover_title %> 
+          </h4>
         </div>
         <div class="modal-body">
           <%= content %>

@@ -52,7 +52,8 @@
           <%= render(partial: 'details_popover',
           locals: {
             :record_id => update.UpdateID,
-            :popover_title => "Update Details",
+            :popover_title => "#{update.UpdateName}, created by #{update.tep_advisor.first_name} #{update.tep_advisor.last_name}",
+            :popover_subtitle => "",
             :button_title => "Details",
             :content => update.Description
           } )  %>
