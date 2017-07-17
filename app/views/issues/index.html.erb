@@ -67,8 +67,9 @@
                       locals: {
                         :record_id => issue.IssueID,
                         :popover_title => "Issue Details",
+                        :popover_subtitle => "Opened by #{issue.tep_advisor.first_name} #{issue.tep_advisor.last_name}",
                         :button_title => "Details",
-                        :content => issue.Description
+                        :content => issue.Description,
                       } )  %>
 
                       <%= link_to issue_issue_updates_path(issue.IssueID), class: "btn btn-info action-small" do %>

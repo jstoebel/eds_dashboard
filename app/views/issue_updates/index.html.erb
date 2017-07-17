@@ -53,6 +53,7 @@
           locals: {
             :record_id => update.UpdateID,
             :popover_title => "Update Details",
+            :popover_subtitle => "Created by #{update.tep_advisor.first_name} #{update.tep_advisor.last_name}",
             :button_title => "Details",
             :content => update.Description
           } )  %>
