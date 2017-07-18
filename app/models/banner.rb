@@ -71,8 +71,7 @@ SAVEDSD_INSTRUCTOR
 
 =end
 
-# HACK. I don't know how else to skip when trying to annotate
-if !ENV["annotate"] == "true"
+if Rails.env == 'production'
   
   class Banner < ApplicationRecord
     
