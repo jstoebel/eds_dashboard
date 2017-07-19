@@ -3,7 +3,7 @@ class AddDescriptorStripped < ActiveRecord::Migration[5.0]
     add_column :item_levels, :descriptor_stripped, :text
 
     # add indexies for descriptor and descriptor_stripped
-    [:descriptor, :descriptor_stripped].each {|col| add_index :item_levels, col}
+    [:descriptor, :descriptor_stripped].each {|col| add_index :item_levels, col, length: 255}
 
   end
 
