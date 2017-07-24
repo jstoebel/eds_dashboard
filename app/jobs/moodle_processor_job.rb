@@ -72,11 +72,11 @@ class MoodleProcessorJob < ActiveJob::Base
 
       msg = "Successfully imported #{student_count} #{'student'.pluralize student_count} and #{confirmed_scores} #{'matched score'.pluralize score_count}"
       report.update_attributes!({:success => true, :message => msg})
-      FileUtils.rm file_path # clean up the file
     rescue => e
       report.update_attributes!({:success => false, :message => e.message})
 
     ensure
+      FileUtils.rm file_path # clean up the file
     end # exception handle
 
   end
