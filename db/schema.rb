@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711195858) do
+ActiveRecord::Schema.define(version: 20170724154325) do
 
   create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "adm_tep_id"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.text     "description", limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug",                      null: false
   end
 
   create_table "banner_terms", primary_key: "BannerTerm", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
