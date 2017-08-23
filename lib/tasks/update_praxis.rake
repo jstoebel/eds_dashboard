@@ -12,6 +12,19 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
           Rails.logger.info context_message
          }
     end
+
+    ##
+    # sends a slack alert
+    # msg(string) the text of the message to send
+    def slack_alert msg
+
+      payload = {
+        :text => msg
+      }.to_json
+
+      cmd = "curl -X POST --data-urlencode 'payload=#{payload}' #{SECRET['SLACK_WEBHOOK']}"
+      system cmd
+    end
     send_emails = args[:send_emails] == 'true'
 
     url = 'https://datamanager.ets.org/edmwebservice/edmpraxis.wsdl'
@@ -21,7 +34,6 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
 
     client = Savon.client(wsdl: url)
 
-    # THIS WILL BE THE REAL CODE. USING ETS SERVICE TO FETCH DATA
     print "fetching all available dates..."
     get_these_dates = missing_report_dates(client, user_name, pw)
 
@@ -30,6 +42,8 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
     puts "-> done!"
 
     summary_data = []
+
+    errors = []
 
     get_these_dates.each do |d|  #d: date string, format => %m/%d/%Y
       score_report = fetch_score_report(client, user_name, pw, d)
@@ -40,7 +54,14 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
 
       reports.each do |report|  # one scorereport per student
         report_obj = PraxisScoreReport.new report
-        report_obj.write_tests
+
+        # send a slack alert if there is an error writing a praxis test
+        begin
+          report_obj.write_tests
+        rescue Exception => e
+          errors << e
+          slack_alert e.message
+        end
 
         # should emails go out on this report
         if (date_obj >= 30.days.ago) && (send_emails) && (report_obj.stu.present?)
@@ -52,7 +73,9 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
         summary_data << report_obj
 
       end # loop
-      PraxisUpdate.create!({:report_date => date_obj})
+
+      # mark this report in the database if there were no errors
+      PraxisUpdate.create!({:report_date => date_obj}) if errors.size > 0
 
       summary_email = PraxisResultMailer.email_summary(summary_data, d)
       summary_email.deliver_now
