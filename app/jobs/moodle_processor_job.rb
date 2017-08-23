@@ -25,7 +25,6 @@ class MoodleProcessorJob < ActiveJob::Base
       score_count = 0
       StudentScore.transaction do
         (headers_i + 1..sheet.count).each do |row_i|
-
           # identify the student
           begin
             stu = Student.find_by! :Bnum => sheet.cell(row_i, 3 )
@@ -47,7 +46,7 @@ class MoodleProcessorJob < ActiveJob::Base
 
             # create student scores, assemble array of results for each
             begin
-              descriptor = StudentScoresHelper.str_transform(sheet.cell(row_i, level_i + 1))
+              descriptor = sheet.cell(row_i, level_i + 1)
               level = assessment.item_levels.find_by! :descriptor =>  sheet.cell(row_i, level_i + 1)
             rescue
               raise "Improper descriptor at cell #{(65+level_i).chr}#{row_i}: #{sheet.cell(row_i, level_i + 1)}"
