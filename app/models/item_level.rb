@@ -14,7 +14,7 @@
 #
 
 =begin
-represents a level belonging to an assessments
+represents a level belonging to an assessment
 for example a single assessment item might have for different levels each with its own descriptor,
 level name and level number
 =end
@@ -55,5 +55,9 @@ class ItemLevel < ApplicationRecord
       return self.assessment_item_id != nil
     end
 
+    def before_import_save record
+        binding.pry
+        self.descriptor_stripped = record[:descriptor].gsub(/\s/, '')
+    end
 
 end
