@@ -2,9 +2,10 @@ class StudentScoresController < ApplicationController
   include ActionView::Helpers::TextHelper
 
   def index
+    # upload a student score
     @format_types = StudentScore.format_types
     @assessments = Assessment.all.pluck :name
-    # upload a student score
+    @uploads = StudentScoreUpload.all.order :created_at
   end
 
   def import

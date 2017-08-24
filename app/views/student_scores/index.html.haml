@@ -14,3 +14,31 @@
 
   .form-group
     = submit_tag "Import CSV"
+
+
+%container
+  %row
+    .col-xs-12.col-md-6
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Uploaded On
+            %th Source
+            %th Status
+        %tbody
+        - @uploads.each do |upload|
+          %tr
+            %td= upload.created_at.strftime('%m-%e-%y %H:%M:%S')
+            %td= upload.source
+            - if upload.success
+              %td
+                %span.glyphicon.glyphicon-ok
+            - else
+              %td
+                %span.glyphicon.glyphicon-remove
+            %td
+              = render :partial => 'details_popover', locals: {:record_id => "details-#{upload.id}",
+                :popover_title => "Details",
+                :button_title => "Details",
+                :content => upload.message,
+                }
