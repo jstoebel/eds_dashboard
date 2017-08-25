@@ -12,14 +12,15 @@ class MoodleProcessorJob < ActiveJob::Base
       # need to remove attendes that were not scored (such as faculty and staff)
 
     report = StudentScoreUpload.create! source: :moodle
-
+    @warnings = []
     begin
       spreadsheet = Roo::Spreadsheet.open(file_path)
       sheet = spreadsheet.sheet(0)  # assume the data is in the first sheet
       # lets not assume that we know where the headers row is
 
       headers_i = StudentScoresHelper.find_headers_index(sheet, "First name")
-      headers = sheet.row( headers_i )
+      headers = sheet.row(headers_i)
+      super_headers = sheet.row(headers_i - 1)
 
       student_count = 0
       score_count = 0
@@ -45,12 +46,28 @@ class MoodleProcessorJob < ActiveJob::Base
           item_levels_indecies.each do |level_i|
 
             # create student scores, assemble array of results for each
-            begin
-              descriptor = sheet.cell(row_i, level_i + 1)
-              level = assessment.item_levels.find_by! :descriptor =>  sheet.cell(row_i, level_i + 1)
-            rescue
-              raise "Improper descriptor at cell #{(65+level_i).chr}#{row_i}: #{sheet.cell(row_i, level_i + 1)}"
-            end # error handling
+   
+            descriptor_stripped = sheet
+                                  .cell(row_i, level_i + 1)
+                                  .gsub(/\s/, '')
+
+            # some item levels share the same descriptor. 
+            # If we get more than one result, filter by assessment_item
+
+            level_matches = assessment
+                    .item_levels
+                    .where descriptor_stripped: descriptor_stripped
+
+            assessment_item = AssessmentItem.find_by_slug super_headers[level_i - 1]
+
+            level = level_matches.size > 1 ?
+              level_matches.find_by_assessment_item_id(assessment_item.id) :
+              level_matches.first
+
+            if level.nil?
+              @warnings << "Descriptor at cell #{(65+level_i).chr}#{row_i} was not found: #{sheet.cell(row_i, level_i + 1)}"
+              # raise "Improper descriptor at cell #{(65+level_i).chr}#{row_i}: #{sheet.cell(row_i, level_i + 1)}"
+            end
 
             begin
               StudentScore.create!({:student_id => stu.id,
@@ -73,7 +90,6 @@ class MoodleProcessorJob < ActiveJob::Base
       report.update_attributes!({:success => true, :message => msg})
     rescue => e
       report.update_attributes!({:success => false, :message => e.message})
-
     ensure
       FileUtils.rm file_path # clean up the file
     end # exception handle

@@ -48,16 +48,16 @@ class ItemLevel < ApplicationRecord
     scope :sorted, lambda {order(:ord => :asc)}
 
     def repr
-      self.descriptor
+      descriptor
     end
 
     def has_item_id?
-      return self.assessment_item_id != nil
+      assessment_item_id.nil?
     end
 
-    def before_import_save record
-        binding.pry
+    def after_import_save(record)
         self.descriptor_stripped = record[:descriptor].gsub(/\s/, '')
+        save!
     end
 
 end
