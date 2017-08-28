@@ -58,15 +58,17 @@ class MoodleProcessorJob < ActiveJob::Base
                     .item_levels
                     .where descriptor_stripped: descriptor_stripped
 
+
             assessment_item = AssessmentItem.find_by_slug super_headers[level_i - 1]
 
             level = level_matches.size > 1 ?
-              level_matches.find_by_assessment_item_id(assessment_item.id) :
+              level_matches.find_by_assessment_item_id(assessment_item.andand.id) :
               level_matches.first
 
             if level.nil?
-              @warnings << "Descriptor at cell #{(65+level_i).chr}#{row_i} was not found: #{sheet.cell(row_i, level_i + 1)}"
-              # raise "Improper descriptor at cell #{(65+level_i).chr}#{row_i}: #{sheet.cell(row_i, level_i + 1)}"
+              # could not find the item level. Just skip
+              @warnings << "Descriptor not found: #{sheet.cell(row_i, level_i + 1)}"
+              next
             end
 
             begin
@@ -86,7 +88,12 @@ class MoodleProcessorJob < ActiveJob::Base
 
       end # transaction
 
-      msg = "Successfully imported #{student_count} #{'student'.pluralize student_count} and #{confirmed_scores} #{'matched score'.pluralize score_count}"
+      msg = "Successfully imported #{student_count} #{'student'.pluralize student_count}" \
+            " and #{score_count} #{'matched score'.pluralize score_count}."
+      if @warnings.any?
+        msg += " #{@warnings.size} #{'item'.pluralize @warnings.length} were not" \
+        "recognized and were skipped."
+      end
       report.update_attributes!({:success => true, :message => msg})
     rescue => e
       report.update_attributes!({:success => false, :message => e.message})
@@ -94,5 +101,28 @@ class MoodleProcessorJob < ActiveJob::Base
       FileUtils.rm file_path # clean up the file
     end # exception handle
 
+  end # process
+
+  private
+
+  def _index_to_excel idx
+    # convert an excel base 0 index to excel column
+    # example
+    # 0 -> A
+    # 26 -> AA
+
+    # idx(integer) the column base 0 index to convert
+
+    div = idx + 1
+    result = ''
+    temp = 0
+    while div > 0
+      mod = (div - 1) % 26
+      result = (65 + mod).chr + result
+      div = ((div - mod) / 26).to_i
+    end
+    result
+
   end
+
 end
