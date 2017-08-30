@@ -1,0 +1,51 @@
+%h2 Upload student scores
+
+= form_tag import_student_scores_path, multipart: true do
+  .form-group
+    %label{:for => :file} File
+    = file_field_tag :file, class: "form-control", id: "file"
+  .form-group
+    %label{:for => :format} Input Format
+    = select_tag :format, options_for_select(@format_types), class: "form-control", id: "format"
+
+  .form-group
+    %label{:for => :assessment} Assessment
+    = select_tag :assessment, options_for_select(@assessments), class: "form-control", id: "assessment"
+
+  .form-group
+    = submit_tag "Import CSV"
+
+
+%container
+  %row
+    .col-xs-12
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Uploaded On
+            %th Source
+            %th Status
+        %tbody
+        - @uploads.each do |upload|
+          %tr
+            %td= upload.created_at.strftime('%m-%e-%y %H:%M:%S')
+            %td= upload.source
+            - if upload.success
+              %td
+                %span.glyphicon.glyphicon-ok
+            - else
+              %td
+                %span.glyphicon.glyphicon-remove
+            %td
+              = render :partial => 'details_popover', locals: {:record_id => "details-#{upload.id}",
+                :popover_title => "Details",
+                :button_title => "Details",
+                :content => upload.message,
+                }
+
+              
+              =link_to student_score_upload_student_scores_path(upload.id), class: 'btn btn-info action-small' do
+                %span.large-btn-text View Scores
+                
+              =link_to '#', class: 'btn btn-danger action-small' do
+                %span.large-btn-text Destroy Scores

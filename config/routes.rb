@@ -257,13 +257,15 @@ Rails.application.routes.draw do
       get :download
   end
 
-  resources :student_scores, only: [:index, :import]
+  resources :student_score_uploads do
+    resources :student_scores, only: [:index]
+  end
 
-  # get "student_scores", controller: 'student_scores', action: 'index'
-  # post "student_scores/upload", controller: 'student_scores', action: 'upload'
+  # resources :student_scores, only: [:index, :import]
 
   resources :student_scores, only: [:index] do
     collection do
+      get :upload
       post :import
     end
   end

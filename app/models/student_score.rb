@@ -28,7 +28,7 @@ class StudentScore < ApplicationRecord
       }
 
     def self.format_types
-      return [:moodle, :qualtrics]
+      [:moodle, :qualtrics]
     end
 
     def self.import_setup(file, format, assessment)
@@ -139,6 +139,14 @@ class StudentScore < ApplicationRecord
       return "Successfully imported #{pluralize student_count, 'student'}, #{pluralize confirmed_scores 'matched score'}, #{pluralize temp_scores, 'unmatched score'}"
 
     end # self.import_qualtrics
+
+    def assessment
+      assessment_item.assessment
+    end
+
+    def assessment_item
+      item_level.assessment_item
+    end
 
     private
     def self.find_headers_index(sheet, evidence)
