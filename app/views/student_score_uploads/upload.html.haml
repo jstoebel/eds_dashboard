@@ -1,6 +1,6 @@
 %h2 Upload student scores
 
-= form_tag import_student_scores_path, multipart: true do
+= form_tag import_student_score_uploads_path, multipart: true do
   .form-group
     %label{:for => :file} File
     = file_field_tag :file, class: "form-control", id: "file"
@@ -37,15 +37,15 @@
               %td
                 %span.glyphicon.glyphicon-remove
             %td
-              = render :partial => 'details_popover', locals: {:record_id => "details-#{upload.id}",
-                :popover_title => "Details",
-                :button_title => "Details",
-                :content => upload.message,
-                }
+              .btn-group
+                = render :partial => 'details_popover', locals: {:record_id => "details-#{upload.id}",
+                  :popover_title => "Details",
+                  :button_title => "Details",
+                  :content => upload.message,
+                  }
 
-              
-              =link_to student_score_upload_student_scores_path(upload.id), class: 'btn btn-info action-small' do
-                %span.large-btn-text View Scores
                 
-              =link_to '#', class: 'btn btn-danger action-small' do
-                %span.large-btn-text Destroy Scores
+                =link_to student_score_upload_path(upload.id), class: 'btn btn-info action-small' do
+                  %span.large-btn-text View Scores
+                =button_to student_score_upload_path(upload.id), class: 'btn btn-danger action-small', method: :delete, data: {confirm: "This upload and its #{upload.student_scores.size} score(s) will be removed. Are you sure?"}  do
+                  %span.large-btn-text Destroy Scores

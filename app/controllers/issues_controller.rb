@@ -57,19 +57,31 @@ class IssuesController < ApplicationController
     authorize! :create, @issue
 
     begin
-      if @issue.save
-        # happy path. the issue was saved, the update was saved and the email sent
-        flash[:info] = "New issue opened for: #{@student.name_readable}"
-        redirect_to(student_issues_path(@student.AltID))
-      else
-        # issue was not valid
-        flash[:info] = 'There was a problem creating that issue.'
-        @dispositions = Disposition.current.ordered
-        render('new')
-      end
-    rescue ActiveRecord::RecordInvalid
-      # the issue was valid but the issue_update wasn't. the issue was rolled back
-      flash[:info] = 'There was a problem creating that issue.'
+      Issue.transaction do
+        @issue.save!
+        p "*"*50
+        puts({UpdateName: "Issue opened",
+          :Description => "Issue opened",
+          :Issues_IssueID => @issue.id,
+          tep_advisors_AdvisorBnum: @issue.tep_advisors_AdvisorBnum,
+          addressed: false,
+          :status => params[:issue_update][:status]
+        })
+        p "*"*50
+        @update = IssueUpdate.create!({:UpdateName => "Issue opened",
+          :Description => "Issue opened",
+          :Issues_IssueID => @issue.id,
+          :tep_advisors_AdvisorBnum => @issue.tep_advisors_AdvisorBnum,
+          :addressed => false,
+          :status => params[:issue_update][:status]
+        })
+
+      end # transaction
+      
+      flash[:info] = "New issue opened for: #{@student.name_readable}"
+      redirect_to(student_issues_path(@student.AltID))
+    rescue => e
+      
       @dispositions = Disposition.current.ordered
       render('new')
     rescue Net::SMTPAuthenticationError

@@ -135,7 +135,7 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
-  resources :student_score_uploads
+  # resources :student_score_uploads
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   resources :praxis_results, only: [:new, :create]
@@ -257,13 +257,13 @@ Rails.application.routes.draw do
       get :download
   end
 
-  resources :student_score_uploads do
-    resources :student_scores, only: [:index]
-  end
+  # resources :student_score_uploads do
+  #   resources :student_scores, only: [:index, :destroy]
+  # end
 
   # resources :student_scores, only: [:index, :import]
 
-  resources :student_scores, only: [:index] do
+  resources :student_score_uploads, only: [:index, :destroy, :show] do
     collection do
       get :upload
       post :import

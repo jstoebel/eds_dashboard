@@ -1,6 +1,29 @@
-%p#notice= notice
+%container
+  %row
+    .col-xs-12
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Student
+            %th Asssessment
+            %th Item
+            %th Level
+            %th Date
+        %tbody
+        - @scores.each do |score|
+          %tr
+            %td= score.student.name_readable
+            %td= score.assessment.name
+            %td= score.assessment_item.slug
+            %td= score.item_level.level
+            %td
+              = render :partial => 'details_popover', locals: {:record_id => "details-#{score.id}",
+                :popover_title => "Level Description",
+                :button_title => "Level Description",
+                :content => score.item_level.descriptor,
+                }
+            %td= score.scored_at.strftime('%m/%d/%Y %H:%M:%S')
+
+  
 
 
-= link_to 'Edit', edit_student_score_upload_path(@student_score_upload)
-\|
-= link_to 'Back', student_score_uploads_path

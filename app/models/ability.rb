@@ -35,11 +35,14 @@ class Ability
         advisor_check(user, resource)
       end
 
+      cannot :manage, [StudentScore, StudentScoreUpload]
+
     elsif user.is? "staff"
       can :manage, [AdmSt, AdmTep, AdmFile, StFile, AlumniInfo, ClinicalAssignment, ClinicalSite, ClinicalTeacher,
         Employment, Foi, ProgExit, StudentFile]
       can [:write, :read, :report], Student
       can [:index, :create, :update, :delete, :destroy], PraxisResult
+      can :manage, [StudentScore, StudentScoreUpload]
 
     elsif user.is? "student labor"
       # can :index, Student

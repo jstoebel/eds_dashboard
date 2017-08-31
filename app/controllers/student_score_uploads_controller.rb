@@ -1,74 +1,47 @@
 class StudentScoreUploadsController < ApplicationController
-  before_action :set_student_score_upload, only: [:show, :edit, :update, :destroy]
+  include ActionView::Helpers::TextHelper
 
-  # GET /student_score_uploads
-  # GET /student_score_uploads.json
-  def index
-    @student_score_uploads = StudentScoreUpload.all
-  end
+  load_and_authorize_resource
 
-  # GET /student_score_uploads/1
-  # GET /student_score_uploads/1.json
+  ##
+  # display scores
+  # currently we are only displaying scores by StudentScoreUpload
   def show
+    @scores = @student_score_upload.student_scores
   end
 
-  # GET /student_score_uploads/new
-  def new
-    @student_score_upload = StudentScoreUpload.new
+  def upload
+    # upload a student score
+    @format_types = StudentScore.format_types
+    @assessments = Assessment.all.pluck :name
+    @uploads = StudentScoreUpload.all.order :created_at
   end
 
-  # GET /student_score_uploads/1/edit
-  def edit
+  def import
+    # process a file
+    authorize! :manage, StudentScore
+    file = params[:file]
+
+    # move the attached file so it will remain when the request finishes.
+    persisted_path = "app/jobs/#{file.original_filename}"
+    FileUtils.copy_file file.path, persisted_path
+
+    file_format = params[:format]
+    assessment = Assessment.find_by! :name => params[:assessment]
+    "#{file_format.capitalize}ProcessorJob"
+      .constantize
+      .delay
+      .perform_now persisted_path, assessment
+
+    flash[:notice] = "File recieved for processing. We'll post the results here when its done."
+    redirect_to upload_student_score_uploads_path
   end
 
-  # POST /student_score_uploads
-  # POST /student_score_uploads.json
-  def create
-    @student_score_upload = StudentScoreUpload.new(student_score_upload_params)
-
-    respond_to do |format|
-      if @student_score_upload.save
-        format.html { redirect_to @student_score_upload, notice: 'Student score upload was successfully created.' }
-        format.json { render :show, status: :created, location: @student_score_upload }
-      else
-        format.html { render :new }
-        format.json { render json: @student_score_upload.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /student_score_uploads/1
-  # PATCH/PUT /student_score_uploads/1.json
-  def update
-    respond_to do |format|
-      if @student_score_upload.update(student_score_upload_params)
-        format.html { redirect_to @student_score_upload, notice: 'Student score upload was successfully updated.' }
-        format.json { render :show, status: :ok, location: @student_score_upload }
-      else
-        format.html { render :edit }
-        format.json { render json: @student_score_upload.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /student_score_uploads/1
-  # DELETE /student_score_uploads/1.json
   def destroy
-    @student_score_upload.destroy
-    respond_to do |format|
-      format.html { redirect_to student_score_uploads_url, notice: 'Student score upload was successfully destroyed.' }
-      format.json { head :no_content }
+    StudentScoreUpload.transaction do
+      @student_score_upload.destroy!
     end
+    redirect_to upload_student_score_uploads_path
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_student_score_upload
-      @student_score_upload = StudentScoreUpload.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def student_score_upload_params
-      params.fetch(:student_score_upload, {})
-    end
 end

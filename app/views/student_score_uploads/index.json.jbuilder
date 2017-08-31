@@ -1,1 +1,0 @@
-json.array! @student_score_uploads, partial: 'student_score_uploads/student_score_upload', as: :student_score_upload
