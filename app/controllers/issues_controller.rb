@@ -59,15 +59,6 @@ class IssuesController < ApplicationController
     begin
       Issue.transaction do
         @issue.save!
-        p "*"*50
-        puts({UpdateName: "Issue opened",
-          :Description => "Issue opened",
-          :Issues_IssueID => @issue.id,
-          tep_advisors_AdvisorBnum: @issue.tep_advisors_AdvisorBnum,
-          addressed: false,
-          :status => params[:issue_update][:status]
-        })
-        p "*"*50
         @update = IssueUpdate.create!({:UpdateName => "Issue opened",
           :Description => "Issue opened",
           :Issues_IssueID => @issue.id,

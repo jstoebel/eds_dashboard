@@ -30,6 +30,7 @@ class AdmStControllerTest < ActionController::TestCase
 
           get :index
           assert_response :success, "unexpected http response, role=#{r}"
+          binding.pry
           assert_equal assigns(:applications).to_a, @apps
         end # test
 
