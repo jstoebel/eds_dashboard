@@ -78,7 +78,7 @@ class StudentScoreTest < ActiveSupport::TestCase
     test "successful import" do
 
       counts = StudentScore.import_moodle @xlsx, @assessment
-
+      binding.pry
       assert_equal [2, 4], counts
       assert_equal 4, StudentScore.count
 

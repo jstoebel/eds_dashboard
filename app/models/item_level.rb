@@ -52,7 +52,7 @@ class ItemLevel < ApplicationRecord
     end
 
     def has_item_id?
-      assessment_item_id.nil?
+      assessment_item_id.present?
     end
 
     def after_import_save(record)
