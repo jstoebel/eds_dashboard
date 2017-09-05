@@ -27,7 +27,7 @@ class ClinicalTeacherTest < ActiveSupport::TestCase
 
     end
 
-    ["StudentFile", "ClinicalAssignment", "Pgp"].each do |resource|
+    ["StudentFile", "ClinicalAssignment"].each do |resource|
       describe resource do
 
         test "can manage if professor" do
@@ -45,22 +45,6 @@ class ClinicalTeacherTest < ActiveSupport::TestCase
       end
     end
 
-    describe "PgpScore" do
-      test "can manage if professor" do
-        stu = make_student(@advisor)
-        pgp = FactoryGirl.create :pgp, :student => stu
-        pgp_score = FactoryGirl.create :pgp_score, :pgp => pgp
-        assert @abil.can? :manage, pgp_score
-      end
-
-      test "can manage if advisor" do
-        stu = make_advisee(@advisor)
-        pgp = FactoryGirl.create :pgp, :student => stu
-        pgp_score = FactoryGirl.create :pgp_score, :pgp => pgp
-        assert @abil.can? :manage, pgp_score
-      end
-    end
-
     describe "Student" do
       test "can manage if professor" do
         stu = make_student(@advisor)
@@ -69,8 +53,6 @@ class ClinicalTeacherTest < ActiveSupport::TestCase
 
       test "can manage if advisor" do
         stu = make_advisee(@advisor)
-        pgp = FactoryGirl.create :pgp, :student => stu
-        pgp_score = FactoryGirl.create :pgp_score, :pgp => pgp
         assert @abil.can? :manage, stu
       end
     end

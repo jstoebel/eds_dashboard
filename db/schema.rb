@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170724154325) do
+ActiveRecord::Schema.define(version: 20170905153302) do
 
   create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "adm_tep_id"
@@ -282,27 +282,7 @@ ActiveRecord::Schema.define(version: 20170724154325) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "pgp_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "pgp_id"
-    t.integer  "goal_score"
-    t.text     "score_reason", limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["pgp_id"], name: "fk_rails_e14b2a6a06", using: :btree
-  end
-
-  create_table "pgps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "student_id"
-    t.string   "goal_name"
-    t.text     "description", limit: 65535
-    t.text     "plan",        limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "strategies",  limit: 65535
-    t.index ["student_id"], name: "fk_rails_4f8f978860", using: :btree
-  end
-
-  create_table "praxis_prep", primary_key: "TestID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "praxis_prep", primary_key: "TestID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer "student_id",                             null: false
     t.integer "PraxisTest_TestCode",                    null: false
     t.string  "Sub1Name",            limit: 45
@@ -587,8 +567,6 @@ ActiveRecord::Schema.define(version: 20170724154325) do
   add_foreign_key "issues", "students"
   add_foreign_key "issues", "tep_advisors", column: "tep_advisors_AdvisorBnum"
   add_foreign_key "last_names", "students"
-  add_foreign_key "pgp_scores", "pgps"
-  add_foreign_key "pgps", "students"
   add_foreign_key "praxis_prep", "praxis_tests", column: "PraxisTest_TestCode"
   add_foreign_key "praxis_prep", "students"
   add_foreign_key "praxis_results", "praxis_tests"

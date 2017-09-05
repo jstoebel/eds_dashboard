@@ -212,9 +212,6 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
-    resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
-      resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
-    end
     resources :transcripts, only: [:index]
   end
 
@@ -236,10 +233,6 @@ Rails.application.routes.draw do
 
   resources :student_files, only: [] do
       get 'download'
-  end
-
-  resources :pgps, shallow: true do
-    resources :pgp_scores
   end
 
   resources :banner_terms, shallow: true do
