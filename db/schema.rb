@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905153302) do
+ActiveRecord::Schema.define(version: 20170906124421) do
 
   create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "adm_tep_id"
@@ -280,6 +280,16 @@ ActiveRecord::Schema.define(version: 20170905153302) do
     t.boolean  "active",                   null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "pgp_goals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "student_id"
+    t.string   "name"
+    t.string   "domain"
+    t.boolean  "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_pgp_goals_on_student_id", using: :btree
   end
 
   create_table "praxis_prep", primary_key: "TestID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -567,6 +577,7 @@ ActiveRecord::Schema.define(version: 20170905153302) do
   add_foreign_key "issues", "students"
   add_foreign_key "issues", "tep_advisors", column: "tep_advisors_AdvisorBnum"
   add_foreign_key "last_names", "students"
+  add_foreign_key "pgp_goals", "students"
   add_foreign_key "praxis_prep", "praxis_tests", column: "PraxisTest_TestCode"
   add_foreign_key "praxis_prep", "students"
   add_foreign_key "praxis_results", "praxis_tests"

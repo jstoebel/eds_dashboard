@@ -56,6 +56,7 @@ class Student < ApplicationRecord
 
     has_many :foi
     has_many :prog_exits
+    has_many :pgp_goals
 ###################################################################################################
 
 

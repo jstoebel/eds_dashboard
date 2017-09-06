@@ -2,15 +2,14 @@
 #
 # Table name: item_levels
 #
-#  id                  :integer          not null, primary key
-#  assessment_item_id  :integer
-#  descriptor          :text(65535)
-#  level               :string(255)
-#  ord                 :integer
-#  created_at          :datetime
-#  updated_at          :datetime
-#  passing             :boolean
-#  descriptor_stripped :text(65535)
+#  id                 :integer          not null, primary key
+#  assessment_item_id :integer
+#  descriptor         :text(65535)
+#  level              :string(255)
+#  ord                :integer
+#  created_at         :datetime
+#  updated_at         :datetime
+#  passing            :boolean
 #
 
 require 'test_helper'

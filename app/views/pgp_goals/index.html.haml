@@ -1,0 +1,25 @@
+%h1 Listing pgp_goals
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Domain
+      %th Active
+      %th
+      %th
+      %th
+
+  %tbody
+    - @pgp_goals.each do |pgp_goal|
+      %tr
+        %td= pgp_goal.name
+        %td= pgp_goal.domain
+        %td= pgp_goal.active
+        %td= link_to 'Show', pgp_goal
+        %td= link_to 'Edit', edit_pgp_goal_path(pgp_goal)
+        %td= link_to 'Destroy', pgp_goal, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Pgp goal', new_pgp_goal_path

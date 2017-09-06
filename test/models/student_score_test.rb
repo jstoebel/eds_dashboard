@@ -2,13 +2,12 @@
 #
 # Table name: student_scores
 #
-#  id                      :integer          not null, primary key
-#  student_id              :integer
-#  item_level_id           :integer
-#  scored_at               :datetime
-#  created_at              :datetime
-#  updated_at              :datetime
-#  student_score_upload_id :integer
+#  id            :integer          not null, primary key
+#  student_id    :integer
+#  item_level_id :integer
+#  scored_at     :datetime
+#  created_at    :datetime
+#  updated_at    :datetime
 #
 
 require 'test_helper'

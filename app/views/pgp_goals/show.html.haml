@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @pgp_goal.name
+%p
+  %b Domain:
+  = @pgp_goal.domain
+%p
+  %b Active:
+  = @pgp_goal.active
+
+= link_to 'Edit', edit_pgp_goal_path(@pgp_goal)
+\|
+= link_to 'Back', pgp_goals_path
