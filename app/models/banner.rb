@@ -80,6 +80,7 @@ if Rails.env == 'production'
     
     scope :by_term, ->(term) {where :SZVEDSD_FILTER_TERM => term}
     scope :by_ssn, ->(ssn) {find_by :SZVEDSD_SSN => ssn}
+    scope :by_bnum, ->(bnum) {find_by :SZVEDSD_ID => bnum}
     
   end
 end
