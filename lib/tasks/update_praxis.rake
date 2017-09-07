@@ -47,40 +47,47 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
 
     get_these_dates.each do |d|  #d: date string, format => %m/%d/%Y
       score_report = fetch_score_report(client, user_name, pw, d)
+      puts "processing #{d}"
       root = score_report.root
       reports = root.xpath("scorereport")
 
       date_obj = DateTime.strptime(d, "%m/%d/%Y")
+      report_objects = []
 
-      reports.each do |report|  # one scorereport per student
-        report_obj = PraxisScoreReport.new report
+      begin
+        ActiveRecord::Base.transaction do
+          reports.each do |report|  # one scorereport per student
+            report_obj = PraxisScoreReport.new report
+            report_objects << report_obj
+            puts "writing reults for #{report.last_name}, #{report.first_name}"
+            report_obj.write_tests
+          end # reports loop
 
-        # send a slack alert if there is an error writing a praxis test
-        begin
-          report_obj.write_tests
-        rescue Exception => e
-          errors << e
-          slack_alert e.message
-        end
+          # all reports processed with no errors
+          puts "finished processing report for #{d}"
 
-        # should emails go out on this report
-        if (date_obj >= 30.days.ago) && (send_emails) && (report_obj.stu.present?)
-          report_obj.email_created
-        else
-          log_error "email not sent", t
-        end
+          # add praxis_update record
+          PraxisUpdate.create!({:report_date => date_obj})
 
-        summary_data << report_obj
+          # send the emails on reports
+          if (date_obj >= 30.days.ago) && (send_emails)
+            report_objects.each do |r|
+              r.email_created if r.stu.present?
+            end
+          else
+            puts "email not sent for #{r.last_name}, #{r.first_name}"
+          end
 
-      end # loop
+        end # transaction
 
-      # mark this report in the database if there were no errors
-      PraxisUpdate.create!({:report_date => date_obj}) if errors.size > 0
+      rescue Exception => e
+        puts e.backtrace
+        puts e.message
+        puts 'rolling back...'
+        slack_alert e.message
+      end
 
-      summary_email = PraxisResultMailer.email_summary(summary_data, d)
-      summary_email.deliver_now
-
-    end
+    end # date loop
 
 end
 
