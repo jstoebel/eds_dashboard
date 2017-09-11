@@ -1,19 +1,15 @@
-= form_for @pgp_goal do |f|
-  - if @pgp_goal.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@pgp_goal.errors.count, "error")} prohibited this pgp_goal from being saved:"
-      %ul
-        - @pgp_goal.errors.full_messages.each do |msg|
-          %li= msg
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :domain
-    = f.text_field :domain
-  .field
-    = f.label :active
-    = f.check_box :active
-  .actions
-    = f.submit 'Save'
+= error_messages_for(@pgp_goal)
+.field
+  = f.hidden_field :student_id, value: @student.id
+.field
+  = f.label :name
+  = f.text_field :name
+.field
+  = f.label :domain
+  = f.select :domain, options_for_select: PgpGoal.domains, prompt: 'Select a Danielson domain'
+.field
+  = f.label :active
+  = f.check_box :active, checked: true
+.actions
+  = f.submit 'Save'

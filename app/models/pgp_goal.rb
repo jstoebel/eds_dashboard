@@ -35,6 +35,10 @@ class PgpGoal < ApplicationRecord
             inclusion: { in: DOMAINS,
                          message: 'Please select a valid Danielson domain' }
 
+  def self.domains
+    DOMAINS
+  end
+
   ##
   # each student can only have three active at a time
   def allow_three
@@ -47,4 +51,5 @@ class PgpGoal < ApplicationRecord
                  'time.')
     end
   end # allow_three
+  
 end

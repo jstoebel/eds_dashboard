@@ -135,7 +135,6 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
-  resources :pgp_goals
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   resources :praxis_results, only: [:new, :create]
@@ -213,7 +212,10 @@ Rails.application.routes.draw do
     resources :issues, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     resources :transcripts, only: [:index]
+    resources :pgp_goals, only: [:index, :show, :new]
   end
+
+  resources :pgp_goals
 
   resources :fois, only: [:index, :create, :show, :import]
 

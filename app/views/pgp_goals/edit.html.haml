@@ -1,7 +1,7 @@
 %h1 Editing pgp_goal
-
-= render 'form'
+= simple_form_for @pgp_goal, :url => edit_pgp_goal_path(@pgp_goal.id) do |f|
+    = render 'form'
 
 = link_to 'Show', @pgp_goal
 \|
-= link_to 'Back', pgp_goals_path
+= link_to 'Back', student_pgp_goals_path(@student.id)

@@ -1,8 +1,7 @@
 class PgpGoalsController < ApplicationController
   before_action :set_pgp_goal, only: [:show, :edit, :update, :destroy]
+  before_action :set_student, only: [:index, :new, :create, :update]
 
-  # GET /pgp_goals
-  # GET /pgp_goals.json
   def index
     @pgp_goals = PgpGoal.all
   end
@@ -10,15 +9,17 @@ class PgpGoalsController < ApplicationController
   # GET /pgp_goals/1
   # GET /pgp_goals/1.json
   def show
+    @student = @pgp_goal.student
   end
 
   # GET /pgp_goals/new
   def new
-    @pgp_goal = PgpGoal.new
+    @pgp_goal = PgpGoal.new student_id: @student.id
   end
 
   # GET /pgp_goals/1/edit
   def edit
+    @student = @pgp_goal.student
   end
 
   # POST /pgp_goals
@@ -28,7 +29,7 @@ class PgpGoalsController < ApplicationController
 
     respond_to do |format|
       if @pgp_goal.save
-        format.html { redirect_to @pgp_goal, notice: 'Pgp goal was successfully created.' }
+        format.html { redirect_to student_pgp_goals_path(@student.id), notice: 'Pgp goal was successfully created.' }
         format.json { render :show, status: :created, location: @pgp_goal }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class PgpGoalsController < ApplicationController
   def update
     respond_to do |format|
       if @pgp_goal.update(pgp_goal_params)
-        format.html { redirect_to @pgp_goal, notice: 'Pgp goal was successfully updated.' }
+        format.html { redirect_to student_pgp_goals_path(@student.id), notice: 'Pgp goal was successfully updated.' }
         format.json { render :show, status: :ok, location: @pgp_goal }
       else
         format.html { render :edit }
@@ -67,8 +68,12 @@ class PgpGoalsController < ApplicationController
       @pgp_goal = PgpGoal.find(params[:id])
     end
 
+    def set_student
+      @student = Student.find(params[:student_id])
+    end
+
     # Never trust parameters from the scary internet, only allow these attrs through.
     def pgp_goal_params
-      params.require(:pgp_goal).permit(:name, :domain, :active)
+      params.require(:pgp_goal).permit(:name, :domain, :active, :student_id)
     end
 end
