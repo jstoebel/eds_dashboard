@@ -114,6 +114,7 @@ task :entrance_exit_16_17 => :environment do
   # exits in this ay
   ProgExit
     .where('ExitDate >= ?', ay_start)
+    .select{|e| e.adm_tep.TEPAdmitDate.present?}
     .each {|e| input_records << e.adm_tep}
 
   input_records.each do |entrance|
@@ -122,8 +123,8 @@ task :entrance_exit_16_17 => :environment do
 
     # get ssn and dob
     stu_in_banner = Banner.by_bnum stu.Bnum
-    ssn = stu_in_banner.SZVEDSD_SSN
-    dob = stu_in_banner.SZVEDSD_DOB
+    ssn = stu_in_banner.szvedsd_ssn
+    dob = stu_in_banner.szvedsd_dob
 
     date_format = '%m-%d-%Y'
     prog_exit = entrance.prog_exits.first # could be nil!
@@ -175,6 +176,7 @@ task :entrance_exit_16_17 => :environment do
       'CountryCode' => nil,
       'StateCode' => nil,
     })
+    output_records << row
 
   end
   # write to file
