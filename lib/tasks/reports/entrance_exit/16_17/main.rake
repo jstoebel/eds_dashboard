@@ -176,7 +176,7 @@ task :entrance_exit_16_17 => :environment do
       'CountryCode' => nil,
       'StateCode' => nil,
     })
-    output_records << 
+    output_records << row
 
   end
   # write to file
