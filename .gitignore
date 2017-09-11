@@ -52,8 +52,8 @@ error_report.txt
 all_errors.txt
 entrance_exit_FIXED.csv
 
-# only .rb and .rake in lib/tasks/reports
-lib/tasks/reports/**
+# no csv in the reports directory
+lib/tasks/reports/**/*.csv
 lib/**/*.csv
 !lib/tasks/reports/**/*.rb
 !lib/tasks/reports/**/*.rake
