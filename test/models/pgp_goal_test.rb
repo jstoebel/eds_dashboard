@@ -38,7 +38,7 @@ class PgpGoalTest < ActiveSupport::TestCase
     end
 
     test 'allows two others when not new' do
-      FactoryGirl.create_list :pgp_goal, 2, student: @stu, active: true
+      FactoryGirl.create_list :pgp_goal, 3, student: @stu, active: true
       goal = FactoryGirl.create :pgp_goal, active: true # starts out belonging to another student
       goal.student_id = @stu.id
 

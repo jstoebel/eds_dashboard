@@ -1,5 +1,7 @@
-%h1 New pgp_goal
-= simple_form_for @pgp_goal, :url => pgp_goals_path do |f|
-    = render 'form'
+= link_to student_pgp_goals_path(@student.id), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do
+    %i.link-text Back
 
-= link_to 'Back', student_pgp_goals_path(@student.id)
+%h1 New PGP Goal
+= simple_form_for @pgp_goal, :url => pgp_goals_path do |f|
+    %table
+        = render partial: 'form', :locals => {f:f}

@@ -212,10 +212,10 @@ Rails.application.routes.draw do
     resources :issues, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
     resources :transcripts, only: [:index]
-    resources :pgp_goals, only: [:index, :show, :new]
+    resources :pgp_goals, only: [:index, :show, :new, :edit, :update]
   end
 
-  resources :pgp_goals
+  resources :pgp_goals, except: [:destroy]
 
   resources :fois, only: [:index, :create, :show, :import]
 

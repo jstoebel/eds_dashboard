@@ -1,9 +1,9 @@
 class PgpGoalsController < ApplicationController
-  before_action :set_pgp_goal, only: [:show, :edit, :update, :destroy]
-  before_action :set_student, only: [:index, :new, :create, :update]
+  before_action :set_pgp_goal, only: [:show, :edit, :update, :toggle_active]
+  before_action :set_student, only: [:index, :new]
 
   def index
-    @pgp_goals = PgpGoal.all
+    @pgp_goals = @student.pgp_goals.order(:active).reverse_order
   end
 
   # GET /pgp_goals/1
@@ -26,12 +26,13 @@ class PgpGoalsController < ApplicationController
   # POST /pgp_goals.json
   def create
     @pgp_goal = PgpGoal.new(pgp_goal_params)
-
     respond_to do |format|
       if @pgp_goal.save
-        format.html { redirect_to student_pgp_goals_path(@student.id), notice: 'Pgp goal was successfully created.' }
+        flash[:info] = 'Pgp goal was successfully created.'
+        format.html { redirect_to student_pgp_goals_path(@pgp_goal.student.id)}
         format.json { render :show, status: :created, location: @pgp_goal }
       else
+        @student = Student.find params[:pgp_goal]{:student_id}
         format.html { render :new }
         format.json { render json: @pgp_goal.errors, status: :unprocessable_entity }
       end
@@ -43,22 +44,13 @@ class PgpGoalsController < ApplicationController
   def update
     respond_to do |format|
       if @pgp_goal.update(pgp_goal_params)
-        format.html { redirect_to student_pgp_goals_path(@student.id), notice: 'Pgp goal was successfully updated.' }
+        flash[:info] = 'Pgp goal was successfully updated.'
+        format.html { redirect_to student_pgp_goals_path(@pgp_goal.student.id)}
         format.json { render :show, status: :ok, location: @pgp_goal }
       else
         format.html { render :edit }
         format.json { render json: @pgp_goal.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /pgp_goals/1
-  # DELETE /pgp_goals/1.json
-  def destroy
-    @pgp_goal.destroy
-    respond_to do |format|
-      format.html { redirect_to pgp_goals_url, notice: 'Pgp goal was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

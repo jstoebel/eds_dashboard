@@ -1,6 +1,6 @@
 %h1 Editing pgp_goal
-= simple_form_for @pgp_goal, :url => edit_pgp_goal_path(@pgp_goal.id) do |f|
-    = render 'form'
+= simple_form_for @pgp_goal, :url => pgp_goal_path(@pgp_goal.id) do |f|
+    = render partial: 'form', :locals => {f:f}
 
 = link_to 'Show', @pgp_goal
 \|

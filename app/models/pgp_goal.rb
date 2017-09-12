@@ -42,14 +42,13 @@ class PgpGoal < ApplicationRecord
   ##
   # each student can only have three active at a time
   def allow_three
-
-    other_goals = student.pgp_goals.where(active: true)
-    if (new_record? && other_goals.size >= 3) ||
-       (!new_record? && other_goals.size >= 2)
-      errors.add(:base,
-                 'Student may only have three active PGP goals at any given ' \
-                 'time.')
-    end
+    other_goals = student.pgp_goals
+                    .where(active: true)
+                    .where.not(id: self.id)
+    
+    errors.add(:base,
+               'Student may only have three active PGP goals at any given ' \
+               'time.') if other_goals.size >= 3    
   end # allow_three
   
 end

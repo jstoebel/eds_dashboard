@@ -1,15 +1,22 @@
 
 = error_messages_for(@pgp_goal)
-.field
-  = f.hidden_field :student_id, value: @student.id
-.field
-  = f.label :name
-  = f.text_field :name
-.field
-  = f.label :domain
-  = f.select :domain, options_for_select: PgpGoal.domains, prompt: 'Select a Danielson domain'
-.field
-  = f.label :active
-  = f.check_box :active, checked: true
-.actions
-  = f.submit 'Save'
+= f.hidden_field :student_id, value: @student.id
+%tr
+  %th
+    = f.label :name
+  %td
+    = f.text_field :name
+  %tr
+    %th
+      = f.label :domain
+    %td
+      = f.select :domain, options_for_select: PgpGoal.domains, prompt: 'Select a Danielson domain'
+
+  %tr
+    %th
+      = f.label :active
+    %td
+      = f.check_box :active, checked: true
+  %tr
+    %th
+      = f.submit 'Save'
