@@ -59,7 +59,7 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
           reports.each do |report|  # one scorereport per student
             report_obj = PraxisScoreReport.new report
             report_objects << report_obj
-            puts "writing reults for #{report.last_name}, #{report.first_name}"
+            puts "writing reults for #{report_obj.last_name}, #{report_obj.first_name}"
             report_obj.write_tests
           end # reports loop
 
@@ -75,7 +75,7 @@ task :update_praxis, [:send_emails] => :environment do |t, args|
               r.email_created if r.stu.present?
             end
           else
-            puts "email not sent for #{r.last_name}, #{r.first_name}"
+            puts "email not sent for #{d}"
           end
 
         end # transaction
