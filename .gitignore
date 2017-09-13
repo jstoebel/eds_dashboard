@@ -54,6 +54,7 @@ entrance_exit_FIXED.csv
 
 # no csv in the reports directory
 lib/tasks/reports/**/*.csv
+lib/tasks/reports/**/*.zip
 lib/**/*.csv
 !lib/tasks/reports/**/*.rb
 !lib/tasks/reports/**/*.rake

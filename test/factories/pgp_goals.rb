@@ -17,12 +17,11 @@ FactoryGirl.define do
     student
     name { Hipster.word }
     domain do
-      [
-        'Planning and Preparation',
+      ['Planning and Preparation',
         'Classroom Environment',
         'Instruction',
         'Professional Responsibilities'].sample
     end
-    active { Boolean.boolean }
+    active true
   end
 end
