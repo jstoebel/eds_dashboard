@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: pgp_goals
+#
+#  id         :integer          not null, primary key
+#  student_id :integer
+#  name       :string(255)
+#  domain     :string(255)
+#  active     :boolean
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'test_helper'
 
 class PgpGoalTest < ActiveSupport::TestCase

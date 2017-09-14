@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
 
-  before_filter :authorize
-  before_filter :check_browser
-  before_filter :check_notices
+  before_action :authorize
+  before_action :check_browser
+  before_action :check_notices
   protect_from_forgery with: :exception
 
   def current_user
