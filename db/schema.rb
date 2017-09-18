@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170906124421) do
+ActiveRecord::Schema.define(version: 20170914144036) do
 
   create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "adm_tep_id"
@@ -290,6 +290,17 @@ ActiveRecord::Schema.define(version: 20170906124421) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["student_id"], name: "index_pgp_goals_on_student_id", using: :btree
+  end
+
+  create_table "pgp_strategies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "pgp_goal_id"
+    t.string   "name"
+    t.text     "timeline",    limit: 65535
+    t.text     "resources",   limit: 65535
+    t.boolean  "active"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["pgp_goal_id"], name: "index_pgp_strategies_on_pgp_goal_id", using: :btree
   end
 
   create_table "praxis_prep", primary_key: "TestID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -578,6 +589,7 @@ ActiveRecord::Schema.define(version: 20170906124421) do
   add_foreign_key "issues", "tep_advisors", column: "tep_advisors_AdvisorBnum"
   add_foreign_key "last_names", "students"
   add_foreign_key "pgp_goals", "students"
+  add_foreign_key "pgp_strategies", "pgp_goals"
   add_foreign_key "praxis_prep", "praxis_tests", column: "PraxisTest_TestCode"
   add_foreign_key "praxis_prep", "students"
   add_foreign_key "praxis_results", "praxis_tests"

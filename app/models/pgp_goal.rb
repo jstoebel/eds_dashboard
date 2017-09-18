@@ -13,6 +13,7 @@
 #
 class PgpGoal < ApplicationRecord
   belongs_to :student
+  has_many :pgp_strategies
 
   after_validation :allow_three, unless: proc { |s| s.errors.any? }
 
@@ -28,8 +29,7 @@ class PgpGoal < ApplicationRecord
 
   validates :active,
             inclusion: { in: [true, false],
-                         message: 'must be true or false' 
-                       }
+                         message: 'must be true or false' }
 
   validates :domain,
             inclusion: { in: DOMAINS,

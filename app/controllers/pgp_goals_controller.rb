@@ -1,7 +1,7 @@
 ##
 # controller for pgp_goals
 class PgpGoalsController < ApplicationController
-  before_action :set_pgp_goal, only: %i[show edit update toggle_active]
+  before_action :set_pgp_goal, only: %i[show edit update]
   before_action :set_student, only: %i[index new]
 
   def index
@@ -13,13 +13,7 @@ class PgpGoalsController < ApplicationController
     @pgp_goal = PgpGoal.new student_id: @student.id
   end
 
-  # GET /pgp_goals/1/edit
-  def edit
-    @student = @pgp_goal.student
-  end
-
   # POST /pgp_goals
-  # POST /pgp_goals.json
   def create
     @pgp_goal = PgpGoal.new(pgp_goal_params)
     if @pgp_goal.save
@@ -31,8 +25,12 @@ class PgpGoalsController < ApplicationController
     end
   end
 
+  # GET /pgp_goals/1/edit
+  def edit
+    @student = @pgp_goal.student
+  end
+
   # PATCH/PUT /pgp_goals/1
-  # PATCH/PUT /pgp_goals/1.json
   def update
     if @pgp_goal.update(pgp_goal_params)
       flash[:info] = 'Pgp goal was successfully updated.'

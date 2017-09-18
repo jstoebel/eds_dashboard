@@ -24,5 +24,8 @@
             = pgp_goal.name
           %td= pgp_goal.domain
           %td
+            = link_to pgp_goal_pgp_strategies_path(pgp_goal.id), :class => "btn btn-info action-small" do
+              %span.small-btn-text Strategies
+          %td
             = link_to edit_pgp_goal_path(pgp_goal), :class => "btn btn-info action-small" do
               %span.small-btn-text Edit
