@@ -44,7 +44,6 @@ class IssuesController < ApplicationController
   end
 
   def create
-
     @student = Student.find params[:student_id]
 
     @issue = Issue.new(issue_params)
@@ -55,13 +54,10 @@ class IssuesController < ApplicationController
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
     authorize! :create, @issue   #make sure user is permitted to create issue for this student
 
-    # transaction to create an issue and its first update
-
     # create the issue's first update. If the update can't be created, rollback the issue.
     # if email can't be sent, alert in a flash message.
-
     Issue.transaction do
-      if @issue.save!
+      if @issue.save
         @update = IssueUpdate.new UpdateName: 'Issue opened',
                                   Description: 'Issue opened',
                                   Issues_IssueID: @issue.id,
@@ -71,13 +67,11 @@ class IssuesController < ApplicationController
 
         if @update.valid?
           # issue created and update is valid
-
           begin
             @update.save
           rescue Net::SMTPAuthenticationError => e
             # everything was created but emails not sent
             # this shouldn't cause a rollback
-
             Rails.logger.warn e.message
             Rails.logger.warn e.backtrace
             flash[:info] = 'New issue opened for: #{@student.name_readable} '\
@@ -86,6 +80,7 @@ class IssuesController < ApplicationController
                            'problem persists.'
 
             redirect_to(student_issues_path(@student.id))
+            return
           end
         else
           # update is not valid. we should rollback
@@ -95,8 +90,13 @@ class IssuesController < ApplicationController
         flash[:info] = 'There was a problem creating that issue.'
         @dispositions = Disposition.current.ordered
         render('new')
+        return
       end
     end # transaction
+
+    flash[:info] = "New issue opened for: #{@student.name_readable}"
+    redirect_to(student_issues_path(@student.AltID))
+
   end # action
 
   def destroy
