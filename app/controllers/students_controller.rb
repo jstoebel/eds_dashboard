@@ -66,6 +66,8 @@ class StudentsController < ApplicationController
     begin
       authorize! :write, @student
     rescue CanCan::AccessDenied => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       render :json => {:message => e.message}, :status => :unprocessable_entity
       return
     end

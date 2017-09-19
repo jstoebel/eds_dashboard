@@ -72,6 +72,8 @@ class IssuesController < ApplicationController
       flash[:info] = "New issue opened for: #{@student.name_readable}"
       redirect_to(student_issues_path(@student.AltID))
     rescue => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       @dispositions = Disposition.current.ordered
       render('new')
     end # begin/rescue

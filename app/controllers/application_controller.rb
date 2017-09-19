@@ -25,8 +25,10 @@ class ApplicationController < ActionController::Base
   end
 
   # Catch all CanCan errors and alert the user of the exception
-  rescue_from CanCan::AccessDenied do | exception |
-    redirect_to "/access_denied"
+  rescue_from CanCan::AccessDenied do |exception|
+    Rails.logger.warn exception.message
+    Rails.logger.warn exception.backtrace
+    redirect_to '/access_denied'
   end
 
   def check_browser

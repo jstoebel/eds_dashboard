@@ -82,7 +82,10 @@ class ReportsController < ApplicationController
             if current_user.is?("admin")
                 begin
                     record[:gpa] = stu.gpa
-                rescue NoMethodError
+                rescue NoMethodError => e
+                    Rails.logger.warn e.message
+                    Rails.logger.warn e.backtrace
+
                     record[:gpa] = nil
                 end
             end

@@ -113,6 +113,8 @@ class ProcessStudent
        code_section, course_name = [course_raw[0..delim-1], course_raw[delim + 1..-1]].map{|i| i.strip}
      rescue NoMethodError => e
        # fall back in the case of very strange courses
+       Rails.logger.warn e.message
+       Rails.logger.warn e.backtrace
        code_section = course_raw
        course_name = nil
      end
