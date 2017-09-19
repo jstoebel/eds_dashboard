@@ -13,75 +13,78 @@
 #  addressed                :boolean
 #  status                   :string(255)
 #
-
 class IssueUpdate < ApplicationRecord
-	belongs_to :issue, foreign_key: 'Issues_IssueID'
-	belongs_to :tep_advisor, {:foreign_key => 'tep_advisors_AdvisorBnum'}
-	after_validation :add_addressed
-	after_create :creation_alert
+  belongs_to :issue, foreign_key: 'Issues_IssueID'
+  belongs_to :tep_advisor, foreign_key: 'tep_advisors_AdvisorBnum'
+  after_validation :add_addressed
+  after_create :creation_alert
 
-	scope :sorted, lambda {order(:created_at => :desc)}
+  scope :sorted, -> { order(created_at: :desc) }
 
   BNUM_REGEX = /\AB00\d{6}\Z/i
 
-	# the possible statuses for an issue update and coorsponding attrs
-	STATUSES = { resolved: {name: "resolved", status_color: :success, resolved: true},
-							progressing: {name: "progressing", status_color: :warning, resolved: false},
-							concern: {name: "concern", status_color: :danger, resolved: false}
-	}
+  # the possible statuses for an issue update and coorsponding attrs
+  STATUSES = { resolved: { name: 'resolved', status_color: :success,
+                           resolved: true },
+               progressing: { name: 'progressing', status_color: :warning,
+                              resolved: false },
+               concern: { name: 'concern', status_color: :danger,
+                          resolved: false } }.freeze
 
-	validates :UpdateName,
-		presence: {message: "Please provide an update name."}
+  validates :UpdateName,
+            presence: { message: 'Please provide an update name.' }
 
-	validates :Description,
-		presence: {message: "Please provide an update description."}
+  validates :Description,
+            presence: { message: 'Please provide an update description.' }
 
-	validates :tep_advisors_AdvisorBnum,
-		presence: { message: "Could not find an advisor profile for this user."}
+  validates :tep_advisors_AdvisorBnum,
+            presence: { message: 'Could not find an advisor profile for this '\
+                                 'user.' }
 
-	validates :status,
-		presence: { message: "Please select a status for this update"},
-		inclusion: { in: STATUSES.keys.map(&:to_s), message: "Invalid status name"}
+  validates :status,
+            presence: { message: 'Please select a status for this update' },
+            inclusion: { in: STATUSES.keys.map(&:to_s), message: 'Invalid '\
+                                                                 'status name' }
 
-	validates :addressed,
-		inclusion: { in: [true, false], message: "addressed may not be nil"}
+  validates :addressed,
+            inclusion: { in: [true, false],
+                         message: 'addressed may not be nil' }
 
-	def student
+  def student
     # fetch the owning sudent
-		return self.issue.student
-	end
+    issue.student
+  end
 
-	def status_color
+  def status_color
     # what color should be displayed for this update
-		return STATUSES[self.status.to_sym][:status_color]
-	end
+    STATUSES[status.to_sym][:status_color]
+  end
 
-	def resolves?
-		# does this update resolve the issue?
-		return STATUSES[self.status.to_sym][:resolved]
-	end
+  def resolves?
+    # does this update resolve the issue?
+    STATUSES[status.to_sym][:resolved]
+  end
 
-	private
-  	def add_addressed
-      # all new issue_updates are not addressed
-  		self.addressed = false if self.new_record?
-  	end
+  private
 
-  	def creation_alert
-      # alert advisors re: the creation of this update
-  		# email all advisors, instructors and admins
-  		stu = self.student
-  		recipients = [] # array of tep_advisors to email
-  		# advisors
-  		recipients += stu.tep_advisors
-  		recipients += stu.tep_instructors
-  		recipients += TepAdvisor.all.select{|adv| adv.user.andand.is? "admin"}
-  		recipients.uniq!
+  def add_addressed
+    # all new issue_updates are not addressed
+    self.addressed = false if new_record?
+  end
 
-  		recipients.each do |r|
-  			IssueUpdateMailer.alert_new(stu, r).deliver_now
-  		end
+  def creation_alert
+    # alert advisors re: the creation of this update
+    # email all advisors, instructors and admins
+    stu = student
+    recipients = [] # array of tep_advisors to email
+    # advisors
+    recipients += stu.tep_advisors
+    recipients += stu.tep_instructors
+    recipients += TepAdvisor.all.select { |adv| adv.user.andand.is? 'admin' }
+    recipients.uniq!
 
-  	end
-
+    recipients.each do |r|
+      IssueUpdateMailer.alert_new(stu, r).deliver_now
+    end
+  end
 end
