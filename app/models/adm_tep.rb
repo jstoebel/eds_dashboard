@@ -165,7 +165,7 @@ class AdmTep < ApplicationRecord
         if self.TEPAdmit && !self.completed_foundationals?
           self.errors.add(:base, "Student has not satisfied a foundational course.")
         end
-      rescue NotImplementedError
+      rescue NotImplementedError => e
         # can't handle these
         Rails.logger.warn e.message
         Rails.logger.warn e.backtrace
