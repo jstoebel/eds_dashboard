@@ -70,6 +70,8 @@ class AdmStController < ApplicationController
     begin
       @app.STAdmitDate = params[:adm_st][:STAdmitDate]
     rescue ArgumentError, TypeError => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       @app.STAdmitDate = nil
     end
 

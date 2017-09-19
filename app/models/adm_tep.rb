@@ -167,6 +167,8 @@ class AdmTep < ApplicationRecord
         end
       rescue NotImplementedError
         # can't handle these
+        Rails.logger.warn e.message
+        Rails.logger.warn e.backtrace
       end
     end
   end

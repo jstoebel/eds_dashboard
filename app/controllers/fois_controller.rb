@@ -30,6 +30,8 @@ class FoisController < ApplicationController
         begin
           result = Foi.import(file)
         rescue => e
+          Rails.logger.warn e.message
+          Rails.logger.warn e.backtrace
           flash[:info] = e.message
           redirect_to fois_path
           return

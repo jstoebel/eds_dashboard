@@ -63,6 +63,8 @@ class AdmTepController < ApplicationController
     begin
       @application.TEPAdmitDate = params[:adm_tep][:TEPAdmitDate]
     rescue ArgumentError, TypeError => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       @application.TEPAdmitDate = nil
     end
 

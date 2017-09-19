@@ -42,6 +42,8 @@ class ClinicalAssignmentsController < ApplicationController
         })
       @assignment.Term = term.id
     rescue ArgumentError, TypeError => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       @assignment.StartDate = nil
       @assignment.Term = nil
     end
@@ -49,6 +51,8 @@ class ClinicalAssignmentsController < ApplicationController
     begin
       @assignment.EndDate = params[:clinical_assignment][:EndDate]
     rescue ArgumentError, TypeError => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       @assignment.EndDate = nil
     end
 
@@ -86,12 +90,16 @@ class ClinicalAssignmentsController < ApplicationController
     begin
       @assignment.StartDate = params[:clinical_assignment][:StartDate]
     rescue ArgumentError, TypeError => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       @assignment.StartDate = nil
     end
 
     begin
       @assignment.EndDate = params[:clinical_assignment][:EndDate]
     rescue ArgumentError, TypeError => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
       @assignment.EndDate = nil
     end
 

@@ -13,7 +13,6 @@
 #
 
 class PraxisResultTempsController < ApplicationController
-
   def index
     # display all results that need resolving
     @temps = PraxisResultTemp.all
@@ -30,11 +29,11 @@ class PraxisResultTempsController < ApplicationController
       temp_record.finalize
       flash[:info] = "Successfully resolved praxis record."
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed, ActiveRecord::InvalidForeignKey => e
-      flash[:info] = "There was a problem resolving this record. Please try again later."
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
+      flash[:info] = 'There was a problem resolving this record. Please try ' \
+                     'again later.'
     end
-    
     redirect_to praxis_result_temps_path
-
   end
-
 end
