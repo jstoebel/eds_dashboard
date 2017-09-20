@@ -16,7 +16,7 @@ class PgpStrategy < ApplicationRecord
   belongs_to :pgp_goal
   after_validation :allow_three, unless: proc { |s| s.errors.any? }
 
-  validates_presence_of :pgp_goal_id, :name, :timeline, :resources, :active
+  validates_presence_of :pgp_goal_id, :name, :timeline, :resources
 
   validates :active,
             inclusion: { in: [true, false],

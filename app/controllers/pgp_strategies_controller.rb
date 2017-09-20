@@ -29,7 +29,7 @@ class PgpStrategiesController < ApplicationController
   end
 
   def update
-    if @pgp_strategy.update(pgp_goal_params)
+    if @pgp_strategy.update(pgp_strategy_params)
       flash[:info] = 'Pgp strategy was successfully updated.'
       redirect_to pgp_goal_pgp_strategies_path(@pgp_strategy.pgp_goal.id)
     else

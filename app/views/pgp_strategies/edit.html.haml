@@ -1,2 +1,7 @@
-%h1 PgpStrategies#edit
-%p Find me in app/views/pgp_strategies/edit.html.haml
+%h1 Editing PGP Strategy
+= simple_form_for @pgp_strategy, :url => pgp_strategy_path(@pgp_strategy.id) do |f|
+    = render partial: 'form', :locals => {f:f}
+
+= link_to 'Show', @pgp_strategy
+\|
+= link_to 'Back', pgp_goal_pgp_strategies_path(@pgp_goal.id)
