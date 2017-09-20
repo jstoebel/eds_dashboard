@@ -103,7 +103,8 @@ class IssueUpdatesControllerTest < ActionController::TestCase
           end
 
           test 'success - stores flash message' do
-            assert_equal flash[:info], 'New update added'
+            assert_equal flash[:info], 'New update added but there was a problem sending email alerts. ' \
+                                       'If this problem persists, please alert the administrator.'
           end
 
           test 'success - redirects' do
@@ -111,7 +112,7 @@ class IssueUpdatesControllerTest < ActionController::TestCase
           end
 
         end # email service down
-        
+
       end # describe success
 
     end # allowed_roles
