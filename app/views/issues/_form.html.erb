@@ -4,17 +4,17 @@
 
   <tr>
     <th><%= f.label(:Name, "Issue Title:") %> </th>
-    <td><%= f.text_field(:Name) %></td>
+    <td><%= f.text_field(:Name, size: 50) %></td>
   </tr>
 
   <tr>
     <th><%= f.label(:Description, "Issue Description:") %></th>
-    <td> <%= f.text_area(:Description, :size => '30x10') %> </td>
+    <td> <%= f.text_area(:Description, cols: 120, rows: 10) %> </td>
   </tr>
 
   <tr>
     <th><%= f.label(:disposition_id, "Related Disposition:") %></th>
-    <td> <%= f.select(:disposition_id, @dispositions.map {|d| ["(#{d.code}) #{truncate(d.description)}", d.id]},
+    <td> <%= f.select(:disposition_id, @dispositions.map {|d| ["(#{d.code}) #{truncate(d.description, length: 100)}", d.id]},
     {prompt: "Select a disposition"}) %></td>
   </tr>
   
