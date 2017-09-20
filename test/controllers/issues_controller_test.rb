@@ -97,7 +97,7 @@ class IssuesControllerTest < ActionController::TestCase
             :tep_advisor_id => @advisor.id
             })
 
-            @issue.tep_advisors_AdvisorBnum = @advisor.id
+          @issue.tep_advisors_AdvisorBnum = @advisor.id
 
         end
 
@@ -156,6 +156,30 @@ class IssuesControllerTest < ActionController::TestCase
           assert_response :success
           assert_template 'new'
         end
+
+        describe 'email service down' do
+          before do
+            IssueUpdate
+              .any_instance
+              .stubs(:creation_alert)
+              .raises(Net::SMTPAuthenticationError)
+
+            post_create
+          end
+
+          test 'stores flash message' do
+            assert_equal flash[:info],
+                         'New issue opened for: #{@student.name_readable} '\
+                         'but there may have been a problem sending email'\
+                         'alerts. Please contact your administrator if '\
+                         'problem persists.'
+          end
+
+          test 'redirects' do
+            assert_redirected_to student_issues_path(@issue.student.id)
+          end
+        end # email service down
+
       end
     end # allowed roles
   end

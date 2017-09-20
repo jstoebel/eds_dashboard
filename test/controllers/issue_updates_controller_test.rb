@@ -90,6 +90,29 @@ class IssueUpdatesControllerTest < ActionController::TestCase
 
         end # fail
 
+        describe 'email service down' do
+          before do
+            IssueUpdate
+              .any_instance
+              .stubs(:creation_alert)
+              .raises(Net::SMTPAuthenticationError)
+
+            @iu.tep_advisors_AdvisorBnum = @advisor.id
+            post :create, params: {:issue_id => @iu.issue.id, :issue_updates => @iu.attributes}
+
+          end
+
+          test 'success - stores flash message' do
+            assert_equal flash[:info], 'New update added but there was a problem sending email alerts. ' \
+                                       'If this problem persists, please alert the administrator.'
+          end
+
+          test 'success - redirects' do
+            assert_redirected_to issue_issue_updates_path(@iu.issue.IssueID)
+          end
+
+        end # email service down
+
       end # describe success
 
     end # allowed_roles
