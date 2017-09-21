@@ -70,7 +70,7 @@ class IssueTest < ActiveSupport::TestCase
     describe "not resolved" do
 
       before do
-        @issue = FactoryGirl.create(:issue, first_status: :concern)
+        @issue = FactoryGirl.create(:issue, starting_status: :concern)
       end
 
       let(:not_resolved) {assert_not @issue.resolved?}
@@ -96,7 +96,7 @@ class IssueTest < ActiveSupport::TestCase
     describe "resolved" do
 
       before do
-        @issue = FactoryGirl.create(:issue, first_status: :resolved)
+        @issue = FactoryGirl.create(:issue, starting_status: :resolved)
       end
 
       test "one good update" do

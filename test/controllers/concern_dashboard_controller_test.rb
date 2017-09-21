@@ -59,7 +59,7 @@ class ConcernDashboardControllerTest < ActionController::TestCase
           end
 
           it "as #{r} pulls args for open issues" do
-              FactoryGirl.create :issue, {:student_id => @stu.id, first_status: :concern}
+              FactoryGirl.create :issue, {:student_id => @stu.id, starting_status: :concern}
               subject
               expect issue_concern[:title].must_equal "Advisor Notes"
               expect issue_concern[:link].must_equal student_issues_path(@stu.id)
