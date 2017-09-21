@@ -75,7 +75,7 @@ class IssuesControllerTest < ActionController::TestCase
   describe "create" do
 
     before do
-      @issue = FactoryGirl.create :issue
+      @issue = FactoryGirl.build :issue
     end
 
     allowed_roles.each do |r|
@@ -133,9 +133,15 @@ class IssuesControllerTest < ActionController::TestCase
 
           assert_equal 1, assigns(:issue).issue_updates.size
 
-          to_exclude = ["UpdateID", "Issues_IssueID", "tep_advisors_AdvisorBnum", "created_at", "updated_at"]
-          expected_attrs = @issue.issue_updates.first.attributes.except(*to_exclude)
-          actual_attrs = assigns(:update).attributes.except(*to_exclude)
+          to_exclude = ["UpdateID", "Issues_IssueID", "created_at", "updated_at"]
+          issue_update = assigns(:issue).issue_updates.first
+          expected_attrs = { 'UpdateName' => 'Issue opened',
+                             'Description' => 'Issue opened',
+                             'tep_advisors_AdvisorBnum' => @advisor.id,
+                             'addressed' => false,
+                             'visible' => true,
+                             'status' => 'concern' }
+          actual_attrs = issue_update.attributes.except(*to_exclude)
           assert_equal expected_attrs, actual_attrs
 
         end

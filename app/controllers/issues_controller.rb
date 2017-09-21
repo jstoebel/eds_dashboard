@@ -49,54 +49,38 @@ class IssuesController < ApplicationController
     @issue = Issue.new(issue_params)
     @issue.student_id = @student.id
 
-    #assign advisor's B#
+    # assign advisor's B#
     user = current_user
     @issue.tep_advisors_AdvisorBnum = user.tep_advisor.andand.id
-    authorize! :create, @issue   #make sure user is permitted to create issue for this student
+    @issue.starting_status = params[:issue_update][:status]
+    #make sure user is permitted to create issue for this student
+    authorize! :create, @issue
 
-    # create the issue's first update. If the update can't be created, rollback the issue.
-    # if email can't be sent, alert in a flash message.
-    Issue.transaction do
+    begin
       if @issue.save
-        @update = IssueUpdate.new UpdateName: 'Issue opened',
-                                  Description: 'Issue opened',
-                                  Issues_IssueID: @issue.id,
-                                  tep_advisors_AdvisorBnum: @issue.tep_advisors_AdvisorBnum,
-                                  addressed: false,
-                                  status: params[:issue_update][:status]
-
-        if @update.valid?
-          # issue created and update is valid
-          begin
-            # happy path
-            @update.save
-          rescue Net::SMTPAuthenticationError => e
-            # everything was created but emails not sent
-            # this shouldn't cause a rollback
-            Rails.logger.warn e.message
-            Rails.logger.warn e.backtrace
-            flash[:info] = 'New issue opened for: #{@student.name_readable} '\
-                           'but there may have been a problem sending email'\
-                           'alerts. Please contact your administrator if '\
-                           'problem persists.'
-
-            redirect_to(student_issues_path(@student.id))
-            return
-          end
-        else
-          # update is not valid. we should rollback
-          @update.save! # BOOM! will raise error and cause rollback
-        end
+        # happy path. the issue was saved, the update was saved and the email sent
+        flash[:info] = "New issue opened for: #{@student.name_readable}"
+        redirect_to(student_issues_path(@student.AltID))
       else
+        # issue was not valid
         flash[:info] = 'There was a problem creating that issue.'
         @dispositions = Disposition.current.ordered
         render('new')
-        return
       end
-    end # transaction
-
-    flash[:info] = "New issue opened for: #{@student.name_readable}"
-    redirect_to(student_issues_path(@student.AltID))
+    rescue ActiveRecord::RecordInvalid
+      # the issue was valid but the issue_update wasn't. the issue was rolled back
+      flash[:info] = 'There was a problem creating that issue.'
+      @dispositions = Disposition.current.ordered
+      render('new')
+    rescue Net::SMTPAuthenticationError
+      # the issue and issue update was saved, but the email wouldn't send
+      # everything is secure in the database
+      flash[:info] = 'New issue opened for: #{@student.name_readable} '\
+      'but there may have been a problem sending email'\
+      'alerts. Please contact your administrator if '\
+      'problem persists.'
+      redirect_to(student_issues_path(@student.id))
+    end
 
   end # action
 
