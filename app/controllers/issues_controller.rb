@@ -68,6 +68,7 @@ class IssuesController < ApplicationController
         if @update.valid?
           # issue created and update is valid
           begin
+            # happy path
             @update.save
           rescue Net::SMTPAuthenticationError => e
             # everything was created but emails not sent
