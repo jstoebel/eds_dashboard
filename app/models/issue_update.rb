@@ -17,7 +17,7 @@ class IssueUpdate < ApplicationRecord
   belongs_to :issue, foreign_key: 'Issues_IssueID'
   belongs_to :tep_advisor, foreign_key: 'tep_advisors_AdvisorBnum'
   after_validation :add_addressed
-  after_create :creation_alert
+  after_commit :creation_alert, on: :create
 
   scope :sorted, -> { order(created_at: :desc) }
 

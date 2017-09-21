@@ -24,8 +24,12 @@ class Issue < ApplicationRecord
   scope :sorted, lambda {order(:created_at => :desc)}
   scope :visible, lambda {where(:visible => true)}
 
+
   # HOOKS
   after_save :hide_updates
+  after_create :create_first_update
+
+  attr_accessor :starting_status # what status should the first update have?
 
   validates :Name,
     presence: {message: "Please provide an issue name."}
@@ -55,14 +59,27 @@ class Issue < ApplicationRecord
   end
 
   private
-    def hide_updates
-      if self.visible == false
-        updates = self.issue_updates
-        updates.each do |f|
-          f.visible = false
-          f.save
-        end
+
+  def hide_updates
+    if self.visible == false
+      updates = self.issue_updates
+      updates.each do |f|
+        f.visible = false
+        f.save
       end
     end
+  end
+
+  def create_first_update
+    # if this fails, the error is raised up to where .save is called. 
+    # The issue won't be persisted. the result of .save is nil
+    @update = IssueUpdate.create! UpdateName: 'Issue opened',
+                                  Description: 'Issue opened',
+                                  Issues_IssueID: id,
+                                  tep_advisors_AdvisorBnum: tep_advisors_AdvisorBnum,
+                                  addressed: false,
+                                  status: starting_status
+
+  end
 
 end
