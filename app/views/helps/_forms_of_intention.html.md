@@ -6,18 +6,22 @@ We want to avoid having to process all FOIs in the Qualtrics data set as this wi
 
 ### Filter records
 
-1. In Qualtrics click `add filter -> survey metadta -> End Date`
-2. Select a data range between the timestamp determined above and the present day.
-3. Click `export & import -> export data -> download data table`.
-4. Click the XML tab at the top
-5. make sure the option "use choice text" is selected
-6. click download
+1. Open the Form of Intention survey in Qualtrics.
+1. Click `Data and Analysis`
+1. In Qualtrics click `add filter -> survey metadata -> End Date` (need to add `select operator` and then choose `between` to enter beginning date and current date)
+
+1. In the dashboard, identify the latest Form of Intention and make note of its time stamp.
+1. Select a data range between the time stamp determined above and the present day. Make sure that the time stamp is _after_ the latest FOI. The Dashboard will refuse to import anything if a repeat is created.
+1. Back in Qualtrics click `export & import -> export data -> download data table`.
+1. Click the XML tab at the top
+1. make sure the option `use choice text` is selected
+1. click download
 
 ### upload to the dashboard
 
 1. Unzip the file (if you downloaded it ziped)
-2. In the dashboard go to Reports -> Forms of Intention
-3. Upload the file and click `Import'
+2. In the dashboard go to `Reports -> Forms of Intention`
+3. Click `Choose` to choose the report you just downloaded and click `Import XML`
 
 If you get a positive confirmation message, you are done! If you get an error see below
 
