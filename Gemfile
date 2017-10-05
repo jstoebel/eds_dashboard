@@ -92,3 +92,4 @@ gem 'rails_admin', '~> 1.1', '>= 1.1.1'
 gem "rails_admin_import", "~> 2.0"
 gem 'markdown-rails'
 gem "browser"
+gem 'rubocop', require: false
