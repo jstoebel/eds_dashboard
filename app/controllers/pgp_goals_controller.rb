@@ -1,7 +1,7 @@
 ##
 # controller for pgp_goals
 class PgpGoalsController < ApplicationController
-  before_action :set_pgp_goal, only: %i[show edit update]
+  before_action :set_pgp_goal, only: %i[show edit update destroy]
   before_action :set_student, only: %i[index new]
 
   def index
@@ -39,6 +39,12 @@ class PgpGoalsController < ApplicationController
       @student = Student.find params[:pgp_goal][:student_id]
       render :edit
     end
+  end
+
+  def destroy
+    @pgp_goal.destroy!
+    flash[:info] = "Goal removed" 
+    redirect_to student_pgp_goals_url @pgp_goal.student.id
   end
 
   private

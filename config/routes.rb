@@ -135,16 +135,6 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
-  get 'pgp_strategies/index'
-
-  get 'pgp_strategies/new'
-
-  get 'pgp_strategies/create'
-
-  get 'pgp_strategies/edit'
-
-  get 'pgp_strategies/update'
-
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   resources :praxis_results, only: [:new, :create]
@@ -225,8 +215,8 @@ Rails.application.routes.draw do
     resources :pgp_goals, only: [:index, :new, :edit, :update]
   end
 
-  resources :pgp_goals, except: [:destroy, :show] do
-      resources :pgp_strategies, only: [:index, :new, :edit, :update]
+  resources :pgp_goals, except: [:show] do
+    resources :pgp_strategies, only: [:index, :new, :edit, :update]
   end
 
   resources :pgp_strategies, except: [:destroy, :show]

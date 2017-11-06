@@ -29,3 +29,6 @@
           %td
             = link_to edit_pgp_goal_path(pgp_goal), :class => "btn btn-info action-small" do
               %span.small-btn-text Edit
+          %td
+            = button_to("/pgp_goals/#{pgp_goal.id}", {:class => "btn btn-info btn-danger action-small", method: :delete, data: {confirm: "Are you sure you want to completly remove this goal? You can also deactivate the goal if you don't want to remove it completly."}}) do
+              %span.small-btn-text Destroy

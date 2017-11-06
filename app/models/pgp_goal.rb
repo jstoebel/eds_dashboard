@@ -13,7 +13,7 @@
 #
 class PgpGoal < ApplicationRecord
   belongs_to :student
-  has_many :pgp_strategies
+  has_many :pgp_strategies, dependent: :destroy
 
   after_validation :allow_three, unless: proc { |s| s.errors.any? }
 

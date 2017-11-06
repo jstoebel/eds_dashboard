@@ -165,4 +165,22 @@ class PgpGoalsControllerTest < ActionDispatch::IntegrationTest
       end
     end # invalid
   end # create
+
+  describe 'destroy' do
+    before do
+      @pgp_goal = FactoryGirl.create :pgp_goal
+      delete "/pgp_goals/#{@pgp_goal.id}"
+    end
+    test 'is not persisted' do
+      assert_raise(ActiveRecord::RecordNotFound) { PgpGoal.find @pgp_goal.id}
+    end
+
+    test 'sets flash message' do
+      assert_equal flash[:info], "Goal removed"
+    end
+
+    test 'redirects' do
+      assert_redirected_to student_pgp_goals_url @pgp_goal.student.id
+    end
+  end
 end
