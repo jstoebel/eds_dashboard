@@ -21,7 +21,8 @@
     %th
       = f.label :active
     %td
-      = f.check_box :active, checked: true
+      = f.check_box :active, checked: @pgp_goal.new_record? || @pgp_goal.active
 
-%div
-  = f.submit 'Save', :class => "btn btn-info"
+  %tr
+    %td
+      = f.submit 'Save', :class => "btn btn-info"

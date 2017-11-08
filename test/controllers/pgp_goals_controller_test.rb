@@ -22,14 +22,25 @@ class PgpGoalsControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
     end
 
-    # should get goals
-    test 'should set instance variables' do
-      assert_equal @expected_pgp_goals.to_a, assigns(:pgp_goals)
-    end
-
     test 'should set instance variables' do
       assert_equal @expected_pgp_goals.to_a, assigns(:pgp_goals)
       assert_equal @stu, assigns(:student)
+    end
+  end
+
+  describe 'show' do
+    setup do
+      @pgp_goal = FactoryGirl.create :pgp_goal
+      @student = @pgp_goal.student
+    end
+
+    test 'should get show' do
+      assert_response :success
+    end
+
+    test 'should set instance variables' do
+      assert_equal @pgp_goal, assigns(:pgp_goal)
+      assert_equal @student, assigns(:student)
     end
   end
 

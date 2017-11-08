@@ -4,4 +4,4 @@
 %h1 New PGP Goal
 = simple_form_for @pgp_goal, :url => pgp_goals_path do |f|
     %table
-        = render partial: 'form', :locals => {f:f}
+        = render partial: 'form', :locals => {f:f, goal: @pgp_goal}

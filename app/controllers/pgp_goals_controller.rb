@@ -8,6 +8,10 @@ class PgpGoalsController < ApplicationController
     @pgp_goals = @student.pgp_goals.order(:active).reverse_order
   end
 
+  def show
+    @student = @pgp_goal.student
+  end
+
   # GET /pgp_goals/new
   def new
     @pgp_goal = PgpGoal.new student_id: @student.id

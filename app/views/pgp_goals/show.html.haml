@@ -1,15 +1,17 @@
-%p#notice= notice
+= link_to student_pgp_goals_path(@student.id), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do
+  %i.link-text Back
 
-%p
-  %b Name:
-  = @pgp_goal.name
-%p
-  %b Domain:
-  = @pgp_goal.domain
-%p
-  %b Active:
-  = @pgp_goal.active
+%h1= "PGP Goal: #{@pgp_goal.name}"
+%h2= @student.name_readable
 
-= link_to 'Edit', edit_pgp_goal_path(@pgp_goal)
-\|
-= link_to 'Back', student_pgp_goals_path(@student.id)
+%table.table.table-stripped
+  %tr
+    %th Strategies
+    %th Timeline
+    %th Resources
+
+    - @pgp_goal.pgp_strategies.each do |strat|
+      %tr
+        %td= strat.name
+        %td= strat.resources
+        %td= strat.timeline

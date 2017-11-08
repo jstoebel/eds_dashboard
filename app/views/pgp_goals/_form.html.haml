@@ -16,7 +16,7 @@
     %th
       = f.label :active
     %td
-      = f.check_box :active, checked: true
+      = f.check_box :active, checked: goal.new_record? || goal.active
   %tr
     %th
-      = f.submit 'Save'
+      = f.submit 'Save', :class => "btn btn-info"

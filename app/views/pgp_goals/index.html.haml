@@ -2,33 +2,38 @@
   %i.link-text Back
 
 .container-fluid
-  %table.listing.table.table-striped
-    %row
-      %caption
-        %span.header1="PGP Goals for #{@student.name_readable}"
-        %br/
-        .col-xs-1
-          = link_to new_student_pgp_goal_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do
-            %span.large-btn-text New PGP goal
+  .row
+    .col-xs-12.col-md-8
+      %table.listing.table.table-striped
+        .row
+          %caption
+            %span.header1="PGP Goals for #{@student.name_readable}"
+            %br/
+            .col-xs-1
+              = link_to new_student_pgp_goal_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do
+                %span.large-btn-text New PGP goal
 
-    %thead
-      %tr.header
-        %th Name
-        %th Domain
+        %thead
+          %tr.header
+            %th Name
+            %th Domain
 
-    %tbody
-      - @pgp_goals.each do |pgp_goal|
-        %tr{:class => ("inactive" unless pgp_goal.active?)}
-          %td
-            %span{:class => ("glyphicon glyphicon-eye-close" unless pgp_goal.active?)}
-            = pgp_goal.name
-          %td= pgp_goal.domain
-          %td
-            = link_to pgp_goal_pgp_strategies_path(pgp_goal.id), :class => "btn btn-info action-small" do
-              %span.small-btn-text Strategies
-          %td
-            = link_to edit_pgp_goal_path(pgp_goal), :class => "btn btn-info action-small" do
-              %span.small-btn-text Edit
-          %td
-            = button_to("/pgp_goals/#{pgp_goal.id}", {:class => "btn btn-info btn-danger action-small", method: :delete, data: {confirm: "Are you sure you want to completly remove this goal? You can also deactivate the goal if you don't want to remove it completly."}}) do
-              %span.small-btn-text Destroy
+        %tbody
+          - @pgp_goals.each do |pgp_goal|
+            %tr{:class => ("inactive" unless pgp_goal.active?)}
+              %td
+                %span{:class => ("glyphicon glyphicon-eye-close" unless pgp_goal.active?)}
+                = pgp_goal.name
+              %td= pgp_goal.domain
+              %td
+                = link_to pgp_goal_path(pgp_goal.id), :class => "btn btn-info action-small" do
+                  %span.small-btn-text Details
+              %td
+                = link_to pgp_goal_pgp_strategies_path(pgp_goal.id), :class => "btn btn-info action-small" do
+                  %span.small-btn-text Strategies
+              %td
+                = link_to edit_pgp_goal_path(pgp_goal), :class => "btn btn-info action-small" do
+                  %span.small-btn-text Edit
+              %td
+                = button_to("/pgp_goals/#{pgp_goal.id}", {:class => "btn btn-info btn-danger action-small", method: :delete, data: {confirm: "Are you sure you want to completly remove this goal? You can also deactivate the goal if you don't want to remove it completly."}}) do
+                  %span.small-btn-text Delete
