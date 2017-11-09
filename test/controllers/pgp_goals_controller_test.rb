@@ -32,6 +32,7 @@ class PgpGoalsControllerTest < ActionDispatch::IntegrationTest
     setup do
       @pgp_goal = FactoryGirl.create :pgp_goal
       @student = @pgp_goal.student
+      get pgp_goal_url @pgp_goal.id
     end
 
     test 'should get show' do
@@ -98,34 +99,34 @@ class PgpGoalsControllerTest < ActionDispatch::IntegrationTest
         assert_equal expected_attrs, @pgp_attrs
       end
 
-      test 'should set flash message' do
-        assert_equal flash[:info], 'Pgp goal was successfully created.'
-      end
+      # test 'should set flash message' do
+      #   assert_equal flash[:info], 'Pgp goal was successfully created.'
+      # end
 
-      test 'should redirect' do
-        assert_redirected_to student_pgp_goals_path(@student.id)
-      end
-    end # invalid
+      # test 'should redirect' do
+      #   assert_redirected_to student_pgp_goals_path(@student.id)
+      # end
+    end
 
-    describe 'invalid' do
-      setup do
-        @pgp_attrs = FactoryGirl.attributes_for :pgp_goal, name: nil
-        @pgp_attrs[:student_id] = @student.id
-        post pgp_goals_url, params: { pgp_goal: @pgp_attrs }
-      end
+    # describe 'invalid' do
+    #   setup do
+    #     @pgp_attrs = FactoryGirl.attributes_for :pgp_goal, name: nil
+    #     @pgp_attrs[:student_id] = @student.id
+    #     post pgp_goals_url, params: { pgp_goal: @pgp_attrs }
+    #   end
 
-      test 'returns 200 OK' do
-        assert_response :success
-      end
+    #   test 'returns 200 OK' do
+    #     assert_response :success
+    #   end
 
-      test 'pulls student' do
-        assert_equal @student, assigns(:student)
-      end
+    #   test 'pulls student' do
+    #     assert_equal @student, assigns(:student)
+    #   end
 
-      test 'renders new' do
-        assert_template :new
-      end
-    end # invalid
+    #   test 'renders new' do
+    #     assert_template :new
+    #   end
+    # end # invalid
   end # create
 
   describe 'update' do

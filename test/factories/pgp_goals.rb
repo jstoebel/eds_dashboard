@@ -15,7 +15,7 @@ include Faker
 FactoryGirl.define do
   factory :pgp_goal do
     student
-    name { Hipster.words 7 }
+    name { Hipster.sentence 7 }
     domain do
       ['Planning and Preparation',
         'Classroom Environment',

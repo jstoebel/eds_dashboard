@@ -1,6 +1,19 @@
 require 'test_helper'
 
 class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
+
+  describe 'index' do
+    
+    before do
+      stu = FactoryGirl.create :student
+      strats = FactoryGirl.create_list :pgp_strategy, 3, student: stu
+
+
+      get 
+    end
+
+  end
+
   test "should get index" do
     get pgp_strategies_index_url
     assert_response :success
