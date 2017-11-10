@@ -26,6 +26,18 @@ class AssessmentItem < ApplicationRecord
 
     validates_presence_of :name, :slug
 
+    validates :name,
+      :uniqueness => {
+        :message => "An item with that name already exists for this assessment",
+        :scope => [:assessment_id]
+      }
+
+    validates :description,
+      :uniqueness => {
+        :message => "An item with that description already exists for this assessment",
+        :scope => [:assessment_id]
+      }
+
     scope :sorted, lambda {order(:name => :asc)}
 
     def repr

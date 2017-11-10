@@ -37,7 +37,7 @@ class BannerTerm < ApplicationRecord
 
     #try to find the exact term
     term = BannerTerm.where("StartDate<=? and EndDate>=?", options[:date], options[:date]).first
-
+    
     if term
       return term
     else

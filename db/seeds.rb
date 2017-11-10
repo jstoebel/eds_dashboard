@@ -4,7 +4,8 @@ require 'active_record/fixtures'
 
 if ["development", "test"].include? Rails.env
   #load these records from fixtures
-  constants = ["banner_terms", "exit_codes", "programs", "roles", "majors", "praxis_tests"]
+  constants = ["banner_terms", "exit_codes", "programs", "roles", "majors",
+                 "praxis_tests", "assessments", "assessment_items"]
   constants.each do |c|
 
     model = c.camelize.singularize.constantize

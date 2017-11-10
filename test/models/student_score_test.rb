@@ -12,6 +12,7 @@
 #
 
 require 'test_helper'
+require 'mocks/sheet'
 
 class StudentScoreTest < ActiveSupport::TestCase
 
@@ -26,6 +27,10 @@ class StudentScoreTest < ActiveSupport::TestCase
 
       end
     end
+  end
+
+  test "format_types" do
+    assert_equal [:moodle, :qualtrics], StudentScore.format_types
   end
 
 end

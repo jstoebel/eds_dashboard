@@ -8,8 +8,8 @@ class AdmStControllerTest < ActionController::TestCase
   all_roles = Role.all.pluck :RoleName
   #TESTS FOR PERMITTED USERS (ADMIN AND STAFF)
 
-  let(:term_today){FactoryGirl.create :banner_term, {:StartDate => Date.today,
-        :EndDate => Date.today + 10
+  let(:term_today){FactoryGirl.create :banner_term, {:StartDate => Date.today - 10,
+        :EndDate => Date.today + 10, :AYStart => Date.today.year
       }}
 
   describe "should get index" do

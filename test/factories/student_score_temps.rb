@@ -1,26 +1,19 @@
 # == Schema Information
 #
-# Table name: student_scores
+# Table name: student_score_temps
 #
 #  id                      :integer          not null, primary key
 #  student_id              :integer
 #  item_level_id           :integer
 #  scored_at               :datetime
+#  full_name               :string(255)
 #  created_at              :datetime
 #  updated_at              :datetime
 #  student_score_upload_id :integer
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
-=begin
-=end
-
-include Faker
 FactoryGirl.define do
-  factory :student_score do
-    student
-    item_level
-    scored_at { Faker::Date.between(2.days.ago, Date.today) }
+  factory :student_score_temp do
+    
   end
 end

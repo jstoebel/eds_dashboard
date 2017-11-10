@@ -62,3 +62,17 @@ config/chef/nodes/*
 !config/chef/nodes/example.json
 
 .byebug_history
+
+
+# for student scores folder - keep directory structure but no files
+/student_scores/**/*
+
+!/student_scores/raw/
+!/student_scores/formatted
+
+/student_scores/raw/**/*
+/student_scores/formatted/**/*
+
+!/student_scores/raw/.gitkeep
+!/student_scores/formatted/.gitkeep
+!/student_scores/README.md

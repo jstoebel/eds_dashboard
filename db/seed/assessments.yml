@@ -1,0 +1,29 @@
+assessment_1:
+    name: "TEP portfolio"
+    description: "Application to Teacher Education Program Portfolio"
+    slug: "TEP portfolio"
+
+assessment_2:
+    name: "TEP recommendation"
+    description: "Application to Teacher Education Program recommendation"
+    slug: "TEP rec"
+
+assessment_3:
+    name: "TEP interview"
+    description: "Application to Teacher Education Program interview"
+    slug: "TEP interview"
+
+assessment_4:
+    name: "ST portfolio"
+    description: "Application to Student Teaching Portfolio"
+    slug: "ST portfolio"
+
+assessment_5:
+    name: "CT observation"
+    description: "Student teaching cooperating teacher observation"
+    slug: "CT eval"
+
+assessment_6:
+    name: "College Supervisor observation"
+    description: "Student teaching college supervisor observation"
+    slug: "col sup eval"

@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711195858) do
+ActiveRecord::Schema.define(version: 20170724154325) do
 
-  create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "adm_tep_id"
     t.integer  "student_file_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
-  create_table "adm_st", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "adm_st", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id",                          null: false
     t.integer  "BannerTerm_BannerTerm"
     t.integer  "Attempt"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_81f4e9ee93", using: :btree
   end
 
-  create_table "adm_tep", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "adm_tep", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id",                          null: false
     t.integer  "Program_ProgCode",                    null: false
     t.integer  "BannerTerm_BannerTerm",               null: false
@@ -60,14 +60,14 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_967a6101da", using: :btree
   end
 
-  create_table "advisor_assignments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "advisor_assignments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "student_id",     null: false
     t.integer "tep_advisor_id", null: false
     t.index ["student_id", "tep_advisor_id"], name: "index_advisor_assignments_on_student_id_and_tep_advisor_id", unique: true, using: :btree
     t.index ["tep_advisor_id"], name: "fk_rails_a939fa1e55", using: :btree
   end
 
-  create_table "alumni_info", primary_key: "AlumniID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "alumni_info", primary_key: "AlumniID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "Student_Bnum", limit: 9,  null: false
     t.datetime "Date"
     t.string   "FirstName",    limit: 45
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["Student_Bnum"], name: "fk_AlumniInfo_Student1_idx", using: :btree
   end
 
-  create_table "assessment_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "assessment_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "assessment_id"
     t.string   "name"
     t.string   "slug"
@@ -96,14 +96,15 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["start_term"], name: "fk_rails_7a5cf3e547", using: :btree
   end
 
-  create_table "assessments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "assessments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "description", limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug",                      null: false
   end
 
-  create_table "banner_terms", primary_key: "BannerTerm", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "banner_terms", primary_key: "BannerTerm", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "PlainTerm",     limit: 45, null: false
     t.datetime "StartDate",                null: false
     t.datetime "EndDate",                  null: false
@@ -111,7 +112,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.boolean  "standard_term"
   end
 
-  create_table "banner_updates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "banner_updates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "start_term"
@@ -120,7 +121,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["start_term"], name: "fk_rails_be69fdca92", using: :btree
   end
 
-  create_table "clinical_assignments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "clinical_assignments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "student_id",                     null: false
     t.integer "clinical_teacher_id",            null: false
     t.integer "Term",                           null: false
@@ -133,7 +134,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["transcript_id"], name: "fk_rails_0f54585493", using: :btree
   end
 
-  create_table "clinical_sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "clinical_sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "SiteName",     limit: 45, null: false
     t.string "City",         limit: 45
     t.string "County",       limit: 45
@@ -145,7 +146,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.string "email"
   end
 
-  create_table "clinical_teachers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "clinical_teachers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "Bnum",                limit: 45
     t.string   "FirstName",           limit: 45, null: false
     t.string   "LastName",            limit: 45, null: false
@@ -161,7 +162,22 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["clinical_site_id"], name: "fk_ClinicalTeacher_ClinicalSite1_idx", using: :btree
   end
 
-  create_table "dispositions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "priority",                 default: 0, null: false
+    t.integer  "attempts",                 default: 0, null: false
+    t.text     "handler",    limit: 65535,             null: false
+    t.text     "last_error", limit: 65535
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  end
+
+  create_table "dispositions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "code"
     t.text     "description", limit: 65535
     t.boolean  "current"
@@ -169,7 +185,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "downtimes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "downtimes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "start_time"
     t.datetime "end_time"
     t.text     "reason",     limit: 65535
@@ -178,21 +194,20 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.boolean  "active"
   end
 
-  create_table "employment", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "student_id"
-    t.integer  "category"
-    t.string   "employer"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "employment", primary_key: "EmpID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "student_id",             null: false
+    t.date    "EmpDate",                null: false
+    t.string  "EmpCategory", limit: 45
+    t.string  "Employer",    limit: 45
     t.index ["student_id"], name: "fk_rails_8b14daa8ce", using: :btree
   end
 
-  create_table "exit_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "exit_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "ExitCode",    limit: 5,  null: false
     t.string "ExitDiscrip", limit: 45, null: false
   end
 
-  create_table "forms_of_intention", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "forms_of_intention", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id",      null: false
     t.datetime "date_completing"
     t.boolean  "new_form"
@@ -205,7 +220,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_21802f4afc", using: :btree
   end
 
-  create_table "issue_updates", primary_key: "UpdateID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "issue_updates", primary_key: "UpdateID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "UpdateName",               limit: 65535,                null: false
     t.text     "Description",              limit: 65535,                null: false
     t.integer  "Issues_IssueID",                                        null: false
@@ -219,7 +234,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["tep_advisors_AdvisorBnum"], name: "fk_IssueUpdates_tep_advisors1_idx", using: :btree
   end
 
-  create_table "issues", primary_key: "IssueID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "issues", primary_key: "IssueID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id",                                            null: false
     t.text     "Name",                     limit: 65535,                null: false
     t.text     "Description",              limit: 65535,                null: false
@@ -234,18 +249,21 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["tep_advisors_AdvisorBnum"], name: "fk_Issues_tep_advisors1_idx", using: :btree
   end
 
-  create_table "item_levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "item_levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "assessment_item_id"
-    t.text     "descriptor",         limit: 65535
+    t.text     "descriptor",          limit: 65535
     t.string   "level"
     t.integer  "ord"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "passing"
+    t.text     "descriptor_stripped", limit: 65535
     t.index ["assessment_item_id"], name: "index_item_levels_on_assessment_item_id", using: :btree
+    t.index ["descriptor"], name: "index_item_levels_on_descriptor", length: { descriptor: 255 }, using: :btree
+    t.index ["descriptor_stripped"], name: "index_item_levels_on_descriptor_stripped", length: { descriptor_stripped: 255 }, using: :btree
   end
 
-  create_table "last_names", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "last_names", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id"
     t.string   "last_name"
     t.datetime "created_at"
@@ -253,18 +271,18 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_3940dc28b0", using: :btree
   end
 
-  create_table "majors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "majors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
   end
 
-  create_table "notices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "notices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "message",    limit: 65535, null: false
     t.boolean  "active",                   null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
 
-  create_table "pgp_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "pgp_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "pgp_id"
     t.integer  "goal_score"
     t.text     "score_reason", limit: 65535
@@ -273,7 +291,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["pgp_id"], name: "fk_rails_e14b2a6a06", using: :btree
   end
 
-  create_table "pgps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "pgps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id"
     t.string   "goal_name"
     t.text     "description", limit: 65535
@@ -284,7 +302,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_4f8f978860", using: :btree
   end
 
-  create_table "praxis_prep", primary_key: "TestID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "praxis_prep", primary_key: "TestID", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "student_id",                             null: false
     t.integer "PraxisTest_TestCode",                    null: false
     t.string  "Sub1Name",            limit: 45
@@ -309,7 +327,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_4112037443", using: :btree
   end
 
-  create_table "praxis_result_temps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "praxis_result_temps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "student_id"
@@ -319,7 +337,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.integer  "best_score"
   end
 
-  create_table "praxis_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "praxis_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id",     null: false
     t.integer  "praxis_test_id"
     t.datetime "test_date"
@@ -332,7 +350,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_praxis_results_students_idx", using: :btree
   end
 
-  create_table "praxis_sub_temps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "praxis_sub_temps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "praxis_result_temp_id", null: false
     t.integer "sub_number"
     t.string  "name"
@@ -343,7 +361,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["praxis_result_temp_id"], name: "fk_rails_c72a4ab38d", using: :btree
   end
 
-  create_table "praxis_subtest_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "praxis_subtest_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "praxis_result_id", null: false
     t.integer "sub_number"
     t.string  "name"
@@ -354,7 +372,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["praxis_result_id"], name: "fk_rails_2b271e70f8", using: :btree
   end
 
-  create_table "praxis_tests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "praxis_tests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "TestCode",         limit: 45, null: false
     t.string  "TestName"
     t.integer "CutScore"
@@ -372,13 +390,13 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["TestCode"], name: "TestCode_UNIQUE", unique: true, using: :btree
   end
 
-  create_table "praxis_updates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "praxis_updates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "report_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "prog_exits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "prog_exits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id",                      null: false
     t.integer  "Program_ProgCode",                null: false
     t.integer  "ExitCode_ExitCode",               null: false
@@ -394,7 +412,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id", "Program_ProgCode"], name: "index_prog_exits_on_student_id_and_Program_ProgCode", using: :btree
   end
 
-  create_table "programs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "programs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "ProgCode",     limit: 10,  null: false
     t.string  "EPSBProgName", limit: 100
     t.string  "EDSProgName",  limit: 45
@@ -403,19 +421,19 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["ProgCode"], name: "ProgCode_UNIQUE", unique: true, using: :btree
   end
 
-  create_table "roles", primary_key: "idRoles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "roles", primary_key: "idRoles", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "RoleName", limit: 45, null: false
     t.index ["RoleName"], name: "RoleName_UNIQUE", unique: true, using: :btree
   end
 
-  create_table "st_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "st_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "adm_st_id"
     t.integer  "student_file_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
-  create_table "student_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "student_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id",                                  null: false
     t.boolean  "active",                       default: true
     t.string   "doc_file_name",    limit: 100
@@ -425,17 +443,38 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_78ba6603b4", using: :btree
   end
 
-  create_table "student_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "student_score_temps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "student_id"
+    t.integer  "item_level_id"
+    t.datetime "scored_at"
+    t.string   "full_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "student_score_upload_id"
+    t.index ["student_score_upload_id"], name: "fk_rails_96a8917b0f", using: :btree
+  end
+
+  create_table "student_score_uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "source"
+    t.boolean  "success"
+    t.text     "message",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "student_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id"
     t.integer  "item_level_id"
     t.datetime "scored_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "student_score_upload_id"
     t.index ["item_level_id"], name: "index_student_scores_on_item_level_id", using: :btree
     t.index ["student_id"], name: "index_student_scores_on_student_id", using: :btree
+    t.index ["student_score_upload_id"], name: "fk_rails_12c700da29", using: :btree
   end
 
-  create_table "students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "Bnum",                    limit: 9,     null: false
     t.string  "FirstName",               limit: 45,    null: false
     t.string  "PreferredFirst",          limit: 45
@@ -467,7 +506,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["term_major"], name: "fk_rails_02beb2ceb0", using: :btree
   end
 
-  create_table "temp_foi", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "temp_foi", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "student_id"
     t.string   "date_completing"
     t.boolean  "new_form"
@@ -481,7 +520,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["student_id"], name: "fk_rails_89ceaae199", using: :btree
   end
 
-  create_table "tep_advisors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "tep_advisors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "AdvisorBnum", limit: 9,  null: false
     t.string  "Salutation",  limit: 45, null: false
     t.integer "user_id"
@@ -492,7 +531,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["user_id"], name: "fk_rails_50ba8b67f4", using: :btree
   end
 
-  create_table "transcript", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "transcript", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "student_id",                      null: false
     t.string  "crn",               limit: 45,    null: false
     t.string  "course_code",       limit: 45,    null: false
@@ -511,7 +550,7 @@ ActiveRecord::Schema.define(version: 20170711195858) do
     t.index ["term_taken"], name: "fk_transcript_banner_terms1_idx", using: :btree
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "UserName",      limit: 45,  null: false
     t.string  "FirstName",     limit: 45,  null: false
     t.string  "LastName",      limit: 45,  null: false
@@ -562,6 +601,8 @@ ActiveRecord::Schema.define(version: 20170711195858) do
   add_foreign_key "prog_exits", "programs", column: "Program_ProgCode"
   add_foreign_key "prog_exits", "students"
   add_foreign_key "student_files", "students"
+  add_foreign_key "student_score_temps", "student_score_uploads"
+  add_foreign_key "student_scores", "student_score_uploads"
   add_foreign_key "students", "banner_terms", column: "term_expl_major", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_graduated", primary_key: "BannerTerm"
   add_foreign_key "students", "banner_terms", column: "term_major", primary_key: "BannerTerm"

@@ -1,0 +1,256 @@
+
+assessment_item_1:
+    slug: "Essay: Reasons"
+    description: "Reasons for wanting to teach"
+    name: "Reasons for wanting to teach"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_2:
+    slug: "Essay: Personal"
+    description: "Statement was personal"
+    name: "Statement was personal"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_3:
+    slug: "Essay: Reflective"
+    description: "Statement was reflective"
+    name: "Statement was reflective"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_4:
+    slug: "Essay: Readability:"
+    description: "Statement was clear and well organized"
+    name: "Statement was clear and well organized"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_5:
+    slug: "Essay: Mechanics:  "
+    description: "Demonstrated excellent command of the conventions of written standard English"
+    name: "Mechanics"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_6:
+    slug: "Resume: Contact Information "
+    description: "Resume contact information was included"
+    name: "Resume contact information was included"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_7:
+    slug: "Resume: Education "
+    description: "Education is given on resume"
+    name: "Education is given on resume"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_8:
+    slug: "Resume: Experience "
+    description: "Experience is given on resume"
+    name: "Experience is given on resume"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_9:
+    slug: "Resume: Involvement "
+    description: "Well selected activities are included"
+    name: "Well selected activities are included"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_10:
+    slug: "Resume: Design "
+    description: "Resume is visually appealing"
+    name: "Resume is visually appealing"
+    start_term: 201512
+    end_term: 201512
+    assessment: assessment_1
+
+assessment_item_11:
+    slug: "Resume: Readability "
+    description: "Resume is readable"
+    name: "Resume is readable"
+    start_term: 201512
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_12:
+    slug: "Resume: Mechanics "
+    description: "Resume presents a professional appearance, tone and style"
+    name: "Resume presents a professional appearance, tone and style"
+    start_term: 201512
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_13:
+    slug: "Teaching Experiences "
+    description: "Examples of teaching experiences "
+    name: "Examples of teaching experiences "
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_14:
+    slug: "Teacher/Student Relationships "
+    description: "Reflects on the teacher/student relationship"
+    name: "Reflects on the teacher/student relationship"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_15:
+    slug: "CTL consultation"
+    description: "CTL consultation: Date of CTL consultation on resume with name of consultant is included. "
+    name: "CTL consultation"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_16:
+    slug: "contact information present"
+    description: "Contact information is present and formatted font larger than the body of the resume. "
+    name: "contact information present"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_17:
+    slug: "contact information full name"
+    description: "Contact information includes full name, permanent and/or local address, professional email and cell number. "
+    name: "contact information full name"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_18:
+    slug: "name formatted"
+    description: "Name was formatted in a larger or bolder font relative to the rest of the contact information. "
+    name: "name formatted"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_19:
+    slug: "degree"
+    description: "Degree was spelled out and correct. "
+    name: "degree"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_20:
+    slug: "major/minor"
+    description: "Major/minor was listed. "
+    name: "major/minor"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_21:
+    slug: "institution"
+    description: "Institution was named, location given. "
+    name: "institution"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_22:
+    slug: "date of graduation"
+    description: "Anticipated date of graduation was included. "
+    name: "date of graduation"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_23:
+    slug: "GPA listed"
+    description: "GPA in major was listed as well as the overall GPA (if over 3.0). "
+    name: "GPA listed"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_24:
+    slug: "Relevant descriptions of work"
+    description: "Relevant descriptions of work and clinical field experiences are concise and clear. "
+    name: "Relevant descriptions of work"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_25:
+    slug: "accomplishmentoriented actions verbs"
+    description: "Descriptions used accomplishmentoriented actions verbs in the correct tense. "
+    name: "accomplishmentoriented actions verbs"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_26:
+    slug: "transferable skills"
+    description: "Descriptions highlight transferable skills. "
+    name: "transferable skills"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_27:
+    slug: "contextual information"
+    description: "All experiences listed contained contextual information: job title, organization, location, and dates. "
+    name: "contextual information"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_28:
+    slug: "Employment and clinical field experiences"
+    description: "Employment and clinical field experiences were listed in reverse chronological order. "
+    name: "Employment and clinical field experiences"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_29:
+    slug: "Well selected activities"
+    description: "Well selected activities were listed that described involvement with leadership, community service, and extracurricular activities on campus, accomplishments, etc. "
+    name: "Well selected activities"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_30:
+    slug: "Descriptions of activities"
+    description: "Descriptions of activities highlighted skills that enhance career goals. "
+    name: "Descriptions of activities"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_31:
+    slug: "Descriptions included "
+    description: "Descriptions included name of the organization, location, positions held, and dates of involvement. "
+    name: "Descriptions included "
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1
+
+assessment_item_32:
+    slug: "Sustained involvement"
+    description: "Sustained involvement in activities was demonstrated. "
+    name: "Sustained involvement"
+    start_term: 201611
+    end_term: 
+    assessment: assessment_1

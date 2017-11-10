@@ -31,22 +31,9 @@ class ItemLevelTest < ActiveSupport::TestCase
 
    test "ord is unique" do
      #test that the :ord attribute of levels of an item are unique
-     item = FactoryGirl.create :assessment_item
-     levels = FactoryGirl.create_list(:item_level, 4, :assessment_item_id => item.id)
-     orders = []
-     levels.each{|l| orders.push(l.ord)}
-     #asserts unique values in array are equal to the original array
-     assert_equal orders.uniq, orders
-   end
-
-  test "ord is not unique, error" do
-    #test that error occurs due to duplicate :ord attributes
-    item = FactoryGirl.create :assessment_item
-    levels = FactoryGirl.create_list(:item_level, 4, :assessment_item_id => item.id)
-    lvl = FactoryGirl.build :item_level, {:assessment_item_id => item.id, :ord => levels.first.ord}
-    assert_not lvl.valid?
-    assert_equal [:ord].map{|i| [i, ["has already been taken"]]}.to_h,
-      lvl.errors.messages
+     first_level = FactoryGirl.create :item_level
+     second_level = FactoryGirl.build :item_level, :ord => first_level.ord
+     assert second_level.valid?
    end
 
   test "Sorted scope" do
@@ -69,5 +56,28 @@ class ItemLevelTest < ActiveSupport::TestCase
   test "repr" do
     il = FactoryGirl.create :item_level
     assert_equal il.descriptor, il.repr
+  end
+
+  describe "unique within assessment_item" do
+
+    before do
+      first_item = FactoryGirl.create :item_level
+      @second_item = FactoryGirl.build :item_level, first_item.attributes
+    end
+
+    [:descriptor, :ord].each do |attr|
+      test attr do
+        assert_not @second_item.valid?
+        assert_equal ["A level with that #{attr} already exists for this assessment_item"],
+          @second_item.errors[attr]
+      end
+    end
+
+    test "for level" do
+      assert_not @second_item.valid?
+      assert_equal ["A level with that level number already exists for this assessment_item"],
+        @second_item.errors[:level]
+    end
+
   end
 end

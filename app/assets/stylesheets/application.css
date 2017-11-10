@@ -441,7 +441,11 @@ div.issue_header {width: 40%;}
 
 table > tr > td.issue_discrip {height: 100px;}
 
-
+/*make button_to forms appear on same line*/
+form.button_to {
+  float: left;
+  width: auto;
+}
 
 /*popup window*/
 
