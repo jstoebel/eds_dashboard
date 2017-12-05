@@ -1,0 +1,16 @@
+= link_to student_pgp_goals_path(@pgp_goal), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do
+  %i.link-text Back
+
+%h1= "PGP scores for #{@pgp_goal.name}"
+%h2= @pgp_goal.student.name_readable
+- @score_groups.each_with_index do |group, idx|
+  #accordion.panel-group
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{idx}"}
+            =group.first.scored_at
+      %div{:id => "collapse#{idx}", :class => ["panel-collapse", "collapse"]}
+        .panel-body
+          - group.each do |pgp_score|
+            %div= pgp_score

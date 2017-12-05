@@ -217,6 +217,7 @@ Rails.application.routes.draw do
 
   resources :pgp_goals do
     resources :pgp_strategies, only: [:index, :new, :edit, :update]
+    resources :pgp_scores
   end
 
   resources :pgp_strategies, except: [:destroy, :show]

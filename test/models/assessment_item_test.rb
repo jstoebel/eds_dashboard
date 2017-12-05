@@ -1,3 +1,5 @@
+require 'test_helper'
+
 # == Schema Information
 #
 # Table name: assessment_items
@@ -11,13 +13,10 @@
 #  description   :text(65535)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  ord           :integer
 #
-
-require 'test_helper'
-
 class AssessmentItemTest < ActiveSupport::TestCase
-
-  test "Should destroy dependent levels" do
+  test 'Should destroy dependent levels' do
     lvl = FactoryGirl.create :item_level
     item = lvl.assessment_item
     item.destroy!
@@ -25,41 +24,37 @@ class AssessmentItemTest < ActiveSupport::TestCase
     assert_not ItemLevel.exists?(lvl.id)
   end
 
-  test "not valid object, validations fail" do
+  test 'not valid object, validations fail' do
     assess_item = AssessmentItem.new
     assert_not assess_item.valid?
-    assert_equal [:name, :slug], assess_item.errors.keys
-    assert_equal [:name, :slug].map{|i| [i, ["can't be blank"]]}.to_h,
-      assess_item.errors.messages
+    assert_equal %i[name slug ord], assess_item.errors.keys
+    assert_equal %i[name slug ord].map { |i| [i, ['can\'t be blank']] }.to_h,
+                 assess_item.errors.messages
   end
 
-  describe "unique within assessment" do
-
-    [:name, :description].each do |attr|
+  describe 'unique within assessment' do
+    %w[name description ord].each do |attr|
       test attr do
-
         first_item = FactoryGirl.create :assessment_item
         second_item = FactoryGirl.build :assessment_item, first_item.attributes
 
         assert_not second_item.valid?
-        assert_equal ["An item with that #{attr} already exists for this assessment"],
-          second_item.errors[attr]
-
+        assert_equal ["An item with that #{attr} already exists for this "\
+                     'assessment'],
+                     second_item.errors[attr]
       end
     end
-
   end
 
-  test "Sorted scope" do
+  test 'Sorted scope' do
     num_item = 3
     items = FactoryGirl.create_list(:assessment_item, num_item)
-    ordered_items = items.sort_by{ |i| i.name }
+    ordered_items = items.sort_by(&:ord)
     assert_equal ordered_items, AssessmentItem.sorted
   end
 
-  test "repr" do
+  test 'repr' do
     ai = FactoryGirl.create :assessment_item
     assert_equal ai.slug, ai.repr
   end
-
 end

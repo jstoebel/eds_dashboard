@@ -24,6 +24,9 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_record-acts_as (2.4.1)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
     activejob (5.0.2)
       activesupport (= 5.0.2)
       globalid (>= 0.3.6)
@@ -339,9 +342,9 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     sexp_processor (4.9.0)
-    simple_form (3.4.0)
-      actionpack (> 4, < 5.1)
-      activemodel (> 4, < 5.1)
+    simple_form (3.5.0)
+      actionpack (> 4, < 5.2)
+      activemodel (> 4, < 5.2)
     simple_xlsx_reader (1.0.2)
       nokogiri
       rubyzip
@@ -383,6 +386,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_record-acts_as
   activerecord-oracle_enhanced-adapter (~> 1.7.0)
   andand (~> 1.3, >= 1.3.3)
   annotate

@@ -11,27 +11,22 @@
 #  description   :text(65535)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  ord           :integer
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 include Faker
-
 FactoryGirl.define do
   factory :assessment_item do
     assessment
-    slug {Lorem.words(4).join " "}  #Lazy load, calls every time executed
-    name {Lorem.words(5).join " "}
-    description {Lorem.paragraph}
-
+    slug { Lorem.words(4).join ' ' }
+    name { Lorem.words(5).join ' ' }
+    description { Lorem.paragraph }
+    sequence(:ord) { |n| n }
     factory :item_with_scores do
       after(:create) do |item|
-        FactoryGirl.create :level_with_scores, {
-          :assessment_item => item
-        }
-
+        FactoryGirl.create :level_with_scores, assessment_item: item
       end
-
     end
   end
-
 end
