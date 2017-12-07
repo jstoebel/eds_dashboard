@@ -288,4 +288,43 @@ module PopulateHelper
 
     assignment.save
   end
+
+  def pop_pgp_scores
+    goal = FactoryGirl.create :pgp_goal
+    stu = goal.student
+    assessment = FactoryGirl.create :assessment, name: 'PGP 1'
+
+    assessment_items = []
+    # create five assesment_items
+    5.times do |i|
+      assessment_item = FactoryGirl.create :assessment_item,
+                                          assessment: assessment,
+                                          ord: (i + 1)
+      assessment_items << assessment_item
+      # 4 item_levels for each item
+      4.times do |j|
+        FactoryGirl.create :item_level,
+                           assessment_item: assessment_item,
+                           ord: (j + 1),
+                           level: (j + 1)
+      end
+    end
+
+    # for each assessment_item, create two pgp_scores,
+    # one for today and one for a year ago
+    2.times do
+      date = Faker::Date.between(1.year.ago, Date.today)
+
+      assessment_items.each do |item|
+        item_level = item.item_levels.sample
+        FactoryGirl.create :pgp_score,
+                           pgp_goal: goal,
+                           student: stu,
+                           item_level: item_level,
+                           scored_at: date
+
+      end # assessment_items
+    end # times
+  end # pop_pgp_scores
+
 end

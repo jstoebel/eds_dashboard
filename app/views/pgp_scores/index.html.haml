@@ -3,14 +3,32 @@
 
 %h1= "PGP scores for #{@pgp_goal.name}"
 %h2= @pgp_goal.student.name_readable
+%div
+  = link_to new_pgp_goal_pgp_score_path(@pgp_goal), :class => "btn btn-info glyphicon glyphicon-plus action-large" do
+    %span.large-btn-text New PGP goal
 - @score_groups.each_with_index do |group, idx|
   #accordion.panel-group
     .panel.panel-default
       .panel-heading
-        %h4.panel-title
-          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{idx}"}
-            =group.first.scored_at
+        %h3.panel-title
+          ="Scored on #{group.first.scored_at.strftime('%m/%d/%Y')}"
+          %a.btn.btn-info{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{idx}"}
+            Details
       %div{:id => "collapse#{idx}", :class => ["panel-collapse", "collapse"]}
         .panel-body
-          - group.each do |pgp_score|
-            %div= pgp_score
+          .container-fluid
+            .row
+              .col-xs-12.col-md-8
+                %table.listing.table.table-striped
+                  %thead
+                    %tr.header
+                      %th #
+                      %th Item
+                      %th Level
+
+                  %tbody
+                    - group.sort_by { |score| score.ord }.each do |score|
+                      %tr
+                        %td= score.ord
+                        %td= score.item_level.descriptor
+                        %td= score.item_level.level

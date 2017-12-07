@@ -1,7 +1,14 @@
-= simple_form_for(@pgp_score) do |f|
-  = f.error_notification
+/ tips on styling radio buttons to look cool: https://codepen.io/AngelaVelasquez/pen/BWXbxP
 
-  .form-inputs
+%table.table.table-stripped
+  - items.each do |item|
+    %tr
+      %td= item.slug
+      -item.item_levels.each do |item_level|
+        %td
+          %p.item_level_box
+            %input{:id => "item_level#{item_level.id}", :name => "item_levels[asessment_item_id_#{item.id}]", :type => "radio", :value => item_level.id}/
+            %label{:for => "item_level#{item_level.id}"}
+              =item_level.descriptor
 
-  .form-actions
-    = f.button :submit
+%button{:type => "submit"}Submit

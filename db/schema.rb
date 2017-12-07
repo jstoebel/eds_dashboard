@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171205193415) do
+ActiveRecord::Schema.define(version: 20171206170429) do
 
   create_table "adm_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "adm_tep_id"
@@ -253,7 +253,7 @@ ActiveRecord::Schema.define(version: 20171205193415) do
   create_table "item_levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "assessment_item_id"
     t.text     "descriptor",          limit: 65535
-    t.string   "level"
+    t.integer  "level"
     t.integer  "ord"
     t.datetime "created_at"
     t.datetime "updated_at"

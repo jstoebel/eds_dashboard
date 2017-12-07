@@ -1,6 +1,7 @@
 class PgpScoresController < ApplicationController
   before_action :set_pgp_score, only: %i[show edit update destroy]
-  before_action :set_pgp_goal, only: %i[index]
+  before_action :set_pgp_goal, only: %i[index new edit create]
+  before_action :form_setup, only: %i[new edit]
   
   ##
   # fetch all pgp_scores associated with the given pgp_goal
@@ -28,18 +29,14 @@ class PgpScoresController < ApplicationController
 
   # POST /pgp_scores
   # POST /pgp_scores.json
-  def create
-    @pgp_score = PgpScore.new(pgp_score_params)
+  # expected params
+  # :pgp_goal_id
+  # :item_levels => {assessment_item_id_:id => :item_level_id}
+  # use this mapping to determine the level for each item
 
-    respond_to do |format|
-      if @pgp_score.save
-        format.html { redirect_to @pgp_score, notice: 'Pgp score was successfully created.' }
-        format.json { render :show, status: :created, location: @pgp_score }
-      else
-        format.html { render :new }
-        format.json { render json: @pgp_score.errors, status: :unprocessable_entity }
-      end
-    end
+  def create
+
+    binding.pry
   end
 
   # PATCH/PUT /pgp_scores/1
@@ -67,17 +64,23 @@ class PgpScoresController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_pgp_goal
-      @pgp_goal = PgpGoal.find(params[:pgp_goal_id])
-    end
 
-    def set_pgp_score
-      @pgp_score = PgpScore.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_pgp_goal
+    @pgp_goal = PgpGoal.find_by(params[:pgp_goal_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def pgp_score_params
-      params.fetch(:pgp_score, {})
-    end
+  def set_pgp_score
+    @pgp_score = PgpScore.find(params[:id])
+  end
+
+  def form_setup
+    @assessment_items = Assessment.find_by_name('PGP 1').andand.assessment_items
+  end
+
+  # Never trust parameters from the scary internet,
+  # only allow the white list through.
+  def pgp_score_params
+    params.fetch(:pgp_score, {})
+  end
 end

@@ -29,7 +29,7 @@ namespace :db do
     FactoryGirl.create_pair :staff
     FactoryGirl.create_pair :stu_labor
 
-    students = FactoryGirl.create_list :student, 50
+    students = FactoryGirl.create_list :student, 10
 
     paths = [true, false, nil]  #possible outcomes at each decision point
 
@@ -38,6 +38,8 @@ namespace :db do
     clinical_teachers = clinical_sites.map{ |site| FactoryGirl.create_list :clinical_teacher, 3 }.flatten
 
     dispositions = FactoryGirl.create_list :disposition, 10
+
+    pop_pgp_scores # create scores for pgps. one pgp_goal scored twicew
 
     puts "creating data for students..."
     students.each do |s|

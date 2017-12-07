@@ -19,7 +19,7 @@ FactoryGirl.define do
   factory :item_level do
     assessment_item
     descriptor {Lorem.paragraph}
-    level {Lorem.word}
+    level {Number.between(1,4)}
     sequence(:ord, (1..4).cycle)
     passing {Boolean.boolean 0.5}
 
