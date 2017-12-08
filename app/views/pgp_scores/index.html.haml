@@ -5,15 +5,19 @@
 %h2= @pgp_goal.student.name_readable
 %div
   = link_to new_pgp_goal_pgp_score_path(@pgp_goal), :class => "btn btn-info glyphicon glyphicon-plus action-large" do
-    %span.large-btn-text New PGP goal
+    %span.large-btn-text Score goal
 - @score_groups.each_with_index do |group, idx|
   #accordion.panel-group
     .panel.panel-default
       .panel-heading
         %h3.panel-title
           ="Scored on #{group.first.scored_at.strftime('%m/%d/%Y')}"
-          %a.btn.btn-info{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{idx}"}
-            Details
+          .btn-group
+            %a.btn.btn-info{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{idx}"}
+              Details
+            = button_to("/pgp_goals/#{@pgp_goal.id}/delete_scores", { class: "btn btn-default", method: :delete, params: {timestamp: group.first.scored_at}, data: {confirm: "This will delete all scores for this PGP Goal made on #{group.first.scored_at.strftime('%m/%d/%Y')}. Are you sure?"} } )  do
+              %span.glyphicon.glyphicon-trash
+
       %div{:id => "collapse#{idx}", :class => ["panel-collapse", "collapse"]}
         .panel-body
           .container-fluid

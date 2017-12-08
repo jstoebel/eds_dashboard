@@ -1,7 +1,7 @@
-%h1 Editing pgp_score
+= link_to pgp_goal_pgp_scores_path(@pgp_goal), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do
+  %i.link-text Back
 
-= render 'form'
-
-= link_to 'Show', @pgp_score
-\|
-= link_to 'Back', pgp_scores_path
+%h1= "Edit PGP Score for #{@pgp_goal.name} on #{pgp_score}"
+%h2= @pgp_goal.student.name_readable
+= form_tag pgp_goal_pgp_scores_path(@pgp_goal) do
+  = render partial: 'form', :locals => {items: @assessment_items}

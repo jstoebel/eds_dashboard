@@ -3,12 +3,13 @@
 %table.table.table-stripped
   - items.each do |item|
     %tr
-      %td= item.slug
+      %td.cell
+        %h4= item.slug
       -item.item_levels.each do |item_level|
         %td
-          %p.item_level_box
+          %p.cell
             %input{:id => "item_level#{item_level.id}", :name => "item_levels[asessment_item_id_#{item.id}]", :type => "radio", :value => item_level.id}/
             %label{:for => "item_level#{item_level.id}"}
               =item_level.descriptor
 
-%button{:type => "submit"}Submit
+%button.submit.btn.btn-primary.btn-lg{:type => "submit"}Submit

@@ -4,15 +4,11 @@
 
 $font-color: #FAFAFA;
 
-.btn {
-    white-space: normal;
-}
-
-.item_level_box {
+.cell {
     display: inline-block;
     box-sizing: border-box;
     width: 100%;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 label {
@@ -23,7 +19,7 @@ label {
     width: 100%;
     cursor: pointer;
     opacity: .5;
-    transition: all .5s ease-in-out;
+    transition: all .2s ease-in-out;
     &:hover, &:focus, &:active {
         border: 1px solid rgba($font-color,.5); // black
     }
@@ -42,4 +38,8 @@ input[type="radio"]:active ~ label {
 input[type="radio"]:checked ~ label {
   opacity: 1;
   border: 1px solid $font-color;
+}
+
+.submit {
+    margin: 0px 25px 50px 0px;
 }

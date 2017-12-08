@@ -19,4 +19,8 @@ class PgpScore < ApplicationRecord
   def ord
     assessment_item.ord
   end
+
+  def student
+    pgp_goal.student
+  end
 end
