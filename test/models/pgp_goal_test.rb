@@ -67,10 +67,14 @@ class PgpGoalTest < ActiveSupport::TestCase
 
   test 'destroys dependant strategies' do
     strategy = FactoryGirl.create :pgp_strategy
-
     strategy.pgp_goal.destroy!
+    assert_not PgpStrategy.exists? strategy.id
+  end
 
-    assert_not strategy.destroyed?
+  test 'destroys dependant scores' do
+    score = FactoryGirl.create :pgp_score
+    score.pgp_goal.destroy!
+    assert_not PgpScore.exists? score.id
   end
 
 end

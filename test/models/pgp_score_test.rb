@@ -11,7 +11,10 @@
 require 'test_helper'
 
 class PgpScoreTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'requires pgp_goal_id' do
+    score = PgpScore.new
+    score.valid?
+
+    assert score.errors[:pgp_goal_id].include? 'can\'t be blank'
+  end
 end

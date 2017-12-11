@@ -16,6 +16,8 @@ class PgpScore < ApplicationRecord
   acts_as :student_score
   belongs_to :pgp_goal
 
+  validates_presence_of  :pgp_goal_id
+
   def ord
     assessment_item.ord
   end
