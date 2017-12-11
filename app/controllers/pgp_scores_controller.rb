@@ -55,7 +55,7 @@ class PgpScoresController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_pgp_goal
-    @pgp_goal = PgpGoal.find_by(params[:pgp_goal_id])
+    @pgp_goal = PgpGoal.find params[:pgp_goal_id]
   end
 
   def set_pgp_score

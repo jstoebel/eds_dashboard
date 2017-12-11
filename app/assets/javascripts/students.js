@@ -68,7 +68,7 @@ $(document).ready(function(){
   }) // change presumed status
 
 
-
+  // when a student's action's menu is clicked, ask the backend for information and populate the menu.
   // var actionsMenus = $(".student-actions-menu")
   $(".student-actions-menu").on("click", function(event){
 
