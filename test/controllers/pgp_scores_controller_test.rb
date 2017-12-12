@@ -70,7 +70,6 @@ class PgpScoresControllerTest < ActionDispatch::IntegrationTest
     end
     describe 'happy path' do
       before do
-        @pgp_goal = FactoryGirl.create :pgp_goal
 
         # create five item_levels belonging to the same assessment
         assessment = FactoryGirl.create :assessment
@@ -142,8 +141,63 @@ class PgpScoresControllerTest < ActionDispatch::IntegrationTest
 
 
   describe 'DESTROY' do
-    
-  end
+    before do
+       @pgp_scores = FactoryGirl.create_list :pgp_score, 2,
+                                             pgp_goal: @pgp_goal,
+                                             scored_at: DateTime.now
+    end
+
+    let(:delete_destroy) do
+      ts = @pgp_scores.first.scored_at.strftime('%Y-%m-%d %H:%M:%S %z')
+      delete pgp_goal_delete_scores_path @pgp_goal.id, params: {timestamp: ts }
+    end
+
+    describe 'happy path' do
+
+      it 'destroys all records' do
+        assert_difference -> { PgpScore.count }, -@pgp_scores.size do
+          delete_destroy
+        end
+      end
+
+      it 'stores flash message' do
+        # finish me!
+      end
+
+      it 'redirects' do
+        delete_destroy
+        assert_redirected_to pgp_goal_pgp_scores_path(@pgp_goal)
+      end
+
+    end # 'happy path'
+
+    describe 'sad path' do
+
+      before do
+        # lets pretend that records can't be destroyed
+        PgpScore.any_instance.stubs(:destroy).raises(ActiveRecord::RecordNotDestroyed)
+      end
+
+      it 'doesn\'t destroy records' do
+        assert_difference -> { PgpScore.count }, 0 do
+          delete_destroy
+        end
+      end
+
+      it 'stores flash message' do
+        # finish me!
+      end
+
+      it 'redirects' do
+        delete_destroy
+        assert_redirected_to pgp_goal_pgp_scores_path(@pgp_goal)
+      end
+
+
+    end
+
+  end # DESTROY
+
   # setup do
   #   @pgp_score = pgp_scores(:one)
   # end
