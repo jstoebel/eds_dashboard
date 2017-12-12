@@ -64,10 +64,86 @@ class PgpScoresControllerTest < ActionDispatch::IntegrationTest
 
   end #'NEW'
 
-  describe 'create' do
+  describe 'CREATE' do
+    let(:post_request) do
+      post pgp_goal_pgp_scores_path(@pgp_goal.id), params: @req_body
+    end
+    describe 'happy path' do
+      before do
+        @pgp_goal = FactoryGirl.create :pgp_goal
 
+        # create five item_levels belonging to the same assessment
+        assessment = FactoryGirl.create :assessment
+
+        @item_levels = Array.new(2).map do |_|
+          assessment_item = FactoryGirl.create :assessment_item,
+                                               assessment: assessment
+          level = FactoryGirl.create :item_level,
+                                     assessment_item: assessment_item
+
+          ["assessment_item_id_#{assessment_item.id}", level.id]
+        end.to_h
+
+        @req_body = { pgp_goal_id: @pgp_goal.id, item_levels: @item_levels }
+      end
+
+      it 'creates pgp_scores' do
+        assert_difference -> { PgpScore.count }, @item_levels.size do
+          post_request
+        end
+      end
+
+      it 'creates flash message' do
+        post_request
+        assert_equal flash[:info], "Scores recieved for #{@pgp_goal.name}"
+      end
+
+      it 'redirects' do
+        post_request
+        assert_redirected_to pgp_goal_pgp_scores_path(@pgp_goal.id)
+      end
+    end
+
+    describe 'sad path' do
+      before do
+        @bad_item_levels = {badassessment_item_1: 1, badassessment_item_2: 2}
+        @req_body = { pgp_goal_id: @pgp_goal.id, item_levels: @bad_item_levels }
+
+        # required to render new template
+        @assessment = FactoryGirl.create :assessment_with_scores, name: 'PGP 1'
+
+      end
+
+      it 'creates flash message' do
+        # try to reference item_levels that don't exist
+        post_request
+      end
+
+      it 'creates no pgp_scores' do
+        assert_difference -> { PgpScore.count }, 0 do
+          post_request
+        end
+      end
+
+      it 'pulls @assessment_items' do
+        post_request
+        assert @assessment.assessment_items.to_a,
+               assigns(:assessment_items).to_a
+      end
+
+      it 'renders new template' do
+        post_request
+        assert_template :new
+      end
+
+    end
+
+  end # CREATE
+
+
+  describe 'DESTROY' do
+    
   end
-
   # setup do
   #   @pgp_score = pgp_scores(:one)
   # end

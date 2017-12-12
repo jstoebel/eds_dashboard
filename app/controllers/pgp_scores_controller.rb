@@ -36,6 +36,8 @@ class PgpScoresController < ApplicationController
     render 'new'
   end
 
+  ##
+  # destroy all pgp_scores scored on the given date
   def destroy
     ts_utc = DateTime.strptime(params[:timestamp], '%Y-%m-%d %H:%M:%S %z').utc
     PgpScore.transaction do
@@ -67,16 +69,18 @@ class PgpScoresController < ApplicationController
   end
 
   ##
-  # returns array of objects each representing a single pgp_score
+  # returns array of hashes each representing a single pgp_score
   def pgp_score_params
     scored_time_stamp = DateTime.now.utc
-    params[:item_levels].map do |_, val|
+    item_levels = []
+    params[:item_levels].each do |_, val|
       level = ItemLevel.find val
-      { item_level_id: level.id,
+      item_levels << { item_level_id: level.id,
         pgp_goal_id: @pgp_goal.id,
         student_id: @pgp_goal.student.id,
         scored_at: scored_time_stamp }
     end # map
+    item_levels
   end # pgp_score_params
 
   def authorize_goal
