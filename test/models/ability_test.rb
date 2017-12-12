@@ -1,5 +1,5 @@
 require 'test_helper'
-class ClinicalTeacherTest < ActiveSupport::TestCase
+class AbilityTest < ActiveSupport::TestCase
 
   describe "advisor" do
 
@@ -27,7 +27,23 @@ class ClinicalTeacherTest < ActiveSupport::TestCase
 
     end
 
-    ["StudentFile", "ClinicalAssignment"].each do |resource|
+    describe 'PgpScore' do
+      test "can manage if professor" do
+        stu = make_student(@advisor)
+        goal = FactoryGirl.create :pgp_goal, student: stu
+        score = FactoryGirl.create :pgp_score, pgp_goal: goal
+        assert @abil.can? :manage, score
+      end
+
+      test "can manage if advisor" do
+        stu = make_advisee(@advisor)
+        goal = FactoryGirl.create :pgp_goal, student: stu
+        score = FactoryGirl.create :pgp_score, pgp_goal: goal
+        assert @abil.can? :manage, score
+      end
+    end
+
+    ["StudentFile", "ClinicalAssignment", 'PgpGoal'].each do |resource|
       describe resource do
 
         test "can manage if professor" do
