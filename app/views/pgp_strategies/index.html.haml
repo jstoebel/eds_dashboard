@@ -1,0 +1,34 @@
+= link_to student_pgp_goals_path(@pgp_goal.student.id), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do
+  %i.link-text Back
+
+.container-fluid
+  %table.listing.table.table-striped
+    %row
+      %caption
+        %span.header1= "Domain: #{@pgp_goal.domain}"
+        %br/
+        %span.header2= "Goal Name: #{@pgp_goal.name}"
+        %br/
+        .col-xs-1
+          = link_to new_pgp_goal_pgp_strategy_path, :class => "btn btn-info glyphicon glyphicon-plus action-large" do
+            %span.large-btn-text New Strategy
+
+    %thead
+      %tr.header
+        %th Strategy Name
+        %th Timeline
+        %th Resources
+
+    %tbody
+      - @pgp_strategies.each do |strategy|
+        %tr{:class => ("inactive" unless strategy.active?)}
+          %td
+            %span{:class => ("glyphicon glyphicon-eye-close" unless strategy.active?)}
+            = strategy.name
+          %td= strategy.timeline
+          %td= strategy.resources
+          %td
+            = link_to edit_pgp_strategy_path(strategy.id), :class => "btn btn-info action-small" do
+              %span.small-btn-text Edit
+
+

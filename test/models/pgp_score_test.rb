@@ -2,35 +2,19 @@
 #
 # Table name: pgp_scores
 #
-#  id           :integer          not null, primary key
-#  pgp_id       :integer
-#  goal_score   :integer
-#  score_reason :text(65535)
-#  created_at   :datetime
-#  updated_at   :datetime
+#  id          :integer          not null, primary key
+#  pgp_goal_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 require 'test_helper'
 
 class PgpScoreTest < ActiveSupport::TestCase
-    
-    test "score is zero validation" do 
-       score = PgpScore.new({:goal_score => 0})
-       assert_not score.valid?, score.errors.full_messages
-       assert_equal(["must be greater than 0"], score.errors[:goal_score])
-     
-    end
-    
-    test "score is five" do 
-        score = PgpScore.new({:goal_score => 5})
-        assert_not score.valid?, score.errors.full_messages
-        assert_equal(["must be less than 5"], score.errors[:goal_score])
-    end
-    
-    test "validation for score reason" do 
-        score = PgpScore.new({:score_reason => ""})
-        assert_not score.valid?, score.errors.full_messages
-        assert_equal(["Please enter a score reason."], score.errors[:score_reason])
-    end
-    
+  test 'requires pgp_goal_id' do
+    score = PgpScore.new
+    score.valid?
+
+    assert score.errors[:pgp_goal_id].include? 'can\'t be blank'
+  end
 end

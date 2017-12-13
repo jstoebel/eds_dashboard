@@ -1,105 +1,89 @@
-# == Schema Information
-#
-# Table name: pgp_scores
-#
-#  id           :integer          not null, primary key
-#  pgp_id       :integer
-#  goal_score   :integer
-#  score_reason :text(65535)
-#  created_at   :datetime
-#  updated_at   :datetime
-#
-
 class PgpScoresController < ApplicationController
-    layout 'application'
-    authorize_resource
+  before_action :set_pgp_score, only: %i[edit update]
+  before_action :set_pgp_goal, only: %i[index new create destroy]
+  before_action :form_setup, only: %i[new]
+  before_action :authorize_goal
 
-    def index
-        @pgp = Pgp.find(params[:pgp_id])
-        authorize! :read, @pgp
-        @student = @pgp.student
-        @pgp_scores = @pgp.pgp_scores.order(:created_at)
+  ##
+  # fetch all pgp_scores associated with the given pgp_goal
+  # grouped by scored_at
+  def index
+    scored_timestamps = @pgp_goal.pgp_scores.pluck(:scored_at).uniq
+    @score_groups = scored_timestamps.map do |ts|
+      PgpScore.where(pgp_goal_id: @pgp_goal.id, scored_at: ts)
+    end
+  end
+
+  def new; end
+
+  # expected params
+  # :pgp_goal_id
+  # :item_levels => {assessment_item_id_:id => :item_level_id}
+  # use this mapping to determine the level for each item
+
+  def create
+    PgpScore.transaction do
+      PgpScore.create! pgp_score_params
+    end # transaction
+
+    flash[:info] = "Scores recieved for #{@pgp_goal.name}"
+    redirect_to pgp_goal_pgp_scores_path(@pgp_goal)
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
+    flash[:info] = 'There was a problem recording your scores. Please try again.' \
+                   'If the problem persists, please contact your administrator.'
+
+    form_setup
+    render 'new'
+  end
+
+  ##
+  # destroy all pgp_scores scored on the given date
+  def destroy
+    ts_utc = DateTime.strptime(params[:timestamp], '%Y-%m-%d %H:%M:%S %z').utc
+    PgpScore.transaction do
+      @pgp_goal.pgp_scores.where(scored_at: ts_utc).destroy_all
     end
 
-    def edit
-        @pgp_score = PgpScore.find(params[:id])
-        @pgp = @pgp_score.pgp
-        authorize! :manage, @pgp_score
-        authorize! :manage, @pgp
-        @student = @pgp.student
-        authorize! :read, @student
-    end
+    # happy path
+    flash[:info] = "Deleted all PGP scores for #{@pgp_goal.name} on #{ts_utc.strftime('%m/%d/%Y')}"
+  rescue ActiveRecord::RecordNotDestroyed => e
+    flash[:info] = 'There was a problem recording your scores. Please try again.' \
+                   'If the problem persists, please contact your administrator.'
+  ensure
+    redirect_to pgp_goal_pgp_scores_path(@pgp_goal)
+  end
 
-    def update
-        @pgp_score = PgpScore.find(params[:id])
-        @pgp = @pgp_score.pgp
-        authorize! :manage, @pgp_score
-        authorize! :manage, @pgp
-        @pgp_score.assign_attributes(pgp_score_params)
-        # TODO: handle this logic in model
-        if @pgp_score.save
-            flash[:info] = "PGP score successfully updated"
-            redirect_to pgp_pgp_scores_path(@pgp_score.pgp_id)
-            return
-        else
-            @student = @pgp.student
-            flash[:info] = "Error in updating PGP score."
-            render "edit"
-            return
-        end
-    end
+  private
 
+  # Use callbacks to share common setup or constraints between actions.
+  def set_pgp_goal
+    @pgp_goal = PgpGoal.find params[:pgp_goal_id]
+  end
 
-    def create
-        @pgp_score = PgpScore.new
-        authorize! :manage, @pgp_score
-        @pgp_score.assign_attributes(pgp_score_params)
-        # TODO: handle this logic in model
-        if @pgp_score.save
-          flash[:info] = "Scored professional growth plan."
-          redirect_to(pgp_pgp_scores_path())
-        else
-          flash[:info] = "Error creating professional growth plan."
-          @pgp = Pgp.find params[:pgp_id]
-          @student = @pgp.student
-          render 'new'
-        end
-    end
+  def set_pgp_score
+    @pgp_score = PgpScore.find(params[:id])
+  end
 
-    def new
-        @pgp_score = PgpScore.new
-        @pgp = Pgp.find(params[:pgp_id])
-        authorize! :manage, @pgp_score
-        authorize! :manage, @pgp
-    end
+  def form_setup
+    @assessment_items = Assessment.find_by_name('PGP 1').andand.assessment_items
+  end
 
-    def show
-        @pgp_score = PgpScore.find(params[:pgp_id])
-        authorize! :read, @pgp_score
-        @student = Student.find(@pgp.student_id)
-        authorize! :read, @student
-        @student.name_readable
-    end
+  ##
+  # returns array of hashes each representing a single pgp_score
+  def pgp_score_params
+    scored_time_stamp = DateTime.now.utc
+    item_levels = []
+    params[:item_levels].each do |_, val|
+      level = ItemLevel.find val
+      item_levels << { item_level_id: level.id,
+        pgp_goal_id: @pgp_goal.id,
+        student_id: @pgp_goal.student.id,
+        scored_at: scored_time_stamp }
+    end # map
+    item_levels
+  end # pgp_score_params
 
-    def destroy
-        @pgp_score = PgpScore.find(params[:id])
-        authorize! :manage, @pgp_score
-        authorize! :manage, @pgp
-        # TODO: handle this logic in model
-        @pgp_score.destroy
-        if @pgp_score.destroyed?
-            flash[:info] = "Deleted Successfully"
-        else
-            flash[:info] = "Error in Deleting PGP Score"
-        end
-        redirect_to(pgp_pgp_scores_path(@pgp_score.pgp_id))
-    end
-
-    private
-
-    def pgp_score_params
-        params
-          .require(:pgp_score)
-          .permit(:pgp_id, :goal_score, :score_reason, :score_date)
-    end
+  def authorize_goal
+    authorize! :manage, @pgp_goal
+  end
 end

@@ -153,25 +153,6 @@ class StudentsController < ApplicationController
       )
     end
 
-    if can? :show, Pgp
-      actions.push(
-        {
-          disable: false,
-          menu_name: "PGPs (#{student.pgps.size})",
-           link_url: student_pgps_path(student.AltID)
-        }
-      )
-
-    else
-      actions.push(
-        {
-          disable: true,
-          menu_name: "PGPs (#{student.pgps.size})",
-          link_url: student_pgps_path(student.AltID)
-        }
-      )
-    end
-
     if can? :show, Issue
       actions.push(
         {
@@ -204,6 +185,24 @@ class StudentsController < ApplicationController
           disable: true,
           menu_name: "Files (#{student.student_files.active.size})",
           link_url: student_student_files_path(student.AltID)
+        }
+      )
+    end
+
+    if can? :manage, PgpScore
+      actions.push(
+      {
+        disabled: false,
+        menu_name: "PGP I Goals (#{student.pgp_goals.size})",
+        link_url: student_pgp_goals_path(student.id)
+      }
+      )
+    else
+      actions.push(
+        {
+          disable: true,
+          menu_name: "Files (#{student.student_files.active.size})",
+          link_url: student_student_files_path(student.id)
         }
       )
     end

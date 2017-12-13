@@ -9,6 +9,8 @@
 #  created_at              :datetime
 #  updated_at              :datetime
 #  student_score_upload_id :integer
+#  actable_type            :string(255)
+#  actable_id              :integer
 #
 
 require 'test_helper'

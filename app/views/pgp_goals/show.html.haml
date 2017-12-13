@@ -1,0 +1,17 @@
+= link_to student_pgp_goals_path(@student.id), class: "btn btn-default back-link glyphicon glyphicon-arrow-left" do
+  %i.link-text Back
+
+%h1= "PGP Goal: #{@pgp_goal.name}"
+%h2= @student.name_readable
+
+%table.table.table-stripped
+  %tr
+    %th Strategies
+    %th Timeline
+    %th Resources
+
+    - @pgp_goal.pgp_strategies.each do |strat|
+      %tr
+        %td= strat.name
+        %td= strat.resources
+        %td= strat.timeline

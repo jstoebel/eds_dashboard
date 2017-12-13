@@ -1,0 +1,4 @@
+%h1 Editing PGP Strategy
+= simple_form_for @pgp_strategy, :url => pgp_strategy_path(@pgp_strategy.id) do |f|
+    %table
+        = render partial: 'form', :locals => {f:f}

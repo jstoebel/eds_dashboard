@@ -135,7 +135,6 @@
 require 'api_constraints'
 Rails.application.routes.draw do
 
-  # resources :student_score_uploads
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   resources :praxis_results, only: [:new, :create]
@@ -212,11 +211,18 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :student_files, only: [:new, :create, :index, :delete, :destroy]
-    resources :pgps, only: [:new, :create, :index, :destroy, :edit, :update, :show], shallow:true do
-      resources :pgp_scores, only: [:index, :edit, :update, :show, :new, :create, :destroy]
-    end
     resources :transcripts, only: [:index]
+    resources :pgp_goals, only: [:index, :new, :edit, :update, :show]
   end
+
+  resources :pgp_goals do
+    resources :pgp_strategies, only: [:index, :new, :edit, :update]
+    resources :pgp_scores, only: [:index, :new, :create]
+    delete 'delete_scores', :to => 'pgp_scores#destroy'
+
+  end
+
+  resources :pgp_strategies, except: [:destroy, :show]
 
   resources :fois, only: [:index, :create, :show, :import]
 
@@ -236,10 +242,6 @@ Rails.application.routes.draw do
 
   resources :student_files, only: [] do
       get 'download'
-  end
-
-  resources :pgps, shallow: true do
-    resources :pgp_scores
   end
 
   resources :banner_terms, shallow: true do

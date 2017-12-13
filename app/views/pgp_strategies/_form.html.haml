@@ -1,0 +1,28 @@
+= error_messages_for(@pgp_strategy)
+= f.hidden_field :pgp_goal_id, value: @pgp_goal.id
+%tr
+  %th
+    = f.label :name
+  %td
+    = f.text_field :name, size: 100
+  %tr
+    %th
+      = f.label :timeline
+    %td
+      = f.text_area :timeline, :rows => 7, :cols => 100
+
+  %tr
+    %th
+      = f.label :resources
+    %td
+      = f.text_area :resources, :rows => 7, :cols => 100
+
+  %tr
+    %th
+      = f.label :active
+    %td
+      = f.check_box :active, checked: @pgp_goal.new_record? || @pgp_goal.active
+
+  %tr
+    %td
+      = f.submit 'Save', :class => "btn btn-info"

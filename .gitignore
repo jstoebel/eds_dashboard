@@ -1,5 +1,6 @@
 public/student_files/*
 public/assets/*
+public/packs
 /tmp/cache/*
 /log/*
 *.rbc
@@ -54,6 +55,7 @@ entrance_exit_FIXED.csv
 
 # no csv in the reports directory
 lib/tasks/reports/**/*.csv
+lib/tasks/reports/**/*.zip
 lib/**/*.csv
 !lib/tasks/reports/**/*.rb
 !lib/tasks/reports/**/*.rake
@@ -76,3 +78,4 @@ config/chef/nodes/*
 !/student_scores/raw/.gitkeep
 !/student_scores/formatted/.gitkeep
 !/student_scores/README.md
+/node_modules

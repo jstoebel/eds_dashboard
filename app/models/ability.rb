@@ -13,7 +13,7 @@ class Ability
 
     elsif user.is? "advisor"
 
-      can :manage, [IssueUpdate, StudentFile, ClinicalAssignment, Pgp, PgpScore, Student, IssueUpdate] do |resource|
+      can :manage, [IssueUpdate, StudentFile, ClinicalAssignment, Student, IssueUpdate, PgpGoal, PgpScore] do |resource|
         #map the resource to the student. If the student is assigned to the prof as an advisee or
         advisor_check(user, resource)
       end
@@ -57,6 +57,7 @@ class Ability
   private
   def advisor_check(user, resource)
     # is user an advisor or professor of this the student or student belonging to this resource?
+
     advisor_profile = user.tep_advisor
 
     if advisor_profile.present?   #is user in the advisor table (admin posing as advisor might not)

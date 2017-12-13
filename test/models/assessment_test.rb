@@ -7,6 +7,7 @@
 #  description :text(65535)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  slug        :string(255)      not null
 #
 
 require 'test_helper'

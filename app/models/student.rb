@@ -50,14 +50,13 @@ class Student < ApplicationRecord
 
     has_many :student_scores
 
-    has_many :pgps
-
     has_many :praxis_results
     has_many :praxis_prep
     has_many :praxis_result_temps
 
     has_many :foi
     has_many :prog_exits
+    has_many :pgp_goals
 ###################################################################################################
 
 

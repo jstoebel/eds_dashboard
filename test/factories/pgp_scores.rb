@@ -2,19 +2,17 @@
 #
 # Table name: pgp_scores
 #
-#  id           :integer          not null, primary key
-#  pgp_id       :integer
-#  goal_score   :integer
-#  score_reason :text(65535)
-#  created_at   :datetime
-#  updated_at   :datetime
+#  id          :integer          not null, primary key
+#  pgp_goal_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
-include Faker
 FactoryGirl.define do
   factory :pgp_score do
-    association :pgp
-    goal_score {Faker::Number.between(1,4)}
-    score_reason "descrip here!"
+    pgp_goal
+    student
+    item_level
+    scored_at { Faker::Date.between(2.days.ago, Date.today) }
   end
 end

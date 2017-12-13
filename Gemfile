@@ -98,3 +98,5 @@ gem 'rubocop', require: false
 gem 'orphanage', '~> 0.3.0'
 gem 'delayed_job_active_record'
 gem 'daemons'
+gem 'simple_form'
+gem 'active_record-acts_as'

@@ -234,7 +234,7 @@ class StudentsControllerTest < ActionController::TestCase
 
         end
 
-        test "checkpointss" do
+        test "checkpoints" do
 
           FactoryGirl.create :failing_test, @with_student
           get :get_resources, params: @with_student
@@ -265,24 +265,6 @@ class StudentsControllerTest < ActionController::TestCase
 
         end
 
-        test "pgp" do
-
-          FactoryGirl.create :pgp, @with_student
-          get :get_resources, params: @with_student
-          assert_response :success
-
-          resp = JSON.parse(@response.body)
-          expected_hash = {"disable" => false, "menu_name" => "PGPs (#{@stu.pgps.size})",
-            "link_url" => student_pgps_path(@stu.AltID)}
-
-            if ["admin", "advisor"].include? r
-              assert_equal expected_hash, resp[3]
-            else
-              assert_equal true, resp[3]["disable"]
-            end
-
-        end
-
         test "issues" do
           FactoryGirl.create :issue, @with_student
           get :get_resources, params: @with_student
@@ -293,9 +275,9 @@ class StudentsControllerTest < ActionController::TestCase
             "link_url" => student_issues_path(@stu.AltID)}
 
             if ["admin", "advisor"].include? r
-              assert_equal expected_hash, resp[4]
+              assert_equal expected_hash, resp[3]
             else
-              assert_equal true, resp[4]["disable"]
+              assert_equal true, resp[3]["disable"]
             end
         end
 
@@ -309,9 +291,9 @@ class StudentsControllerTest < ActionController::TestCase
             "link_url" => student_student_files_path(@stu.AltID)}
 
           if ["admin", "staff", "advisor"].include? r
-            assert_equal expected_hash, resp[5]
+            assert_equal expected_hash, resp[4]
           else
-            assert_equal true, resp[5]["disable"]
+            assert_equal true, resp[4]["disable"]
           end
         end
 

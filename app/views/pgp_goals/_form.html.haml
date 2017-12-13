@@ -1,0 +1,22 @@
+
+= error_messages_for(goal)
+= f.hidden_field :student_id, value: @student.id
+%tr
+  %th
+    = f.label :name
+  %td
+    = f.text_field :name, size: 100
+  %tr
+    %th
+      = f.label :domain
+    %td
+      = f.select :domain, options_for_select: PgpGoal.domains, prompt: 'Select a Danielson domain'
+
+  %tr
+    %th
+      = f.label :active
+    %td
+      = f.check_box :active, checked: goal.new_record? || goal.active
+  %tr
+    %th
+      = f.submit 'Save', :class => "btn btn-info"
