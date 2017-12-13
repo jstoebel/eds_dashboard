@@ -4,7 +4,7 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
 
   before do
     @pgp_goal = FactoryGirl.create :pgp_goal
-    @strategies = FactoryGirl.create_list :pgp_strategy, 3, pgp_goal: @pgp_goal 
+    @strategies = FactoryGirl.create_list :pgp_strategy, 2, pgp_goal: @pgp_goal 
   end
 
   describe 'INDEX' do
@@ -17,15 +17,17 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
       # deactivate a strategy
       @strategies.first.update_attributes! active: false
       get_index
-      assert_equal @pgp_strategies.order(:active).reverse_order.to_a,
-                   assigns(:pgp_strategies)
+      assert_equal @strategies.size,
+                   assigns(:pgp_strategies).size
     end
 
     it 'returns 200 ok' do
+      get_index
       assert_response :success
     end
 
     it 'renders index template' do
+      get_index
       assert_template :index
     end
 
@@ -33,7 +35,7 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
 
   describe 'NEW' do
     before do
-      get new_pgp_strategy_path
+      get new_pgp_goal_pgp_strategy_path @pgp_goal
     end
 
     it 'pulls fresh @pgp_strategy' do
@@ -53,13 +55,16 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
   describe 'CREATE' do
 
     before do
-      @strategy = FactoryGirl.build :pgp_strategy
-      @goal = @strategy.pgp_goal
+      @strategy = FactoryGirl.build :pgp_strategy, pgp_goal: @pgp_goal
     end
 
     let(:post_create) do
+
+      desired_attrs = ['name', 'timeline', 'resources', 'active', 'pgp_goal_id']
       post pgp_strategies_path,
-           params: { :pgp_goal_id => @goal.id, pgp_strategy: @strategy.attributes}
+           params: { pgp_goal_id: @pgp_goal.id,
+                     pgp_strategy: @strategy.attributes.slice(*desired_attrs) 
+                   }
     end
 
     let(:stub_save) {PgpStrategy.any_instance.stubs(:save).returns(false)}
@@ -88,9 +93,9 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
         end
       end
 
-      it 'redirects' do
+      it 'renders new' do
         post_create
-        assert_redirected_to pgp_goal_pgp_strategies_path(@pgp_goal.id)
+        assert_template :new
       end
 
     end
@@ -99,7 +104,8 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
 
   describe 'EDIT' do
     before do
-      get edit_pgp_goal_pgp_strategy_path @pgp_goal.id
+      @pgp_strategy = FactoryGirl.create :pgp_strategy, pgp_goal: @pgp_goal
+      get edit_pgp_goal_pgp_strategy_path(@pgp_goal.id, @pgp_strategy.id)
     end
 
     it 'pulls @pgp_score' do
@@ -122,24 +128,23 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
   describe 'UPDATE' do
 
     before do
-      @strategy = FactoryGirl.build :pgp_strategy
-      @goal = @strategy.pgp_goal
+      @strategy = FactoryGirl.create :pgp_strategy, pgp_goal: @pgp_goal
     end
 
     let(:patch_update) do
-      @new_params = @strategy.attributes.merge(name: 'new name')
-      patch pgp_goal_pgp_strategy_path,
-            params: { :pgp_goal_id => @goal.id, id: @strategy.id, pgp_strategy: @new_params}
+      @new_params = @strategy.attributes.merge('name' => 'new name')
+      patch pgp_goal_pgp_strategy_path(@pgp_goal.id, @strategy.id),
+            params: { pgp_goal_id: @pgp_goal.id, id: @strategy.id, pgp_strategy: @new_params}
     end
 
-    let(:stub_save) {PgpStrategy.any_instance.stubs(:save).returns(false)}
+    let(:stub_save) {PgpStrategy.any_instance.stubs(:update).returns(false)}
 
     describe 'happy path' do
 
       it 'updates params' do
         patch_update
         @new_params.each do |key, val|
-          asser_equal val, assigns(:pgp_strategy).send(key)
+          assert_equal val, assigns(:pgp_strategy).send(key)
         end
       end
 
@@ -149,6 +154,7 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
       end
 
       it 'returns http 302' do
+        patch_update
         assert_response 302
       end
     end
@@ -156,6 +162,7 @@ class PgpStrategiesControllerTest < ActionDispatch::IntegrationTest
     describe 'sad path' do
       before do
         stub_save
+        patch_update
       end
 
       it 'pulls @pgp_goal' do

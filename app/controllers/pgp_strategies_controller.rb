@@ -19,7 +19,7 @@ class PgpStrategiesController < ApplicationController
       flash[:info] = 'Pgp strategy was successfully created.'
       redirect_to pgp_goal_pgp_strategies_path(@pgp_strategy.pgp_goal.id)
     else
-      @pgp_goal = PgpGoal.find params[:pgp_strategy][:pgp_goal_id]
+      @pgp_goal = PgpGoal.find params[:pgp_goal_id]
       render :new
     end
   end
